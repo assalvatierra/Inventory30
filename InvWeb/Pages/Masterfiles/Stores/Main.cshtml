@@ -1,0 +1,32 @@
+﻿@page
+@model InvWeb.Pages.Stores.MainModel
+
+@{
+    ViewData["Title"] = "Main";
+}
+
+<h1>Main</h1>
+
+<div>
+    <h4>InvStore</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvStore.StoreName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvStore.StoreName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <div class="text-left">
+        <h3 class="display-4">Store area</h3>
+        -Receiving
+        <br />
+        -Releasing
+        <br />
+        -Requesting
+
+    </div>
+</div>

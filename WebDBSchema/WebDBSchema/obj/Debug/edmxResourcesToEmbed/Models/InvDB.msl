@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InvDBStoreContainer" CdmEntityContainer="InvDBContainer">
+    <EntitySetMapping Name="InvItems">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvItem)">
+        <MappingFragment StoreEntitySet="InvItems">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="InvUomId" ColumnName="InvUomId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvItemClasses">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvItemClass)">
+        <MappingFragment StoreEntitySet="InvItemClasses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+          <ScalarProperty Name="InvClassificationId" ColumnName="InvClassificationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvClassifications">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvClassification)">
+        <MappingFragment StoreEntitySet="InvClassifications">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Classification" ColumnName="Classification" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvSuppliers">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvSupplier)">
+        <MappingFragment StoreEntitySet="InvSuppliers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvSupplierItems">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvSupplierItem)">
+        <MappingFragment StoreEntitySet="InvSupplierItems">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvSupplierId" ColumnName="InvSupplierId" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="LeadTime" ColumnName="LeadTime" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvStores">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvStore)">
+        <MappingFragment StoreEntitySet="InvStores">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StoreName" ColumnName="StoreName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvPoHdrs">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvPoHdr)">
+        <MappingFragment StoreEntitySet="InvPoHdrs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvSupplierId" ColumnName="InvSupplierId" />
+          <ScalarProperty Name="InvStoreId" ColumnName="InvStoreId" />
+          <ScalarProperty Name="DtPo" ColumnName="DtPo" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvPoItems">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvPoItem)">
+        <MappingFragment StoreEntitySet="InvPoItems">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvPoHdrId" ColumnName="InvPoHdrId" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+          <ScalarProperty Name="ItemQty" ColumnName="ItemQty" />
+          <ScalarProperty Name="InvUomId" ColumnName="InvUomId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvRecHdrs">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvRecHdr)">
+        <MappingFragment StoreEntitySet="InvRecHdrs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvStoreId" ColumnName="InvStoreId" />
+          <ScalarProperty Name="InvSupplierId" ColumnName="InvSupplierId" />
+          <ScalarProperty Name="DtRec" ColumnName="DtRec" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvRecItems">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvRecItem)">
+        <MappingFragment StoreEntitySet="InvRecItems">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+          <ScalarProperty Name="InvRecHdrId" ColumnName="InvRecHdrId" />
+          <ScalarProperty Name="InvUomId" ColumnName="InvUomId" />
+          <ScalarProperty Name="ItemQty" ColumnName="ItemQty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvRequestHdrs">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvRequestHdr)">
+        <MappingFragment StoreEntitySet="InvRequestHdrs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvStoreId" ColumnName="InvStoreId" />
+          <ScalarProperty Name="DtRec" ColumnName="DtRec" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvRequestItems">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvRequestItem)">
+        <MappingFragment StoreEntitySet="InvRequestItems">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+          <ScalarProperty Name="InvRequestHdrId" ColumnName="InvRequestHdrId" />
+          <ScalarProperty Name="InvUomId" ColumnName="InvUomId" />
+          <ScalarProperty Name="ItemQty" ColumnName="ItemQty" />
+          <ScalarProperty Name="InvRecItemId" ColumnName="InvRecItemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvAdjHdrs">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvAdjHdr)">
+        <MappingFragment StoreEntitySet="InvAdjHdrs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvStoreId" ColumnName="InvStoreId" />
+          <ScalarProperty Name="dtAdj" ColumnName="dtAdj" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvAdjItems">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvAdjItem)">
+        <MappingFragment StoreEntitySet="InvAdjItems">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvAdjHdrId" ColumnName="InvAdjHdrId" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+          <ScalarProperty Name="InvUomId" ColumnName="InvUomId" />
+          <ScalarProperty Name="QtyAdded" ColumnName="QtyAdded" />
+          <ScalarProperty Name="QtyDeduct" ColumnName="QtyDeduct" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvUoms">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvUom)">
+        <MappingFragment StoreEntitySet="InvUoms">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="uom" ColumnName="uom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

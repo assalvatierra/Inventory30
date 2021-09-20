@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InvDB.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="InvDBStoreContainer">
+    <EntitySet Name="InvItems" EntityType="InvDB.Store.InvItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvItemClasses" EntityType="InvDB.Store.InvItemClasses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvClassifications" EntityType="InvDB.Store.InvClassifications" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvSuppliers" EntityType="InvDB.Store.InvSuppliers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvSupplierItems" EntityType="InvDB.Store.InvSupplierItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvStores" EntityType="InvDB.Store.InvStores" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvPoHdrs" EntityType="InvDB.Store.InvPoHdrs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvPoItems" EntityType="InvDB.Store.InvPoItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvRecHdrs" EntityType="InvDB.Store.InvRecHdrs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvRecItems" EntityType="InvDB.Store.InvRecItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvRequestHdrs" EntityType="InvDB.Store.InvRequestHdrs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvRequestItems" EntityType="InvDB.Store.InvRequestItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvAdjHdrs" EntityType="InvDB.Store.InvAdjHdrs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvAdjItems" EntityType="InvDB.Store.InvAdjItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvUoms" EntityType="InvDB.Store.InvUoms" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
+      <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="InvItemClass" EntitySet="InvItemClasses" />
+    </AssociationSet>
+    <AssociationSet Name="InvClassificationInvItemClass" Association="InvDB.Store.InvClassificationInvItemClass">
+      <End Role="InvClassification" EntitySet="InvClassifications" />
+      <End Role="InvItemClass" EntitySet="InvItemClasses" />
+    </AssociationSet>
+    <AssociationSet Name="InvSupplierInvSupplierItem" Association="InvDB.Store.InvSupplierInvSupplierItem">
+      <End Role="InvSupplier" EntitySet="InvSuppliers" />
+      <End Role="InvSupplierItem" EntitySet="InvSupplierItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvItemInvSupplierItem" Association="InvDB.Store.InvItemInvSupplierItem">
+      <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="InvSupplierItem" EntitySet="InvSupplierItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvSupplierInvPoHdr" Association="InvDB.Store.InvSupplierInvPoHdr">
+      <End Role="InvSupplier" EntitySet="InvSuppliers" />
+      <End Role="InvPoHdr" EntitySet="InvPoHdrs" />
+    </AssociationSet>
+    <AssociationSet Name="InvPoHdrInvPoItem" Association="InvDB.Store.InvPoHdrInvPoItem">
+      <End Role="InvPoHdr" EntitySet="InvPoHdrs" />
+      <End Role="InvPoItem" EntitySet="InvPoItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvItemInvPoItem" Association="InvDB.Store.InvItemInvPoItem">
+      <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="InvPoItem" EntitySet="InvPoItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvStoreInvRecHdr" Association="InvDB.Store.InvStoreInvRecHdr">
+      <End Role="InvStore" EntitySet="InvStores" />
+      <End Role="InvRecHdr" EntitySet="InvRecHdrs" />
+    </AssociationSet>
+    <AssociationSet Name="InvItemInvRecItem" Association="InvDB.Store.InvItemInvRecItem">
+      <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="InvRecItem" EntitySet="InvRecItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvRecHdrInvRecItem" Association="InvDB.Store.InvRecHdrInvRecItem">
+      <End Role="InvRecHdr" EntitySet="InvRecHdrs" />
+      <End Role="InvRecItem" EntitySet="InvRecItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvSupplierInvRecHdr" Association="InvDB.Store.InvSupplierInvRecHdr">
+      <End Role="InvSupplier" EntitySet="InvSuppliers" />
+      <End Role="InvRecHdr" EntitySet="InvRecHdrs" />
+    </AssociationSet>
+    <AssociationSet Name="InvStoreInvRequestHdr" Association="InvDB.Store.InvStoreInvRequestHdr">
+      <End Role="InvStore" EntitySet="InvStores" />
+      <End Role="InvRequestHdr" EntitySet="InvRequestHdrs" />
+    </AssociationSet>
+    <AssociationSet Name="InvItemInvRequestItem" Association="InvDB.Store.InvItemInvRequestItem">
+      <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="InvRequestItem" EntitySet="InvRequestItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvRequestHdrInvRequestItem" Association="InvDB.Store.InvRequestHdrInvRequestItem">
+      <End Role="InvRequestHdr" EntitySet="InvRequestHdrs" />
+      <End Role="InvRequestItem" EntitySet="InvRequestItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvStoreInvPoHdr" Association="InvDB.Store.InvStoreInvPoHdr">
+      <End Role="InvStore" EntitySet="InvStores" />
+      <End Role="InvPoHdr" EntitySet="InvPoHdrs" />
+    </AssociationSet>
+    <AssociationSet Name="InvStoreInvAdjHdr" Association="InvDB.Store.InvStoreInvAdjHdr">
+      <End Role="InvStore" EntitySet="InvStores" />
+      <End Role="InvAdjHdr" EntitySet="InvAdjHdrs" />
+    </AssociationSet>
+    <AssociationSet Name="InvAdjHdrInvAdjItem" Association="InvDB.Store.InvAdjHdrInvAdjItem">
+      <End Role="InvAdjHdr" EntitySet="InvAdjHdrs" />
+      <End Role="InvAdjItem" EntitySet="InvAdjItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvItemInvAdjItem" Association="InvDB.Store.InvItemInvAdjItem">
+      <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="InvAdjItem" EntitySet="InvAdjItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvUomInvItem" Association="InvDB.Store.InvUomInvItem">
+      <End Role="InvUom" EntitySet="InvUoms" />
+      <End Role="InvItem" EntitySet="InvItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvUomInvPoItem" Association="InvDB.Store.InvUomInvPoItem">
+      <End Role="InvUom" EntitySet="InvUoms" />
+      <End Role="InvPoItem" EntitySet="InvPoItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvUomInvRecItem" Association="InvDB.Store.InvUomInvRecItem">
+      <End Role="InvUom" EntitySet="InvUoms" />
+      <End Role="InvRecItem" EntitySet="InvRecItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvUomInvRequestItem" Association="InvDB.Store.InvUomInvRequestItem">
+      <End Role="InvUom" EntitySet="InvUoms" />
+      <End Role="InvRequestItem" EntitySet="InvRequestItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvUomInvAdjItem" Association="InvDB.Store.InvUomInvAdjItem">
+      <End Role="InvUom" EntitySet="InvUoms" />
+      <End Role="InvAdjItem" EntitySet="InvAdjItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvRecItemInvRequestItem" Association="InvDB.Store.InvRecItemInvRequestItem">
+      <End Role="InvRecItem" EntitySet="InvRecItems" />
+      <End Role="InvRequestItem" EntitySet="InvRequestItems" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="InvItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="InvUomId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvItemClasses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvItemId" Type="int" Nullable="false" />
+    <Property Name="InvClassificationId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvClassifications">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Classification" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvSuppliers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="InvSupplierItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvSupplierId" Type="int" Nullable="false" />
+    <Property Name="InvItemId" Type="int" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Price" Type="decimal" Nullable="false" />
+    <Property Name="LastUpdate" Type="datetime" Nullable="false" />
+    <Property Name="LeadTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvStores">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StoreName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvPoHdrs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvSupplierId" Type="int" Nullable="false" />
+    <Property Name="InvStoreId" Type="int" Nullable="false" />
+    <Property Name="DtPo" Type="datetime" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvPoItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvPoHdrId" Type="int" Nullable="false" />
+    <Property Name="InvItemId" Type="int" Nullable="false" />
+    <Property Name="ItemQty" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="InvUomId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvRecHdrs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvStoreId" Type="int" Nullable="false" />
+    <Property Name="InvSupplierId" Type="int" Nullable="false" />
+    <Property Name="DtRec" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvRecItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvItemId" Type="int" Nullable="false" />
+    <Property Name="InvRecHdrId" Type="int" Nullable="false" />
+    <Property Name="InvUomId" Type="int" Nullable="false" />
+    <Property Name="ItemQty" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvRequestHdrs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvStoreId" Type="int" Nullable="false" />
+    <Property Name="DtRec" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvRequestItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvItemId" Type="int" Nullable="false" />
+    <Property Name="InvRequestHdrId" Type="int" Nullable="false" />
+    <Property Name="InvUomId" Type="int" Nullable="false" />
+    <Property Name="ItemQty" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="InvRecItemId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvAdjHdrs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvStoreId" Type="int" Nullable="false" />
+    <Property Name="dtAdj" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvAdjItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvAdjHdrId" Type="int" Nullable="false" />
+    <Property Name="InvItemId" Type="int" Nullable="false" />
+    <Property Name="InvUomId" Type="int" Nullable="false" />
+    <Property Name="QtyAdded" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="QtyDeduct" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvUoms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="uom" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="InvItemInvItemClass">
+    <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
+    <End Role="InvItemClass" Type="InvDB.Store.InvItemClasses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvItemClass">
+        <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvClassificationInvItemClass">
+    <End Role="InvClassification" Type="InvDB.Store.InvClassifications" Multiplicity="1" />
+    <End Role="InvItemClass" Type="InvDB.Store.InvItemClasses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvClassification">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvItemClass">
+        <PropertyRef Name="InvClassificationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvSupplierInvSupplierItem">
+    <End Role="InvSupplier" Type="InvDB.Store.InvSuppliers" Multiplicity="1" />
+    <End Role="InvSupplierItem" Type="InvDB.Store.InvSupplierItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvSupplier">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvSupplierItem">
+        <PropertyRef Name="InvSupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvItemInvSupplierItem">
+    <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
+    <End Role="InvSupplierItem" Type="InvDB.Store.InvSupplierItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvSupplierItem">
+        <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvSupplierInvPoHdr">
+    <End Role="InvSupplier" Type="InvDB.Store.InvSuppliers" Multiplicity="1" />
+    <End Role="InvPoHdr" Type="InvDB.Store.InvPoHdrs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvSupplier">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvPoHdr">
+        <PropertyRef Name="InvSupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvPoHdrInvPoItem">
+    <End Role="InvPoHdr" Type="InvDB.Store.InvPoHdrs" Multiplicity="1" />
+    <End Role="InvPoItem" Type="InvDB.Store.InvPoItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvPoHdr">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvPoItem">
+        <PropertyRef Name="InvPoHdrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvItemInvPoItem">
+    <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
+    <End Role="InvPoItem" Type="InvDB.Store.InvPoItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvPoItem">
+        <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvStoreInvRecHdr">
+    <End Role="InvStore" Type="InvDB.Store.InvStores" Multiplicity="1" />
+    <End Role="InvRecHdr" Type="InvDB.Store.InvRecHdrs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvStore">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvRecHdr">
+        <PropertyRef Name="InvStoreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvItemInvRecItem">
+    <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
+    <End Role="InvRecItem" Type="InvDB.Store.InvRecItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvRecItem">
+        <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvRecHdrInvRecItem">
+    <End Role="InvRecHdr" Type="InvDB.Store.InvRecHdrs" Multiplicity="1" />
+    <End Role="InvRecItem" Type="InvDB.Store.InvRecItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvRecHdr">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvRecItem">
+        <PropertyRef Name="InvRecHdrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvSupplierInvRecHdr">
+    <End Role="InvSupplier" Type="InvDB.Store.InvSuppliers" Multiplicity="1" />
+    <End Role="InvRecHdr" Type="InvDB.Store.InvRecHdrs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvSupplier">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvRecHdr">
+        <PropertyRef Name="InvSupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvStoreInvRequestHdr">
+    <End Role="InvStore" Type="InvDB.Store.InvStores" Multiplicity="1" />
+    <End Role="InvRequestHdr" Type="InvDB.Store.InvRequestHdrs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvStore">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvRequestHdr">
+        <PropertyRef Name="InvStoreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvItemInvRequestItem">
+    <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
+    <End Role="InvRequestItem" Type="InvDB.Store.InvRequestItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvRequestItem">
+        <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvRequestHdrInvRequestItem">
+    <End Role="InvRequestHdr" Type="InvDB.Store.InvRequestHdrs" Multiplicity="1" />
+    <End Role="InvRequestItem" Type="InvDB.Store.InvRequestItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvRequestHdr">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvRequestItem">
+        <PropertyRef Name="InvRequestHdrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvStoreInvPoHdr">
+    <End Role="InvStore" Type="InvDB.Store.InvStores" Multiplicity="1" />
+    <End Role="InvPoHdr" Type="InvDB.Store.InvPoHdrs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvStore">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvPoHdr">
+        <PropertyRef Name="InvStoreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvStoreInvAdjHdr">
+    <End Role="InvStore" Type="InvDB.Store.InvStores" Multiplicity="1" />
+    <End Role="InvAdjHdr" Type="InvDB.Store.InvAdjHdrs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvStore">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvAdjHdr">
+        <PropertyRef Name="InvStoreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvAdjHdrInvAdjItem">
+    <End Role="InvAdjHdr" Type="InvDB.Store.InvAdjHdrs" Multiplicity="1" />
+    <End Role="InvAdjItem" Type="InvDB.Store.InvAdjItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvAdjHdr">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvAdjItem">
+        <PropertyRef Name="InvAdjHdrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvItemInvAdjItem">
+    <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
+    <End Role="InvAdjItem" Type="InvDB.Store.InvAdjItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvAdjItem">
+        <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvUomInvItem">
+    <End Role="InvUom" Type="InvDB.Store.InvUoms" Multiplicity="1" />
+    <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvUom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvItem">
+        <PropertyRef Name="InvUomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvUomInvPoItem">
+    <End Role="InvUom" Type="InvDB.Store.InvUoms" Multiplicity="1" />
+    <End Role="InvPoItem" Type="InvDB.Store.InvPoItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvUom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvPoItem">
+        <PropertyRef Name="InvUomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvUomInvRecItem">
+    <End Role="InvUom" Type="InvDB.Store.InvUoms" Multiplicity="1" />
+    <End Role="InvRecItem" Type="InvDB.Store.InvRecItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvUom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvRecItem">
+        <PropertyRef Name="InvUomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvUomInvRequestItem">
+    <End Role="InvUom" Type="InvDB.Store.InvUoms" Multiplicity="1" />
+    <End Role="InvRequestItem" Type="InvDB.Store.InvRequestItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvUom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvRequestItem">
+        <PropertyRef Name="InvUomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvUomInvAdjItem">
+    <End Role="InvUom" Type="InvDB.Store.InvUoms" Multiplicity="1" />
+    <End Role="InvAdjItem" Type="InvDB.Store.InvAdjItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvUom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvAdjItem">
+        <PropertyRef Name="InvUomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvRecItemInvRequestItem">
+    <End Role="InvRecItem" Type="InvDB.Store.InvRecItems" Multiplicity="1" />
+    <End Role="InvRequestItem" Type="InvDB.Store.InvRequestItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvRecItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvRequestItem">
+        <PropertyRef Name="InvRecItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

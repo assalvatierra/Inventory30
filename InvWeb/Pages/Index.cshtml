@@ -1,0 +1,38 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Inventory - Beta";
+
+    int tempStoreId = 2;
+}
+
+
+<div class="text-left">
+    <h3 class="display-4">Admin Area</h3>
+    <div>
+        <a href="/Masterfiles/Stores">Stores</a>
+    </div>
+    <div>
+    Item Masterfile<br />
+        - &nbsp; <a href="/Masterfiles/ItemMaster">Item List</a><br />
+        - &nbsp; <a href="/Masterfiles/ItemClassification">Item Classification</a><br />
+        - &nbsp; <a href="/Masterfiles/Supplier">Supplier List</a>
+
+    </div>
+
+    <div>
+        Accounts
+        
+    </div>
+    <div>
+        Search
+    </div>
+    
+</div>
+
+
+
+<div>
+    <h3 class="display-4">Store Manager Area</h3><br />
+    <a asp-page="/Masterfiles/Stores/Main" asp-route-id="@tempStoreId"> go to my Store</a>
+</div>
