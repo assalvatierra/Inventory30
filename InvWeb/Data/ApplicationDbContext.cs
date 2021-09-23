@@ -19,6 +19,10 @@ namespace InvWeb.Data
         public DbSet<InvUom> InvUoms { get; set; }
         public DbSet<InvClassification> InvClassifications { get; set; }
         public DbSet<InvSupplier> InvSuppliers { get; set; }
+        public DbSet<WebDBSchema.Models.InvSupplierItem> InvSupplierItem { get; set; }
+        public DbSet<WebDBSchema.Models.InvRequestItem> InvRequestItem { get; set; }
+        public DbSet<WebDBSchema.Models.InvPoHdr> InvPoHdr { get; set; }
+        public DbSet<WebDBSchema.Models.InvRecHdr> InvRecHdr { get; set; }
 
     }
 }

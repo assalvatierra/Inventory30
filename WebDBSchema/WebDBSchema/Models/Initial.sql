@@ -18,3 +18,8 @@ insert into InvSuppliers([Name],[Remarks]) values
 -- Classifications --
 insert into InvClassifications([Classification]) values
 ('Food/Perishables');
+
+
+-- Trx Types -- Receive, release, adjust.
+insert into InvTrxTypes([Types]) values
+('Receive'),('Release'),('Adjust');
