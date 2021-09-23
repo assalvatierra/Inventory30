@@ -49,45 +49,64 @@
 
             <ul class="list-unstyled components">
 
-                <li class="active">
-                    <a href="/">Home</a>
+                <li>
+                    <a href="/" id="sidenav-Home">Home</a>
                 </li>
                 <li>
-                    <a href="/Masterfiles/Stores">Stores</a>
-                </li>
-                <li>
-                    <a href="/Masterfiles/ItemMaster">Items Masterfile  </a>
-
-                    <ul class="list-unstyled list-submenu">
-                        <li>
-                            <a href="/Masterfiles/ItemMaster">List</a>
-                        </li>
-                        <li>
-                            <a href="/Masterfiles/ItemClassification">Classifications</a>
-                        </li>
-                        <li>
-                            <a href="/Masterfiles/Supplier">Suppliers</a>
-                        </li>
-                    </ul>
+                    <a href="/Masterfiles/Stores" id="sidenav-Stores">Stores</a>
                 </li>
 
-                <li>
-                    <a href="#">Accounts</a>
+
+                <li class="dropdown-btn">
+                    <a href="#" id="sidenav-Items">
+                        Items Masterfile
+                        <i class="float-right dropdown-toggle"></i>
+                    </a>
                 </li>
-                <li>
-                    <a href="#">Contact</a>
+
+                <li class="dropdown-container">
+                    <a href="/Masterfiles/ItemMaster">List</a>
+                    <a href="/Masterfiles/ItemClassification">Classifications</a>
+                    <a href="/Masterfiles/ItemUoms">Units</a>
                 </li>
+
                 <li>
-                    <a href="#">About</a>
+                    <a href="/Masterfiles/Supplier">Suppliers</a>
                 </li>
+
+                <li>
+                    <a href="/Masterfiles/ItemPO">Purchase Orders</a>
+                </li>
+
+                <li>
+                    <a href="#" id="sidenav-Accounts">Accounts</a>
+                </li>
+
+
+                <li>
+                    <a href="/Masterfiles/Reports" id="sidenav-Reports">Reports</a>
+                </li>
+
                 <li>
                     <hr />
                 </li>
+
                 <li>
                     <p> My Store </p>
                 </li>
-                <li>
+
+                <li class="dropdown-btn">
+                    <a href="#" id="sidenav-Items">
+                        MyStore
+                        <i class="float-right dropdown-toggle"></i>
+                    </a>
+                </li>
+                <li class="dropdown-container">
                     <a href="/Masterfiles/Stores/Main?id=2">Go to MyStore</a>
+                    <a href="/Masterfiles/">Receiving</a>
+                    <a href="/Masterfiles/">Releasing</a>
+                    <a href="/Masterfiles/">Purchase Request</a>
+                    <a href="/Masterfiles/">Inventory Reports</a>
                 </li>
             </ul>
 
@@ -135,13 +154,27 @@
     <script src="~/js/sidebar.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-
-
+            //Collapsable btn for sidebar nav
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar, #content').toggleClass('active');
                 $('.collapse.in').toggleClass('in');
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
+
+            //Dropdown sidebar nav
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            for (var i = 0; i < dropdown.length; i++) {
+                dropdown[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === "block") {
+                        dropdownContent.style.display = "none";
+                    } else {
+                        dropdownContent.style.display = "block";
+                    }
+                });
+            }
+
         });
     </script>
 

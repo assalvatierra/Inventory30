@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/03/2021 11:56:19
--- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory20\WebDBSchema\WebDBSchema\Models\InvDB.edmx
+-- Date Created: 09/23/2021 15:02:13
+-- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [C:\USERS\ACER-PC\DOCUMENTS\GITHUB\INVENTORY20\DBFILES\ASPNET-WEBINV.SERVER-8C0EE0EB-8AC1-4CFF-924C-24E20C1606AB.MDF];
+USE [C:\USERS\ACER-PC\DOCUMENTS\GITHUB\INVENTORY30\DBFILES\INVDB3.MDF];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -89,6 +89,21 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvRecItemInvRequestItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvRequestItems] DROP CONSTRAINT [FK_InvRecItemInvRequestItem];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvStoreInvTrxHdr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxHdrs] DROP CONSTRAINT [FK_InvStoreInvTrxHdr];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvTrxHdrInvTrxDtl]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvTrxHdrInvTrxDtl];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvTrxDtl]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvItemInvTrxDtl];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvUomInvTrxDtl]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvUomInvTrxDtl];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvTrxTypeInvTrxHdr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxHdrs] DROP CONSTRAINT [FK_InvTrxTypeInvTrxHdr];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -138,6 +153,15 @@ IF OBJECT_ID(N'[dbo].[InvAdjItems]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvUoms]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvUoms];
+GO
+IF OBJECT_ID(N'[dbo].[InvTrxHdrs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvTrxHdrs];
+GO
+IF OBJECT_ID(N'[dbo].[InvTrxDtls]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvTrxDtls];
+GO
+IF OBJECT_ID(N'[dbo].[InvTrxTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvTrxTypes];
 GO
 
 -- --------------------------------------------------
@@ -288,6 +312,35 @@ CREATE TABLE [dbo].[InvUoms] (
 );
 GO
 
+-- Creating table 'InvTrxHdrs'
+CREATE TABLE [dbo].[InvTrxHdrs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvStoreId] int  NOT NULL,
+    [DtTrx] nvarchar(max)  NOT NULL,
+    [Status] nvarchar(max)  NOT NULL,
+    [UserId] nvarchar(max)  NOT NULL,
+    [Remarks] nvarchar(max)  NOT NULL,
+    [InvTrxTypeId] int  NOT NULL
+);
+GO
+
+-- Creating table 'InvTrxDtls'
+CREATE TABLE [dbo].[InvTrxDtls] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvTrxHdrId] int  NOT NULL,
+    [InvItemId] int  NOT NULL,
+    [InvUomId] int  NOT NULL,
+    [ItemQty] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'InvTrxTypes'
+CREATE TABLE [dbo].[InvTrxTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(max)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -379,6 +432,24 @@ GO
 -- Creating primary key on [Id] in table 'InvUoms'
 ALTER TABLE [dbo].[InvUoms]
 ADD CONSTRAINT [PK_InvUoms]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvTrxHdrs'
+ALTER TABLE [dbo].[InvTrxHdrs]
+ADD CONSTRAINT [PK_InvTrxHdrs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvTrxDtls'
+ALTER TABLE [dbo].[InvTrxDtls]
+ADD CONSTRAINT [PK_InvTrxDtls]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvTrxTypes'
+ALTER TABLE [dbo].[InvTrxTypes]
+ADD CONSTRAINT [PK_InvTrxTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -744,6 +815,81 @@ GO
 CREATE INDEX [IX_FK_InvRecItemInvRequestItem]
 ON [dbo].[InvRequestItems]
     ([InvRecItemId]);
+GO
+
+-- Creating foreign key on [InvStoreId] in table 'InvTrxHdrs'
+ALTER TABLE [dbo].[InvTrxHdrs]
+ADD CONSTRAINT [FK_InvStoreInvTrxHdr]
+    FOREIGN KEY ([InvStoreId])
+    REFERENCES [dbo].[InvStores]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvStoreInvTrxHdr'
+CREATE INDEX [IX_FK_InvStoreInvTrxHdr]
+ON [dbo].[InvTrxHdrs]
+    ([InvStoreId]);
+GO
+
+-- Creating foreign key on [InvTrxHdrId] in table 'InvTrxDtls'
+ALTER TABLE [dbo].[InvTrxDtls]
+ADD CONSTRAINT [FK_InvTrxHdrInvTrxDtl]
+    FOREIGN KEY ([InvTrxHdrId])
+    REFERENCES [dbo].[InvTrxHdrs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvTrxHdrInvTrxDtl'
+CREATE INDEX [IX_FK_InvTrxHdrInvTrxDtl]
+ON [dbo].[InvTrxDtls]
+    ([InvTrxHdrId]);
+GO
+
+-- Creating foreign key on [InvItemId] in table 'InvTrxDtls'
+ALTER TABLE [dbo].[InvTrxDtls]
+ADD CONSTRAINT [FK_InvItemInvTrxDtl]
+    FOREIGN KEY ([InvItemId])
+    REFERENCES [dbo].[InvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvTrxDtl'
+CREATE INDEX [IX_FK_InvItemInvTrxDtl]
+ON [dbo].[InvTrxDtls]
+    ([InvItemId]);
+GO
+
+-- Creating foreign key on [InvUomId] in table 'InvTrxDtls'
+ALTER TABLE [dbo].[InvTrxDtls]
+ADD CONSTRAINT [FK_InvUomInvTrxDtl]
+    FOREIGN KEY ([InvUomId])
+    REFERENCES [dbo].[InvUoms]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvUomInvTrxDtl'
+CREATE INDEX [IX_FK_InvUomInvTrxDtl]
+ON [dbo].[InvTrxDtls]
+    ([InvUomId]);
+GO
+
+-- Creating foreign key on [InvTrxTypeId] in table 'InvTrxHdrs'
+ALTER TABLE [dbo].[InvTrxHdrs]
+ADD CONSTRAINT [FK_InvTrxTypeInvTrxHdr]
+    FOREIGN KEY ([InvTrxTypeId])
+    REFERENCES [dbo].[InvTrxTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvTrxTypeInvTrxHdr'
+CREATE INDEX [IX_FK_InvTrxTypeInvTrxHdr]
+ON [dbo].[InvTrxHdrs]
+    ([InvTrxTypeId]);
 GO
 
 -- --------------------------------------------------

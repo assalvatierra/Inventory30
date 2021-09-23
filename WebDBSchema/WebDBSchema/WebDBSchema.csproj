@@ -189,6 +189,15 @@
     <Compile Include="Models\InvSupplierItem.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvTrxDtl.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvTrxHdr.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvTrxType.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvUom.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
