@@ -1,0 +1,35 @@
+﻿@page
+@model InvWeb.Areas.Identity.Pages.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3> Users </h3>
+<table>
+    <tr>
+        <th>
+            User
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Roles
+        </th>
+    </tr>
+
+    @foreach (var item in Model.AppUsers)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+        </tr>
+    }
+</table>

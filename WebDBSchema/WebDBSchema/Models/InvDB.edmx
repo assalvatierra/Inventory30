@@ -291,7 +291,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InvStoreId" Type="int" Nullable="false" />
-    <Property Name="DtTrx" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DtTrx" Type="datetime" Nullable="false" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
@@ -1292,7 +1292,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="InvStore" Relationship="InvDB.InvStoreInvTrxHdr" FromRole="InvTrxHdr" ToRole="InvStore" />
           <Property Name="InvStoreId" Type="Int32" Nullable="false" />
-          <Property Name="DtTrx" Type="String" Nullable="false" />
+          <Property Name="DtTrx" Type="DateTime" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="UserId" Type="String" Nullable="false" />
           <Property Name="Remarks" Type="String" Nullable="false" />

@@ -22,7 +22,7 @@ namespace WebDBSchema.Models
     
         public int Id { get; set; }
         public int InvStoreId { get; set; }
-        public string DtTrx { get; set; }
+        public System.DateTime DtTrx { get; set; }
         public string Status { get; set; }
         public string UserId { get; set; }
         public string Remarks { get; set; }
