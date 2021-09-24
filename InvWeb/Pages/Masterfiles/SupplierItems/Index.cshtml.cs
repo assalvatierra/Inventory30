@@ -21,11 +21,18 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
 
         public IList<InvSupplierItem> InvSupplierItem { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             InvSupplierItem = await _context.InvSupplierItems
                 .Include(i => i.InvItem)
                 .Include(i => i.InvSupplier).ToListAsync();
+
+            return Page();
         }
     }
 }

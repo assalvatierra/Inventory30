@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 
 @model InvWeb.Pages.Masterfiles.SupplierItems.IndexModel
 
@@ -6,6 +6,7 @@
     ViewData["Title"] = "Index";
 }
 
+<h1> [Supplier Name] </h1>
 <h1>Supplier Items</h1>
 
 <p>
@@ -17,10 +18,16 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.InvSupplierItem[0].Remarks)
+                    @Html.DisplayNameFor(model => model.InvSupplierItem[0].InvItem.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InvSupplierItem[0].InvSupplier)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.InvSupplierItem[0].Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InvSupplierItem[0].Remarks)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.InvSupplierItem[0].LastUpdate)
@@ -28,50 +35,39 @@
                 <th>
                     @Html.DisplayNameFor(model => model.InvSupplierItem[0].LeadTime)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.InvSupplierItem[0].UserId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.InvSupplierItem[0].InvSupplier)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.InvSupplierItem[0].InvItem)
-                </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
 
 
-            @foreach (var item in Model.InvSupplierItem) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Remarks)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastUpdate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LeadTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvSupplier.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Id)
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            @foreach (var item in Model.InvSupplierItem)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvItem.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvSupplier.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastUpdate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LeadTime)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
