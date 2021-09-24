@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemMaster
+namespace InvWeb.Pages.Masterfiles.SupplierItems
 {
     public class IndexModel : PageModel
     {
@@ -19,13 +19,13 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             _context = context;
         }
 
-        public IList<InvItem> InvItem { get;set; }
+        public IList<InvSupplierItem> InvSupplierItem { get;set; }
 
         public async Task OnGetAsync()
         {
-            InvItem = await _context.InvItems
-                .Include(i => i.InvUom).ToListAsync();
-
+            InvSupplierItem = await _context.InvSupplierItems
+                .Include(i => i.InvItem)
+                .Include(i => i.InvSupplier).ToListAsync();
         }
     }
 }

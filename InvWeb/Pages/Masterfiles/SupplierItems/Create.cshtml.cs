@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data;
 using WebDBSchema.Models;
+using System.Security.Claims;
 
-namespace InvWeb.Pages.Masterfiles.ItemMaster
+namespace InvWeb.Pages.Masterfiles.SupplierItems
 {
     public class CreateModel : PageModel
     {
@@ -21,12 +22,16 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
         public IActionResult OnGet()
         {
-        ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
+            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
+
+            ViewData["UserId"] = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             return Page();
         }
 
         [BindProperty]
-        public InvItem InvItem { get; set; }
+        public InvSupplierItem InvSupplierItem { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -36,7 +41,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return Page();
             }
 
-            _context.InvItems.Add(InvItem);
+            _context.InvSupplierItems.Add(InvSupplierItem);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

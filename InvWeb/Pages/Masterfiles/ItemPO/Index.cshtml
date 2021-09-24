@@ -1,0 +1,60 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemPO.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Purchase Orders</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].DtPo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].InvSupplier)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].InvStore)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.InvPoHdr) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DtPo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvSupplier.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvStore.Id)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

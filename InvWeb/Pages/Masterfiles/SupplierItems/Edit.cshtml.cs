@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemMaster
+namespace InvWeb.Pages.Masterfiles.SupplierItems
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
         }
 
         [BindProperty]
-        public InvItem InvItem { get; set; }
+        public InvSupplierItem InvSupplierItem { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,14 +30,16 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return NotFound();
             }
 
-            InvItem = await _context.InvItems
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+            InvSupplierItem = await _context.InvSupplierItems
+                .Include(i => i.InvItem)
+                .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvItem == null)
+            if (InvSupplierItem == null)
             {
                 return NotFound();
             }
-           ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
+           ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Id");
+           ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Id");
             return Page();
         }
 
@@ -50,7 +52,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return Page();
             }
 
-            _context.Attach(InvItem).State = EntityState.Modified;
+            _context.Attach(InvSupplierItem).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +60,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvItemExists(InvItem.Id))
+                if (!InvSupplierItemExists(InvSupplierItem.Id))
                 {
                     return NotFound();
                 }
@@ -71,9 +73,9 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             return RedirectToPage("./Index");
         }
 
-        private bool InvItemExists(int id)
+        private bool InvSupplierItemExists(int id)
         {
-            return _context.InvItems.Any(e => e.Id == id);
+            return _context.InvSupplierItems.Any(e => e.Id == id);
         }
     }
 }
