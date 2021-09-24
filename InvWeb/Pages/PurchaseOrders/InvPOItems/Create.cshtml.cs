@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data;
 using WebDBSchema.Models;
-using System.Security.Claims;
 
-namespace InvWeb.Pages.Masterfiles.ItemPO
+namespace InvWeb.Pages.PurchaseOrders.InvPOItems
 {
     public class CreateModel : PageModel
     {
@@ -22,15 +21,14 @@ namespace InvWeb.Pages.Masterfiles.ItemPO
 
         public IActionResult OnGet()
         {
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
-            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
-            ViewData["UserId"] = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+        ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Id");
+        ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id");
+        ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "Id");
             return Page();
         }
 
         [BindProperty]
-        public InvPoHdr InvPoHdr { get; set; }
+        public InvPoItem InvPoItem { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -40,7 +38,7 @@ namespace InvWeb.Pages.Masterfiles.ItemPO
                 return Page();
             }
 
-            _context.InvPoHdrs.Add(InvPoHdr);
+            _context.InvPoItem.Add(InvPoItem);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

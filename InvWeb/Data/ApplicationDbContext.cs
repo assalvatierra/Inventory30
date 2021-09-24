@@ -22,6 +22,7 @@ namespace InvWeb.Data
         public DbSet<WebDBSchema.Models.InvSupplierItem> InvSupplierItems { get; set; }
         public DbSet<WebDBSchema.Models.InvPoHdr> InvPoHdrs { get; set; }
         public DbSet<WebDBSchema.Models.Users.AppUser> AppUsers { get; set; }
+        public DbSet<WebDBSchema.Models.InvPoItem> InvPoItem { get; set; }
 
     }
 }

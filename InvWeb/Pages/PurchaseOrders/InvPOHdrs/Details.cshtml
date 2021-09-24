@@ -1,0 +1,55 @@
+﻿@page
+@model InvWeb.Pages.PurchaseOrders.InvPOHdrs.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>InvPoHdr</h4>
+    <div>
+        <a asp-page="./Edit" asp-route-id="@Model.InvPoHdr.Id">Edit</a> |
+        <a asp-page="./Index">Back to List</a>
+    </div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvPoHdr.DtPo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvPoHdr.DtPo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvPoHdr.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvPoHdr.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvPoHdr.UserId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvPoHdr.UserId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvPoHdr.InvSupplier)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvPoHdr.InvSupplier.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvPoHdr.InvStore)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvPoHdr.InvStore.Id)
+        </dd>
+    </dl>
+</div>
+
+
+<div>
+    <!-- Inv Items component -->
+</div>

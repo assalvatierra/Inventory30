@@ -9,7 +9,7 @@ using InvWeb.Data;
 using WebDBSchema.Models;
 using System.Security.Claims;
 
-namespace InvWeb.Pages.Masterfiles.ItemPO
+namespace InvWeb.Pages.PurchaseOrders.InvPOHdrs
 {
     public class CreateModel : PageModel
     {
@@ -22,10 +22,9 @@ namespace InvWeb.Pages.Masterfiles.ItemPO
 
         public IActionResult OnGet()
         {
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
-            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
+            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "Id");
+            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Id");
             ViewData["UserId"] = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             return Page();
         }
 

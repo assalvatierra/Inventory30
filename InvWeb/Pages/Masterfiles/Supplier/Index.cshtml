@@ -19,6 +19,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.InvSupplier[0].Remarks)
             </th>
+            <th>
+
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -33,9 +36,12 @@
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
+
+                <a asp-page="../SupplierItems/Index" asp-route-id="@item.Id">Items</a> 
+            </td>
+            <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="../SupplierItems/Index" >Items</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

@@ -8,18 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.SupplierItems
+namespace InvWeb.Pages.PurchaseOrders.InvPOItems
 {
-    public class IndexModel : PageModel
+    public class DetailsModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
 
-        public IndexModel(InvWeb.Data.ApplicationDbContext context)
+        public DetailsModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IList<InvSupplierItem> InvSupplierItem { get;set; }
+        public InvPoItem InvPoItem { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,12 +28,15 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
                 return NotFound();
             }
 
-            InvSupplierItem = await _context.InvSupplierItems
-                .Include(i => i.InvItem) 
-                .Include(i => i.InvSupplier).ToListAsync();
+            InvPoItem = await _context.InvPoItem
+                .Include(i => i.InvItem)
+                .Include(i => i.InvPoHdr)
+                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
 
-            ViewData["Supplier"] = _context.InvSuppliers.Find(id).Name;
-
+            if (InvPoItem == null)
+            {
+                return NotFound();
+            }
             return Page();
         }
     }

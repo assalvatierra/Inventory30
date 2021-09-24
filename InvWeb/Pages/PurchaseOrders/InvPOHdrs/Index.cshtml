@@ -1,5 +1,5 @@
 ﻿@page
-@model InvWeb.Pages.Masterfiles.ItemPO.IndexModel
+@model InvWeb.Pages.PurchaseOrders.InvPOHdrs.IndexModel
 
 @{
     ViewData["Title"] = "Index";
@@ -20,9 +20,6 @@
                 @Html.DisplayNameFor(model => model.InvPoHdr[0].Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvPoHdr[0].UserId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.InvPoHdr[0].InvSupplier)
             </th>
             <th>
@@ -35,13 +32,10 @@
 @foreach (var item in Model.InvPoHdr) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DtPo)
+                @item.DtPo.ToString("MMM dd yyyy")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InvSupplier.Name)
@@ -52,6 +46,7 @@
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="../InvPOItems/Index" asp-route-id="@item.Id"> PO Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
