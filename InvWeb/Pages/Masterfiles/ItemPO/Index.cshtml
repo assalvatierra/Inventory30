@@ -17,7 +17,7 @@
                 @Html.DisplayNameFor(model => model.InvPoHdr[0].DtPo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvPoHdr[0].Status)
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].InvPoHdrStatusId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InvPoHdr[0].UserId)
@@ -38,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.DtPo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @Html.DisplayFor(modelItem => item.InvPoHdrStatu.Status)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserId)

@@ -28,7 +28,7 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOItems
                 return NotFound();
             }
 
-            InvPoItem = await _context.InvPoItem
+            InvPoItem = await _context.InvPoItems
                 .Include(i => i.InvItem)
                 .Include(i => i.InvPoHdr)
                 .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);

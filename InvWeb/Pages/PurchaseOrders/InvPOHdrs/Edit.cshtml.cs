@@ -38,8 +38,9 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOHdrs
             {
                 return NotFound();
             }
-           ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "Id");
-           ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Id");
+            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
+            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
+            ViewData["InvPoHdrStatusId"] = new SelectList(_context.InvPoHdrStatus, "Id", "Status");
             return Page();
         }
 

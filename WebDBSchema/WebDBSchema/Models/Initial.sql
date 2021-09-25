@@ -21,5 +21,15 @@ insert into InvClassifications([Classification]) values
 
 
 -- Trx Types -- Receive, release, adjust.
-insert into InvTrxTypes([Types]) values
+insert into InvTrxTypes([Type]) values
 ('Receive'),('Release'),('Adjust');
+
+
+-- Trx Status 
+insert into InvTrxHdrStatus([Status],[OrderNo]) values
+('Request',1), ('Approved',2), ('Closed',3), ('Cancelled',4);
+
+
+-- PO Status 
+insert into InvPoHdrStatus([Status],[OrderNo]) values
+('Request',1), ('Approved',2), ('Closed',3), ('Cancelled',4);

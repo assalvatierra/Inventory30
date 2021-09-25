@@ -22,8 +22,9 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOHdrs
 
         public IActionResult OnGet()
         {
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "Id");
-            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Id");
+            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
+            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
+            ViewData["InvPoHdrStatusId"] = new SelectList(_context.InvPoHdrStatus, "Id", "Status");
             ViewData["UserId"] = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             return Page();
         }

@@ -14,15 +14,18 @@ namespace InvWeb.Data
             : base(options)
         {
         }
+
+        public DbSet<WebDBSchema.Models.Users.AppUser> AppUsers { get; set; }
         public DbSet<InvStore> InvStores { get; set; }
         public DbSet<InvItem> InvItems { get; set; }
         public DbSet<InvUom> InvUoms { get; set; }
         public DbSet<InvClassification> InvClassifications { get; set; }
         public DbSet<InvSupplier> InvSuppliers { get; set; }
-        public DbSet<WebDBSchema.Models.InvSupplierItem> InvSupplierItems { get; set; }
-        public DbSet<WebDBSchema.Models.InvPoHdr> InvPoHdrs { get; set; }
-        public DbSet<WebDBSchema.Models.Users.AppUser> AppUsers { get; set; }
-        public DbSet<WebDBSchema.Models.InvPoItem> InvPoItem { get; set; }
+        public DbSet<InvSupplierItem> InvSupplierItems { get; set; }
+        public DbSet<InvPoHdr> InvPoHdrs { get; set; }
+        public DbSet<InvPoItem> InvPoItems { get; set; }
+        public DbSet<InvPoHdrStatus> InvPoHdrStatus { get; set; }
+        public DbSet<InvTrxHdrStatus> InvTrxHdrStatus { get; set; }
 
     }
 }

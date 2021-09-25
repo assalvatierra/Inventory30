@@ -19,11 +19,18 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOItems
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int? invPoHdrid)
         {
-        ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Id");
-        ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id");
-        ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "Id");
+            if (invPoHdrid == null)
+            {
+                RedirectToAction("../InvPOHdrs/Index");
+            }
+
+            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+            ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id", invPoHdrid);
+            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["PoHdrid"] = invPoHdrid;
+
             return Page();
         }
 
@@ -38,10 +45,10 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOItems
                 return Page();
             }
 
-            _context.InvPoItem.Add(InvPoItem);
+            _context.InvPoItems.Add(InvPoItem);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../InvPOHdrs/Details", new { id = InvPoItem.InvPoHdrId });
         }
     }
 }

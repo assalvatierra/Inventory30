@@ -30,7 +30,7 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOItems
                 return NotFound();
             }
 
-            InvPoItem = await _context.InvPoItem
+            InvPoItem = await _context.InvPoItems
                 .Include(i => i.InvItem)
                 .Include(i => i.InvPoHdr)
                 .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
@@ -39,9 +39,9 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOItems
             {
                 return NotFound();
             }
-           ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Id");
+           ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
            ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id");
-           ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "Id");
+           ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
             return Page();
         }
 
@@ -72,12 +72,12 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOItems
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../InvPOHdrs/Details", new { id = InvPoItem.InvPoHdrId });
         }
 
         private bool InvPoItemExists(int id)
         {
-            return _context.InvPoItem.Any(e => e.Id == id);
+            return _context.InvPoItems.Any(e => e.Id == id);
         }
     }
 }

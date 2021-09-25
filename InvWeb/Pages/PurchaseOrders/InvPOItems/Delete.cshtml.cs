@@ -29,7 +29,7 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOItems
                 return NotFound();
             }
 
-            InvPoItem = await _context.InvPoItem
+            InvPoItem = await _context.InvPoItems
                 .Include(i => i.InvItem)
                 .Include(i => i.InvPoHdr)
                 .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
@@ -48,15 +48,15 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOItems
                 return NotFound();
             }
 
-            InvPoItem = await _context.InvPoItem.FindAsync(id);
+            InvPoItem = await _context.InvPoItems.FindAsync(id);
 
             if (InvPoItem != null)
             {
-                _context.InvPoItem.Remove(InvPoItem);
+                _context.InvPoItems.Remove(InvPoItem);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../InvPOHdrs/Details", new { id = InvPoItem.InvPoHdrId });
         }
     }
 }

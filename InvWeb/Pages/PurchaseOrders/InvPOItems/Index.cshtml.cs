@@ -20,7 +20,8 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOItems
         }
 
         public IList<InvPoItem> InvPoItem { get;set; }
-
+       
+        //Param: id = InvPOHdr.Id
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -28,10 +29,12 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOItems
                 return NotFound();
             }
 
-            InvPoItem = await _context.InvPoItem
+            InvPoItem = await _context.InvPoItems
                 .Include(i => i.InvItem)
                 .Include(i => i.InvPoHdr)
                 .Include(i => i.InvUom).ToListAsync();
+
+            ViewData["InvPoHdrId"] = id;
 
             return Page();
         }

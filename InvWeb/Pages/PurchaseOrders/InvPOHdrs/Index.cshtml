@@ -17,7 +17,7 @@
                 @Html.DisplayNameFor(model => model.InvPoHdr[0].DtPo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvPoHdr[0].Status)
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].InvPoHdrStatusId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InvPoHdr[0].InvSupplier)
@@ -35,7 +35,7 @@
                 @item.DtPo.ToString("MMM dd yyyy")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @Html.DisplayFor(modelItem => item.InvPoHdrStatu.Status)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InvSupplier.Name)
@@ -46,7 +46,6 @@
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="../InvPOItems/Index" asp-route-id="@item.Id"> PO Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

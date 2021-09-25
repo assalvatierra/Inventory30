@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\InvAccounts\**" />
+    <Content Remove="Pages\InvAccounts\**" />
+    <EmbeddedResource Remove="Pages\InvAccounts\**" />
+    <None Remove="Pages\InvAccounts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.7" />
@@ -18,11 +25,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\GitHub\Inventory20\WebDBSchema\WebDBSchema\WebDBSchema.csproj" />
+    <ProjectReference Include="..\WebDBSchema\WebDBSchema\WebDBSchema.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\InvAccounts\" />
+    <Folder Include="Pages\Store\InvPoRequest\" />
+    <Folder Include="Pages\Store\Receiving\" />
+    <Folder Include="Pages\Store\Reports\" />
+    <Folder Include="Pages\Store\Releasing\" />
   </ItemGroup>
 
 </Project>

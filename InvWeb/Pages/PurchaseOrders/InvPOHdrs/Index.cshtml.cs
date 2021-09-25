@@ -25,7 +25,9 @@ namespace InvWeb.Pages.PurchaseOrders.InvPOHdrs
         {
             InvPoHdr = await _context.InvPoHdrs
                 .Include(i => i.InvStore)
-                .Include(i => i.InvSupplier).ToListAsync();
+                .Include(i => i.InvSupplier)
+                .Include(i => i.InvPoHdrStatu)
+                .Include(i => i.InvPoItems).ToListAsync();
         }
     }
 }

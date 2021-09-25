@@ -3,24 +3,25 @@
 
 @{
     ViewData["Title"] = "Index";
+    int POHdrNo = ViewBag.InvPoHdrId ?? 0;
 }
 
 <h1>PO Details</h1>
-
+<h3> PO No:  @POHdrNo </h3>
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="../InvPOHdrs/Index" asp-route-id="@POHdrNo" >Back to List</a>
+</p>
+<p>
+    <a asp-page="Create" asp-route-invPoHdrid="@POHdrNo">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.InvPoItem[0].ItemQty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvPoItem[0].InvPoHdr)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.InvPoItem[0].InvItem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvPoItem[0].ItemQty)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InvPoItem[0].InvUom)
@@ -29,26 +30,23 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.InvPoItem) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ItemQty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvPoHdr.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvItem.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvUom.uom)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.InvPoItem) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemQty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvUom.uom)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
