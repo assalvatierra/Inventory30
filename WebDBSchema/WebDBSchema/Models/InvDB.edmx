@@ -24,6 +24,8 @@
     <EntitySet Name="InvTrxHdrs" EntityType="InvDB.Store.InvTrxHdrs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvTrxDtls" EntityType="InvDB.Store.InvTrxDtls" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvTrxTypes" EntityType="InvDB.Store.InvTrxTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvPoHdrStatus" EntityType="InvDB.Store.InvPoHdrStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvTrxHdrStatus" EntityType="InvDB.Store.InvTrxHdrStatus" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -140,6 +142,14 @@
       <End Role="InvTrxType" EntitySet="InvTrxTypes" />
       <End Role="InvTrxHdr" EntitySet="InvTrxHdrs" />
     </AssociationSet>
+    <AssociationSet Name="InvPoHdrStatusInvPoHdr" Association="InvDB.Store.InvPoHdrStatusInvPoHdr">
+      <End Role="InvPoHdrStatus" EntitySet="InvPoHdrStatus" />
+      <End Role="InvPoHdr" EntitySet="InvPoHdrs" />
+    </AssociationSet>
+    <AssociationSet Name="InvTrxHdrStatusInvTrxHdr" Association="InvDB.Store.InvTrxHdrStatusInvTrxHdr">
+      <End Role="InvTrxHdrStatus" EntitySet="InvTrxHdrStatus" />
+      <End Role="InvTrxHdr" EntitySet="InvTrxHdrs" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="InvItems">
     <Key>
@@ -201,8 +211,8 @@
     <Property Name="InvSupplierId" Type="int" Nullable="false" />
     <Property Name="InvStoreId" Type="int" Nullable="false" />
     <Property Name="DtPo" Type="datetime" Nullable="false" />
-    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="InvPoHdrStatusId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="InvPoItems">
     <Key>
@@ -293,9 +303,10 @@
     <Property Name="InvStoreId" Type="int" Nullable="false" />
     <Property Name="DtTrx" Type="datetime" Nullable="false" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="120" />
     <Property Name="InvTrxTypeId" Type="int" Nullable="false" />
+    <Property Name="InvTrxHdrStatusId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="InvTrxDtls">
     <Key>
@@ -305,14 +316,30 @@
     <Property Name="InvTrxHdrId" Type="int" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
     <Property Name="InvUomId" Type="int" Nullable="false" />
-    <Property Name="ItemQty" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ItemQty" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="InvTrxTypes">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" Nullable="false" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="InvPoHdrStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="OrderNo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvTrxHdrStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OrderNo" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -662,6 +689,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="InvPoHdrStatusInvPoHdr">
+    <End Role="InvPoHdrStatus" Type="InvDB.Store.InvPoHdrStatus" Multiplicity="1" />
+    <End Role="InvPoHdr" Type="InvDB.Store.InvPoHdrs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvPoHdrStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvPoHdr">
+        <PropertyRef Name="InvPoHdrStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvTrxHdrStatusInvTrxHdr">
+    <End Role="InvTrxHdrStatus" Type="InvDB.Store.InvTrxHdrStatus" Multiplicity="1" />
+    <End Role="InvTrxHdr" Type="InvDB.Store.InvTrxHdrs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvTrxHdrStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvTrxHdr">
+        <PropertyRef Name="InvTrxHdrStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -801,6 +852,16 @@
             <End Role="InvTrxType" EntitySet="InvTrxTypes" />
             <End Role="InvTrxHdr" EntitySet="InvTrxHdrs" />
           </AssociationSet>
+          <EntitySet Name="InvPoHdrStatus" EntityType="InvDB.InvPoHdrStatus" />
+          <AssociationSet Name="InvPoHdrStatusInvPoHdr" Association="InvDB.InvPoHdrStatusInvPoHdr">
+            <End Role="InvPoHdrStatus" EntitySet="InvPoHdrStatus" />
+            <End Role="InvPoHdr" EntitySet="InvPoHdrs" />
+          </AssociationSet>
+          <EntitySet Name="InvTrxHdrStatus" EntityType="InvDB.InvTrxHdrStatus" />
+          <AssociationSet Name="InvTrxHdrStatusInvTrxHdr" Association="InvDB.InvTrxHdrStatusInvTrxHdr">
+            <End Role="InvTrxHdrStatus" EntitySet="InvTrxHdrStatus" />
+            <End Role="InvTrxHdr" EntitySet="InvTrxHdrs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
           <Key>
@@ -934,8 +995,9 @@
           <NavigationProperty Name="InvStore" Relationship="InvDB.InvStoreInvPoHdr" FromRole="InvPoHdr" ToRole="InvStore" />
           <Property Name="InvStoreId" Type="Int32" Nullable="false" />
           <Property Name="DtPo" Type="DateTime" Nullable="false" />
-          <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="UserId" Type="String" Nullable="false" />
+          <NavigationProperty Name="InvPoHdrStatu" Relationship="InvDB.InvPoHdrStatusInvPoHdr" FromRole="InvPoHdr" ToRole="InvPoHdrStatus" />
+          <Property Name="InvPoHdrStatusId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="InvSupplierInvPoHdr">
           <End Type="InvDB.InvSupplier" Role="InvSupplier" Multiplicity="1" />
@@ -1294,11 +1356,13 @@
           <Property Name="InvStoreId" Type="Int32" Nullable="false" />
           <Property Name="DtTrx" Type="DateTime" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" />
-          <Property Name="UserId" Type="String" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="120" />
           <NavigationProperty Name="InvTrxDtls" Relationship="InvDB.InvTrxHdrInvTrxDtl" FromRole="InvTrxHdr" ToRole="InvTrxDtl" />
           <NavigationProperty Name="InvTrxType" Relationship="InvDB.InvTrxTypeInvTrxHdr" FromRole="InvTrxHdr" ToRole="InvTrxType" />
           <Property Name="InvTrxTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvTrxHdrStatu" Relationship="InvDB.InvTrxHdrStatusInvTrxHdr" FromRole="InvTrxHdr" ToRole="InvTrxHdrStatus" />
+          <Property Name="InvTrxHdrStatusId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="InvStoreInvTrxHdr">
           <End Type="InvDB.InvStore" Role="InvStore" Multiplicity="1" />
@@ -1323,7 +1387,7 @@
           <Property Name="InvItemId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvUom" Relationship="InvDB.InvUomInvTrxDtl" FromRole="InvTrxDtl" ToRole="InvUom" />
           <Property Name="InvUomId" Type="Int32" Nullable="false" />
-          <Property Name="ItemQty" Type="String" Nullable="false" />
+          <Property Name="ItemQty" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="InvTrxHdrInvTrxDtl">
           <End Type="InvDB.InvTrxHdr" Role="InvTrxHdr" Multiplicity="1" />
@@ -1366,7 +1430,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="20" />
           <NavigationProperty Name="InvTrxHdrs" Relationship="InvDB.InvTrxTypeInvTrxHdr" FromRole="InvTrxType" ToRole="InvTrxHdr" />
         </EntityType>
         <Association Name="InvTrxTypeInvTrxHdr">
@@ -1378,6 +1442,48 @@
             </Principal>
             <Dependent Role="InvTrxHdr">
               <PropertyRef Name="InvTrxTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvPoHdrStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="InvPoHdrs" Relationship="InvDB.InvPoHdrStatusInvPoHdr" FromRole="InvPoHdrStatus" ToRole="InvPoHdr" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="OrderNo" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvPoHdrStatusInvPoHdr">
+          <End Type="InvDB.InvPoHdrStatus" Role="InvPoHdrStatus" Multiplicity="1" />
+          <End Type="InvDB.InvPoHdr" Role="InvPoHdr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvPoHdrStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvPoHdr">
+              <PropertyRef Name="InvPoHdrStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvTrxHdrStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" Nullable="false" />
+          <Property Name="OrderNo" Type="String" Nullable="false" />
+          <NavigationProperty Name="InvTrxHdrs" Relationship="InvDB.InvTrxHdrStatusInvTrxHdr" FromRole="InvTrxHdrStatus" ToRole="InvTrxHdr" />
+        </EntityType>
+        <Association Name="InvTrxHdrStatusInvTrxHdr">
+          <End Type="InvDB.InvTrxHdrStatus" Role="InvTrxHdrStatus" Multiplicity="1" />
+          <End Type="InvDB.InvTrxHdr" Role="InvTrxHdr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvTrxHdrStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvTrxHdr">
+              <PropertyRef Name="InvTrxHdrStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1452,8 +1558,8 @@
           <ScalarProperty Name="InvSupplierId" ColumnName="InvSupplierId" />
           <ScalarProperty Name="InvStoreId" ColumnName="InvStoreId" />
           <ScalarProperty Name="DtPo" ColumnName="DtPo" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="InvPoHdrStatusId" ColumnName="InvPoHdrStatusId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1556,6 +1662,7 @@
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="InvTrxTypeId" ColumnName="InvTrxTypeId" />
+          <ScalarProperty Name="InvTrxHdrStatusId" ColumnName="InvTrxHdrStatusId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1575,6 +1682,24 @@
         <MappingFragment StoreEntitySet="InvTrxTypes">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvPoHdrStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvPoHdrStatus)">
+        <MappingFragment StoreEntitySet="InvPoHdrStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvTrxHdrStatus">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvTrxHdrStatus)">
+        <MappingFragment StoreEntitySet="InvTrxHdrStatus">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

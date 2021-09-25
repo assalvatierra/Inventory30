@@ -24,12 +24,13 @@ namespace WebDBSchema.Models
         public int InvSupplierId { get; set; }
         public int InvStoreId { get; set; }
         public System.DateTime DtPo { get; set; }
-        public string Status { get; set; }
         public string UserId { get; set; }
+        public int InvPoHdrStatusId { get; set; }
     
         public virtual InvSupplier InvSupplier { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvPoItem> InvPoItems { get; set; }
         public virtual InvStore InvStore { get; set; }
+        public virtual InvPoHdrStatus InvPoHdrStatu { get; set; }
     }
 }

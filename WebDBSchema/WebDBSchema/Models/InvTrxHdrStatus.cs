@@ -12,27 +12,19 @@ namespace WebDBSchema.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class InvTrxHdr
+    public partial class InvTrxHdrStatus
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public InvTrxHdr()
+        public InvTrxHdrStatus()
         {
-            this.InvTrxDtls = new HashSet<InvTrxDtl>();
+            this.InvTrxHdrs = new HashSet<InvTrxHdr>();
         }
     
         public int Id { get; set; }
-        public int InvStoreId { get; set; }
-        public System.DateTime DtTrx { get; set; }
         public string Status { get; set; }
-        public string UserId { get; set; }
-        public string Remarks { get; set; }
-        public int InvTrxTypeId { get; set; }
-        public int InvTrxHdrStatusId { get; set; }
+        public string OrderNo { get; set; }
     
-        public virtual InvStore InvStore { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvTrxDtl> InvTrxDtls { get; set; }
-        public virtual InvTrxType InvTrxType { get; set; }
-        public virtual InvTrxHdrStatus InvTrxHdrStatu { get; set; }
+        public virtual ICollection<InvTrxHdr> InvTrxHdrs { get; set; }
     }
 }

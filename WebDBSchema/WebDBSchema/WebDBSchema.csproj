@@ -232,6 +232,9 @@
     <Compile Include="Models\InvPoHdr.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvPoHdrStatus.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvPoItem.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
@@ -260,6 +263,9 @@
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvTrxHdr.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvTrxHdrStatus.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvTrxType.cs">
