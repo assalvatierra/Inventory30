@@ -1,0 +1,61 @@
+﻿@page
+@model InvWeb.Pages.Stores.Receiving.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>InvTrxHdr</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.DtTrx)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.DtTrx)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.UserId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.UserId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.Remarks)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.Remarks)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.InvStore)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.InvStore.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.InvTrxType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxType.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.InvTrxHdrStatu)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxHdrStatu.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.InvTrxHdr.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

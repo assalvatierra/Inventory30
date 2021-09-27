@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,13 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Stores
-{
-    public class MainModel : PageModel
-    {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
 
-        public MainModel(InvWeb.Data.ApplicationDbContext context)
+namespace InvWeb.Pages.Stores.Main
+{
+    public class IndexModel : PageModel
+    {
+        private readonly ApplicationDbContext _context;
+
+        public IndexModel(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -34,6 +35,8 @@ namespace InvWeb.Pages.Stores
             {
                 return NotFound();
             }
+
+            ViewData["StoreId"] = id;
             return Page();
         }
     }

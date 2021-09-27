@@ -10,7 +10,7 @@
 <h3>Supplier Items</h3>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create" asp-route-id="@ViewBag.SupplierId">Create New</a>
 </p>
 @if (Model != null)
 {

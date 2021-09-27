@@ -1,0 +1,45 @@
+﻿@page "{id:int?}"
+@model InvWeb.Pages.Stores.Main.IndexModel
+
+@{
+    ViewData["Title"] = "Main";
+}
+
+<h1>
+    @Html.DisplayFor(model => model.InvStore.StoreName)
+</h1>
+
+<div>
+    <h4>InvStore</h4>
+    <hr />
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Receiving</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Receiving Items</h6>
+                <a asp-page="../Receiving/Index" asp-route-storeId="@ViewBag.StoreId" class="card-link">Go to list</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Releasing</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Releasing Items</h6>
+                <a asp-page="../Releasing/Index" asp-route-storeId="@ViewBag.StoreId" class="card-link">Go to list</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Requesting</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Request Puchase Orders </h6>
+                <a asp-page="../PoRequest/Index" asp-route-storeId="@ViewBag.StoreId" class="card-link">Go to list</a>
+            </div>
+        </div>
+    </div>
+</div>

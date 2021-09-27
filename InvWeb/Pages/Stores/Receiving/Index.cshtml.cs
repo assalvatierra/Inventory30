@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.SupplierItems
+namespace InvWeb.Pages.Stores.Receiving
 {
     public class IndexModel : PageModel
     {
@@ -19,21 +19,20 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
             _context = context;
         }
 
-        public IList<InvSupplierItem> InvSupplierItem { get;set; }
+        public IList<InvTrxHdr> InvTrxHdr { get;set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<ActionResult> OnGetAsync(int? storeId )
         {
-            if (id == null)
+            if (storeId == null)
             {
                 return NotFound();
             }
 
-            InvSupplierItem = await _context.InvSupplierItems
-                .Include(i => i.InvItem) 
-                .Include(i => i.InvSupplier).ToListAsync();
+            InvTrxHdr = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType).ToListAsync();
 
-            ViewData["Supplier"] = _context.InvSuppliers.Find(id).Name;
-            ViewData["SupplierId"] = id;
             return Page();
         }
     }

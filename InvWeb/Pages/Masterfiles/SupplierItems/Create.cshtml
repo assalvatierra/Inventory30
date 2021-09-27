@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 @model InvWeb.Pages.Masterfiles.SupplierItems.CreateModel
 
 @{
@@ -39,7 +39,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="InvSupplierItem.LeadTime" class="control-label"></label>
-                <input asp-for="InvSupplierItem.LeadTime" class="form-control timepicker" />
+                <input asp-for="InvSupplierItem.LeadTime" class="form-control" />
                 <span asp-validation-for="InvSupplierItem.LeadTime" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -55,7 +55,7 @@
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="./Index" asp-route-id="@ViewBag.SupplierId">Back to List</a>
 </div>
 
 @section Scripts {

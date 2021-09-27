@@ -1,0 +1,65 @@
+﻿@page
+@model InvWeb.Pages.Stores.Receiving.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>InvTrxHdr</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InvTrxHdr.Id" />
+            <div class="form-group">
+                <label asp-for="InvTrxHdr.InvStoreId" class="control-label"></label>
+                <select asp-for="InvTrxHdr.InvStoreId" class="form-control" asp-items="ViewBag.InvStoreId"></select>
+                <span asp-validation-for="InvTrxHdr.InvStoreId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvTrxHdr.DtTrx" class="control-label"></label>
+                <input asp-for="InvTrxHdr.DtTrx" class="form-control" />
+                <span asp-validation-for="InvTrxHdr.DtTrx" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvTrxHdr.Status" class="control-label"></label>
+                <input asp-for="InvTrxHdr.Status" class="form-control" />
+                <span asp-validation-for="InvTrxHdr.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvTrxHdr.UserId" class="control-label"></label>
+                <input asp-for="InvTrxHdr.UserId" class="form-control" />
+                <span asp-validation-for="InvTrxHdr.UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvTrxHdr.Remarks" class="control-label"></label>
+                <input asp-for="InvTrxHdr.Remarks" class="form-control" />
+                <span asp-validation-for="InvTrxHdr.Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvTrxHdr.InvTrxTypeId" class="control-label"></label>
+                <select asp-for="InvTrxHdr.InvTrxTypeId" class="form-control" asp-items="ViewBag.InvTrxTypeId"></select>
+                <span asp-validation-for="InvTrxHdr.InvTrxTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvTrxHdr.InvTrxHdrStatusId" class="control-label"></label>
+                <select asp-for="InvTrxHdr.InvTrxHdrStatusId" class="form-control" asp-items="ViewBag.InvTrxHdrStatusId"></select>
+                <span asp-validation-for="InvTrxHdr.InvTrxHdrStatusId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

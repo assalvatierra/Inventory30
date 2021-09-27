@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data;
 using WebDBSchema.Models;
-using System.Security.Claims;
 
-namespace InvWeb.Pages.Masterfiles.SupplierItems
+namespace InvWeb.Pages.Stores.Releasing
 {
     public class CreateModel : PageModel
     {
@@ -20,23 +19,16 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
             _context = context;
         }
 
-        public IActionResult OnGet(int? id)
+        public IActionResult OnGet()
         {
-            if (id == null)
-            {
-                RedirectToAction("../Supplier/Index");
-            }
-
-            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
-            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
-
-            ViewData["UserId"] = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            ViewData["SupplierId"] = id;
+            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
+            ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
+            ViewData["InvTrxTypeId"] = new SelectList(_context.Set<InvTrxType>(), "Id", "Type");
             return Page();
         }
 
         [BindProperty]
-        public InvSupplierItem InvSupplierItem { get; set; }
+        public InvTrxHdr InvTrxHdr { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -46,10 +38,10 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
                 return Page();
             }
 
-            _context.InvSupplierItems.Add(InvSupplierItem);
+            _context.InvTrxHdrs.Add(InvTrxHdr);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index", new { id = InvSupplierItem.InvSupplierId });
+            return RedirectToPage("./Index");
         }
     }
 }

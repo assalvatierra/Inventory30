@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.SupplierItems
+namespace InvWeb.Pages.Stores.Releasing
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
         }
 
         [BindProperty]
-        public InvSupplierItem InvSupplierItem { get; set; }
+        public InvTrxHdr InvTrxHdr { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,16 +30,18 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
                 return NotFound();
             }
 
-            InvSupplierItem = await _context.InvSupplierItems
-                .Include(i => i.InvItem)
-                .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == id);
+            InvTrxHdr = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvSupplierItem == null)
+            if (InvTrxHdr == null)
             {
                 return NotFound();
             }
-           ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Id");
-           ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Id");
+            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
+            ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
+            ViewData["InvTrxTypeId"] = new SelectList(_context.Set<InvTrxType>(), "Id", "Type");
             return Page();
         }
 
@@ -52,7 +54,7 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
                 return Page();
             }
 
-            _context.Attach(InvSupplierItem).State = EntityState.Modified;
+            _context.Attach(InvTrxHdr).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +62,7 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvSupplierItemExists(InvSupplierItem.Id))
+                if (!InvTrxHdrExists(InvTrxHdr.Id))
                 {
                     return NotFound();
                 }
@@ -70,12 +72,12 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
                 }
             }
 
-            return RedirectToPage("./Index", new { id = InvSupplierItem.InvSupplierId });
+            return RedirectToPage("./Index");
         }
 
-        private bool InvSupplierItemExists(int id)
+        private bool InvTrxHdrExists(int id)
         {
-            return _context.InvSupplierItems.Any(e => e.Id == id);
+            return _context.InvTrxHdrs.Any(e => e.Id == id);
         }
     }
 }
