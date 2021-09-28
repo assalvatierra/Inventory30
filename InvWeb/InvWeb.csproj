@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.7" />
@@ -21,6 +22,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
@@ -29,10 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Store\InvPoRequest\" />
-    <Folder Include="Pages\Store\Receiving\" />
-    <Folder Include="Pages\Store\Reports\" />
-    <Folder Include="Pages\Store\Releasing\" />
+    <Folder Include="Pages\Stores\PoRequest\" />
+    <Folder Include="Pages\Stores\Reports\" />
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-
 namespace InvWeb.Pages.Stores.Main
 {
     public class IndexModel : PageModel
@@ -24,6 +23,7 @@ namespace InvWeb.Pages.Stores.Main
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+          
             if (id == null)
             {
                 return NotFound();
@@ -39,5 +39,14 @@ namespace InvWeb.Pages.Stores.Main
             ViewData["StoreId"] = id;
             return Page();
         }
+
+        #region Services
+
+        private async Task<IEnumerable<InvItem>> GetInventory()
+        {
+
+        }
+
+        #endregion
     }
 }

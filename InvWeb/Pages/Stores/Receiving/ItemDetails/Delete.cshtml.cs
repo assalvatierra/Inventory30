@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Stores.Receiving
+namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 {
     public class DeleteModel : PageModel
     {
@@ -20,7 +20,7 @@ namespace InvWeb.Pages.Stores.Receiving
         }
 
         [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
+        public InvTrxDtl InvTrxDtl { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,12 +29,12 @@ namespace InvWeb.Pages.Stores.Receiving
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
+            InvTrxDtl = await _context.InvTrxDtls
+                .Include(i => i.InvItem)
+                .Include(i => i.InvTrxHdr)
+                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvTrxHdr == null)
+            if (InvTrxDtl == null)
             {
                 return NotFound();
             }
@@ -48,15 +48,15 @@ namespace InvWeb.Pages.Stores.Receiving
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs.FindAsync(id);
+            InvTrxDtl = await _context.InvTrxDtls.FindAsync(id);
 
-            if (InvTrxHdr != null)
+            if (InvTrxDtl != null)
             {
-                _context.InvTrxHdrs.Remove(InvTrxHdr);
+                _context.InvTrxDtls.Remove(InvTrxDtl);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId });
+            return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
         }
     }
 }

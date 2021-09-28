@@ -22,7 +22,7 @@ namespace WebDBSchema.Models
     
         public int Id { get; set; }
         public string Status { get; set; }
-        public string OrderNo { get; set; }
+        public int OrderNo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvTrxHdr> InvTrxHdrs { get; set; }

@@ -21,6 +21,8 @@ namespace InvWeb.Pages.Stores.Receiving
 
         public IList<InvTrxHdr> InvTrxHdr { get;set; }
 
+        private int TYPE_RECEIVING = 1;
+
         public async Task<ActionResult> OnGetAsync(int? storeId )
         {
             if (storeId == null)
@@ -31,8 +33,11 @@ namespace InvWeb.Pages.Stores.Receiving
             InvTrxHdr = await _context.InvTrxHdrs
                 .Include(i => i.InvStore)
                 .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType).ToListAsync();
+                .Include(i => i.InvTrxType)
+                .Where(  i => i.InvTrxTypeId == TYPE_RECEIVING)
+                .ToListAsync();
 
+            ViewData["StoreId"] = storeId;
             return Page();
         }
     }

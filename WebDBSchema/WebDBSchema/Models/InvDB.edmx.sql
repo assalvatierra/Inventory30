@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/25/2021 15:01:20
+-- Date Created: 09/28/2021 10:34:57
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [C:\Users\Acer-PC\Documents\GitHub\Inventory30\DBFiles\InvDB3.mdf];
+USE [C:\USERS\ACER-PC\DOCUMENTS\GITHUB\INVENTORY30\DBFILES\INVDB3.MDF];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -95,9 +95,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvTrxHdrInvTrxDtl]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvTrxHdrInvTrxDtl];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemInvTrxDtl]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvItemInvTrxDtl];
-GO
 IF OBJECT_ID(N'[dbo].[FK_InvUomInvTrxDtl]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvUomInvTrxDtl];
 GO
@@ -109,6 +106,9 @@ IF OBJECT_ID(N'[dbo].[FK_InvPoHdrStatusInvPoHdr]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_InvTrxHdrStatusInvTrxHdr]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvTrxHdrs] DROP CONSTRAINT [FK_InvTrxHdrStatusInvTrxHdr];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvTrxDtl]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvItemInvTrxDtl];
 GO
 
 -- --------------------------------------------------
@@ -329,9 +329,8 @@ CREATE TABLE [dbo].[InvTrxHdrs] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [InvStoreId] int  NOT NULL,
     [DtTrx] datetime  NOT NULL,
-    [Status] nvarchar(max)  NOT NULL,
     [UserId] nvarchar(80)  NOT NULL,
-    [Remarks] nvarchar(120)  NOT NULL,
+    [Remarks] nvarchar(120)  NULL,
     [InvTrxTypeId] int  NOT NULL,
     [InvTrxHdrStatusId] int  NOT NULL
 );
@@ -341,9 +340,9 @@ GO
 CREATE TABLE [dbo].[InvTrxDtls] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [InvTrxHdrId] int  NOT NULL,
-    [InvItemId] int  NOT NULL,
     [InvUomId] int  NOT NULL,
-    [ItemQty] int  NOT NULL
+    [ItemQty] int  NOT NULL,
+    [InvItemId] int  NOT NULL
 );
 GO
 
@@ -365,8 +364,8 @@ GO
 -- Creating table 'InvTrxHdrStatus'
 CREATE TABLE [dbo].[InvTrxHdrStatus] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Status] nvarchar(max)  NOT NULL,
-    [OrderNo] nvarchar(max)  NOT NULL
+    [Status] nvarchar(20)  NOT NULL,
+    [OrderNo] int  NOT NULL
 );
 GO
 
@@ -888,21 +887,6 @@ ON [dbo].[InvTrxDtls]
     ([InvTrxHdrId]);
 GO
 
--- Creating foreign key on [InvItemId] in table 'InvTrxDtls'
-ALTER TABLE [dbo].[InvTrxDtls]
-ADD CONSTRAINT [FK_InvItemInvTrxDtl]
-    FOREIGN KEY ([InvItemId])
-    REFERENCES [dbo].[InvItems]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvTrxDtl'
-CREATE INDEX [IX_FK_InvItemInvTrxDtl]
-ON [dbo].[InvTrxDtls]
-    ([InvItemId]);
-GO
-
 -- Creating foreign key on [InvUomId] in table 'InvTrxDtls'
 ALTER TABLE [dbo].[InvTrxDtls]
 ADD CONSTRAINT [FK_InvUomInvTrxDtl]
@@ -961,6 +945,21 @@ GO
 CREATE INDEX [IX_FK_InvTrxHdrStatusInvTrxHdr]
 ON [dbo].[InvTrxHdrs]
     ([InvTrxHdrStatusId]);
+GO
+
+-- Creating foreign key on [InvItemId] in table 'InvTrxDtls'
+ALTER TABLE [dbo].[InvTrxDtls]
+ADD CONSTRAINT [FK_InvItemInvTrxDtl]
+    FOREIGN KEY ([InvItemId])
+    REFERENCES [dbo].[InvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvTrxDtl'
+CREATE INDEX [IX_FK_InvItemInvTrxDtl]
+ON [dbo].[InvTrxDtls]
+    ([InvItemId]);
 GO
 
 -- --------------------------------------------------

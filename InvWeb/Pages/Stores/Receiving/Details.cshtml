@@ -3,25 +3,24 @@
 
 @{
     ViewData["Title"] = "Details";
+    IEnumerable<WebDBSchema.Models.InvTrxDtl> invTrxDtls = ViewBag.InvTrxDtls;
 }
 
 <h1>Details</h1>
 
 <div>
     <h4>InvTrxHdr</h4>
+    <div>
+        <a asp-page="./Edit" asp-route-id="@Model.InvTrxHdr.Id">Edit</a> |
+        <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId">Back to List</a>
+    </div>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InvTrxHdr.DtTrx)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.DtTrx)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.Status)
+            @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InvTrxHdr.UserId)
@@ -39,23 +38,62 @@
             @Html.DisplayNameFor(model => model.InvTrxHdr.InvStore)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.InvStore.Id)
+            @Html.DisplayFor(model => model.InvTrxHdr.InvStore.StoreName)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InvTrxHdr.InvTrxType)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxType.Id)
+            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxType.Type)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InvTrxHdr.InvTrxHdrStatu)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxHdrStatu.Id)
+            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxHdrStatu.Status)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.InvTrxHdr.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+<hr />
+<h4> Items </h4>
+<p>
+    <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvTrxHdr.Id">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                InvItem
+            </th>
+            <th>
+                ItemQty
+            </th>
+            <th>
+                InvUom
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in invTrxDtls)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemQty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvUom.uom)
+                </td>
+                <td>
+                    <a asp-page="./ItemDetails/Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./ItemDetails/Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./ItemDetails/Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

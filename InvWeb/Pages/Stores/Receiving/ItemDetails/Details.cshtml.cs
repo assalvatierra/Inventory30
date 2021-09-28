@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Stores.Receiving
+namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 {
     public class DetailsModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace InvWeb.Pages.Stores.Receiving
             _context = context;
         }
 
-        public InvTrxHdr InvTrxHdr { get; set; }
+        public InvTrxDtl InvTrxDtl { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,18 +28,12 @@ namespace InvWeb.Pages.Stores.Receiving
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxDtls)
-                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
-
-            ViewData["InvTrxDtls"] = await _context.InvTrxDtls.Where(i => i.InvTrxHdrId == id)
+            InvTrxDtl = await _context.InvTrxDtls
                 .Include(i => i.InvItem)
-                .Include(i => i.InvUom)
-                .ToListAsync();
+                .Include(i => i.InvTrxHdr)
+                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvTrxHdr == null)
+            if (InvTrxDtl == null)
             {
                 return NotFound();
             }

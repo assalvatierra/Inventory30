@@ -7,10 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data;
 using WebDBSchema.Models;
-using System.Security.Claims;
-using Microsoft.AspNet.Identity;
 
-namespace InvWeb.Pages.Stores.Receiving
+namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 {
     public class CreateModel : PageModel
     {
@@ -21,19 +19,22 @@ namespace InvWeb.Pages.Stores.Receiving
             _context = context;
         }
 
-        public IActionResult OnGet(int? storeId)
+        public IActionResult OnGet(int? hdrId)
         {
+            if (hdrId == null) 
+            {
+                hdrId = hdrId ?? 0;
+            }
 
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
-            ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1);
-            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
-            ViewData["StoreId"] = storeId ?? 0;
+            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+            ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
+            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["HdrId"] = hdrId;
             return Page();
         }
 
         [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
+        public InvTrxDtl InvTrxDtl { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -43,10 +44,10 @@ namespace InvWeb.Pages.Stores.Receiving
                 return Page();
             }
 
-            _context.InvTrxHdrs.Add(InvTrxHdr);
+            _context.InvTrxDtls.Add(InvTrxDtl);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId });
+            return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
         }
     }
 }

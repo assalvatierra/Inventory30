@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - InvWeb</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="~/lib/dtpicker/daterangepicker.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/sidebar.css" />
 </head>
@@ -104,10 +104,10 @@
                 </li>
                 <li class="dropdown-container">
                     <a href="/Stores/Main/2">Go to MyStore</a>
-                    <a href="/Stores/Receiving">Receiving</a>
-                    <a href="/Stores/Releasing">Releasing</a>
-                    <a href="/Stores/PoRequest">Purchase Request</a>
-                    <a href="/Stores/Reports">Inventory Reports</a>
+                    <a href="/Stores/Receiving/2">Receiving</a>
+                    <a href="/Stores/Releasing/2">Releasing</a>
+                    <a href="/Stores/PoRequest/2">Purchase Request</a>
+                    <a href="/Stores/Reports/2">  Inventory Reports</a>
                 </li>
             </ul>
         </nav>
@@ -135,12 +135,11 @@
                     @RenderBody()
                 </main>
             </div>
-
-            <footer class="border-top footer text-muted">
-                <div class="container" style="text-align:center;">
-                    &copy; 2021 - InvWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
-                </div>
-            </footer>
+                <footer class="border-top footer text-muted">
+                    <div class="container" style="text-align:center;">
+                        &copy; 2021 - InvWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
+                    </div>
+                </footer>
         </div>
     </div>
 
@@ -148,8 +147,8 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/daterangepicker/moment.min.js"></script>
-    <script src="~/lib/daterangepicker/daterangepicker.js"></script>
+    <script src="~/lib/dtpicker/moment.min.js"></script>
+    <script src="~/lib/dtpicker/daterangepicker.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/datepicker.js"></script>
