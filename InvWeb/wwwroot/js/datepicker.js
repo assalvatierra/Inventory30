@@ -2,15 +2,12 @@
 // Reference: https://www.daterangepicker.com
 
 
-$(() => {
-    //set default 
-    $('.timepicker').val(moment().format("hh:mm A"));
-});
-
-
-$(() => {
-    //set default 
-    $('.datetimepicker').val(moment().format("MMM DD YYYY HH:mm A"));
+$(document).ready(() => {
+    setInterval(function () {
+        $('.timepicker').val(moment().format("hh:mm A"));
+        $('.datetimepicker').val(moment().format("MMM DD YYYY HH:mm A"));
+        $('.datepicker').val(moment().format("MMM DD YYYY"));
+    }, 1000);
 });
 
 

@@ -229,6 +229,10 @@ a.article:hover {
 .header-login ul li  {
     margin:5px;
 }
+
+.footer {
+position: relative;
+}
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
