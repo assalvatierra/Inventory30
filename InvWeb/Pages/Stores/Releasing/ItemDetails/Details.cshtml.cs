@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Stores.Releasing
+namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
     public class DetailsModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace InvWeb.Pages.Stores.Releasing
             _context = context;
         }
 
-        public InvTrxHdr InvTrxHdr { get; set; }
+        public InvTrxDtl InvTrxDtl { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,23 +28,15 @@ namespace InvWeb.Pages.Stores.Releasing
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxDtls)
-                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
+            InvTrxDtl = await _context.InvTrxDtls
+                .Include(i => i.InvItem)
+                .Include(i => i.InvTrxHdr)
+                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvTrxHdr == null)
+            if (InvTrxDtl == null)
             {
                 return NotFound();
             }
-
-            ViewData["InvTrxDtls"] = await _context.InvTrxDtls
-                .Where(i => i.InvTrxHdrId == id)
-                .Include(i => i.InvUom)
-                .Include(i => i.InvItem)
-                .ToListAsync();
-
             return Page();
         }
     }

@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{storeId:int?}"
 @model InvWeb.Pages.Stores.Releasing.IndexModel
 
 @{
@@ -8,16 +8,16 @@
 <h1>Releasing</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="../Main/Index" asp-route-id="@ViewBag.StoreId">Go back to MyStore</a>
+</p>
+<p>
+    <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.InvTrxHdr[0].DtTrx)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvTrxHdr[0].Status)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InvTrxHdr[0].UserId)
@@ -29,44 +29,42 @@
                 @Html.DisplayNameFor(model => model.InvTrxHdr[0].InvStore)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvTrxHdr[0].InvTrxType)
+                Type
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvTrxHdr[0].InvTrxHdrStatu)
+                Status
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.InvTrxHdr) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DtTrx)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvStore.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvTrxType.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvTrxHdrStatu.Id)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.InvTrxHdr)
+        {
+            <tr>
+                <td>
+                    @item.DtTrx.ToString("MMM dd yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvStore.StoreName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvTrxType.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvTrxHdrStatu.Status)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

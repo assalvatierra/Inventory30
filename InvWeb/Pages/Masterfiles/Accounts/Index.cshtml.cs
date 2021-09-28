@@ -22,14 +22,7 @@ namespace InvWeb.Pages.Masterfiles.Accounts
 
         public void OnGet()
         {
-            var users = _context.Users.ToList().Select(p => new AppUser()
-
-            {
-                Id = p.Id,
-                Username = p.UserName,
-                Email = p.Email,
-                Role = string.Join(",", "Role")
-            });
+           
 
             var usersWithRoles = (from user in _context.Users
                                   select new

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data;
 using WebDBSchema.Models;
+using System.Security.Claims;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
@@ -19,11 +20,19 @@ namespace InvWeb.Pages.Stores.Releasing
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int? storeId)
         {
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
+            if (storeId == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName", storeId);
             ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(_context.Set<InvTrxType>(), "Id", "Type");
+            ViewData["InvTrxTypeId"] = new SelectList(_context.invTrxTypes, "Id", "Type", 2);
+            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
+            ViewData["StoreId"] = storeId;
+
             return Page();
         }
 

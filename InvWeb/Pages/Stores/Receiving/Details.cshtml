@@ -6,10 +6,10 @@
     IEnumerable<WebDBSchema.Models.InvTrxDtl> invTrxDtls = ViewBag.InvTrxDtls;
 }
 
-<h1>Details</h1>
+<h1>Receiving</h1>
 
 <div>
-    <h4>InvTrxHdr</h4>
+    <h4> Transaction Header</h4>
     <div>
         <a asp-page="./Edit" asp-route-id="@Model.InvTrxHdr.Id">Edit</a> |
         <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId">Back to List</a>
@@ -29,12 +29,6 @@
             @Html.DisplayFor(model => model.InvTrxHdr.UserId)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.Remarks)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.Remarks)
-        </dd>
-        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InvTrxHdr.InvStore)
         </dt>
         <dd class="col-sm-10">
@@ -52,10 +46,16 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.InvTrxHdr.InvTrxHdrStatu.Status)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.Remarks)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.Remarks)
+        </dd>
     </dl>
 </div>
 <hr />
-<h4> Items </h4>
+<h4> Transaction Details</h4>
 <p>
     <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvTrxHdr.Id">Create New</a>
 </p>
@@ -85,7 +85,7 @@
                     @Html.DisplayFor(modelItem => item.ItemQty)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvUom.uom)
+                    @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
                 </td>
                 <td>
                     <a asp-page="./ItemDetails/Edit" asp-route-id="@item.Id">Edit</a> |
