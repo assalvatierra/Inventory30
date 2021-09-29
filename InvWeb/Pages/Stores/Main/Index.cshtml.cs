@@ -50,6 +50,7 @@ namespace InvWeb.Pages.Stores.Main
         private async Task<IEnumerable<StoreInvCount>> GetInventory(int storeId)
         {
             var invItems = await _context.InvItems.ToListAsync();
+          
 
             var Received = await _context.InvTrxDtls
                 .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&

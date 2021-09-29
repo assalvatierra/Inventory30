@@ -32,7 +32,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
                 .Include(i => i.InvPoHdrStatu)
                 .Include(i => i.InvStore)
                 .Include(i => i.InvSupplier)
-                .Where(  i => i.InvStoreId == storeId)
+                  .Where(i => i.InvStoreId == storeId)
                 .ToListAsync();
 
             ViewData["StoreId"] = storeId;

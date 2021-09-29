@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 @model InvWeb.Pages.Stores.Releasing.DetailsModel
 
 @{
@@ -6,13 +6,13 @@
     IEnumerable<WebDBSchema.Models.InvTrxDtl> invTrxDtls = ViewBag.InvTrxDtls;
 }
 
-<h1>Releasing Details</h1>
+<h1>Releasing Details : @Model.InvTrxHdr.InvStoreId </h1>
 
 <div>
     <h4> Transaction Header</h4>
     <div>
         <a asp-page="./Edit" asp-route-id="@Model.InvTrxHdr.Id">Edit</a> |
-        <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId">Back to List</a>
+        <a asp-page="../Index" asp-route-id="@Model.InvTrxHdr.InvStoreId">Back to List</a>
     </div>
 
     <hr />

@@ -11,14 +11,14 @@
 </h1>
 
 <div>
-    <h4>InvStore</h4>
+    <h4>Store</h4>
 
     <hr />
 </div>
 
 <div class="row">
-    <div class="col-md-3">
-        <div class="card" style="width: 18rem;">
+    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+        <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Receiving</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Receiving Items</h6>
@@ -26,8 +26,8 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card" style="width: 18rem;">
+    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+        <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Releasing</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Releasing Items</h6>
@@ -35,43 +35,67 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card" style="width: 18rem;">
+    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+        <div class="card" >
             <div class="card-body">
-                <h5 class="card-title">Requesting</h5>
+                <h5 class="card-title">Purchase Request</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Request Puchase Orders </h6>
                 <a asp-page="../PurchaseRequest/Index" asp-route-storeId="@ViewBag.StoreId" class="card-link">Go to list</a>
             </div>
         </div>
     </div>
+    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6" >
+        <div class="card" >
+            <div class="card-body">
+                <h5 class="card-title">Adjustment</h5>
+                <h6 class="card-subtitle mb-2 text-muted"> Inventory Adjustment </h6>
+                @*<a asp-page="../Adjustment/Index" asp-route-storeId="@ViewBag.StoreId" class="card-link">Go to list</a>*@
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+        <div class="card" >
+            <div class="card-body">
+                <h5 class="card-title">Reports</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Inventory Reports </h6>
+                @*<a asp-page="../Adjustment/Index" asp-route-storeId="@ViewBag.StoreId" class="card-link">Go to list</a>*@
+            </div>
+        </div>
+    </div>
 </div>
 <br />
-<div>
-    <h4>Store Items</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Item
-                </th>
-                <th>
-                    Qty
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in storeInvs)
-            {
-                <tr>
-                    <td>
-                        @item.Description
-                    </td>
-                    <td>
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h4>Store Items</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Item
+                            </th>
+                            <th>
+                                Qty
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in storeInvs)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Description
+                                </td>
+                                <td>
 
-                        @item.Count
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                                    @item.Count
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
