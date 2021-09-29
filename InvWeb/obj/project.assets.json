@@ -11,7 +11,7 @@
           "lib/netstandard2.0/Humanizer.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Cryptography.Internal/5.0.7": {
+      "Microsoft.AspNetCore.Cryptography.Internal/5.0.10": {
         "type": "package",
         "compile": {
           "lib/net5.0/Microsoft.AspNetCore.Cryptography.Internal.dll": {}
@@ -20,10 +20,10 @@
           "lib/net5.0/Microsoft.AspNetCore.Cryptography.Internal.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Cryptography.KeyDerivation/5.0.7": {
+      "Microsoft.AspNetCore.Cryptography.KeyDerivation/5.0.10": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNetCore.Cryptography.Internal": "5.0.7"
+          "Microsoft.AspNetCore.Cryptography.Internal": "5.0.10"
         },
         "compile": {
           "lib/net5.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll": {}
@@ -644,10 +644,10 @@
           "buildMultiTargeting/_._": {}
         }
       },
-      "Microsoft.Extensions.Identity.Core/5.0.7": {
+      "Microsoft.Extensions.Identity.Core/5.0.10": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNetCore.Cryptography.KeyDerivation": "5.0.7",
+          "Microsoft.AspNetCore.Cryptography.KeyDerivation": "5.0.10",
           "Microsoft.Extensions.Logging": "5.0.0",
           "Microsoft.Extensions.Options": "5.0.0"
         },
@@ -2172,10 +2172,10 @@
         "logo.png"
       ]
     },
-    "Microsoft.AspNetCore.Cryptography.Internal/5.0.7": {
-      "sha512": "Dy1QDtoi+GqacAtALy70Mvl/T2p62b0tIautob4aAXYztBr1Ag/ibn+dn2uRtZgMry7nokKmjs2thC0ta6ookw==",
+    "Microsoft.AspNetCore.Cryptography.Internal/5.0.10": {
+      "sha512": "xqdkq+lsWeVBxGq0bwgQeT1inqdFErG/McEBNqFVw0hnNQKxWaGPuBDFc8JBQC82Qn6+V1utI3lWvFmUMGEc8Q==",
       "type": "package",
-      "path": "microsoft.aspnetcore.cryptography.internal/5.0.7",
+      "path": "microsoft.aspnetcore.cryptography.internal/5.0.10",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2187,14 +2187,14 @@
         "lib/net5.0/Microsoft.AspNetCore.Cryptography.Internal.xml",
         "lib/netstandard2.0/Microsoft.AspNetCore.Cryptography.Internal.dll",
         "lib/netstandard2.0/Microsoft.AspNetCore.Cryptography.Internal.xml",
-        "microsoft.aspnetcore.cryptography.internal.5.0.7.nupkg.sha512",
+        "microsoft.aspnetcore.cryptography.internal.5.0.10.nupkg.sha512",
         "microsoft.aspnetcore.cryptography.internal.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Cryptography.KeyDerivation/5.0.7": {
-      "sha512": "8SqizBy3fzJUHbfozuXHGx0opX//feDJGASnrnaCKQX5NoP/+Bt/Ih+Gspr8+6CX2gJTBwB8w5bhNG2LvDq1EQ==",
+    "Microsoft.AspNetCore.Cryptography.KeyDerivation/5.0.10": {
+      "sha512": "iXsPFNrM6cVGx/zCkz88nDP/pUKn/ni13B6JQhLwOoqI+tsA1x6fVfPp0MKnQtx5AZngGzuNMx+AYR1ED9ZVeg==",
       "type": "package",
-      "path": "microsoft.aspnetcore.cryptography.keyderivation/5.0.7",
+      "path": "microsoft.aspnetcore.cryptography.keyderivation/5.0.10",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2206,7 +2206,7 @@
         "lib/net5.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.xml",
         "lib/netstandard2.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll",
         "lib/netstandard2.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.xml",
-        "microsoft.aspnetcore.cryptography.keyderivation.5.0.7.nupkg.sha512",
+        "microsoft.aspnetcore.cryptography.keyderivation.5.0.10.nupkg.sha512",
         "microsoft.aspnetcore.cryptography.keyderivation.nuspec"
       ]
     },
@@ -3079,10 +3079,10 @@
         "tasks/netstandard2.0/Microsoft.Extensions.FileProviders.Embedded.Manifest.Task.dll"
       ]
     },
-    "Microsoft.Extensions.Identity.Core/5.0.7": {
-      "sha512": "v4ql2n5v6i33OKSRUfOuTaTAGvYbdzx/IAY13ert0he7+VIckLGo1KV6ns7VAfnCAowFDoQlK88mrEJ7otjE4A==",
+    "Microsoft.Extensions.Identity.Core/5.0.10": {
+      "sha512": "WKl22APvpTy+wIqvUd1Gvp8FOs7nTHCZDMeMNNC6fDVfzVKWQF55vOJXbkw7dU70sC6GewE/zsqmwyJAHXgDJw==",
       "type": "package",
-      "path": "microsoft.extensions.identity.core/5.0.7",
+      "path": "microsoft.extensions.identity.core/5.0.10",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3094,7 +3094,7 @@
         "lib/net5.0/Microsoft.Extensions.Identity.Core.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Identity.Core.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Identity.Core.xml",
-        "microsoft.extensions.identity.core.5.0.7.nupkg.sha512",
+        "microsoft.extensions.identity.core.5.0.10.nupkg.sha512",
         "microsoft.extensions.identity.core.nuspec"
       ]
     },
@@ -7492,8 +7492,8 @@
     },
     "WebDBSchema/1.0.0": {
       "type": "project",
-      "path": "../../../GitHub/Inventory20/WebDBSchema/WebDBSchema/WebDBSchema.csproj",
-      "msbuildProject": "../../../GitHub/Inventory20/WebDBSchema/WebDBSchema/WebDBSchema.csproj"
+      "path": "../WebDBSchema/WebDBSchema/WebDBSchema.csproj",
+      "msbuildProject": "../WebDBSchema/WebDBSchema/WebDBSchema.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -7503,24 +7503,29 @@
       "Microsoft.AspNetCore.Identity.UI >= 5.0.7",
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.9",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.9",
+      "Microsoft.Extensions.Identity.Core >= 5.0.10",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2",
       "WebDBSchema >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Hp\\.nuget\\packages\\": {}
+    "C:\\Users\\Acer-PC\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Abel\\Razor\\Inventory\\InvWeb\\InvWeb.csproj",
+      "projectUniqueName": "C:\\Users\\Acer-PC\\Documents\\GitHub\\Inventory30\\InvWeb\\InvWeb.csproj",
       "projectName": "InvWeb",
-      "projectPath": "C:\\Abel\\Razor\\Inventory\\InvWeb\\InvWeb.csproj",
-      "packagesPath": "C:\\Users\\Hp\\.nuget\\packages\\",
-      "outputPath": "C:\\Abel\\Razor\\Inventory\\InvWeb\\obj\\",
+      "projectPath": "C:\\Users\\Acer-PC\\Documents\\GitHub\\Inventory30\\InvWeb\\InvWeb.csproj",
+      "packagesPath": "C:\\Users\\Acer-PC\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Acer-PC\\Documents\\GitHub\\Inventory30\\InvWeb\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Acer-PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7534,8 +7539,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Abel\\GitHub\\Inventory20\\WebDBSchema\\WebDBSchema\\WebDBSchema.csproj": {
-              "projectPath": "C:\\Abel\\GitHub\\Inventory20\\WebDBSchema\\WebDBSchema\\WebDBSchema.csproj"
+            "C:\\Users\\Acer-PC\\Documents\\GitHub\\Inventory30\\WebDBSchema\\WebDBSchema\\WebDBSchema.csproj": {
+              "projectPath": "C:\\Users\\Acer-PC\\Documents\\GitHub\\Inventory30\\WebDBSchema\\WebDBSchema\\WebDBSchema.csproj"
             }
           }
         }
@@ -7572,6 +7577,10 @@
             "target": "Package",
             "version": "[5.0.9, )"
           },
+          "Microsoft.Extensions.Identity.Core": {
+            "target": "Package",
+            "version": "[5.0.10, )"
+          },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[5.0.2, )"
@@ -7595,7 +7604,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

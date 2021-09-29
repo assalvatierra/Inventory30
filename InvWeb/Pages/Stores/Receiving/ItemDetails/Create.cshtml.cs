@@ -23,7 +23,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
         {
             if (hdrId == null) 
             {
-                hdrId = hdrId ?? 0;
+                hdrId ??= 0;
             }
 
             ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");

@@ -157,7 +157,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Remarks" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
     <Property Name="InvUomId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="InvItemClasses">
@@ -874,7 +874,7 @@
           <NavigationProperty Name="InvRequestItems" Relationship="InvDB.InvItemInvRequestItem" FromRole="InvItem" ToRole="InvRequestItem" />
           <NavigationProperty Name="InvAdjItems" Relationship="InvDB.InvItemInvAdjItem" FromRole="InvItem" ToRole="InvAdjItem" />
           <Property Name="Description" Type="String" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="true" />
           <NavigationProperty Name="InvUom" Relationship="InvDB.InvUomInvItem" FromRole="InvItem" ToRole="InvUom" />
           <Property Name="InvUomId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvTrxDtls" Relationship="InvDB.InvItemInvTrxDtl" FromRole="InvItem" ToRole="InvTrxDtl" />

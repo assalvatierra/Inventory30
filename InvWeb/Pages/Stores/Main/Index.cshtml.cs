@@ -37,16 +37,52 @@ namespace InvWeb.Pages.Stores.Main
             }
 
             ViewData["StoreId"] = id;
+            ViewData["StoreInv"] = await GetInventory((int)id);
+
             return Page();
         }
 
         #region Services
 
-        private async Task<IEnumerable<InvItem>> GetInventory()
-        {
+        private readonly int TYPE_RECEIVED = 1;
+        private readonly int TYPE_RELEASED = 2;
 
+        private async Task<IEnumerable<StoreInvCount>> GetInventory(int storeId)
+        {
+            var invItems = await _context.InvItems.ToListAsync();
+
+            var Received = await _context.InvTrxDtls
+                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&
+                 h.InvTrxHdr.InvStoreId == storeId)
+                .ToListAsync();
+
+            var Released = await _context.InvTrxDtls
+                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED &&
+                 h.InvTrxHdr.InvStoreId == storeId)
+                .ToListAsync();
+
+            List<StoreInvCount> storeInvItems = new();
+
+            foreach (var item in invItems.Select(i=>i.Id))
+            {
+                int itemReceived = Received.Where(h => h.InvItemId == item).Sum(i => i.ItemQty);
+                int itemReleased = Released.Where(h => h.InvItemId == item).Sum(i => i.ItemQty);
+
+                if (Received.Where(h => h.InvItemId == item).Any())
+                {
+                    storeInvItems.Add(new StoreInvCount { 
+                            Id = item,
+                            Description = invItems.Where(i=>i.Id == item).FirstOrDefault().Description,
+                            Count = (itemReceived - itemReleased)
+                    });
+                }
+
+            }
+
+            return storeInvItems;
         }
 
         #endregion
+
     }
 }

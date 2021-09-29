@@ -28,7 +28,7 @@ namespace InvWeb.Areas.Identity.Pages
                                   {
                                       UserId = user.Id,
                                       Username = user.UserName,
-                                      Email = user.Email,
+                                      user.Email,
                                       RoleNames = "NA"
                                       //RoleNames = (from userRole in user.
                                       //             join role in _context.Roles on userRole.RoleId

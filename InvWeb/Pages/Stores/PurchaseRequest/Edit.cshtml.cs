@@ -10,7 +10,7 @@ using InvWeb.Data;
 using WebDBSchema.Models;
 using System.Security.Claims;
 
-namespace InvWeb.Pages.Stores.Releasing
+namespace InvWeb.Pages.Stores.PurchaseRequest
 {
     public class EditModel : PageModel
     {
@@ -22,7 +22,7 @@ namespace InvWeb.Pages.Stores.Releasing
         }
 
         [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
+        public InvPoHdr InvPoHdr { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -31,18 +31,18 @@ namespace InvWeb.Pages.Stores.Releasing
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
+            InvPoHdr = await _context.InvPoHdrs
+                .Include(i => i.InvPoHdrStatu)
                 .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
+                .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvTrxHdr == null)
+            if (InvPoHdr == null)
             {
                 return NotFound();
             }
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
-            ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(_context.InvTrxTypes, "Id", "Type", 2);
+           ViewData["InvPoHdrStatusId"] = new SelectList(_context.InvPoHdrStatus, "Id", "Status");
+           ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
+           ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
             ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
             return Page();
         }
@@ -56,7 +56,7 @@ namespace InvWeb.Pages.Stores.Releasing
                 return Page();
             }
 
-            _context.Attach(InvTrxHdr).State = EntityState.Modified;
+            _context.Attach(InvPoHdr).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +64,7 @@ namespace InvWeb.Pages.Stores.Releasing
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvTrxHdrExists(InvTrxHdr.Id))
+                if (!InvPoHdrExists(InvPoHdr.Id))
                 {
                     return NotFound();
                 }
@@ -74,12 +74,12 @@ namespace InvWeb.Pages.Stores.Releasing
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { storeId = InvPoHdr.InvStoreId });
         }
 
-        private bool InvTrxHdrExists(int id)
+        private bool InvPoHdrExists(int id)
         {
-            return _context.InvTrxHdrs.Any(e => e.Id == id);
+            return _context.InvPoHdrs.Any(e => e.Id == id);
         }
     }
 }

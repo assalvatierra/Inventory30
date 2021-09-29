@@ -1,0 +1,64 @@
+﻿@page "{storeId:int?}"
+@model InvWeb.Pages.Stores.PurchaseRequest.IndexModel
+
+@{
+    ViewData["Title"] = "Purchase Request";
+}
+
+<h1>Purchase Request</h1>
+
+<p>
+    <a asp-page="../Main/Index" asp-route-id="@ViewBag.StoreId">Go back to MyStore</a>
+</p>
+<p>
+    <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].DtPo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].InvSupplier)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].InvStore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvPoHdr[0].InvPoHdrStatu)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.InvPoHdr)
+        {
+            <tr>
+                <td>
+                    @item.DtPo.ToString("MMM dd yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvSupplier.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvStore.StoreName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvPoHdrStatu.Status)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

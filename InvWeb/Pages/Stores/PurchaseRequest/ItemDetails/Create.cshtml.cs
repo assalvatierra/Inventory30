@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data;
 using WebDBSchema.Models;
-using System.Security.Claims;
 
-namespace InvWeb.Pages.Stores.Releasing
+namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {
     public class CreateModel : PageModel
     {
@@ -20,24 +19,22 @@ namespace InvWeb.Pages.Stores.Releasing
             _context = context;
         }
 
-        public IActionResult OnGet(int? storeId)
+        public IActionResult OnGet(int? hdrId)
         {
-            if (storeId == null)
+            if (hdrId == null)
             {
                 return NotFound();
             }
 
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName", storeId);
-            ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(_context.InvTrxTypes, "Id", "Type", 2);
-            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
-            ViewData["StoreId"] = storeId;
-
+            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+            ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id", hdrId);
+            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["HdrId"] = hdrId;
             return Page();
         }
 
         [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
+        public InvPoItem InvPoItem { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -47,10 +44,10 @@ namespace InvWeb.Pages.Stores.Releasing
                 return Page();
             }
 
-            _context.InvTrxHdrs.Add(InvTrxHdr);
+            _context.InvPoItems.Add(InvPoItem);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Details", new { id = InvPoItem.InvPoHdrId });
         }
     }
 }

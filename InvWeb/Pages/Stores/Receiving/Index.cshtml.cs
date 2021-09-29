@@ -21,7 +21,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
         public IList<InvTrxHdr> InvTrxHdr { get;set; }
 
-        private int TYPE_RECEIVING = 1;
+        private readonly int TYPE_RECEIVING = 1;
 
         public async Task<ActionResult> OnGetAsync(int? storeId )
         {

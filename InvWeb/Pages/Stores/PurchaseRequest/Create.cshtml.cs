@@ -9,7 +9,7 @@ using InvWeb.Data;
 using WebDBSchema.Models;
 using System.Security.Claims;
 
-namespace InvWeb.Pages.Stores.Releasing
+namespace InvWeb.Pages.Stores.PurchaseRequest
 {
     public class CreateModel : PageModel
     {
@@ -27,17 +27,16 @@ namespace InvWeb.Pages.Stores.Releasing
                 return NotFound();
             }
 
+            ViewData["InvPoHdrStatusId"] = new SelectList(_context.InvPoHdrStatus, "Id", "Status");
             ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName", storeId);
-            ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(_context.InvTrxTypes, "Id", "Type", 2);
+            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
             ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
-            ViewData["StoreId"] = storeId;
-
+            ViewData["StoreId"] = storeId ?? 0;
             return Page();
         }
 
         [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
+        public InvPoHdr InvPoHdr { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -47,10 +46,10 @@ namespace InvWeb.Pages.Stores.Releasing
                 return Page();
             }
 
-            _context.InvTrxHdrs.Add(InvTrxHdr);
+            _context.InvPoHdrs.Add(InvPoHdr);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { storeId = InvPoHdr.InvStoreId });
         }
     }
 }

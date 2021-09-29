@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Main";
+    IEnumerable<InvWeb.Data.StoreInvCount> storeInvs = ViewBag.StoreInv;
 }
 
 <h1>
@@ -39,7 +40,7 @@
             <div class="card-body">
                 <h5 class="card-title">Requesting</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Request Puchase Orders </h6>
-                <a asp-page="../PoRequest/Index" asp-route-storeId="@ViewBag.StoreId" class="card-link">Go to list</a>
+                <a asp-page="../PurchaseRequest/Index" asp-route-storeId="@ViewBag.StoreId" class="card-link">Go to list</a>
             </div>
         </div>
     </div>
@@ -59,14 +60,18 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
+            @foreach (var item in storeInvs)
+            {
+                <tr>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
 
-                </td>
-                <td>
-
-                </td>
-            </tr>
+                        @item.Count
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Stores.Releasing
+namespace InvWeb.Pages.Stores.PurchaseRequest
 {
     public class IndexModel : PageModel
     {
@@ -19,19 +19,24 @@ namespace InvWeb.Pages.Stores.Releasing
             _context = context;
         }
 
-        public IList<InvTrxHdr> InvTrxHdr { get;set; }
+        public IList<InvPoHdr> InvPoHdr { get;set; }
 
-        private readonly int TYPE_RELEASING = 2;
-
-        public async Task OnGetAsync(int storeId)
+        public async Task<IActionResult> OnGetAsync(int? storeId)
         {
-            InvTrxHdr = await _context.InvTrxHdrs
+            if (storeId == null)
+            {
+                return NotFound();
+            }
+
+            InvPoHdr = await _context.InvPoHdrs
+                .Include(i => i.InvPoHdrStatu)
                 .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Where(i => i.InvTrxTypeId == TYPE_RELEASING)
-                .Include(i => i.InvTrxType).ToListAsync();
+                .Include(i => i.InvSupplier)
+                .Where(  i => i.InvStoreId == storeId)
+                .ToListAsync();
 
             ViewData["StoreId"] = storeId;
+            return Page();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace InvWeb.Pages.Masterfiles.Accounts
                                   {
                                       UserId = user.Id,
                                       Username = user.UserName,
-                                      Email = user.Email,
+                                      user.Email,
                                       RoleNames = (from userRole in _context.UserRoles.Where(c=>c.UserId == user.Id)
                                                    join role in _context.Roles on userRole.RoleId
                                                    equals role.Id
