@@ -28,9 +28,9 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
             }
 
             ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
-            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
+            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name", id);
 
-            ViewData["UserId"] = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewData["UserId"] = this.User.FindFirstValue(ClaimTypes.Name);
             ViewData["SupplierId"] = id;
             return Page();
         }

@@ -29,6 +29,7 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
             }
 
             InvSupplierItem = await _context.InvSupplierItems
+                .Where(i => i.InvSupplierId == id)
                 .Include(i => i.InvItem) 
                 .Include(i => i.InvSupplier).ToListAsync();
 

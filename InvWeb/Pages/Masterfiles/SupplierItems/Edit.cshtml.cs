@@ -38,8 +38,8 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
             {
                 return NotFound();
             }
-           ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Id");
-           ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Id");
+            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
             return Page();
         }
 

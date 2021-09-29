@@ -1,0 +1,65 @@
+﻿@page "{SearchStr?}"
+@model InvWeb.Pages.Masterfiles.ItemSearch.SearchModel
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h1>Search</h1>
+<form method="get">
+    <input type="text" asp-for="SearchStr"  />
+
+    <input type="submit" value="Submit" class="btn btn-primary" />
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Description
+            </th>
+            <th>
+                Qty
+            </th>
+            <th>
+                InvUom
+            </th>
+            <th>
+                Store
+            </th>
+            <th>
+                Supplier
+            </th>
+            <th>
+                Price
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+       
+            @foreach (var item in Model.InvSupplierItem) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InvItem.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Remarks)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InvSupplier.Name)
+                        </td>
+
+                        <td>
+                            <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                        </td>
+                    </tr>
+             } 
+         
+    </tbody>
+</table>
