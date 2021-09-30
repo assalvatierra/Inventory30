@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
+using WebDBSchema.Models.Items;
 
 namespace InvWeb.Pages.Masterfiles.ItemSearch
 {
@@ -19,26 +20,58 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
             _context = context;
         }
 
-        public IList<InvSupplierItem> InvSupplierItem { get;set; }
+        public List<ItemSearchResult> ItemSearchResults { get;set; }
 
         [BindProperty(SupportsGet = true)]
         public string SearchStr { get; set; }
 
         public async Task OnGetAsync()
         {
-            var invSupItems = from sup in _context.InvSupplierItems select sup;
+            ItemSearchResults = new List<ItemSearchResult>();
+            var storeList = _context.InvStores.ToList();
+            var itemList = _context.InvItems.ToList();
+            var UomList = _context.InvUoms.ToList();
+
+            //var invItemPerStore = _context.InvTrxDtls.Where(i=>i.InvTrxHdr.InvTrxHdrStatusId == 1);
+
+            //var invItemPerStore = _context.InvTrxDtls
+            //    .Where(i => i.InvTrxHdr.InvTrxHdrStatusId == 1)
+            //    .GroupBy(x => new { x.InvTrxHdr.InvStoreId, x.InvItemId});
+
+            var invItemPerStore = _context.InvTrxDtls
+                .Include(c=>c.InvItem)
+                .GroupBy(x=> new { x.InvItemId, x.InvTrxHdr.InvStoreId })
+                .Select(p => new ItemSearchResult()
+                                   {
+                                       Id = p.Key.InvItemId,
+                                       StoreId = p.Key.InvStoreId,
+                                       Qty= p.Sum(x => x.ItemQty),
+                });
+
           
-            if (!String.IsNullOrEmpty(SearchStr))
+
+            foreach(var item in await invItemPerStore.ToListAsync())
             {
-                invSupItems = invSupItems.Where(c => c.InvItem.Description.Contains(SearchStr));
+              
+
+                ItemSearchResults.Add(new ItemSearchResult { 
+                    Id = item.Id,
+                    InvStore = storeList.Where(s=>s.Id == item.StoreId).FirstOrDefault().StoreName,
+                    Item = itemList.Where(s => s.Id == item.Id).FirstOrDefault().Description,
+                    Qty = item.Qty,
+                    Uom = itemList.Where(s => s.Id == item.Id).FirstOrDefault().InvUom.uom,
+
+                });
             }
 
-            InvSupplierItem = await invSupItems
-                .Include(i => i.InvItem)
-                .Include(i => i.InvSupplier)
-                .Include(i => i.InvItem.InvUom)
-                .ToListAsync();
+            if (!String.IsNullOrEmpty(SearchStr))
+            {
+                ItemSearchResults = ItemSearchResults.Where(c => c.Item.ToLower().Contains(SearchStr.ToLower())).ToList();
+            }
+
         }
+
+      
 
 
 

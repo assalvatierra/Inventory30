@@ -26,33 +26,23 @@
             <th>
                 Store
             </th>
-            <th>
-                Supplier
-            </th>
-            <th>
-                Price
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-       
-            @foreach (var item in Model.InvSupplierItem) {
+            @foreach (var item in Model.ItemSearchResults) {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.InvItem.Description)
+                            @Html.DisplayFor(modelItem => item.Item)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Remarks)
+                            @Html.DisplayFor(modelItem => item.Qty)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
+                            @Html.DisplayFor(modelItem => item.Uom)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Price)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.InvSupplier.Name)
+                            @Html.DisplayFor(modelItem => item.InvStore)
                         </td>
 
                         <td>

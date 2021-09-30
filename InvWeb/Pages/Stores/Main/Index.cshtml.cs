@@ -29,7 +29,9 @@ namespace InvWeb.Pages.Stores.Main
                 return NotFound();
             }
 
-            InvStore = await _context.InvStores.FirstOrDefaultAsync(m => m.Id == id);
+            InvStore = await _context.InvStores
+                .Where(s => s.Id == id)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvStore == null)
             {

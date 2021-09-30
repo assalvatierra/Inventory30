@@ -34,7 +34,8 @@ namespace InvWeb.Pages.Stores.Receiving
                 .Include(i => i.InvStore)
                 .Include(i => i.InvTrxHdrStatu)
                 .Include(i => i.InvTrxType)
-                .Where(  i => i.InvTrxTypeId == TYPE_RECEIVING)
+                  .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
+                              i.InvStoreId   == storeId)
                 .ToListAsync();
 
             ViewData["StoreId"] = storeId;

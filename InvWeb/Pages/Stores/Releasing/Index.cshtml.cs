@@ -28,8 +28,8 @@ namespace InvWeb.Pages.Stores.Releasing
             InvTrxHdr = await _context.InvTrxHdrs
                 .Include(i => i.InvStore)
                 .Include(i => i.InvTrxHdrStatu)
-                .Where(i => i.InvTrxTypeId == TYPE_RELEASING
-                         && i.InvStoreId == storeId)
+                  .Where(i => i.InvTrxTypeId == TYPE_RELEASING
+                           && i.InvStoreId   == storeId)
                 .Include(i => i.InvTrxType).ToListAsync();
 
             ViewData["StoreId"] = storeId;
