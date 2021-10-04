@@ -30,26 +30,24 @@
         </tr>
     </thead>
     <tbody>
-            @foreach (var item in Model.ItemSearchResults) {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Item)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Qty)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Uom)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.InvStore)
-                        </td>
-
-                        <td>
-                            <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
-                        </td>
-                    </tr>
-             } 
-         
+        @foreach (var item in Model.ItemSearchResults) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvStore)
+                </td>
+                <td>
+                    <a asp-page="./ItemPrices" asp-route-id="@item.Id">Prices</a>
+                </td>
+            </tr>
+         } 
     </tbody>
 </table>

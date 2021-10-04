@@ -275,6 +275,7 @@
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Items\ItemSearch.cs" />
+    <Compile Include="Models\Stores\StoreInvCount.cs" />
     <Compile Include="Models\Users\AppUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

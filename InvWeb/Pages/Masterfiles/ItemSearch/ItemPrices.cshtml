@@ -1,0 +1,60 @@
+﻿@page 
+@model InvWeb.Pages.Masterfiles.ItemSearch.ItemPricesModel
+
+@{
+    ViewData["Title"] = "ItemPrices";
+}
+
+<h1>Item Prices</h1>
+<h2> Item: @ViewData["Item"] </h2>
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvSupplierItem[0].InvSupplier)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvSupplierItem[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvSupplierItem[0].LastUpdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvSupplierItem[0].LeadTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvSupplierItem[0].Remarks)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.InvSupplierItem) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvSupplier.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUpdate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeadTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

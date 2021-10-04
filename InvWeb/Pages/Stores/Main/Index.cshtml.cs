@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InvWeb.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
 using WebDBSchema.Models;
+using WebDBSchema.Models.Stores;
 
 namespace InvWeb.Pages.Stores.Main
 {
@@ -52,8 +53,8 @@ namespace InvWeb.Pages.Stores.Main
         private async Task<IEnumerable<StoreInvCount>> GetInventory(int storeId)
         {
             var invItems = await _context.InvItems.ToListAsync();
-          
 
+            //Todo: add filter to add only trx with approved status (statusId = 1) 
             var Received = await _context.InvTrxDtls
                 .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&
                  h.InvTrxHdr.InvStoreId == storeId)
