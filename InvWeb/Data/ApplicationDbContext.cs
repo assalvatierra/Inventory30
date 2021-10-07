@@ -29,6 +29,7 @@ namespace InvWeb.Data
         public DbSet<InvTrxHdr> InvTrxHdrs { get; set; }
         public DbSet<InvTrxDtl> InvTrxDtls { get; set; }
         public DbSet<InvTrxType> InvTrxTypes { get; set; }
+        public DbSet<InvItemClass> InvItemClasses { get; set; }
 
     }
 }
