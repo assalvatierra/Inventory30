@@ -19,13 +19,32 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             _context = context;
         }
 
-        public IList<InvItem> InvItem { get;set; }
+        public IList<InvItemIndexModel> InvItemIndex { get;set; }
 
         public async Task OnGetAsync()
         {
-            InvItem = await _context.InvItems
+            InvItemIndex = new List<InvItemIndexModel>();
+            var InvItem = await _context.InvItems
                 .Include(i => i.InvUom).ToListAsync();
 
+            foreach (var item in InvItem)
+            {
+                var invItemClassGroup = await _context.InvItemClasses.Where(i => i.InvItemId == item.Id).Include(i => i.InvClassification).ToListAsync();
+
+                var invItemClass = new InvItemIndexModel
+                {
+                    InvItem = item,
+                    invItemClasses = invItemClassGroup
+                };
+
+                InvItemIndex.Add(invItemClass);
+            }
         }
+    }
+
+    public class InvItemIndexModel
+    {
+        public InvItem InvItem { get; set; }
+        public IEnumerable<InvItemClass> invItemClasses { get;set; }
     }
 }

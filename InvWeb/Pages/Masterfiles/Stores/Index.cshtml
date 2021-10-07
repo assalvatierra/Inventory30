@@ -8,7 +8,7 @@
 <h1>Stores</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    @*<a asp-page="Create">Create New</a>*@
 </p>
 <table class="table">
     <thead>
@@ -26,7 +26,7 @@
                 @Html.DisplayFor(modelItem => item.StoreName)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                @*<a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |*@
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                 
                 <a asp-page="../../Stores/Main/Index" asp-route-id="@item.Id">Go to Store Page</a>

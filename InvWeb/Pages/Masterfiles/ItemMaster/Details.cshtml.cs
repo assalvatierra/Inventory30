@@ -29,12 +29,21 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             }
 
             InvItem = await _context.InvItems
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+                .Include(i => i.InvUom)
+                .Include(i=>i.InvItemClasses)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
 
             if (InvItem == null)
             {
                 return NotFound();
             }
+
+            ViewData["InvItemClass"] = await _context.InvItemClasses
+                .Where(i => i.InvItemId == id)
+                .Include(i => i.InvClassification)
+                .ToListAsync();
+
             return Page();
         }
     }

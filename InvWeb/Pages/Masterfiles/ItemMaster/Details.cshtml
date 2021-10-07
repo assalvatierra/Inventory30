@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = "Details";
+
+    IEnumerable<WebDBSchema.Models.InvItemClass> invItemClasses = ViewBag.InvItemClass;
 }
 
 <h1>Details</h1>
@@ -27,7 +29,27 @@
             @Html.DisplayNameFor(model => model.InvItem.InvUom)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvItem.InvUom.Id)
+            @Html.DisplayFor(model => model.InvItem.InvUom.uom)
+        </dd>
+        <dt class="col-sm-2">
+            Classification
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.InvItem.InvItemClasses.Count() != 0)
+            {
+
+                @foreach (var classification in invItemClasses)
+                {
+                    <span>
+                        @classification.InvClassification.Classification
+                         -
+                        <a asp-page="./Classifications/Delete" asp-route-id="@classification.Id"> Remove</a>
+                    </span>
+                    <br />
+                }
+
+            }
+            <a asp-page="./Classifications/Create" asp-route-id="@Model.InvItem.Id">Add Classification</a>
         </dd>
     </dl>
 </div>

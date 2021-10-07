@@ -14,35 +14,67 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.InvItem[0].Description)
+                @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItem[0].Remarks)
+                Classification
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItem[0].InvUom)
+                @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.Remarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.InvUom)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.InvItem) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvUom.Id)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.InvItemIndex)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.Description)
+                </td>
+                <td>
+                    @foreach (var classes  in item.invItemClasses)
+                    {
+                        @Html.DisplayFor(modelItem => classes.InvClassification.Classification)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.InvItem.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.InvItem.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.InvItem.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+<!-- Modal : Classifications -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
