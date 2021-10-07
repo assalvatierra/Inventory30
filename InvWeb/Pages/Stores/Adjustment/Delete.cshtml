@@ -1,0 +1,58 @@
+﻿@page
+@model InvWeb.Pages.Stores.Adjustment.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>InvTrxHdr</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.DtTrx)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.DtTrx)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.UserId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.UserId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.Remarks)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.Remarks)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.InvStore)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.InvStore.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.InvTrxType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxType.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvTrxHdr.InvTrxHdrStatu)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxHdrStatu.Id)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="InvTrxHdr.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId">Back to List</a>
+    </form>
+</div>

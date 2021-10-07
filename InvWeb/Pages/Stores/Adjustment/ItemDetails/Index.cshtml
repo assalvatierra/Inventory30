@@ -1,0 +1,54 @@
+﻿@page
+@model InvWeb.Pages.Stores.Adjustment.ItemDetails.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvTrxDtl[0].ItemQty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvTrxDtl[0].InvTrxHdr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvTrxDtl[0].InvUom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvTrxDtl[0].InvItem)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.InvTrxDtl) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvTrxHdr.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvUom.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvItem.Id)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
