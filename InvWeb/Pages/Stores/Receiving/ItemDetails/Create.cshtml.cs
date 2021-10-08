@@ -29,6 +29,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
             ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 1);
             ViewData["HdrId"] = hdrId;
             return Page();
         }

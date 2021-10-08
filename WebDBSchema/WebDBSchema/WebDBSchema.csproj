@@ -262,6 +262,9 @@
     <Compile Include="Models\InvTrxDtl.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvTrxDtlOperator.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvTrxHdr.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>

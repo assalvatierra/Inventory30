@@ -36,7 +36,7 @@
                     @Html.DisplayFor(modelItem => item.InvItem.Description)
                 </td>
                 <td>
-                    @foreach (var classes  in item.invItemClasses)
+                    @foreach (var classes  in item.InvItemClasses)
                     {
                         @Html.DisplayFor(modelItem => classes.InvClassification.Classification)
                     }

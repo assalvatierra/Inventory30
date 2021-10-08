@@ -46,5 +46,6 @@ insert into InvPoHdrStatus([Status],[OrderNo]) values
 ('Request',1), ('Approved',2), ('Closed',3), ('Cancelled',4);
 
 
-
+insert into InvTrxDtlOperators([Description],[Operator]) values 
+('Add', '+'),('Subtract', '-');
 

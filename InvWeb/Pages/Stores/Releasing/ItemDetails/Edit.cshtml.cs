@@ -39,9 +39,10 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             {
                 return NotFound();
             }
-           ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
-           ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
-           ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+            ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
+            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
             return Page();
         }
 

@@ -35,6 +35,7 @@
                 Status
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -60,6 +61,17 @@
                     @Html.DisplayFor(modelItem => item.InvTrxHdrStatu.Status)
                 </td>
                 <td>
+                    @if (item.InvTrxHdrStatusId == 1)
+                    {
+                        <button class="btn btn-light" onclick="ApproveHdr('@item.Id')"> Approve </button>
+                    }
+                    else if (item.InvTrxHdrStatusId == 1)
+                    {
+                        <a asp-page="./Close" asp-route-id="@item.Id"> Close |</a>
+                    }
+                    <a asp-page="./Approve" asp-route-id="@item.Id"> Cancel </a>
+                </td>
+                <td>
                     <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
@@ -68,3 +80,15 @@
         }
     </tbody>
 </table>
+
+@section Scripts{
+
+    <script>
+        function ApproveHdr(id) {
+            $.post('/api/ApiTrxHdrs/PutHdrApprove', { id: id }, (res) => {
+                console.log('ApproveHdr res:');
+                console.log(res);
+            });
+        }
+    </script>
+} 

@@ -56,6 +56,8 @@
         <EntityTypeShape EntityType="InvDB.InvTrxHdrStatus" Width="1.5" PointX="17.875" PointY="23" />
         <AssociationConnector Association="InvDB.InvTrxHdrStatusInvTrxHdr" />
         <AssociationConnector Association="InvDB.InvItemInvTrxDtl" />
+        <EntityTypeShape EntityType="InvDB.InvTrxDtlOperator" Width="1.5" PointX="5.5" PointY="25.75" />
+        <AssociationConnector Association="InvDB.InvTrxDtlOperatorInvTrxDtl" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

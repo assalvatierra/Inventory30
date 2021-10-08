@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/29/2021 13:50:12
+-- Date Created: 10/08/2021 11:19:25
 -- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [InvDB];
+USE [C:\USERS\ACER-PC\DOCUMENTS\GITHUB\INVENTORY30\WEBDBSCHEMA\WEBDBSCHEMA\APP_DATA\INVDB3.MDF];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -110,6 +110,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvItemInvTrxDtl]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvItemInvTrxDtl];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvTrxDtlOperatorInvTrxDtl]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvTrxDtlOperatorInvTrxDtl];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -174,6 +177,9 @@ IF OBJECT_ID(N'[dbo].[InvPoHdrStatus]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvTrxHdrStatus]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvTrxHdrStatus];
+GO
+IF OBJECT_ID(N'[dbo].[InvTrxDtlOperators]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvTrxDtlOperators];
 GO
 
 -- --------------------------------------------------
@@ -342,7 +348,8 @@ CREATE TABLE [dbo].[InvTrxDtls] (
     [InvTrxHdrId] int  NOT NULL,
     [InvUomId] int  NOT NULL,
     [ItemQty] int  NOT NULL,
-    [InvItemId] int  NOT NULL
+    [InvItemId] int  NOT NULL,
+    [InvTrxDtlOperatorId] int  NOT NULL
 );
 GO
 
@@ -366,6 +373,14 @@ CREATE TABLE [dbo].[InvTrxHdrStatus] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Status] nvarchar(20)  NOT NULL,
     [OrderNo] int  NOT NULL
+);
+GO
+
+-- Creating table 'InvTrxDtlOperators'
+CREATE TABLE [dbo].[InvTrxDtlOperators] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(80)  NOT NULL,
+    [Operator] nvarchar(5)  NOT NULL
 );
 GO
 
@@ -490,6 +505,12 @@ GO
 -- Creating primary key on [Id] in table 'InvTrxHdrStatus'
 ALTER TABLE [dbo].[InvTrxHdrStatus]
 ADD CONSTRAINT [PK_InvTrxHdrStatus]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvTrxDtlOperators'
+ALTER TABLE [dbo].[InvTrxDtlOperators]
+ADD CONSTRAINT [PK_InvTrxDtlOperators]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -960,6 +981,21 @@ GO
 CREATE INDEX [IX_FK_InvItemInvTrxDtl]
 ON [dbo].[InvTrxDtls]
     ([InvItemId]);
+GO
+
+-- Creating foreign key on [InvTrxDtlOperatorId] in table 'InvTrxDtls'
+ALTER TABLE [dbo].[InvTrxDtls]
+ADD CONSTRAINT [FK_InvTrxDtlOperatorInvTrxDtl]
+    FOREIGN KEY ([InvTrxDtlOperatorId])
+    REFERENCES [dbo].[InvTrxDtlOperators]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvTrxDtlOperatorInvTrxDtl'
+CREATE INDEX [IX_FK_InvTrxDtlOperatorInvTrxDtl]
+ON [dbo].[InvTrxDtls]
+    ([InvTrxDtlOperatorId]);
 GO
 
 -- --------------------------------------------------

@@ -26,6 +26,7 @@
     <EntitySet Name="InvTrxTypes" EntityType="InvDB.Store.InvTrxTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvPoHdrStatus" EntityType="InvDB.Store.InvPoHdrStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvTrxHdrStatus" EntityType="InvDB.Store.InvTrxHdrStatus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvTrxDtlOperators" EntityType="InvDB.Store.InvTrxDtlOperators" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -148,6 +149,10 @@
     </AssociationSet>
     <AssociationSet Name="InvItemInvTrxDtl" Association="InvDB.Store.InvItemInvTrxDtl">
       <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="InvTrxDtl" EntitySet="InvTrxDtls" />
+    </AssociationSet>
+    <AssociationSet Name="InvTrxDtlOperatorInvTrxDtl" Association="InvDB.Store.InvTrxDtlOperatorInvTrxDtl">
+      <End Role="InvTrxDtlOperator" EntitySet="InvTrxDtlOperators" />
       <End Role="InvTrxDtl" EntitySet="InvTrxDtls" />
     </AssociationSet>
   </EntityContainer>
@@ -316,6 +321,7 @@
     <Property Name="InvUomId" Type="int" Nullable="false" />
     <Property Name="ItemQty" Type="int" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
+    <Property Name="InvTrxDtlOperatorId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="InvTrxTypes">
     <Key>
@@ -339,6 +345,14 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Status" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="OrderNo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvTrxDtlOperators">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Operator" Type="nvarchar" Nullable="false" MaxLength="5" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -712,6 +726,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="InvTrxDtlOperatorInvTrxDtl">
+    <End Role="InvTrxDtlOperator" Type="InvDB.Store.InvTrxDtlOperators" Multiplicity="1" />
+    <End Role="InvTrxDtl" Type="InvDB.Store.InvTrxDtls" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvTrxDtlOperator">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvTrxDtl">
+        <PropertyRef Name="InvTrxDtlOperatorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -859,6 +885,11 @@
           </AssociationSet>
           <AssociationSet Name="InvItemInvTrxDtl" Association="InvDB.InvItemInvTrxDtl">
             <End Role="InvItem" EntitySet="InvItems" />
+            <End Role="InvTrxDtl" EntitySet="InvTrxDtls" />
+          </AssociationSet>
+          <EntitySet Name="InvTrxDtlOperators" EntityType="InvDB.InvTrxDtlOperator" />
+          <AssociationSet Name="InvTrxDtlOperatorInvTrxDtl" Association="InvDB.InvTrxDtlOperatorInvTrxDtl">
+            <End Role="InvTrxDtlOperator" EntitySet="InvTrxDtlOperators" />
             <End Role="InvTrxDtl" EntitySet="InvTrxDtls" />
           </AssociationSet>
         </EntityContainer>
@@ -1386,6 +1417,8 @@
           <Property Name="ItemQty" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvItem" Relationship="InvDB.InvItemInvTrxDtl" FromRole="InvTrxDtl" ToRole="InvItem" />
           <Property Name="InvItemId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvTrxDtlOperator" Relationship="InvDB.InvTrxDtlOperatorInvTrxDtl" FromRole="InvTrxDtl" ToRole="InvTrxDtlOperator" />
+          <Property Name="InvTrxDtlOperatorId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="InvTrxHdrInvTrxDtl">
           <End Type="InvDB.InvTrxHdr" Role="InvTrxHdr" Multiplicity="1" />
@@ -1482,6 +1515,27 @@
             </Principal>
             <Dependent Role="InvTrxDtl">
               <PropertyRef Name="InvItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvTrxDtlOperator">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Operator" Type="String" Nullable="false" MaxLength="5" />
+          <NavigationProperty Name="InvTrxDtls" Relationship="InvDB.InvTrxDtlOperatorInvTrxDtl" FromRole="InvTrxDtlOperator" ToRole="InvTrxDtl" />
+        </EntityType>
+        <Association Name="InvTrxDtlOperatorInvTrxDtl">
+          <End Type="InvDB.InvTrxDtlOperator" Role="InvTrxDtlOperator" Multiplicity="1" />
+          <End Type="InvDB.InvTrxDtl" Role="InvTrxDtl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvTrxDtlOperator">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvTrxDtl">
+              <PropertyRef Name="InvTrxDtlOperatorId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1671,6 +1725,7 @@
           <ScalarProperty Name="InvUomId" ColumnName="InvUomId" />
           <ScalarProperty Name="ItemQty" ColumnName="ItemQty" />
           <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+          <ScalarProperty Name="InvTrxDtlOperatorId" ColumnName="InvTrxDtlOperatorId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1697,6 +1752,15 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvTrxDtlOperators">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvTrxDtlOperator)">
+        <MappingFragment StoreEntitySet="InvTrxDtlOperators">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Operator" ColumnName="Operator" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

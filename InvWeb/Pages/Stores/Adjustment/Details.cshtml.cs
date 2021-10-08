@@ -36,6 +36,7 @@ namespace InvWeb.Pages.Stores.Adjustment
             ViewData["InvTrxDtls"] = await _context.InvTrxDtls.Where(i => i.InvTrxHdrId == id)
                 .Include(i => i.InvItem)
                 .Include(i => i.InvUom)
+                .Include(i => i.InvTrxDtlOperator)
                 .ToListAsync();
 
             if (InvTrxHdr == null)

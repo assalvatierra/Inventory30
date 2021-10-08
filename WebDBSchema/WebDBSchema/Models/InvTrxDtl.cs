@@ -19,9 +19,11 @@ namespace WebDBSchema.Models
         public int InvUomId { get; set; }
         public int ItemQty { get; set; }
         public int InvItemId { get; set; }
+        public int InvTrxDtlOperatorId { get; set; }
     
         public virtual InvTrxHdr InvTrxHdr { get; set; }
         public virtual InvUom InvUom { get; set; }
         public virtual InvItem InvItem { get; set; }
+        public virtual InvTrxDtlOperator InvTrxDtlOperator { get; set; }
     }
 }

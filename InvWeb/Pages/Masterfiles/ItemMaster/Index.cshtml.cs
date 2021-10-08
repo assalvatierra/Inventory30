@@ -34,7 +34,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 var invItemClass = new InvItemIndexModel
                 {
                     InvItem = item,
-                    invItemClasses = invItemClassGroup
+                    InvItemClasses = invItemClassGroup
                 };
 
                 InvItemIndex.Add(invItemClass);
@@ -45,6 +45,6 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
     public class InvItemIndexModel
     {
         public InvItem InvItem { get; set; }
-        public IEnumerable<InvItemClass> invItemClasses { get;set; }
+        public IEnumerable<InvItemClass> InvItemClasses { get;set; }
     }
 }
