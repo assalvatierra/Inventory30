@@ -19,6 +19,8 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore ./InvWeb
+    - name: Build Model
+      run: dotnet build ./WebDBSchema --no-restore
     - name: Build
       run: dotnet build ./InvWeb --no-restore
     - name: Test
