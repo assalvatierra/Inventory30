@@ -56,14 +56,11 @@ namespace InvWeb.Pages.Stores.Main
             var invItems = await _context.InvItems.ToListAsync();
 
             //Todo: add filter to add only trx with approved status (statusId = 1) 
-            var TransactionDetails = await _context.InvTrxDtls
-               .Where(h =>
-                h.InvTrxHdr.InvStoreId == storeId &&
-                h.InvTrxHdr.InvTrxHdrStatusId > 1)
-               .ToListAsync();
-
-            var Received = TransactionDetails
-                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED);
+            var Received = await _context.InvTrxDtls
+                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&
+                 h.InvTrxHdr.InvStoreId == storeId &&
+                 h.InvTrxHdr.InvTrxHdrStatusId > 1)
+                .ToListAsync();
 
             var Released = await _context.InvTrxDtls
                 .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED &&

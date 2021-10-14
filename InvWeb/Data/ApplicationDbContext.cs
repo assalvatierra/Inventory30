@@ -30,6 +30,7 @@ namespace InvWeb.Data
         public DbSet<InvTrxDtl> InvTrxDtls { get; set; }
         public DbSet<InvTrxType> InvTrxTypes { get; set; }
         public DbSet<InvItemClass> InvItemClasses { get; set; }
+        public DbSet<InvTrxDtlOperator> InvTrxDtlOperators { get; set; }
 
     }
 }

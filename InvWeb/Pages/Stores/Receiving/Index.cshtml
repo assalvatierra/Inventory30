@@ -85,9 +85,12 @@
 
     <script>
         function ApproveHdr(id) {
-            $.post('/api/ApiTrxHdrs/PutHdrApprove', { id: id }, (res) => {
+            $.post('/api/ApiTrxHdrs', { id: id }, (res) => {
                 console.log('ApproveHdr res:');
                 console.log(res);
+                if (res = 'Updated') {
+                    window.location.reload = false;
+                }
             });
         }
     </script>
