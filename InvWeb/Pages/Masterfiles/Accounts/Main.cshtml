@@ -1,0 +1,40 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.Accounts.MainModel
+
+@{
+}
+
+<h1> Accounts Mains </h1>
+
+
+<table class="table">
+    <tr>
+        <th>
+            User
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Roles
+        </th>
+    </tr>
+    @if (Model.AppUsers != null)
+    {
+
+        foreach (var item in Model.AppUsers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+            </tr>
+        }
+    }
+</table>
