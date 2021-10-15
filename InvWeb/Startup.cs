@@ -29,14 +29,15 @@ namespace InvWeb
         public void ConfigureServices(IServiceCollection services)
         {
 
-            var builder = new SqlConnectionStringBuilder(
-            Configuration.GetConnectionString("ProdConnection"));
-            builder.Password = Configuration["DB:pass"];
-            var _connection = builder.ConnectionString;
+            //var builder = new SqlConnectionStringBuilder(
+            //Configuration.GetConnectionString("ProdConnection"));
+            //builder.Password = Configuration["DB:pass"];
+            //var _connection = builder.ConnectionString;
 
             //localdb
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(_connection));
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("ProdConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
