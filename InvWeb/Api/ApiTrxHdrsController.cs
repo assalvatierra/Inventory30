@@ -9,7 +9,7 @@ using WebDBSchema.Models;
 
 namespace InvWeb.Api
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ApiTrxHdrsController : Controller
     {
@@ -31,8 +31,8 @@ namespace InvWeb.Api
 
         // PUT: api/ApiTrxHdrs/PutHdrApprove/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("{id}", Name = "PostHdrApprove")]
-        public async Task<IActionResult> PostHdrsApprove(int? id)
+        [HttpPost]
+        public async Task<IActionResult> PostHdrsApproveAsync(int? id)
         {
             if (id == null)
             {
@@ -57,12 +57,12 @@ namespace InvWeb.Api
                 }
                 else
                 {
-                    return Content("Error");
+                    return StatusCode(400, "Exception error");
                     throw;
                 }
             }
 
-            return Content("Updated");
+            return StatusCode(200, "Status Update Successfull");
         }
 
 

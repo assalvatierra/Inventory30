@@ -22,7 +22,27 @@ namespace InvWeb.Pages.Masterfiles.Accounts
 
         public void OnGet()
         {
-            var usersFromDb =  _context.Users.ToList();
+            var usersFromDb = _context.Users.ToList();
+            AppUsers = new List<AppUser>();
+            foreach (var user in usersFromDb)
+            {
+                AppUser appUser = new AppUser();
+
+                appUser.Id = user.Id;
+                appUser.Email = user.Email;
+                appUser.Username = user.UserName;
+
+                //get user roles
+                var userroles = _context.UserRoles.Where(u => u.UserId == user.Id).ToList();
+
+                userroles.ForEach(ur =>
+                {
+                    appUser.Role += _context.Roles.Where(r => r.Id == ur.RoleId).FirstOrDefault().Name + ", ";
+                });
+
+                AppUsers.Add(appUser);
+
+            }
         }
     }
 }

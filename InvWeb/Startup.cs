@@ -37,7 +37,7 @@ namespace InvWeb
             //localdb
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("ProdConnection")));
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -45,6 +45,10 @@ namespace InvWeb
             services.AddRazorPages();
 
             services.AddControllers(); //Adding API Controllers
+
+            services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddControllers().AddNewtonsoftJson();
             //services.AddSwaggerGen(c =>
             //{
             //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "InvApi", Version = "v1" });
