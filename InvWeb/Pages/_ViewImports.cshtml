@@ -1,5 +1,8 @@
 @using Microsoft.AspNetCore.Identity
 @using InvWeb
 @using InvWeb.Data
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 @namespace InvWeb.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InvWeb.Pages.Masterfiles.ItemPO
 {
+    [Authorize(Roles = "ADMIN,PUCHASER")]
     public class IndexModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;

@@ -10,108 +10,47 @@
     <link rel="stylesheet" href="~/css/sidebar.css" />
 </head>
 <body>
-    @*<header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-page="/Index">InvWeb</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                            </li>
-                        </ul>
-                        <partial name="_LoginPartial" />
-                    </div>
-                </div>
-            </nav>
-        </header>
-
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>*@
 
     <div class="wrapper">
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
                 <h3>  Inventory </h3>
-
+                @if (User.IsInRole("ADMIN"))
+                {
+                    <span> Admin </span>
+                }
+                else if (User.IsInRole("STORE"))
+                {
+                    <span> Store User </span>
+                }
+                else if (User.IsInRole("PURCHASER"))
+                {
+                    <span> Purchaser User </span>
+                }
+                else
+                {
+                    <span> Please Login </span>
+                }
             </div>
 
-            <ul class="list-unstyled components">
+            @if (User.IsInRole("ADMIN"))
+            {
 
-                <li>
-                    <a href="/" id="sidenav-Home">Home</a>
-                </li>
-                <li>
-                    <a href="/Masterfiles/Stores" id="sidenav-Stores">Stores</a>
-                </li>
+                <partial name="./NavLayouts/_AdminNav" />
+            }
+            else if (User.IsInRole("STORE"))
+            {
+                <partial name="./NavLayouts/_StoreNav" />
+            }
+            else if (User.IsInRole("PURCHASER"))
+            {
+                <partial name="./NavLayouts/_PurchaserNav" />
+            }
+            else
+            {
 
-
-                <li class="dropdown-btn">
-                    <a href="#" id="sidenav-Items">
-                        Items Masterfile
-                        <i class="float-right dropdown-toggle"></i>
-                    </a>
-                </li>
-
-                <li class="dropdown-container">
-                    <a href="/Masterfiles/ItemMaster">List</a>
-                    <a href="/Masterfiles/ItemClassification">Classifications</a>
-                    <a href="/Masterfiles/ItemUoms">Units</a>
-                </li>
-
-                <li>
-                    <a href="/Masterfiles/Supplier">Suppliers</a>
-                </li>
-
-                <li>
-                    <a href="/PurchaseOrders/InvPOHdrs">Purchase Orders</a>
-                </li>
-
-                <li>
-                    <a href="/Masterfiles/Accounts/Main" id="sidenav-Accounts">Accounts</a>
-                </li>
-
-
-                <li>
-                    <a href="/Masterfiles/Reports" id="sidenav-Reports">Reports</a>
-                </li>
-
-                <li>
-                    <a href="/Masterfiles/ItemSearch/Search">Item Search</a>
-                </li>
-                <li>
-                    <hr />
-                </li>
-
-                <li>
-                    <p> My Store </p>
-                </li>
-
-                <li class="dropdown-btn">
-                    <a href="#" id="sidenav-Items">
-                        MyStore
-                        <i class="float-right dropdown-toggle"></i>
-                    </a>
-                </li>
-                <li class="dropdown-container">
-                    <a href="/Stores/Main/2">Go to MyStore</a>
-                    <a href="/Stores/Receiving/2">Receiving</a>
-                    <a href="/Stores/Releasing/2">Releasing</a>
-                    <a href="/Stores/PurchaseRequest/2">Purchase Request</a>
-                    <a href="/Stores/Reports/2">  Inventory Reports</a>
-                </li>
-            </ul>
+            }
         </nav>
 
         <!-- Page Content Holder -->
@@ -137,11 +76,11 @@
                     @RenderBody()
                 </main>
             </div>
-                <footer class="border-top footer text-muted">
-                    <div class="container" style="text-align:center;">
-                        &copy; 2021 - InvWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
-                    </div>
-                </footer>
+            <footer class="border-top footer text-muted">
+                <div class="container" style="text-align:center;">
+                    &copy; 2021 - InvWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
+                </div>
+            </footer>
         </div>
     </div>
 

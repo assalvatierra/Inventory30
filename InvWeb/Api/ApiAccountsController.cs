@@ -40,12 +40,7 @@ namespace InvWeb.Api
             return store.StoreName;
         }
 
-        public struct rolesUserClass
-        {
-            public string userId { get; set; }
-            public int roleId { get; set; }
-        }
-        // POST api/<ApiAccountController> 
+        // POST api/ApiAccounts/PostAddUserRole
         [HttpPost]
         public async Task<IActionResult> PostAddUserRoleAsync(string userId, int roleId)
         {
@@ -72,7 +67,7 @@ namespace InvWeb.Api
         }
 
 
-        // POST api/<ApiAccountController>
+        // POST api/ApiAccounts/RemoveUserRole
         [HttpDelete]
         public async Task<IActionResult> RemoveUserRoleAsync(string userId, int roleId)
         {
@@ -90,7 +85,6 @@ namespace InvWeb.Api
                 await _context.SaveChangesAsync();
 
                 return StatusCode(200, "Deletion Successfull");
-
             }
             catch
             {
