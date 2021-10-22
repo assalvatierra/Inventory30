@@ -32,13 +32,8 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
             var itemList = _context.InvItems.ToList();
             var UomList = _context.InvUoms.ToList();
 
-            //var invItemPerStore = _context.InvTrxDtls.Where(i=>i.InvTrxHdr.InvTrxHdrStatusId == 1);
-
-            //var invItemPerStore = _context.InvTrxDtls
-            //    .Where(i => i.InvTrxHdr.InvTrxHdrStatusId == 1)
-            //    .GroupBy(x => new { x.InvTrxHdr.InvStoreId, x.InvItemId});
-
             var invItemPerStore = _context.InvTrxDtls
+                .Where(c=>c.InvTrxHdr.InvTrxHdrStatusId > 1)
                 .Include(c=>c.InvItem)
                 .GroupBy(x=> new { x.InvItemId, x.InvTrxHdr.InvStoreId })
                 .Select(p => new ItemSearchResult()
@@ -46,7 +41,7 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
                                        Id = p.Key.InvItemId,
                                        StoreId = p.Key.InvStoreId,
                                        Qty= p.Sum(x => x.ItemQty),
-                });
+                                    });
 
           
 

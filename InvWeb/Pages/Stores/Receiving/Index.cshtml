@@ -13,6 +13,20 @@
 <p>
     <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId">Create New</a>
 </p>
+<form method="post">
+    <div hidden>
+        <input type="text" value="@ViewData["StoreId"]" name="storeId" id="storeId" />
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-outline-primary" id="status-pending">
+            <input type="radio" asp-for="status" autocomplete="off" value="PENDING" checked> Pending
+        </label>
+        <label class="btn btn-outline-primary" id="status-accepted">
+            <input type="radio" asp-for="status" autocomplete="off" value="ACCEPTED"> Accepted
+        </label>
+    </div>
+    <button class="btn btn-primary" type="submit"> Filter </button>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -63,18 +77,24 @@
                 <td>
                     @if (item.InvTrxHdrStatusId == 1)
                     {
-                        <button class="btn btn-light" onclick="ApproveHdr('@item.Id')"> Approve </button>
+                        <button class="btn btn-light" onclick="ApproveHdr('@item.Id')"> Accept </button>
+                        <button class="btn btn-light" onclick="ApproveHdr('@item.Id')"> Cancel </button>
                     }
-                    else if (item.InvTrxHdrStatusId == 1)
-                    {
-                        <a asp-page="./Close" asp-route-id="@item.Id"> Close |</a>
-                    }
-                    <a asp-page="./Approve" asp-route-id="@item.Id"> Cancel </a>
+
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+
+        @if (Model.InvTrxHdr == null)
+        {
+            <tr>
+                <td class="text-center" colspan="6">
+                    <span class="text-info"> No result found</span>
                 </td>
             </tr>
         }
@@ -89,7 +109,25 @@
                 console.log(res);
             }).done(() => {
                 window.location.reload(false);
-            });;
+            });
         }
+
+
+        $(() => {
+            //on init status
+            console.log("@Model.status");
+            switch ("@Model.status") {
+                case "PENDING":
+                    $("#status-pending").addClass("active");
+                    break;
+                case "ACCEPTED":
+                    $("#status-accepted").addClass("active");
+                    break;
+                default:
+                    $("#status-pending").addClass("active");
+                    break;
+            }
+
+        });
     </script>
 } 

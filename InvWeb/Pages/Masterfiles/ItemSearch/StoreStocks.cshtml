@@ -1,0 +1,53 @@
+﻿@page 
+@model InvWeb.Pages.Masterfiles.StoreStock.StoreStocksModel
+
+@{
+    ViewData["Title"] = "ItemPrices";
+}
+
+<h1>Store Stocks</h1>
+<h2> Item: @ViewData["Item"] </h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvTrxDtls[0].InvItem.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvTrxDtls[0].ItemQty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvTrxDtls[0].InvTrxHdr.InvStore.StoreName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvTrxDtls[0].InvUom.uom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvTrxDtls[0].InvItem.Remarks)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.InvTrxDtls) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvItem.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvTrxHdr.InvStore.StoreName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvUom.uom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvItem.Remarks)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

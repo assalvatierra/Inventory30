@@ -13,6 +13,22 @@
 <p>
     <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId">Create New</a>
 </p>
+
+<form method="post">
+    <div hidden>
+        <input type="text" value="@ViewData["StoreId"]" name="storeId" id="storeId" />
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-outline-primary" id="status-pending">
+            <input type="radio" asp-for="status" autocomplete="off" value="PENDING" checked> Pending
+        </label>
+        <label class="btn btn-outline-primary" id="status-accepted">
+            <input type="radio" asp-for="status" autocomplete="off" value="ACCEPTED"> Accepted
+        </label>
+    </div>
+    <button class="btn btn-primary" type="submit"> Filter </button>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -60,6 +76,14 @@
                     @Html.DisplayFor(modelItem => item.InvTrxHdrStatu.Status)
                 </td>
                 <td>
+                    @if (item.InvTrxHdrStatusId == 1)
+                    {
+                        <button class="btn btn-light" onclick="ApproveHdr('@item.Id')"> Accept </button>
+                        <button class="btn btn-light" onclick="ApproveHdr('@item.Id')"> Cancel </button>
+                    }
+
+                </td>
+                <td>
                     <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
@@ -68,3 +92,36 @@
         }
     </tbody>
 </table>
+
+
+
+@section Scripts{
+
+    <script>
+        function ApproveHdr(id) {
+            $.post('/api/ApiTrxHdrs/PostHdrsApprove?id=' + id, { id: id }, (res) => {
+                console.log(res);
+            }).done(() => {
+                window.location.reload(false);
+            });
+        }
+
+
+        $(() => {
+            //on init status
+            console.log("@Model.status");
+            switch ("@Model.status") {
+                case "PENDING":
+                    $("#status-pending").addClass("active");
+                    break;
+                case "ACCEPTED":
+                    $("#status-accepted").addClass("active");
+                    break;
+                default:
+                    $("#status-pending").addClass("active");
+                    break;
+            }
+
+        });
+    </script>
+} 
