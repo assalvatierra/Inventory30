@@ -70,7 +70,7 @@ namespace InvWeb.Data.Services
                         Id = item,
                         Description = invItems.Where(i => i.Id == item).FirstOrDefault().Description,
                         Available = (itemReceived - itemReleased) + (itemAdjustment),
-                        OnHand = accepted - released,
+                        OnHand = (accepted - released) + (itemAdjustment),
                         ReceivePending = pending,
                         ReceiveAccepted = accepted,
                         ReleaseRequest = requested,
