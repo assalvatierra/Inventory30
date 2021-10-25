@@ -38,7 +38,7 @@ namespace InvWeb.Pages.Stores.Releasing
 
 
         [BindProperty]
-        public string status { get; set; }   //this is the key bit
+        public string status { get; set; }   // filter Parameter
 
         public async Task<IActionResult> OnPostAsync(int? storeId)
         {

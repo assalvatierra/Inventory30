@@ -7,9 +7,15 @@ namespace WebDBSchema.Models.Stores
 {
     public class StoreInvCount
     {
-            public int Id { get; set; }
-            public string Description { get; set; }
-            public int Count { get; set; }
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public int Available { get; set; }
+        public int OnHand { get; set; }
+        public int ReceivePending { get; set; }
+        public int ReceiveAccepted { get; set; }
+        public int ReleaseRequest { get; set; }
+        public int ReleaseReleased { get; set; }
+        public int Adjustments { get; set; }
     }
 
 }

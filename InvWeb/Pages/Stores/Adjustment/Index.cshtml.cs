@@ -21,6 +21,11 @@ namespace InvWeb.Pages.Stores.Adjustment
 
         public IList<InvTrxHdr> InvTrxHdr { get;set; }
 
+        [BindProperty]
+        public string status { get; set; }   // filter Parameter
+
+        private readonly int TYPE_ADJUSTMENT = 3;
+
         public async Task<ActionResult> OnGetAsync(int? storeId)
         {
 
@@ -37,6 +42,46 @@ namespace InvWeb.Pages.Stores.Adjustment
 
             ViewData["StoreId"] = storeId;
 
+
+            return Page();
+        }
+
+
+        public async Task<IActionResult> OnPostAsync(int? storeId)
+        {
+            if (storeId == null)
+            {
+                return NotFound();
+            }
+
+            InvTrxHdr = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType)
+                  .Where(i => i.InvTrxTypeId == TYPE_ADJUSTMENT &&
+                              i.InvStoreId == storeId)
+                .ToListAsync();
+
+            if (!String.IsNullOrWhiteSpace(status))
+            {
+                switch (status)
+                {
+                    case "PENDING":
+                        InvTrxHdr = InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
+                        break;
+                    case "ACCEPTED":
+                        InvTrxHdr = InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList();
+                        break;
+                    case "ALL":
+                        InvTrxHdr = InvTrxHdr.ToList();
+                        break;
+                    default:
+                        InvTrxHdr = InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
+                        break;
+                }
+            }
+
+            ViewData["StoreId"] = storeId;
 
             return Page();
         }

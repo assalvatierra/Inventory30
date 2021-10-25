@@ -12,6 +12,7 @@ insert into InvTrxDtls([InvTrxHdrId],[InvUomId],[ItemQty],[InvItemId],[InvTrxDtl
 (1, 1, 5, 2, 1),
 (1, 1, 3, 3, 1),
 
+(2, 1, 5, 1, 1),
 (2, 1, 5, 2, 1),
 (2, 1, 5, 3, 1)
 ;
@@ -19,15 +20,18 @@ insert into InvTrxDtls([InvTrxHdrId],[InvUomId],[ItemQty],[InvItemId],[InvTrxDtl
 -- Store Releasing --
 -- Using Store 2
 insert  into InvTrxHdrs([InvStoreId], [DtTrx], [UserId], [Remarks], [InvTrxTypeId], [InvTrxHdrStatusId]) values
-(2, '09/28/2021', 'admin@gmail.com', '', 2, 2)
+(2, '09/28/2021', 'admin@gmail.com', '', 2, 2),
+(2, '10/18/2021', 'admin@gmail.com', '', 2, 1)
 ;
 
 insert into InvTrxDtls([InvTrxHdrId],[InvUomId],[ItemQty],[InvItemId],[InvTrxDtlOperatorId]) values
 (3, 1, 3, 1, 2),
 (3, 1, 2, 2, 2),
-(3, 1, 1, 3, 2)
-;
+(3, 1, 1, 3, 2),
 
+(4, 1, 3, 1, 2),
+(4, 1, 2, 3, 2)
+;
 
 -- Purchase Request --
 -- Using Store 2

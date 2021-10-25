@@ -35,7 +35,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
         <div class="card" >
             <div class="card-body">
                 <h5 class="card-title">Purchase Request</h5>
@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6" >
+    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6" >
         <div class="card" >
             <div class="card-body">
                 <h5 class="card-title">Adjustment</h5>
@@ -65,7 +65,7 @@
 </div>
 <br />
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="card">
             <div class="card-body">
                 <h4>Store Items</h4>
@@ -73,16 +73,33 @@
                     <thead>
                         <tr>
                             <th>
-                                Item
+                                Item <i class="bi-alarm"></i>
                             </th>
                             <th>
-                                Available
+                                <span data-toggle="tooltip" data-placement="top" title="Available = (pending + accepted) - (requested + released)">
+                                    Available
+                                </span>
+                            </th>
+                            <th>
+                                <span data-toggle="tooltip" data-placement="top" title="On-Hand = accepted - released">
+                                    On-Hand
+                                </span>
+                               
+                            </th>
+                            <th>
+                                Pending
                             </th>
                             <th>
                                 Accepted
                             </th>
                             <th>
-                                Pending
+                                Requested
+                            </th>
+                            <th>
+                                Released
+                            </th>
+                            <th>
+                                Adjustments
                             </th>
                         </tr>
                     </thead>
@@ -94,7 +111,25 @@
                                     @item.Description
                                 </td>
                                 <td>
-                                    @item.Count
+                                    @item.Available
+                                </td>
+                                <td>
+                                    @item.OnHand
+                                </td>
+                                <td class="table-secondary">
+                                    @item.ReceivePending
+                                </td>
+                                <td>
+                                    @item.ReceiveAccepted
+                                </td>
+                                <td class="table-secondary">
+                                    @item.ReleaseRequest
+                                </td>
+                                <td>
+                                    @item.ReleaseReleased
+                                </td>
+                                <td>
+                                    @item.Adjustments
                                 </td>
                             </tr>
                         }
@@ -104,3 +139,13 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts{ 
+<script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+
+</script>
+}

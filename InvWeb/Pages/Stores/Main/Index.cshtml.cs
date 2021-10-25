@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InvWeb.Data;
+using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +17,12 @@ namespace InvWeb.Pages.Stores.Main
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly StoreServices _storeSvc;
 
         public IndexModel(ApplicationDbContext context)
         {
             _context = context;
+            _storeSvc = new StoreServices(context);
         }
 
         public InvStore InvStore { get; set; }
@@ -42,77 +45,9 @@ namespace InvWeb.Pages.Stores.Main
             }
 
             ViewData["StoreId"] = id;
-            ViewData["StoreInv"] = await GetInventory((int)id);
+            ViewData["StoreInv"] = await _storeSvc.GetStoreItemsSummary((int)id);
 
             return Page();
         }
-
-        #region Services
-
-        private readonly int TYPE_RECEIVED = 1;
-        private readonly int TYPE_RELEASED = 2;
-        private readonly int TYPE_ADJUSTMENT = 3;
-
-        private async Task<IEnumerable<StoreInvCount>> GetInventory(int storeId)
-        {
-            var invItems = await _context.InvItems.ToListAsync();
-
-            //Todo: add filter to add only trx with approved status (statusId = 1) 
-            var Received = await _context.InvTrxDtls
-                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&
-                 h.InvTrxHdr.InvStoreId == storeId &&
-                 h.InvTrxHdr.InvTrxHdrStatusId > 1)
-                .ToListAsync();
-
-            var Released = await _context.InvTrxDtls
-                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED &&
-                 h.InvTrxHdr.InvStoreId == storeId &&
-                 h.InvTrxHdr.InvTrxHdrStatusId > 1)
-                .ToListAsync();
-
-
-            var Adjustment = await _context.InvTrxDtls
-                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT &&
-                 h.InvTrxHdr.InvStoreId == storeId &&
-                 h.InvTrxHdr.InvTrxHdrStatusId > 1)
-                .ToListAsync();
-
-            List<StoreInvCount> storeInvItems = new();
-
-            foreach (var item in invItems.Select(i=>i.Id))
-            {
-                int itemReceived = Received.Where(h => h.InvItemId == item).Sum(i => i.ItemQty);
-                int itemReleased = Released.Where(h => h.InvItemId == item).Sum(i => i.ItemQty);
-                
-                int itemAdjustment = 0;
-                var itemAdjutmentList = Adjustment.Where(h => h.InvItemId == item);
-                foreach (var adjustment in itemAdjutmentList)
-                {
-                    if (adjustment.InvTrxDtlOperatorId == 2)
-                    {
-                        itemAdjustment -= (adjustment.ItemQty);
-                    }
-                    else
-                    {
-                        itemAdjustment += (adjustment.ItemQty);
-                    }
-                }
-
-                if (Received.Where(h => h.InvItemId == item).Any())
-                {
-                    storeInvItems.Add(new StoreInvCount { 
-                            Id = item,
-                            Description = invItems.Where(i=>i.Id == item).FirstOrDefault().Description,
-                            Count = (itemReceived - itemReleased) + (itemAdjustment)
-                    });
-                }
-
-            }
-
-            return storeInvItems;
-        }
-
-        #endregion
-
     }
 }
