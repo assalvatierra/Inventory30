@@ -14,7 +14,7 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="InvTrxDtl.Id" />
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="InvTrxDtl.InvTrxHdrId" class="control-label"></label>
                 <select asp-for="InvTrxDtl.InvTrxHdrId" class="form-control" asp-items="ViewBag.InvTrxHdrId"></select>
                 <span asp-validation-for="InvTrxDtl.InvTrxHdrId" class="text-danger"></span>

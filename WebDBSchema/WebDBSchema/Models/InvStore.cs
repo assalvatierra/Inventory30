@@ -22,6 +22,7 @@ namespace WebDBSchema.Models
             this.InvPoHdrs = new HashSet<InvPoHdr>();
             this.InvAdjHdrs = new HashSet<InvAdjHdr>();
             this.InvTrxHdrs = new HashSet<InvTrxHdr>();
+            this.InvStoreUsers = new HashSet<InvStoreUser>();
         }
     
         public int Id { get; set; }
@@ -37,5 +38,7 @@ namespace WebDBSchema.Models
         public virtual ICollection<InvAdjHdr> InvAdjHdrs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvTrxHdr> InvTrxHdrs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvStoreUser> InvStoreUsers { get; set; }
     }
 }

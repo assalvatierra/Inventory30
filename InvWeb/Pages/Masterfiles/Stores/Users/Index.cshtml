@@ -1,0 +1,40 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.Stores.Users.IndexModel
+
+@{
+    ViewData["Title"] = "Store Users";
+}
+
+<h1>Store Users</h1>
+
+<p>
+    <a asp-page="../Index">Back to Stores</a>
+</p>
+<p>
+    <a asp-page="Create" asp-route-id="@ViewData["storeId"]">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvStoreUser[0].InvStoreUserId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.InvStoreUser)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvStoreUserId)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

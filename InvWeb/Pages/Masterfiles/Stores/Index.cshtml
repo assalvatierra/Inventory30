@@ -26,9 +26,10 @@
                 @Html.DisplayFor(modelItem => item.StoreName)
             </td>
             <td>
+                <a asp-page="./Users/Index" asp-route-id="@item.Id">Users</a> |
                 @*<a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |*@
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                
+
                 <a asp-page="../../Stores/Main/Index" asp-route-id="@item.Id">Go to Store Page</a>
             </td>
         </tr>

@@ -256,6 +256,9 @@
     <Compile Include="Models\InvStore.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvStoreUser.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvSupplier.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>

@@ -7,13 +7,13 @@
 
 <h1>Create</h1>
 
-<h4>InvTrxHdr</h4>
+<h4>Adjustment Header Details</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="InvTrxHdr.InvStoreId" class="control-label"></label>
                 <select asp-for="InvTrxHdr.InvStoreId" class ="form-control" asp-items="ViewBag.InvStoreId"></select>
             </div>
@@ -22,7 +22,7 @@
                 <input asp-for="InvTrxHdr.DtTrx" class="form-control datepicker" type="text" />
                 <span asp-validation-for="InvTrxHdr.DtTrx" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="InvTrxHdr.UserId" class="control-label"></label>
                 <input asp-for="InvTrxHdr.UserId" class="form-control" value="@ViewBag.UserId"/>
                 <span asp-validation-for="InvTrxHdr.UserId" class="text-danger"></span>
@@ -32,11 +32,11 @@
                 <input asp-for="InvTrxHdr.Remarks" class="form-control" />
                 <span asp-validation-for="InvTrxHdr.Remarks" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="InvTrxHdr.InvTrxTypeId" class="control-label"></label>
                 <select asp-for="InvTrxHdr.InvTrxTypeId" class ="form-control" asp-items="ViewBag.InvTrxTypeId"></select>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="InvTrxHdr.InvTrxHdrStatusId" class="control-label"></label>
                 <select asp-for="InvTrxHdr.InvTrxHdrStatusId" class ="form-control" asp-items="ViewBag.InvTrxHdrStatusId"></select>
             </div>

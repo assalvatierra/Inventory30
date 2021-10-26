@@ -27,6 +27,7 @@
     <EntitySet Name="InvPoHdrStatus" EntityType="InvDB.Store.InvPoHdrStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvTrxHdrStatus" EntityType="InvDB.Store.InvTrxHdrStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvTrxDtlOperators" EntityType="InvDB.Store.InvTrxDtlOperators" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvStoreUsers" EntityType="InvDB.Store.InvStoreUsers" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -154,6 +155,10 @@
     <AssociationSet Name="InvTrxDtlOperatorInvTrxDtl" Association="InvDB.Store.InvTrxDtlOperatorInvTrxDtl">
       <End Role="InvTrxDtlOperator" EntitySet="InvTrxDtlOperators" />
       <End Role="InvTrxDtl" EntitySet="InvTrxDtls" />
+    </AssociationSet>
+    <AssociationSet Name="InvStoreInvStoreUser" Association="InvDB.Store.InvStoreInvStoreUser">
+      <End Role="InvStore" EntitySet="InvStores" />
+      <End Role="InvStoreUser" EntitySet="InvStoreUsers" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="InvItems">
@@ -353,6 +358,14 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="Operator" Type="nvarchar" Nullable="false" MaxLength="5" />
+  </EntityType>
+  <EntityType Name="InvStoreUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvStoreUserId" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="InvStoreId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -738,6 +751,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="InvStoreInvStoreUser">
+    <End Role="InvStore" Type="InvDB.Store.InvStores" Multiplicity="1" />
+    <End Role="InvStoreUser" Type="InvDB.Store.InvStoreUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvStore">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvStoreUser">
+        <PropertyRef Name="InvStoreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -892,6 +917,11 @@
             <End Role="InvTrxDtlOperator" EntitySet="InvTrxDtlOperators" />
             <End Role="InvTrxDtl" EntitySet="InvTrxDtls" />
           </AssociationSet>
+          <EntitySet Name="InvStoreUsers" EntityType="InvDB.InvStoreUser" />
+          <AssociationSet Name="InvStoreInvStoreUser" Association="InvDB.InvStoreInvStoreUser">
+            <End Role="InvStore" EntitySet="InvStores" />
+            <End Role="InvStoreUser" EntitySet="InvStoreUsers" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
           <Key>
@@ -1013,6 +1043,7 @@
           <NavigationProperty Name="InvAdjHdrs" Relationship="InvDB.InvStoreInvAdjHdr" FromRole="InvStore" ToRole="InvAdjHdr" />
           <Property Name="StoreName" Type="String" Nullable="false" />
           <NavigationProperty Name="InvTrxHdrs" Relationship="InvDB.InvStoreInvTrxHdr" FromRole="InvStore" ToRole="InvTrxHdr" />
+          <NavigationProperty Name="InvStoreUsers" Relationship="InvDB.InvStoreInvStoreUser" FromRole="InvStore" ToRole="InvStoreUser" />
         </EntityType>
         <EntityType Name="InvPoHdr">
           <Key>
@@ -1539,6 +1570,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="InvStoreUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvStoreUserId" Type="String" Nullable="false" MaxLength="40" />
+          <NavigationProperty Name="InvStore" Relationship="InvDB.InvStoreInvStoreUser" FromRole="InvStoreUser" ToRole="InvStore" />
+          <Property Name="InvStoreId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvStoreInvStoreUser">
+          <End Type="InvDB.InvStore" Role="InvStore" Multiplicity="1" />
+          <End Type="InvDB.InvStoreUser" Role="InvStoreUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvStore">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvStoreUser">
+              <PropertyRef Name="InvStoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1761,6 +1813,15 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Operator" ColumnName="Operator" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvStoreUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvStoreUser)">
+        <MappingFragment StoreEntitySet="InvStoreUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvStoreUserId" ColumnName="InvStoreUserId" />
+          <ScalarProperty Name="InvStoreId" ColumnName="InvStoreId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

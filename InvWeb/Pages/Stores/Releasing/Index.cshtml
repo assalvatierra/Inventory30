@@ -20,10 +20,10 @@
     </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-outline-primary" id="status-pending">
-            <input type="radio" asp-for="status" autocomplete="off" value="PENDING" checked> Pending
+            <input type="radio" asp-for="status" autocomplete="off" value="PENDING" checked> Requested
         </label>
         <label class="btn btn-outline-primary" id="status-accepted">
-            <input type="radio" asp-for="status" autocomplete="off" value="ACCEPTED"> Accepted
+            <input type="radio" asp-for="status" autocomplete="off" value="ACCEPTED"> Relased
         </label>
     </div>
     <button class="btn btn-primary" type="submit"> Filter </button>
@@ -78,7 +78,7 @@
                 <td>
                     @if (item.InvTrxHdrStatusId == 1)
                     {
-                        <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Accept </button>
+                        <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Release </button>
                         <button class="btn btn-light" onclick="ApproveHdr('@item.Id')"> Cancel </button>
                     }
 
