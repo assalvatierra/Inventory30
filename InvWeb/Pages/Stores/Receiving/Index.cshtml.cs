@@ -45,6 +45,8 @@ namespace InvWeb.Pages.Stores.Receiving
 
         [BindProperty]
         public string status { get; set; }   //this is the key bit
+        [BindProperty]
+        public string orderby { get; set; }   //this is the key bit
 
         public async Task<IActionResult> OnPostAsync(int? storeId)
         {
@@ -79,6 +81,23 @@ namespace InvWeb.Pages.Stores.Receiving
                         break;
                 }
             }
+
+            if (!String.IsNullOrWhiteSpace(orderby))
+            {
+                switch (orderby)
+                {
+                    case "ASC":
+                        InvTrxHdr = InvTrxHdr.OrderBy(c=>c.DtTrx).ToList();
+                        break;
+                    case "DESC":
+                        InvTrxHdr = InvTrxHdr.OrderByDescending(c => c.DtTrx).ToList();
+                        break;
+                    default:
+                        InvTrxHdr = InvTrxHdr.OrderBy(c => c.DtTrx).ToList();
+                        break;
+                }
+            }
+
 
             ViewData["StoreId"] = storeId;
 

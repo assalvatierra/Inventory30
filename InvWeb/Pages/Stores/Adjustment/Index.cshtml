@@ -13,6 +13,20 @@
 <p>
     <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId">Create New</a>
 </p>
+<form method="post">
+    <div hidden>
+        <input type="text" value="@ViewData["StoreId"]" name="storeId" id="storeId" />
+    </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-outline-primary" id="status-pending">
+            <input type="radio" asp-for="status" autocomplete="off" value="PENDING" checked> Pending
+        </label>
+        <label class="btn btn-outline-primary" id="status-accepted">
+            <input type="radio" asp-for="status" autocomplete="off" value="ACCEPTED"> Accepted
+        </label>
+    </div>
+    <button class="btn btn-primary" type="submit"> Filter </button>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -89,6 +103,13 @@
             });
         }
 
+        function CancelHdr(id) {
+            $.post('/api/ApiTrxHdrs/PostHdrsCancel?id=' + id, { id: id }, (res) => {
+                console.log(res);
+            }).done(() => {
+                window.location.reload(false);
+            });
+        }
 
         $(() => {
             //on init status
