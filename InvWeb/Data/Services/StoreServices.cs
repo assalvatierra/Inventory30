@@ -31,13 +31,11 @@ namespace InvWeb.Data.Services
             int released = 0;
             int requested = 0;
 
-            var invItems = await _context.InvItems.ToListAsync();
+            var invItems = await GetItemsAsync();
 
             //Todo: add filter to add only trx with approved status (statusId = 1) 
             var Received = await this.GetReceivedItemsAsync(storeId);
-
             var Released = await this.GetReleasedItemsAsync(storeId);
-
             var Adjustment = await this.GetAdjustmentItemsAsync(storeId);
 
             List<StoreInvCount> storeInvItems = new();
@@ -50,14 +48,12 @@ namespace InvWeb.Data.Services
                 if (Received != null)
                 {
                     accepted = GetAcceptedItemsCount(Received, item);
-
                     pending = GetPendingItemsCount(Received, item);
                 }
 
                 if (Released != null)
                 {
                     released = GetReleasedItemsCount(Released, item);
-
                     requested = GetRequestedItemsCount(Released, item);
                 }
 
@@ -170,6 +166,22 @@ namespace InvWeb.Data.Services
                  h.InvTrxHdr.InvStoreId == storeId)
                 .Include(h => h.InvTrxHdr)
                 .ToListAsync();
+        }
+
+
+        public async Task<List<InvItem>> GetItemsAsync()
+        {
+            return await _context.InvItems.ToListAsync();
+        }
+
+        public List<InvStore> GetStoreUsers(string user)
+        {
+
+            var storeIds = _context.InvStoreUsers.Where(s => s.InvStoreUserId == user)
+                .Include(s=>s.InvStore).Select(s=>s.InvStoreId)
+                .ToList();
+
+            return _context.InvStores.Where(c => storeIds.Contains(c.Id)).ToList();
         }
 
         #endregion

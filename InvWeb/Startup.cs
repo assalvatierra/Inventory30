@@ -29,10 +29,15 @@ namespace InvWeb
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //var builder = new SqlConnectionStringBuilder(
-            //Configuration.GetConnectionString("ProdConnection"));
-            //builder.Password = Configuration["DB:pass"];
-            //var _connection = builder.ConnectionString;
+            //add sessions
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             //localdb
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -82,6 +87,8 @@ namespace InvWeb
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

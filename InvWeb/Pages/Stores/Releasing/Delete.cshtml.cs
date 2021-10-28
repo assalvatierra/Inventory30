@@ -56,7 +56,7 @@ namespace InvWeb.Pages.Stores.Releasing
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { id = InvTrxHdr.InvStoreId });
         }
     }
 }

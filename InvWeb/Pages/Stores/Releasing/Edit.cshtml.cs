@@ -74,7 +74,7 @@ namespace InvWeb.Pages.Stores.Releasing
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { id = InvTrxHdr.InvStoreId });
         }
 
         private bool InvTrxHdrExists(int id)

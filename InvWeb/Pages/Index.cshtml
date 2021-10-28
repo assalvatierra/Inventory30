@@ -12,32 +12,45 @@
     <a asp-page="./Stores/Main/Index" asp-route-id="@tempStoreId"> Go to MyStore </a>
 </div>
 
+@foreach (var store in Model.UsersStores)
+{
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@store.StoreName</h5>
+            <p class="card-text">Store Inventory Items</p>
+            <a asp-page="./Stores/Main/Index" asp-route-id="@store.Id" class="btn btn-primary"> Go to MyStore  </a>
+        </div>
+    </div>
+   
+
+}
+
 @*<div class="text-left">
-    <h3 class="display-4">Admin Area</h3>
-    <div>
-        <a href="/Masterfiles/Stores">Stores</a>
-    </div>
-    <div>
-    Item Masterfile<br />
-        - &nbsp; <a href="/Masterfiles/ItemMaster">Item List</a><br />
-        - &nbsp; <a href="/Masterfiles/ItemClassification">Item Classification</a><br />
-        - &nbsp; <a href="/Masterfiles/Supplier">Supplier List</a>
+        <h3 class="display-4">Admin Area</h3>
+        <div>
+            <a href="/Masterfiles/Stores">Stores</a>
+        </div>
+        <div>
+        Item Masterfile<br />
+            - &nbsp; <a href="/Masterfiles/ItemMaster">Item List</a><br />
+            - &nbsp; <a href="/Masterfiles/ItemClassification">Item Classification</a><br />
+            - &nbsp; <a href="/Masterfiles/Supplier">Supplier List</a>
+
+        </div>
+
+        <div>
+            Accounts
+
+        </div>
+        <div>
+            Search
+        </div>
 
     </div>
 
+
+
     <div>
-        Accounts
-        
-    </div>
-    <div>
-        Search
-    </div>
-    
-</div>
-
-
-
-<div>
-    <h3 class="display-4">Store Manager Area</h3><br />
-    <a asp-page="/Masterfiles/Stores/Main" asp-route-id="@tempStoreId"> go to my Store</a>
-</div>*@
+        <h3 class="display-4">Store Manager Area</h3><br />
+        <a asp-page="/Masterfiles/Stores/Main" asp-route-id="@tempStoreId"> go to my Store</a>
+    </div>*@

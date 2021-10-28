@@ -39,6 +39,8 @@ namespace InvWeb.Pages.Stores.Releasing
 
         [BindProperty]
         public string status { get; set; }   // filter Parameter
+        [BindProperty]
+        public string orderby { get; set; }   //this is the key bit
 
         public async Task<IActionResult> OnPostAsync(int? storeId)
         {
@@ -70,6 +72,22 @@ namespace InvWeb.Pages.Stores.Releasing
                         break;
                     default:
                         InvTrxHdr = InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
+                        break;
+                }
+            }
+
+            if (!String.IsNullOrWhiteSpace(orderby))
+            {
+                switch (orderby)
+                {
+                    case "ASC":
+                        InvTrxHdr = InvTrxHdr.OrderBy(c => c.DtTrx).ToList();
+                        break;
+                    case "DESC":
+                        InvTrxHdr = InvTrxHdr.OrderByDescending(c => c.DtTrx).ToList();
+                        break;
+                    default:
+                        InvTrxHdr = InvTrxHdr.OrderBy(c => c.DtTrx).ToList();
                         break;
                 }
             }

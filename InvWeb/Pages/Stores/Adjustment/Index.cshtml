@@ -25,6 +25,14 @@
             <input type="radio" asp-for="status" autocomplete="off" value="ACCEPTED"> Accepted
         </label>
     </div>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-outline-primary" id="orderby-asc">
+            <input type="radio" asp-for="orderby" autocomplete="off" value="ASC" checked> ASC
+        </label>
+        <label class="btn btn-outline-primary" id="orderby-desc">
+            <input type="radio" asp-for="orderby" autocomplete="off" value="DESC"> DESC
+        </label>
+    </div>
     <button class="btn btn-primary" type="submit"> Filter </button>
 </form>
 <table class="table">
@@ -93,39 +101,15 @@
 </table>
 
 @section Scripts{
-
+    <script type="text/javascript" src="~/js/Store/IndexFilter.js"></script>
     <script>
-        function ApproveHdr(id) {
-            $.post('/api/ApiTrxHdrs/PurchaseOrderApprove?id=' + id, { id: id }, (res) => {
-                console.log(res);
-            }).done(() => {
-                window.location.reload(false);
-            });
-        }
-
-        function CancelHdr(id) {
-            $.post('/api/ApiTrxHdrs/PostHdrsCancel?id=' + id, { id: id }, (res) => {
-                console.log(res);
-            }).done(() => {
-                window.location.reload(false);
-            });
-        }
 
         $(() => {
             //on init status
-            console.log("@Model.status");
-            switch ("@Model.status") {
-                case "PENDING":
-                    $("#status-pending").addClass("active");
-                    break;
-                case "ACCEPTED":
-                    $("#status-accepted").addClass("active");
-                    break;
-                default:
-                    $("#status-pending").addClass("active");
-                    break;
-            }
+            StatusFilter("@Model.status");
+            OrderFilter("@Model.orderby");
 
         });
+
     </script>
 } 

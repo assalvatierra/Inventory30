@@ -16,5 +16,7 @@ namespace InvWeb.Data.Interfaces
         public Task<List<InvTrxDtl>> GetAdjustmentItemsAsync(int storeId);
         public int GetAdjustmentItemsCount(List<InvTrxDtl> adjustmentItems, int itemId);
         public int GetAvailableItemsCount();
+
+        public List<InvStore> GetStoreUsers(string user);
     }
 }
