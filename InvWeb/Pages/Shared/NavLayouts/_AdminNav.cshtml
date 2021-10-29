@@ -2,12 +2,12 @@
 @using Newtonsoft.Json;
 @{
     int[] storeIds = null;
-    var storeID = Context.Session.GetInt32("_UsersStoreId");
 
-            //if (String.IsNullOrEmpty(storeID))
-            //{
-            //    storeIds = JsonConvert.DeserializeObject<int[]>(storeID);
-            //}
+    int? storeID = 0;
+    if (Context.Session.GetInt32("_UsersStoreId") != null)
+    {
+        storeID = Context.Session.GetInt32("_UsersStoreId");
+    }
 }
 <ul class="list-unstyled components">
     <li>
@@ -77,24 +77,5 @@
     </li>
     }
 
-    @*@if (storeIds != null)
-        {
-            <li class="dropdown-btn">
-                <a href="#" id="sidenav-Items">
-                    MyStore
-                    <i class="float-right dropdown-toggle"></i>
-                </a>
-            </li>
-            @for (var i = 0; i <= storeIds.Count(); i++)
-            {
-                <li class="dropdown-container">
-                    <a href="/Stores/Main/@storeIds[i]">Go to MyStore</a>
-                    <a href="/Stores/Receiving/@storeIds[i]">Receiving</a>
-                    <a href="/Stores/Releasing/@storeIds[i]">Releasing</a>
-                    <a href="/Stores/PurchaseRequest/@storeIds[i]">Purchase Request</a>
-                    <a href="/Stores/Reports/@storeIds[i]">  Inventory Reports</a>
-                </li>
-            }
-        }*@
 
 </ul>

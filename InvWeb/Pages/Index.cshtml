@@ -6,51 +6,19 @@
     int tempStoreId = 2;
 }
 
-<div class="jumbotron">
-    <h2> Welcome to MyStore2 </h2>
-    <p> Store Id : @tempStoreId </p>
-    <a asp-page="./Stores/Main/Index" asp-route-id="@tempStoreId"> Go to MyStore </a>
-</div>
-
-@foreach (var store in Model.UsersStores)
+@if (Model.UsersStores != null)
 {
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">@store.StoreName</h5>
-            <p class="card-text">Store Inventory Items</p>
-            <a asp-page="./Stores/Main/Index" asp-route-id="@store.Id" class="btn btn-primary"> Go to MyStore  </a>
+    @foreach (var store in Model.UsersStores)
+    {
+        <div class="jumbotron">
+            <h2> Welcome to @store.StoreName </h2>
+            <p> Store Id : @store.Id </p>
+            <a asp-page="./Stores/Main/Index" asp-route-id="@store.Id"> Go to Store </a>
         </div>
-    </div>
-   
+    }
 
 }
-
-@*<div class="text-left">
-        <h3 class="display-4">Admin Area</h3>
-        <div>
-            <a href="/Masterfiles/Stores">Stores</a>
-        </div>
-        <div>
-        Item Masterfile<br />
-            - &nbsp; <a href="/Masterfiles/ItemMaster">Item List</a><br />
-            - &nbsp; <a href="/Masterfiles/ItemClassification">Item Classification</a><br />
-            - &nbsp; <a href="/Masterfiles/Supplier">Supplier List</a>
-
-        </div>
-
-        <div>
-            Accounts
-
-        </div>
-        <div>
-            Search
-        </div>
-
-    </div>
-
-
-
-    <div>
-        <h3 class="display-4">Store Manager Area</h3><br />
-        <a asp-page="/Masterfiles/Stores/Main" asp-route-id="@tempStoreId"> go to my Store</a>
-    </div>*@
+else { 
+    <h1> No Stores Assigned </h1>
+    <h2> <a asp-page="./Masterfiles/Index">Go here to assign stores</a> or contact your administrator to assign stores </h2>
+}

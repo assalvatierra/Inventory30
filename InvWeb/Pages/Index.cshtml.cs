@@ -11,9 +11,11 @@ using System.Threading.Tasks;
 using WebDBSchema.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InvWeb.Pages
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
@@ -32,14 +34,17 @@ namespace InvWeb.Pages
         {
             var user = User.FindFirstValue(ClaimTypes.Name);
 
-            UsersStores = _storeSvc.GetStoreUsers(user);
-
-            if (UsersStores != null)
+            if (user != null)
             {
-                HttpContext.Session.SetInt32("_UsersStoreId", UsersStores.FirstOrDefault().Id);
-                //var userIds = UsersStores.Select(c => c.Id).ToList();
-                //var jsonarr = JsonConvert.SerializeObject(userIds);
-                //HttpContext.Session.SetString("_UsersStoreIds", jsonarr);
+                UsersStores = _storeSvc.GetStoreUsers(user);
+
+                if (UsersStores.FirstOrDefault() != null)
+                {
+                    HttpContext.Session.SetInt32("_UsersStoreId", UsersStores.FirstOrDefault().Id);
+                        //var userIds = UsersStores.Select(c => c.Id).ToList();
+                        //var jsonarr = JsonConvert.SerializeObject(userIds);
+                        //HttpContext.Session.SetString("_UsersStoreIds", jsonarr);
+                }
             }
         }
     }

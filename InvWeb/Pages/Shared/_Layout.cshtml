@@ -11,6 +11,7 @@
 </head>
 <body>
 
+    @using Microsoft.AspNetCore.Http
     <div class="wrapper">
         <!-- Sidebar Holder -->
         <nav id="sidebar">
@@ -33,7 +34,7 @@
                     <span> Please Login </span>
                 }
             </div>
-
+           
             @if (User.IsInRole("ADMIN"))
             {
 
