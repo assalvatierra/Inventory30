@@ -44,9 +44,9 @@ namespace InvWeb.Pages.Stores.Receiving
         }
 
         [BindProperty]
-        public string status { get; set; }   //this is the key bit
+        public string Status { get; set; }   //this is the key bit
         [BindProperty]
-        public string orderby { get; set; }   //this is the key bit
+        public string Orderby { get; set; }   //this is the key bit
 
         public async Task<IActionResult> OnPostAsync(int? storeId)
         {
@@ -63,39 +63,25 @@ namespace InvWeb.Pages.Stores.Receiving
                               i.InvStoreId == storeId)
                 .ToListAsync();
 
-            if (!String.IsNullOrWhiteSpace(status))
+            if (!String.IsNullOrWhiteSpace(Status))
             {
-                switch (status)
+                InvTrxHdr = Status switch
                 {
-                    case "PENDING":
-                        InvTrxHdr = InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
-                        break;
-                    case "ACCEPTED":
-                        InvTrxHdr = InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList();
-                        break;
-                    case "ALL":
-                        InvTrxHdr = InvTrxHdr.ToList();
-                        break;
-                    default:
-                        InvTrxHdr = InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
-                        break;
-                }
+                    "PENDING" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+                    "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
+                    "ALL" => InvTrxHdr.ToList(),
+                    _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+                };
             }
 
-            if (!String.IsNullOrWhiteSpace(orderby))
+            if (!String.IsNullOrWhiteSpace(Orderby))
             {
-                switch (orderby)
+                InvTrxHdr = Orderby switch
                 {
-                    case "ASC":
-                        InvTrxHdr = InvTrxHdr.OrderBy(c=>c.DtTrx).ToList();
-                        break;
-                    case "DESC":
-                        InvTrxHdr = InvTrxHdr.OrderByDescending(c => c.DtTrx).ToList();
-                        break;
-                    default:
-                        InvTrxHdr = InvTrxHdr.OrderBy(c => c.DtTrx).ToList();
-                        break;
-                }
+                    "ASC" => InvTrxHdr.OrderBy(c => c.DtTrx).ToList(),
+                    "DESC" => InvTrxHdr.OrderByDescending(c => c.DtTrx).ToList(),
+                    _ => InvTrxHdr.OrderBy(c => c.DtTrx).ToList(),
+                };
             }
 
 

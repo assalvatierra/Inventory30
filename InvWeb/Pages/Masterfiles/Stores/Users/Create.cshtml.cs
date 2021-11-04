@@ -25,7 +25,7 @@ namespace InvWeb.Pages.Masterfiles.Stores.Users
 
         public IActionResult OnGet(int id)
         {
-            var user = _context.Users;
+            _ = _context.Users;
             ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName", id);
             ViewData["UserId"] = new SelectList(userServices.GetUserList(), "Username", "Username");
             ViewData["storeId"] = id;
