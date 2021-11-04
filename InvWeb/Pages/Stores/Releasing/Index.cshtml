@@ -20,18 +20,18 @@
     </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-outline-primary" id="status-pending">
-            <input type="radio" asp-for="status" class="button" autocomplete="off" value="PENDING" checked> Requested
+            <input type="radio" asp-for="Status" class="button" autocomplete="off" value="PENDING" checked> Requested
         </label>
         <label class="btn btn-outline-primary" id="status-accepted">
-            <input type="radio" asp-for="status" class="button" autocomplete="off" value="ACCEPTED"> Relased
+            <input type="radio" asp-for="Status" class="button" autocomplete="off" value="ACCEPTED"> Relased
         </label>
     </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-outline-primary" id="orderby-asc">
-            <input type="radio" asp-for="orderby" autocomplete="off" value="ASC" checked> ASC
+            <input type="radio" asp-for="Orderby" autocomplete="off" value="ASC" checked> ASC
         </label>
         <label class="btn btn-outline-primary" id="orderby-desc">
-            <input type="radio" asp-for="orderby" autocomplete="off" value="DESC"> DESC
+            <input type="radio" asp-for="Orderby" autocomplete="off" value="DESC"> DESC
         </label>
     </div>
     <button class="btn btn-primary" type="submit"> Filter </button>
@@ -108,8 +108,8 @@
     <script>
         $(() => {
             //on init status
-            StatusFilter("@Model.status");
-            OrderFilter("@Model.orderby");
+            StatusFilter("@Model.Status");
+            OrderFilter("@Model.Orderby");
         });
     </script>
 } 
