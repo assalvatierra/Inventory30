@@ -2,14 +2,14 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/26/2021 15:59:16
--- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
+-- Date Created: 11/08/2021 09:21:51
+-- Generated from EDMX file: C:\Source\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [InvDB3];
-GO
+--USE [InvDB3];
+--GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
