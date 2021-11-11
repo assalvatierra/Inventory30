@@ -23,17 +23,32 @@ namespace InvWeb.Pages.Stores.Releasing
 
         private readonly int TYPE_RELEASING = 2;
 
-        public async Task OnGetAsync(int storeId)
+        public async Task OnGetAsync(int storeId, string status)
         {
             InvTrxHdr = await _context.InvTrxHdrs
                 .Include(i => i.InvStore)
                 .Include(i => i.InvTrxHdrStatu)
-                  .Where(i => i.InvTrxTypeId == TYPE_RELEASING
+                .Include(i => i.InvTrxDtls)
+                    .ThenInclude(i => i.InvItem)
+                    .ThenInclude(i => i.InvUom)
+                .Where(i => i.InvTrxTypeId == TYPE_RELEASING
                            && i.InvStoreId   == storeId
                            && i.InvTrxHdrStatusId == 1)
                 .Include(i => i.InvTrxType).ToListAsync();
 
+            if (!String.IsNullOrWhiteSpace(Status))
+            {
+                InvTrxHdr = Status switch
+                {
+                    "PENDING" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+                    "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
+                    "ALL" => InvTrxHdr.ToList(),
+                    _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+                };
+            }
+
             ViewData["StoreId"] = storeId;
+            ViewData["Status"] = status;
         }
 
 
