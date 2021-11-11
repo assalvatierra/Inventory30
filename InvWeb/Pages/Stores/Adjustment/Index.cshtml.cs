@@ -28,7 +28,7 @@ namespace InvWeb.Pages.Stores.Adjustment
 
         private readonly int TYPE_ADJUSTMENT = 3;
 
-        public async Task<ActionResult> OnGetAsync(int? storeId)
+        public async Task<ActionResult> OnGetAsync(int? storeId, string status)
         {
 
             if (storeId == null)
@@ -39,11 +39,25 @@ namespace InvWeb.Pages.Stores.Adjustment
             InvTrxHdr = await _context.InvTrxHdrs
                 .Include(i => i.InvStore)
                 .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxDtls)
+                    .ThenInclude(i => i.InvItem)
+                    .ThenInclude(i => i.InvUom)
                 .Where(i => i.InvStoreId == storeId && i.InvTrxTypeId == 3)
                 .Include(i => i.InvTrxType).ToListAsync();
 
-            ViewData["StoreId"] = storeId;
+            if (!String.IsNullOrWhiteSpace(status))
+            {
+                InvTrxHdr = status switch
+                {
+                    "PENDING" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+                    "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
+                    "ALL" => InvTrxHdr.ToList(),
+                    _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+                };
+            }
 
+            ViewData["StoreId"] = storeId;
+            ViewData["Status"] = status;
 
             return Page();
         }

@@ -1,0 +1,136 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+    IEnumerable<WebDBSchema.Models.Stores.StoreInvCount> storeInvs = ViewBag.StoreInv;
+}
+
+
+<br />
+<!-- Summary Store Items -->
+<div class="row hide-on-mobile">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4>Store Items</h4>
+                <table class="table">
+                    <thead>
+                        
+                        <tr>
+                            <th>
+                                Item <i class="bi-alarm"></i>
+                            </th>
+                            <th>
+                                <span data-toggle="tooltip" data-placement="top" title="On-Hand = accepted - released">
+                                   Physical
+                                </span>
+
+                            </th>
+                            
+                            <th>
+                                IN
+                            </th>
+                            <th>
+                                OUT
+                            </th>
+                            <th>
+                                +/-
+                            </th>
+                            <th>
+                                <span data-toggle="tooltip" data-placement="top" title="Available = (pending + accepted) - (requested + released)">
+                                    Expected
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in storeInvs)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Description
+                                </td>
+                                <td>
+                                    @item.OnHand
+                                </td>
+                                <td class="table-secondary">
+                                    @item.ReceivePending
+                                </td>
+                                <td>
+                                    @item.ReleaseRequest
+                                </td>
+                                <td class="table-secondary">
+                                    @item.Adjustments
+                                </td>
+                                <td>
+                                    @item.Available
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile View table -->
+<div class="row mobile-only">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4>Store Items</h4>
+                <table class="table">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var item in storeInvs)
+                        {
+                            <tr>
+                                <th colspan="5">
+                                    @item.Description
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    On-Hand
+                                </td>
+                                <td>
+                                    IN
+                                </td>
+                                <td>
+                                    OUT
+                                </td>
+                                <td>
+                                    +/-
+                                </td>
+                                <td>
+                                    Expected
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @item.OnHand
+                                </td>
+                                <td class="table-secondary">
+                                    @item.ReceivePending
+                                </td>
+                                <td>
+                                    @item.ReleaseRequest
+                                </td>
+                                <td class="table-secondary">
+                                    @item.Adjustments
+                                </td>
+                                <td>
+                                    @item.Available
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

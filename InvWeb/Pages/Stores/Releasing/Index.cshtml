@@ -5,16 +5,35 @@
     ViewData["Title"] = "Releasing";
 }
 
-<h1>Releasing</h1>
+<h1>
+    Releasing
+
+    @if (ViewBag.Status == "ACCEPTED")
+    {
+        <span style="font-size:1rem;">(Released)</span>
+    }
+    else
+    {
+        <span style="font-size:1rem;">(Pending)</span>
+    }
+</h1>
 
 <p>
-    <a asp-page="../Main/Index" asp-route-id="@ViewBag.StoreId">Go back to MyStore</a>
+    <a asp-page="../Main/Index" asp-route-id="@ViewBag.StoreId">Go back to MyStore</a> |
+    @if (ViewBag.Status == "ACCEPTED")
+    {
+        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
+    }
+    else
+    {
+        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="ACCEPTED">Go recent Approval</a>
+    }
 </p>
 <p>
     <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId">Create New</a>
 </p>
 
-<form method="post">
+<form method="post" hidden>
     <div hidden>
         <input type="text" value="@ViewData["StoreId"]" name="storeId" id="storeId" />
     </div>
@@ -41,23 +60,15 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.InvTrxHdr[0].DtTrx)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvTrxHdr[0].UserId)
+                Date
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InvTrxHdr[0].Remarks)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvTrxHdr[0].InvStore)
+                Details
             </th>
-            <th>
-                Type
-            </th>
-            <th>
-                Status
-            </th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -69,29 +80,28 @@
                     @item.DtTrx.ToString("MMM dd yyyy")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserId)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Remarks)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvStore.StoreName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvTrxType.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvTrxHdrStatu.Status)
+                    <div>
+                        <ul>
+                            @foreach (var dlts in item.InvTrxDtls)
+                            {
+                                <li style="color:black;">
+                                    @dlts.InvItem.Description x
+                                    @dlts.ItemQty
+                                    @dlts.InvUom.uom
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </td>
                 <td>
                     @if (item.InvTrxHdrStatusId == 1)
                     {
                         <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Release </button>
-                        <button class="btn btn-light" onclick="CancelHdr('@item.Id')"> Cancel </button>
                     }
 
-                </td>
-                <td>
                     <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>

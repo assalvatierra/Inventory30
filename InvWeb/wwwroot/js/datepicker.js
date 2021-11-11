@@ -26,6 +26,20 @@ $(function () {
 });
 
 $(function () {
+    $('.datepicker-edit').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 2000,
+        maxYear: parseInt(moment().format('YYYY'), 20),
+        locale: {
+            format: 'MMM DD YYYY'
+        }
+    }, function (start, end, label) {
+
+    });
+});
+
+$(function () {
     $('.datetimepicker').daterangepicker({
         timePicker: true,
         timePickerIncrement: 1,

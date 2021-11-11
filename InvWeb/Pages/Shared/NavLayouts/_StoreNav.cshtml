@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
 @{
-    int[] storeIds = null;
 
     int? storeID = 0;
     if (Context.Session.GetInt32("_UsersStoreId") != null)
