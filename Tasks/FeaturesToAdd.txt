@@ -1,0 +1,3 @@
+Lot number (receiving and release by lot number)
+Warning and critical stock Limit
+Unit of measure conversion
