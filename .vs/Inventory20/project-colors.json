@@ -5,7 +5,17 @@
       "ProjectGuid": "07f69cf4-dc0f-4136-b8b4-9bdcabb4b6c1",
       "DisplayName": "InvWeb",
       "ColorIndex": 0
+    },
+    "f8a495aa-6c5e-43e1-96e1-27e1095bf337": {
+      "ProjectGuid": "f8a495aa-6c5e-43e1-96e1-27e1095bf337",
+      "DisplayName": "WebDBSchema",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 2
 }
