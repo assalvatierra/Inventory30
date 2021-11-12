@@ -75,6 +75,22 @@ namespace InvWeb.Data.Services
                     });
                 }
 
+                if (Released.Where(h => h.InvItemId == item).Any() && !Received.Where(h => h.InvItemId == item).Any())
+                {
+                    storeInvItems.Add(new StoreInvCount
+                    {
+                        Id = item,
+                        Description = invItems.Where(i => i.Id == item).FirstOrDefault().Description,
+                        Available = (itemReceived - itemReleased) + (itemAdjustment),
+                        OnHand = (accepted - released) + (itemAdjustment),
+                        ReceivePending = pending,
+                        ReceiveAccepted = accepted,
+                        ReleaseRequest = requested,
+                        ReleaseReleased = released,
+                        Adjustments = itemAdjustment
+                    });
+                }
+
             }
 
             return storeInvItems;
