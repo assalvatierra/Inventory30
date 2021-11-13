@@ -52,6 +52,7 @@ namespace InvWeb.Pages.Stores.Main
             ViewData["PendingReleasing"] = await _storeSvc.GetReleasingPendingAsync(storeId);
             ViewData["PendingAdjustment"] = await _storeSvc.GetAdjustmentPendingAsync(storeId);
             ViewData["PendingPurchaseOrder"] = await _storeSvc.GetPurchaseOrderPendingAsync(storeId);
+            ViewData["RecentTrxHdrs"] = await _storeSvc.GetRecentTransactions(storeId);
 
             return Page();
         }

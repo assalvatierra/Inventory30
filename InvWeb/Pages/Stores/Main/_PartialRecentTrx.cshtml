@@ -1,0 +1,140 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+    IEnumerable<WebDBSchema.Models.InvTrxHdr> RecentTrxHdrs = ViewBag.RecentTrxHdrs;
+}
+
+<br />
+<!-- Summary Store Items -->
+<div class="row hide-on-mobile">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4>Store Trxs</h4>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                LotID
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Remarks
+                            </th>
+                            <th>
+                                Details
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in RecentTrxHdrs)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Id
+                                </td>
+                                <td>
+                                    @item.DtTrx.ToString("MMM dd yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Remarks)
+                                </td>
+                                <td>
+                                    <div>
+                                        <ul>
+                                            @foreach (var dlts in item.InvTrxDtls)
+                                            {
+                                                <li style="color:black;">
+                                                    @dlts.InvItem.Description x
+                                                    @dlts.ItemQty
+                                                    @dlts.InvUom.uom
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td>
+                                    @item.InvTrxType.Type
+                                </td>
+                                <td>
+                                    @item.InvTrxHdrStatu.Status
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Summary Store Items -->
+<div class="row mobile-only">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4>Store Trxs</h4>
+
+                <table class="table">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in RecentTrxHdrs)
+                        {
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Remarks
+                                </th>
+                                <th>
+                                    Details
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @item.DtTrx.ToString("MMM dd yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Remarks)
+                                </td>
+                                <td>
+                                    <div>
+                                        <p style="color:black;">
+                                            @item.InvTrxType.Type - 
+                                            @item.InvTrxHdrStatu.Status
+                                    </p>
+                                    <ul style="padding-left:10px;">
+                                        @foreach (var dlts in item.InvTrxDtls)
+                                        {
+                                            <li style="color:black;">
+                                                @dlts.InvItem.Description x
+                                                @dlts.ItemQty
+                                                @dlts.InvUom.uom
+                                            </li>
+                                        }
+                                    </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

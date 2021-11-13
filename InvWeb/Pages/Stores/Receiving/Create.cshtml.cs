@@ -23,7 +23,7 @@ namespace InvWeb.Pages.Stores.Receiving
         public IActionResult OnGet(int? storeId)
         {
 
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
+            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName", storeId);
             ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
             ViewData["InvTrxTypeId"] = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1);
             ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
