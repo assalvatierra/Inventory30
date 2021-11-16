@@ -188,6 +188,29 @@ namespace InvWeb.Data.Services
             return storePendingReceiving.Count();
         }
 
+        public async Task<List<InvTrxHdr>> GetRecentTransactions(int storeId)
+        {
+
+            var today = GetCurrentDateTime().Date;
+
+            var recentTrx = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType)
+                .Include(i => i.InvTrxDtls)
+                    .ThenInclude(i => i.InvItem)
+                    .ThenInclude(i => i.InvUom)
+                .Where(t => t.InvStoreId == storeId && t.DtTrx.Date == today).ToListAsync();
+
+            return recentTrx;
+        }
+
+        public DateTime GetCurrentDateTime()
+        {
+            DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
+
+            return _localTime;
+        }
 
         #region DBLayers
 
