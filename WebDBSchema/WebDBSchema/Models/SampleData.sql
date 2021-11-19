@@ -1,4 +1,27 @@
 ﻿
+--Sample Items --
+insert into InvItems([Description],[Remarks],[InvUomId]) values
+('Acer Mouse', 'Optical Mouse', 1),
+('Acer Keyboard', 'Regular Keyboard', 1),
+('Acer Monitor 22inch', '22 inch 1080p 60hz Monitor', 1),
+('Acer Speaker', 'Regular Speaker', 1),
+('Acer CPU Tower 10th Gen I504500', 'Intel Core i5 10th Gen, 8GB Ram, 500GB SSD', 1);
+
+--Sample Suppliers --
+insert into InvSuppliers([Name],[Remarks]) values
+('Data Blitz Computer Center','SM Davao - Ecoland'),
+('Acer Concept Store','SM Davao - Ecoland'),
+('Silicon Valley','SM Davao - Ecoland'),
+('Thinking Tools Inc','SM Davao - Ecoland');
+
+-- Classifications --
+insert into InvClassifications([Classification]) values
+('Computer Mouse'),
+('Computer Keyboards'),
+('Computer Monitor'),
+('Computer Towers'),
+('Computer Peripherals'),
+('Others');
 
 -- Store Receiving --
 -- Using Store 2

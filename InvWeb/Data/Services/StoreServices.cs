@@ -139,6 +139,40 @@ namespace InvWeb.Data.Services
         }
 
 
+        public async Task<int> GetReceivingPendingAsync(int storeId)
+        {
+
+            var storePendingReceiving = await _context.InvTrxHdrs
+                .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 1 && t.InvTrxHdrStatusId == 1)
+                .ToListAsync();
+            return storePendingReceiving.Count();
+        }
+
+        public async Task<int> GetReleasingPendingAsync(int storeId)
+        {
+            var storePendingReceiving = await _context.InvTrxHdrs
+                .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 2 && t.InvTrxHdrStatusId == 1)
+                .ToListAsync();
+            return storePendingReceiving.Count();
+        }
+
+        public async Task<int> GetAdjustmentPendingAsync(int storeId)
+        {
+            var storePendingReceiving = await _context.InvTrxHdrs
+                .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 3 && t.InvTrxHdrStatusId == 1)
+                .ToListAsync();
+            return storePendingReceiving.Count();
+        }
+
+        public async Task<int> GetPurchaseOrderPendingAsync(int storeId)
+        {
+            var storePendingReceiving = await _context.InvPoHdrs
+                .Where(t => t.InvStoreId == storeId &&  t.InvPoHdrStatusId == 1)
+                .ToListAsync();
+            return storePendingReceiving.Count();
+        }
+
+
         #region DBLayers
 
         public async Task<List<InvTrxDtl>> GetReceivedItemsAsync(int storeId)

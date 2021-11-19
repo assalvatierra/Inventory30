@@ -104,5 +104,7 @@ namespace InvWeb.Api
         {
             return _context.InvStores.Any(e => e.Id == id);
         }
+
+
     }
 }

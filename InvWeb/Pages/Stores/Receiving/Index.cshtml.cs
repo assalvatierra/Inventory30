@@ -23,7 +23,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
         private readonly int TYPE_RECEIVING = 1;
 
-        public async Task<ActionResult> OnGetAsync(int? storeId)
+        public async Task<ActionResult> OnGetAsync(int? storeId, string status)
         {
             if (storeId == null)
             {
@@ -34,12 +34,27 @@ namespace InvWeb.Pages.Stores.Receiving
                 .Include(i => i.InvStore)
                 .Include(i => i.InvTrxHdrStatu)
                 .Include(i => i.InvTrxType)
-                  .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
+                .Include(i => i.InvTrxDtls)
+                    .ThenInclude(i => i.InvItem)
+                    .ThenInclude(i => i.InvUom)
+                .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
                               i.InvStoreId   == storeId &&
                               i.InvTrxHdrStatusId == 1)
                 .ToListAsync();
 
+            if (!String.IsNullOrWhiteSpace(status))
+            {
+                InvTrxHdr = status switch
+                {
+                    "PENDING" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+                    "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
+                    "ALL" => InvTrxHdr.ToList(),
+                    _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+                };
+            }
+
             ViewData["StoreId"] = storeId;
+            ViewData["Status"] = status;
             return Page();
         }
 

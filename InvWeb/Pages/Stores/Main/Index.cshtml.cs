@@ -44,8 +44,14 @@ namespace InvWeb.Pages.Stores.Main
                 return NotFound();
             }
 
+            var storeId = (int)id;
+
             ViewData["StoreId"] = id;
-            ViewData["StoreInv"] = await _storeSvc.GetStoreItemsSummary((int)id);
+            ViewData["StoreInv"] = await _storeSvc.GetStoreItemsSummary(storeId);
+            ViewData["PendingReceiving"] = await _storeSvc.GetReceivingPendingAsync(storeId);
+            ViewData["PendingReleasing"] = await _storeSvc.GetReleasingPendingAsync(storeId);
+            ViewData["PendingAdjustment"] = await _storeSvc.GetAdjustmentPendingAsync(storeId);
+            ViewData["PendingPurchaseOrder"] = await _storeSvc.GetPurchaseOrderPendingAsync(storeId);
 
             return Page();
         }

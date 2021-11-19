@@ -69,3 +69,25 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
+.mobile-only {
+    display: block;
+}
+
+.hide-on-mobile {
+    display: none;
+}
+
+@media (min-width: 480px) {
+  
+
+    .mobile-only {
+        display: none;
+    }
+
+    .hide-on-mobile {
+        display: block;
+    }
+
+}
