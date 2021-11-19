@@ -60,6 +60,9 @@
     <thead>
         <tr>
             <th>
+                LotNo
+            </th>
+            <th>
                 Date
             </th>
             <th>
@@ -76,6 +79,9 @@
         @foreach (var item in Model.InvTrxHdr)
         {
             <tr>
+                <td>
+                    @item.Id
+                </td>
                 <td>
                     @item.DtTrx.ToString("MMM dd yyyy")
                 </td>

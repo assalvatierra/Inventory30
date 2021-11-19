@@ -75,6 +75,22 @@ namespace InvWeb.Data.Services
                     });
                 }
 
+                if (Released.Where(h => h.InvItemId == item).Any() && !Received.Where(h => h.InvItemId == item).Any())
+                {
+                    storeInvItems.Add(new StoreInvCount
+                    {
+                        Id = item,
+                        Description = invItems.Where(i => i.Id == item).FirstOrDefault().Description,
+                        Available = (itemReceived - itemReleased) + (itemAdjustment),
+                        OnHand = (accepted - released) + (itemAdjustment),
+                        ReceivePending = pending,
+                        ReceiveAccepted = accepted,
+                        ReleaseRequest = requested,
+                        ReleaseReleased = released,
+                        Adjustments = itemAdjustment
+                    });
+                }
+
             }
 
             return storeInvItems;
@@ -172,6 +188,29 @@ namespace InvWeb.Data.Services
             return storePendingReceiving.Count();
         }
 
+        public async Task<List<InvTrxHdr>> GetRecentTransactions(int storeId)
+        {
+
+            var today = GetCurrentDateTime().Date;
+
+            var recentTrx = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType)
+                .Include(i => i.InvTrxDtls)
+                    .ThenInclude(i => i.InvItem)
+                    .ThenInclude(i => i.InvUom)
+                .Where(t => t.InvStoreId == storeId && t.DtTrx.Date == today).ToListAsync();
+
+            return recentTrx;
+        }
+
+        public DateTime GetCurrentDateTime()
+        {
+            DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
+
+            return _localTime;
+        }
 
         #region DBLayers
 

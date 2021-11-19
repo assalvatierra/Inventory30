@@ -39,11 +39,12 @@ namespace InvWeb.Pages.Stores.Adjustment
             InvTrxHdr = await _context.InvTrxHdrs
                 .Include(i => i.InvStore)
                 .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType)
                 .Include(i => i.InvTrxDtls)
                     .ThenInclude(i => i.InvItem)
                     .ThenInclude(i => i.InvUom)
                 .Where(i => i.InvStoreId == storeId && i.InvTrxTypeId == 3)
-                .Include(i => i.InvTrxType).ToListAsync();
+                .ToListAsync();
 
             if (!String.IsNullOrWhiteSpace(status))
             {

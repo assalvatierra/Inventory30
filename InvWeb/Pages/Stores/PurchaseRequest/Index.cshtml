@@ -43,6 +43,9 @@
     <thead>
         <tr>
             <th>
+                LotNo
+            </th>
+            <th>
                 Date
             </th>
             <th>
@@ -58,6 +61,9 @@
         @foreach (var item in Model.InvPoHdr)
         {
         <tr>
+            <td>
+                @item.Id
+            </td>
             <td>
                 @item.DtPo.ToString("MMM dd yyyy")
             </td>
