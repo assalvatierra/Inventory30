@@ -1,0 +1,16 @@
+﻿@page
+@model UiClass.IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome (from UIClass)</h1>
+</div>
+
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<div>
+    <partial name="View1" model="Model.person" />
+</div>
+                                             
