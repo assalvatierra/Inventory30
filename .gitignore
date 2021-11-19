@@ -75,3 +75,8 @@ _[Ss]cripts
 *.dot[Cc]over
 
 
+InvWeb/obj/InvWeb.csproj.nuget.dgspec.json
+InvWeb/obj/InvWeb.csproj.nuget.g.props
+InvWeb/obj/InvWeb.csproj.nuget.g.targets
+InvWeb/obj/project.assets.json
+InvWeb/obj/project.nuget.cache
