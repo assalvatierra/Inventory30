@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CoreLib.Inventory.Entities
+{
+    public class StoreInvCount
+    {
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public int Available { get; set; }
+        public int OnHand { get; set; }
+        public int ReceivePending { get; set; }
+        public int ReceiveAccepted { get; set; }
+        public int ReleaseRequest { get; set; }
+        public int ReleaseReleased { get; set; }
+        public int Adjustments { get; set; }
+    }
+
+}
