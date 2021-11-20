@@ -32,8 +32,7 @@ namespace InvWeb.Pages.Stores.Releasing
                     .ThenInclude(i => i.InvItem)
                     .ThenInclude(i => i.InvUom)
                 .Where(i => i.InvTrxTypeId == TYPE_RELEASING
-                           && i.InvStoreId   == storeId
-                           && i.InvTrxHdrStatusId == 1)
+                           && i.InvStoreId   == storeId)
                 .Include(i => i.InvTrxType).ToListAsync();
 
             if (!String.IsNullOrWhiteSpace(Status))
@@ -45,6 +44,10 @@ namespace InvWeb.Pages.Stores.Releasing
                     "ALL" => InvTrxHdr.ToList(),
                     _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
                 };
+            }
+            else
+            {
+                InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
             }
 
             ViewData["StoreId"] = storeId;

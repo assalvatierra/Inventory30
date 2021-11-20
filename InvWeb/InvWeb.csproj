@@ -7,9 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="Pages\InvAccounts\**" />
+    <Compile Remove="Pages\Stores\Reports\**" />
     <Content Remove="Pages\InvAccounts\**" />
+    <Content Remove="Pages\Stores\Reports\**" />
     <EmbeddedResource Remove="Pages\InvAccounts\**" />
+    <EmbeddedResource Remove="Pages\Stores\Reports\**" />
     <None Remove="Pages\InvAccounts\**" />
+    <None Remove="Pages\Stores\Reports\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,10 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WebDBSchema\WebDBSchema\WebDBSchema.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\Stores\Reports\" />
   </ItemGroup>
 
 </Project>

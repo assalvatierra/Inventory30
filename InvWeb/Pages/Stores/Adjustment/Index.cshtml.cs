@@ -56,6 +56,10 @@ namespace InvWeb.Pages.Stores.Adjustment
                     _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
                 };
             }
+            else
+            {
+                InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
+            }
 
             ViewData["StoreId"] = storeId;
             ViewData["Status"] = status;
