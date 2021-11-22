@@ -98,11 +98,12 @@
                         <ul>
                             @foreach (var dlts in item.InvTrxDtls)
                             {
-                                <li style="color:black;">
-                                    @dlts.InvItem.Description x
-                                    @dlts.ItemQty
-                                    @dlts.InvUom.uom
-                                </li>
+                            <li style="color:black;">
+                                @dlts.InvItem.Description
+                                @dlts.InvItem.Remarks x
+                                @dlts.ItemQty
+                                @dlts.InvUom.uom
+                            </li>
                             }
                         </ul>
                     </div>

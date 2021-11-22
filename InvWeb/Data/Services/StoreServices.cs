@@ -61,10 +61,11 @@ namespace InvWeb.Data.Services
 
                 if (Received.Where(h => h.InvItemId == item).Any())
                 {
+                    var itemDetails = invItems.Where(i => i.Id == item).FirstOrDefault();
                     storeInvItems.Add(new StoreInvCount
                     {
                         Id = item,
-                        Description = invItems.Where(i => i.Id == item).FirstOrDefault().Description,
+                        Description = itemDetails.Description + " " + itemDetails.Remarks,
                         Available = (itemReceived - itemReleased) + (itemAdjustment),
                         OnHand = (accepted - released) + (itemAdjustment),
                         ReceivePending = pending,
