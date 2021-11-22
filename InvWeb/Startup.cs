@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace InvWeb
 {
     public class Startup
@@ -43,6 +44,8 @@ namespace InvWeb
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+           
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

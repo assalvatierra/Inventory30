@@ -11,6 +11,15 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Inventory\Pages\Masterfiles\ItemMaster\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoreLib.Inventory\CoreLib.Inventory.csproj" />
+    <ProjectReference Include="..\Inventory.Basic\Inventory.Basic.csproj" />
+  </ItemGroup>
+
 
 
 </Project>

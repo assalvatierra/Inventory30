@@ -30,7 +30,17 @@
       "ProjectGuid": "2dc2a725-131e-48f4-8c63-710e03837afb",
       "DisplayName": "Inventory.Basic",
       "ColorIndex": 4
+    },
+    "0e1f9e73-8b4b-4e21-b59b-6eccd7d547a3": {
+      "ProjectGuid": "0e1f9e73-8b4b-4e21-b59b-6eccd7d547a3",
+      "DisplayName": "Inventory.Basic.UI",
+      "ColorIndex": 5
+    },
+    "b661966a-850f-46a1-8dca-1cc2a459a6e2": {
+      "ProjectGuid": "b661966a-850f-46a1-8dca-1cc2a459a6e2",
+      "DisplayName": "WebX",
+      "ColorIndex": 6
     }
   },
-  "NextColorIndex": 5
+  "NextColorIndex": 7
 }

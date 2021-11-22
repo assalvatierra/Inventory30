@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLib.Inventory", "CoreLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Basic", "Inventory.Basic\Inventory.Basic.csproj", "{2DC2A725-131E-48F4-8C63-710E03837AFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Basic.UI", "Inventory.Basic.UI\Inventory.Basic.UI.csproj", "{0E1F9E73-8B4B-4E21-B59B-6ECCD7D547A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Basic.UI", "Inventory.Basic.UI\Inventory.Basic.UI.csproj", "{0E1F9E73-8B4B-4E21-B59B-6ECCD7D547A3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebX", "WebX\WebX.csproj", "{B661966A-850F-46A1-8DCA-1CC2A459A6E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{0E1F9E73-8B4B-4E21-B59B-6ECCD7D547A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E1F9E73-8B4B-4E21-B59B-6ECCD7D547A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E1F9E73-8B4B-4E21-B59B-6ECCD7D547A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B661966A-850F-46A1-8DCA-1CC2A459A6E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B661966A-850F-46A1-8DCA-1CC2A459A6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B661966A-850F-46A1-8DCA-1CC2A459A6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B661966A-850F-46A1-8DCA-1CC2A459A6E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

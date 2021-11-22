@@ -33,7 +33,7 @@ namespace InvWeb.Pages
         public void OnGet()
         {
             var user = User.FindFirstValue(ClaimTypes.Name);
-
+            
             if (user != null)
             {
                 UsersStores = _storeSvc.GetStoreUsers(user);
