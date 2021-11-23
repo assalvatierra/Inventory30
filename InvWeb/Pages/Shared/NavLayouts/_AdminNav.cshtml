@@ -58,22 +58,22 @@
         <p> My Store </p>
     </li>
 
-    @if (storeID != null) { 
+    @if (storeID != 0) { 
     
-    <li class="dropdown-btn">
-        <a href="#" id="sidenav-Items">
-            MyStore
-            <i class="float-right dropdown-toggle"></i>
-        </a>
-    </li>
+        <li class="dropdown-btn">
+            <a href="#" id="sidenav-Items">
+                MyStore
+                <i class="float-right dropdown-toggle"></i>
+            </a>
+        </li>
 
-    <li class="dropdown-container">
-        <a href="/Stores/Main/@storeID">Go to MyStore</a>
-        <a href="/Stores/Receiving/@storeID">Receiving</a>
-        <a href="/Stores/Releasing/@storeID">Releasing</a>
-        <a href="/Stores/PurchaseRequest/@storeID">Purchase Request</a>
-        <a href="/Stores/Reports/@storeID">  Inventory Reports</a>
-    </li>
+        <li class="dropdown-container">
+            <a href="/Stores/Main/@storeID">Go to MyStore</a>
+            <a href="/Stores/Receiving/@storeID">Receiving</a>
+            <a href="/Stores/Releasing/@storeID">Releasing</a>
+            <a href="/Stores/PurchaseRequest/@storeID">Purchase Request</a>
+            <a href="/Stores/Reports/@storeID">  Inventory Reports</a>
+        </li>
     }
 
 

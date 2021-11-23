@@ -9,7 +9,9 @@ namespace WebDBSchema.Models.Items
     {
         public int Id { get; set; }
         public int StoreId { get; set; }
+        public string Code { get; set; }
         public string Item { get; set; }
+        public string ItemRemarks { get; set; }
         public int Qty { get; set; }
         public string Uom { get; set; }
         public string InvStore { get; set; }

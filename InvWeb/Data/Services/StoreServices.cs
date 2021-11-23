@@ -61,10 +61,11 @@ namespace InvWeb.Data.Services
 
                 if (Received.Where(h => h.InvItemId == item).Any())
                 {
+                    var itemDetails = invItems.Where(i => i.Id == item).FirstOrDefault();
                     storeInvItems.Add(new StoreInvCount
                     {
                         Id = item,
-                        Description = invItems.Where(i => i.Id == item).FirstOrDefault().Description,
+                        Description = itemDetails.Description + " " + itemDetails.Remarks,
                         Available = (itemReceived - itemReleased) + (itemAdjustment),
                         OnHand = (accepted - released) + (itemAdjustment),
                         ReceivePending = pending,
@@ -115,12 +116,12 @@ namespace InvWeb.Data.Services
             return itemAdjustmentCount;
         }
 
-        public int GetAvailableItemsCount()
+        public int GetAvailableItemsCountByStore()
         {
             throw new NotImplementedException();
         }
 
-        public int GetOnHandItemsCount()
+        public int GetOnHandItemsCountByStore()
         {
             throw new NotImplementedException();
         }
@@ -205,12 +206,19 @@ namespace InvWeb.Data.Services
             return recentTrx;
         }
 
+        //GET: GetCurrentDateTime()
+        //PARAM: NA
+        //RETURN: datetime
+        //DESC: get the current datetime based on the singapore standard time
         public DateTime GetCurrentDateTime()
         {
-            DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
+            DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, 
+                TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
 
             return _localTime;
         }
+
+
 
         #region DBLayers
 

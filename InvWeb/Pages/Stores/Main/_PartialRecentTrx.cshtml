@@ -12,7 +12,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4>Store Trxs</h4>
+                <h4>Latest Transactions</h4>
 
                 <table class="table">
                     <thead>
@@ -56,7 +56,8 @@
                                             @foreach (var dlts in item.InvTrxDtls)
                                             {
                                                 <li style="color:black;">
-                                                    @dlts.InvItem.Description x
+                                                    @dlts.InvItem.Description  
+                                                    @dlts.InvItem.Remarks x
                                                     @dlts.ItemQty
                                                     @dlts.InvUom.uom
                                                 </li>

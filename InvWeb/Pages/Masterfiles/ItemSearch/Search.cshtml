@@ -15,6 +15,9 @@
     <thead>
         <tr>
             <th>
+                Code
+            </th>
+            <th>
                 Description
             </th>
             <th>
@@ -23,9 +26,6 @@
             <th>
                 InvUom
             </th>
-            <th>
-                Store
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -33,16 +33,17 @@
         @foreach (var item in Model.ItemSearchResults) {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Item)
+                    @Html.DisplayFor(modelItem => item.ItemRemarks)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Qty)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Uom)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvStore)
                 </td>
                 <td>
                     <a asp-page="./ItemPrices" asp-route-id="@item.Id">Supplier Prices</a> |

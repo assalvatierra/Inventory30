@@ -20,6 +20,12 @@
             @Html.DisplayFor(model => model.InvItem.Description)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItem.Code)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItem.Code)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InvItem.Remarks)
         </dt>
         <dd class="col-sm-10">
@@ -42,7 +48,7 @@
                 {
                     <span>
                         @classification.InvClassification.Classification
-                         -
+                        -
                         <a asp-page="./Classifications/Delete" asp-route-id="@classification.Id"> Remove</a>
                     </span>
                     <br />

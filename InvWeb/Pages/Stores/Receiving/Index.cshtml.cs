@@ -38,8 +38,7 @@ namespace InvWeb.Pages.Stores.Receiving
                     .ThenInclude(i => i.InvItem)
                     .ThenInclude(i => i.InvUom)
                 .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
-                              i.InvStoreId   == storeId &&
-                              i.InvTrxHdrStatusId == 1)
+                              i.InvStoreId   == storeId)
                 .ToListAsync();
 
             if (!String.IsNullOrWhiteSpace(status))
@@ -51,6 +50,10 @@ namespace InvWeb.Pages.Stores.Receiving
                     "ALL" => InvTrxHdr.ToList(),
                     _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
                 };
+            }
+            else
+            {
+                InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
             }
 
             ViewData["StoreId"] = storeId;
