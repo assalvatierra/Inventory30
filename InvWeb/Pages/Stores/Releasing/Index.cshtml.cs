@@ -35,9 +35,9 @@ namespace InvWeb.Pages.Stores.Releasing
                            && i.InvStoreId   == storeId)
                 .Include(i => i.InvTrxType).ToListAsync();
 
-            if (!String.IsNullOrWhiteSpace(Status))
+            if (!String.IsNullOrWhiteSpace(status))
             {
-                InvTrxHdr = Status switch
+                InvTrxHdr = status switch
                 {
                     "PENDING" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
                     "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
@@ -52,6 +52,7 @@ namespace InvWeb.Pages.Stores.Releasing
 
             ViewData["StoreId"] = storeId;
             ViewData["Status"] = status;
+            Status = status;
         }
 
 
