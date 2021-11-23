@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 using WebDBSchema.Models.Items;
+using InvWeb.Data.Services;
 
 namespace InvWeb.Pages.Masterfiles.ItemSearch
 {
     public class SearchModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
+        private SearchServices services;
 
         public SearchModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
+            services = new SearchServices(context);
         }
 
         public List<ItemSearchResult> ItemSearchResults { get;set; }
@@ -28,47 +31,45 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
         public async Task OnGetAsync()
         {
             ItemSearchResults = new List<ItemSearchResult>();
-            var storeList = _context.InvStores.ToList();
-            var itemList = _context.InvItems.ToList();
-            var UomList = _context.InvUoms.ToList();
 
-            var invItemPerStore = _context.InvTrxDtls
-                .Where(c=>c.InvTrxHdr.InvTrxHdrStatusId > 1)
-                .Include(c=>c.InvItem)
-                .GroupBy(x=> new { x.InvItemId, x.InvTrxHdr.InvStoreId })
-                .Select(p => new ItemSearchResult()
-                                   {
-                                       Id = p.Key.InvItemId,
-                                       StoreId = p.Key.InvStoreId,
-                                       Qty= p.Sum(x => x.ItemQty),
-                                    });
+            //get all accepted items details
+            var ApprovedItemDetails = await services.GetApprovedInvDetailsAsync();
+           
+            foreach (var item in ApprovedItemDetails)
+            { 
+                //get item Details
+                var itemDetails = _context.InvItems.Find(item.InvItemId);
 
-          
+                //check if item is in the search result list
+                var IsItemInList = (ItemSearchResults.Where(c => c.Id == item.InvItemId).Count() == 0) && item.ItemQty > 0;
 
-            foreach(var item in await invItemPerStore.ToListAsync())
-            {
-              
-
-                ItemSearchResults.Add(new ItemSearchResult { 
-                    Id = item.Id,
-                    InvStore = storeList.Where(s=>s.Id == item.StoreId).FirstOrDefault().StoreName,
-                    Item = itemList.Where(s => s.Id == item.Id).FirstOrDefault().Description,
-                    Qty = item.Qty,
-                    Uom = itemList.Where(s => s.Id == item.Id).FirstOrDefault().InvUom.uom,
-
-                });
+                //if item is not in the list
+                if (IsItemInList)
+                {
+                    //adding item to the list
+                    ItemSearchResults.Add(new ItemSearchResult
+                    {
+                        Id = item.InvItemId,
+                        Item = itemDetails.Description,
+                        Qty = services.GetAvailableCountByItem(item.InvItemId),
+                        Code = itemDetails.Code,
+                        ItemRemarks = itemDetails.Remarks,
+                        Uom = itemDetails.InvUom.uom,
+                    });
+                }
             }
-
+            
+            //apply search by input string of the existing list
             if (!String.IsNullOrEmpty(SearchStr))
             {
-                ItemSearchResults = ItemSearchResults.Where(c => c.Item.ToLower().Contains(SearchStr.ToLower())).ToList();
+                var srchString = SearchStr.ToLower();
+                ItemSearchResults = ItemSearchResults.Where(
+                    c => c.Item.ToLower().Contains(srchString) ||
+                         c.ItemRemarks.ToLower().Contains(srchString)
+                    ).ToList();
             }
 
         }
-
-      
-
-
 
     }
 }

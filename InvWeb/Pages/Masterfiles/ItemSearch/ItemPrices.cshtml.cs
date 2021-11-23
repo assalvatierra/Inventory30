@@ -27,6 +27,10 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
                 .Where(i => i.InvItemId == id)
                 .Include(i => i.InvItem)
                 .Include(i => i.InvSupplier).ToListAsync();
+
+            var item = await _context.InvItems.FindAsync(id);
+
+            ViewData["Item"] = item.Code + " " +  item.Description + " " + item.Remarks;
         }
     }
 }
