@@ -81,7 +81,7 @@ insert into InvTrxDtls([InvTrxHdrId],[InvUomId],[ItemQty],[InvItemId],[InvTrxDtl
 insert into InvTrxHdrs([InvStoreId],[DtTrx],[UserId],[Remarks],[InvTrxTypeId],[InvTrxHdrStatusId]) values
 (2,'11/12/2021','admin@gmail.com','',1,2),
 (2,'11/19/2021','admin@gmail.com','',2,2),
-(2,'11/23/2021','admin@gmail.com','',1,1).
+(2,'11/23/2021','admin@gmail.com','',1,1),
 (2,'11/19/2021','admin@gmail.com','',2,1);
 
 --Store 2: Transaction Detalis --
