@@ -32,13 +32,12 @@ namespace InvWeb.Pages.Stores.Releasing
                     .ThenInclude(i => i.InvItem)
                     .ThenInclude(i => i.InvUom)
                 .Where(i => i.InvTrxTypeId == TYPE_RELEASING
-                           && i.InvStoreId   == storeId
-                           && i.InvTrxHdrStatusId == 1)
+                           && i.InvStoreId   == storeId)
                 .Include(i => i.InvTrxType).ToListAsync();
 
-            if (!String.IsNullOrWhiteSpace(Status))
+            if (!String.IsNullOrWhiteSpace(status))
             {
-                InvTrxHdr = Status switch
+                InvTrxHdr = status switch
                 {
                     "PENDING" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
                     "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
@@ -46,9 +45,14 @@ namespace InvWeb.Pages.Stores.Releasing
                     _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
                 };
             }
+            else
+            {
+                InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
+            }
 
             ViewData["StoreId"] = storeId;
             ViewData["Status"] = status;
+            Status = status;
         }
 
 

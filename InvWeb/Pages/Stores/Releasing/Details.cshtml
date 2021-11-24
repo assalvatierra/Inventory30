@@ -12,7 +12,15 @@
     <h4> Transaction Header</h4>
     <div>
         <a asp-page="./Edit" asp-route-id="@Model.InvTrxHdr.Id">Edit</a> |
-        <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId">Back to List</a>
+        @if (Model.InvTrxHdr.InvTrxHdrStatusId == 1)
+        {
+            <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId" asp-route-status="PENDING">Back to List</a>
+        }
+        else
+        {
+            <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId" asp-route-status="ACCEPTED">Back to List</a>
+        }
+
     </div>
 
     <hr />
@@ -70,6 +78,9 @@
     <thead>
         <tr>
             <th>
+                Code
+            </th>
+            <th>
                 InvItem
             </th>
             <th>
@@ -86,7 +97,11 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Description)
+                    @Html.DisplayFor(modelItem => item.InvItem.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.Description) 
+                    @Html.DisplayFor(modelItem => item.InvItem.Remarks)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ItemQty)

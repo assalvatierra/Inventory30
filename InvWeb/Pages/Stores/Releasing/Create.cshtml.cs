@@ -50,7 +50,7 @@ namespace InvWeb.Pages.Stores.Releasing
             _context.InvTrxHdrs.Add(InvTrxHdr);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId });
+            return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId, status = "PENDING" });
         }
     }
 }

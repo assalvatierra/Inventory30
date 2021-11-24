@@ -298,6 +298,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Models\InitialRoles.sql" />
+    <Content Include="Models\SampleData - Vpro.sql" />
     <Content Include="Models\SampleData.sql" />
     <Content Include="Models\InvDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

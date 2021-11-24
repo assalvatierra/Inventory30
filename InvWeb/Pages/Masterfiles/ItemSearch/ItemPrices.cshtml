@@ -1,4 +1,5 @@
-﻿@page 
+﻿@page
+
 @model InvWeb.Pages.Masterfiles.ItemSearch.ItemPricesModel
 
 @{
@@ -6,6 +7,7 @@
 }
 
 <h1>Item Prices</h1>
+<a asp-page="Search">Go back to Search</a>
 <h2> Item: @ViewData["Item"] </h2>
 
 <table class="table">
@@ -30,24 +32,25 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.InvSupplierItem) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvSupplier.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastUpdate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeadTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.InvSupplierItem)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvSupplier.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastUpdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeadTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
