@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/19/2021 16:17:02
--- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
+-- Date Created: 11/29/2021 22:38:49
+-- Generated from EDMX file: C:\Abel\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -399,6 +399,24 @@ CREATE TABLE [dbo].[InvStoreUsers] (
 );
 GO
 
+-- Creating table 'InvUomConversions'
+CREATE TABLE [dbo].[InvUomConversions] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvUomId_base] int  NOT NULL,
+    [InvUomId_into] int  NOT NULL,
+    [Factor] decimal(18,0)  NOT NULL
+);
+GO
+
+-- Creating table 'InvUomConvItems'
+CREATE TABLE [dbo].[InvUomConvItems] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvUomConversionId] int  NOT NULL,
+    [InvClassificationId] int  NULL,
+    [InvItemId] int  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -532,6 +550,18 @@ GO
 -- Creating primary key on [Id] in table 'InvStoreUsers'
 ALTER TABLE [dbo].[InvStoreUsers]
 ADD CONSTRAINT [PK_InvStoreUsers]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvUomConversions'
+ALTER TABLE [dbo].[InvUomConversions]
+ADD CONSTRAINT [PK_InvUomConversions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvUomConvItems'
+ALTER TABLE [dbo].[InvUomConvItems]
+ADD CONSTRAINT [PK_InvUomConvItems]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1032,6 +1062,81 @@ GO
 CREATE INDEX [IX_FK_InvStoreInvStoreUser]
 ON [dbo].[InvStoreUsers]
     ([InvStoreId]);
+GO
+
+-- Creating foreign key on [InvUomId_base] in table 'InvUomConversions'
+ALTER TABLE [dbo].[InvUomConversions]
+ADD CONSTRAINT [FK_InvUomInvUomConversion]
+    FOREIGN KEY ([InvUomId_base])
+    REFERENCES [dbo].[InvUoms]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvUomInvUomConversion'
+CREATE INDEX [IX_FK_InvUomInvUomConversion]
+ON [dbo].[InvUomConversions]
+    ([InvUomId_base]);
+GO
+
+-- Creating foreign key on [InvUomId_into] in table 'InvUomConversions'
+ALTER TABLE [dbo].[InvUomConversions]
+ADD CONSTRAINT [FK_InvUomInvUomConversion1]
+    FOREIGN KEY ([InvUomId_into])
+    REFERENCES [dbo].[InvUoms]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvUomInvUomConversion1'
+CREATE INDEX [IX_FK_InvUomInvUomConversion1]
+ON [dbo].[InvUomConversions]
+    ([InvUomId_into]);
+GO
+
+-- Creating foreign key on [InvUomConversionId] in table 'InvUomConvItems'
+ALTER TABLE [dbo].[InvUomConvItems]
+ADD CONSTRAINT [FK_InvUomConversionInvUomConvItem]
+    FOREIGN KEY ([InvUomConversionId])
+    REFERENCES [dbo].[InvUomConversions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvUomConversionInvUomConvItem'
+CREATE INDEX [IX_FK_InvUomConversionInvUomConvItem]
+ON [dbo].[InvUomConvItems]
+    ([InvUomConversionId]);
+GO
+
+-- Creating foreign key on [InvClassificationId] in table 'InvUomConvItems'
+ALTER TABLE [dbo].[InvUomConvItems]
+ADD CONSTRAINT [FK_InvClassificationInvUomConvItem]
+    FOREIGN KEY ([InvClassificationId])
+    REFERENCES [dbo].[InvClassifications]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvClassificationInvUomConvItem'
+CREATE INDEX [IX_FK_InvClassificationInvUomConvItem]
+ON [dbo].[InvUomConvItems]
+    ([InvClassificationId]);
+GO
+
+-- Creating foreign key on [InvItemId] in table 'InvUomConvItems'
+ALTER TABLE [dbo].[InvUomConvItems]
+ADD CONSTRAINT [FK_InvItemInvUomConvItem]
+    FOREIGN KEY ([InvItemId])
+    REFERENCES [dbo].[InvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvUomConvItem'
+CREATE INDEX [IX_FK_InvItemInvUomConvItem]
+ON [dbo].[InvUomConvItems]
+    ([InvItemId]);
 GO
 
 -- --------------------------------------------------

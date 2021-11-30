@@ -12,20 +12,21 @@ namespace WebDBSchema.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class InvClassification
+    public partial class InvUomConversion
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public InvClassification()
+        public InvUomConversion()
         {
-            this.InvItemClasses = new HashSet<InvItemClass>();
             this.InvUomConvItems = new HashSet<InvUomConvItem>();
         }
     
         public int Id { get; set; }
-        public string Classification { get; set; }
+        public int InvUomId_base { get; set; }
+        public int InvUomId_into { get; set; }
+        public decimal Factor { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvItemClass> InvItemClasses { get; set; }
+        public virtual InvUom InvUom { get; set; }
+        public virtual InvUom InvUom1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvUomConvItem> InvUomConvItems { get; set; }
     }
