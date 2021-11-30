@@ -23,8 +23,6 @@ namespace WebDBSchema.Models
             this.InvRequestItems = new HashSet<InvRequestItem>();
             this.InvAdjItems = new HashSet<InvAdjItem>();
             this.InvTrxDtls = new HashSet<InvTrxDtl>();
-            this.InvUomConversions = new HashSet<InvUomConversion>();
-            this.InvUomConversions1 = new HashSet<InvUomConversion>();
         }
     
         public int Id { get; set; }
@@ -42,9 +40,5 @@ namespace WebDBSchema.Models
         public virtual ICollection<InvAdjItem> InvAdjItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvTrxDtl> InvTrxDtls { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvUomConversion> InvUomConversions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvUomConversion> InvUomConversions1 { get; set; }
     }
 }

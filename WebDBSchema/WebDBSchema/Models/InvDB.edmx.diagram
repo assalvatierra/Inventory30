@@ -61,8 +61,6 @@
         <EntityTypeShape EntityType="InvDB.InvStoreUser" Width="1.5" PointX="17.5" PointY="8.25" />
         <AssociationConnector Association="InvDB.InvStoreInvStoreUser" />
         <EntityTypeShape EntityType="InvDB.InvUomConversion" Width="1.5" PointX="0.875" PointY="3.25" />
-        <AssociationConnector Association="InvDB.InvUomInvUomConversion" />
-        <AssociationConnector Association="InvDB.InvUomInvUomConversion1" />
         <EntityTypeShape EntityType="InvDB.InvUomConvItem" Width="1.5" PointX="3" PointY="3.375" />
         <AssociationConnector Association="InvDB.InvUomConversionInvUomConvItem" />
         <AssociationConnector Association="InvDB.InvClassificationInvUomConvItem" />

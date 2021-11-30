@@ -2,14 +2,14 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/29/2021 22:38:49
--- Generated from EDMX file: C:\Abel\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
+-- Date Created: 11/30/2021 20:31:13
+-- Generated from EDMX file: C:\ABEL\Github\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [InvDB3.mdf];
-GO
+--USE [InvDB3.mdf];
+--GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
@@ -116,6 +116,21 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvStoreInvStoreUser]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvStoreUsers] DROP CONSTRAINT [FK_InvStoreInvStoreUser];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvUomInvUomConversion]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvUomConversions] DROP CONSTRAINT [FK_InvUomInvUomConversion];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvUomInvUomConversion1]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvUomConversions] DROP CONSTRAINT [FK_InvUomInvUomConversion1];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvUomConversionInvUomConvItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvUomConversionInvUomConvItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvClassificationInvUomConvItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvClassificationInvUomConvItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvUomConvItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvItemInvUomConvItem];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -186,6 +201,12 @@ IF OBJECT_ID(N'[dbo].[InvTrxDtlOperators]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvStoreUsers]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvStoreUsers];
+GO
+IF OBJECT_ID(N'[dbo].[InvUomConversions]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvUomConversions];
+GO
+IF OBJECT_ID(N'[dbo].[InvUomConvItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvUomConvItems];
 GO
 
 -- --------------------------------------------------
@@ -1062,36 +1083,6 @@ GO
 CREATE INDEX [IX_FK_InvStoreInvStoreUser]
 ON [dbo].[InvStoreUsers]
     ([InvStoreId]);
-GO
-
--- Creating foreign key on [InvUomId_base] in table 'InvUomConversions'
-ALTER TABLE [dbo].[InvUomConversions]
-ADD CONSTRAINT [FK_InvUomInvUomConversion]
-    FOREIGN KEY ([InvUomId_base])
-    REFERENCES [dbo].[InvUoms]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_InvUomInvUomConversion'
-CREATE INDEX [IX_FK_InvUomInvUomConversion]
-ON [dbo].[InvUomConversions]
-    ([InvUomId_base]);
-GO
-
--- Creating foreign key on [InvUomId_into] in table 'InvUomConversions'
-ALTER TABLE [dbo].[InvUomConversions]
-ADD CONSTRAINT [FK_InvUomInvUomConversion1]
-    FOREIGN KEY ([InvUomId_into])
-    REFERENCES [dbo].[InvUoms]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_InvUomInvUomConversion1'
-CREATE INDEX [IX_FK_InvUomInvUomConversion1]
-ON [dbo].[InvUomConversions]
-    ([InvUomId_into]);
 GO
 
 -- Creating foreign key on [InvUomConversionId] in table 'InvUomConvItems'

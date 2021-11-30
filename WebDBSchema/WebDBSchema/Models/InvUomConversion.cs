@@ -25,8 +25,6 @@ namespace WebDBSchema.Models
         public int InvUomId_into { get; set; }
         public decimal Factor { get; set; }
     
-        public virtual InvUom InvUom { get; set; }
-        public virtual InvUom InvUom1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvUomConvItem> InvUomConvItems { get; set; }
     }
