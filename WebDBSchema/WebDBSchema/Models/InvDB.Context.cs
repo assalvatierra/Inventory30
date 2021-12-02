@@ -47,5 +47,7 @@ namespace WebDBSchema.Models
         public virtual DbSet<InvTrxHdrStatus> InvTrxHdrStatus { get; set; }
         public virtual DbSet<InvTrxDtlOperator> InvTrxDtlOperators { get; set; }
         public virtual DbSet<InvStoreUser> InvStoreUsers { get; set; }
+        public virtual DbSet<InvUomConversion> InvUomConversions { get; set; }
+        public virtual DbSet<InvUomConvItem> InvUomConvItems { get; set; }
     }
 }
