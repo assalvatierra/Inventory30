@@ -6,10 +6,10 @@
     IEnumerable<WebDBSchema.Models.Stores.StoreInvCount> storeInvs = ViewBag.StoreInv;
     IEnumerable<WebDBSchema.Models.InvTrxHdr> RecentTrxHdrs = ViewBag.RecentTrxHdrs;
 
-    int pendingReceiving = ViewBag.PendingReceiving;
-    int pendingReleasing = ViewBag.PendingReleasing;
-    int pendingAdjustment = ViewBag.PendingAdjustment;
-    int pendingPO = ViewBag.PendingPurchaseOrder;
+    int? pendingReceiving = ViewBag.PendingReceiving != 0 ? ViewBag.PendingReceiving :  null;
+    int? pendingReleasing = ViewBag.PendingReleasing != 0 ? ViewBag.PendingReleasing : null;
+    int? pendingAdjustment = ViewBag.PendingAdjustment != 0 ? ViewBag.PendingAdjustment : null;
+    int? pendingPO = ViewBag.PendingPurchaseOrder != 0 ? ViewBag.PendingPurchaseOrder : null;
 }
 
 <h1>
@@ -30,7 +30,10 @@
                 <h6 class="card-subtitle mb-2 text-muted">Receiving Items</h6>
                 <div class="row" style="font-size:14px;">
                     <a asp-page="../Receiving/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING" class="col-5 col-sm-6 col-md-12 col-lg-5">
-                        <span id="ReceivingText" class="badge badge-primary">@pendingReceiving</span>
+                        @if (pendingReceiving != null)
+                        {
+                            <span id="ReceivingText" class="badge badge-primary">@pendingReceiving</span>
+                        }
                         For Approval
                     </a>
                     <a asp-page="../Receiving/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL" class="col-4 col-sm-4 col-md-12 col-lg-4">Recent List</a>
@@ -47,7 +50,10 @@
                 <h6 class="card-subtitle mb-2 text-muted">Releasing Items</h6>
                 <div class="row" style="font-size:14px;">
                     <a asp-page="../Releasing/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING" class="col-5 col-sm-6 col-md-12 col-lg-5">
-                        <span id="ReleasingText" class="badge badge-primary">@pendingReleasing</span>
+                        @if (pendingReleasing != null)
+                        {
+                            <span id="ReleasingText" class="badge badge-primary">@pendingReleasing</span>
+                        }
                         For Approval
                     </a>
                     <a asp-page="../Releasing/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL" class="col-4 col-sm-4 col-md-12 col-lg-4">Recent List</a>
@@ -63,7 +69,11 @@
                 <h6 class="card-subtitle mb-2 text-muted"> Inventory Adjustment </h6>
                 <div class="row" style="font-size:14px;">
                     <a asp-page="../Adjustment/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING" class="col-5 col-sm-6 col-md-12 col-lg-5">
-                        <span id="AdjustmentText" class="badge badge-primary"> @pendingAdjustment</span>
+                        @if (pendingAdjustment != null)
+                        {
+                            <span id="ReleasingText" class="badge badge-primary">@pendingAdjustment</span>
+                        }
+
                         For Approval
                     </a>
                     <a asp-page="../Adjustment/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL" class="col-4 col-sm-4 col-md-12 col-lg-4">Recent List</a>
@@ -80,7 +90,10 @@
                 <h6 class="card-subtitle mb-2 text-muted">Request Puchase Orders </h6>
                 <div class="row" style="font-size:14px;">
                     <a asp-page="../PurchaseRequest/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING" class="col-5 col-sm-6 col-md-12 col-lg-5">
-                        <span id="PurchaseOrderText" class="badge badge-primary"> @pendingPO</span>
+                        @if (pendingAdjustment != null)
+                        {
+                            <span id="ReleasingText" class="badge badge-primary">@pendingPO</span>
+                        }
                         For Approval
                     </a>
                     <a asp-page="../PurchaseRequest/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL" class="col-4 col-sm-4 col-md-12 col-lg-4">Recent List</a>
