@@ -2,14 +2,14 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/30/2021 20:31:13
--- Generated from EDMX file: C:\ABEL\Github\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
+-- Date Created: 12/02/2021 15:39:11
+-- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
---USE [InvDB3.mdf];
---GO
+USE [InvDB3.mdf];
+GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
@@ -115,12 +115,6 @@ IF OBJECT_ID(N'[dbo].[FK_InvTrxDtlOperatorInvTrxDtl]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_InvStoreInvStoreUser]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvStoreUsers] DROP CONSTRAINT [FK_InvStoreInvStoreUser];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvUomInvUomConversion]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvUomConversions] DROP CONSTRAINT [FK_InvUomInvUomConversion];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvUomInvUomConversion1]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvUomConversions] DROP CONSTRAINT [FK_InvUomInvUomConversion1];
 GO
 IF OBJECT_ID(N'[dbo].[FK_InvUomConversionInvUomConvItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvUomConversionInvUomConvItem];
@@ -377,7 +371,8 @@ CREATE TABLE [dbo].[InvTrxDtls] (
     [InvUomId] int  NOT NULL,
     [ItemQty] int  NOT NULL,
     [InvItemId] int  NOT NULL,
-    [InvTrxDtlOperatorId] int  NOT NULL
+    [InvTrxDtlOperatorId] int  NOT NULL,
+    [LotNo] int  NULL
 );
 GO
 

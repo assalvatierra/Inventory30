@@ -99,6 +99,7 @@
                             @foreach (var dlts in item.InvTrxDtls)
                             {
                             <li style="color:black;">
+                                ( @dlts.InvItem.Code )
                                 @dlts.InvItem.Description
                                 @dlts.InvItem.Remarks x
                                 @dlts.ItemQty

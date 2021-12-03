@@ -95,7 +95,8 @@
                     @Html.DisplayFor(modelItem => item.InvItem.Code)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Description) 
+                    ( @Html.DisplayFor(modelItem => item.InvItem.Code) )
+                    @Html.DisplayFor(modelItem => item.InvItem.Description)
                     @Html.DisplayFor(modelItem => item.InvItem.Remarks)
                 </td>
                 <td>

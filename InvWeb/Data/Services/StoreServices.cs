@@ -65,7 +65,7 @@ namespace InvWeb.Data.Services
                     storeInvItems.Add(new StoreInvCount
                     {
                         Id = item,
-                        Description = itemDetails.Description + " " + itemDetails.Remarks,
+                        Description = "(" + itemDetails.Code + ") " + itemDetails.Description + " " + itemDetails.Remarks,
                         Available = (itemReceived - itemReleased) + (itemAdjustment),
                         OnHand = (accepted - released) + (itemAdjustment),
                         ReceivePending = pending,
@@ -78,10 +78,11 @@ namespace InvWeb.Data.Services
 
                 if (Released.Where(h => h.InvItemId == item).Any() && !Received.Where(h => h.InvItemId == item).Any())
                 {
+                    var itemDetails = invItems.Where(i => i.Id == item).FirstOrDefault();
                     storeInvItems.Add(new StoreInvCount
                     {
                         Id = item,
-                        Description = invItems.Where(i => i.Id == item).FirstOrDefault().Description,
+                        Description = "(" + itemDetails.Code + ") " + itemDetails.Description + " " + itemDetails.Remarks,
                         Available = (itemReceived - itemReleased) + (itemAdjustment),
                         OnHand = (accepted - released) + (itemAdjustment),
                         ReceivePending = pending,
