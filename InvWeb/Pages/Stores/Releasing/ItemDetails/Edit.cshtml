@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var LotNotItems = ViewData["LotNoItems"] as List<WebDBSchema.Models.Items.ItemLotNoSelect>;
 }
 
 <h1>Edit</h1>
@@ -21,18 +22,27 @@
             </div>
             <div class="form-group">
                 <label asp-for="InvTrxDtl.InvItemId" class="control-label"></label>
-                <select asp-for="InvTrxDtl.InvItemId" class="form-control" asp-items="ViewBag.InvItemId"></select>
+                <select asp-for="InvTrxDtl.InvItemId" class="form-control" asp-items="ViewBag.InvItemId" id="InvItemId"></select>
                 <span asp-validation-for="InvTrxDtl.InvItemId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvTrxDtl.InvUomId" class="control-label"></label>
-                <select asp-for="InvTrxDtl.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
-                <span asp-validation-for="InvTrxDtl.InvUomId" class="text-danger"></span>
+                <label asp-for="InvTrxDtl.LotNo" class="control-label"></label>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <select asp-for="InvTrxDtl.LotNo" class="form-control col-sm-8" asp-items="ViewBag.LotNo" id="LotNo"></select>
+                        <span class="btn btn-primary col-sm-4" data-toggle="modal" data-target="#SearchLotNoModal"> Search </span>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="InvTrxDtl.ItemQty" class="control-label"></label>
                 <input asp-for="InvTrxDtl.ItemQty" class="form-control" />
                 <span asp-validation-for="InvTrxDtl.ItemQty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvTrxDtl.InvUomId" class="control-label"></label>
+                <select asp-for="InvTrxDtl.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+                <span asp-validation-for="InvTrxDtl.InvUomId" class="text-danger"></span>
             </div>
             <div class="form-group" hidden>
                 <label asp-for="InvTrxDtl.InvTrxDtlOperatorId" class="control-label"></label>
@@ -40,16 +50,51 @@
                 <span asp-validation-for="InvTrxDtl.InvTrxDtlOperatorId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                @if (LotNotItems.Count() != 0)
+                {
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                }
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="./Details" asp-route-id="@Model.InvTrxDtl.InvTrxHdrId">Back to List</a>
+    <a asp-page="../Details" asp-route-id="@Model.InvTrxDtl.InvTrxHdrId">Back to List</a>
 </div>
+
+<div hidden>
+    <input value="@ViewBag.StoreId" id="StoreId" />
+</div>
+
+@{ await Html.RenderPartialAsync("_SearchLotNoModal"); }
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+        $('#InvItemId').on('change', () => {
+
+            //get selected item id
+            var itemId = $('#InvItemId').val();
+
+            //get url
+            var currentUrl = document.location.href;
+            var url = new URL(currentUrl);
+
+            //update url param
+            url.searchParams.set("invItemId", itemId);
+            var newUrl = url.href;
+
+            //reload page
+            document.location = newUrl;
+        });
+
+        function SelectLotNo(id) {
+            $('#LotNo').val(id);
+
+            $("#SearchLotNoModal").modal("hide");
+        }
+
+    </script>
 }

@@ -342,6 +342,7 @@
     <Property Name="ItemQty" Type="int" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
     <Property Name="InvTrxDtlOperatorId" Type="int" Nullable="false" />
+    <Property Name="LotNo" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="InvTrxTypes">
     <Key>
@@ -1536,6 +1537,7 @@
           <Property Name="InvItemId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvTrxDtlOperator" Relationship="InvDB.InvTrxDtlOperatorInvTrxDtl" FromRole="InvTrxDtl" ToRole="InvTrxDtlOperator" />
           <Property Name="InvTrxDtlOperatorId" Type="Int32" Nullable="false" />
+          <Property Name="LotNo" Type="Int32" Nullable="true" />
         </EntityType>
         <Association Name="InvTrxHdrInvTrxDtl">
           <End Type="InvDB.InvTrxHdr" Role="InvTrxHdr" Multiplicity="1" />
@@ -1923,6 +1925,7 @@
           <ScalarProperty Name="ItemQty" ColumnName="ItemQty" />
           <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
           <ScalarProperty Name="InvTrxDtlOperatorId" ColumnName="InvTrxDtlOperatorId" />
+          <ScalarProperty Name="LotNo" ColumnName="LotNo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

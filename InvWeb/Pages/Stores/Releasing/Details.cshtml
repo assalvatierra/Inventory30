@@ -24,50 +24,37 @@
     </div>
 
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            LotNo
-        </dt>
-        <dd class="col-sm-10">
-            @Model.InvTrxHdr.Id
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.DtTrx)
-        </dt>
-        <dd class="col-sm-10">
-            @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.UserId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.UserId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.InvStore)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.InvStore.StoreName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.InvTrxType)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxType.Type)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.InvTrxHdrStatu)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxHdrStatu.Status)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.Remarks)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.Remarks)
-        </dd>
-    </dl>
+
+    <div class="row">
+        <div class="col-lg-8 col-sm-12">
+            <div class="row">
+                <div class="col-lg-8">
+                    @Model.InvTrxHdr.InvTrxType.Type
+                </div>
+                <div class="col-lg-2">
+                    @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
+                </div>
+                <div class="col-lg-2">
+                    @Model.InvTrxHdr.InvStore.StoreName
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div style="border:1px solid black;margin:5px 0px;padding:5px;">
+                        Remarks: @Model.InvTrxHdr.Remarks
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    @Model.InvTrxHdr.InvTrxHdrStatu.Status
+                </div>
+                <div class="col-lg-4">
+                    @Model.InvTrxHdr.UserId
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <hr />
 <h4> Transaction Details</h4>
@@ -79,6 +66,9 @@
         <tr>
             <th>
                 Code
+            </th>
+            <th>
+                LotNo
             </th>
             <th>
                 InvItem
@@ -100,7 +90,11 @@
                     @Html.DisplayFor(modelItem => item.InvItem.Code)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Description) 
+                    @Html.DisplayFor(modelItem => item.LotNo)
+                </td>
+                <td>
+                   ( @Html.DisplayFor(modelItem => item.InvItem.Code) )
+                    @Html.DisplayFor(modelItem => item.InvItem.Description)
                     @Html.DisplayFor(modelItem => item.InvItem.Remarks)
                 </td>
                 <td>
