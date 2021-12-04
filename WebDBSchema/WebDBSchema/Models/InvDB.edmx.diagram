@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="de232ff8a3f9488aa81b1797db2da041" Name="Diagram1" ZoomLevel="90" >
+      <Diagram DiagramId="de232ff8a3f9488aa81b1797db2da041" Name="Diagram1" ZoomLevel="78" >
         <EntityTypeShape EntityType="InvDB.InvItem" Width="1.5" PointX="6" PointY="3.75" />
         <EntityTypeShape EntityType="InvDB.InvItemClass" Width="1.5" PointX="6" PointY="0.875" />
         <EntityTypeShape EntityType="InvDB.InvClassification" Width="1.5" PointX="2.875" PointY="1" />
@@ -17,7 +17,7 @@
         <EntityTypeShape EntityType="InvDB.InvStore" Width="1.5" PointX="14.5" PointY="8.25" />
         <EntityTypeShape EntityType="InvDB.InvPoHdr" Width="1.5" PointX="9.375" PointY="8.375" IsExpanded="true" />
         <AssociationConnector Association="InvDB.InvSupplierInvPoHdr" />
-        <EntityTypeShape EntityType="InvDB.InvPoItem" Width="1.5" PointX="3.5" PointY="8.5" />
+        <EntityTypeShape EntityType="InvDB.InvPoItem" Width="1.5" PointX="3.5" PointY="9" />
         <AssociationConnector Association="InvDB.InvPoHdrInvPoItem" />
         <AssociationConnector Association="InvDB.InvItemInvPoItem" />
         <EntityTypeShape EntityType="InvDB.InvRecHdr" Width="1.5" PointX="12" PointY="11.5" />
@@ -60,11 +60,16 @@
         <AssociationConnector Association="InvDB.InvTrxDtlOperatorInvTrxDtl" />
         <EntityTypeShape EntityType="InvDB.InvStoreUser" Width="1.5" PointX="17.5" PointY="8.25" />
         <AssociationConnector Association="InvDB.InvStoreInvStoreUser" />
-        <EntityTypeShape EntityType="InvDB.InvUomConversion" Width="1.5" PointX="0.875" PointY="3.25" />
+        <EntityTypeShape EntityType="InvDB.InvUomConversion" Width="1.5" PointX="1" PointY="3.375" />
         <EntityTypeShape EntityType="InvDB.InvUomConvItem" Width="1.5" PointX="3" PointY="3.375" />
         <AssociationConnector Association="InvDB.InvUomConversionInvUomConvItem" />
         <AssociationConnector Association="InvDB.InvClassificationInvUomConvItem" />
         <AssociationConnector Association="InvDB.InvItemInvUomConvItem" />
+        <EntityTypeShape EntityType="InvDB.InvWarningLevel" Width="1.5" PointX="8.375" PointY="0.5" />
+        <AssociationConnector Association="InvDB.InvItemInvWarningLevel" />
+        <EntityTypeShape EntityType="InvDB.InvWarningType" Width="1.5" PointX="10.5" PointY="0.5" />
+        <AssociationConnector Association="InvDB.InvWarningTypeInvWarningLevel" />
+        <AssociationConnector Association="InvDB.InvUomInvWarningLevel" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

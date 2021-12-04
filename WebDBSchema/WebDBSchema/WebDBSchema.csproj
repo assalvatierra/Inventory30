@@ -288,6 +288,12 @@
     <Compile Include="Models\InvUomConvItem.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvWarningLevel.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvWarningType.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Items\ItemLotNoSelect.cs" />
     <Compile Include="Models\Items\ItemSearch.cs" />
     <Compile Include="Models\Stores\StoreInvCount.cs" />

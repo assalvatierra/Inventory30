@@ -49,5 +49,7 @@ namespace WebDBSchema.Models
         public virtual DbSet<InvStoreUser> InvStoreUsers { get; set; }
         public virtual DbSet<InvUomConversion> InvUomConversions { get; set; }
         public virtual DbSet<InvUomConvItem> InvUomConvItems { get; set; }
+        public virtual DbSet<InvWarningLevel> InvWarningLevels { get; set; }
+        public virtual DbSet<InvWarningType> InvWarningTypes { get; set; }
     }
 }
