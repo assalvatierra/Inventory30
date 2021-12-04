@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/04/2021 21:23:39
+-- Date Created: 12/04/2021 21:39:54
 -- Generated from EDMX file: C:\Abel\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -125,6 +125,15 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvItemInvUomConvItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvItemInvUomConvItem];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvWarningLevel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvItemInvWarningLevel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvWarningTypeInvWarningLevel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvWarningTypeInvWarningLevel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvUomInvWarningLevel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvUomInvWarningLevel];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -201,6 +210,12 @@ IF OBJECT_ID(N'[dbo].[InvUomConversions]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvUomConvItems]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvUomConvItems];
+GO
+IF OBJECT_ID(N'[dbo].[InvWarningLevels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvWarningLevels];
+GO
+IF OBJECT_ID(N'[dbo].[InvWarningTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvWarningTypes];
 GO
 
 -- --------------------------------------------------
@@ -420,7 +435,8 @@ CREATE TABLE [dbo].[InvUomConversions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [InvUomId_base] int  NOT NULL,
     [InvUomId_into] int  NOT NULL,
-    [Factor] decimal(18,0)  NOT NULL
+    [Factor] decimal(18,0)  NOT NULL,
+    [Description] nvarchar(max)  NOT NULL
 );
 GO
 
