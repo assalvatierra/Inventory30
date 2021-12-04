@@ -26,6 +26,9 @@ namespace InvWeb.Data.Services
 
         public async Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId)
         {
+            try
+            {
+
             int accepted = 0;
             int pending = 0;
             int released = 0;
@@ -96,25 +99,37 @@ namespace InvWeb.Data.Services
             }
 
             return storeInvItems;
+            }
+            catch
+            {
+                throw new Exception("StoreServices: Unable to GetStoreItemsSummary.");
+            }
         }
 
         public int GetAdjustmentItemsCount(List<InvTrxDtl> adjustmentItems, int itemId)
         {
-            int itemAdjustmentCount = 0;
-            var itemAdjutmentList = adjustmentItems.Where(h => h.InvItemId == itemId);
-            foreach (var adjustment in itemAdjutmentList)
+            try
             {
-                if (adjustment.InvTrxDtlOperatorId == 2)
+                int itemAdjustmentCount = 0;
+                var itemAdjutmentList = adjustmentItems.Where(h => h.InvItemId == itemId);
+                foreach (var adjustment in itemAdjutmentList)
                 {
-                    itemAdjustmentCount -= (adjustment.ItemQty);
+                    if (adjustment.InvTrxDtlOperatorId == 2)
+                    {
+                        itemAdjustmentCount -= (adjustment.ItemQty);
+                    }
+                    else
+                    {
+                        itemAdjustmentCount += (adjustment.ItemQty);
+                    }
                 }
-                else
-                {
-                    itemAdjustmentCount += (adjustment.ItemQty);
-                }
-            }
 
-            return itemAdjustmentCount;
+                return itemAdjustmentCount;
+            }
+            catch
+            {
+                throw new Exception("StoreServices: Unable to GetAdjustmentItemsCount.");
+            }
         }
 
         public int GetAvailableItemsCountByStore()
@@ -159,52 +174,83 @@ namespace InvWeb.Data.Services
 
         public async Task<int> GetReceivingPendingAsync(int storeId)
         {
-
-            var storePendingReceiving = await _context.InvTrxHdrs
-                .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 1 && t.InvTrxHdrStatusId == 1)
-                .ToListAsync();
-            return storePendingReceiving.Count();
+            try
+            {
+                var storePendingReceiving = await _context.InvTrxHdrs
+                    .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 1 && t.InvTrxHdrStatusId == 1)
+                    .ToListAsync();
+                return storePendingReceiving.Count();
+            }
+            catch
+            {
+                throw new Exception("StoreServices: Unable to GetReceivingPendingAsync.");
+            }
         }
 
         public async Task<int> GetReleasingPendingAsync(int storeId)
         {
-            var storePendingReceiving = await _context.InvTrxHdrs
-                .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 2 && t.InvTrxHdrStatusId == 1)
-                .ToListAsync();
-            return storePendingReceiving.Count();
+            try { 
+                var storePendingReceiving = await _context.InvTrxHdrs
+                    .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 2 && t.InvTrxHdrStatusId == 1)
+                    .ToListAsync();
+                return storePendingReceiving.Count();
+            }
+            catch
+            {
+                throw new Exception("StoreServices: Unable to GetReleasingPendingAsync.");
+            }
         }
 
         public async Task<int> GetAdjustmentPendingAsync(int storeId)
         {
-            var storePendingReceiving = await _context.InvTrxHdrs
-                .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 3 && t.InvTrxHdrStatusId == 1)
-                .ToListAsync();
-            return storePendingReceiving.Count();
+            try { 
+                var storePendingReceiving = await _context.InvTrxHdrs
+                    .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 3 && t.InvTrxHdrStatusId == 1)
+                    .ToListAsync();
+                return storePendingReceiving.Count();
+            }
+            catch
+            {
+                throw new Exception("StoreServices: Unable to GetAdjustmentPendingAsync.");
+            }
         }
 
         public async Task<int> GetPurchaseOrderPendingAsync(int storeId)
         {
-            var storePendingReceiving = await _context.InvPoHdrs
-                .Where(t => t.InvStoreId == storeId &&  t.InvPoHdrStatusId == 1)
-                .ToListAsync();
-            return storePendingReceiving.Count();
+            try
+            {
+                var storePendingReceiving = await _context.InvPoHdrs
+                    .Where(t => t.InvStoreId == storeId &&  t.InvPoHdrStatusId == 1)
+                    .ToListAsync();
+                return storePendingReceiving.Count();
+
+            }
+            catch
+            {
+                throw new Exception("StoreServices: Unable to GetPurchaseOrderPendingAsync.");
+            }
         }
 
         public async Task<List<InvTrxHdr>> GetRecentTransactions(int storeId)
         {
+            try { 
+                var today = GetCurrentDateTime().Date;
 
-            var today = GetCurrentDateTime().Date;
+                var recentTrx = await _context.InvTrxHdrs
+                    .Include(i => i.InvStore)
+                    .Include(i => i.InvTrxHdrStatu)
+                    .Include(i => i.InvTrxType)
+                    .Include(i => i.InvTrxDtls)
+                        .ThenInclude(i => i.InvItem)
+                        .ThenInclude(i => i.InvUom)
+                    .Where(t => t.InvStoreId == storeId && t.DtTrx.Date == today).ToListAsync();
 
-            var recentTrx = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType)
-                .Include(i => i.InvTrxDtls)
-                    .ThenInclude(i => i.InvItem)
-                    .ThenInclude(i => i.InvUom)
-                .Where(t => t.InvStoreId == storeId && t.DtTrx.Date == today).ToListAsync();
-
-            return recentTrx;
+                return recentTrx;
+            }
+            catch
+            {
+                throw new Exception("StoreServices: Unable to GetRecentTransactions.");
+            }
         }
 
         //GET: GetCurrentDateTime()
