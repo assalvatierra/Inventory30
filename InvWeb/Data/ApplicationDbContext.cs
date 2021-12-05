@@ -36,7 +36,9 @@ namespace InvWeb.Data
         public DbSet<InvTrxDtlOperator> InvTrxDtlOperators { get; set; }
         public DbSet<InvStoreUser> InvStoreUsers { get; set; }
         public DbSet<InvUomConversion> InvUomConversions { get; set; }
-        public DbSet<WebDBSchema.Models.InvUomConvItem> InvUomConvItem { get; set; }
+        public DbSet<InvUomConvItem> InvUomConvItem { get; set; }
+        public DbSet<InvWarningLevel> InvWarningLevel { get; set; }
+        public DbSet<InvWarningType> InvWarningType { get; set; }
 
     }
 }
