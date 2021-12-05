@@ -7,7 +7,7 @@
       <Diagram DiagramId="de232ff8a3f9488aa81b1797db2da041" Name="Diagram1" ZoomLevel="78" >
         <EntityTypeShape EntityType="InvDB.InvItem" Width="1.5" PointX="6" PointY="3.75" />
         <EntityTypeShape EntityType="InvDB.InvItemClass" Width="1.5" PointX="6" PointY="0.875" />
-        <EntityTypeShape EntityType="InvDB.InvClassification" Width="1.5" PointX="2.875" PointY="1" />
+        <EntityTypeShape EntityType="InvDB.InvClassification" Width="1.5" PointX="3.5" PointY="0.75" />
         <AssociationConnector Association="InvDB.InvItemInvItemClass" />
         <AssociationConnector Association="InvDB.InvClassificationInvItemClass" />
         <EntityTypeShape EntityType="InvDB.InvSupplier" Width="1.5" PointX="11.5" PointY="4.75" />
@@ -60,8 +60,8 @@
         <AssociationConnector Association="InvDB.InvTrxDtlOperatorInvTrxDtl" />
         <EntityTypeShape EntityType="InvDB.InvStoreUser" Width="1.5" PointX="17.5" PointY="8.25" />
         <AssociationConnector Association="InvDB.InvStoreInvStoreUser" />
-        <EntityTypeShape EntityType="InvDB.InvUomConversion" Width="1.5" PointX="1" PointY="3.375" />
-        <EntityTypeShape EntityType="InvDB.InvUomConvItem" Width="1.5" PointX="3" PointY="3.375" />
+        <EntityTypeShape EntityType="InvDB.InvUomConversion" Width="1.5" PointX="1.625" PointY="3.25" />
+        <EntityTypeShape EntityType="InvDB.InvUomConvItem" Width="1.5" PointX="3.5" PointY="3.25" />
         <AssociationConnector Association="InvDB.InvUomConversionInvUomConvItem" />
         <AssociationConnector Association="InvDB.InvClassificationInvUomConvItem" />
         <AssociationConnector Association="InvDB.InvItemInvUomConvItem" />

@@ -2,14 +2,14 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/02/2021 15:39:11
--- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
+-- Date Created: 12/04/2021 21:39:54
+-- Generated from EDMX file: C:\Abel\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [InvDB3.mdf];
-GO
+--USE [InvDB3.mdf];
+--GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
@@ -125,6 +125,15 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvItemInvUomConvItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvItemInvUomConvItem];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvWarningLevel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvItemInvWarningLevel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvWarningTypeInvWarningLevel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvWarningTypeInvWarningLevel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvUomInvWarningLevel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvUomInvWarningLevel];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -201,6 +210,12 @@ IF OBJECT_ID(N'[dbo].[InvUomConversions]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvUomConvItems]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvUomConvItems];
+GO
+IF OBJECT_ID(N'[dbo].[InvWarningLevels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvWarningLevels];
+GO
+IF OBJECT_ID(N'[dbo].[InvWarningTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvWarningTypes];
 GO
 
 -- --------------------------------------------------
@@ -420,7 +435,8 @@ CREATE TABLE [dbo].[InvUomConversions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [InvUomId_base] int  NOT NULL,
     [InvUomId_into] int  NOT NULL,
-    [Factor] decimal(18,0)  NOT NULL
+    [Factor] decimal(18,0)  NOT NULL,
+    [Description] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -430,6 +446,24 @@ CREATE TABLE [dbo].[InvUomConvItems] (
     [InvUomConversionId] int  NOT NULL,
     [InvClassificationId] int  NULL,
     [InvItemId] int  NULL
+);
+GO
+
+-- Creating table 'InvWarningLevels'
+CREATE TABLE [dbo].[InvWarningLevels] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvItemId] int  NOT NULL,
+    [Level1] decimal(18,0)  NOT NULL,
+    [Level2] decimal(18,0)  NOT NULL,
+    [InvWarningTypeId] int  NOT NULL,
+    [InvUomId] int  NOT NULL
+);
+GO
+
+-- Creating table 'InvWarningTypes'
+CREATE TABLE [dbo].[InvWarningTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Desc] nvarchar(30)  NOT NULL
 );
 GO
 
@@ -578,6 +612,18 @@ GO
 -- Creating primary key on [Id] in table 'InvUomConvItems'
 ALTER TABLE [dbo].[InvUomConvItems]
 ADD CONSTRAINT [PK_InvUomConvItems]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvWarningLevels'
+ALTER TABLE [dbo].[InvWarningLevels]
+ADD CONSTRAINT [PK_InvWarningLevels]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvWarningTypes'
+ALTER TABLE [dbo].[InvWarningTypes]
+ADD CONSTRAINT [PK_InvWarningTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1123,6 +1169,51 @@ GO
 CREATE INDEX [IX_FK_InvItemInvUomConvItem]
 ON [dbo].[InvUomConvItems]
     ([InvItemId]);
+GO
+
+-- Creating foreign key on [InvItemId] in table 'InvWarningLevels'
+ALTER TABLE [dbo].[InvWarningLevels]
+ADD CONSTRAINT [FK_InvItemInvWarningLevel]
+    FOREIGN KEY ([InvItemId])
+    REFERENCES [dbo].[InvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvWarningLevel'
+CREATE INDEX [IX_FK_InvItemInvWarningLevel]
+ON [dbo].[InvWarningLevels]
+    ([InvItemId]);
+GO
+
+-- Creating foreign key on [InvWarningTypeId] in table 'InvWarningLevels'
+ALTER TABLE [dbo].[InvWarningLevels]
+ADD CONSTRAINT [FK_InvWarningTypeInvWarningLevel]
+    FOREIGN KEY ([InvWarningTypeId])
+    REFERENCES [dbo].[InvWarningTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvWarningTypeInvWarningLevel'
+CREATE INDEX [IX_FK_InvWarningTypeInvWarningLevel]
+ON [dbo].[InvWarningLevels]
+    ([InvWarningTypeId]);
+GO
+
+-- Creating foreign key on [InvUomId] in table 'InvWarningLevels'
+ALTER TABLE [dbo].[InvWarningLevels]
+ADD CONSTRAINT [FK_InvUomInvWarningLevel]
+    FOREIGN KEY ([InvUomId])
+    REFERENCES [dbo].[InvUoms]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvUomInvWarningLevel'
+CREATE INDEX [IX_FK_InvUomInvWarningLevel]
+ON [dbo].[InvWarningLevels]
+    ([InvUomId]);
 GO
 
 -- --------------------------------------------------
