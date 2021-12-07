@@ -26,6 +26,6 @@ insert into InvTrxDtlOperators([Description],[Operator]) values
 ('Add', '+'),('Subtract', '-');
 
 
---Inv Warning Types --
 insert into InvWarningTypes([Desc]) values
-('reorder'), ('warning'), ('critical');
+('Reorder'),('Warning'),('Critical');
+

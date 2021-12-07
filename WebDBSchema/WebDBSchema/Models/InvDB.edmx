@@ -405,6 +405,7 @@
     <Property Name="InvUomId_base" Type="int" Nullable="false" />
     <Property Name="InvUomId_into" Type="int" Nullable="false" />
     <Property Name="Factor" Type="decimal" Nullable="false" Precision="4" Scale="2" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="InvUomConvItems">
     <Key>
@@ -421,8 +422,10 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
+
     <Property Name="Level1" Type="decimal" Nullable="false" Precision="5" Scale="2" />
     <Property Name="Level2" Type="decimal" Nullable="false" Precision="5" Scale="2" />
+
     <Property Name="InvWarningTypeId" Type="int" Nullable="false" />
     <Property Name="InvUomId" Type="int" Nullable="false" />
   </EntityType>
@@ -1772,6 +1775,7 @@
           <Property Name="InvUomId_into" Type="Int32" Nullable="false" />
           <Property Name="Factor" Type="Decimal" Nullable="false" Precision="4" Scale="2" />
           <NavigationProperty Name="InvUomConvItems" Relationship="InvDB.InvUomConversionInvUomConvItem" FromRole="InvUomConversion" ToRole="InvUomConvItem" />
+          <Property Name="Description" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="InvUomConvItem">
           <Key>
@@ -2122,6 +2126,7 @@
           <ScalarProperty Name="InvUomId_base" ColumnName="InvUomId_base" />
           <ScalarProperty Name="InvUomId_into" ColumnName="InvUomId_into" />
           <ScalarProperty Name="Factor" ColumnName="Factor" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
