@@ -41,6 +41,9 @@ namespace InvWeb.Data.Services
                 return await _context.InvTrxDtls
                     .Where(c => c.InvTrxHdr.InvTrxHdrStatusId > STATUS_REQUEST && c.InvItemId == id)
                     .Include(c => c.InvItem)
+                        .ThenInclude(c=>c.InvUom)
+                        .ThenInclude(c=>c.InvWarningLevels)
+                        .ThenInclude(c=>c.InvWarningType)
                     .Include(c => c.InvTrxDtlOperator)
                     .Include(c => c.InvTrxHdr)
                        .ThenInclude(c => c.InvStore)

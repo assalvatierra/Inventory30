@@ -35,8 +35,11 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
             InvTrxDtl = await _context.InvTrxDtls
                 .Include(i => i.InvItem)
+                .ThenInclude(i=>i.InvWarningLevels)
+                .ThenInclude(i=>i.InvWarningType)
                 .Include(i => i.InvTrxHdr)
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+                .Include(i => i.InvUom)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
 
             if (InvTrxDtl == null)
@@ -114,6 +117,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
         {
             return _context.InvTrxDtls.Any(e => e.Id == id);
         }
+
 
     }
 }

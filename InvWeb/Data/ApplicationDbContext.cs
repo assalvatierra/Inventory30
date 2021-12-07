@@ -32,6 +32,8 @@ namespace InvWeb.Data
         public DbSet<InvItemClass> InvItemClasses { get; set; }
         public DbSet<InvTrxDtlOperator> InvTrxDtlOperators { get; set; }
         public DbSet<InvStoreUser> InvStoreUsers { get; set; }
+        public DbSet<InvWarningLevel> InvWarningLevels { get; set; }
+        public DbSet<InvWarningType> invWarningTypes { get; set; }
 
     }
 }

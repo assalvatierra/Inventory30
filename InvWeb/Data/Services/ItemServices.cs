@@ -36,6 +36,8 @@ namespace InvWeb.Data.Services
                 var LotNoItems = _context.InvTrxDtls
                     .Include(c => c.InvItem)
                     .ThenInclude(c => c.InvUom)
+                    .ThenInclude(c => c.InvWarningLevels)
+                    .ThenInclude(c => c.InvWarningType)
                     .Include(c => c.InvTrxHdr)
                     .ThenInclude(c => c.InvTrxHdrStatu)
                     .Where(c => c.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED
@@ -55,7 +57,8 @@ namespace InvWeb.Data.Services
                         Qty    = GetItemBalanceById(i.InvTrxHdrId, i.InvItemId),
                         Date   = i.InvTrxHdr.DtTrx.ToShortDateString(),
                         Status = i.InvTrxHdr.InvTrxHdrStatu.Status,
-                        Uom    = i.InvUom.uom 
+                        Uom    = i.InvUom.uom ,
+                        InvWarningLevels  = i.InvItem.InvWarningLevels
                     });
                 });
 

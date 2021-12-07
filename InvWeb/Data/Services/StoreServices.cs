@@ -75,7 +75,8 @@ namespace InvWeb.Data.Services
                         ReceiveAccepted = accepted,
                         ReleaseRequest = requested,
                         ReleaseReleased = released,
-                        Adjustments = itemAdjustment
+                        Adjustments = itemAdjustment,
+                        InvWarningLevels = itemDetails.InvWarningLevels
                     });
                 }
 
@@ -92,7 +93,8 @@ namespace InvWeb.Data.Services
                         ReceiveAccepted = accepted,
                         ReleaseRequest = requested,
                         ReleaseReleased = released,
-                        Adjustments = itemAdjustment
+                        Adjustments = itemAdjustment,
+                        InvWarningLevels = itemDetails.InvWarningLevels
                     });
                 }
 
@@ -299,7 +301,10 @@ namespace InvWeb.Data.Services
 
         public async Task<List<InvItem>> GetItemsAsync()
         {
-            return await _context.InvItems.ToListAsync();
+            return await _context.InvItems
+                .Include(c=>c.InvWarningLevels)
+                .ThenInclude(c=>c.InvWarningType)
+                .ToListAsync();
         }
 
         public List<InvStore> GetStoreUsers(string user)
