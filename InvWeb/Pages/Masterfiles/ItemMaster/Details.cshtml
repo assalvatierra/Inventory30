@@ -63,3 +63,33 @@
     <a asp-page="./Edit" asp-route-id="@Model.InvItem.Id">Edit</a> |
     <a asp-page="./Index">Back to List</a>
 </div>
+
+<hr />
+<a  asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Warning Level</a>
+<table class="table">
+    <tr>
+        <th> Qty Range </th>
+        <th> type </th>
+        <th> Unit </th>
+        <th></th>
+    </tr>
+
+    @foreach (var warning in Model.InvItem.InvWarningLevels) { 
+        <tr>
+            <td>
+                @warning.Level1 -  @warning.Level2
+            </td>
+            <td>
+                @warning.InvWarningType.Desc
+            </td>
+            <td>
+                @warning.InvUom.uom
+            </td>
+            <td>
+                <a asp-page="./WarningLevels/Edit" asp-route-id="@warning.Id"> Edit </a>
+                <a asp-page="./WarningLevels/Delete" asp-route-id="@warning.Id"> Delete </a>
+            </td>
+        </tr>
+    }
+
+</table>

@@ -28,13 +28,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.InvTrxDtls[0].InvUom.uom)
             </th>
-            <th></th>
+            <th> </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.InvTrxDtls)
         {
             <tr>
+                
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.Code)
                 </td>
@@ -50,6 +51,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvUom.uom)
+                </td>
+                <td>
+                    <partial name="_PartialStockWarning" model="item" />
                 </td>
             </tr>
         }

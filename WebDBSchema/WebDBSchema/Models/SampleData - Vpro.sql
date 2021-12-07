@@ -95,3 +95,22 @@ insert into InvTrxDtls([InvTrxHdrId],[InvUomId],[ItemQty],[InvItemId],[InvTrxDtl
 (6, 1, 5, 4, 1),
 (6, 1, 7, 15, 1),
 (7, 1, 2, 1, 2);
+
+
+--Inv Items Warning Levels --
+insert into InvWarningLevels([InvItemId],[Level1],[Level2],[InvWarningTypeId],[InvUomId]) values
+(1, 11, 15, 1, 1),
+(1, 5, 10, 2, 1),
+(1, 0,  4, 3, 1),
+
+(2, 13, 15, 1, 1),
+(2, 7, 12, 2, 1),
+(2, 0,  6, 3, 1),
+
+(4, 10, 15, 1, 1),
+(4, 5, 9,  2, 1),
+(4, 0, 4,  3, 1),
+
+(15, 10, 15, 1, 1),
+(15, 5, 9,  2, 1),
+(15, 0, 4,  3, 1);

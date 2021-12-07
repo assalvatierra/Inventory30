@@ -230,7 +230,7 @@
     <Property Name="InvSupplierId" Type="int" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Price" Type="decimal" Nullable="false" />
+    <Property Name="Price" Type="decimal" Nullable="false" Precision="10" Scale="2" />
     <Property Name="LastUpdate" Type="datetime" Nullable="false" />
     <Property Name="LeadTime" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
@@ -404,7 +404,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InvUomId_base" Type="int" Nullable="false" />
     <Property Name="InvUomId_into" Type="int" Nullable="false" />
-    <Property Name="Factor" Type="decimal" Nullable="false" />
+    <Property Name="Factor" Type="decimal" Nullable="false" Precision="4" Scale="2" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="InvUomConvItems">
@@ -422,8 +422,10 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
-    <Property Name="Level1" Type="decimal" Nullable="false" />
-    <Property Name="Level2" Type="decimal" Nullable="false" />
+
+    <Property Name="Level1" Type="decimal" Nullable="false" Precision="5" Scale="2" />
+    <Property Name="Level2" Type="decimal" Nullable="false" Precision="5" Scale="2" />
+
     <Property Name="InvWarningTypeId" Type="int" Nullable="false" />
     <Property Name="InvUomId" Type="int" Nullable="false" />
   </EntityType>
@@ -1174,7 +1176,7 @@
           <NavigationProperty Name="InvItem" Relationship="InvDB.InvItemInvSupplierItem" FromRole="InvSupplierItem" ToRole="InvItem" />
           <Property Name="InvItemId" Type="Int32" Nullable="false" />
           <Property Name="Remarks" Type="String" Nullable="true" />
-          <Property Name="Price" Type="Decimal" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="LastUpdate" Type="DateTime" Nullable="false" />
           <Property Name="LeadTime" Type="String" Nullable="false" />
           <Property Name="UserId" Type="String" Nullable="false" />
@@ -1771,7 +1773,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="InvUomId_base" Type="Int32" Nullable="false" />
           <Property Name="InvUomId_into" Type="Int32" Nullable="false" />
-          <Property Name="Factor" Type="Decimal" Nullable="false" />
+          <Property Name="Factor" Type="Decimal" Nullable="false" Precision="4" Scale="2" />
           <NavigationProperty Name="InvUomConvItems" Relationship="InvDB.InvUomConversionInvUomConvItem" FromRole="InvUomConversion" ToRole="InvUomConvItem" />
           <Property Name="Description" Type="String" Nullable="false" />
         </EntityType>
@@ -1830,8 +1832,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="InvItem" Relationship="InvDB.InvItemInvWarningLevel" FromRole="InvWarningLevel" ToRole="InvItem" />
           <Property Name="InvItemId" Type="Int32" Nullable="false" />
-          <Property Name="Level1" Type="Decimal" Nullable="false" />
-          <Property Name="Level2" Type="Decimal" Nullable="false" />
+          <Property Name="Level1" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="Level2" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
           <NavigationProperty Name="InvWarningType" Relationship="InvDB.InvWarningTypeInvWarningLevel" FromRole="InvWarningLevel" ToRole="InvWarningType" />
           <Property Name="InvWarningTypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvUom" Relationship="InvDB.InvUomInvWarningLevel" FromRole="InvWarningLevel" ToRole="InvUom" />

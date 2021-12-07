@@ -36,15 +36,26 @@ namespace InvWeb.Data.Services
         //DESC: Get list of approved InvTrxDtls (Transaction Details) of specific inventory item
         public async Task<List<InvTrxDtl>> GetInvDetailsByIdAsync(int id)
         {
-            return await _context.InvTrxDtls
-                 .Where(c => c.InvTrxHdr.InvTrxHdrStatusId > STATUS_REQUEST && c.InvItemId == id)
-                 .Include(c => c.InvItem)
-                 .Include(c => c.InvTrxDtlOperator)
-                 .Include(c => c.InvTrxHdr)
-                    .ThenInclude(c=>c.InvStore)
-                 .Include(c => c.InvTrxHdr)
-                    .ThenInclude(c => c.InvTrxType)
-                 .ToListAsync();
+            try
+            {
+                return await _context.InvTrxDtls
+                    .Where(c => c.InvTrxHdr.InvTrxHdrStatusId > STATUS_REQUEST && c.InvItemId == id)
+                    .Include(c => c.InvItem)
+                        .ThenInclude(c=>c.InvUom)
+                        .ThenInclude(c=>c.InvWarningLevels)
+                        .ThenInclude(c=>c.InvWarningType)
+                    .Include(c => c.InvTrxDtlOperator)
+                    .Include(c => c.InvTrxHdr)
+                       .ThenInclude(c => c.InvStore)
+                    .Include(c => c.InvTrxHdr)
+                       .ThenInclude(c => c.InvTrxType)
+                    .ToListAsync();
+            }
+            catch
+            {
+                throw new Exception("SearchServices: Unable to GetInvDetailsByIdAsync");
+            }
+           
         }
 
         //GET : GetApprovedInvDetailsAsync
@@ -53,13 +64,21 @@ namespace InvWeb.Data.Services
         //DESC: Get list of approved InvTrxDtls (Transaction Details)
         public async Task<List<InvTrxDtl>> GetApprovedInvDetailsAsync()
         {
-            return await _context.InvTrxDtls
-                 .Where(i => i.InvTrxHdr.InvTrxHdrStatusId > STATUS_REQUEST)
-                 .Include(i => i.InvItem)
-                 .Include(i => i.InvTrxHdr)
-                    .ThenInclude(i => i.InvStore)
-                 .Include(i => i.InvUom)
-                 .ToListAsync();
+            try
+            {
+
+                return await _context.InvTrxDtls
+                     .Where(i => i.InvTrxHdr.InvTrxHdrStatusId > STATUS_REQUEST)
+                     .Include(i => i.InvItem)
+                     .Include(i => i.InvTrxHdr)
+                        .ThenInclude(i => i.InvStore)
+                     .Include(i => i.InvUom)
+                     .ToListAsync();
+            }
+            catch
+            {
+                throw new Exception("SearchServices: Unable to GetApprovedInvDetailsAsync");
+            }
         }
 
         //GET: GetAvailableCountByItem/{id:int, storeId:int(optional)}
@@ -69,14 +88,28 @@ namespace InvWeb.Data.Services
         //      received + (-)released count + (+/-)adjustment count
         public int GetAvailableCountByItem(int id, int? storeId)
         {
-            return GetReceivedCountByItem(id, storeId) + GetReleasedCountByItem(id, storeId)
-                + GetAdjustedCountByItem(id, storeId);
+            try
+            {
+                return GetReceivedCountByItem(id, storeId) + GetReleasedCountByItem(id, storeId)
+                    + GetAdjustedCountByItem(id, storeId);
+            }
+            catch
+            {
+                throw new Exception("SearchServices: Unable to GetAvailableCountByItem");
+            }
         }
 
         public int GetAvailableCountByItem(int id)
         {
-            return GetReceivedCountByItem(id, null) + GetReleasedCountByItem(id, null)
-                + GetAdjustedCountByItem(id, null);
+            try
+            {
+                return GetReceivedCountByItem(id, null) + GetReleasedCountByItem(id, null)
+                    + GetAdjustedCountByItem(id, null);
+            }
+            catch
+            {
+                throw new Exception("SearchServices: Unable to GetAvailableCountByItem");
+            }
         }
 
         //GET: GetReceivedCountByItem/{id:int, storeId:int(optional)}
@@ -85,30 +118,39 @@ namespace InvWeb.Data.Services
         //DESC: Get the total count of the received items
         private int GetReceivedCountByItem(int id, int? storeId)
         {
-            var totalQty = 0;
-            
-            var itemDtls = _context.InvTrxDtls
-                .Where(i =>
-                       i.InvItemId == id
-                    && i.InvTrxHdr.InvTrxHdrStatusId >= STATUS_APPROVED
-                    && i.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED)
-                .ToList();
-
-            //if get items details by storeId
-            if (storeId != null)
+            try
             {
-                itemDtls = itemDtls
-                .Where(i => i.InvTrxHdr.InvStoreId == storeId)
-                .ToList();
+                var totalQty = 0;
+
+                var itemDtls = _context.InvTrxDtls
+                    .Where(i =>
+                           i.InvItemId == id
+                        && i.InvTrxHdr.InvTrxHdrStatusId >= STATUS_APPROVED
+                        && i.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED)
+                    .ToList();
+
+                //if get items details by storeId
+                if (storeId != null)
+                {
+                    itemDtls = itemDtls
+                    .Where(i => i.InvTrxHdr.InvStoreId == storeId)
+                    .ToList();
+                }
+
+                //acquire the total count
+                foreach (var item in itemDtls)
+                {
+                    totalQty += item.ItemQty;
+                };
+
+                return totalQty;
             }
-
-            //acquire the total count
-            foreach (var item in itemDtls)
+            catch
             {
-                totalQty += item.ItemQty;
-            };
 
-            return totalQty;
+                throw new Exception("SearchServices: Unable to GetReceivedCountByItem");
+            }
+           
 
         }
 
@@ -119,28 +161,35 @@ namespace InvWeb.Data.Services
         //      the total count will always result to negative count
         private int GetReleasedCountByItem(int id, int? storeId)
         {
-            var totalQty = 0;
-
-            var itemDtls = _context.InvTrxDtls
-                .Where(i => i.InvItemId == id
-                    && i.InvTrxHdr.InvTrxHdrStatusId >= STATUS_APPROVED
-                    && i.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED)
-                .ToList();
-
-            if (storeId != null)
+            try
             {
-                itemDtls = itemDtls
-                .Where(i => i.InvTrxHdr.InvStoreId == storeId)
-                .ToList();
+                var totalQty = 0;
+
+                var itemDtls = _context.InvTrxDtls
+                    .Where(i => i.InvItemId == id
+                        && i.InvTrxHdr.InvTrxHdrStatusId >= STATUS_APPROVED
+                        && i.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED)
+                    .ToList();
+
+                if (storeId != null)
+                {
+                    itemDtls = itemDtls
+                    .Where(i => i.InvTrxHdr.InvStoreId == storeId)
+                    .ToList();
+                }
+
+                foreach (var item in itemDtls)
+                {
+                    totalQty -= item.ItemQty;
+                };
+
+                return totalQty;
             }
-
-            foreach (var item in itemDtls)
+            catch
             {
-                totalQty -= item.ItemQty;
-            };
 
-            return totalQty;
-
+                throw new Exception("SearchServices: Unable to GetReleasedCountByItem");
+            }
         }
 
 
@@ -152,37 +201,44 @@ namespace InvWeb.Data.Services
         //      will vary based on the operation input 
         private int GetAdjustedCountByItem(int id, int? storeId)
         {
-            var totalQty = 0;
-
-            //get list of transactions with approved and adjustment 
-            var itemDtls = _context.InvTrxDtls
-                .Where(i => i.InvItemId == id 
-                    && i.InvTrxHdr.InvTrxHdrStatusId >= STATUS_APPROVED
-                    && i.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT)
-                .ToList();
-
-            //if store is given
-            if (storeId != null)
+            try
             {
-                itemDtls = itemDtls
-                .Where(i => i.InvTrxHdr.InvStoreId == storeId)
-                .ToList();
+                var totalQty = 0;
+
+                //get list of transactions with approved and adjustment 
+                var itemDtls = _context.InvTrxDtls
+                    .Where(i => i.InvItemId == id 
+                        && i.InvTrxHdr.InvTrxHdrStatusId >= STATUS_APPROVED
+                        && i.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT)
+                    .ToList();
+
+                //if store is given
+                if (storeId != null)
+                {
+                    itemDtls = itemDtls
+                    .Where(i => i.InvTrxHdr.InvStoreId == storeId)
+                    .ToList();
+                }
+
+                foreach (var item in itemDtls)
+                {
+                    //check transaction operation
+                    if (item.InvTrxDtlOperatorId == OPERATOR_ADD)
+                    {
+                        totalQty += item.ItemQty;
+                    }
+                    else
+                    {
+                        totalQty -= item.ItemQty;
+                    }
+                };
+
+                return totalQty;
             }
-
-            foreach (var item in itemDtls)
+            catch
             {
-                //check transaction operation
-                if (item.InvTrxDtlOperatorId == OPERATOR_ADD)
-                {
-                    totalQty += item.ItemQty;
-                }
-                else
-                {
-                    totalQty -= item.ItemQty;
-                }
-            };
-
-            return totalQty;
+                throw new Exception("SearchServices: Unable to GetAdjustedCountByItem");
+            }
         }
 
     }

@@ -2,8 +2,10 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
+
 -- Date Created: 12/04/2021 21:39:54
 -- Generated from EDMX file: C:\Abel\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
+
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -261,7 +263,7 @@ CREATE TABLE [dbo].[InvSupplierItems] (
     [InvSupplierId] int  NOT NULL,
     [InvItemId] int  NOT NULL,
     [Remarks] nvarchar(max)  NULL,
-    [Price] decimal(18,0)  NOT NULL,
+    [Price] decimal(10,2)  NOT NULL,
     [LastUpdate] datetime  NOT NULL,
     [LeadTime] nvarchar(max)  NOT NULL,
     [UserId] nvarchar(max)  NOT NULL
@@ -437,6 +439,7 @@ CREATE TABLE [dbo].[InvUomConversions] (
     [InvUomId_into] int  NOT NULL,
     [Factor] decimal(18,0)  NOT NULL,
     [Description] nvarchar(max)  NOT NULL
+
 );
 GO
 

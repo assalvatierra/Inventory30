@@ -1,0 +1,37 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model WebDBSchema.Models.Items.ItemLotNoSelect
+@{
+
+}
+
+
+
+@if (Model.InvWarningLevels != null)
+{
+    foreach (var warning in Model.InvWarningLevels)
+    {
+
+        if (Model.Qty >= warning.Level1 && Model.Qty <= warning.Level2)
+        {
+            var warningDesc = warning.InvWarningType.Desc;
+
+            switch (warningDesc)
+            {
+                case "reorder":
+                    <span> <img src="~/img/icons/icons-reorder.png" width="15"  alt="stock reorder" title="stock reorder" /> stock reorder </span>
+                    break;
+                case "warning":
+                    <span> <img src="~/img/icons/icons-warning.png" width="15"  alt="stock warning" title="stock warning" /> stock warning  </span>
+                    break;
+                case "critical":
+                    <span> <img src="~/img/icons/icons-critical.png" width="15"  alt="stock critical" title="stock critical"/> stock critical </span>
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+}

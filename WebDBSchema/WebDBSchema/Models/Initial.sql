@@ -25,6 +25,7 @@ insert into InvPoHdrStatus([Status],[OrderNo]) values
 insert into InvTrxDtlOperators([Description],[Operator]) values 
 ('Add', '+'),('Subtract', '-');
 
+
 insert into InvWarningTypes([Desc]) values
 ('Reorder'),('Warning'),('Critical');
 

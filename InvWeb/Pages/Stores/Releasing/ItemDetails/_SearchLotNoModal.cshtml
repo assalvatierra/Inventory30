@@ -42,6 +42,7 @@
                             <th>
                                 Status
                             </th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="SearchLotNo-list">
@@ -62,13 +63,16 @@
                                     @items.Date
                                 </td>
                                 <td>
-                                    @items.Qty
+                                    @items.Qty 
                                 </td>
                                 <td>
                                     @items.Uom
                                 </td>
                                 <td>
                                     @items.Status
+                                </td>
+                                <td>
+                                    <partial name="_PartialStockWarning" model="items" />
                                 </td>
                             </tr>
                         }
@@ -80,7 +84,7 @@
                             <td>
                                 @totalQty
                             </td>
-                            <td colspan="2">
+                            <td colspan="3">
 
                             </td>
                         </tr>

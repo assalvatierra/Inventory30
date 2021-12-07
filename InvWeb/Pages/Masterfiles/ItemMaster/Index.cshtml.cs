@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace InvWeb.Pages.Masterfiles.ItemMaster
 {
@@ -15,9 +16,11 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
     public class IndexModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(InvWeb.Data.ApplicationDbContext context)
+        public IndexModel(ILogger<IndexModel> logger, InvWeb.Data.ApplicationDbContext context)
         {
+            _logger = logger;
             _context = context;
         }
 

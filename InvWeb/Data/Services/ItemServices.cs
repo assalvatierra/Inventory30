@@ -27,61 +27,79 @@ namespace InvWeb.Data.Services
 
         public List<ItemLotNoSelect> GetLotNotItemList(int itemid, int storeId)
         {
-            List<ItemLotNoSelect> lotNoSelects = new List<ItemLotNoSelect>();
-
-            //Get Items at received with the same itemId
-            var LotNoItems = _context.InvTrxDtls
-                .Include(c => c.InvItem)
-                .ThenInclude(c => c.InvUom)
-                .Include(c => c.InvTrxHdr)
-                .ThenInclude(c => c.InvTrxHdrStatu)
-                .Where(c => c.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED
-                    && c.InvTrxHdr.InvStoreId == storeId
-                    && c.InvItemId == itemid).ToList();
-            if (LotNoItems == null)
+            try
             {
+
+                List<ItemLotNoSelect> lotNoSelects = new List<ItemLotNoSelect>();
+
+                //Get Items at received with the same itemId
+                var LotNoItems = _context.InvTrxDtls
+                    .Include(c => c.InvItem)
+                    .ThenInclude(c => c.InvUom)
+                    .ThenInclude(c => c.InvWarningLevels)
+                    .ThenInclude(c => c.InvWarningType)
+                    .Include(c => c.InvTrxHdr)
+                    .ThenInclude(c => c.InvTrxHdrStatu)
+                    .Where(c => c.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED
+                        && c.InvTrxHdr.InvStoreId == storeId
+                        && c.InvItemId == itemid).ToList();
+                if (LotNoItems == null)
+                {
+                    return lotNoSelects;
+                }
+
+                LotNoItems.ForEach(i => {
+                    lotNoSelects.Add(new ItemLotNoSelect
+                    {
+                        Id     = i.Id,
+                        LotNo  = i.InvTrxHdrId,
+                        Description = "(" + i.InvItem.Code + ") " + i.InvItem.Description + " " + i.InvItem.Remarks,
+                        Qty    = GetItemBalanceById(i.InvTrxHdrId, i.InvItemId),
+                        Date   = i.InvTrxHdr.DtTrx.ToShortDateString(),
+                        Status = i.InvTrxHdr.InvTrxHdrStatu.Status,
+                        Uom    = i.InvUom.uom ,
+                        InvWarningLevels  = i.InvItem.InvWarningLevels
+                    });
+                });
+
                 return lotNoSelects;
             }
-
-            LotNoItems.ForEach(i => {
-                lotNoSelects.Add(new ItemLotNoSelect
-                {
-                    Id     = i.Id,
-                    LotNo  = i.InvTrxHdrId,
-                    Description = "(" + i.InvItem.Code + ") " + i.InvItem.Description + " " + i.InvItem.Remarks,
-                    Qty    = GetItemBalanceById(i.InvTrxHdrId, i.InvItemId),
-                    Date   = i.InvTrxHdr.DtTrx.ToShortDateString(),
-                    Status = i.InvTrxHdr.InvTrxHdrStatu.Status,
-                    Uom    = i.InvUom.uom 
-                });
-            });
-
-            return lotNoSelects;
+            catch
+            {
+                throw new Exception("ItemServices: Unable to Get LotNot ItemList.");
+            }
         }
 
         private int GetItemBalanceById(int lotNo, int itemId)
         {
-            var trxReceived = _context.InvTrxDtls
-                .Where(i => i.InvTrxHdrId == lotNo && i.InvItemId == itemId);
-
-            if (trxReceived != null)
+            try
             {
-                var trxLotNo = trxReceived.FirstOrDefault();
-                var trxReceiveQty = trxLotNo.ItemQty;
-                var trxReleasedQty = _context.InvTrxDtls
-                    .Include(i => i.InvTrxHdr)
-                    .Where(i => i.LotNo == lotNo && i.InvItemId == itemId
-                            &&  i.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED
-                            && (i.InvTrxHdr.InvTrxHdrStatusId == STATUS_APPROVED 
-                            ||  i.InvTrxHdr.InvTrxHdrStatusId == STATUS_CLOSED))
-                    .Sum(c => c.ItemQty);
+                var trxReceived = _context.InvTrxDtls
+                    .Where(i => i.InvTrxHdrId == lotNo && i.InvItemId == itemId);
 
-                var itembalanceQty = trxReceiveQty - trxReleasedQty;
+                if (trxReceived != null)
+                {
+                    var trxLotNo = trxReceived.FirstOrDefault();
+                    var trxReceiveQty = trxLotNo.ItemQty;
+                    var trxReleasedQty = _context.InvTrxDtls
+                        .Include(i => i.InvTrxHdr)
+                        .Where(i => i.LotNo == lotNo && i.InvItemId == itemId
+                                &&  i.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED
+                                && (i.InvTrxHdr.InvTrxHdrStatusId == STATUS_APPROVED 
+                                ||  i.InvTrxHdr.InvTrxHdrStatusId == STATUS_CLOSED))
+                        .Sum(c => c.ItemQty);
 
-                return itembalanceQty;
+                    var itembalanceQty = trxReceiveQty - trxReleasedQty;
+
+                    return itembalanceQty;
+                }
+
+                return 0;
             }
-
-            return 0;
+            catch
+            {
+                throw new Exception("ItemServices: Unable to Get Item Balance By Id");
+            }
         }
     }
 }
