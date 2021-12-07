@@ -29,7 +29,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarning
                 return NotFound();
             }
 
-            InvWarningLevel = await _context.InvWarningLevel
+            InvWarningLevel = await _context.InvWarningLevels
                 .Include(i => i.InvItem)
                 .Include(i => i.InvUom)
                 .Include(i => i.InvWarningType).FirstOrDefaultAsync(m => m.Id == id);
@@ -48,11 +48,11 @@ namespace InvWeb.Pages.Masterfiles.ItemWarning
                 return NotFound();
             }
 
-            InvWarningLevel = await _context.InvWarningLevel.FindAsync(id);
+            InvWarningLevel = await _context.InvWarningLevels.FindAsync(id);
 
             if (InvWarningLevel != null)
             {
-                _context.InvWarningLevel.Remove(InvWarningLevel);
+                _context.InvWarningLevels.Remove(InvWarningLevel);
                 await _context.SaveChangesAsync();
             }
 

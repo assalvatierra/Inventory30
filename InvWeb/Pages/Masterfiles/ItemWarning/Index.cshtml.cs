@@ -25,7 +25,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarning
         {
             try
             {
-                InvWarningLevel = await _context.InvWarningLevel
+                InvWarningLevel = await _context.InvWarningLevels
                     .Include(i => i.InvItem)
                     .Include(i => i.InvUom)
                     .Include(i => i.InvWarningType).ToListAsync();

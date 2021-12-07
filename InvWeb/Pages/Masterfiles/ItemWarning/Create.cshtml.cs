@@ -38,7 +38,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarning
                 return Page();
             }
 
-            _context.InvWarningLevel.Add(InvWarningLevel);
+            _context.InvWarningLevels.Add(InvWarningLevel);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

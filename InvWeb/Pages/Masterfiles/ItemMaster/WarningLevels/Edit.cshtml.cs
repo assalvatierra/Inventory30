@@ -42,7 +42,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.WarningLevels
             ViewData["InvItemId"] = new SelectList(_context.InvItems
                 .Select(i => new { i.Id, Name = String.Format("{0} {1} {2}", i.Code, i.Description, i.Remarks) }), "Id", "Name");
             ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
-           ViewData["InvWarningTypeId"] = new SelectList(_context.invWarningTypes, "Id", "Desc");
+            ViewData["InvWarningTypeId"] = new SelectList(_context.InvWarningTypes, "Id", "Desc");
             return Page();
         }
 

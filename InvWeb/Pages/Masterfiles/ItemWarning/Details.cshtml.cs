@@ -28,7 +28,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarning
                 return NotFound();
             }
 
-            InvWarningLevel = await _context.InvWarningLevel
+            InvWarningLevel = await _context.InvWarningLevels
                 .Include(i => i.InvItem)
                 .Include(i => i.InvUom)
                 .Include(i => i.InvWarningType).FirstOrDefaultAsync(m => m.Id == id);

@@ -30,7 +30,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarning
                 return NotFound();
             }
 
-            InvWarningLevel = await _context.InvWarningLevel
+            InvWarningLevel = await _context.InvWarningLevels
                 .Include(i => i.InvItem)
                 .Include(i => i.InvUom)
                 .Include(i => i.InvWarningType).FirstOrDefaultAsync(m => m.Id == id);
@@ -77,7 +77,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarning
 
         private bool InvWarningLevelExists(int id)
         {
-            return _context.InvWarningLevel.Any(e => e.Id == id);
+            return _context.InvWarningLevels.Any(e => e.Id == id);
         }
     }
 }
