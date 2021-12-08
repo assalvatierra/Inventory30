@@ -22,8 +22,8 @@ namespace InvWeb.Pages.Masterfiles.ItemUomsConversion.ConvItems
         public IActionResult OnGet()
         {
         ViewData["InvClassificationId"] = new SelectList(_context.InvClassifications, "Id", "Id");
-        ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Id");
-        ViewData["InvUomConversionId"] = new SelectList(_context.InvUomConversions, "Id", "Id");
+        ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+        ViewData["InvUomConversionId"] = new SelectList(_context.InvUomConversions, "Id", "Description");
             return Page();
         }
 

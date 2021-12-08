@@ -21,6 +21,8 @@ namespace InvWeb.Pages.Masterfiles.ItemUomsConversion
 
         public IActionResult OnGet()
         {
+            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+
             return Page();
         }
 
