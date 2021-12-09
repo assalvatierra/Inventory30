@@ -15,18 +15,19 @@
         {
             var warningDesc = warning.InvWarningType.Desc;
 
-            switch (warningDesc)
+            switch (warningDesc.ToUpper() )
             {
-                case "reorder":
+                case "REORDER":
                     <span> <img src="~/img/icons/icons-reorder.png" width="15" /> stock @warningDesc</span>
                     break;
-                case "warning":
+                case "WARNING":
                     <span> <img src="~/img/icons/icons-warning.png" width="15" /> stock @warningDesc </span>
                     break;
-                case "critical":
+                case "CRITICAL":
                     <span> <img src="~/img/icons/icons-critical.png" width="15" /> stock @warningDesc </span>
                     break;
                 default:
+                    
                     break;
             }
         }
