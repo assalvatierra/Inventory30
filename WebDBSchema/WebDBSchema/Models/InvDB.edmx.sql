@@ -2,16 +2,14 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
-
--- Date Created: 12/04/2021 21:39:54
--- Generated from EDMX file: C:\Abel\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
-
+-- Date Created: 12/09/2021 14:29:58
+-- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
---USE [InvDB3.mdf];
---GO
+USE [InvDB3.mdf];
+GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
@@ -437,9 +435,8 @@ CREATE TABLE [dbo].[InvUomConversions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [InvUomId_base] int  NOT NULL,
     [InvUomId_into] int  NOT NULL,
-    [Factor] decimal(18,0)  NOT NULL,
-    [Description] nvarchar(max)  NOT NULL
-
+    [Factor] decimal(4,2)  NOT NULL,
+    [Description] nvarchar(80)  NOT NULL
 );
 GO
 
@@ -456,8 +453,8 @@ GO
 CREATE TABLE [dbo].[InvWarningLevels] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [InvItemId] int  NOT NULL,
-    [Level1] decimal(18,0)  NOT NULL,
-    [Level2] decimal(18,0)  NOT NULL,
+    [Level1] decimal(5,2)  NOT NULL,
+    [Level2] decimal(5,2)  NOT NULL,
     [InvWarningTypeId] int  NOT NULL,
     [InvUomId] int  NOT NULL
 );

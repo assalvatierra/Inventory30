@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    int conversionId = (Int32)ViewData["UomConversionId"];
 }
 
 <h1>Create</h1>
@@ -15,7 +16,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="InvUomConvItem.InvUomConversionId" class="control-label"></label>
-                <select asp-for="InvUomConvItem.InvUomConversionId" class ="form-control" asp-items="ViewBag.InvUomConversionId"></select>
+                <select asp-for="InvUomConvItem.InvUomConversionId" class ="form-control" asp-items="ViewBag.InvUomConversionId" disabled></select>
             </div>
             <div class="form-group">
                 <label asp-for="InvUomConvItem.InvClassificationId" class="control-label"></label>
@@ -33,7 +34,7 @@
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="Index" asp-route-id="@conversionId">Back to List</a>
 </div>
 
 @section Scripts {

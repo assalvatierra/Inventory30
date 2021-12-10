@@ -28,7 +28,7 @@ namespace InvWeb.Pages.Masterfiles.ItemUomsConversion.ConvItems
                 return NotFound();
             }
 
-            InvUomConvItem = await _context.InvUomConvItem
+            InvUomConvItem = await _context.InvUomConvItems
                 .Include(i => i.InvClassification)
                 .Include(i => i.InvItem)
                 .Include(i => i.InvUomConversion).FirstOrDefaultAsync(m => m.Id == id);
