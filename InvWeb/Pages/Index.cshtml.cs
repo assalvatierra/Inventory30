@@ -32,19 +32,28 @@ namespace InvWeb.Pages
 
         public void OnGet()
         {
-            var user = User.FindFirstValue(ClaimTypes.Name);
-
-            if (user != null)
+            try
             {
-                UsersStores = _storeSvc.GetStoreUsers(user);
 
-                if (UsersStores.FirstOrDefault() != null)
+                var user = User.FindFirstValue(ClaimTypes.Name);
+
+                if (user != null)
                 {
-                    HttpContext.Session.SetInt32("_UsersStoreId", UsersStores.FirstOrDefault().Id);
-                        //var userIds = UsersStores.Select(c => c.Id).ToList();
-                        //var jsonarr = JsonConvert.SerializeObject(userIds);
-                        //HttpContext.Session.SetString("_UsersStoreIds", jsonarr);
+                    UsersStores = _storeSvc.GetStoreUsers(user);
+
+                    if (UsersStores.FirstOrDefault() != null)
+                    {
+                        HttpContext.Session.SetInt32("_UsersStoreId", UsersStores.FirstOrDefault().Id);
+                            //var userIds = UsersStores.Select(c => c.Id).ToList();
+                            //var jsonarr = JsonConvert.SerializeObject(userIds);
+                            //HttpContext.Session.SetString("_UsersStoreIds", jsonarr);
+                    }
                 }
+
+            }
+            catch (Exception ex )
+            {
+                _logger.LogError(ex.Message);
             }
         }
     }

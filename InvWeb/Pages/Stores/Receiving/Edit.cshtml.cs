@@ -74,7 +74,8 @@ namespace InvWeb.Pages.Stores.Receiving
                 }
             }
 
-            return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId });
+            //return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId, status = "PENDING" });
+            return RedirectToPage("./Details", new { id = InvTrxHdr.Id });
         }
 
         private bool InvTrxHdrExists(int id)

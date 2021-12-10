@@ -1,0 +1,135 @@
+{
+  "id": "4c864f0d-a043-419d-a5e8-44bb6f7afb59",
+  "version": "2.0",
+  "name": "Inv30.Local",
+  "url": "https://localhost:44359",
+  "tests": [{
+    "id": "bb729728-1df6-4b00-96a7-3b5b6492e019",
+    "name": "GoTo.StorePage",
+    "commands": [{
+      "id": "5230c1ac-a207-4d4b-ba6d-62256f624c8e",
+      "comment": "",
+      "command": "open",
+      "target": "/Identity/Account/Login?ReturnUrl=%2F",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1d6f2fea-8d1a-4c58-ad2f-647247da131d",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1054x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "056469c5-4eb9-4c0e-861e-74f3951ff724",
+      "comment": "",
+      "command": "click",
+      "target": "id=Input_Email",
+      "targets": [
+        ["id=Input_Email", "id"],
+        ["name=Input.Email", "name"],
+        ["css=#Input_Email", "css:finder"],
+        ["xpath=//input[@id='Input_Email']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "154d6651-45a9-4296-9e7d-f208ae83f6b1",
+      "comment": "",
+      "command": "type",
+      "target": "id=Input_Email",
+      "targets": [
+        ["id=Input_Email", "id"],
+        ["name=Input.Email", "name"],
+        ["css=#Input_Email", "css:finder"],
+        ["xpath=//input[@id='Input_Email']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "assalvatierra@gmail.com"
+    }, {
+      "id": "045b2beb-0ee1-4e0f-bd7a-9382d113bb47",
+      "comment": "",
+      "command": "click",
+      "target": "id=Input_Password",
+      "targets": [
+        ["id=Input_Password", "id"],
+        ["name=Input.Password", "name"],
+        ["css=#Input_Password", "css:finder"],
+        ["xpath=//input[@id='Input_Password']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8d0b7c0a-cd04-4a79-a1fb-c7a8cd9a616f",
+      "comment": "",
+      "command": "type",
+      "target": "id=Input_Password",
+      "targets": [
+        ["id=Input_Password", "id"],
+        ["name=Input.Password", "name"],
+        ["css=#Input_Password", "css:finder"],
+        ["xpath=//input[@id='Input_Password']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "Abel123!"
+    }, {
+      "id": "03f49578-102d-4182-b549-989d5372905e",
+      "comment": "",
+      "command": "click",
+      "target": "id=login-submit",
+      "targets": [
+        ["id=login-submit", "id"],
+        ["css=#login-submit", "css:finder"],
+        ["xpath=//button[@id='login-submit']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div[4]/button", "xpath:idRelative"],
+        ["xpath=//div[4]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Log in')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f318b42d-2476-45fd-98f6-ba36ee9545b9",
+      "comment": "",
+      "command": "click",
+      "target": "id=sidenav-Stores",
+      "targets": [
+        ["id=sidenav-Stores", "id"],
+        ["linkText=Stores", "linkText"],
+        ["css=#sidenav-Stores", "css:finder"],
+        ["xpath=//a[contains(text(),'Stores')]", "xpath:link"],
+        ["xpath=//a[@id='sidenav-Stores']", "xpath:attributes"],
+        ["xpath=//nav[@id='sidebar']/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Masterfiles/Stores')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Stores')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ed0b9348-99b4-4097-a4b9-166e31cd97d9",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(2) a:nth-child(3)",
+      "targets": [
+        ["css=tr:nth-child(2) a:nth-child(3)", "css:finder"],
+        ["xpath=(//a[contains(text(),'Go to Store Page')])[2]", "xpath:link"],
+        ["xpath=//div[@id='content']/div/main/table/tbody/tr[2]/td[2]/a[3]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Stores/Main/2')]", "xpath:href"],
+        ["xpath=//tr[2]/td[2]/a[3]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "c773db32-fcd8-4ead-af1b-dec2a7c0f29c",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["bb729728-1df6-4b00-96a7-3b5b6492e019"]
+  }],
+  "urls": ["https://localhost:44359/"],
+  "plugins": []
+}

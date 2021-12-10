@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebDBSchema.Models;
+using WebDBSchema.Models.Items;
 
 namespace InvWeb.Api
 {
@@ -184,5 +185,37 @@ namespace InvWeb.Api
             return StatusCode(200, "Status Update Successfull");
         }
 
+
+        [HttpGet]
+        public ActionResult<IEnumerable<ItemLotNoSelect>> GetItemsLotNoList(int id, int storeId)
+        {
+           
+
+            //Get Items at received with the same itemId
+            var LotNoItems = _context.InvTrxDtls
+                .Include(c=>c.InvItem)
+                .Where(c => c.InvTrxHdr.InvTrxTypeId == 1
+                    && c.InvTrxHdr.InvStoreId == storeId
+                    && c.InvItemId == id).ToList();
+
+            List<ItemLotNoSelect> lotNoSelects = new List<ItemLotNoSelect>();
+            if (LotNoItems != null)
+            {
+
+                foreach (var i in LotNoItems)
+                {
+                    var newItem = new ItemLotNoSelect();
+                    
+                    newItem.Id = i.Id;
+                    newItem.LotNo = i.InvTrxHdrId;
+                    newItem.Description = "(" + i.InvItem.Code + ") " + i.InvItem.Description + " " + i.InvItem.Remarks;
+                    newItem.Qty = 1;
+
+                    lotNoSelects.Add(newItem);
+                }
+
+            }
+            return lotNoSelects;
+        }
     }
 }

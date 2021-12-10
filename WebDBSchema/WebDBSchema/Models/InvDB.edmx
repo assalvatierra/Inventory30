@@ -28,6 +28,10 @@
     <EntitySet Name="InvTrxHdrStatus" EntityType="InvDB.Store.InvTrxHdrStatus" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvTrxDtlOperators" EntityType="InvDB.Store.InvTrxDtlOperators" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvStoreUsers" EntityType="InvDB.Store.InvStoreUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvUomConversions" EntityType="InvDB.Store.InvUomConversions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvUomConvItems" EntityType="InvDB.Store.InvUomConvItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvWarningLevels" EntityType="InvDB.Store.InvWarningLevels" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvWarningTypes" EntityType="InvDB.Store.InvWarningTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -160,6 +164,30 @@
       <End Role="InvStore" EntitySet="InvStores" />
       <End Role="InvStoreUser" EntitySet="InvStoreUsers" />
     </AssociationSet>
+    <AssociationSet Name="InvUomConversionInvUomConvItem" Association="InvDB.Store.InvUomConversionInvUomConvItem">
+      <End Role="InvUomConversion" EntitySet="InvUomConversions" />
+      <End Role="InvUomConvItem" EntitySet="InvUomConvItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvClassificationInvUomConvItem" Association="InvDB.Store.InvClassificationInvUomConvItem">
+      <End Role="InvClassification" EntitySet="InvClassifications" />
+      <End Role="InvUomConvItem" EntitySet="InvUomConvItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvItemInvUomConvItem" Association="InvDB.Store.InvItemInvUomConvItem">
+      <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="InvUomConvItem" EntitySet="InvUomConvItems" />
+    </AssociationSet>
+    <AssociationSet Name="InvItemInvWarningLevel" Association="InvDB.Store.InvItemInvWarningLevel">
+      <End Role="InvItem" EntitySet="InvItems" />
+      <End Role="InvWarningLevel" EntitySet="InvWarningLevels" />
+    </AssociationSet>
+    <AssociationSet Name="InvWarningTypeInvWarningLevel" Association="InvDB.Store.InvWarningTypeInvWarningLevel">
+      <End Role="InvWarningType" EntitySet="InvWarningTypes" />
+      <End Role="InvWarningLevel" EntitySet="InvWarningLevels" />
+    </AssociationSet>
+    <AssociationSet Name="InvUomInvWarningLevel" Association="InvDB.Store.InvUomInvWarningLevel">
+      <End Role="InvUom" EntitySet="InvUoms" />
+      <End Role="InvWarningLevel" EntitySet="InvWarningLevels" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="InvItems">
     <Key>
@@ -202,7 +230,7 @@
     <Property Name="InvSupplierId" Type="int" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Price" Type="decimal" Nullable="false" />
+    <Property Name="Price" Type="decimal" Nullable="false" Precision="10" Scale="2" />
     <Property Name="LastUpdate" Type="datetime" Nullable="false" />
     <Property Name="LeadTime" Type="nvarchar(max)" Nullable="false" />
     <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
@@ -328,6 +356,7 @@
     <Property Name="ItemQty" Type="int" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
     <Property Name="InvTrxDtlOperatorId" Type="int" Nullable="false" />
+    <Property Name="LotNo" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="InvTrxTypes">
     <Key>
@@ -367,6 +396,43 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InvStoreUserId" Type="nvarchar" Nullable="false" MaxLength="40" />
     <Property Name="InvStoreId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvUomConversions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvUomId_base" Type="int" Nullable="false" />
+    <Property Name="InvUomId_into" Type="int" Nullable="false" />
+    <Property Name="Factor" Type="decimal" Nullable="false" Precision="4" Scale="2" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="80" />
+  </EntityType>
+  <EntityType Name="InvUomConvItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvUomConversionId" Type="int" Nullable="false" />
+    <Property Name="InvClassificationId" Type="int" Nullable="true" />
+    <Property Name="InvItemId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="InvWarningLevels">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvItemId" Type="int" Nullable="false" />
+    <Property Name="Level1" Type="decimal" Nullable="false" Precision="5" Scale="2" />
+    <Property Name="Level2" Type="decimal" Nullable="false" Precision="5" Scale="2" />
+    <Property Name="InvWarningTypeId" Type="int" Nullable="false" />
+    <Property Name="InvUomId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvWarningTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Desc" Type="nvarchar" Nullable="false" MaxLength="30" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -764,6 +830,78 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="InvUomConversionInvUomConvItem">
+    <End Role="InvUomConversion" Type="InvDB.Store.InvUomConversions" Multiplicity="1" />
+    <End Role="InvUomConvItem" Type="InvDB.Store.InvUomConvItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvUomConversion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvUomConvItem">
+        <PropertyRef Name="InvUomConversionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvClassificationInvUomConvItem">
+    <End Role="InvClassification" Type="InvDB.Store.InvClassifications" Multiplicity="0..1" />
+    <End Role="InvUomConvItem" Type="InvDB.Store.InvUomConvItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvClassification">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvUomConvItem">
+        <PropertyRef Name="InvClassificationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvItemInvUomConvItem">
+    <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="0..1" />
+    <End Role="InvUomConvItem" Type="InvDB.Store.InvUomConvItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvUomConvItem">
+        <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvItemInvWarningLevel">
+    <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
+    <End Role="InvWarningLevel" Type="InvDB.Store.InvWarningLevels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvWarningLevel">
+        <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvWarningTypeInvWarningLevel">
+    <End Role="InvWarningType" Type="InvDB.Store.InvWarningTypes" Multiplicity="1" />
+    <End Role="InvWarningLevel" Type="InvDB.Store.InvWarningLevels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvWarningType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvWarningLevel">
+        <PropertyRef Name="InvWarningTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvUomInvWarningLevel">
+    <End Role="InvUom" Type="InvDB.Store.InvUoms" Multiplicity="1" />
+    <End Role="InvWarningLevel" Type="InvDB.Store.InvWarningLevels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvUom">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvWarningLevel">
+        <PropertyRef Name="InvUomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -923,6 +1061,34 @@
             <End Role="InvStore" EntitySet="InvStores" />
             <End Role="InvStoreUser" EntitySet="InvStoreUsers" />
           </AssociationSet>
+          <EntitySet Name="InvUomConversions" EntityType="InvDB.InvUomConversion" />
+          <EntitySet Name="InvUomConvItems" EntityType="InvDB.InvUomConvItem" />
+          <AssociationSet Name="InvUomConversionInvUomConvItem" Association="InvDB.InvUomConversionInvUomConvItem">
+            <End Role="InvUomConversion" EntitySet="InvUomConversions" />
+            <End Role="InvUomConvItem" EntitySet="InvUomConvItems" />
+          </AssociationSet>
+          <AssociationSet Name="InvClassificationInvUomConvItem" Association="InvDB.InvClassificationInvUomConvItem">
+            <End Role="InvClassification" EntitySet="InvClassifications" />
+            <End Role="InvUomConvItem" EntitySet="InvUomConvItems" />
+          </AssociationSet>
+          <AssociationSet Name="InvItemInvUomConvItem" Association="InvDB.InvItemInvUomConvItem">
+            <End Role="InvItem" EntitySet="InvItems" />
+            <End Role="InvUomConvItem" EntitySet="InvUomConvItems" />
+          </AssociationSet>
+          <EntitySet Name="InvWarningLevels" EntityType="InvDB.InvWarningLevel" />
+          <AssociationSet Name="InvItemInvWarningLevel" Association="InvDB.InvItemInvWarningLevel">
+            <End Role="InvItem" EntitySet="InvItems" />
+            <End Role="InvWarningLevel" EntitySet="InvWarningLevels" />
+          </AssociationSet>
+          <EntitySet Name="InvWarningTypes" EntityType="InvDB.InvWarningType" />
+          <AssociationSet Name="InvWarningTypeInvWarningLevel" Association="InvDB.InvWarningTypeInvWarningLevel">
+            <End Role="InvWarningType" EntitySet="InvWarningTypes" />
+            <End Role="InvWarningLevel" EntitySet="InvWarningLevels" />
+          </AssociationSet>
+          <AssociationSet Name="InvUomInvWarningLevel" Association="InvDB.InvUomInvWarningLevel">
+            <End Role="InvUom" EntitySet="InvUoms" />
+            <End Role="InvWarningLevel" EntitySet="InvWarningLevels" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
           <Key>
@@ -941,6 +1107,8 @@
           <NavigationProperty Name="InvUom" Relationship="InvDB.InvUomInvItem" FromRole="InvItem" ToRole="InvUom" />
           <Property Name="InvUomId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvTrxDtls" Relationship="InvDB.InvItemInvTrxDtl" FromRole="InvItem" ToRole="InvTrxDtl" />
+          <NavigationProperty Name="InvUomConvItems" Relationship="InvDB.InvItemInvUomConvItem" FromRole="InvItem" ToRole="InvUomConvItem" />
+          <NavigationProperty Name="InvWarningLevels" Relationship="InvDB.InvItemInvWarningLevel" FromRole="InvItem" ToRole="InvWarningLevel" />
         </EntityType>
         <EntityType Name="InvItemClass">
           <Key>
@@ -959,6 +1127,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Classification" Type="String" Nullable="false" />
           <NavigationProperty Name="InvItemClasses" Relationship="InvDB.InvClassificationInvItemClass" FromRole="InvClassification" ToRole="InvItemClass" />
+          <NavigationProperty Name="InvUomConvItems" Relationship="InvDB.InvClassificationInvUomConvItem" FromRole="InvClassification" ToRole="InvUomConvItem" />
         </EntityType>
         <Association Name="InvItemInvItemClass">
           <End Type="InvDB.InvItem" Role="InvItem" Multiplicity="1" />
@@ -1005,7 +1174,7 @@
           <NavigationProperty Name="InvItem" Relationship="InvDB.InvItemInvSupplierItem" FromRole="InvSupplierItem" ToRole="InvItem" />
           <Property Name="InvItemId" Type="Int32" Nullable="false" />
           <Property Name="Remarks" Type="String" Nullable="true" />
-          <Property Name="Price" Type="Decimal" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="LastUpdate" Type="DateTime" Nullable="false" />
           <Property Name="LeadTime" Type="String" Nullable="false" />
           <Property Name="UserId" Type="String" Nullable="false" />
@@ -1337,6 +1506,7 @@
           <NavigationProperty Name="InvRequestItems" Relationship="InvDB.InvUomInvRequestItem" FromRole="InvUom" ToRole="InvRequestItem" />
           <NavigationProperty Name="InvAdjItems" Relationship="InvDB.InvUomInvAdjItem" FromRole="InvUom" ToRole="InvAdjItem" />
           <NavigationProperty Name="InvTrxDtls" Relationship="InvDB.InvUomInvTrxDtl" FromRole="InvUom" ToRole="InvTrxDtl" />
+          <NavigationProperty Name="InvWarningLevels" Relationship="InvDB.InvUomInvWarningLevel" FromRole="InvUom" ToRole="InvWarningLevel" />
         </EntityType>
         <Association Name="InvUomInvItem">
           <End Type="InvDB.InvUom" Role="InvUom" Multiplicity="1" />
@@ -1452,6 +1622,7 @@
           <Property Name="InvItemId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvTrxDtlOperator" Relationship="InvDB.InvTrxDtlOperatorInvTrxDtl" FromRole="InvTrxDtl" ToRole="InvTrxDtlOperator" />
           <Property Name="InvTrxDtlOperatorId" Type="Int32" Nullable="false" />
+          <Property Name="LotNo" Type="Int32" Nullable="true" />
         </EntityType>
         <Association Name="InvTrxHdrInvTrxDtl">
           <End Type="InvDB.InvTrxHdr" Role="InvTrxHdr" Multiplicity="1" />
@@ -1590,6 +1761,123 @@
             </Principal>
             <Dependent Role="InvStoreUser">
               <PropertyRef Name="InvStoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvUomConversion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvUomId_base" Type="Int32" Nullable="false" />
+          <Property Name="InvUomId_into" Type="Int32" Nullable="false" />
+          <Property Name="Factor" Type="Decimal" Nullable="false" Precision="4" Scale="2" />
+          <NavigationProperty Name="InvUomConvItems" Relationship="InvDB.InvUomConversionInvUomConvItem" FromRole="InvUomConversion" ToRole="InvUomConvItem" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="80" />
+        </EntityType>
+        <EntityType Name="InvUomConvItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="InvUomConversion" Relationship="InvDB.InvUomConversionInvUomConvItem" FromRole="InvUomConvItem" ToRole="InvUomConversion" />
+          <Property Name="InvUomConversionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvClassification" Relationship="InvDB.InvClassificationInvUomConvItem" FromRole="InvUomConvItem" ToRole="InvClassification" />
+          <Property Name="InvClassificationId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="InvItem" Relationship="InvDB.InvItemInvUomConvItem" FromRole="InvUomConvItem" ToRole="InvItem" />
+          <Property Name="InvItemId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <Association Name="InvUomConversionInvUomConvItem">
+          <End Type="InvDB.InvUomConversion" Role="InvUomConversion" Multiplicity="1" />
+          <End Type="InvDB.InvUomConvItem" Role="InvUomConvItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvUomConversion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvUomConvItem">
+              <PropertyRef Name="InvUomConversionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvClassificationInvUomConvItem">
+          <End Type="InvDB.InvClassification" Role="InvClassification" Multiplicity="0..1" />
+          <End Type="InvDB.InvUomConvItem" Role="InvUomConvItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvClassification">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvUomConvItem">
+              <PropertyRef Name="InvClassificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvItemInvUomConvItem">
+          <End Type="InvDB.InvItem" Role="InvItem" Multiplicity="0..1" />
+          <End Type="InvDB.InvUomConvItem" Role="InvUomConvItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvUomConvItem">
+              <PropertyRef Name="InvItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvWarningLevel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="InvItem" Relationship="InvDB.InvItemInvWarningLevel" FromRole="InvWarningLevel" ToRole="InvItem" />
+          <Property Name="InvItemId" Type="Int32" Nullable="false" />
+          <Property Name="Level1" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <Property Name="Level2" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
+          <NavigationProperty Name="InvWarningType" Relationship="InvDB.InvWarningTypeInvWarningLevel" FromRole="InvWarningLevel" ToRole="InvWarningType" />
+          <Property Name="InvWarningTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvUom" Relationship="InvDB.InvUomInvWarningLevel" FromRole="InvWarningLevel" ToRole="InvUom" />
+          <Property Name="InvUomId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvItemInvWarningLevel">
+          <End Type="InvDB.InvItem" Role="InvItem" Multiplicity="1" />
+          <End Type="InvDB.InvWarningLevel" Role="InvWarningLevel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvWarningLevel">
+              <PropertyRef Name="InvItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvWarningType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Desc" Type="String" Nullable="false" MaxLength="30" />
+          <NavigationProperty Name="InvWarningLevels" Relationship="InvDB.InvWarningTypeInvWarningLevel" FromRole="InvWarningType" ToRole="InvWarningLevel" />
+        </EntityType>
+        <Association Name="InvWarningTypeInvWarningLevel">
+          <End Type="InvDB.InvWarningType" Role="InvWarningType" Multiplicity="1" />
+          <End Type="InvDB.InvWarningLevel" Role="InvWarningLevel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvWarningType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvWarningLevel">
+              <PropertyRef Name="InvWarningTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvUomInvWarningLevel">
+          <End Type="InvDB.InvUom" Role="InvUom" Multiplicity="1" />
+          <End Type="InvDB.InvWarningLevel" Role="InvWarningLevel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvUom">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvWarningLevel">
+              <PropertyRef Name="InvUomId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1781,6 +2069,7 @@
           <ScalarProperty Name="ItemQty" ColumnName="ItemQty" />
           <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
           <ScalarProperty Name="InvTrxDtlOperatorId" ColumnName="InvTrxDtlOperatorId" />
+          <ScalarProperty Name="LotNo" ColumnName="LotNo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1825,6 +2114,47 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="InvStoreUserId" ColumnName="InvStoreUserId" />
           <ScalarProperty Name="InvStoreId" ColumnName="InvStoreId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvUomConversions">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvUomConversion)">
+        <MappingFragment StoreEntitySet="InvUomConversions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvUomId_base" ColumnName="InvUomId_base" />
+          <ScalarProperty Name="InvUomId_into" ColumnName="InvUomId_into" />
+          <ScalarProperty Name="Factor" ColumnName="Factor" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvUomConvItems">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvUomConvItem)">
+        <MappingFragment StoreEntitySet="InvUomConvItems">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvUomConversionId" ColumnName="InvUomConversionId" />
+          <ScalarProperty Name="InvClassificationId" ColumnName="InvClassificationId" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvWarningLevels">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvWarningLevel)">
+        <MappingFragment StoreEntitySet="InvWarningLevels">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+          <ScalarProperty Name="Level1" ColumnName="Level1" />
+          <ScalarProperty Name="Level2" ColumnName="Level2" />
+          <ScalarProperty Name="InvWarningTypeId" ColumnName="InvWarningTypeId" />
+          <ScalarProperty Name="InvUomId" ColumnName="InvUomId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvWarningTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvWarningType)">
+        <MappingFragment StoreEntitySet="InvWarningTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Desc" ColumnName="Desc" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

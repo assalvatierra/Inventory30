@@ -52,7 +52,9 @@ namespace InvWeb.Pages.Masterfiles.StoreStock
                         Id = itemdtl.InvItemId,
                         InvItem = itemDetails,
                         ItemQty = services.GetAvailableCountByItem(id, itemdtl.InvTrxHdr.InvStoreId),
-                        InvTrxHdr = itemdtl.InvTrxHdr
+                        InvTrxHdr = itemdtl.InvTrxHdr,
+                        InvUom = itemdtl.InvUom,
+                        
                     });
                 }
                 

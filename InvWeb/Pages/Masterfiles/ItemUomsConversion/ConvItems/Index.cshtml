@@ -1,0 +1,57 @@
+﻿@page
+
+@model InvWeb.Pages.Masterfiles.ItemUomsConversion.ConvItems.IndexModel
+
+@{
+    ViewData["Title"] = "Conversion Items";
+    var conversionId = ViewData["UomConversionId"]; 
+}
+
+<h1>Conversion Items</h1>
+
+<p>
+    <a asp-page="../Index">Back to List</a>
+</p>
+<p>
+    <a asp-page="Create" asp-route-id="@conversionId">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvUomConvItem[0].InvUomConversion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvUomConvItem[0].InvClassification)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvUomConvItem[0].InvItem)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.InvUomConvItem != null)
+        {
+            @foreach (var item in Model.InvUomConvItem)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvUomConversion.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvClassification.Classification)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvItem.Description)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

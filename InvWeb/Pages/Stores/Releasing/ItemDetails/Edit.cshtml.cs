@@ -6,24 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
+using InvWeb.Data.Services;
 using WebDBSchema.Models;
+using WebDBSchema.Models.Items;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
     public class EditModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ItemServices itemsvc;
 
         public EditModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
+             itemsvc =  new ItemServices(_context);
         }
 
         [BindProperty]
         public InvTrxDtl InvTrxDtl { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, int? invItemId)
         {
             if (id == null)
             {
@@ -32,21 +35,46 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
             InvTrxDtl = await _context.InvTrxDtls
                 .Include(i => i.InvItem)
+                .ThenInclude(i=>i.InvWarningLevels)
+                .ThenInclude(i=>i.InvWarningType)
                 .Include(i => i.InvTrxHdr)
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+                .Include(i => i.InvUom)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
 
             if (InvTrxDtl == null)
             {
                 return NotFound();
             }
+
+            int storeId = InvTrxDtl.InvTrxHdr.InvStoreId;
+            int itemId = invItemId  == null ? InvTrxDtl.InvItemId: (int)invItemId;
+
+            var LotNoList = itemsvc.GetLotNotItemList(itemId, storeId);
+            var LotNoItemsIds = LotNoList.Select(c => c.LotNo).ToList();
+            var selectedItem = " (" + InvTrxDtl.InvItem.Code + ") " + InvTrxDtl.InvItem.Description
+                               + " " + InvTrxDtl.InvItem.Remarks;
+
+            InvTrxDtl.InvItemId = itemId;
+
             ViewData["InvItemId"] = new SelectList(
                 _context.InvItems.Select(x => new {
                     Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
                     Value = x.Id
                 }), "Value", "Name");
+
+            ViewData["LotNo"] = new SelectList(LotNoList.Select(x => new {
+                    Name = String.Format("{0} ", x.LotNo),
+                    Value = x.LotNo
+                }), "Value", "Name");
+
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
-            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["InvUomId"]    = new SelectList(_context.InvUoms, "Id", "uom");
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
+            ViewData["LotNoItems"]  = LotNoList;
+            ViewData["StoreId"]     = storeId;
+            ViewData["SelectedItem"] = selectedItem;
+
             return Page();
         }
 
@@ -57,6 +85,11 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            if (InvTrxDtl.LotNo == 0 || InvTrxDtl.LotNo == null)
+            {
+                return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
             }
 
             _context.Attach(InvTrxDtl).State = EntityState.Modified;
@@ -84,5 +117,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
         {
             return _context.InvTrxDtls.Any(e => e.Id == id);
         }
+
+
     }
 }

@@ -16,6 +16,7 @@ namespace WebDBSchema.Models.Stores
         public int ReleaseRequest { get; set; }
         public int ReleaseReleased { get; set; }
         public int Adjustments { get; set; }
+        public ICollection<InvWarningLevel> InvWarningLevels { get; set; }
     }
 
 }

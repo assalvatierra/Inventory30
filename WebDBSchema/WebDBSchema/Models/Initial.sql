@@ -4,7 +4,7 @@ insert into InvStores("StoreName") values
 
 --Unit of Measure--
 insert into InvUoms([uom]) values
-('pc'),('box'),('dozen');
+('Meters'),('Inches'),('Foot');
 
 
 -- Trx Types -- Receive, release, adjust.
@@ -24,4 +24,8 @@ insert into InvPoHdrStatus([Status],[OrderNo]) values
 
 insert into InvTrxDtlOperators([Description],[Operator]) values 
 ('Add', '+'),('Subtract', '-');
+
+
+insert into InvWarningTypes([Desc]) values
+('Reorder'),('Warning'),('Critical');
 

@@ -18,7 +18,10 @@ namespace InvWeb.Data.Services
 
         public List<AppUser> GetUserList()
         {
-            var usersWithRoles = (from user in _context.Users
+            try
+            {
+
+                var usersWithRoles = (from user in _context.Users
                                   select new
                                   {
                                       UserId = user.Id,
@@ -38,7 +41,13 @@ namespace InvWeb.Data.Services
                                       Role = string.Join(",", p.RoleNames)
                                   });
 
-            return usersWithRoles.ToList();
+                return usersWithRoles.ToList();
+            }
+            catch
+            {
+
+                throw new Exception("UserServices: Unable to GetUserList");
+            }
         }
     }
 }

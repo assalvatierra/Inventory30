@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model WebDBSchema.Models.Stores.StoreInvCount
+@{
+
+}
+
+@if (Model.InvWarningLevels != null)
+{
+    foreach (var warning in Model.InvWarningLevels)
+    {
+
+        if (Model.OnHand >= warning.Level1 && Model.OnHand <= warning.Level2)
+        {
+            var warningDesc = warning.InvWarningType.Desc;
+
+            switch (warningDesc.ToUpper() )
+            {
+                case "REORDER":
+                    <span> <img src="~/img/icons/icons-reorder.png" width="15" /> stock @warningDesc</span>
+                    break;
+                case "WARNING":
+                    <span> <img src="~/img/icons/icons-warning.png" width="15" /> stock @warningDesc </span>
+                    break;
+                case "CRITICAL":
+                    <span> <img src="~/img/icons/icons-critical.png" width="15" /> stock @warningDesc </span>
+                    break;
+                default:
+                    
+                    break;
+            }
+        }
+    }
+}

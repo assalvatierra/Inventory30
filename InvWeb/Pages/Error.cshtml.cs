@@ -26,7 +26,16 @@ namespace InvWeb.Pages
 
         public void OnGet()
         {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            try
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+
+                _logger.LogInformation("Showing Error Page");
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
         }
     }
 }

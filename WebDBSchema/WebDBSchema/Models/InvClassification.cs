@@ -18,6 +18,7 @@ namespace WebDBSchema.Models
         public InvClassification()
         {
             this.InvItemClasses = new HashSet<InvItemClass>();
+            this.InvUomConvItems = new HashSet<InvUomConvItem>();
         }
     
         public int Id { get; set; }
@@ -25,5 +26,7 @@ namespace WebDBSchema.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvItemClass> InvItemClasses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvUomConvItem> InvUomConvItems { get; set; }
     }
 }

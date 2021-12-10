@@ -30,7 +30,9 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
             InvItem = await _context.InvItems
                 .Include(i => i.InvUom)
-                .Include(i=>i.InvItemClasses)
+                .Include(i => i.InvItemClasses)
+                .Include(i => i.InvWarningLevels)
+                .ThenInclude(i => i.InvWarningType)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
 

@@ -22,6 +22,9 @@
                                 Item <i class="bi-alarm"></i>
                             </th>
                             <th>
+
+                            </th>
+                            <th>
                                 <span data-toggle="tooltip" data-placement="top" title="On-Hand = accepted - released">
                                    Physical
                                 </span>
@@ -47,26 +50,29 @@
                     <tbody>
                         @foreach (var item in storeInvs)
                         {
-                            <tr>
-                                <td>
-                                    @item.Description
-                                </td>
-                                <td>
-                                    @item.OnHand
-                                </td>
-                                <td class="table-secondary">
-                                    @item.ReceivePending
-                                </td>
-                                <td>
-                                    @item.ReleaseRequest
-                                </td>
-                                <td class="table-secondary">
-                                    @item.Adjustments
-                                </td>
-                                <td>
-                                    @item.Available
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>
+                                <partial name="_PartialStockWarning" model="item" />
+                            </td>
+                            <td>
+                                @item.OnHand
+                            </td>
+                            <td class="table-secondary">
+                                @item.ReceivePending
+                            </td>
+                            <td>
+                                @item.ReleaseRequest
+                            </td>
+                            <td class="table-secondary">
+                                @item.Adjustments
+                            </td>
+                            <td>
+                                @item.Available
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -77,22 +83,21 @@
 
 <!-- Mobile View table -->
 <div class="row mobile-only">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <h4>Store Items</h4>
-                <table class="table">
-                    <thead>
-
-                    </thead>
-                    <tbody>
-                        @foreach (var item in storeInvs)
-                        {
+    @foreach (var item in storeInvs)
+    {
+        <div class="col-md-12">
+            <div class="card"  style="margin-bottom:5px;">
+                <div class="card-body">
+                    @*<h4>Store Items</h4>*@
+                    <table class="table">
+                        <tbody style="font-size:0.8em;">
                             <tr>
                                 <th colspan="5">
                                     @item.Description
+                                    <br /><partial name="_PartialStockWarning" model="item" />
                                 </th>
                             </tr>
+
                             <tr>
                                 <td>
                                     On-Hand
@@ -111,6 +116,7 @@
                                 </td>
                             </tr>
                             <tr>
+
                                 <td>
                                     @item.OnHand
                                 </td>
@@ -127,10 +133,10 @@
                                     @item.Available
                                 </td>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- end card-->
         </div>
+    }
     </div>
-</div>
