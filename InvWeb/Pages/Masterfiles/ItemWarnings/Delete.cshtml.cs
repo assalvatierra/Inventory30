@@ -56,7 +56,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index", new { id = InvWarningLevel.InvItemId });
+            return RedirectToPage("./Index");
         }
     }
 }

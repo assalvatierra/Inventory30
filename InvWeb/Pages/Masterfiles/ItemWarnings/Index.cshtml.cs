@@ -21,19 +21,12 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
 
         public IList<InvWarningLevel> InvWarningLevel { get;set; }
 
-        public async Task OnGetAsync(int? id)
+        public async Task OnGetAsync()
         {
-            if (id == null)
-            {
-                //return NotFound();
-
-            }
-
             InvWarningLevel = await _context.InvWarningLevels
                 .Include(i => i.InvItem)
                 .Include(i => i.InvUom)
                 .Include(i => i.InvWarningType)
-                .Where(i=> i.InvItemId == id)
                 .ToListAsync();
         }
     }

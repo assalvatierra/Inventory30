@@ -12,6 +12,14 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvWarningLevel.InvItem)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvWarningLevel.InvItem.Code) -
+            @Html.DisplayFor(model => model.InvWarningLevel.InvItem.Description)
+            @Html.DisplayFor(model => model.InvWarningLevel.InvItem.Remarks)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InvWarningLevel.Level1)
         </dt>
         <dd class="col-sm-10">
@@ -24,22 +32,16 @@
             @Html.DisplayFor(model => model.InvWarningLevel.Level2)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvWarningLevel.InvItem)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvWarningLevel.InvItem.Id)
-        </dd>
-        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InvWarningLevel.InvWarningType)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvWarningLevel.InvWarningType.Id)
+            @Html.DisplayFor(model => model.InvWarningLevel.InvWarningType.Desc)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InvWarningLevel.InvUom)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvWarningLevel.InvUom.Id)
+            @Html.DisplayFor(model => model.InvWarningLevel.InvUom.uom)
         </dd>
     </dl>
 </div>
