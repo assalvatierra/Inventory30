@@ -21,12 +21,25 @@ namespace InvWeb.Pages.Masterfiles.ItemUomsConversion.ConvItems
 
         public IList<InvUomConvItem> InvUomConvItem { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int id)
         {
-            InvUomConvItem = await _context.InvUomConvItem      
-                .Include(i => i.InvClassification)
-                .Include(i => i.InvItem)
-                .Include(i => i.InvUomConversion).ToListAsync();
+            try
+            {
+
+                InvUomConvItem = await _context.InvUomConvItems      
+                    .Include(i => i.InvClassification)
+                    .Include(i => i.InvItem)
+                    .Include(i => i.InvUomConversion)
+                    .Where(c=>c.InvUomConversionId == id)
+                    .ToListAsync();
+
+                ViewData["UomConversionId"] = id;
+            }
+            catch (Exception ex)
+            {
+
+                //throw ex;
+            }
         }
     }
 }

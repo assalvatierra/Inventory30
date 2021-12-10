@@ -2,10 +2,10 @@
 @model InvWeb.Pages.Masterfiles.ItemUomsConversion.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Conversions";
 }
 
-<h1>Index</h1>
+<h1>Conversions</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -14,41 +14,44 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.InvUomConversion[0].InvUomId_base)
+                @Html.DisplayNameFor(model => model.InvUomConversion[0].UomsConversion.InvUomId_base)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvUomConversion[0].InvUomId_into)
+                @Html.DisplayNameFor(model => model.InvUomConversion[0].UomsConversion.InvUomId_into)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvUomConversion[0].Factor)
+                @Html.DisplayNameFor(model => model.InvUomConversion[0].UomsConversion.Factor)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvUomConversion[0].Description)
+                @Html.DisplayNameFor(model => model.InvUomConversion[0].UomsConversion.Description)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.InvUomConversion) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvUomId_base)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvUomId_into)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Factor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./ConvItems/Index" asp-route-id="@item.Id">Items</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @if (Model.InvUomConversion != null) { 
+        
+        @foreach (var item in Model.InvUomConversion) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UomFrom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UomTo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UomsConversion.Factor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UomsConversion.Description)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./ConvItems/Index" asp-route-id="@item.Id">Items</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+        }
     </tbody>
 </table>

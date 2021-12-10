@@ -11,10 +11,7 @@ namespace WebDBSchema.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     
-    [Table("InvWarningLevels")]
     public partial class InvWarningLevel
     {
         public int Id { get; set; }

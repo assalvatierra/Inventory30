@@ -37,7 +37,8 @@ namespace InvWeb.Pages.Masterfiles.ItemUomsConversion
                 return NotFound();
             }
 
-            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["InvUomId_base"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["InvUomId_into"] = new SelectList(_context.InvUoms, "Id", "uom");
 
             return Page();
         }

@@ -19,11 +19,13 @@ namespace InvWeb.Pages.Masterfiles.ItemUomsConversion.ConvItems
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int id)
         {
-        ViewData["InvClassificationId"] = new SelectList(_context.InvClassifications, "Id", "Id");
-        ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
-        ViewData["InvUomConversionId"] = new SelectList(_context.InvUomConversions, "Id", "Description");
+            ViewData["InvClassificationId"] = new SelectList(_context.InvClassifications, "Id", "Classification");
+            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+            ViewData["InvUomConversionId"] = new SelectList(_context.InvUomConversions, "Id", "Description", id);
+            ViewData["UomConversionId"] = id;
+
             return Page();
         }
 
@@ -38,10 +40,10 @@ namespace InvWeb.Pages.Masterfiles.ItemUomsConversion.ConvItems
                 return Page();
             }
 
-            _context.InvUomConvItem.Add(InvUomConvItem);
+            _context.InvUomConvItems.Add(InvUomConvItem);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { id = InvUomConvItem.InvUomConversionId });
         }
     }
 }

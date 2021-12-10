@@ -29,7 +29,7 @@ namespace InvWeb.Pages.Masterfiles.ItemUomsConversion.ConvItems
                 return NotFound();
             }
 
-            InvUomConvItem = await _context.InvUomConvItem
+            InvUomConvItem = await _context.InvUomConvItems
                 .Include(i => i.InvClassification)
                 .Include(i => i.InvItem)
                 .Include(i => i.InvUomConversion).FirstOrDefaultAsync(m => m.Id == id);
@@ -48,15 +48,15 @@ namespace InvWeb.Pages.Masterfiles.ItemUomsConversion.ConvItems
                 return NotFound();
             }
 
-            InvUomConvItem = await _context.InvUomConvItem.FindAsync(id);
+            InvUomConvItem = await _context.InvUomConvItems.FindAsync(id);
 
             if (InvUomConvItem != null)
             {
-                _context.InvUomConvItem.Remove(InvUomConvItem);
+                _context.InvUomConvItems.Remove(InvUomConvItem);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { id = InvUomConvItem.InvUomConversionId });
         }
     }
 }
