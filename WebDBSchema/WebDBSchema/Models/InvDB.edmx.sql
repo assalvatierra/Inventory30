@@ -2,16 +2,16 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/22/2022 21:10:58
+-- Date Created: 04/22/2022 22:22:21
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [InvDB3.mdf];
-GO
-IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
-GO
+--USE [InvDB3.mdf];
+--GO
+--IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+--GO
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
@@ -134,6 +134,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvUomInvWarningLevel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvUomInvWarningLevel];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItems] DROP CONSTRAINT [FK_InvCategoryInvItem];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -216,6 +219,9 @@ IF OBJECT_ID(N'[dbo].[InvWarningLevels]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvWarningTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvWarningTypes];
+GO
+IF OBJECT_ID(N'[dbo].[InvCategories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCategories];
 GO
 
 -- --------------------------------------------------

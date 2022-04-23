@@ -30,7 +30,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
                 return NotFound();
             }
 
-            InvCategory = await _context.InvCategory.FirstOrDefaultAsync(m => m.Id == id);
+            InvCategory = await _context.InvCategories.FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvCategory == null)
             {
@@ -71,7 +71,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
 
         private bool InvCategoryExists(int id)
         {
-            return _context.InvCategory.Any(e => e.Id == id);
+            return _context.InvCategories.Any(e => e.Id == id);
         }
     }
 }

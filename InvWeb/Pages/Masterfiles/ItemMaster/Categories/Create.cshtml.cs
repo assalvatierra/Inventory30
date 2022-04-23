@@ -35,7 +35,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
                 return Page();
             }
 
-            _context.InvCategory.Add(InvCategory);
+            _context.InvCategories.Add(InvCategory);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

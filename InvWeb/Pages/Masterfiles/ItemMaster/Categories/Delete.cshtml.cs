@@ -29,7 +29,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
                 return NotFound();
             }
 
-            InvCategory = await _context.InvCategory.FirstOrDefaultAsync(m => m.Id == id);
+            InvCategory = await _context.InvCategories.FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvCategory == null)
             {
@@ -45,11 +45,11 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
                 return NotFound();
             }
 
-            InvCategory = await _context.InvCategory.FindAsync(id);
+            InvCategory = await _context.InvCategories.FindAsync(id);
 
             if (InvCategory != null)
             {
-                _context.InvCategory.Remove(InvCategory);
+                _context.InvCategories.Remove(InvCategory);
                 await _context.SaveChangesAsync();
             }
 

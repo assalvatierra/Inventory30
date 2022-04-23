@@ -28,7 +28,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
                 return NotFound();
             }
 
-            InvCategory = await _context.InvCategory.FirstOrDefaultAsync(m => m.Id == id);
+            InvCategory = await _context.InvCategories.FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvCategory == null)
             {
