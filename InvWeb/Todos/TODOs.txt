@@ -3,10 +3,11 @@
 ---------------
 
 MAIN
-- Add Category Menu
+- Add Category Menu - DONE
 
 STORE PAGE
 - Sort Items by category
+- proper labelling of category maintainance page
 
 
 
