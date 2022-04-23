@@ -4,6 +4,7 @@
 
 MAIN
 - Add Category Menu - DONE
+- Show Category Code - Description in dropdowns
 
 STORE PAGE
 - Sort Items by category
@@ -22,5 +23,6 @@ ENVIRONMENT SETUP/CONFIGURATION
 CODING
 - Error Messaging/logging for easy debugging
 
-ARCHITECTURE
-- re-evaluate for ver 2
+*** ARCHITECTURE ***
+COMPONENT DEVELOPMENT - for assessment
+API DEVELOPMENT - for assessment
