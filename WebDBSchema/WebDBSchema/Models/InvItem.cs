@@ -33,6 +33,7 @@ namespace WebDBSchema.Models
         public string Description { get; set; }
         public string Remarks { get; set; }
         public int InvUomId { get; set; }
+        public int InvCategoryId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvItemClass> InvItemClasses { get; set; }
@@ -53,5 +54,6 @@ namespace WebDBSchema.Models
         public virtual ICollection<InvUomConvItem> InvUomConvItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvWarningLevel> InvWarningLevels { get; set; }
+        public virtual InvCategory InvCategory { get; set; }
     }
 }

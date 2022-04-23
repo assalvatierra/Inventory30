@@ -51,5 +51,6 @@ namespace WebDBSchema.Models
         public virtual DbSet<InvUomConvItem> InvUomConvItems { get; set; }
         public virtual DbSet<InvWarningLevel> InvWarningLevels { get; set; }
         public virtual DbSet<InvWarningType> InvWarningTypes { get; set; }
+        public virtual DbSet<InvCategory> InvCategories { get; set; }
     }
 }
