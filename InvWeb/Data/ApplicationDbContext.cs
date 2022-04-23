@@ -39,6 +39,7 @@ namespace InvWeb.Data
         public DbSet<InvUomConvItem> InvUomConvItems { get; set; }
         public DbSet<InvWarningLevel> InvWarningLevels { get; set; }
         public DbSet<InvWarningType> InvWarningTypes { get; set; }
+        public DbSet<WebDBSchema.Models.InvCategory> InvCategory { get; set; }
 
     }
 }

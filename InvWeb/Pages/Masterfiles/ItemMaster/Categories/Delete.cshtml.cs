@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemWarnings
+namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
 {
     public class DeleteModel : PageModel
     {
@@ -20,7 +20,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
         }
 
         [BindProperty]
-        public InvWarningLevel InvWarningLevel { get; set; }
+        public InvCategory InvCategory { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,12 +29,9 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
                 return NotFound();
             }
 
-            InvWarningLevel = await _context.InvWarningLevels
-                .Include(i => i.InvItem)
-                .Include(i => i.InvUom)
-                .Include(i => i.InvWarningType).FirstOrDefaultAsync(m => m.Id == id);
+            InvCategory = await _context.InvCategory.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvWarningLevel == null)
+            if (InvCategory == null)
             {
                 return NotFound();
             }
@@ -48,11 +45,11 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
                 return NotFound();
             }
 
-            InvWarningLevel = await _context.InvWarningLevels.FindAsync(id);
+            InvCategory = await _context.InvCategory.FindAsync(id);
 
-            if (InvWarningLevel != null)
+            if (InvCategory != null)
             {
-                _context.InvWarningLevels.Remove(InvWarningLevel);
+                _context.InvCategory.Remove(InvCategory);
                 await _context.SaveChangesAsync();
             }
 

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemWarnings
+namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
 {
     public class IndexModel : PageModel
     {
@@ -19,15 +19,11 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
             _context = context;
         }
 
-        public IList<InvWarningLevel> InvWarningLevel { get;set; }
+        public IList<InvCategory> InvCategory { get;set; }
 
         public async Task OnGetAsync()
         {
-            InvWarningLevel = await _context.InvWarningLevels
-                .Include(i => i.InvItem)
-                .Include(i => i.InvUom)
-                .Include(i => i.InvWarningType)
-                .ToListAsync();
+            InvCategory = await _context.InvCategory.ToListAsync();
         }
     }
 }

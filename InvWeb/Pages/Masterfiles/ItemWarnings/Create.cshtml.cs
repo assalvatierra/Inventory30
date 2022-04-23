@@ -19,11 +19,16 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
             _context = context;
         }
 
-        public IActionResult OnGet(int id)
+        public IActionResult OnGet()
         {
-        ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Id", id);
-        ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "Id");
-        ViewData["InvWarningTypeId"] = new SelectList(_context.Set<InvWarningType>(), "Id", "Id");
+            //ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Id", id);
+            ViewData["InvItemId"] = new SelectList(
+                    _context.InvItems.Select(x => new {
+                        Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
+                        Id = x.Id
+                    }), "Id", "Name");
+            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["InvWarningTypeId"] = new SelectList(_context.Set<InvWarningType>(), "Id", "Desc");
             return Page();
         }
 
@@ -41,7 +46,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
             _context.InvWarningLevels.Add(InvWarningLevel);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index", new { id = InvWarningLevel.InvItemId });
+            return RedirectToPage("./Index");
         }
     }
 }

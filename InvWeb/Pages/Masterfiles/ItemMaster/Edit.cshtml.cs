@@ -31,13 +31,15 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             }
 
             InvItem = await _context.InvItems
+                .Include(i => i.InvCategory)
                 .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvItem == null)
             {
                 return NotFound();
             }
-           ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
+            ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Id");
+            ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
             return Page();
         }
 

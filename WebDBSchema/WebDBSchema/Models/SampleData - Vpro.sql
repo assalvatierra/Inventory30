@@ -97,6 +97,10 @@ insert into InvTrxDtls([InvTrxHdrId],[InvUomId],[ItemQty],[InvItemId],[InvTrxDtl
 (7, 1, 2, 1, 2);
 
 
+--Inv Classifications --
+insert into InvItemClasses ([InvItemId],[InvClassificationId]) values
+(1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1);
+
 --Inv Items Warning Levels --
 insert into InvWarningLevels([InvItemId],[Level1],[Level2],[InvWarningTypeId],[InvUomId]) values
 (1, 11, 15, 1, 1),
@@ -114,3 +118,15 @@ insert into InvWarningLevels([InvItemId],[Level1],[Level2],[InvWarningTypeId],[I
 (15, 10, 15, 1, 1),
 (15, 5, 9,  2, 1),
 (15, 0, 4,  3, 1);
+
+
+--Inv Uom Conversions
+insert into InvUomConversions([InvUomId_base],[InvUomId_into],[Factor],[Description]) values
+(1, 2, 39.37, 'Meters to Inches'),
+(1, 3, 3.28 , 'Meters to Foot'),
+
+(2, 1, 0.02, 'Inches to Meters'),
+(2, 3, 0.08, 'Inches to Foot'),
+
+(3, 1, 0.03, 'Foot to Meters'),
+(3, 2, 12  , 'Foot to Inches');

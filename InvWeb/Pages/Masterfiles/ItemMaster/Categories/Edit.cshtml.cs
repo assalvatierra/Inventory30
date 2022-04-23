@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemWarnings
+namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
         }
 
         [BindProperty]
-        public InvWarningLevel InvWarningLevel { get; set; }
+        public InvCategory InvCategory { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,22 +30,12 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
                 return NotFound();
             }
 
-            InvWarningLevel = await _context.InvWarningLevels
-                .Include(i => i.InvItem)
-                .Include(i => i.InvUom)
-                .Include(i => i.InvWarningType).FirstOrDefaultAsync(m => m.Id == id);
+            InvCategory = await _context.InvCategory.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvWarningLevel == null)
+            if (InvCategory == null)
             {
                 return NotFound();
             }
-            ViewData["InvItemId"] = new SelectList(
-                      _context.InvItems.Select(x => new {
-                          Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
-                          Id = x.Id
-                      }), "Id", "Name");
-            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
-            ViewData["InvWarningTypeId"] = new SelectList(_context.Set<InvWarningType>(), "Id", "Desc");
             return Page();
         }
 
@@ -58,7 +48,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
                 return Page();
             }
 
-            _context.Attach(InvWarningLevel).State = EntityState.Modified;
+            _context.Attach(InvCategory).State = EntityState.Modified;
 
             try
             {
@@ -66,7 +56,7 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvWarningLevelExists(InvWarningLevel.Id))
+                if (!InvCategoryExists(InvCategory.Id))
                 {
                     return NotFound();
                 }
@@ -79,9 +69,9 @@ namespace InvWeb.Pages.Masterfiles.ItemWarnings
             return RedirectToPage("./Index");
         }
 
-        private bool InvWarningLevelExists(int id)
+        private bool InvCategoryExists(int id)
         {
-            return _context.InvWarningLevels.Any(e => e.Id == id);
+            return _context.InvCategory.Any(e => e.Id == id);
         }
     }
 }

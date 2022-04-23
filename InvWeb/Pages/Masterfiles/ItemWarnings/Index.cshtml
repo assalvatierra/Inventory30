@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Items Warning levels </h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -14,13 +14,13 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.InvWarningLevel[0].InvItem)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.InvWarningLevel[0].Level1)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InvWarningLevel[0].Level2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvWarningLevel[0].InvItem)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InvWarningLevel[0].InvWarningType)
@@ -35,19 +35,36 @@
 @foreach (var item in Model.InvWarningLevel) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.InvItem.Code) - 
+                @Html.DisplayFor(modelItem => item.InvItem.Description)
+                @Html.DisplayFor(modelItem => item.InvItem.Remarks)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Level1)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Level2)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InvItem.Id)
+
+                @switch (item.InvWarningType.Desc.ToUpper() )
+                {
+                    case "REORDER":
+                    <span> <img src="~/img/icons/icons-reorder.png" width="15" /> stock @item.InvWarningType.Desc</span>
+                    break;
+                    case "WARNING":
+                    <span> <img src="~/img/icons/icons-warning.png" width="15" /> stock @item.InvWarningType.Desc </span>
+                    break;
+                    case "CRITICAL":
+                    <span> <img src="~/img/icons/icons-critical.png" width="15" /> stock @item.InvWarningType.Desc </span>
+                    break;
+                    default:
+
+                    break;
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InvWarningType.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvUom.Id)
+                @Html.DisplayFor(modelItem => item.InvUom.uom)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

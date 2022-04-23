@@ -4,7 +4,7 @@ insert into InvStores("StoreName") values
 
 --Unit of Measure--
 insert into InvUoms([uom]) values
-('pc'),('box'),('dozen');
+('Meters'),('Inches'),('Foot');
 
 
 -- Trx Types -- Receive, release, adjust.
