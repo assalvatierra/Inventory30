@@ -46,6 +46,7 @@
                     {
                         @Html.DisplayFor(modelItem => classes.InvClassification.Classification)
                     }
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.Remarks)
@@ -54,6 +55,7 @@
                     @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
                 </td>
                 <td>
+                    <a asp-page="./Classifications/Add" asp-route-id="@item.InvItem.Id"> Classification</a> |
                     <a asp-page="./Edit" asp-route-id="@item.InvItem.Id">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.InvItem.Id">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.InvItem.Id">Delete</a>
@@ -65,7 +67,7 @@
 
 
 <!-- Modal : Classifications -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ShowClassificationModal" tabindex="-1" aria-labelledby="ShowClassificationModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -74,12 +76,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="ListClassificationsModal">
                 ...
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
