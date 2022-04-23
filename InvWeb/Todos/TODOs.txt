@@ -14,9 +14,13 @@ STORE PAGE
 
 
 
+
 ENVIRONMENT SETUP/CONFIGURATION
 - organize initialization SQL scripts
 - organize update scripts 
 
 CODING
 - Error Messaging/logging for easy debugging
+
+ARCHITECTURE
+- re-evaluate for ver 2
