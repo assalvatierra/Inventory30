@@ -32,6 +32,7 @@
     <EntitySet Name="InvUomConvItems" EntityType="InvDB.Store.InvUomConvItems" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvWarningLevels" EntityType="InvDB.Store.InvWarningLevels" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvWarningTypes" EntityType="InvDB.Store.InvWarningTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvCategories" EntityType="InvDB.Store.InvCategories" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -188,6 +189,10 @@
       <End Role="InvUom" EntitySet="InvUoms" />
       <End Role="InvWarningLevel" EntitySet="InvWarningLevels" />
     </AssociationSet>
+    <AssociationSet Name="InvCategoryInvItem" Association="InvDB.Store.InvCategoryInvItem">
+      <End Role="InvCategory" EntitySet="InvCategories" />
+      <End Role="InvItem" EntitySet="InvItems" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="InvItems">
     <Key>
@@ -198,6 +203,7 @@
     <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="120" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="120" />
     <Property Name="InvUomId" Type="int" Nullable="false" />
+    <Property Name="InvCategoryId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="InvItemClasses">
     <Key>
@@ -433,6 +439,15 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Desc" Type="nvarchar" Nullable="false" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="InvCategories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="50" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -902,6 +917,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="InvCategoryInvItem">
+    <End Role="InvCategory" Type="InvDB.Store.InvCategories" Multiplicity="1" />
+    <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvItem">
+        <PropertyRef Name="InvCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -1089,6 +1116,11 @@
             <End Role="InvUom" EntitySet="InvUoms" />
             <End Role="InvWarningLevel" EntitySet="InvWarningLevels" />
           </AssociationSet>
+          <EntitySet Name="InvCategories" EntityType="InvDB.InvCategory" />
+          <AssociationSet Name="InvCategoryInvItem" Association="InvDB.InvCategoryInvItem">
+            <End Role="InvCategory" EntitySet="InvCategories" />
+            <End Role="InvItem" EntitySet="InvItems" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
           <Key>
@@ -1109,6 +1141,8 @@
           <NavigationProperty Name="InvTrxDtls" Relationship="InvDB.InvItemInvTrxDtl" FromRole="InvItem" ToRole="InvTrxDtl" />
           <NavigationProperty Name="InvUomConvItems" Relationship="InvDB.InvItemInvUomConvItem" FromRole="InvItem" ToRole="InvUomConvItem" />
           <NavigationProperty Name="InvWarningLevels" Relationship="InvDB.InvItemInvWarningLevel" FromRole="InvItem" ToRole="InvWarningLevel" />
+          <NavigationProperty Name="InvCategory" Relationship="InvDB.InvCategoryInvItem" FromRole="InvItem" ToRole="InvCategory" />
+          <Property Name="InvCategoryId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="InvItemClass">
           <Key>
@@ -1881,6 +1915,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="InvCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="50" />
+          <NavigationProperty Name="InvItems" Relationship="InvDB.InvCategoryInvItem" FromRole="InvCategory" ToRole="InvItem" />
+        </EntityType>
+        <Association Name="InvCategoryInvItem">
+          <End Type="InvDB.InvCategory" Role="InvCategory" Multiplicity="1" />
+          <End Type="InvDB.InvItem" Role="InvItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvItem">
+              <PropertyRef Name="InvCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1895,6 +1951,7 @@
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="InvUomId" ColumnName="InvUomId" />
+          <ScalarProperty Name="InvCategoryId" ColumnName="InvCategoryId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2155,6 +2212,16 @@
         <MappingFragment StoreEntitySet="InvWarningTypes">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Desc" ColumnName="Desc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvCategory)">
+        <MappingFragment StoreEntitySet="InvCategories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemMaster
+namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
 {
     public class CreateModel : PageModel
     {
@@ -21,13 +21,11 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
         public IActionResult OnGet()
         {
-            ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Id");
-            ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
             return Page();
         }
 
         [BindProperty]
-        public InvItem InvItem { get; set; }
+        public InvCategory InvCategory { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -37,7 +35,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return Page();
             }
 
-            _context.InvItems.Add(InvItem);
+            _context.InvCategories.Add(InvCategory);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

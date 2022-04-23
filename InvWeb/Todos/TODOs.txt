@@ -1,0 +1,21 @@
+﻿---------------
+  V1.00
+---------------
+
+MAIN
+- Add Category Menu
+
+STORE PAGE
+- Sort Items by category
+
+
+
+
+
+
+ENVIRONMENT SETUP/CONFIGURATION
+- organize initialization SQL scripts
+- organize update scripts 
+
+CODING
+- Error Messaging/logging for easy debugging

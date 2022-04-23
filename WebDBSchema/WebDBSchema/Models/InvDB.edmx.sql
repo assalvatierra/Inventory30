@@ -2,16 +2,16 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/09/2021 14:29:58
--- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
+-- Date Created: 04/22/2022 22:22:21
+-- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [InvDB3.mdf];
-GO
-IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
-GO
+--USE [InvDB3.mdf];
+--GO
+--IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+--GO
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints
@@ -134,6 +134,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvUomInvWarningLevel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvUomInvWarningLevel];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItems] DROP CONSTRAINT [FK_InvCategoryInvItem];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -217,6 +220,9 @@ GO
 IF OBJECT_ID(N'[dbo].[InvWarningTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvWarningTypes];
 GO
+IF OBJECT_ID(N'[dbo].[InvCategories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCategories];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -228,7 +234,8 @@ CREATE TABLE [dbo].[InvItems] (
     [Code] nvarchar(40)  NOT NULL,
     [Description] nvarchar(120)  NOT NULL,
     [Remarks] nvarchar(120)  NULL,
-    [InvUomId] int  NOT NULL
+    [InvUomId] int  NOT NULL,
+    [InvCategoryId] int  NOT NULL
 );
 GO
 
@@ -467,6 +474,15 @@ CREATE TABLE [dbo].[InvWarningTypes] (
 );
 GO
 
+-- Creating table 'InvCategories'
+CREATE TABLE [dbo].[InvCategories] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(20)  NOT NULL,
+    [Description] nvarchar(50)  NOT NULL,
+    [Remarks] nvarchar(50)  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -624,6 +640,12 @@ GO
 -- Creating primary key on [Id] in table 'InvWarningTypes'
 ALTER TABLE [dbo].[InvWarningTypes]
 ADD CONSTRAINT [PK_InvWarningTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvCategories'
+ALTER TABLE [dbo].[InvCategories]
+ADD CONSTRAINT [PK_InvCategories]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1214,6 +1236,21 @@ GO
 CREATE INDEX [IX_FK_InvUomInvWarningLevel]
 ON [dbo].[InvWarningLevels]
     ([InvUomId]);
+GO
+
+-- Creating foreign key on [InvCategoryId] in table 'InvItems'
+ALTER TABLE [dbo].[InvItems]
+ADD CONSTRAINT [FK_InvCategoryInvItem]
+    FOREIGN KEY ([InvCategoryId])
+    REFERENCES [dbo].[InvCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCategoryInvItem'
+CREATE INDEX [IX_FK_InvCategoryInvItem]
+ON [dbo].[InvItems]
+    ([InvCategoryId]);
 GO
 
 -- --------------------------------------------------

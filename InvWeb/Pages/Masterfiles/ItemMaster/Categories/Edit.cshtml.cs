@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemMaster
+namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
         }
 
         [BindProperty]
-        public InvItem InvItem { get; set; }
+        public InvCategory InvCategory { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,16 +30,12 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return NotFound();
             }
 
-            InvItem = await _context.InvItems
-                .Include(i => i.InvCategory)
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+            InvCategory = await _context.InvCategories.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvItem == null)
+            if (InvCategory == null)
             {
                 return NotFound();
             }
-            ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Id");
-            ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
             return Page();
         }
 
@@ -52,7 +48,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return Page();
             }
 
-            _context.Attach(InvItem).State = EntityState.Modified;
+            _context.Attach(InvCategory).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +56,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvItemExists(InvItem.Id))
+                if (!InvCategoryExists(InvCategory.Id))
                 {
                     return NotFound();
                 }
@@ -73,9 +69,9 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             return RedirectToPage("./Index");
         }
 
-        private bool InvItemExists(int id)
+        private bool InvCategoryExists(int id)
         {
-            return _context.InvItems.Any(e => e.Id == id);
+            return _context.InvCategories.Any(e => e.Id == id);
         }
     }
 }
