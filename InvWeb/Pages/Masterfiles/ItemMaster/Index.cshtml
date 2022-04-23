@@ -20,7 +20,10 @@
                 @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.Description)
             </th>
             <th>
-                Classification
+                @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.InvCategory.Code)
+            </th>
+            <th>
+                Classifications
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.Remarks)
@@ -41,6 +44,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.Description)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.InvCategory.Code)
+                </td>
+
                 <td>
                     @foreach (var classes  in item.InvItemClasses)
                     {
