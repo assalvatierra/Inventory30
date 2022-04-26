@@ -21,7 +21,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
         public IActionResult OnGet()
         {
-            ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Id");
+            ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description");
             ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
             return Page();
         }

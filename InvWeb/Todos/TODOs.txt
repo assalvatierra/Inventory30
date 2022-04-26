@@ -1,21 +1,34 @@
-﻿---------------
-  V1.00
----------------
+﻿###############################
+
+  V10.0 - TODOs
+
+###############################
+
+
 
 MAIN
-- Add Category Menu
+- Add Category Menu - DONE
+- Show Category Code - Description in dropdowns
 
 STORE PAGE
 - Sort Items by category
+- proper labelling of category maintainance page
 
 
 
 
 
 
-ENVIRONMENT SETUP/CONFIGURATION
+
+*** ENVIRONMENT SETUP/CONFIGURATION ***
 - organize initialization SQL scripts
 - organize update scripts 
 
-CODING
+*** CODING ***
 - Error Messaging/logging for easy debugging
+  -- need to create reusable error logging component
+
+
+*** ARCHITECTURE ***
+COMPONENT DEVELOPMENT - for assessment
+API DEVELOPMENT - for assessment
