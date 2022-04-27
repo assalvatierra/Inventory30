@@ -207,6 +207,9 @@
     <Compile Include="Models\InvAdjItem.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvCategory.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvClassification.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
@@ -310,8 +313,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\InitialRoles.sql" />
-    <Content Include="Models\SampleData - Vpro.sql" />
+    <Content Include="Models\Initialize SQL\000.InitialRoles.sql" />
+    <Content Include="Models\Initialize SQL\002.SampleData.Vpro.sql" />
     <Content Include="Models\SampleData.sql" />
     <Content Include="Models\InvDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -324,7 +327,7 @@
       <LastGenOutput>InvDB.cs</LastGenOutput>
       <DependentUpon>InvDB.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\Initial.sql" />
+    <Content Include="Models\Initialize SQL\001.Initial.sql" />
     <Content Include="Models\Query1.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
