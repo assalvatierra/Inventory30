@@ -27,7 +27,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             }
 
             ViewData["InvItemId"] = new SelectList(
-                _context.InvItems.Select(x => new {
+                _context.InvItems.OrderBy(i=>i.InvCategoryId).Select(x => new {
                      Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
                      Value = x.Id
                  }), "Value", "Name");
