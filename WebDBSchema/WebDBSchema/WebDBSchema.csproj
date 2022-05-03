@@ -310,8 +310,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\InitialRoles.sql" />
-    <Content Include="Models\SampleData - Vpro.sql" />
+    <Content Include="Models\Initialize SQL\20220427.v1.001.InitialRoles.sql" />
+    <Content Include="Models\Initialize SQL\20220427.v1.001.SampleData.Vpro.sql" />
     <Content Include="Models\SampleData.sql" />
     <Content Include="Models\InvDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -324,7 +324,7 @@
       <LastGenOutput>InvDB.cs</LastGenOutput>
       <DependentUpon>InvDB.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\Initial.sql" />
+    <Content Include="Models\Initialize SQL\20220427.v1.001.Initial.sql" />
     <Content Include="Models\Query1.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
