@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
+using InvWeb.Data.Services;
 
 namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 {
     public class EditModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ItemServices _itemServices;
 
         public EditModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
+            _itemServices = new ItemServices(context);
         }
 
         [BindProperty]
@@ -40,11 +43,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 return NotFound();
             }
 
-            ViewData["InvItemId"] = new SelectList(
-                _context.InvItems.OrderBy(i => i.InvCategoryId).Select(x => new {
-                    Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
-                    Value = x.Id
-                }), "Value", "Name");
+            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(InvTrxDtl.InvItemId);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
             ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");

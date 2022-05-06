@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
+using InvWeb.Data.Services;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {
     public class EditModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ItemServices _itemServices;
 
         public EditModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
+            _itemServices = new ItemServices(context);
         }
 
         [BindProperty]
@@ -39,9 +42,10 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
             {
                 return NotFound();
             }
-           ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
-           ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id");
-           ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            
+            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(InvPoItem.InvItemId);
+            ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id");
+            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
             return Page();
         }
 

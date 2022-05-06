@@ -5,10 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebDBSchema.Models;
 using WebDBSchema.Models.Items;
+using InvWeb.Data.Interfaces;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InvWeb.Data.Services
 {
-    public class ItemServices
+    public class ItemServices : IItemServices
     {
         private readonly ApplicationDbContext _context;
 
@@ -43,6 +45,7 @@ namespace InvWeb.Data.Services
                     .Where(c => c.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED
                         && c.InvTrxHdr.InvStoreId == storeId
                         && c.InvItemId == itemid).ToList();
+
                 if (LotNoItems == null)
                 {
                     return lotNoSelects;
@@ -100,6 +103,33 @@ namespace InvWeb.Data.Services
             {
                 throw new Exception("ItemServices: Unable to Get Item Balance By Id");
             }
+        }
+
+        //Get Queryable Inventory Items Ordered by Category
+        public IOrderedQueryable<InvItem> GetInvItemsOrderedByCategory()
+        {
+            return _context.InvItems.OrderBy(i => i.InvCategoryId);
+        }
+
+
+        //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
+        public SelectList GetInvItemsSelectList()
+        {
+            return new SelectList( _context.InvItems.OrderBy(i => i.InvCategoryId).Select(x => new
+            {
+                Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
+                Value = x.Id
+            }), "Value", "Name");
+        }
+
+        //Get Select List of Inventory Items, used for Create or Edit Dropdowns List with parameter selectedId
+        public SelectList GetInvItemsSelectList(int selected)
+        {
+            return new SelectList(_context.InvItems.OrderBy(i => i.InvCategoryId).Select(x => new
+            {
+                Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
+                Value = x.Id
+            }), "Value", "Name", selected);
         }
     }
 }
