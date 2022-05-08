@@ -2,11 +2,11 @@
 
   V10.0 - TODOs
 
-###############################
+###############################################
+	TODO ITEMS
+###############################################
 
-
-
-MAIN
+CURRENT
 - Show Category Code - Description in dropdowns
    format: (CategoryCode)ItemCode-(CategoryDescription) Item Description
    sort: Catgory Code
@@ -16,12 +16,14 @@ MAIN
   include sorting similar too dropdown
 
 
-
-STORE PAGE
-- Sort Items by category
 - proper labelling of category maintainance page
 
 
+
+UPCOMING
+- Item Details Quantity - to accept decimals - convert to float/decimal type
+
+- Transaction request printout
 
 
 
