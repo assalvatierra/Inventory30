@@ -11,6 +11,11 @@ MAIN
    format: (CategoryCode)ItemCode-(CategoryDescription) Item Description
    sort: Catgory Code
 
+- Add category in Store Items ( Store Main Page)
+  include formating similar to dropdown
+  include sorting similar too dropdown
+
+
 
 STORE PAGE
 - Sort Items by category
