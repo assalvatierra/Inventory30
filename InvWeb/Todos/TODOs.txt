@@ -7,8 +7,10 @@
 
 
 MAIN
-- Add Category Menu - DONE
 - Show Category Code - Description in dropdowns
+   format: (CategoryCode)ItemCode-(CategoryDescription) Item Description
+   sort: Catgory Code
+
 
 STORE PAGE
 - Sort Items by category
