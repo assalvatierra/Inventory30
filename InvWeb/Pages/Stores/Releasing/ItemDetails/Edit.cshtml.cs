@@ -15,12 +15,12 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
     public class EditModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
-        private readonly ItemServices itemsvc;
+        private readonly ItemServices _itemServices;
 
         public EditModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
-             itemsvc =  new ItemServices(_context);
+            _itemServices = new ItemServices(context);
         }
 
         [BindProperty]
@@ -49,25 +49,20 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
             int storeId = InvTrxDtl.InvTrxHdr.InvStoreId;
             int itemId = invItemId  == null ? InvTrxDtl.InvItemId: (int)invItemId;
-
-            var LotNoList = itemsvc.GetLotNotItemList(itemId, storeId);
+            var LotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
             var LotNoItemsIds = LotNoList.Select(c => c.LotNo).ToList();
             var selectedItem = " (" + InvTrxDtl.InvItem.Code + ") " + InvTrxDtl.InvItem.Description
                                + " " + InvTrxDtl.InvItem.Remarks;
 
             InvTrxDtl.InvItemId = itemId;
 
-            ViewData["InvItemId"] = new SelectList(
-                _context.InvItems.Select(x => new {
-                    Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
-                    Value = x.Id
-                }), "Value", "Name");
 
             ViewData["LotNo"] = new SelectList(LotNoList.Select(x => new {
                     Name = String.Format("{0} ", x.LotNo),
                     Value = x.LotNo
                 }), "Value", "Name");
 
+            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(itemId);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
             ViewData["InvUomId"]    = new SelectList(_context.InvUoms, "Id", "uom");
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");

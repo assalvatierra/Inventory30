@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data;
 using WebDBSchema.Models;
+using InvWeb.Data.Services;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {
     public class CreateModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ItemServices _itemServices;
 
         public CreateModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
+            _itemServices = new ItemServices(context);
         }
 
         public IActionResult OnGet(int? hdrId)
@@ -26,6 +29,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
                 return NotFound();
             }
 
+            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList();
             ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
             ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id", hdrId);
             ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
