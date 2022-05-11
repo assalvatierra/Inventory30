@@ -7,13 +7,13 @@ using WebDBSchema.Models;
 using WebDBSchema.Models.Items;
 using InvWeb.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 
 namespace InvWeb.Data.Services
 {
     public class ItemServices : IItemServices
     {
         private readonly ApplicationDbContext _context;
-
 
         private readonly int TYPE_RECEIVED = 1;
         private readonly int TYPE_RELEASED = 2;
