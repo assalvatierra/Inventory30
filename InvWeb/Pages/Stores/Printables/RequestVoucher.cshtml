@@ -1,0 +1,135 @@
+﻿@page
+@model InvWeb.Pages.Stores.Printables.RequestVoucherModel
+@{
+}
+
+<style>
+    .thick-border{
+        border:2px solid black;
+    }
+    
+    .thick-border-right{
+        border-right:2px solid black !important;
+    }
+    .thick-border-left{
+        border-left:2px solid black !important;
+    }
+    .thick-border-top{
+        border-top:2px solid black !important;
+    }
+    .thick-border-bottom{
+        border-bottom:2px solid black !important;
+    }
+</style>
+
+<p></p>
+
+<table class="table">
+    <tr>
+        <td colspan="3" class="align-content-center">
+            
+            <h2 > VPRO CUSTOM INC </h2>
+            <h2> Request Voucher </h2>
+        </td>
+
+    </tr>
+    <tr>
+        <td colspan="2">
+            Paid to: 
+        </td>
+        <td  >
+            Cash Voucher No:
+        </td>
+
+    </tr>
+    <tr>
+        <td colspan="2"> 
+            Addresss:
+
+        </td>
+        <td>
+            Date:
+        </td>
+
+    </tr>
+
+    <tr>
+        <td colspan="3">
+
+            <!-- Particulars Table -->
+
+            <Table class="table table-bordered thick-border">
+                <tr>
+                    <th colspan="9" class="thick-border-right thick-border-bottom">
+                        PARTICULARS
+                    </th>
+                    <th colspan="3" class="thick-border-bottom">
+                        AMOUNT
+                    </th>
+                </tr>
+                    @for(int i=0; i< 10; i++)
+                    {
+                        <tr>
+                            <!-- Particulars -->
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="thick-border-right"></td>
+
+                            <!-- Amounts -->
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr> 
+                    }
+                   
+                <tr>
+                        <td colspan="9"  class="thick-border-right">
+                            <span class="pull-right"> TOTAL</span>
+                        </td>
+                        <td colspan="2" class="thick-border-top thick-border-right">
+
+                        </td>
+                        <td colspan="1" class="thick-border-top">
+
+                        </td>
+
+
+                </tr>
+            </Table>
+
+        </td>
+
+    </tr>
+    
+    <tr>
+        <td>
+            Prepared By
+        </td>
+        <td>
+            Approved By:
+        </td>
+        <td>
+            Received Payment By:
+
+        </td>
+
+    </tr>
+    <tr>
+        <td > 
+            ADMIN OFFICER
+
+        </td>
+        <td>
+           
+        </td>
+        <td>
+
+        </td>
+    </tr>
+</table>
