@@ -54,8 +54,11 @@ namespace InvWeb.Data.Services
 
             foreach (var item in invItems)
             {
+                var itemDetails = invItems.Where(i => i.Id == item.Id).FirstOrDefault();
                 int itemReceived = Received.Where(h => h.InvItemId == item.Id).Sum(i => i.ItemQty);
                 int itemReleased = Released.Where(h => h.InvItemId == item.Id).Sum(i => i.ItemQty);
+                string category = item.InvCategory != null ? item.InvCategory.Description : null;
+                int categoryId = item.InvCategory != null ? item.InvCategoryId : 0;
 
                 if (Received != null)
                 {
@@ -71,44 +74,17 @@ namespace InvWeb.Data.Services
 
                 int itemAdjustment = GetAdjustmentItemsCount(Adjustment, item.Id);
 
+
                 if (Received.Where(h => h.InvItemId == item.Id).Any())
                 {
-                    var itemDetails = invItems.Where(i => i.Id == item.Id).FirstOrDefault();
-                    storeInvItems.Add(new StoreInvCount
-                    {
-                        Id = item.Id,
-                        Description = "(" + itemDetails.Code + ") " + itemDetails.Description + " " + itemDetails.Remarks,
-                        Available = (itemReceived - itemReleased) + (itemAdjustment),
-                        OnHand = (accepted - released) + (itemAdjustment),
-                        ReceivePending = pending,
-                        ReceiveAccepted = accepted,
-                        ReleaseRequest = requested,
-                        ReleaseReleased = released,
-                        Adjustments = itemAdjustment,
-                        InvWarningLevels = itemDetails.InvWarningLevels,
-                        Category = item.InvCategory != null ? item.InvCategory.Description : null,
-                        CategoryId = item.InvCategory != null ? item.InvCategoryId : 0
-                    });
+                    storeInvItems.Add(AddItemToStoreInvcount(item.Id, itemDetails, itemReceived, itemReleased, itemAdjustment,
+                        accepted, released, pending, requested, category, categoryId));
                 }
 
                 if (Released.Where(h => h.InvItemId == item.Id).Any() && !Received.Where(h => h.InvItemId == item.Id).Any())
                 {
-                    var itemDetails = invItems.Where(i => i.Id == item.Id).FirstOrDefault();
-                    storeInvItems.Add(new StoreInvCount
-                    {
-                        Id = item.Id,
-                        Description = "(" + itemDetails.Code + ") " + itemDetails.Description + " " + itemDetails.Remarks,
-                        Available = (itemReceived - itemReleased) + (itemAdjustment),
-                        OnHand = (accepted - released) + (itemAdjustment),
-                        ReceivePending = pending,
-                        ReceiveAccepted = accepted,
-                        ReleaseRequest = requested,
-                        ReleaseReleased = released,
-                        Adjustments = itemAdjustment,
-                        InvWarningLevels = itemDetails.InvWarningLevels,
-                        Category = item.InvCategory != null ? item.InvCategory.Description : null,
-                        CategoryId = item.InvCategory != null ? item.InvCategoryId : 0
-                    });
+                        storeInvItems.Add(AddItemToStoreInvcount(item.Id, itemDetails, itemReceived, itemReleased, itemAdjustment,
+                            accepted, released, pending, requested, category, categoryId));
                 }
 
             }
@@ -125,6 +101,27 @@ namespace InvWeb.Data.Services
                 _logger.LogError("StoreServices: Unable to GetStoreItemsSummary");
                 throw new Exception("StoreServices: Unable to GetStoreItemsSummary.");
             }
+        }
+
+        private StoreInvCount AddItemToStoreInvcount(int id, InvItem itemDetails, int itemReceived, 
+            int itemReleased, int itemAdjustment, int accepted, int released, int pending, int requested
+            , string category, int categoryId)
+        {
+            StoreInvCount storeInv = new StoreInvCount();
+            storeInv.Id = id;
+            storeInv.Description = "(" + itemDetails.Code + ") " + itemDetails.Description + " " + itemDetails.Remarks;
+            storeInv.Available = (itemReceived - itemReleased) + (itemAdjustment);
+            storeInv.OnHand = (accepted - released) + (itemAdjustment);
+            storeInv.ReceivePending = pending;
+            storeInv.ReceiveAccepted = accepted;
+            storeInv.ReleaseRequest = requested;
+            storeInv.ReleaseReleased = released;
+            storeInv.Adjustments = itemAdjustment;
+            storeInv.InvWarningLevels = itemDetails.InvWarningLevels;
+            storeInv.Category = category;
+            storeInv.CategoryId = categoryId;
+
+            return storeInv;
         }
 
         private IOrderedEnumerable<StoreInvCount> GetInvCountOrderBy(List<StoreInvCount> storeInvItems, string orderBy)

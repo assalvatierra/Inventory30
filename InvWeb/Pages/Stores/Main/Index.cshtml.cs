@@ -11,6 +11,9 @@ using WebDBSchema.Models;
 using WebDBSchema.Models.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InvWeb.Pages.Stores.Main
@@ -48,6 +51,11 @@ namespace InvWeb.Pages.Stores.Main
                 {
                     OrderBy = orderBy;
                 }
+
+                if (CheckUserLogin())
+                {
+                    RedirectToAction("../../Shared/LoginPartial");
+                };
 
                 InvStore = await _context.InvStores
                     .Where(s => s.Id == id)
@@ -96,6 +104,35 @@ namespace InvWeb.Pages.Stores.Main
 
             };
             return items;
+        }
+
+
+        public bool CheckUserLogin()
+        {
+            List<InvStore> UsersStores;
+            var user = User.FindFirstValue(ClaimTypes.Name);
+
+            if (!String.IsNullOrWhiteSpace(user))
+            {
+                UsersStores = _storeSvc.GetStoreUsers(user);
+
+                if (UsersStores.FirstOrDefault() != null)
+                {
+                    HttpContext.Session.SetInt32("_UsersStoreId", UsersStores.FirstOrDefault().Id);
+
+                    if (UsersStores.Count() > 0)
+                    {
+                        var userIds = UsersStores.Select(c => new { c.Id, c.StoreName }).ToList();
+                        var jsonarr = JsonConvert.SerializeObject(userIds);
+
+                        HttpContext.Session.SetString("_CurrentUserStores", jsonarr);
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
         }
     }
 }
