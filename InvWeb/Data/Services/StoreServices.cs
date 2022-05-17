@@ -57,8 +57,10 @@ namespace InvWeb.Data.Services
                 var itemDetails = invItems.Where(i => i.Id == item.Id).FirstOrDefault();
                 int itemReceived = Received.Where(h => h.InvItemId == item.Id).Sum(i => i.ItemQty);
                 int itemReleased = Released.Where(h => h.InvItemId == item.Id).Sum(i => i.ItemQty);
-                string category = item.InvCategory != null ? item.InvCategory.Description : null;
-                int categoryId = item.InvCategory != null ? item.InvCategoryId : 0;
+
+                var itemCategoryDetails = await GetCategoryById(item.InvCategoryId);
+                string category = itemCategoryDetails != null ? itemCategoryDetails.Description : "NA";
+                int categoryId = itemCategoryDetails != null ? itemCategoryDetails.Id : 0;
 
                 if (Received != null)
                 {
@@ -342,8 +344,14 @@ namespace InvWeb.Data.Services
         {
             return await _context.InvItems
                 .Include(c=>c.InvWarningLevels)
-                .ThenInclude(c=>c.InvWarningType)
+                .ThenInclude(c => c.InvWarningType)
                 .ToListAsync();
+        }
+
+
+        public async Task<InvCategory> GetCategoryById(int categoryId)
+        {
+            return await _context.InvCategories.FindAsync(categoryId);
         }
 
         public List<InvStore> GetStoreUsers(string user)
