@@ -34,7 +34,6 @@ namespace InvWeb.Pages
         {
             try
             {
-
                 var user = User.FindFirstValue(ClaimTypes.Name);
 
                 if (user != null)
@@ -44,9 +43,13 @@ namespace InvWeb.Pages
                     if (UsersStores.FirstOrDefault() != null)
                     {
                         HttpContext.Session.SetInt32("_UsersStoreId", UsersStores.FirstOrDefault().Id);
-                            //var userIds = UsersStores.Select(c => c.Id).ToList();
-                            //var jsonarr = JsonConvert.SerializeObject(userIds);
-                            //HttpContext.Session.SetString("_UsersStoreIds", jsonarr);
+
+                        if (UsersStores.Count() > 0) {
+                            var userIds = UsersStores.Select(c => new { c.Id, c.StoreName }).ToList();
+                            var jsonarr = JsonConvert.SerializeObject(userIds);
+
+                            HttpContext.Session.SetString("_CurrentUserStores", jsonarr);
+                        }
                     }
                 }
 

@@ -130,6 +130,7 @@
                         }
                         For Approval
                     </a>
+                      
                     </button>
                     <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
                         
@@ -139,6 +140,8 @@
                     <a asp-page="../PurchaseRequest/Create" asp-route-storeId="@ViewBag.StoreId">+ Add Trx</a>
 
                     </button>
+                    <a asp-page="../Printables/RequestVoucher" class="col-12 col-sm-12 col-md-12 col-lg-12 btn btn-light">Request Voucher</a>
+
                 </div>
             </div>
         </div>
@@ -170,6 +173,13 @@
 </div>
 <!-- Store Recent Transactions -->
 <partial name="_PartialRecentTrx" model="RecentTrxHdrs" />
+
+
+@*<partial name="_PartialStoreItems" />*@
+
+@{
+    //await Html.RenderPartialAsync("_PartialStoreItems", storeInvs);
+}
 
 @section Scripts{
     <script>

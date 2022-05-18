@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@{
+
+    int? storeID = 0;
+    string userStores = "";
+    dynamic usersStoresArr = new System.Dynamic.ExpandoObject();
+    if (Context.Session.GetInt32("_UsersStoreId") != null)
+    {
+        storeID = Context.Session.GetInt32("_UsersStoreId");
+    }
+
+    if (Context.Session.GetString("_CurrentUserStores") != null)
+    {
+        userStores = Context.Session.GetString("_CurrentUserStores");
+         usersStoresArr  = JsonConvert.DeserializeObject(userStores);
+
+    }
+}
+<!-- Content goes Here -->
+    @if (usersStoresArr != null)
+    {
+        foreach (var store in usersStoresArr)
+        {
+          
+           <li class="dropdown-btn">
+                <a href="#" id="sidenav-Items">
+                     
+                    <span id="Store-@store.Id" > @store.StoreName </span>
+                    <i class="float-right dropdown-toggle"></i>
+                </a>
+            </li>
+
+            <li class="dropdown-container">
+                <a href="/Stores/Main/@store.Id">Go to MyStore</a>
+                <a href="/Stores/Receiving/@store.Id">Receiving</a>
+                <a href="/Stores/Releasing/@store.Id">Releasing</a>
+                <a href="/Stores/PurchaseRequest/@store.Id">Purchase Request</a>
+                <a href="/Stores/Reports/@store.Id">  Inventory Reports</a>
+            </li>
+        }
+    }
+    else
+    {
+        @if (storeID != 0) { 
+
+        <li class="dropdown-btn">
+            <a href="#" id="sidenav-Items">
+                MyStore 
+                <i class="float-right dropdown-toggle"></i>
+            </a>
+        </li>
+
+        <li class="dropdown-container">
+            <a href="/Stores/Main/@storeID">Go to MyStore</a>
+            <a href="/Stores/Receiving/@storeID">Receiving</a>
+            <a href="/Stores/Releasing/@storeID">Releasing</a>
+            <a href="/Stores/PurchaseRequest/@storeID">Purchase Request</a>
+            <a href="/Stores/Reports/@storeID">  Inventory Reports</a>
+        </li>
+    }
+    }
+
+</ul>
+
