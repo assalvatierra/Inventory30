@@ -35,7 +35,7 @@ namespace InvWeb.Pages.Masterfiles.ItemUomsConversion.ConvItems
 
                 ViewData["UomConversionId"] = id;
             }
-            catch (Exception ex)
+            catch 
             {
 
                 //throw ex;
