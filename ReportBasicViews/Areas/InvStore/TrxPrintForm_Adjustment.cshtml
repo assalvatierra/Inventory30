@@ -81,10 +81,10 @@
                     <th colspan="9" style="border-right: 2px solid black !important;">
                         PARTICULARS
                     </th>
-                    <th colspan="1">
+                    <th colspan="1" class="text-center">
                         QTY IN
                     </th>
-                    <th colspan="2">
+                    <th colspan="2" class="text-center">
                         QTY OUT
                     </th>
                 </tr>
@@ -95,13 +95,20 @@
                                 <span> @item.Count </span>
                             </td>
                             <td colspan="8">
-                                @item.Description
+                                @item.Description @item.Remarks
                             </td>
-                            <td class="thick-border-left" style="border-left: 2px solid black !important;">
-                                @item.Qty 
+                            <td class="thick-border-left text-center" style="border-left: 2px solid black !important;">
+                                
+                                @if(item.Operation == "Add"){
+                                    
+                                    @item.Qty 
+                                }
                             </td>
-                            <td class="thick-border-right" style="border-right: 2px solid black !important;">
+                            <td class="thick-border-right text-center" style="border-right: 2px solid black !important;border-left: 2px solid black !important;">
 
+                                 @if(item.Operation == "Subtract"){
+                                    <span> @item.Qty  </span>    
+                                 }
                             </td>
                         </tr>
                     }
@@ -116,7 +123,7 @@
 
                             <!-- Amounts -->
                             <td class="thick-border-left" style="border-left: 2px solid black !important;"></td>
-                            <td class="thick-border-right" style="border-right: 2px solid black !important;"></td>
+                            <td class="thick-border-right" style="border-right: 2px solid black !important;border-left: 2px solid black !important;"></td>
                         </tr> 
                     }
                    
@@ -125,7 +132,7 @@
                             <span class="pull-right"> TOTAL : @Model.GetTotalItemsCount() </span>
                         </td>
                         <td colspan="1" class="thick-border-top thick-border-right" style="border-right: 2px solid black !important;">
-                            @Model.GetTotalItemsQty() 
+                           
                         </td>
                         <td colspan="1" class="thick-border-top" style="border-right: 2px solid black !important;">
 
