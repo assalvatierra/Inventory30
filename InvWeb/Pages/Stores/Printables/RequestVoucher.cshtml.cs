@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebDBSchema.Models;
+using System.Linq;
+using ReportViewModel.InvStore;
 
 namespace InvWeb.Pages.Stores.Printables
 {
@@ -17,7 +19,17 @@ namespace InvWeb.Pages.Stores.Printables
         private readonly ApplicationDbContext _context;
         private readonly StoreServices _storeSvc;
 
-        public VoucherForm voucher;
+        public TrxHdr _trxHdr;
+        public string rptView = "~/Areas/InvStore/TrxPrintForm.cshtml";
+
+        public enum rptVoucherView
+        {
+            RECEIVING = 1,
+            RELEASING = 2,
+            ADJUSTMENT = 3,
+            PURCHASEORDER = 4
+
+        }
 
         public RequestVoucherModel(ILogger<RequestVoucherModel> logger, ApplicationDbContext context)
         {
@@ -25,7 +37,7 @@ namespace InvWeb.Pages.Stores.Printables
             _context = context;
             _storeSvc = new StoreServices(context, logger);
 
-            voucher = new VoucherForm();
+            _trxHdr = new TrxHdr();
         }
 
 
@@ -42,63 +54,90 @@ namespace InvWeb.Pages.Stores.Printables
                 type = 1;
             }
 
-            var request = await _context.InvTrxHdrs.Include(i => i.InvTrxDtls)
-                .ThenInclude(i=>i.InvItem)
-                .Include(i => i.InvTrxType)
-                .FirstOrDefaultAsync(i=>i.Id == id);
+            var request = await GetTrxHeaderByIdAsync((int)id);
 
-            voucher.Type = request.InvTrxType.Type;
-            voucher.Date = request.DtTrx;
-            voucher.Id = (int)id;
-            voucher.Address = "NA";
+            _trxHdr = InitializeTrxHeader(_trxHdr, request);
+            _trxHdr.Details = AddDataToTrxDetails(_trxHdr.Details, request);
 
-            voucher.Items = new List<VoucherItems>();
-            int ItemCount = 0;
-            int QtyCount = 0;
-            foreach (var item in request.InvTrxDtls)
-            {
-                ItemCount += 1;
-                QtyCount += item.ItemQty;
-
-                voucher.Items.Add(new VoucherItems
-                {
-                    Id = item.InvItemId,
-                    Description = "(" + item.InvItem.Code + ") " + item.InvItem.Description + " "+ item.InvItem.Remarks,
-                    Amount = 0,
-                    Qty = item.ItemQty,
-                    Count = ItemCount 
-                });
-            }
-
-            voucher.TotalCount = ItemCount;
-            voucher.TotalQty = QtyCount;
+            rptView = GetReportFormByTrxType((int)type);
 
             return Page();
         }
 
+        public string GetReportFormByTrxType(int type)
+        {
+            switch (type)
+            {
+                case (int)rptVoucherView.RECEIVING:
+                    return "~/Areas/InvStore/TrxPrintForm_Receiving.cshtml";
+                case (int)rptVoucherView.RELEASING:
+                    return "~/Areas/InvStore/TrxPrintForm_Releasing.cshtml";
+                case (int)rptVoucherView.ADJUSTMENT:
+                    return "~/Areas/InvStore/TrxPrintForm_Adjustment.cshtml";
+                case (int)rptVoucherView.PURCHASEORDER:
+                    return "~/Areas/InvStore/TrxPrintForm_PO.cshtml";
+                default:
+                    return "~/Areas/InvStore/TrxPrintForm.cshtml";
+            }
+        }
+
+        public async Task<InvTrxHdr> GetTrxHeaderByIdAsync(int id)
+        {
+            return await _context.InvTrxHdrs.Include(i => i.InvTrxDtls)
+                .ThenInclude(i => i.InvItem)
+                .Include(i => i.InvTrxType)
+                .Include(i => i.InvTrxDtls)
+                .ThenInclude(i=>i.InvTrxDtlOperator)
+                .FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public TrxHdr InitializeTrxHeader(TrxHdr tempTrxHdr ,InvTrxHdr requestHdr)
+        {
+            if (requestHdr != null)
+            {
+                tempTrxHdr.Type = requestHdr.InvTrxType.Type;
+                tempTrxHdr.Date = requestHdr.DtTrx;
+                tempTrxHdr.Id   = requestHdr.Id;
+                tempTrxHdr.Address = "NA";
+                tempTrxHdr.Details = new List<TrxDetail>();
+
+                return tempTrxHdr;
+            }
+
+            return new TrxHdr();
+        }
+
+        public List<TrxDetail> AddDataToTrxDetails(IList<TrxDetail> tempTrxDetails, InvTrxHdr requestHdr)
+        {
+            if (tempTrxDetails == null)
+            {
+                tempTrxDetails = new List<TrxDetail>();
+            }
+
+            if (requestHdr.InvTrxDtls.Count == 0)
+            {
+                return (List<TrxDetail>)tempTrxDetails;
+            }
+
+            int ItemCount = 0;
+            foreach (var item in requestHdr.InvTrxDtls)
+            {
+                ItemCount += 1;
+
+                tempTrxDetails.Add(new TrxDetail
+                {
+                    Id = item.InvItemId,
+                    Description = "(" + item.InvItem.Code + ") " + item.InvItem.Description,
+                    Remarks = item.InvItem.Remarks,
+                    Amount = 0,
+                    Qty = item.ItemQty,
+                    Count = ItemCount,
+                    Operation = item.InvTrxDtlOperator.Description
+                });
+            }
+            return (List<TrxDetail>)tempTrxDetails;
+        }
+
     }
 
-    public class VoucherItems
-    {
-        public int Id { get; set; }
-        public string Description { get; set; }
-        public decimal Amount { get; set; }
-        public string Category { get; set; }
-        public int Qty { get; set; }
-        public int Count { get; set; }
-
-    }
-
-    public class VoucherForm
-    {
-        public int Id { get; set; }
-        public string Type { get; set; }
-        public string PaidTo { get; set; } 
-        public string Address { get; set; }
-        public DateTime Date { get; set; }
-        public List<VoucherItems> Items { get; set; }
-
-        public int TotalCount { get; set; }
-        public int TotalQty { get;set; }
-    }
 }

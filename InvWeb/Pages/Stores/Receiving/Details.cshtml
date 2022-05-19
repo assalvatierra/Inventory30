@@ -21,7 +21,10 @@
         {
             <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId" asp-route-status="ACCEPTED">Back to List</a>
         }
-
+        
+        <div class="pull-left">
+            <a asp-page="../Printables/RequestVoucher" asp-route-id="@Model.InvTrxHdr.Id" asp-route-type="@Model.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a> 
+        </div>
     </div>
 
     <hr />

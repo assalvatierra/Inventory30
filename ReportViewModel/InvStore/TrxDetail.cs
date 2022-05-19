@@ -12,6 +12,11 @@ namespace ReportViewModel.InvStore
         public int TrxHdrId { get; set; }
         public string Description { get; set; }
         public string Remarks { get; set; }
+        public string Category { get; set; }
+        public decimal Amount { get; set; }
+        public int Qty { get; set; }
+        public int Count { get; set; }
+        public string Operation { get; set; }
 
     }
 }
