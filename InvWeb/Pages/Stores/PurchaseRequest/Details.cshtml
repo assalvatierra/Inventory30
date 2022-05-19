@@ -11,6 +11,10 @@
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.InvPoHdr.Id">Edit</a> |
     <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdr.InvStoreId">Back to List</a>
+    
+   <div class="pull-left">
+      <a asp-page="../Printables/RequestVoucher" asp-route-id="@Model.InvPoHdr.Id" asp-route-type="4" target="_blank" class="btn btn-primary">Print Voucher</a> 
+  </div>
 </div>
 <hr />
 <div>
