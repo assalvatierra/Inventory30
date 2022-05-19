@@ -1,0 +1,62 @@
+﻿
+
+@media screen {
+
+    table {
+        border-collapse: collapse;
+    }
+
+    .thick-border {
+        border: 2px solid black;
+    }
+
+    .thick-border-right {
+        border-right: 2px solid black;
+    }
+
+    .thick-border-left {
+        border-left: 2px solid black;
+    }
+
+    .thick-border-top {
+        border-top: 2px solid black;
+    }
+
+    .thick-border-bottom {
+        border-bottom: 2px solid black;
+    }
+
+    td.no-border {
+        border: none;
+    }
+
+}
+
+
+@media print {
+
+    .thick-border {
+        border: 2px solid black;
+    }
+
+    .thick-border-right {
+        border-right: 2px solid black !important;
+    }
+
+    .thick-border-left {
+        border-left: 2px solid black !important;
+    }
+
+    .thick-border-top {
+        border-top: 2px solid black;
+    }
+
+    .thick-border-bottom {
+        border-bottom: 2px solid black;
+    }
+
+    td.no-border {
+        border: none;
+    }
+
+}
