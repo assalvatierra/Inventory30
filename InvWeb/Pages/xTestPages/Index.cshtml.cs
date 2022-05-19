@@ -5,35 +5,50 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
-using WebDBSchema.Models;
+using ReportViewModel.InvStore;
 
 namespace InvWeb.Pages.xTestPages
 {
     public class IndexModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        public string rptView = "~/Areas/InvStore/TrxPrintForm.cshtml";
 
-        public IndexModel(InvWeb.Data.ApplicationDbContext context)
+        public TrxHdr hdr;
+
+        private void initializeSample()
         {
-            _context = context;
+            this.hdr = this.generateSampleHeader();
+            this.hdr.Details = this.generateSampleDetails(this.hdr.Id);
+
         }
 
-        public IList<InvItem> InvItem { get;set; }
-
-        public async Task OnGetAsync()
+        private TrxHdr generateSampleHeader()
         {
-            try
+            TrxHdr hdr = new TrxHdr()
             {
-                InvItem = await _context.InvItems
-                    .Include(i => i.InvCategory).ToListAsync();
-            }
-            catch(Exception ex)
-            {
-                Console.Write(ex.Message);
-            }
+                Id = 1,
+                Name = "Sample 01",
+                Remarks = "This is a sample"
+            };
+
+            return hdr;
+        }
+
+        private List<TrxDetail> generateSampleDetails(int hdrId)
+        {
+            List<TrxDetail> dtlData = new List<TrxDetail>();
+            dtlData.Add(new TrxDetail() { Id = 1, Description = "Detail 01", Remarks = "Sample Dtl 01", TrxHdrId = hdrId });
+            dtlData.Add(new TrxDetail() { Id = 1, Description = "Detail 02", Remarks = "Sample Dtl 02", TrxHdrId = hdrId });
+            dtlData.Add(new TrxDetail() { Id = 1, Description = "Detail 03", Remarks = "Sample Dtl 03", TrxHdrId = hdrId });
+            dtlData.Add(new TrxDetail() { Id = 1, Description = "Detail 04", Remarks = "Sample Dtl 04", TrxHdrId = hdrId });
+
+            return dtlData;
+        }
 
 
+        public void OnGet()
+        {
+            this.initializeSample();
 
         }
     }

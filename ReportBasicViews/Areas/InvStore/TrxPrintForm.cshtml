@@ -1,0 +1,39 @@
+﻿@using ReportViewModel
+@model ReportViewModel.InvStore.TrxHdr
+
+<p>Sample View for Report</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th><th>@Model.Id</th>
+            <th>Name</th><th>@Model.Name</th>
+            <th>Remarks</th><th>@Model.Remarks</th>
+        </tr>
+    </thead>
+</table>
+<p>Detail Sample</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Remarks</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dtl in Model.Details)
+        {
+            <tr>
+                <td>@dtl.Id</td>
+                <td>@dtl.Description</td>
+                <td>@dtl.Remarks</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@{
+    //code here
+}
