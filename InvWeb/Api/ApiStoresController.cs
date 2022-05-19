@@ -10,7 +10,7 @@ using WebDBSchema.Models;
 
 namespace InvWeb.Api
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ApiStoresController : ControllerBase
     {
@@ -105,6 +105,26 @@ namespace InvWeb.Api
             return _context.InvStores.Any(e => e.Id == id);
         }
 
+        // GET: api/ApiStores/GetInvStoreName/5
+        // Get Store Name by Store Id
+        [ActionName("GetInvStoreName")]
+        [HttpGet("{id}")]
+        public async Task<String> GetInvStoreName(int id)
+        {
+            var AsynRes = await _context.InvStores.FindAsync(id);
+
+            return AsynRes.StoreName;
+        }
+
+        // GET: api/ApiStores/GetInvStoreIds
+        [ActionName("GetInvStoreIds")]
+        [HttpGet]
+        public async Task<IEnumerable<int>> GetInvStoreIds()
+        {
+            var AsynList = await _context.InvStores.Select(s=>s.Id).ToListAsync();
+
+            return AsynList;
+        }
 
     }
 }

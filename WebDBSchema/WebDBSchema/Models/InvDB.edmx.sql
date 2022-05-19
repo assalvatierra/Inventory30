@@ -2,16 +2,16 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/22/2022 22:22:21
--- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
+-- Date Created: 04/30/2022 13:02:54
+-- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
---USE [InvDB3.mdf];
---GO
---IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
---GO
+USE [InvDB3.mdf];
+GO
+IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+GO
 
 -- --------------------------------------------------
 -- Dropping existing FOREIGN KEY constraints

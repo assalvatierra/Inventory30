@@ -7,25 +7,24 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data;
 using WebDBSchema.Models;
+using InvWeb.Data.Services;
 
 namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 {
     public class CreateModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ItemServices _itemServices;
 
         public CreateModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
+            _itemServices = new ItemServices(context);
         }
 
         public IActionResult OnGet(int hdrId)
         {
-            ViewData["InvItemId"] = new SelectList(
-               _context.InvItems.Select(x => new {
-                   Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
-                   Value = x.Id
-               }), "Value", "Name");
+            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList();
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
             ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");

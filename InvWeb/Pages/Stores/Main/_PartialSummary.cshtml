@@ -7,13 +7,7 @@
 }
 
 
-<br />
 <!-- Summary Store Items -->
-<div class="row hide-on-mobile">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <h4>Store Items</h4>
                 <table class="table">
                     <thead>
                         
@@ -53,6 +47,7 @@
                         <tr>
                             <td>
                                 @item.Description
+                                <br /><span class="text-muted" style="font-size:0.7em"> Category: @item.Category </span>
                             </td>
                             <td>
                                 <partial name="_PartialStockWarning" model="item" />
@@ -76,10 +71,6 @@
                         }
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Mobile View table -->
 <div class="row mobile-only">

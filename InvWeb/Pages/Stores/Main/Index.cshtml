@@ -12,32 +12,49 @@
     int? pendingPO = ViewBag.PendingPurchaseOrder != 0 ? ViewBag.PendingPurchaseOrder : null;
 }
 
+<style>
+    .store-main-actions-btn{
+        font-size:12px;
+        margin-top:3px;
+    }
+
+    .store-main-actions-link{
+    }
+</style>
+
 <h1>
     @Html.DisplayFor(model => model.InvStore.StoreName)
 </h1>
 
 <div>
     <h4>Store</h4>
-
     <hr />
 </div>
 
-<div class="row">
+<div class="row" style="margin-bottom:5px;">
     <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Receiving</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Receiving Items</h6>
-                <div class="row" style="font-size:14px;">
-                    <a asp-page="../Receiving/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING" class="col-5 col-sm-6 col-md-12 col-lg-5">
+                <div class="row" >
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12"> 
+                    <a asp-page="../Receiving/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING">
                         @if (pendingReceiving != null)
-                        {
-                            <span id="ReceivingText" class="badge badge-primary">@pendingReceiving</span>
-                        }
-                        For Approval
+                        { <span id="ReceivingText" class="badge badge-primary">@pendingReceiving</span> }
+                        For Approval 
                     </a>
-                    <a asp-page="../Receiving/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL" class="col-4 col-sm-4 col-md-12 col-lg-4">Recent List</a>
-                    <a asp-page="../Receiving/Create" asp-route-storeId="@ViewBag.StoreId" class="col-3 col-sm-4 col-md-12 col-lg-3"> Add Trx</a>
+                    </button>
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12" >
+                    <a asp-page="../Receiving/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL">
+                         Recent List 
+                    </a>
+                    </button>
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12" >
+                    <a asp-page="../Receiving/Create" asp-route-storeId="@ViewBag.StoreId"> 
+                         + Add Trx
+                    </a>
+                    </button>
                 </div>
 
             </div>
@@ -48,16 +65,24 @@
             <div class="card-body">
                 <h5 class="card-title">Releasing</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Releasing Items</h6>
-                <div class="row" style="font-size:14px;">
-                    <a asp-page="../Releasing/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING" class="col-5 col-sm-6 col-md-12 col-lg-5">
-                        @if (pendingReleasing != null)
-                        {
-                            <span id="ReleasingText" class="badge badge-primary">@pendingReleasing</span>
-                        }
-                        For Approval
-                    </a>
-                    <a asp-page="../Releasing/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL" class="col-4 col-sm-4 col-md-12 col-lg-4">Recent List</a>
-                    <a asp-page="../Releasing/Create" asp-route-storeId="@ViewBag.StoreId" class="col-3 col-sm-4 col-md-12 col-lg-3">Add Trx</a>
+                <div class="row" style="font-size:11px;">
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-4 col-md-12 col-lg-12">
+                        <a asp-page="../Releasing/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING">
+                            @if (pendingReleasing != null)
+                            {
+                                <span id="ReleasingText" class="badge badge-primary">@pendingReleasing</span>
+                            }
+                            For Approval
+                        </a> 
+                    </button>
+
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
+                         <a asp-page="../Releasing/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL">Recent List</a>
+                    </button>
+                   
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
+                        <a asp-page="../Releasing/Create" asp-route-storeId="@ViewBag.StoreId" > + Add Trx</a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -68,16 +93,24 @@
                 <h5 class="card-title">Adjustment</h5>
                 <h6 class="card-subtitle mb-2 text-muted"> Inventory Adjustment </h6>
                 <div class="row" style="font-size:14px;">
-                    <a asp-page="../Adjustment/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING" class="col-5 col-sm-6 col-md-12 col-lg-5">
-                        @if (pendingAdjustment != null)
-                        {
-                            <span id="ReleasingText" class="badge badge-primary">@pendingAdjustment</span>
-                        }
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12"> 
+                        <a asp-page="../Adjustment/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING">
+                            @if (pendingAdjustment != null)
+                            {
+                                <span id="ReleasingText" class="badge badge-primary">@pendingAdjustment</span>
+                            }
 
-                        For Approval
-                    </a>
-                    <a asp-page="../Adjustment/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL" class="col-4 col-sm-4 col-md-12 col-lg-4">Recent List</a>
-                    <a asp-page="../Adjustment/Create" asp-route-storeId="@ViewBag.StoreId" class="col-3 col-sm-4 col-md-12 col-lg-3">Add Trx</a>
+                            For Approval
+                        </a>
+                    </button>
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
+                        <a asp-page="../Adjustment/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL">Recent List</a>
+                    </button>
+                    
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
+                        <a asp-page="../Adjustment/Create" asp-route-storeId="@ViewBag.StoreId"> + Add Trx</a>
+                    </button>
+                    
                 </div>
             </div>
         </div>
@@ -89,15 +122,26 @@
                 <h5 class="card-title">Purchase Request</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Request Puchase Orders </h6>
                 <div class="row" style="font-size:14px;">
-                    <a asp-page="../PurchaseRequest/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING" class="col-5 col-sm-6 col-md-12 col-lg-5">
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
+                        <a asp-page="../PurchaseRequest/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING">
                         @if (pendingAdjustment != null)
                         {
                             <span id="ReleasingText" class="badge badge-primary">@pendingPO</span>
                         }
                         For Approval
                     </a>
-                    <a asp-page="../PurchaseRequest/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL" class="col-4 col-sm-4 col-md-12 col-lg-4">Recent List</a>
-                    <a asp-page="../PurchaseRequest/Create" asp-route-storeId="@ViewBag.StoreId" class="col-3 col-sm-4 col-md-12 col-lg-3">Add Trx</a>
+                      
+                    </button>
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
+                        
+                    <a asp-page="../PurchaseRequest/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL" >Recent List</a>
+                    </button>
+                    <button class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
+                    <a asp-page="../PurchaseRequest/Create" asp-route-storeId="@ViewBag.StoreId">+ Add Trx</a>
+
+                    </button>
+                    <a asp-page="../Printables/RequestVoucher" class="col-12 col-sm-12 col-md-12 col-lg-12 btn btn-light">Request Voucher</a>
+
                 </div>
             </div>
         </div>
@@ -105,10 +149,37 @@
 </div>
 
 <!-- Store Items Summary -->
-<partial name="_PartialSummary" model="storeInvs" />
+<div class="row hide-on-mobile">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h4>Store Items</h4>
+                    <div class="col-md-5">
+                       <form method="get">
+                            <div class="input-group mb-3">
+                                    @*<input type="text" asp-for="OrderBy"  />*@
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"> Order </span>
+                                    </div>
+                                    <select asp-for="OrderBy" class ="custom-select" asp-items="ViewBag.OrderByList" onchange="this.form.submit()"></select>
+                            </div>
+                        </form>
+                    </div>
+                <partial name="_PartialSummary" model="storeInvs" />
 
-<!-- Store Items Summary -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Store Recent Transactions -->
 <partial name="_PartialRecentTrx" model="RecentTrxHdrs" />
+
+
+@*<partial name="_PartialStoreItems" />*@
+
+@{
+    //await Html.RenderPartialAsync("_PartialStoreItems", storeInvs);
+}
 
 @section Scripts{
     <script>

@@ -2,27 +2,48 @@
 
   V10.0 - TODOs
 
-###############################
+###############################################
+	TODO ITEMS
+###############################################
 
-
-
-MAIN
-- Add Category Menu - DONE
+CURRENT
 - Show Category Code - Description in dropdowns
+   format: (CategoryCode)ItemCode-(CategoryDescription) Item Description
+   sort: Catgory Code
 
-STORE PAGE
-- Sort Items by category
+- Add category in Store Items ( Store Main Page)
+  include formating similar to dropdown
+  include sorting similar too dropdown
+
+
+UPCOMING
+- Item Details Quantity - to accept decimals - convert to float/decimal type
+
+- Transaction request printout
+
 - proper labelling of category maintainance page
 
 
 
-
-
-
+###############################################
+	GENERAL PRACTICES
+###############################################
 
 *** ENVIRONMENT SETUP/CONFIGURATION ***
 - organize initialization SQL scripts
 - organize update scripts 
+
+- folder for one time running scripts - must be separate by version folder
+  --initial db create
+  --update structure
+
+- folder for scripts for repeating/can run nultiple times
+	--Sample data
+	--setup data
+	--reference data
+	--version update data
+
+- separate scripts needed per client
 
 *** CODING ***
 - Error Messaging/logging for easy debugging
