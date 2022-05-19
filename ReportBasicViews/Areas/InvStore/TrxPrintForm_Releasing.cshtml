@@ -9,7 +9,7 @@
                 
                 <h2 > VPRO CUSTOM INC </h2>
                 <h2> Request Voucher </h2>
-                <h2>( @Model.Type )</h2>
+                <h2>( Receiving )</h2>
             </div>
 
         </td>
@@ -81,11 +81,8 @@
                     <th colspan="9" style="border-right: 2px solid black !important;">
                         PARTICULARS
                     </th>
-                    <th colspan="1">
+                    <th colspan="1" class="text-center" style="text-align:center;">
                         QTY
-                    </th>
-                    <th colspan="2">
-                        AMOUNT
                     </th>
                 </tr>
                     @foreach (var item in Model.Details)
@@ -97,11 +94,8 @@
                             <td colspan="8">
                                 @item.Description
                             </td>
-                            <td class="thick-border-left" style="border-left: 2px solid black !important;">
+                            <td class="thick-border-left text-center" style="border-left: 2px solid black !important;border-right: 2px solid black !important">
                                 @item.Qty
-                            </td>
-                            <td class="thick-border-right" style="border-right: 2px solid black !important;">
-
                             </td>
                         </tr>
                     }
@@ -115,8 +109,8 @@
                             <td colspan="8"></td>
 
                             <!-- Amounts -->
-                            <td class="thick-border-left" style="border-left: 2px solid black !important;"></td>
-                            <td class="thick-border-right" style="border-right: 2px solid black !important;"></td>
+                            <td class="thick-border-left" style="border-left: 2px solid black !important;border-right: 2px solid black !important;"></td>
+                   
                         </tr> 
                     }
                    
@@ -124,11 +118,8 @@
                         <td colspan="9"  class="thick-border-right" style="border-right: 2px solid black !important;">
                             <span class="pull-right"> TOTAL : @Model.GetTotalItemsCount() </span>
                         </td>
-                        <td colspan="1" class="thick-border-top thick-border-right" style="border-right: 2px solid black !important;">
+                        <td colspan="1" class="thick-border-top thick-border-right text-center" style="border-right: 2px solid black !important;border-right: 2px solid black !important;">
                             @Model.GetTotalItemsQty() 
-                        </td>
-                        <td colspan="1" class="thick-border-top" style="border-right: 2px solid black !important;">
-
                         </td>
                 </tr>
             </Table>

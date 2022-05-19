@@ -9,7 +9,7 @@
                 
                 <h2 > VPRO CUSTOM INC </h2>
                 <h2> Request Voucher </h2>
-                <h2>( @Model.Type )</h2>
+                <h2>( Adjustment )</h2>
             </div>
 
         </td>
@@ -82,10 +82,10 @@
                         PARTICULARS
                     </th>
                     <th colspan="1">
-                        QTY
+                        QTY IN
                     </th>
                     <th colspan="2">
-                        AMOUNT
+                        QTY OUT
                     </th>
                 </tr>
                     @foreach (var item in Model.Details)
@@ -98,7 +98,7 @@
                                 @item.Description
                             </td>
                             <td class="thick-border-left" style="border-left: 2px solid black !important;">
-                                @item.Qty
+                                @item.Qty 
                             </td>
                             <td class="thick-border-right" style="border-right: 2px solid black !important;">
 
