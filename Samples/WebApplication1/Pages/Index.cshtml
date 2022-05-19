@@ -1,0 +1,16 @@
+﻿@page
+@using WebApplication1.Component.Sample
+@using RazorClassLib01
+
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+
+}
+
+<div class="text-center">
+    <p>Sample Page with Component</p>
+    
+    <partial Name="@this.Model.strView1" model="@this.Model.hdr" />
+    
+</div>
