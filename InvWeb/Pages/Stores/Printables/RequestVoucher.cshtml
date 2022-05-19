@@ -1,57 +1,84 @@
-﻿@page
+﻿@page "{id:int?}{type:int?}"
 @model InvWeb.Pages.Stores.Printables.RequestVoucherModel
 @{
+    
+    Layout = "_PrintLayout";
 }
 
 <style>
-    .thick-border{
-        border:2px solid black;
-    }
+  .table tr td{
+      border: none;
+  }
     
-    .thick-border-right{
-        border-right:2px solid black !important;
-    }
-    .thick-border-left{
-        border-left:2px solid black !important;
-    }
-    .thick-border-top{
-        border-top:2px solid black !important;
-    }
-    .thick-border-bottom{
-        border-bottom:2px solid black !important;
-    }
+
 </style>
 
-<p></p>
 
 <table class="table">
-    <tr>
-        <td colspan="3" class="align-content-center">
+    <tr class="no-border">
+        <td colspan="3" class="align-content-center no-border">
             <div style="display:flex;flex-direction:column;align-items:center;">
                 
                 <h2 > VPRO CUSTOM INC </h2>
                 <h2> Request Voucher </h2>
+                <h2>( @Model.voucher.Type )</h2>
             </div>
 
         </td>
 
     </tr>
     <tr>
-        <td colspan="2">
-            Paid to: 
-        </td>
-        <td  >
-            Cash Voucher No:
-        </td>
+        <td colspan="2" class="no-border" width="65%">
+            <table width="90%">
+                <tr>
+                    <td width="80px">
+                         Paid to: 
+                    </td>
+                    <td  style="border-bottom: 2px solid black !important;">
 
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td class="no-border" >
+           
+             <table width="90%">
+                <tr>
+                    <td width="150px">
+                          Cash Voucher No:
+                    </td>
+                    <td  style="border-bottom: 2px solid black !important;">
+                        @Model.voucher.Id
+                    </td>
+                </tr>
+            </table>
+        </td>
     </tr>
     <tr>
         <td colspan="2"> 
-            Addresss:
-
+             <table width="90%">
+                <tr>
+                    <td width="80px">
+                         Addresss:
+                    </td>
+                    <td  style="border-bottom: 2px solid black !important;">
+                         @Model.voucher.Address
+                    </td>
+                </tr>
+            </table>
         </td>
         <td>
-            Date:
+             <table width="90%">
+                <tr>
+                    <td width="150px">
+                          Date:
+                    </td>
+                    <td  style="border-bottom: 2px solid black !important;">
+                         @Model.voucher.Date.ToString("MMM dd yyyy")
+                    </td>
+                </tr>
+            </table>
+            
         </td>
 
     </tr>
@@ -62,47 +89,59 @@
             <!-- Particulars Table -->
 
             <Table class="table table-bordered thick-border">
-                <tr>
-                    <th colspan="9" class="thick-border-right thick-border-bottom">
+                <tr  style="border:2px solid black;">
+                    <th colspan="9" style="border-right: 2px solid black !important;">
                         PARTICULARS
                     </th>
-                    <th colspan="3" class="thick-border-bottom">
+                    <th colspan="1">
+                        QTY
+                    </th>
+                    <th colspan="2">
                         AMOUNT
                     </th>
                 </tr>
-                    @for(int i=0; i< 10; i++)
+                    @foreach (var item in Model.voucher.Items)
+                    {
+                        <tr>
+                            <td width="50">
+                                <span> @item.Count </span>
+                            </td>
+                            <td colspan="8">
+                                @item.Description
+                            </td>
+                            <td class="thick-border-left" style="border-left: 2px solid black !important;">
+                                @item.Qty
+                            </td>
+                            <td class="thick-border-right" style="border-right: 2px solid black !important;">
+
+                            </td>
+                        </tr>
+                    }
+
+
+                    @for(int i=Model.voucher.Items.Count; i < 10; i++)
                     {
                         <tr>
                             <!-- Particulars -->
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class="thick-border-right"></td>
+                            <td ></td>
+                            <td colspan="8"></td>
 
                             <!-- Amounts -->
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td class="thick-border-left" style="border-left: 2px solid black !important;"></td>
+                            <td class="thick-border-right" style="border-right: 2px solid black !important;"></td>
                         </tr> 
                     }
                    
-                <tr>
-                        <td colspan="9"  class="thick-border-right">
-                            <span class="pull-right"> TOTAL</span>
+                <tr class="thick-border">
+                        <td colspan="9"  class="thick-border-right" style="border-right: 2px solid black !important;">
+                            <span class="pull-right"> TOTAL : @Model.voucher.TotalCount </span>
                         </td>
-                        <td colspan="2" class="thick-border-top thick-border-right">
+                        <td colspan="1" class="thick-border-top thick-border-right" style="border-right: 2px solid black !important;">
+                            @Model.voucher.TotalQty 
+                        </td>
+                        <td colspan="1" class="thick-border-top" style="border-right: 2px solid black !important;">
 
                         </td>
-                        <td colspan="1" class="thick-border-top">
-
-                        </td>
-
-
                 </tr>
             </Table>
 
@@ -111,13 +150,13 @@
     </tr>
     
     <tr>
-        <td>
+        <td class="no-border">
             Prepared By
         </td>
-        <td>
+        <td class="no-border">
             Approved By:
         </td>
-        <td>
+        <td class="no-border">
             Received Payment By:
 
         </td>
@@ -136,3 +175,8 @@
         </td>
     </tr>
 </table>
+
+@section Scripts{
+    <script>
+    </script>
+} 
