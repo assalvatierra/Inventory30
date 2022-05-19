@@ -20,7 +20,10 @@
         {
             <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId" asp-route-status="ACCEPTED">Back to List</a>
         }
-
+      
+        <div class="pull-left">
+            <a asp-page="../Printables/RequestVoucher" asp-route-id="@Model.InvTrxHdr.Id" asp-route-type="@Model.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a> 
+        </div>
     </div>
 
     <hr />
@@ -29,28 +32,28 @@
         <div class="col-lg-8 col-sm-12">
             <div class="row">
                 <div class="col-lg-8">
-                    @Model.InvTrxHdr.InvTrxType.Type
+                   Transaction: @Model.InvTrxHdr.InvTrxType.Type
                 </div>
                 <div class="col-lg-2">
-                    @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
+                   Date: @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
                 </div>
                 <div class="col-lg-2">
-                    @Model.InvTrxHdr.InvStore.StoreName
+                   Store: @Model.InvTrxHdr.InvStore.StoreName
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <div style="border:1px solid black;margin:5px 0px;padding:5px;">
+                    <div style="border:0px solid black;margin:0px 0px;padding:0px;">
                         Remarks: @Model.InvTrxHdr.Remarks
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-8">
-                    @Model.InvTrxHdr.InvTrxHdrStatu.Status
+                   Status: @Model.InvTrxHdr.InvTrxHdrStatu.Status
                 </div>
                 <div class="col-lg-4">
-                    @Model.InvTrxHdr.UserId
+                   Performed By: @Model.InvTrxHdr.UserId
                 </div>
             </div>
         </div>
