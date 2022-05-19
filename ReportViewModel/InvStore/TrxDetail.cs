@@ -16,6 +16,7 @@ namespace ReportViewModel.InvStore
         public decimal Amount { get; set; }
         public int Qty { get; set; }
         public int Count { get; set; }
+        public string Operation { get; set; }
 
     }
 }
