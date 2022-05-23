@@ -31,11 +31,13 @@ namespace InvWeb.Pages.xTestPages
             this.hdr.Details = this.generateSampleDetails(this.hdr.Id);
 
 
-            PageConfigInfo pInfo = this._pageConfigServices.getPageConfig("rpt001");
+            PageConfigInfo pInfo = this._pageConfigServices.getPageConfig("rpt002"); //rpt001 is also available
             if (pInfo != null)
             {
                 this.rptView = pInfo.ViewName;
-                this.processConfigKeys(pInfo.ConfigKeys);
+                this.hdr.pageSetting = pInfo.genericConfigKeys;
+
+                //this.processConfigKeys(pInfo.ConfigKeys);
             }
         }
 
@@ -43,8 +45,9 @@ namespace InvWeb.Pages.xTestPages
         {
             foreach (var p in pkeys)
             {
-                if (p.Key == "SubTitle")
-                    this.hdr.pageSetting.SubTitle = p.Value;
+                //if (p.Key == "SubTitle")
+                //    this.hdr.pageSetting.SubTitle = p.Value;
+
             }
         }
         private TrxHdr generateSampleHeader()
