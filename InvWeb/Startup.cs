@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PageConfiguration;
 
 namespace InvWeb
 {
@@ -51,6 +52,8 @@ namespace InvWeb
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, UserClaimsPrincipalFactory<IdentityUser, IdentityRole>>();
+
+            services.AddScoped<PageConfiguration.Interfaces.IPageConfigServices, PageConfiguration.PageConfigServices>();
 
             services.AddRazorPages();
 

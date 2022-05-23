@@ -6,22 +6,47 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ReportViewModel.InvStore;
+using PageConfiguration.Interfaces;
+using PageConfiguration.Model;
+using PageConfiguration;
 
 namespace InvWeb.Pages.xTestPages
 {
     public class IndexModel : PageModel
     {
-        public string rptView = "~/Areas/InvStore/TrxPrintForm.cshtml";
+        public string rptView = "";
 
         public TrxHdr hdr;
 
+        public IPageConfigServices _pageConfigServices;
+        public IndexModel(IPageConfigServices pageConfigSservices)
+        {
+            this._pageConfigServices = pageConfigSservices;
+
+
+        }
         private void initializeSample()
         {
             this.hdr = this.generateSampleHeader();
             this.hdr.Details = this.generateSampleDetails(this.hdr.Id);
 
+
+            PageConfigInfo pInfo = this._pageConfigServices.getPageConfig("rpt001");
+            if (pInfo != null)
+            {
+                this.rptView = pInfo.ViewName;
+                this.processConfigKeys(pInfo.ConfigKeys);
+            }
         }
 
+        private void processConfigKeys(List<PageConfigKey> pkeys)
+        {
+            foreach (var p in pkeys)
+            {
+                if (p.Key == "SubTitle")
+                    this.hdr.pageSetting.SubTitle = p.Value;
+            }
+        }
         private TrxHdr generateSampleHeader()
         {
             TrxHdr hdr = new TrxHdr()
