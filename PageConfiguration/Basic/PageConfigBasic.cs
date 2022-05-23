@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace PageConfiguration.Basic
                 Order = 1,
                 Version = "",
                 ViewName = "",
-                ConfigKeys=new List<Model.PageConfigKey>
+                ConfigKeys = new List<Model.PageConfigKey>
                 {
                     new Model.PageConfigKey(){ Key="key1", Value="data1",Remarks=""},
                     new Model.PageConfigKey(){ Key="key2", Value="data2",Remarks=""},
@@ -52,13 +53,18 @@ namespace PageConfiguration.Basic
             this.pageConfigInfos.Add(new Model.PageConfigInfo()
             {
                 TenantCode = this.TenantCode,
-                PageCode = "unused 02",
+                PageCode = "rpt002",
                 Order = 1,
                 Version = "",
-                ViewName = "",
+                ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
+                genericConfigKeys = new Hashtable()
+                {
+                    {"SubTitle","Release Form" }, {"Company","VPRO INC - Davao" }
+                },
+
                 ConfigKeys = new List<Model.PageConfigKey>
                 {
-                    new Model.PageConfigKey(){ Key="key1", Value="data1",Remarks=""},
+                    new Model.PageConfigKey(){ Key="SubTitle", Value="ITEM RELEASE",Remarks=""},
                     new Model.PageConfigKey(){ Key="key2", Value="data2",Remarks=""},
                     new Model.PageConfigKey(){ Key="key3", Value="data3",Remarks=""},
                     new Model.PageConfigKey(){ Key="key4", Value="data4",Remarks=""},
@@ -73,14 +79,19 @@ namespace PageConfiguration.Basic
                 Order = 1,
                 Version = "",
                 ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
-                ConfigKeys = new List<Model.PageConfigKey>
-                {
-                    new Model.PageConfigKey(){ Key="SubTitle", Value="Report",Remarks=""},
-                    new Model.PageConfigKey(){ Key="key2", Value="data2",Remarks=""},
-                    new Model.PageConfigKey(){ Key="key3", Value="data3",Remarks=""},
-                    new Model.PageConfigKey(){ Key="key4", Value="data4",Remarks=""},
-
+                genericConfigKeys = new Hashtable()
+                { 
+                    {"SubTitle","Receiving" }, {"Company","RealSYS" } 
                 }
+
+                //ConfigKeys = new List<Model.PageConfigKey>
+                //{
+                //    new Model.PageConfigKey(){ Key="SubTitle", Value="Report",Remarks=""},
+                //    new Model.PageConfigKey(){ Key="key2", Value="data2",Remarks=""},
+                //    new Model.PageConfigKey(){ Key="key3", Value="data3",Remarks=""},
+                //    new Model.PageConfigKey(){ Key="key4", Value="data4",Remarks=""},
+
+                //}
 
             });
 

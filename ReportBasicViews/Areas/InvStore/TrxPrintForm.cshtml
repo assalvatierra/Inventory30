@@ -1,15 +1,18 @@
 ﻿@using ReportViewModel
 @model ReportViewModel.InvStore.TrxHdr
-
+@{
+    string _SubTitle = Model.pageSetting["SubTitle"].ToString();
+    string _Company = Model.pageSetting["Company"].ToString();
+}
 
 <table class="table">
     <tr class="no-border">
         <td colspan="3" class="align-content-center no-border">
             <div style="display:flex;flex-direction:column;align-items:center;">
                 
-                <h2 > VPRO CUSTOM INC </h2>
-                <h2> Request Voucher </h2>
-                <h2>(@Model.Type - @Model.pageSetting.SubTitle)</h2>
+                <h2 > @_Company </h2>
+                <h2> @_SubTitle </h2>
+                <h2>(@Model.Type)</h2>
             </div>
 
         </td>

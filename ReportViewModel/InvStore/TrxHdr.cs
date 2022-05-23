@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace ReportViewModel.InvStore
     {
         public TrxHdr()
         {
-            this.pageSetting = new TrxPageSetting();
+            this.pageSetting = new Hashtable();
 
         }
         public int Id { get; set; }
@@ -40,9 +41,8 @@ namespace ReportViewModel.InvStore
             }
             return 0;
         }
-
-        public TrxPageSetting pageSetting = new TrxPageSetting();
-
+        public Hashtable pageSetting = new Hashtable();
+       // public TrxPageSetting pageSetting = new TrxPageSetting();
 
     }
 }
