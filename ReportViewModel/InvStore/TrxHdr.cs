@@ -8,6 +8,11 @@ namespace ReportViewModel.InvStore
 {
     public class TrxHdr
     {
+        public TrxHdr()
+        {
+            this.pageSetting = new TrxPageSetting();
+
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Remarks { get; set; }
@@ -35,6 +40,9 @@ namespace ReportViewModel.InvStore
             }
             return 0;
         }
+
+        public TrxPageSetting pageSetting = new TrxPageSetting();
+
 
     }
 }
