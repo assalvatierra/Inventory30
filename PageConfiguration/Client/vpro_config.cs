@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,10 @@ namespace PageConfiguration.Client
         private string _tenantid = "VPRO";
         private IList<Model.PageConfigInfo> pageConfigInfos = new List<Model.PageConfigInfo>();
 
+        private string _companyName = "VPRO Inc - Davao";
         public vpro_config()
         {
-
+            this.initializePageInfoData();
         }
         public string TenantCode { get{return this._tenantid;} }
         public IList<Model.PageConfigInfo> pageConfigInfo
@@ -23,6 +25,45 @@ namespace PageConfiguration.Client
             {
                 return this.pageConfigInfos;
             }
+        }
+
+        private void initializePageInfoData()
+        {
+            this.pageConfigInfos = new List<Model.PageConfigInfo>();
+
+
+            this.pageConfigInfos.Add(new Model.PageConfigInfo()
+            {
+                TenantCode = this.TenantCode,
+                PageCode = "rpt001",
+                Order = 1,
+                Version = "",
+                ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
+                genericConfigKeys = new Hashtable()
+                {
+                    {"SubTitle","Receiving Form" }, {"Company",_companyName }
+                }
+
+            });
+
+            this.pageConfigInfos.Add(new Model.PageConfigInfo()
+            {
+                TenantCode = this.TenantCode,
+                PageCode = "rpt002",
+                Order = 1,
+                Version = "",
+                ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
+                genericConfigKeys = new Hashtable()
+                {
+                    {"SubTitle","Release Form" }, {"Company",_companyName }
+                },
+
+ 
+            });
+
+
+
+
         }
 
     }

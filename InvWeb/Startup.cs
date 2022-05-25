@@ -53,7 +53,13 @@ namespace InvWeb
 
             services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, UserClaimsPrincipalFactory<IdentityUser, IdentityRole>>();
 
-            services.AddScoped<PageConfiguration.Interfaces.IPageConfigServices, PageConfiguration.PageConfigServices>();
+            //services.Configure<PageConfiguration.TenantInfo>(Configuration.GetSection("TenantInfo"));
+            string tenantcode = Configuration.GetSection("TenantInfo")["TenantCode"];
+            string targetVersion = Configuration.GetSection("TenantInfo")["TargetVersion"];
+
+            services.AddScoped<PageConfiguration.Interfaces.IPageConfigServices, PageConfiguration.PageConfigServices>(x=>
+                new PageConfiguration.PageConfigServices(tenantcode, targetVersion)
+            );
 
             services.AddRazorPages();
 

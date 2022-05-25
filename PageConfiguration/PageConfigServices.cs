@@ -17,13 +17,14 @@ namespace PageConfiguration
         private List<IPageConfig> _configClasses;
         private List<Model.PageConfigInfo> _config;
 
-        public PageConfigServices()
+        public PageConfigServices(string tenantcode, string version)
         //public PageConfigServices(string TenantCode, string Version)
         {
-            //    if(!string.IsNullOrEmpty(TenantCode))
-            //        this._tenantCode = TenantCode;
-            //    if (!string.IsNullOrEmpty(Version))
-            //        this._version = Version;
+            if (!string.IsNullOrEmpty(tenantcode))
+                this._tenantCode = tenantcode;
+            if (!string.IsNullOrEmpty(version))
+                this._version = version;
+
 
 
             this._configClasses = new List<IPageConfig>();
@@ -33,13 +34,31 @@ namespace PageConfiguration
             this.loadPageConfigurationsFromClasses();
 
         }
+
+        public void setTargetVersion(string targetVersion)
+        {
+            this._version = targetVersion;
+        }
+
         public Model.PageConfigInfo getPageConfig(string pageCode)
         {
-            if(this._version=="LATEST")
-                return this._config.Where(d => d.PageCode == pageCode).OrderByDescending(v=>v.Order).FirstOrDefault();
-            else
-                return this._config.Where(d => d.PageCode == pageCode && d.Version==this._version).OrderByDescending(v => v.Order).FirstOrDefault();
-        
+            var configs = this._config.Where(d=>d.PageCode==pageCode);
+
+            List<Model.PageConfigInfo> tenantConfigs = configs.ToList();
+            if (!string.IsNullOrEmpty(this._tenantCode))
+            {
+                tenantConfigs = configs.Where(d => d.TenantCode == this._tenantCode).ToList();
+                if (tenantConfigs.Count() == 0)
+                    tenantConfigs = configs.Where(d => d.TenantCode == _DEFAULTCONFIGS).ToList();
+            }
+ 
+            List<Model.PageConfigInfo> latestConfigs = latestConfigs = tenantConfigs; 
+            if (this._version != "LATEST")
+                latestConfigs = tenantConfigs.Where(d => d.Version == this._version).ToList();
+          
+
+            return latestConfigs.OrderByDescending(v => v.Order).FirstOrDefault();
+         
         }
 
         private void loadPageConfigurationsFromClasses()
@@ -55,14 +74,14 @@ namespace PageConfiguration
         {
             IList < IPageConfig > _classes = new List<IPageConfig>
             {
-                new Basic.PageConfigBasic(),
-                new Client.vpro_config()
+                new Client.vpro_config(),
+                new Basic.PageConfigBasic()
             };
 
             this._configClasses = new List<IPageConfig>();
             foreach (var configClass in _classes)
             {
-                if(configClass.TenantCode == this._tenantCode || configClass.TenantCode == this._DEFAULTCONFIGS)
+                //if(configClass.TenantCode == this._tenantCode || configClass.TenantCode == this._DEFAULTCONFIGS)
                     this._configClasses.Add(configClass);
             }
 

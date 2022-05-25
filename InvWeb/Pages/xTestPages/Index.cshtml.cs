@@ -30,7 +30,7 @@ namespace InvWeb.Pages.xTestPages
             this.hdr = this.generateSampleHeader();
             this.hdr.Details = this.generateSampleDetails(this.hdr.Id);
 
-
+            
             PageConfigInfo pInfo = this._pageConfigServices.getPageConfig("rpt002"); //rpt001 is also available
             if (pInfo != null)
             {
