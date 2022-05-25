@@ -8,6 +8,7 @@ namespace PageConfiguration.Interfaces
 {
     public interface IPageConfigServices
     {
+        public void setTargetVersion(string targetVersion);
         public Model.PageConfigInfo getPageConfig(string pageCode);
     }
 }

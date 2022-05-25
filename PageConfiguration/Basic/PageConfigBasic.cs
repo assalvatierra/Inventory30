@@ -59,17 +59,10 @@ namespace PageConfiguration.Basic
                 ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
                 genericConfigKeys = new Hashtable()
                 {
-                    {"SubTitle","Release Form" }, {"Company","VPRO INC - Davao" }
+                    {"SubTitle","Release Form" }, {"Company","Company" }
                 },
 
-                ConfigKeys = new List<Model.PageConfigKey>
-                {
-                    new Model.PageConfigKey(){ Key="SubTitle", Value="ITEM RELEASE",Remarks=""},
-                    new Model.PageConfigKey(){ Key="key2", Value="data2",Remarks=""},
-                    new Model.PageConfigKey(){ Key="key3", Value="data3",Remarks=""},
-                    new Model.PageConfigKey(){ Key="key4", Value="data4",Remarks=""},
-
-                }
+ 
             });
 
             this.pageConfigInfos.Add(new Model.PageConfigInfo()
@@ -81,17 +74,10 @@ namespace PageConfiguration.Basic
                 ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
                 genericConfigKeys = new Hashtable()
                 { 
-                    {"SubTitle","Receiving" }, {"Company","RealSYS" } 
+                    {"SubTitle","Receiving Form" }, {"Company","Company" } 
                 }
 
-                //ConfigKeys = new List<Model.PageConfigKey>
-                //{
-                //    new Model.PageConfigKey(){ Key="SubTitle", Value="Report",Remarks=""},
-                //    new Model.PageConfigKey(){ Key="key2", Value="data2",Remarks=""},
-                //    new Model.PageConfigKey(){ Key="key3", Value="data3",Remarks=""},
-                //    new Model.PageConfigKey(){ Key="key4", Value="data4",Remarks=""},
-
-                //}
+ 
 
             });
 
