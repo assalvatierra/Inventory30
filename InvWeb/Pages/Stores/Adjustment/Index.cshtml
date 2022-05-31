@@ -2,12 +2,12 @@
 @model InvWeb.Pages.Stores.Adjustment.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Adjustments";
 
 }
 
 <h1>
-    Adjustment re
+    Adjustments
     @if (ViewBag.Status == "ACCEPTED")
     {
         <span style="font-size:1rem;">(Approved)</span>
@@ -115,9 +115,12 @@
                     {
                         <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Accept </button>
                     }
-                    
+
+                    </td>
+
+                    <td>
                     <a asp-page="../Printables/RequestVoucher" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a> |
-                    | <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
@@ -134,7 +137,6 @@
             //on init status
             StatusFilter("@Model.Status");
             OrderFilter("@Model.Orderby");
-
         });
 
     </script>
