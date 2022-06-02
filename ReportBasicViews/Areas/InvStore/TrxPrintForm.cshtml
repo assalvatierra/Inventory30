@@ -3,6 +3,7 @@
 @{
     string _SubTitle = Model.pageSetting["SubTitle"].ToString();
     string _Company = Model.pageSetting["Company"].ToString();
+    ViewData["Title"] = _SubTitle;
 }
 
 <table class="table">
@@ -21,7 +22,7 @@
             <table width="90%">
                 <tr>
                     <td width="80px">
-                         Paid to: 
+                         To: 
                     </td>
                     <td  style="border-bottom: 2px solid black !important;">
 

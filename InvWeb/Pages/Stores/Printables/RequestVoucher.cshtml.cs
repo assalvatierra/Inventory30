@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using WebDBSchema.Models;
 using System.Linq;
 using ReportViewModel.InvStore;
+using PageConfiguration.Interfaces;
+using PageConfiguration.Model;
 
 namespace InvWeb.Pages.Stores.Printables
 {
@@ -18,6 +20,7 @@ namespace InvWeb.Pages.Stores.Printables
         private readonly ILogger<RequestVoucherModel> _logger;
         private readonly ApplicationDbContext _context;
         private readonly StoreServices _storeSvc;
+        public IPageConfigServices _pageConfigServices;
 
         public TrxHdr _trxHdr;
         public string rptView = "~/Areas/InvStore/TrxPrintForm.cshtml";
@@ -31,18 +34,18 @@ namespace InvWeb.Pages.Stores.Printables
 
         }
 
-        public RequestVoucherModel(ILogger<RequestVoucherModel> logger, ApplicationDbContext context)
+        public RequestVoucherModel(ILogger<RequestVoucherModel> logger, ApplicationDbContext context, IPageConfigServices pageConfigSservices)
         {
             _logger = logger;
             _context = context;
             _storeSvc = new StoreServices(context, logger);
-
-            _trxHdr = new TrxHdr();
+            _pageConfigServices = pageConfigSservices;
         }
 
 
         public async Task<IActionResult> OnGetAsync(int? id, int? type)
         {
+            _trxHdr = new TrxHdr();
 
             if (id == null)
             {
@@ -56,28 +59,38 @@ namespace InvWeb.Pages.Stores.Printables
 
             var request = await GetTrxHeaderByIdAsync((int)id);
 
-            _trxHdr = InitializeTrxHeader(_trxHdr, request);
-            _trxHdr.Details = AddDataToTrxDetails(_trxHdr.Details, request);
+            this._trxHdr = InitializeTrxHeader(_trxHdr, request);
+            this._trxHdr.Details = AddDataToTrxDetails(_trxHdr.Details, request);
 
-            rptView = GetReportFormByTrxType((int)type);
+
+            PageConfigInfo pInfo = GetReportFormByTrxType((int)type);
+            if (pInfo != null)
+            {
+                this.rptView = pInfo.ViewName;
+                this._trxHdr.pageSetting = pInfo.genericConfigKeys;
+
+                //this.processConfigKeys(pInfo.ConfigKeys);
+            }
+
+            //rptView = GetReportFormByTrxType((int)type);
 
             return Page();
         }
 
-        public string GetReportFormByTrxType(int type)
+        public PageConfigInfo GetReportFormByTrxType(int type)
         {
             switch (type)
             {
                 case (int)rptVoucherView.RECEIVING:
-                    return "~/Areas/InvStore/TrxPrintForm_Receiving.cshtml";
+                    return this._pageConfigServices.getPageConfig("rpt001"); //rpt001 for Receiving
                 case (int)rptVoucherView.RELEASING:
-                    return "~/Areas/InvStore/TrxPrintForm_Releasing.cshtml";
+                    return this._pageConfigServices.getPageConfig("rpt002"); //rpt001 for Releasing
                 case (int)rptVoucherView.ADJUSTMENT:
-                    return "~/Areas/InvStore/TrxPrintForm_Adjustment.cshtml";
+                    return this._pageConfigServices.getPageConfig("rpt003"); //rpt003 for Adjustments
                 case (int)rptVoucherView.PURCHASEORDER:
-                    return "~/Areas/InvStore/TrxPrintForm_PO.cshtml";
+                    return this._pageConfigServices.getPageConfig("rpt004"); //rpt004 for PO
                 default:
-                    return "~/Areas/InvStore/TrxPrintForm.cshtml";
+                    return this._pageConfigServices.getPageConfig("rpt002"); //default
             }
         }
 

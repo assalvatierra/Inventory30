@@ -62,6 +62,36 @@ namespace PageConfiguration.Client
             });
 
 
+            this.pageConfigInfos.Add(new Model.PageConfigInfo()
+            {
+                TenantCode = this.TenantCode,
+                PageCode = "rpt003",
+                Order = 1,
+                Version = "",
+                ViewName = "~/Areas/InvStore/TrxPrintForm_Adjustment.cshtml",
+                genericConfigKeys = new Hashtable()
+                {
+                    {"SubTitle","Adjustment Form" }, {"Company",_companyName }
+                },
+
+
+            });
+
+
+            this.pageConfigInfos.Add(new Model.PageConfigInfo()
+            {
+                TenantCode = this.TenantCode,
+                PageCode = "rpt004",
+                Order = 1,
+                Version = "",
+                ViewName = "~/Areas/InvStore/TrxPrintForm_PO.cshtml",
+                genericConfigKeys = new Hashtable()
+                {
+                    {"SubTitle","Purchase Order Form" }, {"Company",_companyName }
+                },
+
+
+            });
 
 
         }
