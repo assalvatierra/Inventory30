@@ -15,9 +15,9 @@ using PageConfiguration.Model;
 
 namespace InvWeb.Pages.Stores.Printables
 {
-    public class RequestVoucherModel : PageModel
+    public class RequestFormModel : PageModel
     {
-        private readonly ILogger<RequestVoucherModel> _logger;
+        private readonly ILogger<RequestFormModel> _logger;
         private readonly ApplicationDbContext _context;
         private readonly StoreServices _storeSvc;
         public IPageConfigServices _pageConfigServices;
@@ -25,7 +25,7 @@ namespace InvWeb.Pages.Stores.Printables
         public TrxHdr _trxHdr;
         public string rptView = "~/Areas/InvStore/TrxPrintForm.cshtml";
 
-        public enum rptVoucherView
+        public enum rptFormView
         {
             RECEIVING = 1,
             RELEASING = 2,
@@ -34,7 +34,7 @@ namespace InvWeb.Pages.Stores.Printables
 
         }
 
-        public RequestVoucherModel(ILogger<RequestVoucherModel> logger, ApplicationDbContext context, IPageConfigServices pageConfigSservices)
+        public RequestFormModel(ILogger<RequestFormModel> logger, ApplicationDbContext context, IPageConfigServices pageConfigSservices)
         {
             _logger = logger;
             _context = context;
@@ -81,13 +81,13 @@ namespace InvWeb.Pages.Stores.Printables
         {
             switch (type)
             {
-                case (int)rptVoucherView.RECEIVING:
+                case (int)rptFormView.RECEIVING:
                     return this._pageConfigServices.getPageConfig("rpt001"); //rpt001 for Receiving
-                case (int)rptVoucherView.RELEASING:
+                case (int)rptFormView.RELEASING:
                     return this._pageConfigServices.getPageConfig("rpt002"); //rpt001 for Releasing
-                case (int)rptVoucherView.ADJUSTMENT:
+                case (int)rptFormView.ADJUSTMENT:
                     return this._pageConfigServices.getPageConfig("rpt003"); //rpt003 for Adjustments
-                case (int)rptVoucherView.PURCHASEORDER:
+                case (int)rptFormView.PURCHASEORDER:
                     return this._pageConfigServices.getPageConfig("rpt004"); //rpt004 for PO
                 default:
                     return this._pageConfigServices.getPageConfig("rpt002"); //default
