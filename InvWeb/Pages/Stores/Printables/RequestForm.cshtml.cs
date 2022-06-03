@@ -137,7 +137,7 @@ namespace InvWeb.Pages.Stores.Printables
             {
                 ItemCount += 1;
 
-                tempTrxDetails.Add(new TrxDetail
+               var trxDetails = new TrxDetail
                 {
                     Id = item.InvItemId,
                     Description = "(" + item.InvItem.Code + ") " + item.InvItem.Description,
@@ -146,9 +146,29 @@ namespace InvWeb.Pages.Stores.Printables
                     Qty = item.ItemQty,
                     Count = ItemCount,
                     Operation = item.InvTrxDtlOperator.Description
-                });
+                };
+
+                if (requestHdr.InvTrxTypeId == 3)
+                {
+                    trxDetails.Remarks = OperationActionRemarks(item.InvTrxDtlOperatorId) + item.InvItem.Remarks ;
+                }
+
+                tempTrxDetails.Add(trxDetails);
             }
             return (List<TrxDetail>)tempTrxDetails;
+        }
+
+        private string OperationActionRemarks(int operationId)
+        {
+            switch (operationId)
+            {
+                case 1:
+                    return "( Add ) ";
+                case 2:
+                    return "( Deduct ) ";
+                default:
+                    return "( Add ) ";
+            }
         }
 
     }
