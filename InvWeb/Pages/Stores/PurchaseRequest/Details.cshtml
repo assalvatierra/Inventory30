@@ -9,8 +9,8 @@
 <h1>Purchase Order Header Details</h1>
 
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.InvPoHdr.Id">Edit</a> |
-    <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdr.InvStoreId">Back to List</a>
+    <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdr.InvStoreId">Back to List</a> | 
+    <a asp-page="./Edit" asp-route-id="@Model.InvPoHdr.Id">Edit</a> 
     
    <div class="pull-left">
       <a asp-page="../Printables/RequestForm" asp-route-id="@Model.InvPoHdr.Id" asp-route-type="4" target="_blank" class="btn btn-primary">Print Voucher</a> 
@@ -25,7 +25,7 @@
             LotNo
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayNameFor(model => model.InvPoHdr.Id)
+            @Html.DisplayFor(model => model.InvPoHdr.Id)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.InvPoHdr.DtPo)
@@ -85,7 +85,9 @@
         {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.InvItem.Code) - 
                 @Html.DisplayFor(modelItem => item.InvItem.Description)
+                @Html.DisplayFor(modelItem => item.InvItem.Remarks)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ItemQty)

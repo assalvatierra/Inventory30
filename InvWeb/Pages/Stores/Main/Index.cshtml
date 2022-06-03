@@ -115,7 +115,7 @@
                 <div class="row" style="font-size:14px;">
                   
                         <a asp-page="../PurchaseRequest/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="PENDING"  class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
-                        @if (pendingAdjustment != null)
+                        @if (pendingPO != null)
                         {
                             <span id="ReleasingText" class="badge badge-primary">@pendingPO</span>
                         }
