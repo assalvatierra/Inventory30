@@ -59,7 +59,9 @@ namespace PageConfiguration.Basic
                 ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
                 genericConfigKeys = new Hashtable()
                 {
-                    {"SubTitle","Release Form" }, {"Company","Company" }
+                    {"SubTitle","Release Form" }, {"Company","Company" }, {"Party","Party"}, {"RefNo","RefNo"},
+                    {"Person1","Prepared By:" },{"Person2","Approved By:" },{"Person3","Performed By:" },
+                    {"Name1","Admin" },{"Name2","Manager" },{"Name3","Custodian" }
                 },
 
  
@@ -74,10 +76,12 @@ namespace PageConfiguration.Basic
                 ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
                 genericConfigKeys = new Hashtable()
                 { 
-                    {"SubTitle","Receiving Form" }, {"Company","Company" } 
+                    {"SubTitle","Receiving Form" }, {"Company","Company" }, {"Party","Party"}, {"RefNo","RefNo"},
+                    {"Person1","Prepared By:" },{"Person2","Approved By:" },{"Person3","Performed By:" },
+                    {"Name1","Admin" },{"Name2","Manager" },{"Name3","Custodian" }
                 }
 
- 
+
 
             });
 

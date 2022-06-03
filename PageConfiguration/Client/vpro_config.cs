@@ -55,7 +55,10 @@ namespace PageConfiguration.Client
                 ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
                 genericConfigKeys = new Hashtable()
                 {
-                    {"SubTitle","Release Form" }, {"Company",_companyName }
+                    {"SubTitle","Release Form" }, {"Company",_companyName }, {"Party","Party"}, {"RefNo","RefNo"},
+                    {"Person1","Prepared By:" },{"Person2","Approved By:" },{"Person3","Performed By:" },
+                    {"Name1","Admin" },{"Name2","Manager" },{"Name3","Custodian" }
+
                 },
 
  

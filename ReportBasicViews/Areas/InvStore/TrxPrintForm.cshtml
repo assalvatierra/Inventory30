@@ -3,6 +3,15 @@
 @{
     string _SubTitle = Model.pageSetting["SubTitle"].ToString();
     string _Company = Model.pageSetting["Company"].ToString();
+    string _Party = Model.pageSetting["Party"].ToString();
+    string _Docref = Model.pageSetting["RefNo"].ToString();
+    string _person1 = Model.pageSetting["Person1"].ToString();
+    string _name1 = Model.pageSetting["Name1"].ToString();
+    string _person2 = Model.pageSetting["Person2"].ToString();
+    string _name2 = Model.pageSetting["Name2"].ToString();
+    string _person3 = Model.pageSetting["Person3"].ToString();
+    string _name3 = Model.pageSetting["Name3"].ToString();
+
     ViewData["Title"] = _SubTitle;
 }
 
@@ -22,7 +31,7 @@
             <table width="90%">
                 <tr>
                     <td width="80px">
-                         To: 
+                         @_Party: 
                     </td>
                     <td  style="border-bottom: 2px solid black !important;">
 
@@ -35,7 +44,7 @@
              <table width="90%">
                 <tr>
                     <td width="150px">
-                          Cash Voucher No:
+                          @_Docref:
                     </td>
                     <td  style="border-bottom: 2px solid black !important;">
                         @Model.Id
@@ -49,7 +58,7 @@
              <table width="90%">
                 <tr>
                     <td width="80px">
-                         Addresss:
+                         &nbsp;
                     </td>
                     <td  style="border-bottom: 2px solid black !important;">
                          @Model.Address
@@ -87,7 +96,7 @@
                         QTY
                     </th>
                     <th colspan="2">
-                        AMOUNT
+                        REMARKS
                     </th>
                 </tr>
                     @foreach (var item in Model.Details)
@@ -103,7 +112,7 @@
                                 @item.Qty
                             </td>
                             <td class="thick-border-right" style="border-right: 2px solid black !important;">
-
+                                @item.Remarks
                             </td>
                         </tr>
                     }
@@ -141,27 +150,29 @@
     
     <tr>
         <td class="no-border">
-            Prepared By
+            @_person1
         </td>
         <td class="no-border">
-            Approved By:
+            @_person2
         </td>
         <td class="no-border">
-            Received Payment By:
-
+            @_person3
         </td>
-
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
     </tr>
     <tr>
         <td > 
-            ADMIN OFFICER
-
+            @_name1
         </td>
-        <td>
-           
+        <td > 
+            @_name2
         </td>
-        <td>
-
+        <td > 
+            @_name3
         </td>
     </tr>
 </table>
