@@ -1,16 +1,17 @@
 ﻿@using ReportViewModel
 @model ReportViewModel.InvStore.TrxHdr
 @{
-    string _SubTitle = Model.pageSetting["SubTitle"].ToString();
-    string _Company = Model.pageSetting["Company"].ToString();
-    string _Party = Model.pageSetting["Party"].ToString();
-    string _Docref = Model.pageSetting["RefNo"].ToString();
-    string _person1 = Model.pageSetting["Person1"].ToString();
-    string _name1 = Model.pageSetting["Name1"].ToString();
-    string _person2 = Model.pageSetting["Person2"].ToString();
-    string _name2 = Model.pageSetting["Name2"].ToString();
-    string _person3 = Model.pageSetting["Person3"].ToString();
-    string _name3 = Model.pageSetting["Name3"].ToString();
+    string _SubTitle = (Model.pageSetting.Contains("SubTitle")? Model.pageSetting["SubTitle"].ToString(): "");
+    string _Company = (Model.pageSetting.Contains("Company")? Model.pageSetting["Company"].ToString(): "");
+    string _Branch = (Model.pageSetting.Contains("Branch")? Model.pageSetting["Branch"].ToString(): "");
+    string _Party = (Model.pageSetting.Contains("Party")? Model.pageSetting["Party"].ToString(): "");
+    string _Docref = (Model.pageSetting.Contains("RefNo")? Model.pageSetting["RefNo"].ToString(): "");
+    string _person1 = (Model.pageSetting.Contains("Person1")? Model.pageSetting["Person1"].ToString(): "");
+    string _name1 = (Model.pageSetting.Contains("Name1")? Model.pageSetting["Name1"].ToString(): "");
+    string _person2 = (Model.pageSetting.Contains("Person2")? Model.pageSetting["Person2"].ToString(): "");
+    string _name2 = (Model.pageSetting.Contains("Name2")? Model.pageSetting["Name2"].ToString(): "");
+    string _person3 = (Model.pageSetting.Contains("Person3")? Model.pageSetting["Person3"].ToString(): "");
+    string _name3 = (Model.pageSetting.Contains("Name3")? Model.pageSetting["Name3"].ToString(): "");
 
     ViewData["Title"] = _SubTitle;
 }
@@ -19,7 +20,7 @@
     <tr class="no-border">
         <td colspan="3" class="align-content-center no-border">
             <div style="display:flex;flex-direction:column;align-items:center;">
-                <h2 > @_Company </h2>
+                <h2 > @_Company - @_Branch</h2>
                 <h2> (@_SubTitle) </h2>
             </div>
 
@@ -95,6 +96,9 @@
                     <th colspan="1">
                         QTY
                     </th>
+                    <th>
+                        UOM
+                    </th>
                     <th colspan="2">
                         REMARKS
                     </th>
@@ -111,6 +115,9 @@
                             <td class="thick-border-left" style="border-left: 2px solid black !important;">
                                 @item.Qty
                             </td>
+                            <td class="thick-border-left" style="border-left: 2px solid black !important;">
+                                @item.Uom
+                            </td>
                             <td class="thick-border-right" style="border-right: 2px solid black !important;">
                                 @item.Remarks
                             </td>
@@ -123,7 +130,7 @@
                         <tr>
                             <!-- Particulars -->
                             <td ></td>
-                            <td colspan="8"></td>
+                            <td colspan="9"></td>
 
                             <!-- Amounts -->
                             <td class="thick-border-left" style="border-left: 2px solid black !important;"></td>
@@ -132,7 +139,7 @@
                     }
                    
                 <tr class="thick-border">
-                        <td colspan="9"  class="thick-border-right" style="border-right: 2px solid black !important;">
+                        <td colspan="10"  class="thick-border-right" style="border-right: 2px solid black !important;">
                             <span class="pull-right"> TOTAL : @Model.GetTotalItemsCount() </span>
                         </td>
                         <td colspan="1" class="thick-border-top thick-border-right" style="border-right: 2px solid black !important;">
