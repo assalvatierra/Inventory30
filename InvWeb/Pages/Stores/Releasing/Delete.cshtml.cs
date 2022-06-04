@@ -52,6 +52,11 @@ namespace InvWeb.Pages.Stores.Releasing
 
             if (InvTrxHdr != null)
             {
+                //remove transactions detail items
+                var itemList = await _context.InvTrxDtls.Where(i => i.InvTrxHdrId == InvTrxHdr.Id).ToListAsync();
+                _context.InvTrxDtls.RemoveRange(itemList);
+
+                //remove header
                 _context.InvTrxHdrs.Remove(InvTrxHdr);
                 await _context.SaveChangesAsync();
             }

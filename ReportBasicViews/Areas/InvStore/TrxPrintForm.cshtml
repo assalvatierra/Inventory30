@@ -23,9 +23,7 @@
                 <h2 > @_Company - @_Branch</h2>
                 <h2> (@_SubTitle) </h2>
             </div>
-
         </td>
-
     </tr>
     <tr>
         <td colspan="2" class="no-border" width="65%">
@@ -34,11 +32,11 @@
                     <td width="80px">
                          @_Party: 
                     </td>
-                    <td  style="border-bottom: 2px solid black !important;">
+                    <td  style="border-bottom: 1px solid black !important;">
 
                     </td>
                 </tr>
-            </table>
+           </table>
         </td>
         <td class="no-border" >
            
@@ -47,7 +45,7 @@
                     <td width="150px">
                           @_Docref:
                     </td>
-                    <td  style="border-bottom: 2px solid black !important;">
+                    <td  style="border-bottom: 1px solid black !important;">
                         @Model.Id
                     </td>
                 </tr>
@@ -61,7 +59,7 @@
                     <td width="80px">
                          &nbsp;
                     </td>
-                    <td  style="border-bottom: 2px solid black !important;">
+                    <td  style="border-bottom: 1px solid black !important;">
                          @Model.Address
                     </td>
                 </tr>
@@ -73,7 +71,7 @@
                     <td width="150px">
                           Date:
                     </td>
-                    <td  style="border-bottom: 2px solid black !important;">
+                    <td  style="border-bottom: 1px solid black !important;">
                          @Model.Date.ToString("MMM dd yyyy")
                     </td>
                 </tr>
@@ -88,12 +86,12 @@
 
             <!-- Particulars Table -->
 
-            <Table class="table table-bordered thick-border">
-                <tr  style="border:2px solid black;">
-                    <th colspan="9" style="border-right: 2px solid black !important;">
+            <Table class="table thick-border">
+                <tr>
+                    <th colspan="9" class="no-border" style="border-right: 1px solid black !important;border-bottom: 1px solid black !important;">
                         PARTICULARS
                     </th>
-                    <th colspan="1">
+                    <th colspan="1" class="text-center no-border" style="border-left: 2px solid black !important;border-bottom: 1px solid black !important;">
                         QTY
                     </th>
                     <th>
@@ -106,13 +104,13 @@
                     @foreach (var item in Model.Details)
                     {
                         <tr>
-                            <td width="50">
+                            <td width="50" class="no-border">
                                 <span> @item.Count </span>
                             </td>
-                            <td colspan="8">
+                            <td colspan="8" class="no-border">
                                 @item.Description
                             </td>
-                            <td class="thick-border-left" style="border-left: 2px solid black !important;">
+                            <td class="thick-border-left text-center no-border" style="border-left: 2px solid black !important;border-bottom:0px solid white !important;">
                                 @item.Qty
                             </td>
                             <td class="thick-border-left" style="border-left: 2px solid black !important;">
@@ -142,10 +140,10 @@
                         <td colspan="10"  class="thick-border-right" style="border-right: 2px solid black !important;">
                             <span class="pull-right"> TOTAL : @Model.GetTotalItemsCount() </span>
                         </td>
-                        <td colspan="1" class="thick-border-top thick-border-right" style="border-right: 2px solid black !important;">
+                        <td colspan="1" class="thick-border-top text-center" >
                             @Model.GetTotalItemsQty() 
                         </td>
-                        <td colspan="1" class="thick-border-top" style="border-right: 2px solid black !important;">
+                        <td colspan="1" class="thick-border-top" style="border-right: 2px solid black !important">
 
                         </td>
                 </tr>

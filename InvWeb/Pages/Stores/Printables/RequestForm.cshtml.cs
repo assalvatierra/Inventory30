@@ -15,9 +15,9 @@ using PageConfiguration.Model;
 
 namespace InvWeb.Pages.Stores.Printables
 {
-    public class RequestVoucherModel : PageModel
+    public class RequestFormModel : PageModel
     {
-        private readonly ILogger<RequestVoucherModel> _logger;
+        private readonly ILogger<RequestFormModel> _logger;
         private readonly ApplicationDbContext _context;
         private readonly StoreServices _storeSvc;
         public IPageConfigServices _pageConfigServices;
@@ -25,16 +25,16 @@ namespace InvWeb.Pages.Stores.Printables
         public TrxHdr _trxHdr;
         public string rptView = "~/Areas/InvStore/TrxPrintForm.cshtml";
 
-        public enum rptVoucherView
+        public enum rptFormView
         {
             RECEIVING = 1,
             RELEASING = 2,
             ADJUSTMENT = 3,
-            PURCHASEORDER = 4
+            PURCHASE_REQUEST = 4
 
         }
 
-        public RequestVoucherModel(ILogger<RequestVoucherModel> logger, ApplicationDbContext context, IPageConfigServices pageConfigSservices)
+        public RequestFormModel(ILogger<RequestFormModel> logger, ApplicationDbContext context, IPageConfigServices pageConfigSservices)
         {
             _logger = logger;
             _context = context;
@@ -62,6 +62,13 @@ namespace InvWeb.Pages.Stores.Printables
             this._trxHdr = InitializeTrxHeader(_trxHdr, request);
             this._trxHdr.Details = AddDataToTrxDetails(_trxHdr.Details, request);
 
+            if (type == (int)rptFormView.PURCHASE_REQUEST)
+            {
+                var PRrequest = await GetPRHeaderByIdAsync((int)id);
+                this._trxHdr = InitializePRHeader(_trxHdr, PRrequest);
+                this._trxHdr.Details = AddDataToPRDetails(_trxHdr.Details, PRrequest);
+            }
+
 
             PageConfigInfo pInfo = GetReportFormByTrxType((int)type);
             if (pInfo != null)
@@ -83,13 +90,13 @@ namespace InvWeb.Pages.Stores.Printables
         {
             switch (type)
             {
-                case (int)rptVoucherView.RECEIVING:
+                case (int)rptFormView.RECEIVING:
                     return this._pageConfigServices.getPageConfig("rpt001"); //rpt001 for Receiving
-                case (int)rptVoucherView.RELEASING:
+                case (int)rptFormView.RELEASING:
                     return this._pageConfigServices.getPageConfig("rpt002"); //rpt001 for Releasing
-                case (int)rptVoucherView.ADJUSTMENT:
+                case (int)rptFormView.ADJUSTMENT:
                     return this._pageConfigServices.getPageConfig("rpt003"); //rpt003 for Adjustments
-                case (int)rptVoucherView.PURCHASEORDER:
+                case (int)rptFormView.PURCHASE_REQUEST:
                     return this._pageConfigServices.getPageConfig("rpt004"); //rpt004 for PO
                 default:
                     return this._pageConfigServices.getPageConfig("rpt002"); //default
@@ -106,6 +113,16 @@ namespace InvWeb.Pages.Stores.Printables
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 
+
+        public async Task<InvPoHdr> GetPRHeaderByIdAsync(int id)
+        {
+            return await _context.InvPoHdrs.Include(i => i.InvPoItems)
+                .ThenInclude(i => i.InvItem)
+                .Include(i => i.InvSupplier)
+                .Include(i => i.InvPoHdrStatu)
+                .FirstOrDefaultAsync(i => i.Id == id);
+        }
+
         public TrxHdr InitializeTrxHeader(TrxHdr tempTrxHdr ,InvTrxHdr requestHdr)
         {
             if (requestHdr != null)
@@ -115,6 +132,24 @@ namespace InvWeb.Pages.Stores.Printables
                 tempTrxHdr.Id   = requestHdr.Id;
                 tempTrxHdr.Address = "NA";
                 tempTrxHdr.Details = new List<TrxDetail>();
+
+                return tempTrxHdr;
+            }
+
+            return new TrxHdr();
+        }
+
+
+        public TrxHdr InitializePRHeader(TrxHdr tempTrxHdr, InvPoHdr requestHdr)
+        {
+            if (requestHdr != null)
+            {
+                tempTrxHdr.Type = "Purchase Request";
+                tempTrxHdr.Date = requestHdr.DtPo;
+                tempTrxHdr.Id = requestHdr.Id;
+                tempTrxHdr.Address = "NA";
+                tempTrxHdr.Details = new List<TrxDetail>();
+                tempTrxHdr.PaidTo = requestHdr.InvSupplier.Name;
 
                 return tempTrxHdr;
             }
@@ -137,9 +172,9 @@ namespace InvWeb.Pages.Stores.Printables
             int ItemCount = 0;
             foreach (var item in requestHdr.InvTrxDtls)
             {
-                ItemCount += 1;
+               ItemCount += 1;
 
-                tempTrxDetails.Add(new TrxDetail
+               var trxDetails = new TrxDetail
                 {
                     Id = item.InvItemId,
                     Description = "(" + item.InvItem.Code + ") " + item.InvItem.Description,
@@ -149,9 +184,63 @@ namespace InvWeb.Pages.Stores.Printables
                     Uom = item.InvUom.uom,
                     Count = ItemCount,
                     Operation = item.InvTrxDtlOperator.Description
-                });
+                };
+
+                if (requestHdr.InvTrxTypeId == 3)
+                {
+                    trxDetails.Remarks = OperationActionRemarks(item.InvTrxDtlOperatorId) + item.InvItem.Remarks ;
+                }
+
+                tempTrxDetails.Add(trxDetails);
             }
             return (List<TrxDetail>)tempTrxDetails;
+        }
+
+
+        public List<TrxDetail> AddDataToPRDetails(IList<TrxDetail> tempTrxDetails, InvPoHdr requestHdr)
+        {
+            if (tempTrxDetails == null)
+            {
+                tempTrxDetails = new List<TrxDetail>();
+            }
+
+            if (requestHdr.InvPoItems.Count == 0)
+            {
+                return (List<TrxDetail>)tempTrxDetails;
+            }
+
+            int ItemCount = 0;
+            foreach (var item in requestHdr.InvPoItems)
+            {
+                ItemCount += 1;
+
+                var trxDetails = new TrxDetail
+                {
+                    Id = item.InvItemId,
+                    Description = "(" + item.InvItem.Code + ") " + item.InvItem.Description,
+                    Remarks = item.InvItem.Remarks,
+                    Amount = 0,
+                    Qty = int.Parse(item.ItemQty),
+                    Count = ItemCount
+                };
+
+
+                tempTrxDetails.Add(trxDetails);
+            }
+            return (List<TrxDetail>)tempTrxDetails;
+        }
+
+        private string OperationActionRemarks(int operationId)
+        {
+            switch (operationId)
+            {
+                case 1:
+                    return "( Add ) ";
+                case 2:
+                    return "( Deduct ) ";
+                default:
+                    return "( Add ) ";
+            }
         }
 
     }

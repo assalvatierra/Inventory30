@@ -73,10 +73,12 @@ namespace PageConfiguration.Client
                 PageCode = "rpt003",
                 Order = 1,
                 Version = "",
-                ViewName = "~/Areas/InvStore/TrxPrintForm_Adjustment.cshtml",
+                ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
                 genericConfigKeys = new Hashtable()
                 {
-                    {"SubTitle","Adjustment Form" }, {"Company",_companyName }
+                    {"SubTitle","Adjustment Form" }, {"Company",_companyName }, {"Party","Party"}, {"RefNo","RefNo"},
+                    {"Person1","Prepared By:" },{"Person2","Approved By:" },{"Person3","Performed By:" },
+                    {"Name1","Admin" },{"Name2","Manager" },{"Name3","Custodian" }
                 },
 
 
@@ -89,10 +91,12 @@ namespace PageConfiguration.Client
                 PageCode = "rpt004",
                 Order = 1,
                 Version = "",
-                ViewName = "~/Areas/InvStore/TrxPrintForm_PO.cshtml",
+                ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
                 genericConfigKeys = new Hashtable()
                 {
-                    {"SubTitle","Purchase Order Form" }, {"Company",_companyName }
+                    {"SubTitle","Purchase Request Form" }, {"Company",_companyName }, {"Party","Party"}, {"RefNo","RefNo"},
+                    {"Person1","Prepared By:" },{"Person2","Approved By:" },{"Person3","Performed By:" },
+                    {"Name1","Admin" },{"Name2","Manager" },{"Name3","Custodian" }
                 },
 
 
