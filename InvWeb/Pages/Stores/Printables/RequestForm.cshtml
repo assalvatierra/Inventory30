@@ -5,11 +5,14 @@
     Layout = "_PrintLayout";
 }
 
-<style>
-  .table tr td{
-      border: none;
-  }
-</style>
-<div class="container">
+<div class="container" style="border:1px solid gray;">
+    <partial Name="@this.Model.rptView" model="@this.Model._trxHdr" />
+</div>
+
+<hr />
+
+<!-- Duplicate Copy -->
+
+<div class="container" style="border:1px solid gray;">
     <partial Name="@this.Model.rptView" model="@this.Model._trxHdr" />
 </div>
