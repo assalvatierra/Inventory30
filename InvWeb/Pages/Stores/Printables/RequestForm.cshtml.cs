@@ -74,8 +74,10 @@ namespace InvWeb.Pages.Stores.Printables
             if (pInfo != null)
             {
                 this.rptView = pInfo.ViewName;
-                this._trxHdr.pageSetting = pInfo.genericConfigKeys;
 
+                if(pInfo.genericConfigKeys.Contains("Branch")) pInfo.genericConfigKeys["Branch"] = "TEST";
+
+                this._trxHdr.pageSetting = pInfo.genericConfigKeys;
                 //this.processConfigKeys(pInfo.ConfigKeys);
             }
 
@@ -106,8 +108,8 @@ namespace InvWeb.Pages.Stores.Printables
             return await _context.InvTrxHdrs.Include(i => i.InvTrxDtls)
                 .ThenInclude(i => i.InvItem)
                 .Include(i => i.InvTrxType)
-                .Include(i => i.InvTrxDtls)
-                .ThenInclude(i=>i.InvTrxDtlOperator)
+                .Include(i => i.InvTrxDtls).ThenInclude(i=>i.InvTrxDtlOperator)
+                .Include(i=>i.InvTrxDtls).ThenInclude(i=>i.InvUom)
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 
@@ -179,6 +181,7 @@ namespace InvWeb.Pages.Stores.Printables
                     Remarks = item.InvItem.Remarks,
                     Amount = 0,
                     Qty = item.ItemQty,
+                    Uom = item.InvUom.uom,
                     Count = ItemCount,
                     Operation = item.InvTrxDtlOperator.Description
                 };
