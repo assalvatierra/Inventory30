@@ -75,13 +75,11 @@ namespace InvWeb.Pages.Stores.Printables
             {
                 this.rptView = pInfo.ViewName;
 
-                if(pInfo.genericConfigKeys.Contains("Branch")) pInfo.genericConfigKeys["Branch"] = "TEST";
+                if(pInfo.genericConfigKeys.Contains("Branch")) pInfo.genericConfigKeys["Branch"] = _storeSvc.GetStoreName(request.InvStoreId);
 
                 this._trxHdr.pageSetting = pInfo.genericConfigKeys;
-                //this.processConfigKeys(pInfo.ConfigKeys);
             }
 
-            //rptView = GetReportFormByTrxType((int)type);
 
             return Page();
         }
@@ -130,7 +128,7 @@ namespace InvWeb.Pages.Stores.Printables
                 tempTrxHdr.Type = requestHdr.InvTrxType.Type;
                 tempTrxHdr.Date = requestHdr.DtTrx;
                 tempTrxHdr.Id   = requestHdr.Id;
-                tempTrxHdr.Address = "NA";
+                tempTrxHdr.Address = " ";
                 tempTrxHdr.Details = new List<TrxDetail>();
 
                 return tempTrxHdr;
@@ -147,7 +145,7 @@ namespace InvWeb.Pages.Stores.Printables
                 tempTrxHdr.Type = "Purchase Request";
                 tempTrxHdr.Date = requestHdr.DtPo;
                 tempTrxHdr.Id = requestHdr.Id;
-                tempTrxHdr.Address = "NA";
+                tempTrxHdr.Address = " ";
                 tempTrxHdr.Details = new List<TrxDetail>();
                 tempTrxHdr.PaidTo = requestHdr.InvSupplier.Name;
 
