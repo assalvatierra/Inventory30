@@ -80,7 +80,10 @@
                             <li style="color:black;">
                                 @dlts.InvItem.Description x
                                 @dlts.ItemQty
-                                @*@dlts.InvUom.uom*@
+                                
+                                @if(dlts.InvUom != null){
+                                   @dlts.InvUom.uom
+                                }
                             </li>
                         }
                     </ul>
