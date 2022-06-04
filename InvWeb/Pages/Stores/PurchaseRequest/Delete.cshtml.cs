@@ -52,6 +52,10 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
 
             if (InvPoHdr != null)
             {
+                //remove transactions detail items
+                var itemList = await _context.InvPoItems.Where(i => i.InvPoHdrId == InvPoHdr.Id).ToListAsync();
+                _context.InvPoItems.RemoveRange(itemList);
+
                 _context.InvPoHdrs.Remove(InvPoHdr);
                 await _context.SaveChangesAsync();
             }

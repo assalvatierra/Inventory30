@@ -1,0 +1,15 @@
+﻿@page "{id:int?}/{type:int?}"
+@model InvWeb.Pages.Stores.Printables.RequestFormModel
+@{
+    
+    Layout = "_PrintLayout";
+}
+
+<style>
+  .table tr td{
+      border: none;
+  }
+</style>
+<div class="container">
+    <partial Name="@this.Model.rptView" model="@this.Model._trxHdr" />
+</div>
