@@ -59,7 +59,7 @@ namespace PageConfiguration.Basic
                 ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
                 genericConfigKeys = new Hashtable()
                 {
-                    {"SubTitle","Release Form" }, {"Company","Company" }, {"Party","Party"}, {"RefNo","RefNo"},
+                    {"SubTitle","Release Form" }, {"Company","Company" },{"Branch","" }, {"Party","Party"}, {"RefNo","RefNo"},
                     {"Person1","Prepared By:" },{"Person2","Approved By:" },{"Person3","Performed By:" },
                     {"Name1","Admin" },{"Name2","Manager" },{"Name3","Custodian" }
                 },
@@ -76,7 +76,7 @@ namespace PageConfiguration.Basic
                 ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
                 genericConfigKeys = new Hashtable()
                 { 
-                    {"SubTitle","Receiving Form" }, {"Company","Company" }, {"Party","Party"}, {"RefNo","RefNo"},
+                    {"SubTitle","Receiving Form" }, {"Company","Company" },{"Branch","" }, {"Party","Party"}, {"RefNo","RefNo"},
                     {"Person1","Prepared By:" },{"Person2","Approved By:" },{"Person3","Performed By:" },
                     {"Name1","Admin" },{"Name2","Manager" },{"Name3","Custodian" }
                 }
@@ -93,7 +93,7 @@ namespace PageConfiguration.Basic
                 ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
                 genericConfigKeys = new Hashtable()
                 {
-                    {"SubTitle","Adjustment Form" }, {"Company","Company" }, {"Party","Party"}, {"RefNo","RefNo"},
+                    {"SubTitle","Adjustment Form" }, {"Company","Company" },{"Branch","" }, {"Party","Party"}, {"RefNo","RefNo"},
                     {"Person1","Prepared By:" },{"Person2","Approved By:" },{"Person3","Performed By:" },
                     {"Name1","Admin" },{"Name2","Manager" },{"Name3","Custodian" }
                 },
@@ -111,7 +111,7 @@ namespace PageConfiguration.Basic
                 ViewName = "~/Areas/InvStore/TrxPrintForm.cshtml",
                 genericConfigKeys = new Hashtable()
                 {
-                    {"SubTitle","Purchase Request Form" }, {"Company","Company" }, {"Party","Party"}, {"RefNo","RefNo"},
+                    {"SubTitle","Purchase Request Form" }, {"Company","Company" },{"Branch","" }, {"Party","Party"}, {"RefNo","RefNo"},
                     {"Person1","Prepared By:" },{"Person2","Approved By:" },{"Person3","Performed By:" },
                     {"Name1","Admin" },{"Name2","Manager" },{"Name3","Custodian" }
                 },

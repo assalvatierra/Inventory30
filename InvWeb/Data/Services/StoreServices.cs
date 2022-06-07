@@ -364,6 +364,20 @@ namespace InvWeb.Data.Services
             return _context.InvStores.Where(c => storeIds.Contains(c.Id)).ToList();
         }
 
+        public string GetStoreName(int storeId)
+        {
+            try
+            {
+                var store = _context.InvStores.Find(storeId);
+
+                return store.StoreName;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
         #endregion
     }
 }

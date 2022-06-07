@@ -17,6 +17,7 @@ namespace InvWeb.Data.Interfaces
         public int GetAdjustmentItemsCount(List<InvTrxDtl> adjustmentItems, int itemId);
         public int GetAvailableItemsCountByStore();
         public List<InvStore> GetStoreUsers(string user);
+        public string GetStoreName(int storeId);
 
     }
 }

@@ -109,7 +109,10 @@
                                 @dlts.InvItem.Description
                                 @dlts.InvItem.Remarks x
                                 @dlts.ItemQty
-                                @dlts.InvUom.uom
+                                
+                                @if(dlts.InvUom != null){
+                                    @dlts.InvUom.uom
+                                }
                             </li>
                             }
                          </ul>
