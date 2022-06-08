@@ -72,13 +72,13 @@
                 Code
             </th>
             <th>
-                InvItem
+                Item
             </th>
             <th>
-                ItemQty
+                Qty
             </th>
             <th>
-                InvUom
+                Uom
             </th>
             <th></th>
         </tr>
@@ -99,7 +99,7 @@
                     @Html.DisplayFor(modelItem => item.ItemQty)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
+                    @Html.DisplayFor(modelItem => item.InvUom.uom)
                 </td>
                 <td>
                     <a asp-page="./ItemDetails/Edit" asp-route-id="@item.Id">Edit</a> |
