@@ -134,13 +134,24 @@ namespace InvWeb.Data.Services
 
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
-        public SelectList GetInStockedInvItemsSelectList()
+        public SelectList GetInStockedInvItemsSelectList(List<int> storeItems)
         {
-            return new SelectList(_context.InvItems.OrderBy(i => i.InvCategoryId).Select(x => new
+            return new SelectList(_context.InvItems.Where(i=> storeItems.Contains(i.Id)).OrderBy(i => i.InvCategoryId).Select(x => new
             {
                 Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
                 Value = x.Id
             }), "Value", "Name");
+        }
+
+
+        //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
+        public SelectList GetInStockedInvItemsSelectList(int selected, List<int> storeItems)
+        {
+            return new SelectList(_context.InvItems.Where(i => storeItems.Contains(i.Id)).OrderBy(i => i.InvCategoryId).Select(x => new
+            {
+                Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
+                Value = x.Id
+            }), "Value", "Name", selected);
         }
 
         private int ItemInStockQuantity(int itemId)
