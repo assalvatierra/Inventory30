@@ -8,69 +8,69 @@
 
 
 <!-- Summary Store Items -->
-                <table class="table">
-                    <thead>
+    <table class="table sortable-theme-bootstrap" data-sortable>
+        <thead>
                         
-                        <tr>
-                            <th>
-                                Item <i class="bi-alarm"></i>
-                            </th>
-                            <th>
+            <tr>
+                <th>
+                    Item <i class="bi-alarm"></i>
+                </th>
+                <th>
 
-                            </th>
-                            <th>
-                                <span data-toggle="tooltip" data-placement="top" title="On-Hand = accepted - released">
-                                   Physical
-                                </span>
+                </th>
+                <th>
+                    <span data-toggle="tooltip" data-placement="top" title="On-Hand = accepted - released">
+                        Physical
+                    </span>
 
-                            </th>
+                </th>
                             
-                            <th>
-                                IN
-                            </th>
-                            <th>
-                                OUT
-                            </th>
-                            <th>
-                                +/-
-                            </th>
-                            <th>
-                                <span data-toggle="tooltip" data-placement="top" title="Available = (pending + accepted) - (requested + released)">
-                                    Expected
-                                </span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in storeInvs)
-                        {
-                        <tr>
-                            <td>
-                                @item.Description
-                                <br /><span class="text-muted" style="font-size:0.7em"> Category: @item.Category </span>
-                            </td>
-                            <td>
-                                <partial name="_PartialStockWarning" model="item" />
-                            </td>
-                            <td>
-                                @item.OnHand
-                            </td>
-                            <td class="table-secondary">
-                                @item.ReceivePending
-                            </td>
-                            <td>
-                                @item.ReleaseRequest
-                            </td>
-                            <td class="table-secondary">
-                                @item.Adjustments
-                            </td>
-                            <td>
-                                @item.Available
-                            </td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
+                <th>
+                    IN
+                </th>
+                <th>
+                    OUT
+                </th>
+                <th>
+                    +/-
+                </th>
+                <th>
+                    <span data-toggle="tooltip" data-placement="top" title="Available = (pending + accepted) - (requested + released)">
+                        Expected
+                    </span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in storeInvs)
+            {
+            <tr>
+                <td>
+                    @item.Description
+                    <br /><span class="text-muted" style="font-size:0.7em"> Category: @item.Category </span>
+                </td>
+                <td>
+                    <partial name="_PartialStockWarning" model="item" />
+                </td>
+                <td>
+                    @item.OnHand
+                </td>
+                <td class="table-secondary">
+                    @item.ReceivePending
+                </td>
+                <td>
+                    @item.ReleaseRequest
+                </td>
+                <td class="table-secondary">
+                    @item.Adjustments
+                </td>
+                <td>
+                    @item.Available
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
 
 <!-- Mobile View table -->
 <div class="row mobile-only">
