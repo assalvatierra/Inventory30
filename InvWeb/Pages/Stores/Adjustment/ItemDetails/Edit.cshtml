@@ -20,22 +20,22 @@
                 <span asp-validation-for="InvTrxDtl.InvTrxHdrId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvTrxDtl.InvUomId" class="control-label"></label>
-                <select asp-for="InvTrxDtl.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
-                <span asp-validation-for="InvTrxDtl.InvUomId" class="text-danger"></span>
+                <label class="control-label"> Item </label>
+                <select asp-for="InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize" asp-items="ViewBag.InvItemId"></select>
+                <span asp-validation-for="InvTrxDtl.InvItemId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvTrxDtl.ItemQty" class="control-label"></label>
+                <label class="control-label">Qty</label>
                 <input asp-for="InvTrxDtl.ItemQty" class="form-control" />
                 <span asp-validation-for="InvTrxDtl.ItemQty" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvTrxDtl.InvItemId" class="control-label"></label>
-                <select asp-for="InvTrxDtl.InvItemId" class="form-control" asp-items="ViewBag.InvItemId"></select>
-                <span asp-validation-for="InvTrxDtl.InvItemId" class="text-danger"></span>
+                <label class="control-label">Uom</label>
+                <select asp-for="InvTrxDtl.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+                <span asp-validation-for="InvTrxDtl.InvUomId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvTrxDtl.InvTrxDtlOperatorId" class="control-label"></label>
+                <label class="control-label">Operator</label>
                 <select asp-for="InvTrxDtl.InvTrxDtlOperatorId" class="form-control" asp-items="ViewBag.InvTrxDtlOperatorId"></select>
                 <span asp-validation-for="InvTrxDtl.InvTrxDtlOperatorId" class="text-danger"></span>
             </div>

@@ -9,19 +9,23 @@ using InvWeb.Data.Services;
 using InvWeb.Data;
 using WebDBSchema.Models;
 using WebDBSchema.Models.Items;
+using Microsoft.Extensions.Logging;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
     public class CreateModel : PageModel
     {
+        private readonly ILogger<CreateModel> _logger;
         private readonly InvWeb.Data.ApplicationDbContext _context;
         private readonly ItemServices _itemServices;
+        private readonly StoreServices _storeServices;
 
 
-        public CreateModel(InvWeb.Data.ApplicationDbContext context)
+        public CreateModel(ILogger<IndexModel> logger, InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);
+            _storeServices = new StoreServices(context, logger);
         }
 
         public IActionResult OnGet(int? hdrId, int? invItemId)
@@ -39,7 +43,8 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             var LotNoItemsIds = LotNoList.Select(c => c.LotNo).ToList();
             var selectedItem = " ";
 
-            //InvTrxDtl.InvItemId = itemId;
+            var storeItems = _storeServices.GetStoreItemsSummary(storeId, "Name");
+            var availbaleStoreItems = storeItems.Result.Where(i => i.Available > 0).Select(i=>i.Id).ToList();
 
 
             ViewData["LotNo"] = new SelectList(LotNoList.Select(x => new {
@@ -47,7 +52,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 Value = x.LotNo
             }), "Value", "Name");
 
-            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(itemId);
+            ViewData["InvItemId"] = _itemServices.GetInStockedInvItemsSelectList(itemId, availbaleStoreItems);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
             ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 2);

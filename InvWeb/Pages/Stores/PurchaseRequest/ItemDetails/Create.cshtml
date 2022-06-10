@@ -18,16 +18,16 @@
                 <select asp-for="InvPoItem.InvPoHdrId" class ="form-control" asp-items="ViewBag.InvPoHdrId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="InvPoItem.InvItemId" class="control-label"></label>
-                <select asp-for="InvPoItem.InvItemId" class ="form-control" asp-items="ViewBag.InvItemId"></select>
+                <label class="control-label">Item</label>
+                <select asp-for="InvPoItem.InvItemId" class ="form-control search-dropdown-initialize" asp-items="ViewBag.InvItemId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="InvPoItem.ItemQty" class="control-label"></label>
+                <label class="control-label">Qty</label>
                 <input asp-for="InvPoItem.ItemQty" class="form-control" value="1" />
                 <span asp-validation-for="InvPoItem.ItemQty" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvPoItem.InvUomId" class="control-label"></label>
+                <label class="control-label">Uom</label>
                 <select asp-for="InvPoItem.InvUomId" class ="form-control" asp-items="ViewBag.InvUomId"></select>
             </div>
             <div class="form-group">
