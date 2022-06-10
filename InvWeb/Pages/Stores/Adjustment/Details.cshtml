@@ -77,13 +77,13 @@
                 Code
             </th>
             <th>
-                InvItem
+                Item
             </th>
             <th>
-                ItemQty
+                Qty
             </th>
             <th>
-                InvUom
+                Uom
             </th>
             <th>
                 Operation
@@ -107,7 +107,7 @@
                     @Html.DisplayFor(modelItem => item.ItemQty)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
+                    @Html.DisplayFor(modelItem => item.InvUom.uom)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvTrxDtlOperator.Description)
