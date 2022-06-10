@@ -139,17 +139,7 @@
         <div class="card">
             <div class="card-body">
                 <h4>Store Items</h4>
-                    <div class="col-md-5">
-                       <form method="get">
-                            <div class="input-group mb-3">
-                                    @*<input type="text" asp-for="OrderBy"  />*@
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1"> Order </span>
-                                    </div>
-                                    <select asp-for="OrderBy" class ="custom-select" asp-items="ViewBag.OrderByList" onchange="this.form.submit()"></select>
-                            </div>
-                        </form>
-                    </div>
+                    
                 <partial name="_PartialSummary" model="storeInvs" />
 
             </div>
@@ -168,9 +158,15 @@
 
 @section Scripts{
     <script>
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+        $(()=>{
+            //Initialize
+            InitTooltip();
         })
+
+        function InitTooltip(){
+            $('[data-toggle="tooltip"]').tooltip()
+
+        }
 
     </script>
 }
