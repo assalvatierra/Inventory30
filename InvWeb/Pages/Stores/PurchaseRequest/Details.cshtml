@@ -4,17 +4,26 @@
 @{
     ViewData["Title"] = "Purchase Request Details";
     IEnumerable<WebDBSchema.Models.InvPoItem> invPoItems = ViewBag.InvPoItems;
+    int STATUS_PENDING = 1;
 }
 
 <h1>Purchase Order Header Details</h1>
 
 <div>
-    <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdr.InvStoreId">Back to List</a> | 
-    <a asp-page="./Edit" asp-route-id="@Model.InvPoHdr.Id">Edit</a> 
-    
-   <div class="pull-left">
-      <a asp-page="../Printables/RequestForm" asp-route-id="@Model.InvPoHdr.Id" asp-route-type="4" target="_blank" class="btn btn-primary">Print Voucher</a> 
-  </div>
+
+    @if (Model.InvPoHdr.InvPoHdrStatusId == STATUS_PENDING)
+        {
+            <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdr.InvStoreId">Back to List</a><span> | </span>  
+            <a asp-page="./Edit" asp-route-id="@Model.InvPoHdr.Id">Edit</a> 
+           <div class="pull-left">
+              <a asp-page="../Printables/RequestForm" asp-route-id="@Model.InvPoHdr.Id" asp-route-type="4" target="_blank" class="btn btn-primary">Print Voucher</a> 
+          </div>
+        }
+        else
+        {
+            <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdr.InvStoreId" asp-route-status="ACCEPTED">Back to List</a>
+        }
+
 </div>
 <hr />
 <div>
