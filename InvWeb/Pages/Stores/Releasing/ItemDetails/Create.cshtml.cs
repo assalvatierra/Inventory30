@@ -43,7 +43,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             var LotNoItemsIds = LotNoList.Select(c => c.LotNo).ToList();
             var selectedItem = " ";
 
-            var storeItems = _storeServices.GetStoreItemsSummary(storeId, "Name");
+            var storeItems = _storeServices.GetStoreItemsSummary(storeId);
             var availbaleStoreItems = storeItems.Result.Where(i => i.Available > 0).Select(i=>i.Id).ToList();
 
 

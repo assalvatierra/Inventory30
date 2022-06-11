@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = "Releasing";
+
+    int STATUS_PENDING = 1;
 }
 
 <h1>
@@ -26,7 +28,7 @@
     }
     else
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="ACCEPTED">Go recent Approval</a>
+        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="ACCEPTED">Go recent Released</a>
     }
 </p>
 <p>
@@ -108,17 +110,23 @@
                     </div>
                 </td>
                 <td>
-                    @if (item.InvTrxHdrStatusId == 1)
+                    @if (item.InvTrxHdrStatusId == STATUS_PENDING)
                     {
                         <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Release </button>
-                    }
-                    </td>
-                    <td>
+                    } 
+                </td>
+                 <td>
+                    <!-- Actions -->
+                    @if(item.InvTrxHdrStatusId == STATUS_PENDING){
+                        <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a> <span> | </span>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a><span> | </span>
+                     }
 
-                    <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a> |
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                     <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                    
+                     @if(item.InvTrxHdrStatusId == STATUS_PENDING){
+                        <span> | </span><a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                     }
                 </td>
             </tr>
         }
