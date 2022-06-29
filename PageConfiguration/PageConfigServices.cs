@@ -14,21 +14,15 @@ namespace PageConfiguration
         private string _tenantCode = "DEFAULT";
         private string _version = "LATEST";
 
-        private List<IPageConfig> _configClasses;
-        private List<Model.PageConfigInfo> _config;
+        private List<IPageConfig> _configClasses = new List<IPageConfig>();
+        private List<Model.PageConfigInfo> _config = new List<Model.PageConfigInfo>();
 
         public PageConfigServices(string tenantcode, string version)
-        //public PageConfigServices(string TenantCode, string Version)
         {
             if (!string.IsNullOrEmpty(tenantcode))
                 this._tenantCode = tenantcode;
             if (!string.IsNullOrEmpty(version))
                 this._version = version;
-
-
-
-            this._configClasses = new List<IPageConfig>();
-            this._config = new List<Model.PageConfigInfo>();
 
             this.loadPageConfigClasses();
             this.loadPageConfigurationsFromClasses();
@@ -72,11 +66,15 @@ namespace PageConfiguration
      
         private void loadPageConfigClasses()
         {
+            /* to-do (future versions) :  to load using reflection */
             IList < IPageConfig > _classes = new List<IPageConfig>
             {
                 new Client.vpro_config(),
                 new Basic.PageConfigBasic()
             };
+            /* end load */
+
+
 
             this._configClasses = new List<IPageConfig>();
             foreach (var configClass in _classes)
