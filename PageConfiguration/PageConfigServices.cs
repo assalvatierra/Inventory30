@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PageConfiguration.Interfaces;
+using PageConfiguration.Model;
 
 namespace PageConfiguration
 {
-    public class PageConfigServices: IPageConfigServices
+    public class PageConfigServices: IPageConfigServices, IObjectConfigServices
     {
         private string _DEFAULTCONFIGS = "DEFAULT"; 
 
@@ -16,6 +17,8 @@ namespace PageConfiguration
 
         private List<IPageConfig> _configClasses = new List<IPageConfig>();
         private List<Model.PageConfigInfo> _config = new List<Model.PageConfigInfo>();
+
+        private List<IObjectConfig> _objectClasses = new List<IObjectConfig>();
 
         public PageConfigServices(string tenantcode, string version)
         {
@@ -27,8 +30,11 @@ namespace PageConfiguration
             this.loadPageConfigClasses();
             this.loadPageConfigurationsFromClasses();
 
+            //this.
+
         }
 
+        #region Page Config Functions
         public void setTargetVersion(string targetVersion)
         {
             this._version = targetVersion;
@@ -63,7 +69,6 @@ namespace PageConfiguration
             }
         }
 
-     
         private void loadPageConfigClasses()
         {
             /* to-do (future versions) :  to load using reflection */
@@ -85,6 +90,37 @@ namespace PageConfiguration
 
 
         }
+        #endregion
+        #region Object Config functions
+        public ObjectConfigInfo getObjectConfig(string objectCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void loadObjectConfigClasses()
+        {
+            /* to-do (future versions) :  to load using reflection */
+            IList<IObjectConfig> _classes = new List<IObjectConfig>
+            {
+                //new Client.vpro_config(),
+                //new Basic.PageConfigBasic()
+            };
+            /* end load */
+
+
+
+            this._objectClasses = new List<IObjectConfig>();
+            foreach (var objectClass in _classes)
+            {
+                //if(configClass.TenantCode == this._tenantCode || configClass.TenantCode == this._DEFAULTCONFIGS)
+                this._objectClasses.Add(objectClass);
+            }
+
+
+        }
+
+        //private void loadObjectConfigFromClasses
+        #endregion
     }
 
 }

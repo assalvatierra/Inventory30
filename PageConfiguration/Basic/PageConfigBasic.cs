@@ -14,6 +14,7 @@ namespace PageConfiguration.Basic
 
         private string _tenantcode = "DEFAULT";
         private IList<Model.PageConfigInfo> pageConfigInfos = new List<Model.PageConfigInfo>();
+        
         public PageConfigBasic()
         {
             this.initializePageInfoData();
@@ -118,6 +119,24 @@ namespace PageConfiguration.Basic
 
 
             });
+
+            this.pageConfigInfos.Add(new Model.PageConfigInfo()
+            {
+                TenantCode = this.TenantCode,
+                PageCode = "Sample101",
+                Order = 1,
+                Version = "",
+                ViewName = "",
+                genericConfigKeys = new Hashtable()
+                {
+                    {"Message","Sample101 msg" }
+                }
+
+
+            });
+
+
+
         }
 
 

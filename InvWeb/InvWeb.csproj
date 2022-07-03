@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>aspnet-InvWeb-6AB3500D-5C7D-42EB-B876-A652F155A7CF</UserSecretsId>
   </PropertyGroup>
 
@@ -32,6 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PageConfiguration\PageConfiguration.csproj" />
+    <ProjectReference Include="..\ReportBasicViews\ReportBasicViews.csproj" />
+    <ProjectReference Include="..\ReportViewModel\ReportViewModel.csproj" />
     <ProjectReference Include="..\WebDBSchema\WebDBSchema\WebDBSchema.csproj" />
   </ItemGroup>
 
