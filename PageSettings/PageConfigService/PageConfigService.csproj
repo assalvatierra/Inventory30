@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PageConfigShared\PageConfigShared.csproj" />
-    <ProjectReference Include="..\PageObjectShared\PageObjectShared.csproj" />
+    <ProjectReference Include="..\Shared\PageConfigShared\PageConfigShared.csproj" />
+    <ProjectReference Include="..\Shared\PageObjectShared\PageObjectShared.csproj" />
   </ItemGroup>
 
 </Project>
