@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using WebDBSchema.Models;
 using System.Linq;
 using ReportViewModel.InvStore;
-using PageConfiguration.Interfaces;
-using PageConfiguration.Model;
+using PageConfigShared.Interfaces;
+using PageConfigShared.Model;
 
 namespace InvWeb.Pages.Stores.Printables
 {
