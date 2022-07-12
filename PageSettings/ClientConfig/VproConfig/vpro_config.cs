@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PageConfiguration.Interfaces;
+using PageConfigShared.Interfaces;
+using PageConfigShared.Model;
 
-namespace PageConfiguration.Client
+namespace VproConfig
 {
-    public class vpro_config :  IPageConfig
+    public class vpro_config : IPageConfig
     {
         private string _tenantid = "VPRO";
-        private IList<Model.PageConfigInfo> pageConfigInfos = new List<Model.PageConfigInfo>();
+        private IList<PageConfigInfo> pageConfigInfos = new List<PageConfigInfo>();
 
         private string _companyName = "VPRO Inc";
         public vpro_config()
         {
             this.initializePageInfoData();
         }
-        public string TenantCode { get{return this._tenantid;} }
-        public IList<Model.PageConfigInfo> pageConfigInfo
+        public string TenantCode { get { return this._tenantid; } }
+        public IList<PageConfigInfo> pageConfigInfo
         {
             get
             {
@@ -29,10 +27,10 @@ namespace PageConfiguration.Client
 
         private void initializePageInfoData()
         {
-            this.pageConfigInfos = new List<Model.PageConfigInfo>();
+            this.pageConfigInfos = new List<PageConfigInfo>();
 
 
-            this.pageConfigInfos.Add(new Model.PageConfigInfo()
+            this.pageConfigInfos.Add(new PageConfigInfo()
             {
                 TenantCode = this.TenantCode,
                 PageCode = "rpt001",
@@ -48,7 +46,7 @@ namespace PageConfiguration.Client
 
             });
 
-            this.pageConfigInfos.Add(new Model.PageConfigInfo()
+            this.pageConfigInfos.Add(new PageConfigInfo()
             {
                 TenantCode = this.TenantCode,
                 PageCode = "rpt002",
@@ -63,11 +61,11 @@ namespace PageConfiguration.Client
 
                 },
 
- 
+
             });
 
 
-            this.pageConfigInfos.Add(new Model.PageConfigInfo()
+            this.pageConfigInfos.Add(new PageConfigInfo()
             {
                 TenantCode = this.TenantCode,
                 PageCode = "rpt003",
@@ -85,7 +83,7 @@ namespace PageConfiguration.Client
             });
 
 
-            this.pageConfigInfos.Add(new Model.PageConfigInfo()
+            this.pageConfigInfos.Add(new PageConfigInfo()
             {
                 TenantCode = this.TenantCode,
                 PageCode = "rpt004",

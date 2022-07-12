@@ -77,8 +77,8 @@ namespace PageConfigService
             /* to-do (future versions) :  to load using reflection */
             IList<IPageConfig> _classes = new List<IPageConfig>
             {
-                //new Client.vpro_config(),
-                //new Basic.PageConfigBasic()
+                new VproConfig.vpro_config(),
+                new BaseConfig.PageConfigBasic()
             };
             /* end load */
 
