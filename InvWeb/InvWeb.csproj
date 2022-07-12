@@ -32,9 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PageConfiguration\PageConfiguration.csproj" />
-    <ProjectReference Include="..\ReportBasicViews\ReportBasicViews.csproj" />
-    <ProjectReference Include="..\ReportViewModel\ReportViewModel.csproj" />
+    <ProjectReference Include="..\PageSettings\PageConfigService\PageConfigService.csproj" />
+    <ProjectReference Include="..\PageSettings\PageModels\ReportViewModel\ReportViewModel.csproj" />
+    <ProjectReference Include="..\PageSettings\PageViews\ReportBasicViews\ReportBasicViews.csproj" />
     <ProjectReference Include="..\WebDBSchema\WebDBSchema\WebDBSchema.csproj" />
   </ItemGroup>
 

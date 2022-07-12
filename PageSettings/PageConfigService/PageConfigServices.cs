@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PageConfiguration.Interfaces;
-using PageConfiguration.Model;
+using PageConfigShared.Model;
+using PageConfigShared.Interfaces;
+using PageObjectShared.Model;
+using PageObjectShared.Interfaces;
 
-namespace PageConfiguration
+namespace PageConfigService
 {
-    public class PageConfigServices: IPageConfigServices, IObjectConfigServices
+    public class PageConfigServices : IPageConfigServices
+    //public class PageConfigServices : IPageConfigServices, IObjectConfigServices
     {
-        private string _DEFAULTCONFIGS = "DEFAULT"; 
+        private string _DEFAULTCONFIGS = "DEFAULT";
 
         private string _tenantCode = "DEFAULT";
         private string _version = "LATEST";
 
         private List<IPageConfig> _configClasses = new List<IPageConfig>();
-        private List<Model.PageConfigInfo> _config = new List<Model.PageConfigInfo>();
+        private List<PageConfigInfo> _config = new List<PageConfigInfo>();
 
         private List<IObjectConfig> _objectClasses = new List<IObjectConfig>();
 
@@ -40,30 +43,30 @@ namespace PageConfiguration
             this._version = targetVersion;
         }
 
-        public Model.PageConfigInfo getPageConfig(string pageCode)
+        public PageConfigInfo getPageConfig(string pageCode)
         {
-            var configs = this._config.Where(d=>d.PageCode==pageCode);
+            var configs = this._config.Where(d => d.PageCode == pageCode);
 
-            List<Model.PageConfigInfo> tenantConfigs = configs.ToList();
+            List<PageConfigInfo> tenantConfigs = configs.ToList();
             if (!string.IsNullOrEmpty(this._tenantCode))
             {
                 tenantConfigs = configs.Where(d => d.TenantCode == this._tenantCode).ToList();
                 if (tenantConfigs.Count() == 0)
                     tenantConfigs = configs.Where(d => d.TenantCode == _DEFAULTCONFIGS).ToList();
             }
- 
-            List<Model.PageConfigInfo> latestConfigs = latestConfigs = tenantConfigs; 
+
+            List<PageConfigInfo> latestConfigs = latestConfigs = tenantConfigs;
             if (this._version != "LATEST")
                 latestConfigs = tenantConfigs.Where(d => d.Version == this._version).ToList();
-          
+
 
             return latestConfigs.OrderByDescending(v => v.Order).FirstOrDefault();
-         
+
         }
 
         private void loadPageConfigurationsFromClasses()
         {
-            foreach(var configClass in this._configClasses)
+            foreach (var configClass in this._configClasses)
             {
                 this._config.AddRange(configClass.pageConfigInfo);
             }
@@ -72,10 +75,10 @@ namespace PageConfiguration
         private void loadPageConfigClasses()
         {
             /* to-do (future versions) :  to load using reflection */
-            IList < IPageConfig > _classes = new List<IPageConfig>
+            IList<IPageConfig> _classes = new List<IPageConfig>
             {
-                new Client.vpro_config(),
-                new Basic.PageConfigBasic()
+                new VproConfig.vpro_config(),
+                new BaseConfig.PageConfigBasic()
             };
             /* end load */
 
@@ -85,13 +88,14 @@ namespace PageConfiguration
             foreach (var configClass in _classes)
             {
                 //if(configClass.TenantCode == this._tenantCode || configClass.TenantCode == this._DEFAULTCONFIGS)
-                    this._configClasses.Add(configClass);
+                this._configClasses.Add(configClass);
             }
 
 
         }
         #endregion
         #region Object Config functions
+
         public ObjectConfigInfo getObjectConfig(string objectCode)
         {
             throw new NotImplementedException();
@@ -99,13 +103,13 @@ namespace PageConfiguration
 
         private void loadObjectConfigClasses()
         {
-            /* to-do (future versions) :  to load using reflection */
+            //* to-do (future versions) :  to load using reflection */
             IList<IObjectConfig> _classes = new List<IObjectConfig>
             {
                 //new Client.vpro_config(),
                 //new Basic.PageConfigBasic()
             };
-            /* end load */
+            //* end load
 
 
 

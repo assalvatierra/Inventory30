@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PageConfiguration.Interfaces
+namespace PageObjectShared.Interfaces
 {
     public interface IObjectConfigServices
     {

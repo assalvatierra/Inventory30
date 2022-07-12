@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 
-namespace PageConfiguration.Model
+namespace PageConfigShared.Model
 {
     public class PageConfigInfo
     {

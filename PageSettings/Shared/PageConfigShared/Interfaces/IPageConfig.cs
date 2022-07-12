@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PageConfiguration.Interfaces
+namespace PageConfigShared.Interfaces
 {
-    public interface IObjectConfig
+    public interface IPageConfig
     {
         public string TenantCode { get; }
-        public IList<Model.ObjectConfigInfo> objectConfigInfo { get; }
+        public IList<Model.PageConfigInfo> pageConfigInfo { get; }
     }
 }

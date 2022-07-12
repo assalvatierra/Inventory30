@@ -13,7 +13,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PageConfiguration;
+using PageConfigShared;
+using PageConfigService;
 
 namespace InvWeb
 {
@@ -53,12 +54,12 @@ namespace InvWeb
 
             services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, UserClaimsPrincipalFactory<IdentityUser, IdentityRole>>();
 
-            //services.Configure<PageConfiguration.TenantInfo>(Configuration.GetSection("TenantInfo"));
+            //services.Configure<PageConfigShared.TenantInfo>(Configuration.GetSection("TenantInfo"));
             string tenantcode = Configuration.GetSection("TenantInfo")["TenantCode"];
             string targetVersion = Configuration.GetSection("TenantInfo")["TargetVersion"];
 
-            services.AddScoped<PageConfiguration.Interfaces.IPageConfigServices, PageConfiguration.PageConfigServices>(x=>
-                new PageConfiguration.PageConfigServices(tenantcode, targetVersion)
+            services.AddScoped<PageConfigShared.Interfaces.IPageConfigServices, PageConfigService.PageConfigServices>(x=>
+                new PageConfigService.PageConfigServices(tenantcode, targetVersion)
             );
 
             services.AddRazorPages();
