@@ -34,10 +34,7 @@ namespace InvWeb.Pages.Stores.Main
 
         public InvStore InvStore { get; set; }
 
-        [BindProperty(SupportsGet = true)]
-        public string OrderBy { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(int? id, string orderBy)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
             try
             {
@@ -47,10 +44,6 @@ namespace InvWeb.Pages.Stores.Main
                     return NotFound();
                 }
 
-                if (!String.IsNullOrWhiteSpace(OrderBy))
-                {
-                    OrderBy = orderBy;
-                }
 
                 if (CheckUserLogin())
                 {
@@ -69,20 +62,14 @@ namespace InvWeb.Pages.Stores.Main
                 var storeId = (int)id;
 
                 ViewData["StoreId"] = id;
-                ViewData["StoreInv"] = await _storeSvc.GetStoreItemsSummary(storeId, OrderBy);
+                ViewData["StoreInv"] = await _storeSvc.GetStoreItemsSummary(storeId);
                 ViewData["PendingReceiving"] = await _storeSvc.GetReceivingPendingAsync(storeId);
                 ViewData["PendingReleasing"] = await _storeSvc.GetReleasingPendingAsync(storeId);
                 ViewData["PendingAdjustment"] = await _storeSvc.GetAdjustmentPendingAsync(storeId);
                 ViewData["PendingPurchaseOrder"] = await _storeSvc.GetPurchaseOrderPendingAsync(storeId);
                 ViewData["RecentTrxHdrs"] = await _storeSvc.GetRecentTransactions(storeId);
-                ViewData["OrderByList"] = GetOrderByList();
 
                 _logger.LogInformation("Showing Store Main Page - StoreID : " + id);
-
-                if (!String.IsNullOrEmpty(OrderBy))
-                {
-                    _logger.LogInformation("Showing Store Main Page Order : " + OrderBy);
-                }
 
                 return Page();
 
@@ -93,19 +80,6 @@ namespace InvWeb.Pages.Stores.Main
                 return NotFound();
             }
         }
-
-        public static IEnumerable<SelectListItem> GetOrderByList()
-        {
-            IList<SelectListItem> items = new List<SelectListItem>
-            {
-                new SelectListItem{Text = "Category", Value = "category"},
-                new SelectListItem{Text = "Count", Value = "count"},
-                new SelectListItem{Text = "Name", Value = "Name"},
-
-            };
-            return items;
-        }
-
 
         public bool CheckUserLogin()
         {

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+    <title>@ViewData["Title"] - InvWeb</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/printables.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/css/printables.css" media="print" />
+</head>
+<body>
+
+    @using Microsoft.AspNetCore.Http
+    <div class="wrapper">
+        <!-- Page Content Holder -->
+        <div id="content">
+
+            <div class="content-main">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+            <footer class="border-top footer text-muted">
+                <div class="container" style="text-align:center;">
+                    &copy; 2021 - InvWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Popper for tooltips -->
+    <script src="~/js/Popper.min.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/dtpicker/moment.min.js"></script>
+    <script src="~/lib/dtpicker/daterangepicker.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/datepicker.js"></script>
+
+    <!-- jQuery Custom Scroller -->
+    <script src="/js/Shared/sidebar.js"></script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,186 @@
+﻿@using ReportViewModel
+@model ReportViewModel.InvStore.TrxHdr
+@{
+    string _SubTitle = (Model.pageSetting.Contains("SubTitle")? Model.pageSetting["SubTitle"].ToString(): "");
+    string _Company = (Model.pageSetting.Contains("Company")? Model.pageSetting["Company"].ToString(): "");
+    string _Branch = (Model.pageSetting.Contains("Branch")? Model.pageSetting["Branch"].ToString(): "");
+    string _Party = (Model.pageSetting.Contains("Party")? Model.pageSetting["Party"].ToString(): "");
+    string _Docref = (Model.pageSetting.Contains("RefNo")? Model.pageSetting["RefNo"].ToString(): "");
+    string _person1 = (Model.pageSetting.Contains("Person1")? Model.pageSetting["Person1"].ToString(): "");
+    string _name1 = (Model.pageSetting.Contains("Name1")? Model.pageSetting["Name1"].ToString(): "");
+    string _person2 = (Model.pageSetting.Contains("Person2")? Model.pageSetting["Person2"].ToString(): "");
+    string _name2 = (Model.pageSetting.Contains("Name2")? Model.pageSetting["Name2"].ToString(): "");
+    string _person3 = (Model.pageSetting.Contains("Person3")? Model.pageSetting["Person3"].ToString(): "");
+    string _name3 = (Model.pageSetting.Contains("Name3")? Model.pageSetting["Name3"].ToString(): "");
+
+    ViewData["Title"] = _SubTitle;
+}
+
+<table class="table table-print-header"  >
+    <tr class="no-border">
+        <td colspan="3" class="align-content-center no-border">
+            <div>
+                <h2 > @_Company - @_Branch</h2>
+                <h2> (@_SubTitle) </h2>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="no-border" width="65%">
+            <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                         @_Party: 
+                    </td>
+                    <td class="border-bottom">
+                        @Model.PaidTo
+                    </td>
+                </tr>
+           </table>
+        </td>
+        <td class="no-border" >
+           
+             <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                          @_Docref:
+                    </td>
+                    <td  class="border-bottom">
+                        @Model.Id
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"> 
+             <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                         &nbsp;
+                    </td>
+                    <td  class="no-padding border-bottom" >
+                         @Model.Address
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+             <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                          Date:
+                    </td>
+                    <td  class="no-padding border-bottom" >
+                         @Model.Date.ToString("MMM dd yyyy")
+                    </td>
+                </tr>
+            </table>
+            
+        </td>
+
+    </tr>
+
+    <tr>
+        <td colspan="3">
+
+            <!-- Particulars Table -->
+
+            <Table class="table table-border-normal">
+                <tr>
+                    <th colspan="9" class="no-border border-top border-right border-bottom">
+                        PARTICULARS
+                    </th>
+                    <th colspan="1" class="text-center no-border border-top border-left border-bottom">
+                        QTY
+                    </th>
+                    <th colspan="1" class="text-center no-border border-top border-left border-bottom">
+                        UOM
+                    </th>
+                    <th colspan="2" class="border-left border-top border-bottom ">
+                        REMARKS
+                    </th>
+                </tr>
+                    @foreach (var item in Model.Details)
+                    {
+                        <tr>
+                            <td width="50" class="no-border">
+                                <span> @item.Count </span>
+                            </td>
+                            <td colspan="8" class="no-border">
+                                @item.Description
+                            </td>
+                            <td class="border-left text-center no-border">
+                                @item.Qty
+                            </td>
+                            <td class="border-left text-center">
+                                @item.Uom
+                            </td>
+                            <td class="border-left border-right">
+                                @item.Remarks
+                            </td>
+                        </tr>
+                    }
+
+
+                    @for(int i=Model.Details.Count; i < 6; i++)
+                    {
+                         <!-- Fill out empty rows -->
+                        <tr>
+                            <!-- Particulars -->
+                            <td ></td>
+                            <td colspan="8"></td>
+
+                            <!-- Amounts -->
+                            <td class="border-left"></td>
+                            <td class="border-left"></td>
+                            <td class="border-left border-right"></td>
+                        </tr> 
+                    }
+                   
+                <tr >
+                        <td colspan="12" class="border-top border-right" >
+                            <span class="pull-right"> TOTAL : @Model.GetTotalItemsCount() </span>
+                        </td>
+                </tr>
+            </Table>
+
+        </td>
+
+    </tr>
+    
+    <tr>
+        <td class="no-border">
+            @_person1
+        </td>
+        <td class="no-border">
+            @_person2
+        </td>
+        <td class="no-border">
+            @_person3
+        </td>
+    </tr>
+    <tr>
+        <td style="height:1rem;" colspan="3"> 
+
+        </td>
+    </tr>
+    <tr>
+        <td > 
+            @_name1
+        </td>
+        <td > 
+            @_name2
+        </td>
+        <td > 
+            @_name3
+        </td>
+    </tr>
+</table>
+
+
+
+
+@{
+    //code here
+}

@@ -5,35 +5,78 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
-using WebDBSchema.Models;
+using ReportViewModel.InvStore;
+using PageConfiguration.Interfaces;
+using PageConfiguration.Model;
+using PageConfiguration;
 
 namespace InvWeb.Pages.xTestPages
 {
     public class IndexModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        public string rptView = "";
 
-        public IndexModel(InvWeb.Data.ApplicationDbContext context)
+        public TrxHdr hdr;
+
+        public IPageConfigServices _pageConfigServices;
+        public IndexModel(IPageConfigServices pageConfigSservices)
         {
-            _context = context;
+            this._pageConfigServices = pageConfigSservices;
+
+
+        }
+        private void initializeSample()
+        {
+            this.hdr = this.generateSampleHeader();
+            this.hdr.Details = this.generateSampleDetails(this.hdr.Id);
+
+            
+            PageConfigInfo pInfo = this._pageConfigServices.getPageConfig("rpt002"); //rpt001 is also available
+            if (pInfo != null)
+            {
+                this.rptView = pInfo.ViewName;
+                this.hdr.pageSetting = pInfo.genericConfigKeys;
+
+                //this.processConfigKeys(pInfo.ConfigKeys);
+            }
         }
 
-        public IList<InvItem> InvItem { get;set; }
-
-        public async Task OnGetAsync()
+        private void processConfigKeys(List<PageConfigKey> pkeys)
         {
-            try
+            foreach (var p in pkeys)
             {
-                InvItem = await _context.InvItems
-                    .Include(i => i.InvCategory).ToListAsync();
+                //if (p.Key == "SubTitle")
+                //    this.hdr.pageSetting.SubTitle = p.Value;
+
             }
-            catch(Exception ex)
+        }
+        private TrxHdr generateSampleHeader()
+        {
+            TrxHdr hdr = new TrxHdr()
             {
-                Console.Write(ex.Message);
-            }
+                Id = 1,
+                Name = "Sample 01",
+                Remarks = "This is a sample"
+            };
+
+            return hdr;
+        }
+
+        private List<TrxDetail> generateSampleDetails(int hdrId)
+        {
+            List<TrxDetail> dtlData = new List<TrxDetail>();
+            dtlData.Add(new TrxDetail() { Id = 1, Description = "Detail 01", Remarks = "Sample Dtl 01", TrxHdrId = hdrId });
+            dtlData.Add(new TrxDetail() { Id = 1, Description = "Detail 02", Remarks = "Sample Dtl 02", TrxHdrId = hdrId });
+            dtlData.Add(new TrxDetail() { Id = 1, Description = "Detail 03", Remarks = "Sample Dtl 03", TrxHdrId = hdrId });
+            dtlData.Add(new TrxDetail() { Id = 1, Description = "Detail 04", Remarks = "Sample Dtl 04", TrxHdrId = hdrId });
+
+            return dtlData;
+        }
 
 
+        public void OnGet()
+        {
+            this.initializeSample();
 
         }
     }

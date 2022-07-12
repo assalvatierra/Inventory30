@@ -26,6 +26,7 @@ namespace InvWeb.Data.Services
             _context = context;
 
         }
+
         public StoreServices(ApplicationDbContext context, ILogger logger)
         {
             _context = context;
@@ -33,7 +34,7 @@ namespace InvWeb.Data.Services
 
         }
 
-        public async Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId, string orderBy)
+        public async Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId)
         {
             try
             {
@@ -93,9 +94,7 @@ namespace InvWeb.Data.Services
 
                 _logger.LogInformation("StoreServices : GetStoreItemsSummary ");
 
-                _logger.LogInformation("GetInvCountOrderBy : " + orderBy);
-                return GetInvCountOrderBy(storeInvItems, orderBy);
-
+                return storeInvItems;
 
             }
             catch
@@ -362,6 +361,20 @@ namespace InvWeb.Data.Services
                 .ToList();
 
             return _context.InvStores.Where(c => storeIds.Contains(c.Id)).ToList();
+        }
+
+        public string GetStoreName(int storeId)
+        {
+            try
+            {
+                var store = _context.InvStores.Find(storeId);
+
+                return store.StoreName;
+            }
+            catch
+            {
+                return "";
+            }
         }
 
         #endregion

@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Releasing Details";
     IEnumerable<WebDBSchema.Models.InvTrxDtl> invTrxDtls = ViewBag.InvTrxDtls;
+    int STATUS_PENDING = 1;
 }
 
 <h1>Releasing Details : @Model.InvTrxHdr.InvStoreId </h1>
@@ -11,16 +12,18 @@
 <div>
     <h4> Transaction Header</h4>
     <div>
-        <a asp-page="./Edit" asp-route-id="@Model.InvTrxHdr.Id">Edit</a> |
-        @if (Model.InvTrxHdr.InvTrxHdrStatusId == 1)
+        @if (Model.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
         {
+            <a asp-page="./Edit" asp-route-id="@Model.InvTrxHdr.Id">Edit</a> <span> | </span> 
             <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId" asp-route-status="PENDING">Back to List</a>
+            <div class="pull-left">
+                <a asp-page="../Printables/RequestForm" asp-route-id="@Model.InvTrxHdr.Id" asp-route-type="@Model.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a> 
+            </div>
         }
         else
         {
             <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId" asp-route-status="ACCEPTED">Back to List</a>
         }
-
     </div>
 
     <hr />
@@ -29,28 +32,28 @@
         <div class="col-lg-8 col-sm-12">
             <div class="row">
                 <div class="col-lg-8">
-                    @Model.InvTrxHdr.InvTrxType.Type
+                   Transaction: @Model.InvTrxHdr.InvTrxType.Type
                 </div>
                 <div class="col-lg-2">
-                    @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
+                   Date: @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
                 </div>
                 <div class="col-lg-2">
-                    @Model.InvTrxHdr.InvStore.StoreName
+                   Store: @Model.InvTrxHdr.InvStore.StoreName
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <div style="border:1px solid black;margin:5px 0px;padding:5px;">
+                    <div style="border:0px solid black;margin:0px 0px;padding:0px;">
                         Remarks: @Model.InvTrxHdr.Remarks
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-8">
-                    @Model.InvTrxHdr.InvTrxHdrStatu.Status
+                   Status: @Model.InvTrxHdr.InvTrxHdrStatu.Status
                 </div>
                 <div class="col-lg-4">
-                    @Model.InvTrxHdr.UserId
+                   Performed By: @Model.InvTrxHdr.UserId
                 </div>
             </div>
         </div>
@@ -59,7 +62,10 @@
 <hr />
 <h4> Transaction Details</h4>
 <p>
-    <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvTrxHdr.Id">Create New</a>
+   @if (Model.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
+    {
+        <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvTrxHdr.Id">Add Item</a>
+    }
 </p>
 <table class="table">
     <thead>
@@ -101,12 +107,18 @@
                     @Html.DisplayFor(modelItem => item.ItemQty)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
+                    @Html.DisplayFor(modelItem => item.InvUom.uom)
                 </td>
                 <td>
-                    <a asp-page="./ItemDetails/Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./ItemDetails/Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./ItemDetails/Delete" asp-route-id="@item.Id">Delete</a>
+                    @if (Model.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
+                    {
+                        <span>
+                            <a asp-page="./ItemDetails/Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-page="./ItemDetails/Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-page="./ItemDetails/Delete" asp-route-id="@item.Id">Delete</a>
+                        </span>
+                    }
+                    
                 </td>
             </tr>
         }

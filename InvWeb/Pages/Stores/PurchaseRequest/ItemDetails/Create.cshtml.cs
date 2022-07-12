@@ -30,7 +30,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
             }
 
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList();
-            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+            //ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
             ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id", hdrId);
             ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
             ViewData["HdrId"] = hdrId;

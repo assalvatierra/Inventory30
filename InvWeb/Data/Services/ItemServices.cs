@@ -60,7 +60,7 @@ namespace InvWeb.Data.Services
                         Qty    = GetItemBalanceById(i.InvTrxHdrId, i.InvItemId),
                         Date   = i.InvTrxHdr.DtTrx.ToShortDateString(),
                         Status = i.InvTrxHdr.InvTrxHdrStatu.Status,
-                        Uom    = i.InvUom.uom ,
+                        Uom    = i.InvUom != null ? i.InvUom.uom : "",
                         InvWarningLevels  = i.InvItem.InvWarningLevels
                     });
                 });
@@ -130,6 +130,41 @@ namespace InvWeb.Data.Services
                 Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
                 Value = x.Id
             }), "Value", "Name", selected);
+        }
+
+
+        //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
+        public SelectList GetInStockedInvItemsSelectList(List<int> storeItems)
+        {
+            return new SelectList(_context.InvItems.Where(i=> storeItems.Contains(i.Id)).OrderBy(i => i.InvCategoryId).Select(x => new
+            {
+                Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
+                Value = x.Id
+            }), "Value", "Name");
+        }
+
+
+        //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
+        public SelectList GetInStockedInvItemsSelectList(int selected, List<int> storeItems)
+        {
+            return new SelectList(_context.InvItems.Where(i => storeItems.Contains(i.Id)).OrderBy(i => i.InvCategoryId).Select(x => new
+            {
+                Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
+                Value = x.Id
+            }), "Value", "Name", selected);
+        }
+
+        private int ItemInStockQuantity(int itemId)
+        {
+            try
+            {
+
+                return 0;
+            }
+            catch
+            {
+                return -1;
+            }
         }
     }
 }

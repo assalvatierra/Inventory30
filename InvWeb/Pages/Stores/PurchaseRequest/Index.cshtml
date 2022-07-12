@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = "Purchase Request";
+    int TYPE_PURCHASEORDER = 4;
+    int STATUS_PENDING = 1;
 }
 
 <h1>
@@ -52,8 +54,9 @@
                 @Html.DisplayNameFor(model => model.InvPoHdr[0].InvSupplier)
             </th>
             <th>
-
+                Actions
             </th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -78,21 +81,33 @@
                             <li style="color:black;">
                                 @dlts.InvItem.Description x
                                 @dlts.ItemQty
-                                @*@dlts.InvUom.uom*@
+                                
+                                @if(dlts.InvUom != null){
+                                   @dlts.InvUom.uom
+                                }
                             </li>
                         }
                     </ul>
                 </div>
             </td>
             <td>
-                @if (item.InvPoHdrStatusId == 1)
+                @if (item.InvPoHdrStatusId == STATUS_PENDING)
                 {
                     <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Accept </button>
                 }
+           </td>
+            <td>
+               @if(item.InvPoHdrStatusId == STATUS_PENDING){
+                    <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@TYPE_PURCHASEORDER" target="_blank">Print</a> <span> | </span>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>  <span> | </span>
+                }
 
-                | <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                
+               @if (item.InvPoHdrStatusId == STATUS_PENDING)
+                {
+                   <span> | </span><a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                }
             </td>
         </tr>
         }
@@ -101,12 +116,5 @@
 
 @section Scripts{
     <script type="text/javascript" src="~/js/Store/POFilter.js"></script>
-    <script>
-
-        $(() => {
-            //on init status
-          
-        });
-
-    </script>
+   
 } 
