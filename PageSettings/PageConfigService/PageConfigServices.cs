@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PageConfigShared.Model;
 using PageConfigShared.Interfaces;
-using PageObjectShared.Model;
-using PageObjectShared.Interfaces;
+
 
 namespace PageConfigService
 {
@@ -21,8 +20,6 @@ namespace PageConfigService
         private List<IPageConfig> _configClasses = new List<IPageConfig>();
         private List<PageConfigInfo> _config = new List<PageConfigInfo>();
 
-        private List<IObjectConfig> _objectClasses = new List<IObjectConfig>();
-
         public PageConfigServices(string tenantcode, string version)
         {
             if (!string.IsNullOrEmpty(tenantcode))
@@ -33,7 +30,6 @@ namespace PageConfigService
             this.loadPageConfigClasses();
             this.loadPageConfigurationsFromClasses();
 
-            //this.
 
         }
 
@@ -93,37 +89,6 @@ namespace PageConfigService
 
 
         }
-        #endregion
-        #region Object Config functions
-
-        public ObjectConfigInfo getObjectConfig(string objectCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void loadObjectConfigClasses()
-        {
-            //* to-do (future versions) :  to load using reflection */
-            IList<IObjectConfig> _classes = new List<IObjectConfig>
-            {
-                //new Client.vpro_config(),
-                //new Basic.PageConfigBasic()
-            };
-            //* end load
-
-
-
-            this._objectClasses = new List<IObjectConfig>();
-            foreach (var objectClass in _classes)
-            {
-                //if(configClass.TenantCode == this._tenantCode || configClass.TenantCode == this._DEFAULTCONFIGS)
-                this._objectClasses.Add(objectClass);
-            }
-
-
-        }
-
-        //private void loadObjectConfigFromClasses
         #endregion
     }
 

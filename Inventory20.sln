@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VproConfig", "PageSettings\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseConfig", "PageSettings\ClientConfig\BaseConfig\BaseConfig.csproj", "{C48552B9-C899-4849-891E-A1F4AABAEA4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectConfigService", "PageSettings\ObjectConfigService\ObjectConfigService.csproj", "{3AF02A91-DF5F-405D-B48C-FF7E701DB90D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{C48552B9-C899-4849-891E-A1F4AABAEA4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C48552B9-C899-4849-891E-A1F4AABAEA4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C48552B9-C899-4849-891E-A1F4AABAEA4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AF02A91-DF5F-405D-B48C-FF7E701DB90D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AF02A91-DF5F-405D-B48C-FF7E701DB90D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AF02A91-DF5F-405D-B48C-FF7E701DB90D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AF02A91-DF5F-405D-B48C-FF7E701DB90D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +95,7 @@ Global
 		{32AD9F5F-9FFA-4331-975D-865709952655} = {647AAB86-C196-4F4F-87D1-9624EA4FB8A1}
 		{A07814FB-85C9-4487-95FC-053B6ACABBC7} = {32AD9F5F-9FFA-4331-975D-865709952655}
 		{C48552B9-C899-4849-891E-A1F4AABAEA4B} = {32AD9F5F-9FFA-4331-975D-865709952655}
+		{3AF02A91-DF5F-405D-B48C-FF7E701DB90D} = {647AAB86-C196-4F4F-87D1-9624EA4FB8A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {76C6498A-993D-4D1B-8A88-C496E545DF9D}

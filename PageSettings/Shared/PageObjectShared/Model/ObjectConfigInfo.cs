@@ -13,7 +13,7 @@ namespace PageObjectShared.Model
         public string TenantCode { get; set; } = String.Empty ;
         public string Version { get; set; } = String.Empty;
         public int Order { get; set; }
-        public string ObjectName { get; set; }
-        public Hashtable genericConfigKeys { get; set; }
+        public string? ObjectName { get; set; }
+        public Hashtable? genericConfigKeys { get; set; }
     }
 }
