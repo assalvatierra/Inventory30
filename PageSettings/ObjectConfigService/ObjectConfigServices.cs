@@ -3,7 +3,7 @@ using PageObjectShared.Interfaces;
 
 namespace ObjectConfigService
 {
-    public class ObjectConfigServices
+    public class ObjectConfigServices: IObjectConfigServices
     {
 
         private string _tenantCode = "DEFAULT";
@@ -53,6 +53,16 @@ namespace ObjectConfigService
                 this._objectClasses.Add(objectClass);
             }
 
+        }
+
+        public void setTargetVersion(string targetVersion)
+        {
+            this._version = targetVersion;
+        }
+
+        public ObjectConfigInfo getObjectConfig(string objectCode)
+        {
+            throw new NotImplementedException();
         }
     }
 }

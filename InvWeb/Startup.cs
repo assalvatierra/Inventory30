@@ -14,7 +14,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PageConfigShared;
+using PageObjectShared;
 using PageConfigService;
+using ObjectConfigService;
 
 namespace InvWeb
 {
@@ -60,6 +62,10 @@ namespace InvWeb
 
             services.AddScoped<PageConfigShared.Interfaces.IPageConfigServices, PageConfigService.PageConfigServices>(x=>
                 new PageConfigService.PageConfigServices(tenantcode, targetVersion)
+            );
+
+            services.AddScoped<PageObjectShared.Interfaces.IObjectConfigServices, ObjectConfigService.ObjectConfigServices> (x=>
+                new ObjectConfigService.ObjectConfigServices(tenantcode, targetVersion)    
             );
 
             services.AddRazorPages();

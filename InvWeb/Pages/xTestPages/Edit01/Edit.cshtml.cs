@@ -8,16 +8,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
+using PageObjectShared;
+using PageObjectShared.Interfaces;
 
 namespace InvWeb.Pages.xTestPages.Edit01
 {
     public class EditModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
-
-        public EditModel(InvWeb.Data.ApplicationDbContext context)
+        public IObjectConfigServices _objectConfigServices;
+        public EditModel(InvWeb.Data.ApplicationDbContext context, IObjectConfigServices objectConfigServices)
         {
             _context = context;
+
+            this._objectConfigServices = objectConfigServices;
         }
 
         [BindProperty]
@@ -29,6 +33,8 @@ namespace InvWeb.Pages.xTestPages.Edit01
             {
                 return NotFound();
             }
+
+            //this._objectConfigServices
 
             InvCategory = await _context.InvCategories.FirstOrDefaultAsync(m => m.Id == id);
 
