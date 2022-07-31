@@ -34,7 +34,7 @@ namespace InvWeb.Pages.xTestPages.Edit01
                 return NotFound();
             }
 
-            //this._objectConfigServices
+            this._objectConfigServices.getObjectConfig("101");
 
             InvCategory = await _context.InvCategories.FirstOrDefaultAsync(m => m.Id == id);
 

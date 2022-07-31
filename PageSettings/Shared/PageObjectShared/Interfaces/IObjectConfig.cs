@@ -10,5 +10,6 @@ namespace PageObjectShared.Interfaces
     {
         public string TenantCode { get; }
         public IList<Model.ObjectConfigInfo> objectConfigInfo { get; }
+
     }
 }

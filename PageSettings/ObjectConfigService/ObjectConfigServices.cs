@@ -34,6 +34,11 @@ namespace ObjectConfigService
             }
         }
 
+        public ObjectConfigInfo getObjectConfig(string objectCode)
+        {
+            throw new NotImplementedException();
+        }
+
         private void loadObjectConfigClasses()
         {
             /* to-do (future versions) :  to load using reflection */
@@ -60,9 +65,5 @@ namespace ObjectConfigService
             this._version = targetVersion;
         }
 
-        public ObjectConfigInfo getObjectConfig(string objectCode)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
