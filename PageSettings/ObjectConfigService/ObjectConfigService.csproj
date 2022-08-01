@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ClientObject\BaseObject\BaseObject.csproj" />
     <ProjectReference Include="..\Shared\PageObjectShared\PageObjectShared.csproj" />
   </ItemGroup>
 

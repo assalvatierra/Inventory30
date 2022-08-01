@@ -10,9 +10,16 @@ namespace BaseObject
 
         }
 
-        string IObjectConfig.TenantCode => throw new NotImplementedException();
+        public string TenantCode { get; set; } = "DEFAULT";
+        public string PageCode { get; set; } = "SAMPLE.101";
+        public string Version { get; set; } = "LATEST";
+        public int Order { get; set; } = 1;
 
-        IList<ObjectConfigInfo> IObjectConfig.objectConfigInfo => throw new NotImplementedException();
+        public int ValidateModel()
+        {
+            return 0;
+        }
+
 
 
     }

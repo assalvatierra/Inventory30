@@ -1,16 +1,16 @@
-﻿using PageObjectShared.Model;
+﻿//using PageObjectShared.Model;
 using PageObjectShared.Interfaces;
 
 namespace ObjectConfigService
 {
     public class ObjectConfigServices: IObjectConfigServices
     {
+        private string _DEFAULTCONFIGS = "DEFAULT";
 
         private string _tenantCode = "DEFAULT";
         private string _version = "LATEST";
         private List<IObjectConfig> _objectClasses =  new List<IObjectConfig>();
-        private List<ObjectConfigInfo> _config = new List<ObjectConfigInfo>();
-
+ 
 
         public ObjectConfigServices(string tenantcode, string version)
         {
@@ -20,43 +20,39 @@ namespace ObjectConfigService
                 this._version = version;
 
             this.loadObjectConfigClasses();
-            this.loadObjectConfigurationsFromClasses();
-
-         
 
         }
 
-        private void loadObjectConfigurationsFromClasses()
+        public List<IObjectConfig> getObjectConfig(string objectCode)
         {
-            foreach (var objectClass in this._objectClasses)
+            var configs = this._objectClasses.Where(d => d.PageCode == objectCode);
+
+            List<IObjectConfig> tenantConfigs = configs.ToList();
+            if (!string.IsNullOrEmpty(this._tenantCode))
             {
-                this._config.AddRange(objectClass.objectConfigInfo);
+                tenantConfigs = configs.Where(d => d.TenantCode == this._tenantCode).ToList();
+                if (tenantConfigs.Count() == 0)
+                    tenantConfigs = configs.Where(d => d.TenantCode == _DEFAULTCONFIGS).ToList();
             }
-        }
 
-        public ObjectConfigInfo getObjectConfig(string objectCode)
-        {
-            throw new NotImplementedException();
+            List<IObjectConfig> latestConfigs = latestConfigs = tenantConfigs;
+            if (this._version != "LATEST")
+                latestConfigs = tenantConfigs.Where(d => d.Version == this._version).ToList();
+
+
+            return latestConfigs;
+
+
         }
 
         private void loadObjectConfigClasses()
         {
             /* to-do (future versions) :  to load using reflection */
-            IList<IObjectConfig> _classes = new List<IObjectConfig>
-            {
-                //new VproConfig.vpro_config(),
-                //new BaseConfig.PageConfigBasic()
-            };
+
+            this._objectClasses.Add(new BaseObject.ObjectConfigBasic());
+ 
             /* end load */
 
-
-
-            this._objectClasses = new List<IObjectConfig>();
-            foreach (var objectClass in _classes)
-            {
-                //if(configClass.TenantCode == this._tenantCode || configClass.TenantCode == this._DEFAULTCONFIGS)
-                this._objectClasses.Add(objectClass);
-            }
 
         }
 
