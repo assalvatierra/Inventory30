@@ -9,6 +9,6 @@ namespace PageObjectShared.Interfaces
     public interface IObjectConfigServices
     {
         public void setTargetVersion(string targetVersion);
-        public List<Model.ObjectConfigInfo> getObjectConfig(string objectCode);
+        public List<Model.IObjectConfigInfo> getObjectConfig(string objectCode);
     }
 }

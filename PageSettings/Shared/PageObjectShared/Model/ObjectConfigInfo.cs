@@ -7,13 +7,13 @@ using System.Collections;
 
 namespace PageObjectShared.Model
 {
-    public class ObjectConfigInfo
+    public interface IObjectConfigInfo
     {
-        public string ObjectCode { get; set; } = String.Empty;
-        public string TenantCode { get; set; } = String.Empty ;
-        public string Version { get; set; } = String.Empty;
-        public int Order { get; set; }
-        public string? ObjectName { get; set; }
-        public Hashtable? genericConfigKeys { get; set; }
-    }
+        public string ObjectCode { get;  }
+        public string TenantCode { get;  }
+        public string Version { get;  }
+        public int Order { get;  }
+        public int Validate(Object o);
+
+    }        
 }

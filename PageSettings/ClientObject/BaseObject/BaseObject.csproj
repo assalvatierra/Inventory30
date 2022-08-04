@@ -10,8 +10,4 @@
     <ProjectReference Include="..\..\Shared\PageObjectShared\PageObjectShared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Classes\" />
-  </ItemGroup>
-
 </Project>

@@ -10,7 +10,7 @@ namespace ObjectConfigService
         private string _tenantCode = "DEFAULT";
         private string _version = "LATEST";
         private List<IObjectConfig> _objectClasses =  new List<IObjectConfig>();
-        private List<ObjectConfigInfo> _config = new List<ObjectConfigInfo>();
+        private List<IObjectConfigInfo> _config = new List<IObjectConfigInfo>();
 
 
         public ObjectConfigServices(string tenantcode, string version)
@@ -23,8 +23,6 @@ namespace ObjectConfigService
             this.loadObjectConfigClasses();
             this.loadObjectConfigurationsFromClasses();
 
-         
-
         }
 
         private void loadObjectConfigurationsFromClasses()
@@ -35,11 +33,11 @@ namespace ObjectConfigService
             }
         }
 
-        public List<ObjectConfigInfo> getObjectConfig(string objectCode)
+        public List<IObjectConfigInfo> getObjectConfig(string objectCode)
         {
             var configs = this._config.Where(d => d.ObjectCode == objectCode);
 
-            List<ObjectConfigInfo> tenantConfigs = configs.ToList();
+            List<IObjectConfigInfo> tenantConfigs = configs.ToList();
             if (!string.IsNullOrEmpty(this._tenantCode))
             {
                 tenantConfigs = configs.Where(d => d.TenantCode == this._tenantCode).ToList();
@@ -47,7 +45,7 @@ namespace ObjectConfigService
                     tenantConfigs = configs.Where(d => d.TenantCode == _DEFAULTCONFIGS).ToList();
             }
 
-            List<ObjectConfigInfo> latestConfigs = latestConfigs = tenantConfigs;
+            List<IObjectConfigInfo> latestConfigs = latestConfigs = tenantConfigs;
             if (this._version != "LATEST")
                 latestConfigs = tenantConfigs.Where(d => d.Version == this._version).ToList();
 

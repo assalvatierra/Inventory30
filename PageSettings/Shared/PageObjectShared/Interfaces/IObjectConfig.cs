@@ -9,7 +9,7 @@ namespace PageObjectShared.Interfaces
     public interface IObjectConfig
     {
         public string TenantCode { get; }
-        public IList<Model.ObjectConfigInfo> objectConfigInfo { get; }
+        public IList<Model.IObjectConfigInfo> objectConfigInfo { get; }
 
     }
 }

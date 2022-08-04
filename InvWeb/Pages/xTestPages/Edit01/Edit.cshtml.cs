@@ -10,6 +10,7 @@ using InvWeb.Data;
 using WebDBSchema.Models;
 using PageObjectShared;
 using PageObjectShared.Interfaces;
+using PageObjectShared.Model;
 
 namespace InvWeb.Pages.xTestPages.Edit01
 {
@@ -34,7 +35,15 @@ namespace InvWeb.Pages.xTestPages.Edit01
                 return NotFound();
             }
 
-            this._objectConfigServices.getObjectConfig("101");
+            List<IObjectConfigInfo> validator = this._objectConfigServices.getObjectConfig("SAMPLE101");
+            foreach (IObjectConfigInfo info in validator)
+            {
+                int iret = info.Validate(this.InvCategory);
+                if (iret == 1)
+                {
+
+                }
+            }
 
             InvCategory = await _context.InvCategories.FirstOrDefaultAsync(m => m.Id == id);
 

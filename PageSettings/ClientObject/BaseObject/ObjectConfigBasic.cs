@@ -10,14 +10,22 @@ namespace BaseObject
 
         }
 
-        string IObjectConfig.TenantCode => throw new NotImplementedException();
+        private string _tenantCode = "DEFAULT";
+        string IObjectConfig.TenantCode {
+            get => this._tenantCode; 
+            //set { this._tenantCode = value; }  
+        }
 
 
-        public IList<ObjectConfigInfo> objectConfigInfo
+        public IList<IObjectConfigInfo> objectConfigInfo
         {
             get
             {
-                throw new NotImplementedException();
+                List<IObjectConfigInfo> _objlist = new List<IObjectConfigInfo>();
+                _objlist.Add(new Classes.SampleObject());
+                
+
+                return _objlist;
             }
         } 
 
