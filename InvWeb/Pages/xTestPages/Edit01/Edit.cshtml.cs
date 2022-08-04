@@ -10,7 +10,6 @@ using InvWeb.Data;
 using WebDBSchema.Models;
 using PageObjectShared;
 using PageObjectShared.Interfaces;
-using PageObjectShared.Model;
 
 namespace InvWeb.Pages.xTestPages.Edit01
 {
@@ -28,9 +27,6 @@ namespace InvWeb.Pages.xTestPages.Edit01
         [BindProperty]
         public InvCategory InvCategory { get; set; }
 
-        [BindProperty]
-        public string errorMessage { get; set; } = string.Empty;
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -38,15 +34,7 @@ namespace InvWeb.Pages.xTestPages.Edit01
                 return NotFound();
             }
 
-            List<IObjectConfig> objConfig = this._objectConfigServices.getObjectConfig("SAMPLE.101");
-            foreach(IObjectConfig obj01 in objConfig)
-            {
-                int i = obj01.ValidateModel();
-                if(i != 1)
-                {
-                    this.errorMessage = "Sample Error";
-                }
-            }
+            this._objectConfigServices.getObjectConfig("101");
 
             InvCategory = await _context.InvCategories.FirstOrDefaultAsync(m => m.Id == id);
 
