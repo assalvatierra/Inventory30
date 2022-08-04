@@ -12,7 +12,14 @@ namespace BaseObject
 
         string IObjectConfig.TenantCode => throw new NotImplementedException();
 
-        IList<ObjectConfigInfo> IObjectConfig.objectConfigInfo => throw new NotImplementedException();
+
+        public IList<ObjectConfigInfo> objectConfigInfo
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        } 
 
 
     }
