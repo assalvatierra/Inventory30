@@ -16,8 +16,12 @@ namespace BaseObject.Classes
 
         public int Validate(object o)
         {
+            if (o == null) return -1;
+
+
             WebDBSchema.Models.InvCategory data = (WebDBSchema.Models.InvCategory)o;
 
+            
             if(data.Id > 0)
                 return 1;
             else
