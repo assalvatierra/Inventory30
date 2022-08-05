@@ -28,6 +28,8 @@ namespace InvWeb.Pages.xTestPages.Edit01
         [BindProperty]
         public InvCategory InvCategory { get; set; }
 
+        public string objectMsg = string.Empty;
+
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -35,15 +37,7 @@ namespace InvWeb.Pages.xTestPages.Edit01
                 return NotFound();
             }
 
-            List<IObjectConfigInfo> validator = this._objectConfigServices.getObjectConfig("SAMPLE101");
-            foreach (IObjectConfigInfo info in validator)
-            {
-                int iret = info.Validate(this.InvCategory);
-                if (iret == 1)
-                {
-
-                }
-            }
+ 
 
             InvCategory = await _context.InvCategories.FirstOrDefaultAsync(m => m.Id == id);
 
@@ -51,6 +45,27 @@ namespace InvWeb.Pages.xTestPages.Edit01
             {
                 return NotFound();
             }
+
+            /*
+             implement business rules for application tenants
+             */
+
+            List<IObjectConfigInfo> validator = this._objectConfigServices.getObjectConfig("SAMPLE101");
+            foreach (IObjectConfigInfo info in validator)
+            {
+                this.InvCategory.Id = 2; //valid if tenant is DEFAULT; not valid if tenant is VPRO
+                int iret = info.Validate(this.InvCategory);
+                if (iret == 1)
+                {
+                    this.objectMsg += " *** ["+info.TenantCode +"-"+ info.ObjectCode+"] Msg:--data is valid--";
+
+                }
+                else
+                {
+                    this.objectMsg += " *** [" + info.TenantCode + "-" + info.ObjectCode + "] Msg:--data is NOT valid--";
+                }
+            }
+
             return Page();
         }
 

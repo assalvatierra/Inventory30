@@ -40,9 +40,11 @@ namespace ObjectConfigService
             List<IObjectConfigInfo> tenantConfigs = configs.ToList();
             if (!string.IsNullOrEmpty(this._tenantCode))
             {
-                tenantConfigs = configs.Where(d => d.TenantCode == this._tenantCode).ToList();
-                if (tenantConfigs.Count() == 0)
-                    tenantConfigs = configs.Where(d => d.TenantCode == _DEFAULTCONFIGS).ToList();
+                tenantConfigs = configs.Where(
+                    d => d.TenantCode == this._tenantCode || d.TenantCode == _DEFAULTCONFIGS ).ToList();
+
+                //if (tenantConfigs.Count() == 0)
+                //    tenantConfigs = configs.Where(d => d.TenantCode == _DEFAULTCONFIGS).ToList();
             }
 
             List<IObjectConfigInfo> latestConfigs = latestConfigs = tenantConfigs;
@@ -67,9 +69,9 @@ namespace ObjectConfigService
             /* to-do (future versions) :  to load using reflection */
             IList<IObjectConfig> _classes = new List<IObjectConfig>
             {
+                new vproObject.ObjectConfigBasic(),
                 new BaseObject.ObjectConfigBasic()
-                //new VproConfig.vpro_config(),
-                //new BaseConfig.PageConfigBasic()
+
             };
             /* end load */
 
