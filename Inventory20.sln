@@ -37,7 +37,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientObject", "ClientObjec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseObject", "PageSettings\ClientObject\BaseObject\BaseObject.csproj", "{F91BBC81-25B7-4596-AF64-6D13B8B63827}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vproObject", "PageSettings\ClientObject\vproObject\vproObject.csproj", "{0EBF7C62-CA8C-4C6F-AD1C-E157AE1012F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vproObject", "PageSettings\ClientObject\vproObject\vproObject.csproj", "{0EBF7C62-CA8C-4C6F-AD1C-E157AE1012F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Views", "Views", "{65C0FFBD-79A4-41D6-AD91-7E11381ACE3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
