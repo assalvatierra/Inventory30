@@ -166,5 +166,23 @@ namespace InvWeb.Data.Services
                 return -1;
             }
         }
+
+        public SelectList GetConvertableUomSelectList()
+        {
+            try
+            {
+                List<int> UomConversionList = _context.InvUomConversions.Select(c => c.InvUomId_base).ToList();
+
+                return new SelectList(_context.InvUoms.Where(i => UomConversionList.Contains(i.Id)).Select(x => new
+                {
+                    Name = x.uom,
+                    Value = x.Id
+                }), "Value", "Name");
+            }
+            catch
+            {
+                return new SelectList(null);
+            }
+        }
     }
 }
