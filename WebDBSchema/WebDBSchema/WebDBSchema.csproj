@@ -313,8 +313,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\Initialize SQL\20220427.v1.001.InitialRoles.sql" />
-    <Content Include="Models\Initialize SQL\20220427.v1.001.SampleData.Vpro.sql" />
     <Content Include="Models\InvDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InvDB.Context.cs</LastGenOutput>
@@ -325,10 +323,19 @@
       <LastGenOutput>InvDB.cs</LastGenOutput>
       <DependentUpon>InvDB.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\SampleData.sql" />
     <Content Include="Models\InvDB.edmx.sql" />
-    <Content Include="Models\Initialize SQL\20220427.v1.001.Initial.sql" />
     <Content Include="Models\Query1.sql" />
+    <Content Include="Models\SQL Scripts\Common\202205.v1.002.AspNetUsers.sql" />
+    <Content Include="Models\SQL Scripts\Common\202205.v1.001.Initial.sql" />
+    <Content Include="Models\SQL Scripts\RealSys\202205.v1.001.Initial.sql" />
+    <Content Include="Models\SQL Scripts\RealSys\202205.v1.002.InitialRoles.sql" />
+    <Content Include="Models\SQL Scripts\RealSys\202205.v1.003.SampleData.sql" />
+    <Content Include="Models\SQL Scripts\Vpro\202205.v1.001.Initial.sql" />
+    <Content Include="Models\SQL Scripts\Vpro\202205.v1.002.InitialRoles.sql" />
+    <Content Include="Models\SQL Scripts\Vpro\202205.v1.003.SampleData.Vpro.sql" />
+    <Content Include="Models\SQL Scripts\VSteel\202205.v1.001.Initial.sql" />
+    <Content Include="Models\SQL Scripts\VSteel\202205.v1.002.InitialRoles.sql" />
+    <Content Include="Models\SQL Scripts\VSteel\202205.v1.003.SampleData.VSteel.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\InvDB.edmx">
