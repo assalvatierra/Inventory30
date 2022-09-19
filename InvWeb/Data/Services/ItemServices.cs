@@ -17,7 +17,6 @@ namespace InvWeb.Data.Services
 
         private readonly int TYPE_RECEIVED = 1;
         private readonly int TYPE_RELEASED = 2;
-        //private readonly int TYPE_ADJUSTMENT = 3;
 
         private readonly int STATUS_APPROVED = 2;
         private readonly int STATUS_CLOSED = 3;
