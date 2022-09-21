@@ -15,11 +15,13 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
         private readonly ItemServices _itemServices;
+        private readonly UomServices _uomServices;
 
         public CreateModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);
+            _uomServices = new UomServices(context);
         }
 
         public IActionResult OnGet(int? hdrId)
@@ -29,9 +31,12 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 hdrId ??= 0;
             }
 
+            InvTrxDtl = new InvTrxDtl();
+            InvTrxDtl.InvItemId = 2;
+
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList();
+            ViewData["InvUomId"] = _uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
-            ViewData["InvUomId"] = _itemServices.GetConvertableUomSelectList();
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 1);
             ViewData["HdrId"] = hdrId;
             return Page();
@@ -53,5 +58,6 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 
             return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
         }
+
     }
 }
