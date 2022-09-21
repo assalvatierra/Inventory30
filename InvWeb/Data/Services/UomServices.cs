@@ -9,6 +9,7 @@ using WebDBSchema.Models.Items;
 using InvWeb.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using InvWeb.Data.Models;
 
 namespace InvWeb.Data.Services
 {
@@ -97,6 +98,59 @@ namespace InvWeb.Data.Services
             {
                 throw ex;
                 return new SelectList(null);
+            }
+        }
+
+
+        public List<InvUom> GetUomListByItemId(int? itemId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<UomsApiModel.ItemOumList>> GetUomListByItemIdAsync(int? itemId)
+        {
+            try
+            {
+                if (itemId == null)
+                {
+                    return new List<UomsApiModel.ItemOumList>(null);
+                }
+
+                var item = _context.InvItems.Find(itemId);
+
+                if (item == null)
+                {
+                    return new List<UomsApiModel.ItemOumList>(null);
+                }
+
+                var UomList = new List<InvUom>();
+                var item_BaseUom = item.InvUomId;
+
+                List<int> UomConversionList = _context.InvUomConversions
+                    .Where(uom => uom.InvUomId_base == item_BaseUom)
+                    .Select(c => c.InvUomId_into).ToList();
+
+                if (UomConversionList == null)
+                {
+                    UomList = await _context.InvUoms
+                        .Where(i => item_BaseUom == i.Id)
+                        .ToListAsync();
+                }
+
+                UomList = await _context.InvUoms
+                    .Where(i => UomConversionList.Contains(i.Id) ||
+                                item_BaseUom == i.Id)
+                    .ToListAsync();
+
+                return   UomList.Select(uom => 
+                         new UomsApiModel.ItemOumList { Id = uom.Id, uom = uom.uom })
+                         .ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return new List<UomsApiModel.ItemOumList>(null);
             }
         }
     }
