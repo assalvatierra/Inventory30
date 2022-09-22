@@ -10,6 +10,7 @@ using InvWeb.Data;
 using WebDBSchema.Models;
 using WebDBSchema.Models.Items;
 using Microsoft.Extensions.Logging;
+using InvWeb.Data.Interfaces;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
@@ -19,12 +20,14 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
         private readonly InvWeb.Data.ApplicationDbContext _context;
         private readonly ItemServices _itemServices;
         private readonly StoreServices _storeServices;
+        private readonly UomServices _uomServices;
 
 
         public CreateModel(ILogger<IndexModel> logger, InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);
+            _uomServices = new UomServices(context);
             _storeServices = new StoreServices(context, logger);
         }
 
@@ -33,6 +36,11 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             if (hdrId == null)
             {
                 return NotFound();
+            }
+
+            if (invItemId == null)
+            {
+                invItemId = 2;
             }
 
             var invHdr = _context.InvTrxHdrs.Find(hdrId);
@@ -54,7 +62,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
             ViewData["InvItemId"] = _itemServices.GetInStockedInvItemsSelectList(itemId, availbaleStoreItems);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
-            ViewData["InvUomId"] = _itemServices.GetConvertableUomSelectList();
+            ViewData["InvUomId"] = _uomServices.GetUomSelectListByItemId(invItemId);
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 2);
             ViewData["HdrId"] = hdrId;
             ViewData["LotNoItems"] = LotNoList;
