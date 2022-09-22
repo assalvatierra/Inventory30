@@ -33,6 +33,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 
             InvTrxDtl = new InvTrxDtl();
             InvTrxDtl.InvItemId = 2;
+            InvTrxDtl.InvTrxHdrId =(int)hdrId;
 
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList();
             ViewData["InvUomId"] = _uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId);

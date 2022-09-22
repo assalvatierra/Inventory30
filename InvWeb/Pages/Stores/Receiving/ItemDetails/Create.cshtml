@@ -19,8 +19,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label"> Item </label>
-                <select asp-for="InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize" asp-items="ViewBag.InvItemId" 
-                   id='itemId' ></select>
+                <select asp-for="InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize" asp-items="ViewBag.InvItemId" id='itemDropdown' ></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> Qty </label>
@@ -49,48 +48,5 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script>
-
-        //event listiner: on change item select
-        $("#itemId").change(function () {
-            GetItemOums();
-        });
-
-        function GetItemOums(){
-
-            var itemId = $('#itemId').val();
-
-            $.get('/api/uoms/GetUom/' + itemId, null,
-                (data, status, xhr) => {
-                    Empty_UomDropdown();
-                    Update_UomDropdown(data);
-                    GetDefaultUom(itemId);
-                }
-            )
-        }
-
-        function Update_UomDropdown(data){
-
-            for(var i=0;i< data.length;i++){
-                var item = data[i];
-                $("#UomDropdown").append('<option value="'+ item.id +'">' + item.uom + '</option>');
-            }
-        }
-
-        function Empty_UomDropdown(){
-            $("#UomDropdown").empty();
-        }
-
-        function GetDefaultUom(itemId) {
-            $.get('/api/items/GetDefaultUom/' + itemId, null,
-                (data, status, xhr) => {
-                    SetItemUom(data);
-                }
-            )
-        }
-
-        function SetItemUom(uomId){
-            $("#UomDropdown").val(uomId);
-        }
-    </script>
+    <script src="~/js/Store/ItemUomDropdown.js"></script>
 }
