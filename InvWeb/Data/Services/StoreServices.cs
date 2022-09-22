@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WebDBSchema.Models;
 using WebDBSchema.Models.Stores;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel;
 
 namespace InvWeb.Data.Services
 {
@@ -39,58 +40,58 @@ namespace InvWeb.Data.Services
             try
             {
 
-            int accepted  = 0;
-            int pending   = 0;
-            int released  = 0;
-            int requested = 0;
+                decimal accepted = 0;
+                decimal pending = 0;
+                decimal released = 0;
+                decimal requested = 0;
 
-            var invItems = await GetItemsAsync();
+                var invItems = await GetItemsAsync();
 
-            //Todo: add filter to add only trx with approved status (statusId = 1) 
-            var Received = await this.GetReceivedItemsAsync(storeId);
-            var Released = await this.GetReleasedItemsAsync(storeId);
-            var Adjustment = await this.GetAdjustmentItemsAsync(storeId);
+                //Todo: add filter to add only trx with approved status (statusId = 1) 
+                var Received = await this.GetReceivedItemsAsync(storeId);
+                var Released = await this.GetReleasedItemsAsync(storeId);
+                var Adjustment = await this.GetAdjustmentItemsAsync(storeId);
 
-            List<StoreInvCount> storeInvItems = new();
+                List<StoreInvCount> storeInvItems = new();
 
-            foreach (var item in invItems)
-            {
-                var itemDetails = invItems.Where(i => i.Id == item.Id).FirstOrDefault();
-                int itemReceived = Received.Where(h => h.InvItemId == item.Id).Sum(i => i.ItemQty);
-                int itemReleased = Released.Where(h => h.InvItemId == item.Id).Sum(i => i.ItemQty);
-
-                var itemCategoryDetails = await GetCategoryById(item.InvCategoryId);
-                string category = itemCategoryDetails != null ? itemCategoryDetails.Description : "NA";
-                int categoryId = itemCategoryDetails != null ? itemCategoryDetails.Id : 0;
-
-                if (Received != null)
+                foreach (var item in invItems)
                 {
-                    accepted = GetAcceptedItemsCount(Received, item.Id);
-                    pending = GetPendingItemsCount(Received, item.Id);
-                }
+                    var itemDetails = invItems.Where(i => i.Id == item.Id).FirstOrDefault();
+                    decimal itemReceived = ConvertItemsListUoms(Received.Where(h => h.InvItemId == item.Id).ToList());
+                    decimal itemReleased = ConvertItemsListUoms(Released.Where(h => h.InvItemId == item.Id).ToList());
 
-                if (Released != null)
-                {
-                    released = GetReleasedItemsCount(Released, item.Id);
-                    requested = GetRequestedItemsCount(Released, item.Id);
-                }
+                    var itemCategoryDetails = await GetCategoryById(item.InvCategoryId);
+                    string category = itemCategoryDetails != null ? itemCategoryDetails.Description : "NA";
+                    int categoryId = itemCategoryDetails != null ? itemCategoryDetails.Id : 0;
 
-                int itemAdjustment = GetAdjustmentItemsCount(Adjustment, item.Id);
+                    if (Received != null)
+                    {
+                        accepted = GetAcceptedItemsCount(Received, item.Id);
+                        pending = GetPendingItemsCount(Received, item.Id);
+                    }
+
+                    if (Released != null)
+                    {
+                        released = GetReleasedItemsCount(Released, item.Id);
+                        requested = GetRequestedItemsCount(Released, item.Id);
+                    }
+
+                    int itemAdjustment = GetAdjustmentItemsCount(Adjustment, item.Id);
 
 
-                if (Received.Where(h => h.InvItemId == item.Id).Any())
-                {
-                    storeInvItems.Add(AddItemToStoreInvcount(item.Id, itemDetails, itemReceived, itemReleased, itemAdjustment,
-                        accepted, released, pending, requested, category, categoryId));
-                }
-
-                if (Released.Where(h => h.InvItemId == item.Id).Any() && !Received.Where(h => h.InvItemId == item.Id).Any())
-                {
+                    if (Received.Where(h => h.InvItemId == item.Id).Any())
+                    {
                         storeInvItems.Add(AddItemToStoreInvcount(item.Id, itemDetails, itemReceived, itemReleased, itemAdjustment,
                             accepted, released, pending, requested, category, categoryId));
-                }
+                    }
 
-            }
+                    if (Released.Where(h => h.InvItemId == item.Id).Any() && !Received.Where(h => h.InvItemId == item.Id).Any())
+                    {
+                        storeInvItems.Add(AddItemToStoreInvcount(item.Id, itemDetails, itemReceived, itemReleased, itemAdjustment,
+                            accepted, released, pending, requested, category, categoryId));
+                    }
+
+                }
 
                 _logger.LogInformation("StoreServices : GetStoreItemsSummary ");
 
@@ -104,13 +105,17 @@ namespace InvWeb.Data.Services
             }
         }
 
-        private StoreInvCount AddItemToStoreInvcount(int id, InvItem itemDetails, int itemReceived, 
-            int itemReleased, int itemAdjustment, int accepted, int released, int pending, int requested
+        private StoreInvCount AddItemToStoreInvcount(int id, InvItem itemDetails, decimal itemReceived,
+            decimal itemReleased, decimal itemAdjustment, decimal accepted, decimal released, decimal pending, decimal requested
             , string category, int categoryId)
         {
+
+            //conversions
+
             StoreInvCount storeInv = new StoreInvCount();
             storeInv.Id = id;
-            storeInv.Description = "(" + itemDetails.Code + ") " + itemDetails.Description + " " + itemDetails.Remarks;
+            storeInv.Description = "(" + itemDetails.Code + ") " + itemDetails.Description + " " + itemDetails.Remarks
+                                 + " (" + itemDetails.InvUom.uom + ") ";
             storeInv.Available = (itemReceived - itemReleased) + (itemAdjustment);
             storeInv.OnHand = (accepted - released) + (itemAdjustment);
             storeInv.ReceivePending = pending;
@@ -186,33 +191,34 @@ namespace InvWeb.Data.Services
             throw new NotImplementedException();
         }
 
-        public int GetPendingItemsCount(List<InvTrxDtl> receivedItems, int itemId)
+        public decimal GetPendingItemsCount(List<InvTrxDtl> receivedItems, int itemId)
         {
-            return receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 &&
-                                            h.InvItemId == itemId).ToList()
-                                            .Sum(c => c.ItemQty);
+            var pendingList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 &&
+                                            h.InvItemId == itemId).ToList();
+
+            return ConvertItemsListUoms(pendingList);
+
         }
 
-        public int GetAcceptedItemsCount(List<InvTrxDtl> receivedItems, int itemId)
+        public decimal GetAcceptedItemsCount(List<InvTrxDtl> receivedItems, int itemId)
         {
-            return receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 &&
-                                            h.InvItemId == itemId).ToList()
-                                            .Sum(c => c.ItemQty);
+            var acceptedList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 &&
+                                            h.InvItemId == itemId).ToList();
+            return ConvertItemsListUoms(acceptedList);
         }
 
-
-        public int GetRequestedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
+        public decimal GetRequestedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
         {
-            return releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 &&
-                                            h.InvItemId == itemId).ToList()
-                                            .Sum(c => c.ItemQty);
+            var requestedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 &&
+                                            h.InvItemId == itemId).ToList();
+            return ConvertItemsListUoms(requestedList);
         }
 
-        public int GetReleasedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
+        public decimal GetReleasedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
         {
-            return releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 &&
-                                            h.InvItemId == itemId).ToList()
-                                            .Sum(c => c.ItemQty);
+            var releasedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 &&
+                                            h.InvItemId == itemId).ToList();
+            return ConvertItemsListUoms(releasedList);
         }
 
 
@@ -233,7 +239,7 @@ namespace InvWeb.Data.Services
 
         public async Task<int> GetReleasingPendingAsync(int storeId)
         {
-            try { 
+            try {
                 var storePendingReceiving = await _context.InvTrxHdrs
                     .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 2 && t.InvTrxHdrStatusId == 1)
                     .ToListAsync();
@@ -247,7 +253,7 @@ namespace InvWeb.Data.Services
 
         public async Task<int> GetAdjustmentPendingAsync(int storeId)
         {
-            try { 
+            try {
                 var storePendingReceiving = await _context.InvTrxHdrs
                     .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 3 && t.InvTrxHdrStatusId == 1)
                     .ToListAsync();
@@ -264,7 +270,7 @@ namespace InvWeb.Data.Services
             try
             {
                 var storePendingReceiving = await _context.InvPoHdrs
-                    .Where(t => t.InvStoreId == storeId &&  t.InvPoHdrStatusId == 1)
+                    .Where(t => t.InvStoreId == storeId && t.InvPoHdrStatusId == 1)
                     .ToListAsync();
                 return storePendingReceiving.Count();
 
@@ -277,7 +283,7 @@ namespace InvWeb.Data.Services
 
         public async Task<List<InvTrxHdr>> GetRecentTransactions(int storeId)
         {
-            try { 
+            try {
                 var today = GetCurrentDateTime().Date;
 
                 var recentTrx = await _context.InvTrxHdrs
@@ -303,7 +309,7 @@ namespace InvWeb.Data.Services
         //DESC: get the current datetime based on the singapore standard time
         public DateTime GetCurrentDateTime()
         {
-            DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, 
+            DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow,
                 TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
 
             return _localTime;
@@ -319,6 +325,7 @@ namespace InvWeb.Data.Services
                .Include(h => h.InvTrxHdr)
                .ToListAsync();
         }
+
 
         public async Task<List<InvTrxDtl>> GetReleasedItemsAsync(int storeId)
         {
@@ -342,8 +349,9 @@ namespace InvWeb.Data.Services
         public async Task<List<InvItem>> GetItemsAsync()
         {
             return await _context.InvItems
-                .Include(c=>c.InvWarningLevels)
+                .Include(c => c.InvWarningLevels)
                 .ThenInclude(c => c.InvWarningType)
+                .Include(c=>c.InvUom)
                 .ToListAsync();
         }
 
@@ -357,7 +365,7 @@ namespace InvWeb.Data.Services
         {
 
             var storeIds = _context.InvStoreUsers.Where(s => s.InvStoreUserId == user)
-                .Include(s=>s.InvStore).Select(s=>s.InvStoreId)
+                .Include(s => s.InvStore).Select(s => s.InvStoreId)
                 .ToList();
 
             return _context.InvStores.Where(c => storeIds.Contains(c.Id)).ToList();
@@ -376,6 +384,56 @@ namespace InvWeb.Data.Services
                 return "";
             }
         }
+
+        public decimal ConvertItemUomtoDefault(InvItem item, InvTrxDtl invTrxDtl, int itemCount)
+        {
+            try
+            {
+
+                //check
+                if (item.InvUomId == invTrxDtl.InvUomId)
+                {
+                    return invTrxDtl.ItemQty;
+                }
+
+                //get convertion
+                if (item.InvUomId != invTrxDtl.InvUomId)
+                {
+                    //check conversion table
+                    var conversion = _context.InvUomConversions.Where(c => c.InvUomId_base == invTrxDtl.InvUomId
+                                            && c.InvUomId_into == item.InvUomId);
+
+                    if (conversion != null)
+                    {
+                        //convert 
+                        var check_Conversion = conversion.First();
+                        var conversion_result = check_Conversion.Factor * itemCount;
+                        return conversion_result;
+                    }
+                }
+
+                return -1;
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+
+        private decimal ConvertItemsListUoms(List<InvTrxDtl> InvTrxDtlsList)
+        {
+            decimal TotalConverted = 0;
+            //convert to default uom and item qty
+            foreach (var trx in InvTrxDtlsList)
+            {
+
+                TotalConverted += ConvertItemUomtoDefault(trx.InvItem, trx, trx.ItemQty);
+            }
+
+            return TotalConverted;
+        }
+
+        
 
         #endregion
     }

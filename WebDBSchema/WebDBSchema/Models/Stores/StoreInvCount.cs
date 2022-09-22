@@ -9,13 +9,13 @@ namespace WebDBSchema.Models.Stores
     {
         public int Id { get; set; }
         public string Description { get; set; }
-        public int Available { get; set; }
-        public int OnHand { get; set; }
-        public int ReceivePending { get; set; }
-        public int ReceiveAccepted { get; set; }
-        public int ReleaseRequest { get; set; }
-        public int ReleaseReleased { get; set; }
-        public int Adjustments { get; set; }
+        public decimal Available { get; set; }
+        public decimal OnHand { get; set; }
+        public decimal ReceivePending { get; set; }
+        public decimal ReceiveAccepted { get; set; }
+        public decimal ReleaseRequest { get; set; }
+        public decimal ReleaseReleased { get; set; }
+        public decimal Adjustments { get; set; }
         public int CategoryId { get; set; }
         public string Category { get; set; }
 

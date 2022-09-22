@@ -18,6 +18,7 @@ namespace InvWeb.Data.Interfaces
         public int GetAvailableItemsCountByStore();
         public List<InvStore> GetStoreUsers(string user);
         public string GetStoreName(int storeId);
+        public decimal ConvertItemUomtoDefault(InvItem item, InvTrxDtl invTrxDtl, int itemCount);
 
     }
 }
