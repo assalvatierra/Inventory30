@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data.Services;
 using WebDBSchema.Models;
 using WebDBSchema.Models.Items;
+using InvWeb.Data.Interfaces;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
@@ -16,11 +17,13 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
         private readonly ItemServices _itemServices;
+        private readonly UomServices _uomServices;
 
         public EditModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);
+            _uomServices = new UomServices(context);
         }
 
         [BindProperty]
@@ -64,7 +67,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(itemId);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
-            ViewData["InvUomId"] = _itemServices.GetConvertableUomSelectList();
+            ViewData["InvUomId"] = _uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId);
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
             ViewData["LotNoItems"]  = LotNoList;
             ViewData["StoreId"]     = storeId;

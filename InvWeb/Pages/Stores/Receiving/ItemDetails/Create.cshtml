@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label"> Item </label>
-                <select asp-for="InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize" asp-items="ViewBag.InvItemId"></select>
+                <select asp-for="InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize" asp-items="ViewBag.InvItemId" id='itemDropdown' ></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> Qty </label>
@@ -28,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label"> Uom </label>
-                <select asp-for="InvTrxDtl.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+                <select asp-for="InvTrxDtl.InvUomId" class="form-control" asp-items="ViewBag.InvUomId" id="UomDropdown"  ></select>
             </div>
             <div class="form-group" hidden>
                 <label asp-for="InvTrxDtl.InvTrxDtlOperatorId" class="control-label"></label>
@@ -47,4 +47,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/Store/ItemUomDropdown.js"></script>
 }
