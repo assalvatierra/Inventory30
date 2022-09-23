@@ -234,6 +234,12 @@
     <Compile Include="Models\InvItemClass.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvItemSpec_Steel.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvItemSysDefinedSpecs.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvPoHdr.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
