@@ -2,14 +2,14 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/30/2022 13:02:54
--- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
+-- Date Created: 09/22/2022 20:21:31
+-- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
---USE [InvDB3.mdf];
---GO
+USE [InvDB3.mdf];
+GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
@@ -483,6 +483,29 @@ CREATE TABLE [dbo].[InvCategories] (
 );
 GO
 
+-- Creating table 'InvItemSpec_Steel'
+CREATE TABLE [dbo].[InvItemSpec_Steel] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvItemId] int  NOT NULL,
+    [SpecFor] nvarchar(10)  NOT NULL,
+    [SizeValue] nvarchar(10)  NULL,
+    [SizeDesc] nvarchar(30)  NULL,
+    [WtValue] nvarchar(10)  NULL,
+    [WtDesc] nvarchar(30)  NULL,
+    [SpecInfo] nvarchar(80)  NULL
+);
+GO
+
+-- Creating table 'InvItemSysDefinedSpecs'
+CREATE TABLE [dbo].[InvItemSysDefinedSpecs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [SpecName] nvarchar(30)  NULL,
+    [SpecCode] nvarchar(10)  NOT NULL,
+    [SpecGroup] nvarchar(10)  NULL,
+    [InvCategoryId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -646,6 +669,18 @@ GO
 -- Creating primary key on [Id] in table 'InvCategories'
 ALTER TABLE [dbo].[InvCategories]
 ADD CONSTRAINT [PK_InvCategories]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [PK_InvItemSpec_Steel]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvItemSysDefinedSpecs'
+ALTER TABLE [dbo].[InvItemSysDefinedSpecs]
+ADD CONSTRAINT [PK_InvItemSysDefinedSpecs]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1251,6 +1286,36 @@ GO
 CREATE INDEX [IX_FK_InvCategoryInvItem]
 ON [dbo].[InvItems]
     ([InvCategoryId]);
+GO
+
+-- Creating foreign key on [InvCategoryId] in table 'InvItemSysDefinedSpecs'
+ALTER TABLE [dbo].[InvItemSysDefinedSpecs]
+ADD CONSTRAINT [FK_InvCategoryInvItemSysDefinedSpecs]
+    FOREIGN KEY ([InvCategoryId])
+    REFERENCES [dbo].[InvCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCategoryInvItemSysDefinedSpecs'
+CREATE INDEX [IX_FK_InvCategoryInvItemSysDefinedSpecs]
+ON [dbo].[InvItemSysDefinedSpecs]
+    ([InvCategoryId]);
+GO
+
+-- Creating foreign key on [InvItemId] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [FK_InvItemInvItemSpec_Steel]
+    FOREIGN KEY ([InvItemId])
+    REFERENCES [dbo].[InvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvItemSpec_Steel'
+CREATE INDEX [IX_FK_InvItemInvItemSpec_Steel]
+ON [dbo].[InvItemSpec_Steel]
+    ([InvItemId]);
 GO
 
 -- --------------------------------------------------
