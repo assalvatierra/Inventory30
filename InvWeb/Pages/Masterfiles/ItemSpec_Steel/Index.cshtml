@@ -1,0 +1,72 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemSpec_Steel.IndexModel
+
+@{
+    ViewData["Title"] = "Index - Item Spec";
+}
+
+<h1>Item Spec</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].InvItem.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SpecFor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SpecInfo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SizeValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SizeDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].WtValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].WtDesc)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.InvItemSpec_Steel)
+        {
+                <tr>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.Description)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.SpecFor)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.SpecInfo)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.SizeValue)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.SizeDesc)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.WtValue)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.WtDesc)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>
