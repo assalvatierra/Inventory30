@@ -46,7 +46,7 @@ namespace InvWeb
             //localdb
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DevTestConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
