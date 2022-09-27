@@ -3,7 +3,7 @@
 IF NOT EXISTS (SELECT 1 FROM InvStores)
 BEGIN
 	insert into InvStores("StoreName") values 
-	('Cebu Branch 1'),('Davao Main'),('Gensan Branch 1');
+	('Cebu Branch 1'),('Gensan Branch 1');
 END
 
 --Unit of Measure--
