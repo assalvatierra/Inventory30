@@ -7,11 +7,12 @@
 
 <h1>Create</h1>
 
-<h4>InvItem</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
+<form method="post">
+    <div class="row ">
+
+    <div class="col-md-5">
+        <h4>InvItem</h4>
+        <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="InvItem.Description" class="control-label"></label>
@@ -39,9 +40,16 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
     </div>
-</div>
+        <partial name="_InvItemSpec" model="Model" />
+
+       @* @if (Model.InvItem.InvCategory.InvItemSysDefinedSpecs != null)
+        {
+            <partial name="_InvItemSpec" model="Model" />
+        }*@
+
+    </div>
+</form>
 
 <div>
     <a asp-page="Index">Back to List</a>

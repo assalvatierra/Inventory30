@@ -29,6 +29,9 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
         [BindProperty]
         public InvItem InvItem { get; set; }
 
+        [BindProperty]
+        public InvItemSpec_Steel InvItemSpec_Steel { get; set; }
+
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
@@ -40,7 +43,27 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             _context.InvItems.Add(InvItem);
             await _context.SaveChangesAsync();
 
+            await AddItemSpecification();
+
             return RedirectToPage("./Index");
+        }
+
+        public async Task<int> AddItemSpecification()
+        {
+            if (!ModelState.IsValid)
+            {
+                return 0;
+            }
+
+            if (InvItem.Id == 0 || InvItem == null)
+            {
+                return 0;
+            }
+
+            InvItemSpec_Steel.InvItemId = InvItem.Id;
+
+            _context.InvItemSpec_Steel.Add(InvItemSpec_Steel);
+            return await _context.SaveChangesAsync();
         }
     }
 }
