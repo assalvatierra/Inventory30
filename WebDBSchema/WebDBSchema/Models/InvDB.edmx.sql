@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/22/2022 20:21:31
+-- Date Created: 09/29/2022 23:20:24
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -137,6 +137,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvItems] DROP CONSTRAINT [FK_InvCategoryInvItem];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvItemSysDefinedSpecs]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSysDefinedSpecs] DROP CONSTRAINT [FK_InvCategoryInvItemSysDefinedSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_InvItemInvItemSpec_Steel];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -222,6 +228,12 @@ IF OBJECT_ID(N'[dbo].[InvWarningTypes]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvCategories]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvCategories];
+GO
+IF OBJECT_ID(N'[dbo].[InvItemSpec_Steel]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[InvItemSysDefinedSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemSysDefinedSpecs];
 GO
 
 -- --------------------------------------------------
@@ -501,8 +513,15 @@ CREATE TABLE [dbo].[InvItemSysDefinedSpecs] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [SpecName] nvarchar(30)  NULL,
     [SpecCode] nvarchar(10)  NOT NULL,
-    [SpecGroup] nvarchar(10)  NULL,
-    [InvCategoryId] int  NOT NULL
+    [SpecGroup] nvarchar(10)  NULL
+);
+GO
+
+-- Creating table 'InvCategorySpecDefs'
+CREATE TABLE [dbo].[InvCategorySpecDefs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvCategoryId] int  NOT NULL,
+    [InvItemSysDefinedSpecsId] int  NOT NULL
 );
 GO
 
@@ -681,6 +700,12 @@ GO
 -- Creating primary key on [Id] in table 'InvItemSysDefinedSpecs'
 ALTER TABLE [dbo].[InvItemSysDefinedSpecs]
 ADD CONSTRAINT [PK_InvItemSysDefinedSpecs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvCategorySpecDefs'
+ALTER TABLE [dbo].[InvCategorySpecDefs]
+ADD CONSTRAINT [PK_InvCategorySpecDefs]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1288,21 +1313,6 @@ ON [dbo].[InvItems]
     ([InvCategoryId]);
 GO
 
--- Creating foreign key on [InvCategoryId] in table 'InvItemSysDefinedSpecs'
-ALTER TABLE [dbo].[InvItemSysDefinedSpecs]
-ADD CONSTRAINT [FK_InvCategoryInvItemSysDefinedSpecs]
-    FOREIGN KEY ([InvCategoryId])
-    REFERENCES [dbo].[InvCategories]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_InvCategoryInvItemSysDefinedSpecs'
-CREATE INDEX [IX_FK_InvCategoryInvItemSysDefinedSpecs]
-ON [dbo].[InvItemSysDefinedSpecs]
-    ([InvCategoryId]);
-GO
-
 -- Creating foreign key on [InvItemId] in table 'InvItemSpec_Steel'
 ALTER TABLE [dbo].[InvItemSpec_Steel]
 ADD CONSTRAINT [FK_InvItemInvItemSpec_Steel]
@@ -1316,6 +1326,36 @@ GO
 CREATE INDEX [IX_FK_InvItemInvItemSpec_Steel]
 ON [dbo].[InvItemSpec_Steel]
     ([InvItemId]);
+GO
+
+-- Creating foreign key on [InvCategoryId] in table 'InvCategorySpecDefs'
+ALTER TABLE [dbo].[InvCategorySpecDefs]
+ADD CONSTRAINT [FK_InvCategoryInvCategorySpecDef]
+    FOREIGN KEY ([InvCategoryId])
+    REFERENCES [dbo].[InvCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCategoryInvCategorySpecDef'
+CREATE INDEX [IX_FK_InvCategoryInvCategorySpecDef]
+ON [dbo].[InvCategorySpecDefs]
+    ([InvCategoryId]);
+GO
+
+-- Creating foreign key on [InvItemSysDefinedSpecsId] in table 'InvCategorySpecDefs'
+ALTER TABLE [dbo].[InvCategorySpecDefs]
+ADD CONSTRAINT [FK_InvItemSysDefinedSpecsInvCategorySpecDef]
+    FOREIGN KEY ([InvItemSysDefinedSpecsId])
+    REFERENCES [dbo].[InvItemSysDefinedSpecs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemSysDefinedSpecsInvCategorySpecDef'
+CREATE INDEX [IX_FK_InvItemSysDefinedSpecsInvCategorySpecDef]
+ON [dbo].[InvCategorySpecDefs]
+    ([InvItemSysDefinedSpecsId]);
 GO
 
 -- --------------------------------------------------
