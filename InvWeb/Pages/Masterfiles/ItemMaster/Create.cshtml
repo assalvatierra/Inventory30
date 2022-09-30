@@ -9,44 +9,44 @@
 
 <form method="post">
     <div class="row ">
+        <div class="col-md-5">
+            <h4>InvItem</h4>
+            <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="InvItem.Description" class="control-label"></label>
+                    <input asp-for="InvItem.Description" class="form-control" required />
+                    <span asp-validation-for="InvItem.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InvItem.Code" class="control-label"></label>
+                    <input asp-for="InvItem.Code" class="form-control" required />
+                    <span asp-validation-for="InvItem.Code" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InvItem.InvCategoryId" class="control-label"></label>
+                    <select asp-for="InvItem.InvCategoryId" class ="form-control" asp-items="ViewBag.InvCategoryId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InvItem.Remarks" class="control-label"></label>
+                    <input asp-for="InvItem.Remarks" class="form-control" />
+                    <span asp-validation-for="InvItem.Remarks" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InvItem.InvUomId" class="control-label"></label>
+                    <select asp-for="InvItem.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+        </div>
 
-    <div class="col-md-5">
-        <h4>InvItem</h4>
-        <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="InvItem.Description" class="control-label"></label>
-                <input asp-for="InvItem.Description" class="form-control" />
-                <span asp-validation-for="InvItem.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InvItem.Code" class="control-label"></label>
-                <input asp-for="InvItem.Code" class="form-control" />
-                <span asp-validation-for="InvItem.Code" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InvItem.InvCategoryId" class="control-label"></label>
-                <select asp-for="InvItem.InvCategoryId" class ="form-control" asp-items="ViewBag.InvCategoryId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="InvItem.Remarks" class="control-label"></label>
-                <input asp-for="InvItem.Remarks" class="form-control" />
-                <span asp-validation-for="InvItem.Remarks" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InvItem.InvUomId" class="control-label"></label>
-                <select asp-for="InvItem.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-    </div>
-        <partial name="_InvItemSpec" model="Model" />
+        <partial name="_InvItemSpec" model="Model.InvItemSpec_Steel" />
 
-       @* @if (Model.InvItem.InvCategory.InvItemSysDefinedSpecs != null)
-        {
+        @* @if (Model.InvItem.InvCategory.InvItemSysDefinedSpecs != null)
+         {
             <partial name="_InvItemSpec" model="Model" />
-        }*@
+         }*@
 
     </div>
 </form>

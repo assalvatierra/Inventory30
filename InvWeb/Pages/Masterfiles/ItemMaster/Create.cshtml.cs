@@ -7,16 +7,22 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data;
 using WebDBSchema.Models;
+using InvWeb.Data.Services;
+using Microsoft.Extensions.Logging;
 
 namespace InvWeb.Pages.Masterfiles.ItemMaster
 {
     public class CreateModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ILogger<CreateModel> _logger;
+        private readonly ItemSpecServices _itemSpecServices;
 
-        public CreateModel(InvWeb.Data.ApplicationDbContext context)
+        public CreateModel(InvWeb.Data.ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
+            _logger = logger;
+            _itemSpecServices = new ItemSpecServices(context, logger);
         }
 
         public IActionResult OnGet()
@@ -43,12 +49,12 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             _context.InvItems.Add(InvItem);
             await _context.SaveChangesAsync();
 
-            await AddItemSpecification();
+            await AddItemSpecToItem();
 
             return RedirectToPage("./Index");
         }
 
-        public async Task<int> AddItemSpecification()
+        public async Task<int> AddItemSpecToItem()
         {
             if (!ModelState.IsValid)
             {
@@ -60,10 +66,14 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return 0;
             }
 
+            if (String.IsNullOrEmpty(InvItemSpec_Steel.SpecFor))
+            {
+                return 0;
+            }
+
             InvItemSpec_Steel.InvItemId = InvItem.Id;
 
-            _context.InvItemSpec_Steel.Add(InvItemSpec_Steel);
-            return await _context.SaveChangesAsync();
+            return await _itemSpecServices.AddItemSpecification(InvItemSpec_Steel);
         }
     }
 }
