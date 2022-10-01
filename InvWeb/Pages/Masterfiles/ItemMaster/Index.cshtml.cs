@@ -31,7 +31,11 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             InvItemIndex = new List<InvItemIndexModel>();
             var InvItem = await _context.InvItems
                 .Include(i => i.InvCategory)
-                .Include(i => i.InvUom).OrderBy(s=>s.Code).ThenBy(s2=>s2.Code).ToListAsync();
+                .Include(i => i.InvItemSpec_Steel)
+                .Include(i => i.InvUom)
+                .OrderBy(s=>s.Code)
+                    .ThenBy(s2=>s2.Description)
+                .ToListAsync();
 
             foreach (var item in InvItem)
             {

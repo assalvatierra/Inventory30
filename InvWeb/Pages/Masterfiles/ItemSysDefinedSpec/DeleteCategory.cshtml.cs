@@ -6,17 +6,17 @@ using WebDBSchema.Models;
 
 namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
 {
-    public class DeleteModel : PageModel
+    public class DeleteCategoryModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
 
-        public DeleteModel(InvWeb.Data.ApplicationDbContext context)
+        public DeleteCategoryModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public InvItemSysDefinedSpecs InvItemSysDefinedSpecs { get; set; }
+        public InvCategorySpecDef InvCategorySpecDefs { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -25,12 +25,12 @@ namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
                 return NotFound();
             }
 
-            InvItemSysDefinedSpecs = await _context.InvItemSysDefinedSpecs
-                .Include(i => i.InvCategorySpecDefs)
-                    .ThenInclude(i => i.InvCategory)
+            InvCategorySpecDefs = await _context.InvCategorySpecDefs
+                .Include(i => i.InvCategory)
+                .Include(i => i.InvItemSysDefinedSpec)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvItemSysDefinedSpecs == null)
+            if (InvCategorySpecDefs == null)
             {
                 return NotFound();
             }
@@ -44,11 +44,11 @@ namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
                 return NotFound();
             }
 
-            InvItemSysDefinedSpecs = await _context.InvItemSysDefinedSpecs.FindAsync(id);
+            InvCategorySpecDefs = await _context.InvCategorySpecDefs.FindAsync(id);
 
-            if (InvItemSysDefinedSpecs != null)
+            if (InvCategorySpecDefs != null)
             {
-                _context.InvItemSysDefinedSpecs.Remove(InvItemSysDefinedSpecs);
+                _context.InvCategorySpecDefs.Remove(InvCategorySpecDefs);
                 await _context.SaveChangesAsync();
             }
 

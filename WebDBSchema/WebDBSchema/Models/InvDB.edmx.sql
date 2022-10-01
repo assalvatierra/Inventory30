@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/26/2022 14:38:37
+-- Date Created: 10/01/2022 19:21:16
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -137,11 +137,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvItems] DROP CONSTRAINT [FK_InvCategoryInvItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvItemSysDefinedSpecs]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvItemSysDefinedSpecs] DROP CONSTRAINT [FK_InvCategoryInvItemSysDefinedSpecs];
-GO
 IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemSpec_Steel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_InvItemInvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvCategorySpecDef]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCategorySpecDefs] DROP CONSTRAINT [FK_InvCategoryInvCategorySpecDef];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemSysDefinedSpecsInvCategorySpecDef]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCategorySpecDefs] DROP CONSTRAINT [FK_InvItemSysDefinedSpecsInvCategorySpecDef];
 GO
 
 -- --------------------------------------------------
@@ -234,6 +237,9 @@ IF OBJECT_ID(N'[dbo].[InvItemSpec_Steel]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvItemSysDefinedSpecs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvItemSysDefinedSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCategorySpecDefs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCategorySpecDefs];
 GO
 
 -- --------------------------------------------------

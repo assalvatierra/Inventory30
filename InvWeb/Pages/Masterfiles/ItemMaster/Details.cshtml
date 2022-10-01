@@ -55,7 +55,7 @@
                 }
 
             }
-            <a asp-page="./Classifications/Create" asp-route-id="@Model.InvItem.Id">Add Classification</a>
+            <a asp-page="./Classifications/Create" asp-route-id="@Model.InvItem.Id">  Add Classification</a>
         </dd>
     </dl>
 </div>
@@ -88,6 +88,42 @@
             <td>
                 <a asp-page="./WarningLevels/Edit" asp-route-id="@warning.Id"> Edit </a>
                 <a asp-page="./WarningLevels/Delete" asp-route-id="@warning.Id"> Delete </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<h2> Item Specifications </h2>
+<hr />
+<a asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Warning Level</a>
+<table class="table">
+    <tr>
+        <th> Spec For </th>
+        <th> Info </th>
+        <th> Size </th>
+        <th> Weight </th>
+        <th></th>
+    </tr>
+
+    @foreach (var spec in Model.InvItem.InvItemSpec_Steel)
+    {
+        <tr>
+            <td>
+                @spec.SpecFor
+            </td>
+            <td>
+                @spec.SpecInfo
+            </td>
+            <td>
+                @spec.SizeDesc :  @spec.SizeValue
+            </td>
+            <td>
+                @spec.WtDesc : @spec.WtValue
+            </td>
+            <td>
+               @* <a asp-page="./WarningLevels/Edit" asp-route-id="@spec.Id"> Edit </a>
+                <a asp-page="./WarningLevels/Delete" asp-route-id="@spec.Id"> Delete </a>*@
             </td>
         </tr>
     }

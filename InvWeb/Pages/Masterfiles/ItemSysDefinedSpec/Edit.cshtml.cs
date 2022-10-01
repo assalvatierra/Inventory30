@@ -28,7 +28,6 @@ namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
             }
 
             InvItemSysDefinedSpecs = await _context.InvItemSysDefinedSpecs
-                .Include(i => i.InvCategory)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvItemSysDefinedSpecs == null)
