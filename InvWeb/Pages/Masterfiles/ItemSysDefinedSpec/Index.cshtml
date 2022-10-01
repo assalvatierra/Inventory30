@@ -45,9 +45,13 @@
                     @if(item.InvCategorySpecDefs != null){
                         var categorySpecDefs = item.InvCategorySpecDefs;
                         foreach(var specDef in categorySpecDefs){
-                            <span> @specDef.InvCategory.Description </span><br />
+                            <span> @specDef.InvCategory.Description </span>
+                            <a asp-page="./DeleteCategory" asp-route-id="@specDef.Id"> [ X ] </a>
+                            <br />
                         }
                     }
+
+                    <a asp-page="./AddCategory" asp-route-id="@item.Id"> + Add Category</a>
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
