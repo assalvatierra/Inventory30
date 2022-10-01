@@ -22,7 +22,8 @@ namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
         public async Task OnGetAsync()
         {
             InvItemSysDefinedSpecs = await _context.InvItemSysDefinedSpecs
-                .Include(i=>i.InvCategory)
+                .Include(i => i.InvCategorySpecDefs)
+                    .ThenInclude(i => i.InvCategory)
                 .ToListAsync();
         }
     }

@@ -23,7 +23,7 @@
                 @Html.DisplayNameFor(model => model.InvItemSysDefinedSpecs[0].SpecGroup)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemSysDefinedSpecs[0].InvCategory)
+                Category
             </th>
             <th></th>
         </tr>
@@ -42,7 +42,12 @@
                     @Html.DisplayFor(modelItem => item.SpecGroup)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvCategory.Description)
+                    @if(item.InvCategorySpecDefs != null){
+                        var categorySpecDefs = item.InvCategorySpecDefs;
+                        foreach(var specDef in categorySpecDefs){
+                            <span> @specDef.InvCategory.Description </span><br />
+                        }
+                    }
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
