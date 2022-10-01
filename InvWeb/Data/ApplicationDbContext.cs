@@ -42,6 +42,7 @@ namespace InvWeb.Data
         public DbSet<InvCategory> InvCategories { get; set; }
         public DbSet<InvItemSysDefinedSpecs> InvItemSysDefinedSpecs { get; set; }
         public DbSet<InvItemSpec_Steel> InvItemSpec_Steel { get; set; }
+        public DbSet<InvCategorySpecDef> InvCategorySpecDefs { get; set; }
 
     }
 }
