@@ -14,12 +14,18 @@ namespace WebDBSchema.Models
     
     public partial class InvItemSysDefinedSpecs
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public InvItemSysDefinedSpecs()
+        {
+            this.InvCategorySpecDefs = new HashSet<InvCategorySpecDef>();
+        }
+    
         public int Id { get; set; }
         public string SpecName { get; set; }
         public string SpecCode { get; set; }
         public string SpecGroup { get; set; }
-        public int InvCategoryId { get; set; }
     
-        public virtual InvCategory InvCategory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvCategorySpecDef> InvCategorySpecDefs { get; set; }
     }
 }

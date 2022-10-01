@@ -35,6 +35,7 @@
     <EntitySet Name="InvCategories" EntityType="InvDB.Store.InvCategories" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvItemSpec_Steel" EntityType="InvDB.Store.InvItemSpec_Steel" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvItemSysDefinedSpecs" EntityType="InvDB.Store.InvItemSysDefinedSpecs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvCategorySpecDefs" EntityType="InvDB.Store.InvCategorySpecDefs" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -195,13 +196,17 @@
       <End Role="InvCategory" EntitySet="InvCategories" />
       <End Role="InvItem" EntitySet="InvItems" />
     </AssociationSet>
-    <AssociationSet Name="InvCategoryInvItemSysDefinedSpecs" Association="InvDB.Store.InvCategoryInvItemSysDefinedSpecs">
-      <End Role="InvCategory" EntitySet="InvCategories" />
-      <End Role="InvItemSysDefinedSpecs" EntitySet="InvItemSysDefinedSpecs" />
-    </AssociationSet>
     <AssociationSet Name="InvItemInvItemSpec_Steel" Association="InvDB.Store.InvItemInvItemSpec_Steel">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
+    </AssociationSet>
+    <AssociationSet Name="InvCategoryInvCategorySpecDef" Association="InvDB.Store.InvCategoryInvCategorySpecDef">
+      <End Role="InvCategory" EntitySet="InvCategories" />
+      <End Role="InvCategorySpecDef" EntitySet="InvCategorySpecDefs" />
+    </AssociationSet>
+    <AssociationSet Name="InvItemSysDefinedSpecsInvCategorySpecDef" Association="InvDB.Store.InvItemSysDefinedSpecsInvCategorySpecDef">
+      <End Role="InvItemSysDefinedSpecs" EntitySet="InvItemSysDefinedSpecs" />
+      <End Role="InvCategorySpecDef" EntitySet="InvCategorySpecDefs" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="InvItems">
@@ -480,7 +485,14 @@
     <Property Name="SpecName" Type="nvarchar" Nullable="true" MaxLength="30" />
     <Property Name="SpecCode" Type="nvarchar" Nullable="false" MaxLength="10" />
     <Property Name="SpecGroup" Type="nvarchar" Nullable="true" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="InvCategorySpecDefs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InvCategoryId" Type="int" Nullable="false" />
+    <Property Name="InvItemSysDefinedSpecsId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -962,18 +974,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="InvCategoryInvItemSysDefinedSpecs">
-    <End Role="InvCategory" Type="InvDB.Store.InvCategories" Multiplicity="1" />
-    <End Role="InvItemSysDefinedSpecs" Type="InvDB.Store.InvItemSysDefinedSpecs" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="InvCategory">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="InvItemSysDefinedSpecs">
-        <PropertyRef Name="InvCategoryId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="InvItemInvItemSpec_Steel">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
     <End Role="InvItemSpec_Steel" Type="InvDB.Store.InvItemSpec_Steel" Multiplicity="*" />
@@ -983,6 +983,30 @@
       </Principal>
       <Dependent Role="InvItemSpec_Steel">
         <PropertyRef Name="InvItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvCategoryInvCategorySpecDef">
+    <End Role="InvCategory" Type="InvDB.Store.InvCategories" Multiplicity="1" />
+    <End Role="InvCategorySpecDef" Type="InvDB.Store.InvCategorySpecDefs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvCategorySpecDef">
+        <PropertyRef Name="InvCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvItemSysDefinedSpecsInvCategorySpecDef">
+    <End Role="InvItemSysDefinedSpecs" Type="InvDB.Store.InvItemSysDefinedSpecs" Multiplicity="1" />
+    <End Role="InvCategorySpecDef" Type="InvDB.Store.InvCategorySpecDefs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvItemSysDefinedSpecs">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvCategorySpecDef">
+        <PropertyRef Name="InvItemSysDefinedSpecsId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1180,13 +1204,18 @@
           </AssociationSet>
           <EntitySet Name="InvItemSpec_Steel" EntityType="InvDB.InvItemSpec_Steel" />
           <EntitySet Name="InvItemSysDefinedSpecs" EntityType="InvDB.InvItemSysDefinedSpecs" />
-          <AssociationSet Name="InvCategoryInvItemSysDefinedSpecs" Association="InvDB.InvCategoryInvItemSysDefinedSpecs">
-            <End Role="InvCategory" EntitySet="InvCategories" />
-            <End Role="InvItemSysDefinedSpecs" EntitySet="InvItemSysDefinedSpecs" />
-          </AssociationSet>
           <AssociationSet Name="InvItemInvItemSpec_Steel" Association="InvDB.InvItemInvItemSpec_Steel">
             <End Role="InvItem" EntitySet="InvItems" />
             <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
+          </AssociationSet>
+          <EntitySet Name="InvCategorySpecDefs" EntityType="InvDB.InvCategorySpecDef" />
+          <AssociationSet Name="InvCategoryInvCategorySpecDef" Association="InvDB.InvCategoryInvCategorySpecDef">
+            <End Role="InvCategory" EntitySet="InvCategories" />
+            <End Role="InvCategorySpecDef" EntitySet="InvCategorySpecDefs" />
+          </AssociationSet>
+          <AssociationSet Name="InvItemSysDefinedSpecsInvCategorySpecDef" Association="InvDB.InvItemSysDefinedSpecsInvCategorySpecDef">
+            <End Role="InvItemSysDefinedSpecs" EntitySet="InvItemSysDefinedSpecs" />
+            <End Role="InvCategorySpecDef" EntitySet="InvCategorySpecDefs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
@@ -1992,7 +2021,7 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="50" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="50" />
           <NavigationProperty Name="InvItems" Relationship="InvDB.InvCategoryInvItem" FromRole="InvCategory" ToRole="InvItem" />
-          <NavigationProperty Name="InvItemSysDefinedSpecs" Relationship="InvDB.InvCategoryInvItemSysDefinedSpecs" FromRole="InvCategory" ToRole="InvItemSysDefinedSpecs" />
+          <NavigationProperty Name="InvCategorySpecDefs" Relationship="InvDB.InvCategoryInvCategorySpecDef" FromRole="InvCategory" ToRole="InvCategorySpecDef" />
         </EntityType>
         <Association Name="InvCategoryInvItem">
           <End Type="InvDB.InvCategory" Role="InvCategory" Multiplicity="1" />
@@ -2028,21 +2057,8 @@
           <Property Name="SpecName" Type="String" Nullable="true" MaxLength="30" />
           <Property Name="SpecCode" Type="String" Nullable="false" MaxLength="10" />
           <Property Name="SpecGroup" Type="String" Nullable="true" MaxLength="10" />
-          <NavigationProperty Name="InvCategory" Relationship="InvDB.InvCategoryInvItemSysDefinedSpecs" FromRole="InvItemSysDefinedSpecs" ToRole="InvCategory" />
-          <Property Name="InvCategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvCategorySpecDefs" Relationship="InvDB.InvItemSysDefinedSpecsInvCategorySpecDef" FromRole="InvItemSysDefinedSpecs" ToRole="InvCategorySpecDef" />
         </EntityType>
-        <Association Name="InvCategoryInvItemSysDefinedSpecs">
-          <End Type="InvDB.InvCategory" Role="InvCategory" Multiplicity="1" />
-          <End Type="InvDB.InvItemSysDefinedSpecs" Role="InvItemSysDefinedSpecs" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="InvCategory">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="InvItemSysDefinedSpecs">
-              <PropertyRef Name="InvCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="InvItemInvItemSpec_Steel">
           <End Type="InvDB.InvItem" Role="InvItem" Multiplicity="1" />
           <End Type="InvDB.InvItemSpec_Steel" Role="InvItemSpec_Steel" Multiplicity="*" />
@@ -2052,6 +2068,40 @@
             </Principal>
             <Dependent Role="InvItemSpec_Steel">
               <PropertyRef Name="InvItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvCategorySpecDef">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="InvCategory" Relationship="InvDB.InvCategoryInvCategorySpecDef" FromRole="InvCategorySpecDef" ToRole="InvCategory" />
+          <Property Name="InvCategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvItemSysDefinedSpec" Relationship="InvDB.InvItemSysDefinedSpecsInvCategorySpecDef" FromRole="InvCategorySpecDef" ToRole="InvItemSysDefinedSpecs" />
+          <Property Name="InvItemSysDefinedSpecsId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvCategoryInvCategorySpecDef">
+          <End Type="InvDB.InvCategory" Role="InvCategory" Multiplicity="1" />
+          <End Type="InvDB.InvCategorySpecDef" Role="InvCategorySpecDef" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvCategorySpecDef">
+              <PropertyRef Name="InvCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvItemSysDefinedSpecsInvCategorySpecDef">
+          <End Type="InvDB.InvItemSysDefinedSpecs" Role="InvItemSysDefinedSpecs" Multiplicity="1" />
+          <End Type="InvDB.InvCategorySpecDef" Role="InvCategorySpecDef" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvItemSysDefinedSpecs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvCategorySpecDef">
+              <PropertyRef Name="InvItemSysDefinedSpecsId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2364,7 +2414,15 @@
           <ScalarProperty Name="SpecName" ColumnName="SpecName" />
           <ScalarProperty Name="SpecCode" ColumnName="SpecCode" />
           <ScalarProperty Name="SpecGroup" ColumnName="SpecGroup" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvCategorySpecDefs">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvCategorySpecDef)">
+        <MappingFragment StoreEntitySet="InvCategorySpecDefs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="InvCategoryId" ColumnName="InvCategoryId" />
+          <ScalarProperty Name="InvItemSysDefinedSpecsId" ColumnName="InvItemSysDefinedSpecsId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

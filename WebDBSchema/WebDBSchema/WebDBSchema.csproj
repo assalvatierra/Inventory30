@@ -210,6 +210,9 @@
     <Compile Include="Models\InvCategory.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvCategorySpecDef.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvClassification.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
@@ -383,6 +386,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\SQL Scripts\VSteel\Migration\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

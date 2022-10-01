@@ -18,7 +18,7 @@ namespace WebDBSchema.Models
         public InvCategory()
         {
             this.InvItems = new HashSet<InvItem>();
-            this.InvItemSysDefinedSpecs = new HashSet<InvItemSysDefinedSpecs>();
+            this.InvCategorySpecDefs = new HashSet<InvCategorySpecDef>();
         }
     
         public int Id { get; set; }
@@ -29,6 +29,6 @@ namespace WebDBSchema.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvItem> InvItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvItemSysDefinedSpecs> InvItemSysDefinedSpecs { get; set; }
+        public virtual ICollection<InvCategorySpecDef> InvCategorySpecDefs { get; set; }
     }
 }
