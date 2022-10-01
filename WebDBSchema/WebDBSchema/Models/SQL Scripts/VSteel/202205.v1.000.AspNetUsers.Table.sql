@@ -6,6 +6,8 @@ SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[AspNetRoles](
     [Id] [nvarchar](128) NOT NULL,
     [Name] [nvarchar](256) NOT NULL,
+    [NormalizedName]   NVARCHAR (256) NULL,
+    [ConcurrencyStamp] NVARCHAR (MAX) NULL,
  CONSTRAINT [PK_dbo.AspNetRoles] PRIMARY KEY CLUSTERED 
 (
     [Id] ASC
@@ -56,8 +58,6 @@ SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[AspNetUserRoles](
     [UserId] [nvarchar](128) NOT NULL,
     [RoleId] [nvarchar](128) NOT NULL,
-    [NormalizedName]   NVARCHAR (256) NULL,
-    [ConcurrencyStamp] NVARCHAR (MAX) NULL,
  CONSTRAINT [PK_dbo.AspNetUserRoles] PRIMARY KEY CLUSTERED 
 (
     [UserId] ASC,
@@ -84,8 +84,8 @@ CREATE TABLE [dbo].[AspNetUsers](
     [LockoutEnabled] [bit] NOT NULL,
     [AccessFailedCount] [int] NOT NULL,
     [UserName] [nvarchar](256) NOT NULL,
-    [ConcurrencyStamp] [nvarchar](max) NOT NULL,
-    [LockoutEnd] [datetime] NOT NULL,
+    [ConcurrencyStamp] [nvarchar](256) NULL,
+    [LockoutEnd] [datetime] NULL,
     [NormalizedEmail] [nvarchar](256) NOT NULL,
     [NormalizedUserName] [nvarchar](256) NOT NULL,
  CONSTRAINT [PK_dbo.AspNetUsers] PRIMARY KEY CLUSTERED 

@@ -348,6 +348,7 @@
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.003.SampleData.VSteel.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.000.AspNetUsers.Table.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.000.Setup.Table.sql" />
+    <Content Include="Models\SQL Scripts\VSteel\Migration\202209.v1.001.Add-Item-Spec.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\InvDB.edmx">

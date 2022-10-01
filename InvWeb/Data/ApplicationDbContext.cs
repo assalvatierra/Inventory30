@@ -40,6 +40,8 @@ namespace InvWeb.Data
         public DbSet<InvWarningLevel> InvWarningLevels { get; set; }
         public DbSet<InvWarningType> InvWarningTypes { get; set; }
         public DbSet<InvCategory> InvCategories { get; set; }
+        public DbSet<InvItemSysDefinedSpecs> InvItemSysDefinedSpecs { get; set; }
+        public DbSet<InvItemSpec_Steel> InvItemSpec_Steel { get; set; }
 
     }
 }
