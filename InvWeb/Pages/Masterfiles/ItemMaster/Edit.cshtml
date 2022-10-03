@@ -45,9 +45,11 @@
         </div>
         @*<partial name="_InvItemSpec" model="Model.InvItemSpec_Steel" />*@
 
+        @if (Model.showSpec)
+        {
 
-        <div class="col-md-5">
-            <h4>Specifications</h4>
+            <div class="col-md-5">
+                <h4>Specifications</h4>
             <hr />
             <form method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -84,6 +86,7 @@
                 </div>
             </form>
         </div>
+        }
     </div>
 </form>
 

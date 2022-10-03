@@ -34,6 +34,9 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
         [BindProperty]
         public InvItemSpec_Steel InvItemSpec_Steel { get; set; }
 
+        [BindProperty]
+        public Boolean showSpec { get; set; }
+
         public async Task<IActionResult> OnGetAsync( int? id)
         {
             if (id == null)
@@ -52,6 +55,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             }
 
             InvItemSpec_Steel = GetItemSpecDetails(InvItem.Id);
+            this.showSpec = true;
 
             ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description");
             ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
