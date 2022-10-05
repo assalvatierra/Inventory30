@@ -15,11 +15,11 @@ namespace InvWeb.Data.Services
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
 
-        private readonly int TYPE_RECEIVED = 1;
-        private readonly int TYPE_RELEASED = 2;
+        //private readonly int TYPE_RECEIVED = 1;
+        //private readonly int TYPE_RELEASED = 2;
 
-        private readonly int STATUS_APPROVED = 2;
-        private readonly int STATUS_CLOSED = 3;
+        //private readonly int STATUS_APPROVED = 2;
+        //private readonly int STATUS_CLOSED = 3;
 
         public ItemSpecServices(ApplicationDbContext context, ILogger logger)
         {

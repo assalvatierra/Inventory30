@@ -132,11 +132,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 if (isItemHaveSpecDetails)
                 {
                     InvItemSpec_Steel.InvItemId = invItemId;
-                    //_context.Attach(InvItemSpec_Steel).State = EntityState.Modified;
-                    //var res = await _context.SaveChangesAsync();
 
                     return await _itemSpecServices.EditItemSpecification(InvItemSpec_Steel);
-                   
                 }
 
                 InvItemSpec_Steel.InvItemId = invItemId;
@@ -151,7 +148,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             }
             catch (Exception ex)
             {
-                _logger.LogError("ItemsMasters Edit: Unable to UpdateItemSpecification itemId:" + invItemSpec.InvItemId);
+                _logger.LogError("ItemsMasters Edit: Unable to UpdateItemSpecification itemId:" + invItemSpec.InvItemId + " " + ex.Message);
                 return 0;
             }
         }
