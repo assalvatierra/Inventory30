@@ -15,39 +15,37 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="InvItem.Description" class="control-label"></label>
-                    <input asp-for="InvItem.Description" class="form-control" required />
+                    <input asp-for="InvItem.Description" id="InvItemDesc" class="form-control" required />
                     <span asp-validation-for="InvItem.Description" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="InvItem.Code" class="control-label"></label>
-                    <input asp-for="InvItem.Code" class="form-control" required />
+                    <input asp-for="InvItem.Code" id="InvItemCode" class="form-control" required />
                     <span asp-validation-for="InvItem.Code" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="InvItem.InvCategoryId" class="control-label"></label>
-                    <select asp-for="InvItem.InvCategoryId" class ="form-control" asp-items="ViewBag.InvCategoryId"></select>
+                    <select asp-for="InvItem.InvCategoryId" id="InvCategoryId" class ="form-control" asp-items="ViewBag.InvCategoryId"
+                        onchange="CheckCategory_DefinedSpecCount()"></select>
                 </div>
                 <div class="form-group">
                     <label asp-for="InvItem.Remarks" class="control-label"></label>
-                    <input asp-for="InvItem.Remarks" class="form-control" />
+                    <input asp-for="InvItem.Remarks" id="InvItemRemarks" class="form-control" />
                     <span asp-validation-for="InvItem.Remarks" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="InvItem.InvUomId" class="control-label"></label>
-                    <select asp-for="InvItem.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+                    <select asp-for="InvItem.InvUomId" id="InvItemUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
         </div>
-
-        <partial name="_InvItemSpec" model="Model.InvItemSpec_Steel" />
-
-        @* @if (Model.InvItem.InvCategory.InvItemSysDefinedSpecs != null)
-         {
-            <partial name="_InvItemSpec" model="Model" />
-         }*@
-
+        
+        @if (Model.showSpec)
+        {
+            <partial name="_InvItemSpec" model="Model.InvItemSpec_Steel" />
+        }
     </div>
 </form>
 
@@ -57,4 +55,22 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        function CheckCategory_DefinedSpecCount(){
+            var categoryId = $("#InvCategoryId").val();
+            var desc = $("#InvItemDesc").val();
+            var code = $("#InvItemCode").val();
+            var remarks = $("#InvItemRemarks").val();
+            var uomId = $("#InvItemUomId").val();
+
+            //reload page
+            window.location.href = "/Masterfiles/ItemMaster/Create?desc=" + desc 
+                + "&code=" + code + "&categoryId=" + categoryId + "&remarks=" + remarks
+                + "&uomId=" + uomId;
+
+        }
+
+    </script>
 }

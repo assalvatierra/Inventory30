@@ -37,7 +37,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
         [BindProperty]
         public Boolean showSpec { get; set; }
 
-        public async Task<IActionResult> OnGetAsync( int? id)
+        public async Task<IActionResult> OnGetAsync( int? id, int? categoryId)
         {
             if (id == null)
             {
@@ -54,8 +54,16 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return NotFound();
             }
 
+            if (categoryId != null)
+            {
+                InvItem.InvCategoryId = (int)categoryId;
+            }
+
+            //update showSpec flag based on Category
+            this.showSpec = _itemSpecServices.IsCategoryHaveSpecDefs(InvItem.InvCategoryId);
+
+            //get item specifications details
             InvItemSpec_Steel = GetItemSpecDetails(InvItem.Id);
-            this.showSpec = true;
 
             ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description");
             ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
@@ -98,6 +106,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
             return RedirectToPage("./Index");
         }
+
+       
 
         private bool InvItemExists(int id)
         {
