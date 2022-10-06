@@ -23,12 +23,13 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
         private readonly UomServices _uomServices;
 
 
-        public CreateModel(ILogger<IndexModel> logger, InvWeb.Data.ApplicationDbContext context)
+        public CreateModel(ILogger<CreateModel> logger, InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);
             _uomServices = new UomServices(context);
             _storeServices = new StoreServices(context, logger);
+            _logger = logger;
         }
 
         public IActionResult OnGet(int? hdrId, int? invItemId)
@@ -78,21 +79,32 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return Page();
-            }
 
-            if (InvTrxDtl.LotNo == 0 || InvTrxDtl.LotNo == null)
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                if (InvTrxDtl.LotNo == 0 || InvTrxDtl.LotNo == null)
+                {
+                    //requires LotNo
+                    return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+                }
+
+                _context.InvTrxDtls.Add(InvTrxDtl);
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+
+            }
+            catch (Exception ex)
             {
-                //requires LotNo
+
+                _logger.LogError("Stores/Releasing/Create: Unable to OnPostAsync " + ex.Message);
                 return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
             }
-
-            _context.InvTrxDtls.Add(InvTrxDtl);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
         }
     }
 }
