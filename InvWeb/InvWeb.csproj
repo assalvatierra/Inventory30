@@ -6,12 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Items\**" />
     <Compile Remove="Pages\InvAccounts\**" />
     <Compile Remove="Pages\Stores\Reports\**" />
+    <Content Remove="Areas\Items\**" />
     <Content Remove="Pages\InvAccounts\**" />
     <Content Remove="Pages\Stores\Reports\**" />
+    <EmbeddedResource Remove="Areas\Items\**" />
     <EmbeddedResource Remove="Pages\InvAccounts\**" />
     <EmbeddedResource Remove="Pages\Stores\Reports\**" />
+    <None Remove="Areas\Items\**" />
     <None Remove="Pages\InvAccounts\**" />
     <None Remove="Pages\Stores\Reports\**" />
   </ItemGroup>
@@ -43,10 +47,6 @@
     <ProjectReference Include="..\PageSettings\PageModels\ReportViewModel\ReportViewModel.csproj" />
     <ProjectReference Include="..\PageSettings\PageViews\ReportBasicViews\ReportBasicViews.csproj" />
     <ProjectReference Include="..\WebDBSchema\WebDBSchema\WebDBSchema.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Items\Inv\" />
   </ItemGroup>
 
 </Project>
