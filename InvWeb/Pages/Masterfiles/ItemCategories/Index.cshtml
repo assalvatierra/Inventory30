@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Item Category</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -20,19 +20,35 @@
                 @Html.DisplayNameFor(model => model.InvCategory[0].Description)
             </th>
             <th>
+                Spec Code
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.InvCategory[0].Remarks)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.InvCategory) {
+    @foreach (var item in Model.InvCategory) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Code)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @foreach(var spec in item.InvCategorySpecDefs){
+                    var specdetails = spec.InvItemSysDefinedSpec;
+
+                    <span> (@specdetails.SpecCode) @specdetails.SpecName - @specdetails.SpecGroup </span><br />
+                }
+
+                @if(item.InvCategorySpecDefs.Count() == 0){
+                    <span>
+                         <a asp-page="./AddSysDefinedSpec" asp-route-id="@item.Id"> + Spec Code</a>
+                    </span>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)
@@ -43,6 +59,6 @@
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

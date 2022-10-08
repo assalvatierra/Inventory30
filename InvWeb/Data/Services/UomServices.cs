@@ -46,8 +46,9 @@ namespace InvWeb.Data.Services
                             Value = x.Id
                         }), "Value", "Name");
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError("UomServices: Unable to GetUomSelectList " + ex.Message);
                 return new SelectList(null);
             }
         }
@@ -96,7 +97,8 @@ namespace InvWeb.Data.Services
             }
             catch (Exception ex)
             {
-                throw ex;
+                //throw ex;
+                _logger.LogError("UomServices: Unable to GetUomSelectListByItemId " + ex.Message);
                 return new SelectList(null);
             }
         }
@@ -149,7 +151,8 @@ namespace InvWeb.Data.Services
             }
             catch (Exception ex)
             {
-                throw ex;
+                //throw ex;
+                _logger.LogError("UomServices: Unable to GetUomListByItemIdAsync " + ex.Message);
                 return new List<UomsApiModel.ItemOumList>(null);
             }
         }

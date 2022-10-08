@@ -1,0 +1,46 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model InvWeb.Pages.Masterfiles.ItemMaster.EditModel
+
+<div class="col-md-5">
+    <h4>Specifications</h4>
+    <hr />
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="InvItemSpec_Steel.Id" />
+        <div class="form-group">
+            <label asp-for="InvItemSpec_Steel.SpecFor" class="control-label"></label>
+            <input asp-for="InvItemSpec_Steel.SpecFor" class="form-control" maxlength="10">
+            <span asp-validation-for="InvItemSpec_Steel.SpecFor" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="InvItemSpec_Steel.SpecInfo" class="control-label"></label>
+            <input asp-for="InvItemSpec_Steel.SpecInfo" class="form-control" maxlength="80" />
+            <span asp-validation-for="InvItemSpec_Steel.SpecInfo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="InvItemSpec_Steel.SizeDesc" class="control-label"></label>
+            <input asp-for="InvItemSpec_Steel.SizeDesc" class="form-control" maxlength="30" />
+            <span asp-validation-for="InvItemSpec_Steel.SizeDesc" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="InvItemSpec_Steel.SizeValue" class="control-label"></label>
+            <input asp-for="InvItemSpec_Steel.SizeValue" class="form-control" maxlength="10" />
+            <span asp-validation-for="InvItemSpec_Steel.SizeValue" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="InvItemSpec_Steel.WtDesc" class="control-label"></label>
+            <input asp-for="InvItemSpec_Steel.WtDesc" class="form-control" maxlength="30" />
+            <span asp-validation-for="InvItemSpec_Steel.WtDesc" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="InvItemSpec_Steel.WtValue" class="control-label"></label>
+            <input asp-for="InvItemSpec_Steel.WtValue" class="form-control" maxlength="10" />
+            <span asp-validation-for="InvItemSpec_Steel.WtValue" class="text-danger"></span>
+        </div>
+    </form>
+</div>

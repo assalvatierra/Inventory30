@@ -1,28 +1,33 @@
+using InvWeb.Data.Interfaces;
+using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
+namespace InvWeb.Pages.Masterfiles.ItemCategories
 {
-    public class AddCategoryModel : PageModel
+    public class AddSysDefinedSpecModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
 
-        public AddCategoryModel(InvWeb.Data.ApplicationDbContext context)
+        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly IItemSpecServices _itemSpecServices;
+
+        public AddSysDefinedSpecModel(InvWeb.Data.ApplicationDbContext context, ILogger<AddSysDefinedSpecModel> logger)
         {
             _context = context;
+            _itemSpecServices = new ItemSpecServices(context, logger);
         }
 
         public IActionResult OnGet(int id)
         {
-            //ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Description");
-            //ViewData["InvItemSysDefinedSpecsId"] = new SelectList(_context.InvItemSysDefinedSpecs, "Id", "SpecName", id);
-
-            ViewData["InvCategoryList"] = _context.InvCategories.ToList();
-            ViewData["InvItemSysDefinedSpecsId"] = id;
+            //ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Description", id);
+            //ViewData["InvItemSysDefinedSpecsId"] = _itemSpecServices.GetDefindSpecsSelectList();
+            ViewData["InvItemSysDefinedSpecsId"] = _context.InvItemSysDefinedSpecs.ToList();
+            ViewData["InvCategoryId"] = id;
             return Page();
         }
 
@@ -42,5 +47,6 @@ namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
 
             return RedirectToPage("./Index");
         }
+
     }
 }

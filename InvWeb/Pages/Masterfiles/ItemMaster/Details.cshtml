@@ -10,7 +10,11 @@
 <h1>Details</h1>
 
 <div>
-    <h4>InvItem</h4>
+    <h4>Item</h4>
+    <div>
+        <a asp-page="./Edit" asp-route-id="@Model.InvItem.Id">Edit</a> |
+        <a asp-page="./Index">Back to List</a>
+    </div>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -58,10 +62,6 @@
             <a asp-page="./Classifications/Create" asp-route-id="@Model.InvItem.Id">  Add Classification</a>
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.InvItem.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
 </div>
 
 <hr />

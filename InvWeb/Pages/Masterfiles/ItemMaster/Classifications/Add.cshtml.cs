@@ -21,10 +21,13 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Classifications
 
         public IActionResult OnGet(int id)
         {
+            
             var invItem = _context.InvItems.Find(id);
-            ViewData["InvClassificationId"] = new SelectList(_context.InvClassifications, "Id", "Classification");
-            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description", id);
-            ViewData["Item"] = invItem.Code + " - " + invItem.Description ;
+            //ViewData["InvClassificationId"] = new SelectList(_context.InvClassifications, "Id", "Classification");
+            //ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description", id);
+            ViewData["Item"] = invItem.Code + " - " + invItem.Description;
+            ViewData["ItemId"] = id;
+            ViewData["InvClassificationsList"] = _context.InvClassifications.ToList();
             return Page();
         }
 
@@ -44,5 +47,6 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Classifications
 
             return RedirectToPage("../Index");
         }
+
     }
 }

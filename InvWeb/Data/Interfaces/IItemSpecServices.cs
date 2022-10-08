@@ -17,5 +17,7 @@ namespace InvWeb.Data.Interfaces
         public InvItemSpec_Steel GetItemSpecification(int id);
         public List<InvItemSpec_Steel> GetItemSpecificationByInvItemId(int invItemId);
         public Task<bool> CheckItemHasAnyInvSpec(int invItemId);
+        public SelectList GetDefindSpecsSelectList();
+        public bool IsCategoryHaveSpecDefs(int? categoryId);
     }
 }

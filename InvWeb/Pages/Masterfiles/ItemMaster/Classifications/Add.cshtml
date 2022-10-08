@@ -3,13 +3,18 @@
 
 @{
     ViewData["Title"] = "Add Classification";
+    IEnumerable<WebDBSchema.Models.InvClassification> classifications = ViewData["InvClassificationsList"] as IEnumerable<WebDBSchema.Models.InvClassification>;
+    int invItemId = (int)ViewData["ItemId"];
 }
 
 <h1>Add Classification</h1>
 
 <h4> @ViewData["Item"] </h4>
+<div>
+    <a asp-page="../Index">Back to List</a>
+</div>
 <hr />
-<div class="row">
+@*<div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -26,12 +31,31 @@
             </div>
         </form>
     </div>
+</div>*@
+
+<div class="col-md-4">
+   <div class="list-group" method="get">
+        @foreach (var item in classifications)
+        {
+            <button type="button" class="list-group-item list-group-item-action" onclick="SelectClassfication(@invItemId, @item.Id)"> @item.Classification </button>
+        }
+   </div>
 </div>
 
-<div>
-    <a asp-page="../Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function SelectClassfication(invItemId, invClassId){
+            $.post("/api/Items/PostAddItemClassification?id=" + invItemId + "&classId="+invClassId,
+                { id : invItemId, classId : invClassId}, 
+                (result)=>{
+                    console.log(result);
+                    if (result == "success") {
+                        window.location = '/Masterfiles/ItemMaster';
+                    }
+                });
+        }
+    </script>
 }

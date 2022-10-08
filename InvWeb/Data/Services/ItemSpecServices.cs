@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InvWeb.Data.Services
 {
@@ -15,11 +16,11 @@ namespace InvWeb.Data.Services
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
 
-        private readonly int TYPE_RECEIVED = 1;
-        private readonly int TYPE_RELEASED = 2;
+        //private readonly int TYPE_RECEIVED = 1;
+        //private readonly int TYPE_RELEASED = 2;
 
-        private readonly int STATUS_APPROVED = 2;
-        private readonly int STATUS_CLOSED = 3;
+        //private readonly int STATUS_APPROVED = 2;
+        //private readonly int STATUS_CLOSED = 3;
 
         public ItemSpecServices(ApplicationDbContext context, ILogger logger)
         {
@@ -134,6 +135,35 @@ namespace InvWeb.Data.Services
                 _logger.LogError("ItemSpecServices: Unable to DeleteItemSpecification" + ex.Message);
                 throw new Exception("ItemSpecServices: Unable to DeleteItemSpecification." + ex.Message);
             }
+        }
+
+        //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
+        public SelectList GetDefindSpecsSelectList()
+        {
+            return new SelectList(_context.InvItemSysDefinedSpecs.Select(x => new
+            {
+                Name = String.Format("({0}) {1} {2}", x.SpecCode, x.SpecName, x.SpecGroup),
+                Value = x.Id
+            }), "Value", "Name");
+        }
+
+        public bool IsCategoryHaveSpecDefs(int? categoryId)
+        {
+            if (categoryId == null)
+            {
+                return false;
+            }
+
+            var itemCategory = _context.InvCategorySpecDefs
+                                   .Where(i => i.InvCategoryId == categoryId)
+                                   .ToList();
+
+            if (itemCategory.Count() > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

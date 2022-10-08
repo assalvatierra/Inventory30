@@ -23,7 +23,10 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
 
         public async Task OnGetAsync()
         {
-            InvCategory = await _context.InvCategories.ToListAsync();
+            InvCategory = await _context.InvCategories
+                .Include(i=>i.InvCategorySpecDefs)
+                    .ThenInclude(i=>i.InvItemSysDefinedSpec)
+                .ToListAsync();
         }
     }
 }

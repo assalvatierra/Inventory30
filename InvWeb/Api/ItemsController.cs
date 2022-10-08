@@ -3,6 +3,7 @@ using InvWeb.Data.Interfaces;
 using InvWeb.Data.Models;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -28,14 +29,14 @@ namespace InvWeb.Api
         }
 
 
-        // GET: api/Items
+        // GET: api/Items/GetItems
         [HttpGet]
         public async Task<ActionResult<IEnumerable<InvItem>>> GetItems()
         {
             return await _context.InvItems.ToListAsync();
         }
 
-        // GET: api/Items/5
+        // GET: api/Items/GetDefaultUom/5
         [Route("api/Items/GetDefaultUom/{id}")]
         [HttpGet("{id}")]
         public async Task<ActionResult<int>> GetDefaultUom(int id)
@@ -48,6 +49,43 @@ namespace InvWeb.Api
 
             return  item.InvUomId;
         }
+
+
+        // POST: api/Items/PostAddItemClassification/5 
+        [HttpPost]
+        public async Task<ActionResult<string>> PostAddItemClassification(int id, int classId)
+        {
+            try
+            {
+
+                if (id == 0 || classId == 0)
+                {
+                    return "error";
+                }
+                var item = _context.InvItems.Find(id);
+
+                if (item == null)
+                {
+                    return "item not found";
+                }
+
+                InvItemClass InvItemClass = new InvItemClass();
+                InvItemClass.InvItemId = id;
+                InvItemClass.InvClassificationId = classId;
+
+                _context.InvItemClasses.Add(InvItemClass);
+
+                await _context.SaveChangesAsync();
+
+                return "success";
+            }
+            catch
+            {
+                return "error on catch";
+            }
+        }
+
+       
 
     }
 }

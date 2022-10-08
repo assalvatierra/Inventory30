@@ -25,9 +25,38 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             _itemSpecServices = new ItemSpecServices(context, logger);
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(string desc,string code, int? categoryId, string remarks, int? uomId)
         {
-            ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description");
+
+            //load InvItem on page reload 
+            if (!String.IsNullOrEmpty(code))
+            {
+                InvItem = new InvItem();
+                InvItem.Description = desc;
+                InvItem.Code = code;
+                InvItem.Remarks = remarks;
+
+                if (categoryId  != null)
+                {
+                    InvItem.InvCategoryId = (int)categoryId;
+                }
+
+                if (uomId != null)
+                {
+                    InvItem.InvUomId = (int)uomId;
+                }
+            }
+
+            //set initial category to default = 1
+            if(categoryId == null)
+            {
+                categoryId = 1;
+            }
+
+            //update showSpec flag based on Category
+            this.showSpec = _itemSpecServices.IsCategoryHaveSpecDefs(categoryId);
+
+            ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description", categoryId);
             ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
             return Page();
         }
@@ -37,6 +66,9 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
         [BindProperty]
         public InvItemSpec_Steel InvItemSpec_Steel { get; set; }
+
+        [BindProperty]
+        public Boolean showSpec { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()

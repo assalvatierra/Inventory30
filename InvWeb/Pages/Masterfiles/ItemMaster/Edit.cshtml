@@ -13,7 +13,7 @@
             <h4>Item</h4>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="InvItem.Id" />
+            <input type="hidden" asp-for="InvItem.Id" id="InvItemId" />
             <div class="form-group">
                 <label asp-for="InvItem.Description" class="control-label" required></label>
                 <input asp-for="InvItem.Description" class="form-control" />
@@ -26,7 +26,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="InvItem.InvCategoryId" class="control-label"></label>
-                <select asp-for="InvItem.InvCategoryId" class="form-control" asp-items="ViewBag.InvCategoryId"></select>
+                <select asp-for="InvItem.InvCategoryId" id="InvCategoryId"  class="form-control" asp-items="ViewBag.InvCategoryId"
+                        onchange="CheckCategory_DefinedSpecCount()"></select>
                 <span asp-validation-for="InvItem.InvCategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -45,45 +46,10 @@
         </div>
         @*<partial name="_InvItemSpec" model="Model.InvItemSpec_Steel" />*@
 
-
-        <div class="col-md-5">
-            <h4>Specifications</h4>
-            <hr />
-            <form method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="InvItemSpec_Steel.Id" />
-                <div class="form-group">
-                    <label asp-for="InvItemSpec_Steel.SpecFor" class="control-label"></label>
-                    <input asp-for="InvItemSpec_Steel.SpecFor" class="form-control" maxlength="10">
-                    <span asp-validation-for="InvItemSpec_Steel.SpecFor" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="InvItemSpec_Steel.SpecInfo" class="control-label"></label>
-                    <input asp-for="InvItemSpec_Steel.SpecInfo" class="form-control" maxlength="80" />
-                    <span asp-validation-for="InvItemSpec_Steel.SpecInfo" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="InvItemSpec_Steel.SizeDesc" class="control-label"></label>
-                    <input asp-for="InvItemSpec_Steel.SizeDesc" class="form-control" maxlength="30" />
-                    <span asp-validation-for="InvItemSpec_Steel.SizeDesc" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="InvItemSpec_Steel.SizeValue" class="control-label"></label>
-                    <input asp-for="InvItemSpec_Steel.SizeValue" class="form-control" maxlength="10" />
-                    <span asp-validation-for="InvItemSpec_Steel.SizeValue" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="InvItemSpec_Steel.WtDesc" class="control-label"></label>
-                    <input asp-for="InvItemSpec_Steel.WtDesc" class="form-control" maxlength="30" />
-                    <span asp-validation-for="InvItemSpec_Steel.WtDesc" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="InvItemSpec_Steel.WtValue" class="control-label"></label>
-                    <input asp-for="InvItemSpec_Steel.WtValue" class="form-control" maxlength="10" />
-                    <span asp-validation-for="InvItemSpec_Steel.WtValue" class="text-danger"></span>
-                </div>
-            </form>
-        </div>
+        @if (Model.showSpec)
+        {
+            <partial name="_InvItemSpecEdit" model="Model" />
+        }
     </div>
 </form>
 
@@ -93,4 +59,17 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        function CheckCategory_DefinedSpecCount(){
+
+            var categoryId = $("#InvCategoryId").val();
+            var itemId = $("#InvItemId").val();
+
+            //reload page
+            window.location.href = "/Masterfiles/ItemMaster/Edit?id=" + itemId + "&categoryId=" + categoryId;
+        }
+
+    </script>
 }

@@ -34,7 +34,10 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
         [BindProperty]
         public InvItemSpec_Steel InvItemSpec_Steel { get; set; }
 
-        public async Task<IActionResult> OnGetAsync( int? id)
+        [BindProperty]
+        public Boolean showSpec { get; set; }
+
+        public async Task<IActionResult> OnGetAsync( int? id, int? categoryId)
         {
             if (id == null)
             {
@@ -51,6 +54,15 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return NotFound();
             }
 
+            if (categoryId != null)
+            {
+                InvItem.InvCategoryId = (int)categoryId;
+            }
+
+            //update showSpec flag based on Category
+            this.showSpec = _itemSpecServices.IsCategoryHaveSpecDefs(InvItem.InvCategoryId);
+
+            //get item specifications details
             InvItemSpec_Steel = GetItemSpecDetails(InvItem.Id);
 
             ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description");
@@ -95,6 +107,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             return RedirectToPage("./Index");
         }
 
+       
+
         private bool InvItemExists(int id)
         {
             return _context.InvItems.Any(e => e.Id == id);
@@ -128,11 +142,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 if (isItemHaveSpecDetails)
                 {
                     InvItemSpec_Steel.InvItemId = invItemId;
-                    //_context.Attach(InvItemSpec_Steel).State = EntityState.Modified;
-                    //var res = await _context.SaveChangesAsync();
 
                     return await _itemSpecServices.EditItemSpecification(InvItemSpec_Steel);
-                   
                 }
 
                 InvItemSpec_Steel.InvItemId = invItemId;
@@ -147,7 +158,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             }
             catch (Exception ex)
             {
-                _logger.LogError("ItemsMasters Edit: Unable to UpdateItemSpecification itemId:" + invItemSpec.InvItemId);
+                _logger.LogError("ItemsMasters Edit: Unable to UpdateItemSpecification itemId:" + invItemSpec.InvItemId + " " + ex.Message);
                 return 0;
             }
         }
