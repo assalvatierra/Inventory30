@@ -3,13 +3,19 @@
 
 @{
     ViewData["Title"] = "Add Sys Defined Spec Category";
+    IEnumerable<WebDBSchema.Models.InvCategory> categoryList = ViewData["InvCategoryList"] as IEnumerable<WebDBSchema.Models.InvCategory>;
+    int invItemSysDefinedSpecsId = (int)ViewData["InvItemSysDefinedSpecsId"];
 }
 
 <h1>Select</h1>
 
 <h4>Select a category</h4>
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
 <hr />
-<div class="row">
+
+@*<div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -27,13 +33,37 @@
         </form>
     </div>
 </div>
+*@
 
-<div>
-    <a asp-page="Index">Back to List</a>
+
+<div class="col-md-4">
+    <div class="list-group" method="get">
+        @foreach (var cat in categoryList)
+        {
+            <button type="button" class="list-group-item list-group-item-action"
+                onclick="SelectCategory(@invItemSysDefinedSpecsId, @cat.Id)">
+                (@cat.Code ) @cat.Description 
+            </button>
+        }
+    </div>
 </div>
+
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    }
+
+    <script>
+        function SelectCategory(specId, catId) {
+            $.post("/api/Specifications/PostAddInvCategorySpecDefs?specId=" + specId + "&catId=" + catId,
+                null,
+                (result) => {
+                    console.log(result);
+                    if (result == "success") {
+                        window.location = '/Masterfiles/ItemSysDefinedSpec';
+                    }
+                });
+        }
+    </script>
+}

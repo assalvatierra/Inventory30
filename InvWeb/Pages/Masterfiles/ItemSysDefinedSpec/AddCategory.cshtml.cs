@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 using System.Threading.Tasks;
 using WebDBSchema.Models;
 
@@ -17,8 +18,11 @@ namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
 
         public IActionResult OnGet(int id)
         {
-            ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Description");
-            ViewData["InvItemSysDefinedSpecsId"] = new SelectList(_context.InvItemSysDefinedSpecs, "Id", "SpecName", id);
+            //ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Description");
+            //ViewData["InvItemSysDefinedSpecsId"] = new SelectList(_context.InvItemSysDefinedSpecs, "Id", "SpecName", id);
+
+            ViewData["InvCategoryList"] = _context.InvCategories.ToList();
+            ViewData["InvItemSysDefinedSpecsId"] = id;
             return Page();
         }
 
