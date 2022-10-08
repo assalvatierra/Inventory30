@@ -44,7 +44,11 @@
                     <span> (@specdetails.SpecCode) @specdetails.SpecName - @specdetails.SpecGroup </span><br />
                 }
 
-                [<a asp-page="./AddSysDefinedSpec" asp-route-id="@item.Id"> + Spec Code</a>]
+                @if(item.InvCategorySpecDefs.Count() == 0){
+                    <span>
+                         <a asp-page="./AddSysDefinedSpec" asp-route-id="@item.Id"> + Spec Code</a>
+                    </span>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)

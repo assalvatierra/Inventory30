@@ -53,5 +53,41 @@ namespace InvWeb.Api
             return 0;
         }
 
+
+        // POST: api/Categories/InvCategorySpecDefs
+        [HttpPost]
+        public async Task<ActionResult<string>> PostAddInvCategorySpecDefs(int specId, int catId)
+        {
+            try
+            {
+
+                if (catId == 0 || specId == 0)
+                {
+                    return "error";
+                }
+                var category = _context.InvCategories.Find(catId);
+
+                if (category == null)
+                {
+                    return "category not found";
+                }
+
+                InvCategorySpecDef InvCategorySpecDefs = new InvCategorySpecDef();
+                InvCategorySpecDefs.InvItemSysDefinedSpecsId = specId;
+                InvCategorySpecDefs.InvCategoryId = catId;
+
+                _context.InvCategorySpecDefs.Add(InvCategorySpecDefs);
+
+                await _context.SaveChangesAsync();
+
+                return "success";
+            }
+            catch
+            {
+                return "error on catch";
+            }
+        }
+
+
     }
 }

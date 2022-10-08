@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 using WebDBSchema.Models;
 
@@ -23,8 +24,10 @@ namespace InvWeb.Pages.Masterfiles.ItemCategories
 
         public IActionResult OnGet(int id)
         {
-            ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Description", id);
-            ViewData["InvItemSysDefinedSpecsId"] = _itemSpecServices.GetDefindSpecsSelectList();
+            //ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Description", id);
+            //ViewData["InvItemSysDefinedSpecsId"] = _itemSpecServices.GetDefindSpecsSelectList();
+            ViewData["InvItemSysDefinedSpecsId"] = _context.InvItemSysDefinedSpecs.ToList();
+            ViewData["InvCategoryId"] = id;
             return Page();
         }
 
