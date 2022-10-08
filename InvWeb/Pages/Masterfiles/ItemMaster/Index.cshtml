@@ -55,11 +55,14 @@
                 <td>
                     @foreach (var classes  in item.InvItemClasses)
                     {
-                        @Html.DisplayFor(modelItem => classes.InvClassification.Classification)
+                        @Html.DisplayFor(modelItem => classes.InvClassification.Classification) <br />
+                        //Todo: add remove classification
                     }
-
-                    <a asp-page="./Classifications/Add" asp-route-id="@item.InvItem.Id"> + Classification</a> 
-
+                    @if (item.InvItemClasses.Count() == 0)
+                    {
+                        <a asp-page="./Classifications/Add" asp-route-id="@item.InvItem.Id"> + Classification</a>
+                    }
+                    
                 </td>
 
                 <td>
