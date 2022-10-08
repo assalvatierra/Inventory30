@@ -12,26 +12,27 @@ namespace WebDBSchema.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class InvCategory
+    public partial class InvCustomSpec
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public InvCategory()
+        public InvCustomSpec()
         {
-            this.InvItems = new HashSet<InvItem>();
-            this.InvCategorySpecDefs = new HashSet<InvCategorySpecDef>();
+            this.Order = 0;
             this.InvCatCustomSpecs = new HashSet<InvCatCustomSpec>();
+            this.InvItemCustomSpecs = new HashSet<InvItemCustomSpec>();
         }
     
         public int Id { get; set; }
-        public string Code { get; set; }
-        public string Description { get; set; }
+        public string SpecName { get; set; }
+        public int InvCustomSpecTypeId { get; set; }
+        public int Order { get; set; }
+        public string Measurement { get; set; }
         public string Remarks { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvItem> InvItems { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvCategorySpecDef> InvCategorySpecDefs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvCatCustomSpec> InvCatCustomSpecs { get; set; }
+        public virtual InvCustomSpecType InvCustomSpecType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvItemCustomSpec> InvItemCustomSpecs { get; set; }
     }
 }
