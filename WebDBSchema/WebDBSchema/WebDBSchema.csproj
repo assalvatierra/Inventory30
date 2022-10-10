@@ -207,6 +207,9 @@
     <Compile Include="Models\InvAdjItem.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvCatCustomSpec.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvCategory.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
@@ -214,6 +217,12 @@
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvClassification.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvCustomSpec.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvCustomSpecType.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvDB.Context.cs">
@@ -235,6 +244,9 @@
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvItemClass.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvItemCustomSpec.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvItemSpec_Steel.cs">
