@@ -25,6 +25,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Classifications
             ViewData["InvClassificationId"] = new SelectList(_context.InvClassifications, "Id", "Classification");
             ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description", id);
             ViewData["Item"] = invItem.Code + " - " + invItem.Description ;
+            ViewData["InvClassificationList"] = _context.InvClassifications;
             return Page();
         }
 
@@ -44,5 +45,6 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Classifications
 
             return RedirectToPage("../Index");
         }
+
     }
 }
