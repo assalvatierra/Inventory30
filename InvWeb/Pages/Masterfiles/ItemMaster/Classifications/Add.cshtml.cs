@@ -21,11 +21,12 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Classifications
 
         public IActionResult OnGet(int id)
         {
+            
             var invItem = _context.InvItems.Find(id);
             ViewData["InvClassificationId"] = new SelectList(_context.InvClassifications, "Id", "Classification");
             ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description", id);
             ViewData["Item"] = invItem.Code + " - " + invItem.Description ;
-            ViewData["InvClassificationList"] = _context.InvClassifications;
+            ViewData["InvClassificationList"] = _context.InvClassifications.ToList();
             return Page();
         }
 

@@ -10,6 +10,9 @@
 <h1>Select Classification</h1>
 
 <h4> @ViewData["Item"] </h4>
+<div>
+    <a asp-page="../Index">Back to List</a>
+</div>
 <hr />
 <div class="row" hidden>
     <div class="col-md-4">
@@ -28,6 +31,15 @@
             </div>
         </form>
     </div>
+</div>*@
+
+<div class="col-md-4">
+   <div class="list-group" method="get">
+        @foreach (var item in classifications)
+        {
+            <button type="button" class="list-group-item list-group-item-action" onclick="SelectClassfication(@invItemId, @item.Id)"> @item.Classification </button>
+        }
+   </div>
 </div>
 
 <div class="row">
@@ -51,7 +63,7 @@
     <script>    
         function SelectClassification(id){
 
-            console.log("selected classification");
+            //console.log("selected classification");
 
             $("#InvClassificationId").val(id).change();
             $("#SubmitBtn").trigger("click");
