@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
+namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec.Category
 {
-    public class DeleteCategoryModel : PageModel
+    public class DeleteModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
 
-        public DeleteCategoryModel(InvWeb.Data.ApplicationDbContext context)
+        public DeleteModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -52,7 +52,7 @@ namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Index");
         }
     }
 }
