@@ -4,18 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemCategories
+namespace InvWeb.Pages.Masterfiles.ItemCategories.SysDefinedSpec
 {
-    public class AddSysDefinedSpecModel : PageModel
+    public class AddModel : PageModel
     {
 
         private readonly InvWeb.Data.ApplicationDbContext _context;
         private readonly IItemSpecServices _itemSpecServices;
 
-        public AddSysDefinedSpecModel(InvWeb.Data.ApplicationDbContext context, ILogger<AddSysDefinedSpecModel> logger)
+        public AddModel(InvWeb.Data.ApplicationDbContext context, ILogger<AddModel> logger)
         {
             _context = context;
             _itemSpecServices = new ItemSpecServices(context, logger);
@@ -25,6 +26,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCategories
         {
             ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Description", id);
             ViewData["InvItemSysDefinedSpecsId"] = _itemSpecServices.GetDefindSpecsSelectList();
+            ViewData["SysDefinedSpecsList"] = _context.InvItemSysDefinedSpecs.ToList();
             return Page();
         }
 
@@ -42,7 +44,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCategories
             _context.InvCategorySpecDefs.Add(InvCategorySpecDefs);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Index");
         }
 
     }
