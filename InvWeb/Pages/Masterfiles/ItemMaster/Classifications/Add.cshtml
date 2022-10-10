@@ -31,16 +31,8 @@
             </div>
         </form>
     </div>
-</div>*@
-
-<div class="col-md-4">
-   <div class="list-group" method="get">
-        @foreach (var item in classifications)
-        {
-            <button type="button" class="list-group-item list-group-item-action" onclick="SelectClassfication(@invItemId, @item.Id)"> @item.Classification </button>
-        }
-   </div>
 </div>
+
 
 <div class="row">
     <div clas="col-md-4" style="padding:15px;" >
@@ -51,10 +43,6 @@
             }
         </div>
     </div>
-</div>
-
-<div>
-    <a asp-page="../Index">Back to List</a>
 </div>
 
 @section Scripts {
