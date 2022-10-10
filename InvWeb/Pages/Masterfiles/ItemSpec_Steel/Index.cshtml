@@ -2,37 +2,31 @@
 @model InvWeb.Pages.Masterfiles.ItemSpec_Steel.IndexModel
 
 @{
-    ViewData["Title"] = "Index - Item Spec";
+    ViewData["Title"] = "Index - Item Specifications";
 }
 
-<h1>Item Spec</h1>
+<h1>Item Specifications</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create" >Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].InvItem.Description)
+                Item
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SpecFor)
+                For
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SpecInfo)
+                Info
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SizeValue)
+                Size
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SizeDesc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].WtValue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].WtDesc)
+                Weight
             </th>
             <th></th>
         </tr>
@@ -51,15 +45,11 @@
                     @Html.DisplayFor(modelItem => item.SpecInfo)
                     </td>
                     <td>
-                    @Html.DisplayFor(modelItem => item.SizeValue)
-                    </td>
-                    <td>
+                    @Html.DisplayFor(modelItem => item.SizeValue) 
                     @Html.DisplayFor(modelItem => item.SizeDesc)
                     </td>
                     <td>
-                    @Html.DisplayFor(modelItem => item.WtValue)
-                    </td>
-                    <td>
+                    @Html.DisplayFor(modelItem => item.WtValue) 
                     @Html.DisplayFor(modelItem => item.WtDesc)
                     </td>
                     <td>

@@ -2,19 +2,18 @@
 @model InvWeb.Pages.Masterfiles.ItemMaster.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Item Details";
 
     IEnumerable<WebDBSchema.Models.InvItemClass> invItemClasses = ViewBag.InvItemClass;
 }
 
-<h1>Details</h1>
+<h1>Item Details</h1>
 
 <div>
-    <h4>Item</h4>
-    <div>
-        <a asp-page="./Edit" asp-route-id="@Model.InvItem.Id">Edit</a> |
-        <a asp-page="./Index">Back to List</a>
-    </div>
+    <a asp-page="./Edit" asp-route-id="@Model.InvItem.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
+<div>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -36,7 +35,7 @@
             @Html.DisplayFor(model => model.InvItem.Remarks)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvItem.InvUom)
+            UoM
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.InvItem.InvUom.uom)
@@ -65,6 +64,7 @@
 </div>
 
 <hr />
+<h4> Warning Levels </h4>
 <a  asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Warning Level</a>
 <table class="table">
     <tr>
@@ -94,9 +94,9 @@
 
 </table>
 
-<h2> Item Specifications </h2>
 <hr />
-<a asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Warning Level</a>
+<h2> Item Specifications </h2>
+<a asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
 <table class="table">
     <tr>
         <th> Spec For </th>

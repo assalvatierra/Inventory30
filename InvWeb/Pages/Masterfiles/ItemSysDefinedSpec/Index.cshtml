@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index - Sys Defined Spec";
 }
 
-<h1>Sys Defined Spec</h1>
+<h1>Defined Specifications</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -14,13 +14,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemSysDefinedSpecs[0].SpecCode)
+                Code
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemSysDefinedSpecs[0].SpecName)
+                Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemSysDefinedSpecs[0].SpecGroup)
+                Group
             </th>
             <th>
                 Category
@@ -46,12 +46,12 @@
                         var categorySpecDefs = item.InvCategorySpecDefs;
                         foreach(var specDef in categorySpecDefs){
                             <span> @specDef.InvCategory.Description </span>
-                            <a asp-page="./DeleteCategory" asp-route-id="@specDef.Id"> [ X ] </a>
+                            <a asp-page="./Category/Delete" asp-route-id="@specDef.Id" class="btn btn-light">  X  </a>
                             <br />
                         }
                     }
 
-                    <a asp-page="./AddCategory" asp-route-id="@item.Id"> + Add Category</a>
+                    <a asp-page="./Category/Add" asp-route-id="@item.Id"> + Add Category</a>
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

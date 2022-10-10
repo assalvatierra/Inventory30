@@ -41,21 +41,19 @@
                 @foreach(var spec in item.InvCategorySpecDefs){
                     var specdetails = spec.InvItemSysDefinedSpec;
 
-                    <span> (@specdetails.SpecCode) @specdetails.SpecName - @specdetails.SpecGroup </span><br />
+                    <span> (@specdetails.SpecCode) @specdetails.SpecName - @specdetails.SpecGroup </span>
+                    <a asp-page="./SysDefinedSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> x </a>
+                    <br />
                 }
 
-                @if(item.InvCategorySpecDefs.Count() == 0){
-                    <span>
-                         <a asp-page="./AddSysDefinedSpec" asp-route-id="@item.Id"> + Spec Code</a>
-                    </span>
-                }
+                <a asp-page="./SysDefinedSpec/Add" asp-route-id="@item.Id"> + Specification </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                @*<a asp-page="./Details" asp-route-id="@item.Id">Details</a> |*@
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

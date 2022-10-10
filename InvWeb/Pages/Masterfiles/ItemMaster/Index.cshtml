@@ -32,7 +32,7 @@
                 @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.Remarks)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.InvUom)
+                UoM
             </th>
             <th></th>
         </tr>
@@ -55,14 +55,16 @@
                 <td>
                     @foreach (var classes  in item.InvItemClasses)
                     {
-                        @Html.DisplayFor(modelItem => classes.InvClassification.Classification) <br />
-                        //Todo: add remove classification
+                        @Html.DisplayFor(modelItem => classes.InvClassification.Classification)
+                        <a asp-page="./Classifications/Delete" asp-route-id="@classes.Id"> x </a>
+
+                        <br />
                     }
+
                     @if (item.InvItemClasses.Count() == 0)
                     {
                         <a asp-page="./Classifications/Add" asp-route-id="@item.InvItem.Id"> + Classification</a>
                     }
-                    
                 </td>
 
                 <td>

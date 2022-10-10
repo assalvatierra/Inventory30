@@ -5,24 +5,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebDBSchema.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
+namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec.Category
 {
-    public class AddCategoryModel : PageModel
+    public class AddModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
 
-        public AddCategoryModel(InvWeb.Data.ApplicationDbContext context)
+        public AddModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         public IActionResult OnGet(int id)
         {
-            //ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Description");
-            //ViewData["InvItemSysDefinedSpecsId"] = new SelectList(_context.InvItemSysDefinedSpecs, "Id", "SpecName", id);
-
+            ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Description");
+            ViewData["InvItemSysDefinedSpecsId"] = new SelectList(_context.InvItemSysDefinedSpecs, "Id", "SpecName", id);
             ViewData["InvCategoryList"] = _context.InvCategories.ToList();
-            ViewData["InvItemSysDefinedSpecsId"] = id;
             return Page();
         }
 
@@ -40,7 +38,7 @@ namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec
             _context.InvCategorySpecDefs.Add(InvCategorySpecDefs);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Index");
         }
     }
 }
