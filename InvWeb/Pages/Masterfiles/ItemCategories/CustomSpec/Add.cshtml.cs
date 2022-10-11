@@ -19,10 +19,15 @@ namespace InvWeb.Pages.Masterfiles.ItemCategories.CustomSpec
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int? id)
         {
-        ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Id");
-        ViewData["InvItemCustomSpecTypeId"] = new SelectList(_context.InvCustomSpecs, "Id", "Id");
+            if (id == null)
+            {
+                return RedirectToPage("../Index");
+            }
+
+            ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Id", id);
+            ViewData["InvItemCustomSpecTypeId"] = new SelectList(_context.InvCustomSpecs, "Id", "SpecName");
             return Page();
         }
 
@@ -40,7 +45,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCategories.CustomSpec
             _context.InvCatCustomSpecs.Add(InvCatCustomSpec);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Index");
         }
     }
 }

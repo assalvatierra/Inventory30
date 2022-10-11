@@ -70,7 +70,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCategories.CustomSpec
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Details", new { id = InvCatCustomSpec.InvCategoryId });
         }
 
         private bool InvCatCustomSpecExists(int id)

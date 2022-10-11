@@ -50,17 +50,22 @@
                     <br />
                 }
 
-                <a asp-page="./SysDefinedSpec/Add" asp-route-id="@item.Id"> + Specification </a>
+                <a asp-page="./SysDefinedSpec/Add" asp-route-id="@item.Id"> +Specification </a>
             </td>
             <td>
-                @foreach(var spec in item.InvCatCustomSpecs){
-                   @* var specdetails = spec.InvItemCustomSpecType;
-                    <span> (@specdetails.SpecCode) @specdetails.SpecName - @specdetails.SpecGroup </span>
-                    <a asp-page="./SysDefinedSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> x </a>
-                    <br />*@
+                @foreach(var spec in item.InvCatCustomSpecs.OrderBy(c=>c.Order)){
+                    var customSpecDetails = spec.InvCustomSpec;
+                        <span> @customSpecDetails.SpecName : </span>
+                        <span> @customSpecDetails.Measurement </span>
+
+                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> x </a>
+
+                        <br />
+                        <span> @customSpecDetails.Remarks </span>
+                    <br />
                 }
 
-                <a asp-page="./SysDefinedSpec/Add" asp-route-id="@item.Id"> + Specification </a>
+                    <a asp-page="./CustomSpec/Add" asp-route-id="@item.Id"> +Specification </a>
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
