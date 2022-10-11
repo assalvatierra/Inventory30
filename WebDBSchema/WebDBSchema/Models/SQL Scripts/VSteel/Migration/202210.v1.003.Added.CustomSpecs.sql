@@ -32,9 +32,9 @@ CREATE TABLE [dbo].[InvItemCustomSpecs] (
 CREATE TABLE [dbo].[InvCatCustomSpecs] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [InvCategoryId] int  NOT NULL,
-    [InvItemCustomSpecTypeId] int  NOT NULL,
     [Order] int  NOT NULL,
-    [Remarks] nvarchar(50)  NULL
+    [Remarks] nvarchar(50)  NULL,
+    [InvCustomSpecId] int  NOT NULL
 );
 
 
@@ -94,17 +94,17 @@ ON [dbo].[InvCatCustomSpecs]
 
 -- Creating foreign key on [InvItemCustomSpecId] in table 'InvCatCustomSpecs'
 ALTER TABLE [dbo].[InvCatCustomSpecs]
-ADD CONSTRAINT [FK_InvItemCustomSpecTypeInvCatCustomSpec]
-    FOREIGN KEY ([InvItemCustomSpecId])
+ADD CONSTRAINT [FK_InvCustomSpecInvCatCustomSpec]
+    FOREIGN KEY ([InvCustomSpecId])
     REFERENCES [dbo].[InvCustomSpecs]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-
--- Creating non-clustered index for FOREIGN KEY 'FK_InvItemCustomSpecTypeInvCatCustomSpec'
-CREATE INDEX [IX_FK_InvItemCustomSpecTypeInvCatCustomSpec]
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCustomSpecInvCatCustomSpec'
+CREATE INDEX [IX_FK_InvCustomSpecInvCatCustomSpec]
 ON [dbo].[InvCatCustomSpecs]
-    ([InvItemCustomSpecId]);
+    ([InvCustomSpecId]);
+
 
 
 -- Creating foreign key on [InvCustomSpecTypeId] in table 'InvCustomSpecs'
