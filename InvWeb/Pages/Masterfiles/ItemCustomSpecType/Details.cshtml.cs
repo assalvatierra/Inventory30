@@ -28,7 +28,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpecType
                 return NotFound();
             }
 
-            InvCustomSpecType = await _context.InvCustomSpecType.FirstOrDefaultAsync(m => m.Id == id);
+            InvCustomSpecType = await _context.InvCustomSpecTypes.FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvCustomSpecType == null)
             {

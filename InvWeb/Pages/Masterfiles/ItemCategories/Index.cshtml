@@ -20,10 +20,10 @@
                 @Html.DisplayNameFor(model => model.InvCategory[0].Description)
             </th>
             <th>
-                Spec Code
+                Defined Spec
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvCategory[0].Remarks)
+                Custom Spec
             </th>
             <th></th>
         </tr>
@@ -36,6 +36,10 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
+                <br>
+                <span> 
+                @Html.DisplayFor(modelItem => item.Remarks)
+                </span>
             </td>
             <td>
                 @foreach(var spec in item.InvCategorySpecDefs){
@@ -49,11 +53,19 @@
                 <a asp-page="./SysDefinedSpec/Add" asp-route-id="@item.Id"> + Specification </a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
+                @foreach(var spec in item.InvCatCustomSpecs){
+                    var specdetails = spec.;
+
+                    <span> (@specdetails.SpecCode) @specdetails.SpecName - @specdetails.SpecGroup </span>
+                    <a asp-page="./SysDefinedSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> x </a>
+                    <br />
+                }
+
+                <a asp-page="./SysDefinedSpec/Add" asp-route-id="@item.Id"> + Specification </a>
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                @*<a asp-page="./Details" asp-route-id="@item.Id">Details</a> |*@
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

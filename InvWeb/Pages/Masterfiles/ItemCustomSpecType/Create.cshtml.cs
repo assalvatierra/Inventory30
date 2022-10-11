@@ -35,7 +35,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpecType
                 return Page();
             }
 
-            _context.InvCustomSpecType.Add(InvCustomSpecType);
+            _context.InvCustomSpecTypes.Add(InvCustomSpecType);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

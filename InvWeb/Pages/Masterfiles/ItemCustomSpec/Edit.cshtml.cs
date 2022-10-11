@@ -30,14 +30,14 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpec
                 return NotFound();
             }
 
-            InvCustomSpec = await _context.InvCustomSpec
+            InvCustomSpec = await _context.InvCustomSpecs
                 .Include(i => i.InvCustomSpecType).FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvCustomSpec == null)
             {
                 return NotFound();
             }
-           ViewData["InvCustomSpecTypeId"] = new SelectList(_context.InvCustomSpecType, "Id", "Id");
+           ViewData["InvCustomSpecTypeId"] = new SelectList(_context.InvCustomSpecTypes, "Id", "Id");
             return Page();
         }
 
@@ -73,7 +73,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpec
 
         private bool InvCustomSpecExists(int id)
         {
-            return _context.InvCustomSpec.Any(e => e.Id == id);
+            return _context.InvCustomSpecs.Any(e => e.Id == id);
         }
     }
 }

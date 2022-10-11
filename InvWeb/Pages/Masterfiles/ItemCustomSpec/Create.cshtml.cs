@@ -21,7 +21,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpec
 
         public IActionResult OnGet()
         {
-        ViewData["InvCustomSpecTypeId"] = new SelectList(_context.InvCustomSpecType, "Id", "Id");
+        ViewData["InvCustomSpecTypeId"] = new SelectList(_context.InvCustomSpecTypes, "Id", "Id");
             return Page();
         }
 
@@ -36,7 +36,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpec
                 return Page();
             }
 
-            _context.InvCustomSpec.Add(InvCustomSpec);
+            _context.InvCustomSpecs.Add(InvCustomSpec);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
