@@ -34,6 +34,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 .Include(i => i.InvWarningLevels)
                     .ThenInclude(i => i.InvWarningType)
                 .Include(i=> i.InvItemSpec_Steel)
+                .Include(i => i.InvItemCustomSpecs)
+                    .ThenInclude(i => i.InvCustomSpec)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
 

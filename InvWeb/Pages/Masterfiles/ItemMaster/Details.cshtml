@@ -96,7 +96,7 @@
 
 <hr />
 <h2> Item Specifications </h2>
-<a asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
+<a asp-page="./SpecSteel/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
 <table class="table">
     <tr>
         <th> Spec For </th>
@@ -122,8 +122,48 @@
                 @spec.WtDesc : @spec.WtValue
             </td>
             <td>
-               @* <a asp-page="./WarningLevels/Edit" asp-route-id="@spec.Id"> Edit </a>
-                <a asp-page="./WarningLevels/Delete" asp-route-id="@spec.Id"> Delete </a>*@
+                <a asp-page="./SpecSteel/Edit" asp-route-id="@spec.Id"> Edit </a>
+                <a asp-page="./SpecSteel/Delete" asp-route-id="@spec.Id"> Delete </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<hr />
+<h2> Custom Specifications </h2>
+<a asp-page="./CustomSpec/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
+<table class="table">
+    <tr>
+        <th> Spec </th>
+        <th> Value </th>
+        <th> Measurement </th>
+        <th> Remarks </th>
+        <th> Order </th>
+        <th></th>
+    </tr>
+
+    @foreach (var spec in Model.InvItem.InvItemCustomSpecs)
+    {
+        <tr>
+            <td>
+                @spec.InvCustomSpec.SpecName
+            </td>
+            <td>
+                @spec.SpecValue
+            </td>
+            <td>
+                @spec.InvCustomSpec.Measurement
+            </td>
+            <td>
+                @spec.Remarks 
+            </td>
+            <td>
+                @spec.Order 
+            </td>
+            <td>
+                <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id"> Edit </a>
+                <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id"> Delete </a>
             </td>
         </tr>
     }
