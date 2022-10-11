@@ -1,0 +1,50 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemCustomSpec.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>InvCustomSpec</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="InvCustomSpec.SpecName" class="control-label"></label>
+                <input asp-for="InvCustomSpec.SpecName" class="form-control" />
+                <span asp-validation-for="InvCustomSpec.SpecName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvCustomSpec.InvCustomSpecTypeId" class="control-label"></label>
+                <select asp-for="InvCustomSpec.InvCustomSpecTypeId" class ="form-control" asp-items="ViewBag.InvCustomSpecTypeId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvCustomSpec.Order" class="control-label"></label>
+                <input asp-for="InvCustomSpec.Order" class="form-control" />
+                <span asp-validation-for="InvCustomSpec.Order" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvCustomSpec.Measurement" class="control-label"></label>
+                <input asp-for="InvCustomSpec.Measurement" class="form-control" />
+                <span asp-validation-for="InvCustomSpec.Measurement" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvCustomSpec.Remarks" class="control-label"></label>
+                <input asp-for="InvCustomSpec.Remarks" class="form-control" />
+                <span asp-validation-for="InvCustomSpec.Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
