@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/08/2022 10:40:30
+-- Date Created: 10/11/2022 15:58:04
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -146,6 +146,21 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvItemSysDefinedSpecsInvCategorySpecDef]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvCategorySpecDefs] DROP CONSTRAINT [FK_InvItemSysDefinedSpecsInvCategorySpecDef];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvCatCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvCategoryInvCatCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemCustomSpecTypeInvCatCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvItemCustomSpecTypeInvCatCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecTypeInvCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecTypeInvCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemCustomSpecs] DROP CONSTRAINT [FK_InvItemInvItemCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecInvItemCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecInvItemCustomSpec];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -240,6 +255,18 @@ IF OBJECT_ID(N'[dbo].[InvItemSysDefinedSpecs]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvCategorySpecDefs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvCategorySpecDefs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCustomSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCustomSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvItemCustomSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemCustomSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCatCustomSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCatCustomSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCustomSpecTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCustomSpecTypes];
 GO
 
 -- --------------------------------------------------
@@ -557,7 +584,7 @@ GO
 CREATE TABLE [dbo].[InvCatCustomSpecs] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [InvCategoryId] int  NOT NULL,
-    [InvItemCustomSpecTypeId] int  NOT NULL,
+    [InvItemCustomSpecId] int  NOT NULL,
     [Order] int  NOT NULL,
     [Remarks] nvarchar(50)  NULL
 );
@@ -1442,10 +1469,10 @@ ON [dbo].[InvCatCustomSpecs]
     ([InvCategoryId]);
 GO
 
--- Creating foreign key on [InvItemCustomSpecTypeId] in table 'InvCatCustomSpecs'
+-- Creating foreign key on [InvItemCustomSpecId] in table 'InvCatCustomSpecs'
 ALTER TABLE [dbo].[InvCatCustomSpecs]
 ADD CONSTRAINT [FK_InvItemCustomSpecTypeInvCatCustomSpec]
-    FOREIGN KEY ([InvItemCustomSpecTypeId])
+    FOREIGN KEY ([InvItemCustomSpecId])
     REFERENCES [dbo].[InvCustomSpecs]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -1454,7 +1481,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_InvItemCustomSpecTypeInvCatCustomSpec'
 CREATE INDEX [IX_FK_InvItemCustomSpecTypeInvCatCustomSpec]
 ON [dbo].[InvCatCustomSpecs]
-    ([InvItemCustomSpecTypeId]);
+    ([InvItemCustomSpecId]);
 GO
 
 -- Creating foreign key on [InvCustomSpecTypeId] in table 'InvCustomSpecs'

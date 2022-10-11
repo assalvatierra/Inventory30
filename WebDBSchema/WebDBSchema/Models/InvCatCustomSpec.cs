@@ -22,7 +22,7 @@ namespace WebDBSchema.Models
     
         public int Id { get; set; }
         public int InvCategoryId { get; set; }
-        public int InvItemCustomSpecTypeId { get; set; }
+        public int InvItemCustomSpecId { get; set; }
         public int Order { get; set; }
         public string Remarks { get; set; }
     

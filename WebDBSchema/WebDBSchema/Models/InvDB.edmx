@@ -546,7 +546,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InvCategoryId" Type="int" Nullable="false" />
-    <Property Name="InvItemCustomSpecTypeId" Type="int" Nullable="false" />
+    <Property Name="InvItemCustomSpecId" Type="int" Nullable="false" />
     <Property Name="Order" Type="int" Nullable="false" DefaultValue="0" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="50" />
   </EntityType>
@@ -1093,7 +1093,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="InvCatCustomSpec">
-        <PropertyRef Name="InvItemCustomSpecTypeId" />
+        <PropertyRef Name="InvItemCustomSpecId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2289,7 +2289,7 @@
           <NavigationProperty Name="InvCategory" Relationship="InvDB.InvCategoryInvCatCustomSpec" FromRole="InvCatCustomSpec" ToRole="InvCategory" />
           <Property Name="InvCategoryId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvItemCustomSpecType" Relationship="InvDB.InvItemCustomSpecTypeInvCatCustomSpec" FromRole="InvCatCustomSpec" ToRole="InvItemCustomSpecType" />
-          <Property Name="InvItemCustomSpecTypeId" Type="Int32" Nullable="false" />
+          <Property Name="InvItemCustomSpecId" Type="Int32" Nullable="false" />
           <Property Name="Order" Type="Int32" Nullable="false" DefaultValue="0" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="50" />
         </EntityType>
@@ -2313,7 +2313,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="InvCatCustomSpec">
-              <PropertyRef Name="InvItemCustomSpecTypeId" />
+              <PropertyRef Name="InvItemCustomSpecId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2711,7 +2711,7 @@
         <MappingFragment StoreEntitySet="InvCatCustomSpecs">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="InvCategoryId" ColumnName="InvCategoryId" />
-          <ScalarProperty Name="InvItemCustomSpecTypeId" ColumnName="InvItemCustomSpecTypeId" />
+          <ScalarProperty Name="InvItemCustomSpecId" ColumnName="InvItemCustomSpecId" />
           <ScalarProperty Name="Order" ColumnName="Order" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
