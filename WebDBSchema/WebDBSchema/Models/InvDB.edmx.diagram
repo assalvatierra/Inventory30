@@ -82,11 +82,11 @@
         <EntityTypeShape EntityType="InvDB.InvItemCustomSpec" Width="1.5" PointX="19" PointY="4.375" />
         <EntityTypeShape EntityType="InvDB.InvCatCustomSpec" Width="1.5" PointX="21.375" PointY="2.625" />
         <AssociationConnector Association="InvDB.InvCategoryInvCatCustomSpec" />
-        <AssociationConnector Association="InvDB.InvItemCustomSpecTypeInvCatCustomSpec" />
         <EntityTypeShape EntityType="InvDB.InvCustomSpecType" Width="1.5" PointX="23.5" PointY="1.125" />
         <AssociationConnector Association="InvDB.InvCustomSpecTypeInvCustomSpec" />
         <AssociationConnector Association="InvDB.InvItemInvItemCustomSpec" />
         <AssociationConnector Association="InvDB.InvCustomSpecInvItemCustomSpec" />
+        <AssociationConnector Association="InvDB.InvCustomSpecInvCatCustomSpec" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/11/2022 15:58:04
+-- Date Created: 10/11/2022 17:41:34
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -149,9 +149,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvCatCustomSpec]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvCategoryInvCatCustomSpec];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemCustomSpecTypeInvCatCustomSpec]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvItemCustomSpecTypeInvCatCustomSpec];
-GO
 IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecTypeInvCustomSpec]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecTypeInvCustomSpec];
 GO
@@ -160,6 +157,9 @@ IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemCustomSpec]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecInvItemCustomSpec]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvItemCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecInvItemCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecInvCatCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecInvCatCustomSpec];
 GO
 
 -- --------------------------------------------------
@@ -584,9 +584,9 @@ GO
 CREATE TABLE [dbo].[InvCatCustomSpecs] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [InvCategoryId] int  NOT NULL,
-    [InvItemCustomSpecId] int  NOT NULL,
     [Order] int  NOT NULL,
-    [Remarks] nvarchar(50)  NULL
+    [Remarks] nvarchar(50)  NULL,
+    [InvCustomSpecId] int  NOT NULL
 );
 GO
 
@@ -1469,21 +1469,6 @@ ON [dbo].[InvCatCustomSpecs]
     ([InvCategoryId]);
 GO
 
--- Creating foreign key on [InvItemCustomSpecId] in table 'InvCatCustomSpecs'
-ALTER TABLE [dbo].[InvCatCustomSpecs]
-ADD CONSTRAINT [FK_InvItemCustomSpecTypeInvCatCustomSpec]
-    FOREIGN KEY ([InvItemCustomSpecId])
-    REFERENCES [dbo].[InvCustomSpecs]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_InvItemCustomSpecTypeInvCatCustomSpec'
-CREATE INDEX [IX_FK_InvItemCustomSpecTypeInvCatCustomSpec]
-ON [dbo].[InvCatCustomSpecs]
-    ([InvItemCustomSpecId]);
-GO
-
 -- Creating foreign key on [InvCustomSpecTypeId] in table 'InvCustomSpecs'
 ALTER TABLE [dbo].[InvCustomSpecs]
 ADD CONSTRAINT [FK_InvCustomSpecTypeInvCustomSpec]
@@ -1526,6 +1511,21 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_InvCustomSpecInvItemCustomSpec'
 CREATE INDEX [IX_FK_InvCustomSpecInvItemCustomSpec]
 ON [dbo].[InvItemCustomSpecs]
+    ([InvCustomSpecId]);
+GO
+
+-- Creating foreign key on [InvCustomSpecId] in table 'InvCatCustomSpecs'
+ALTER TABLE [dbo].[InvCatCustomSpecs]
+ADD CONSTRAINT [FK_InvCustomSpecInvCatCustomSpec]
+    FOREIGN KEY ([InvCustomSpecId])
+    REFERENCES [dbo].[InvCustomSpecs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCustomSpecInvCatCustomSpec'
+CREATE INDEX [IX_FK_InvCustomSpecInvCatCustomSpec]
+ON [dbo].[InvCatCustomSpecs]
     ([InvCustomSpecId]);
 GO
 

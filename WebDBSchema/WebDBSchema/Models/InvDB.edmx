@@ -216,10 +216,6 @@
       <End Role="InvCategory" EntitySet="InvCategories" />
       <End Role="InvCatCustomSpec" EntitySet="InvCatCustomSpecs" />
     </AssociationSet>
-    <AssociationSet Name="InvItemCustomSpecTypeInvCatCustomSpec" Association="InvDB.Store.InvItemCustomSpecTypeInvCatCustomSpec">
-      <End Role="InvItemCustomSpecType" EntitySet="InvCustomSpecs" />
-      <End Role="InvCatCustomSpec" EntitySet="InvCatCustomSpecs" />
-    </AssociationSet>
     <AssociationSet Name="InvCustomSpecTypeInvCustomSpec" Association="InvDB.Store.InvCustomSpecTypeInvCustomSpec">
       <End Role="InvCustomSpecType" EntitySet="InvCustomSpecTypes" />
       <End Role="InvCustomSpec" EntitySet="InvCustomSpecs" />
@@ -231,6 +227,10 @@
     <AssociationSet Name="InvCustomSpecInvItemCustomSpec" Association="InvDB.Store.InvCustomSpecInvItemCustomSpec">
       <End Role="InvCustomSpec" EntitySet="InvCustomSpecs" />
       <End Role="InvItemCustomSpec" EntitySet="InvItemCustomSpecs" />
+    </AssociationSet>
+    <AssociationSet Name="InvCustomSpecInvCatCustomSpec" Association="InvDB.Store.InvCustomSpecInvCatCustomSpec">
+      <End Role="InvCustomSpec" EntitySet="InvCustomSpecs" />
+      <End Role="InvCatCustomSpec" EntitySet="InvCatCustomSpecs" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="InvItems">
@@ -546,9 +546,9 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InvCategoryId" Type="int" Nullable="false" />
-    <Property Name="InvItemCustomSpecId" Type="int" Nullable="false" />
     <Property Name="Order" Type="int" Nullable="false" DefaultValue="0" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="InvCustomSpecId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="InvCustomSpecTypes">
     <Key>
@@ -1085,18 +1085,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="InvItemCustomSpecTypeInvCatCustomSpec">
-    <End Role="InvItemCustomSpecType" Type="InvDB.Store.InvCustomSpecs" Multiplicity="1" />
-    <End Role="InvCatCustomSpec" Type="InvDB.Store.InvCatCustomSpecs" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="InvItemCustomSpecType">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="InvCatCustomSpec">
-        <PropertyRef Name="InvItemCustomSpecId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="InvCustomSpecTypeInvCustomSpec">
     <End Role="InvCustomSpecType" Type="InvDB.Store.InvCustomSpecTypes" Multiplicity="1" />
     <End Role="InvCustomSpec" Type="InvDB.Store.InvCustomSpecs" Multiplicity="*" />
@@ -1129,6 +1117,18 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="InvItemCustomSpec">
+        <PropertyRef Name="InvCustomSpecId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvCustomSpecInvCatCustomSpec">
+    <End Role="InvCustomSpec" Type="InvDB.Store.InvCustomSpecs" Multiplicity="1" />
+    <End Role="InvCatCustomSpec" Type="InvDB.Store.InvCatCustomSpecs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvCustomSpec">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvCatCustomSpec">
         <PropertyRef Name="InvCustomSpecId" />
       </Dependent>
     </ReferentialConstraint>
@@ -1347,10 +1347,6 @@
             <End Role="InvCategory" EntitySet="InvCategories" />
             <End Role="InvCatCustomSpec" EntitySet="InvCatCustomSpecs" />
           </AssociationSet>
-          <AssociationSet Name="InvItemCustomSpecTypeInvCatCustomSpec" Association="InvDB.InvItemCustomSpecTypeInvCatCustomSpec">
-            <End Role="InvItemCustomSpecType" EntitySet="InvCustomSpecs" />
-            <End Role="InvCatCustomSpec" EntitySet="InvCatCustomSpecs" />
-          </AssociationSet>
           <EntitySet Name="InvCustomSpecTypes" EntityType="InvDB.InvCustomSpecType" />
           <AssociationSet Name="InvCustomSpecTypeInvCustomSpec" Association="InvDB.InvCustomSpecTypeInvCustomSpec">
             <End Role="InvCustomSpecType" EntitySet="InvCustomSpecTypes" />
@@ -1363,6 +1359,10 @@
           <AssociationSet Name="InvCustomSpecInvItemCustomSpec" Association="InvDB.InvCustomSpecInvItemCustomSpec">
             <End Role="InvCustomSpec" EntitySet="InvCustomSpecs" />
             <End Role="InvItemCustomSpec" EntitySet="InvItemCustomSpecs" />
+          </AssociationSet>
+          <AssociationSet Name="InvCustomSpecInvCatCustomSpec" Association="InvDB.InvCustomSpecInvCatCustomSpec">
+            <End Role="InvCustomSpec" EntitySet="InvCustomSpecs" />
+            <End Role="InvCatCustomSpec" EntitySet="InvCatCustomSpecs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
@@ -2259,7 +2259,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="InvCatCustomSpecs" Relationship="InvDB.InvItemCustomSpecTypeInvCatCustomSpec" FromRole="InvItemCustomSpecType" ToRole="InvCatCustomSpec" />
           <Property Name="SpecName" Type="String" Nullable="false" MaxLength="50" />
           <NavigationProperty Name="InvCustomSpecType" Relationship="InvDB.InvCustomSpecTypeInvCustomSpec" FromRole="InvCustomSpec" ToRole="InvCustomSpecType" />
           <Property Name="InvCustomSpecTypeId" Type="Int32" Nullable="false" />
@@ -2267,6 +2266,7 @@
           <Property Name="Order" Type="Int32" Nullable="false" DefaultValue="0" />
           <Property Name="Measurement" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="50" />
+          <NavigationProperty Name="InvCatCustomSpecs" Relationship="InvDB.InvCustomSpecInvCatCustomSpec" FromRole="InvCustomSpec" ToRole="InvCatCustomSpec" />
         </EntityType>
         <EntityType Name="InvItemCustomSpec">
           <Key>
@@ -2288,10 +2288,10 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="InvCategory" Relationship="InvDB.InvCategoryInvCatCustomSpec" FromRole="InvCatCustomSpec" ToRole="InvCategory" />
           <Property Name="InvCategoryId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="InvItemCustomSpecType" Relationship="InvDB.InvItemCustomSpecTypeInvCatCustomSpec" FromRole="InvCatCustomSpec" ToRole="InvItemCustomSpecType" />
-          <Property Name="InvItemCustomSpecId" Type="Int32" Nullable="false" />
           <Property Name="Order" Type="Int32" Nullable="false" DefaultValue="0" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="50" />
+          <NavigationProperty Name="InvCustomSpec" Relationship="InvDB.InvCustomSpecInvCatCustomSpec" FromRole="InvCatCustomSpec" ToRole="InvCustomSpec" />
+          <Property Name="InvCustomSpecId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="InvCategoryInvCatCustomSpec">
           <End Type="InvDB.InvCategory" Role="InvCategory" Multiplicity="1" />
@@ -2302,18 +2302,6 @@
             </Principal>
             <Dependent Role="InvCatCustomSpec">
               <PropertyRef Name="InvCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="InvItemCustomSpecTypeInvCatCustomSpec">
-          <End Type="InvDB.InvCustomSpec" Role="InvItemCustomSpecType" Multiplicity="1" />
-          <End Type="InvDB.InvCatCustomSpec" Role="InvCatCustomSpec" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="InvItemCustomSpecType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="InvCatCustomSpec">
-              <PropertyRef Name="InvItemCustomSpecId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2357,6 +2345,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="InvItemCustomSpec">
+              <PropertyRef Name="InvCustomSpecId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvCustomSpecInvCatCustomSpec">
+          <End Type="InvDB.InvCustomSpec" Role="InvCustomSpec" Multiplicity="1" />
+          <End Type="InvDB.InvCatCustomSpec" Role="InvCatCustomSpec" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvCustomSpec">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvCatCustomSpec">
               <PropertyRef Name="InvCustomSpecId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2711,9 +2711,9 @@
         <MappingFragment StoreEntitySet="InvCatCustomSpecs">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="InvCategoryId" ColumnName="InvCategoryId" />
-          <ScalarProperty Name="InvItemCustomSpecId" ColumnName="InvItemCustomSpecId" />
           <ScalarProperty Name="Order" ColumnName="Order" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="InvCustomSpecId" ColumnName="InvCustomSpecId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
