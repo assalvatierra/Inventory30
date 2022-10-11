@@ -4,17 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 
 namespace InvWeb.Pages.Masterfiles.ItemCategories.CustomSpec
 {
-    public class DeleteModel : PageModel
+    public class EditModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
 
-        public DeleteModel(InvWeb.Data.ApplicationDbContext context)
+        public EditModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -37,25 +38,44 @@ namespace InvWeb.Pages.Masterfiles.ItemCategories.CustomSpec
             {
                 return NotFound();
             }
+           ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Id");
+           ViewData["InvItemCustomSpecTypeId"] = new SelectList(_context.InvCustomSpecs, "Id", "Id");
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see https://aka.ms/RazorPagesCRUD.
+        public async Task<IActionResult> OnPostAsync()
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return Page();
             }
 
-            InvCatCustomSpec = await _context.InvCatCustomSpecs.FindAsync(id);
+            _context.Attach(InvCatCustomSpec).State = EntityState.Modified;
 
-            if (InvCatCustomSpec != null)
+            try
             {
-                _context.InvCatCustomSpecs.Remove(InvCatCustomSpec);
                 await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!InvCatCustomSpecExists(InvCatCustomSpec.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return RedirectToPage("./Index");
+        }
+
+        private bool InvCatCustomSpecExists(int id)
+        {
+            return _context.InvCatCustomSpecs.Any(e => e.Id == id);
         }
     }
 }

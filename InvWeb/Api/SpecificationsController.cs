@@ -12,7 +12,7 @@ namespace InvWeb.Api
     public class SpecificationsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly ItemSpecServices _itemSpecServices;
+        //private readonly ItemSpecServices _itemSpecServices;
 
         public SpecificationsController(ApplicationDbContext context )
         {
