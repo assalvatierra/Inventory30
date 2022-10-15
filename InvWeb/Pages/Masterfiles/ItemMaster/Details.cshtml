@@ -64,7 +64,7 @@
 </div>
 
 <hr />
-    <h4> Custom Specifications </h4>
+<h4> Custom Specifications </h4>
 <div class="btn-group">
     <a asp-page="./CustomSpec/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
 </div>
@@ -83,34 +83,38 @@
         if (Model.InvItem.InvItemCustomSpecs.Where(i=>i.InvCustomSpecId == catSpec.InvCustomSpecId).Any())
         {
 
-            @foreach (var spec in Model.InvItem.InvItemCustomSpecs)
-            {
-                <tr class="itemspec">
+            var spec = Model.InvItem.InvItemCustomSpecs.Where(i => i.InvCustomSpecId == catSpec.InvCustomSpecId).First();
+
+            <tr class="itemspec">
                     <td class="itemspec-td-id" hidden>
+                        <input type="text" class="id" value="@spec.Id">
+                    </td>
+                    <td class="itemspec-td-customspec-id" hidden>
                         <input type="text" class="id" value="@spec.InvCustomSpecId">
                     </td>
-                    <td >
+                    <td class="itemspec-td-name">
                         @spec.InvCustomSpec.SpecName
                     </td>
                     <td class="itemspec-td-value">
-                        <input type="text" style="max-width:200px;" value="@spec.SpecValue" class="form-control">
-
+                        <input type="text" style="max-width:200px;" value="@spec.SpecValue" class="form-control"  maxlength="20">
                     </td>
                     <td>
                         @spec.InvCustomSpec.Measurement
                     </td>
-                    <td>
-                        @spec.Remarks
+                    <td class="itemspec-td-remarks">
+                        <input type="text" style="max-width:200px;" value="@spec.Remarks" class="form-control" maxlength="80">
                     </td>
                     <td>
                         @spec.Order
                     </td>
                     <td>
-                        <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id"> Edit </a>
-                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id"> Delete </a>
+                        <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id" class="btn btn-light"> Edit </a>
+                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id"  class="btn btn-light"> Delete </a>
                     </td>
                 </tr>
-            }
+            
+
+            continue;
         }else{
             <tr class="catspec">
                 <td class="catspec-td-id" hidden>
@@ -120,13 +124,13 @@
                     @catSpec.InvCustomSpec.SpecName
                 </td>
                 <td class="catspec-td-value">
-                    <input type="text" style="max-width:200px;" value="" class="form-control">
+                    <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="20">
                 </td>
                 <td>
                     @catSpec.InvCustomSpec.Measurement
                 </td>
-                <td>
-                    @catSpec.Remarks
+                <td class="catspec-td-remarks">
+                    <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="80">
                 </td>
                 <td>
                 </td>
@@ -139,7 +143,7 @@
 </table>
 
 <div>
-    <button class="btn btn-primary" onclick="SaveSpecTableChanges(@Model.InvItem.Id)"> Save Changes </button>
+    <button class="btn btn-primary" id="SaveChangesBtn" onclick="SaveSpecTableChanges(@Model.InvItem.Id)"> Save Changes </button>
 </div>
 
 
@@ -216,68 +220,102 @@
 
     <script>
         function SaveSpecTableChanges(itemId){
+
+            $('#SaveChangesBtn').prop('disabled', true);
+
             //Add
             $("#ItemSpecTable tr.catspec").each(function () {
 
                 var id = $(this).find("td.catspec-td-id input").val();
                 var name = $(this).find("td.catspec-td-name").text().trim();
                 var value = $(this).find("td.catspec-td-value input").val();
-                
+                var remarks = $(this).find("td.catspec-td-remarks input").val();
 
-                //console.log("id: " + id + " name: " + name + " value: " + value);
-
-                var spec_Data = {
-                    Id: id,
-                    SpecName: name,
-                    SpecValue: value,
-                    ItemId: itemId
-                }
-
-                console.log(spec_Data);
-
-                POST_Add_ItemSpec(id, name, value, itemId);
+                POST_Add_ItemCustomSpec(id, name, value, itemId, remarks);
             });
 
             //Update
-            //$("#ItemSpecTable td.itemspec-td-value").each(function () {
-            //    $(this).find("input").each(function () {
-            //        console.log($(this).val());
-            //    });
-            //});
+            $("#ItemSpecTable tr.itemspec").each(function () {
+
+                var customspecId = $(this).find("td.itemspec-td-customspec-id input").val();
+                var id = $(this).find("td.itemspec-td-id input").val();
+                var name = $(this).find("td.itemspec-td-name").text().trim();
+                var value = $(this).find("td.itemspec-td-value input").val();
+                var remarks = $(this).find("td.itemspec-td-remarks input").val();
+
+                PUT_Update_ItemCustomSpec(id,customspecId, name, value, itemId, remarks);
+            });
 
         }
 
 
-        function POST_Add_ItemSpec(id, name, value, itemId){
+        function POST_Add_ItemCustomSpec(id, name, value, itemId, remarks){
+
+            var spec_Data = {
+                Id: 0,
+                CustomSpecId: id,
+                SpecName: name,
+                SpecValue: value,
+                InvItemId: itemId,
+                Remarks: remarks
+            }
+             
+             $.ajax({
+                type: "POST",
+                url: "/api/Specifications/PostAddInvCustomSpec",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                data: JSON.stringify(spec_Data) ,
+                success: function (result) {
+
+                },
+                error: function (result) {
+                    //console.log(error);
+                     if (result.status == 200) {
+                        //reload page
+                        window.location.reload(false);
+                    } else {
+                        alert("Unable to save item custom specifications");
+                    }
+                }
+            }).done((res)=>{
+                console.log(res);
+            });
+        }
+
+        
+        function PUT_Update_ItemCustomSpec(id, customSpecId, name, value, itemId, remarks){
 
             var spec_Data = {
                 Id: id,
+                CustomSpecId: customSpecId,
                 SpecName: name,
                 SpecValue: value,
-                InvItemId: itemId
+                InvItemId: itemId,
+                Remarks: remarks
             }
 
             $.ajax({
                 type: "POST",
-                url: "/api/Specifications/PostAddInvCustomSpec",
+                url: "/api/Specifications/PutUpdateInvCustomSpec",
+                async: false,
                 dataType: "json",
                 contentType: "application/json",
                 data: JSON.stringify(spec_Data) ,
                 success: function (result) {
-                    console.log(result);
+                  
                 },
-                error: function (error) {
-                    console.log(error);
+                error: function (result) {
+                    //console.log(error);
+                    if (result.status == 200) {
+                        //reload page
+                        window.location.reload(false);
+                    } else {
+                        //alert("Unable to save item custom specifications");
+                    }
                 }
             });
-
-            //$.post('/api/Specifications/PostAddInvCustomSpec', 
-            //    spec_Data, 
-            //    (result)=>{
-            //        console.log(result);
-            //    },
-            //    dataType : "json"
-            //);
         }
 
     </script>

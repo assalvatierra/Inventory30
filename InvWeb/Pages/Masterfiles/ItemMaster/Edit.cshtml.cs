@@ -118,7 +118,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
         {
             try
             {
-                var itemSpecLatest = _itemSpecServices.GetItemSpecificationByInvItemId(itemId);
+                var itemSpecLatest = _itemSpecServices.GetItemSpecification_ByInvItemId(itemId);
 
                 if (itemSpecLatest == null)
                 {

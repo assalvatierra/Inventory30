@@ -45,7 +45,10 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
             foreach (var item in InvItem)
             {
-                var invItemClassGroup = await _context.InvItemClasses.Where(i => i.InvItemId == item.Id).Include(i => i.InvClassification).ToListAsync();
+                var invItemClassGroup = await _context.InvItemClasses
+                    .Where(i => i.InvItemId == item.Id)
+                    .Include(i => i.InvClassification)
+                    .ToListAsync();
 
                 var invItemClass = new InvItemIndexModel
                 {
