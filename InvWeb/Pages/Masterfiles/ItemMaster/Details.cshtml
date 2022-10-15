@@ -246,6 +246,10 @@
                 PUT_Update_ItemCustomSpec(id,customspecId, name, value, itemId, remarks);
             });
 
+            //delay 2 sec
+            setTimeout(() => {
+                window.location.reload(false);
+            }, 1500);
         }
 
 
@@ -274,13 +278,13 @@
                     //console.log(error);
                      if (result.status == 200) {
                         //reload page
-                        window.location.reload(false);
+                        //window.location.reload(false);
                     } else {
                         alert("Unable to save item custom specifications");
                     }
                 }
             }).done((res)=>{
-                console.log(res);
+                //console.log(res);
             });
         }
 
@@ -296,6 +300,8 @@
                 Remarks: remarks
             }
 
+            //console.log(spec_Data);
+
             $.ajax({
                 type: "POST",
                 url: "/api/Specifications/PutUpdateInvCustomSpec",
@@ -310,7 +316,7 @@
                     //console.log(error);
                     if (result.status == 200) {
                         //reload page
-                        window.location.reload(false);
+                        //window.location.reload(false);
                     } else {
                         //alert("Unable to save item custom specifications");
                     }
