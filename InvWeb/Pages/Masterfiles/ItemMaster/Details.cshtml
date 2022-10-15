@@ -51,8 +51,8 @@
                 {
                     <span>
                         @classification.InvClassification.Classification
-                        -
-                        <a asp-page="./Classifications/Delete" asp-route-id="@classification.Id"> Remove</a>
+                        
+                        <a asp-page="./Classifications/Delete" asp-route-id="@classification.Id" class="btn btn-ligt"> x </a>
                     </span>
                     <br />
                 }
@@ -64,38 +64,87 @@
 </div>
 
 <hr />
-<h4> Warning Levels </h4>
-<a  asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Warning Level</a>
-<table class="table">
+    <h4> Custom Specifications </h4>
+<div class="btn-group">
+    <a asp-page="./CustomSpec/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
+</div>
+<table class="table" id="ItemSpecTable">
     <tr>
-        <th> Qty Range </th>
-        <th> type </th>
-        <th> Unit </th>
+        <th> Spec </th>
+        <th width="250"> Value </th>
+        <th> Measurement </th>
+        <th> Remarks </th>
+        <th> Order </th>
         <th></th>
     </tr>
 
-    @foreach (var warning in Model.InvItem.InvWarningLevels) { 
-        <tr>
-            <td>
-                @warning.Level1 -  @warning.Level2
-            </td>
-            <td>
-                @warning.InvWarningType.Desc
-            </td>
-            <td>
-                @warning.InvUom.uom
-            </td>
-            <td>
-                <a asp-page="./WarningLevels/Edit" asp-route-id="@warning.Id"> Edit </a>
-                <a asp-page="./WarningLevels/Delete" asp-route-id="@warning.Id"> Delete </a>
-            </td>
-        </tr>
+    @foreach(var catSpec in Model.InvItem.InvCategory.InvCatCustomSpecs.OrderByDescending(i=>i.Order)){
+     
+        if (Model.InvItem.InvItemCustomSpecs.Where(i=>i.InvCustomSpecId == catSpec.InvCustomSpecId).Any())
+        {
+
+            @foreach (var spec in Model.InvItem.InvItemCustomSpecs)
+            {
+                <tr class="itemspec">
+                    <td class="itemspec-td-id" hidden>
+                        <input type="text" class="id" value="@spec.InvCustomSpecId">
+                    </td>
+                    <td >
+                        @spec.InvCustomSpec.SpecName
+                    </td>
+                    <td class="itemspec-td-value">
+                        <input type="text" style="max-width:200px;" value="@spec.SpecValue" class="form-control">
+
+                    </td>
+                    <td>
+                        @spec.InvCustomSpec.Measurement
+                    </td>
+                    <td>
+                        @spec.Remarks
+                    </td>
+                    <td>
+                        @spec.Order
+                    </td>
+                    <td>
+                        <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id"> Edit </a>
+                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id"> Delete </a>
+                    </td>
+                </tr>
+            }
+        }else{
+            <tr class="catspec">
+                <td class="catspec-td-id" hidden>
+                    <input type="text" class="id" value="@catSpec.InvCustomSpecId">
+                </td>
+                <td class="catspec-td-name">
+                    @catSpec.InvCustomSpec.SpecName
+                </td>
+                <td class="catspec-td-value">
+                    <input type="text" style="max-width:200px;" value="" class="form-control">
+                </td>
+                <td>
+                    @catSpec.InvCustomSpec.Measurement
+                </td>
+                <td>
+                    @catSpec.Remarks
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
     }
 
 </table>
 
+<div>
+    <button class="btn btn-primary" onclick="SaveSpecTableChanges(@Model.InvItem.Id)"> Save Changes </button>
+</div>
+
+
 <hr />
-<h2> Item Specifications </h2>
+<h4> Steel Specifications </h4>
 <a asp-page="./SpecSteel/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
 <table class="table">
     <tr>
@@ -131,41 +180,105 @@
 </table>
 
 <hr />
-<h2> Custom Specifications </h2>
-<a asp-page="./CustomSpec/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
+<h4> Warning Levels </h4>
+<a asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Warning Level</a>
 <table class="table">
     <tr>
-        <th> Spec </th>
-        <th> Value </th>
-        <th> Measurement </th>
-        <th> Remarks </th>
-        <th> Order </th>
+        <th> Qty Range </th>
+        <th> type </th>
+        <th> Unit </th>
         <th></th>
     </tr>
 
-    @foreach (var spec in Model.InvItem.InvItemCustomSpecs)
+    @foreach (var warning in Model.InvItem.InvWarningLevels)
     {
         <tr>
             <td>
-                @spec.InvCustomSpec.SpecName
+                @warning.Level1 -  @warning.Level2
             </td>
             <td>
-                @spec.SpecValue
+                @warning.InvWarningType.Desc
             </td>
             <td>
-                @spec.InvCustomSpec.Measurement
+                @warning.InvUom.uom
             </td>
             <td>
-                @spec.Remarks 
-            </td>
-            <td>
-                @spec.Order 
-            </td>
-            <td>
-                <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id"> Edit </a>
-                <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id"> Delete </a>
+                <a asp-page="./WarningLevels/Edit" asp-route-id="@warning.Id"> Edit </a>
+                <a asp-page="./WarningLevels/Delete" asp-route-id="@warning.Id"> Delete </a>
             </td>
         </tr>
     }
 
 </table>
+
+
+@section Scripts {
+
+    <script>
+        function SaveSpecTableChanges(itemId){
+            //Add
+            $("#ItemSpecTable tr.catspec").each(function () {
+
+                var id = $(this).find("td.catspec-td-id input").val();
+                var name = $(this).find("td.catspec-td-name").text().trim();
+                var value = $(this).find("td.catspec-td-value input").val();
+                
+
+                //console.log("id: " + id + " name: " + name + " value: " + value);
+
+                var spec_Data = {
+                    Id: id,
+                    SpecName: name,
+                    SpecValue: value,
+                    ItemId: itemId
+                }
+
+                console.log(spec_Data);
+
+                POST_Add_ItemSpec(id, name, value, itemId);
+            });
+
+            //Update
+            //$("#ItemSpecTable td.itemspec-td-value").each(function () {
+            //    $(this).find("input").each(function () {
+            //        console.log($(this).val());
+            //    });
+            //});
+
+        }
+
+
+        function POST_Add_ItemSpec(id, name, value, itemId){
+
+            var spec_Data = {
+                Id: id,
+                SpecName: name,
+                SpecValue: value,
+                InvItemId: itemId
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/Specifications/PostAddInvCustomSpec",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(spec_Data) ,
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+            //$.post('/api/Specifications/PostAddInvCustomSpec', 
+            //    spec_Data, 
+            //    (result)=>{
+            //        console.log(result);
+            //    },
+            //    dataType : "json"
+            //);
+        }
+
+    </script>
+}

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebDBSchema.Models;
+using InvWeb.Data.Models;
 
 namespace InvWeb.Api
 {
@@ -20,7 +21,7 @@ namespace InvWeb.Api
         }
 
 
-        // POST: api/Categories/InvCategorySpecDefs
+        // POST: api/Specifications/InvCategorySpecDefs
         [HttpPost]
         public async Task<ActionResult<string>> PostAddInvCategorySpecDefs(int specId, int catId)
         {
@@ -52,6 +53,32 @@ namespace InvWeb.Api
             {
                 return "error on catch";
             }
+        }
+
+        // POST: api/Specifications/PostAddInvCustomSpec
+        [HttpPost]
+        public async Task<IActionResult> PostAddInvCustomSpec([FromBody] SpecsApiModel.Api_AddItem_CustomSpec item_CustomSpec)
+        {
+            try
+            {
+                InvItemCustomSpec invItemCustom = new InvItemCustomSpec();
+
+                invItemCustom.InvCustomSpecId = item_CustomSpec.Id;
+                invItemCustom.SpecValue = item_CustomSpec.SpecValue;
+                invItemCustom.InvItemId = item_CustomSpec.InvItemId;
+
+
+                _context.InvItemCustomSpecs.Add(invItemCustom);
+
+                await _context.SaveChangesAsync();
+
+                return Ok("OK");
+            }
+            catch
+            {
+                return NotFound("");
+            }
+
         }
     }
 }
