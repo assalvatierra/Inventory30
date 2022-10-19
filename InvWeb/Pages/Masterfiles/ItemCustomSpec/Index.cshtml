@@ -2,13 +2,14 @@
 @model InvWeb.Pages.Masterfiles.ItemCustomSpec.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Custom Specifications";
 }
 
-<h1>Index</h1>
+<h1>Custom Specifications</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Create New</a> |
+    <a asp-page="../ItemCustomSpecType/Index"> Specification Types</a>
 </p>
 <table class="table">
     <thead>
@@ -32,7 +33,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.InvCustomSpec) {
+    @foreach (var item in Model.InvCustomSpec) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.SpecName)
@@ -47,7 +48,7 @@
                 @Html.DisplayFor(modelItem => item.Remarks)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InvCustomSpecType.Id)
+                @Html.DisplayFor(modelItem => item.InvCustomSpecType.Type)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
@@ -55,6 +56,6 @@
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

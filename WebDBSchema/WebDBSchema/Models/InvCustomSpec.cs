@@ -18,8 +18,8 @@ namespace WebDBSchema.Models
         public InvCustomSpec()
         {
             this.Order = 0;
-            this.InvCatCustomSpecs = new HashSet<InvCatCustomSpec>();
             this.InvItemCustomSpecs = new HashSet<InvItemCustomSpec>();
+            this.InvCatCustomSpecs = new HashSet<InvCatCustomSpec>();
         }
     
         public int Id { get; set; }
@@ -29,10 +29,10 @@ namespace WebDBSchema.Models
         public string Measurement { get; set; }
         public string Remarks { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvCatCustomSpec> InvCatCustomSpecs { get; set; }
         public virtual InvCustomSpecType InvCustomSpecType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvItemCustomSpec> InvItemCustomSpecs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvCatCustomSpec> InvCatCustomSpecs { get; set; }
     }
 }

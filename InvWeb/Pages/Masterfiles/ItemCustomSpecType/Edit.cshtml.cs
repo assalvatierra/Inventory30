@@ -30,7 +30,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpecType
                 return NotFound();
             }
 
-            InvCustomSpecType = await _context.InvCustomSpecType.FirstOrDefaultAsync(m => m.Id == id);
+            InvCustomSpecType = await _context.InvCustomSpecTypes.FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvCustomSpecType == null)
             {
@@ -71,7 +71,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpecType
 
         private bool InvCustomSpecTypeExists(int id)
         {
-            return _context.InvCustomSpecType.Any(e => e.Id == id);
+            return _context.InvCustomSpecTypes.Any(e => e.Id == id);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpec
 
         public async Task OnGetAsync()
         {
-            InvCustomSpec = await _context.InvCustomSpec
+            InvCustomSpec = await _context.InvCustomSpecs
                 .Include(i => i.InvCustomSpecType).ToListAsync();
         }
     }

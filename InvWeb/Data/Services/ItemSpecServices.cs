@@ -120,7 +120,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public List<InvItemSpec_Steel> GetItemSpecificationByInvItemId(int invItemId)
+        public List<InvItemSpec_Steel> GetItemSpecification_ByInvItemId(int invItemId)
         {
             try
             {
@@ -164,6 +164,93 @@ namespace InvWeb.Data.Services
             }
 
             return false;
+        }
+
+        public async Task<int> AddItemCustomSpecification(InvItemCustomSpec invItemCustomSpec)
+        {
+            try
+            {
+                _context.InvItemCustomSpecs.Add(invItemCustomSpec);
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemSpecServices: Unable to AddItemCustomSpecification" + ex.Message);
+                throw new Exception("ItemSpecServices: Unable to AddItemCustomSpecification.");
+            }
+        }
+
+        public async Task<int> EditItemCustomSpecification(InvItemCustomSpec invItemCustomSpec)
+        {
+            try
+            {
+                _context.Attach(invItemCustomSpec).State = EntityState.Modified;
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemSpecServices: Unable to EditItemCustomSpecification" + ex.Message);
+                throw new Exception("ItemSpecServices: Unable to EditItemCustomSpecification.");
+            }
+        }
+
+        public async Task<int> DeleteItemCustomSpecification(InvItemCustomSpec invItemCustomSpec)
+        {
+            try
+            {
+                _context.InvItemCustomSpecs.Remove(invItemCustomSpec);
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemSpecServices: Unable to DeleteItemCustomSpecification" + ex.Message);
+                throw new Exception("ItemSpecServices: Unable to DeleteItemCustomSpecification.");
+            }
+        }
+
+        public InvItemCustomSpec GetItemCustomSpecification(int id)
+        {
+            try
+            {
+                var invItemCustomSpec = _context.InvItemCustomSpecs.Find(id);
+
+                return invItemCustomSpec;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemSpecServices: Unable to GetItemCustomSpecification" + ex.Message);
+                throw new Exception("ItemSpecServices: Unable to GetItemCustomSpecification." + ex.Message);
+            }
+        }
+
+        public List<InvItemCustomSpec> GetItemCustomSpecification_ByInvItemId(int invItemId)
+        {
+            try
+            {
+                var invItemCustomSpec = _context.InvItemCustomSpecs.Where(i => i.InvItemId == invItemId).ToList();
+
+                return invItemCustomSpec;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemSpecServices: Unable to GetItemCustomSpecification_ByInvItemId" + ex.Message);
+                throw new Exception("ItemSpecServices: Unable to GetItemCustomSpecification_ByInvItemId." + ex.Message);
+            }
+        }
+
+        public InvCustomSpec GetCustomSpecification(int id)
+        {
+            try
+            {
+                var invCustomSpec = _context.InvCustomSpecs.Find(id);
+
+                return invCustomSpec;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemSpecServices: Unable to GetCustomSpecification" + ex.Message);
+                throw new Exception("ItemSpecServices: Unable to GetCustomSpecification." + ex.Message);
+            }
         }
     }
 }

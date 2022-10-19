@@ -1,0 +1,60 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemSpecifications.IndexModel
+
+@{
+    ViewData["Title"] = "Item Custom Specifications";
+}
+
+<h1>Item Custom Specifications</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemCustomSpec[0].InvItem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemCustomSpec[0].InvCustomSpec)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemCustomSpec[0].SpecValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemCustomSpec[0].Remarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemCustomSpec[0].Order)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.InvItemCustomSpec) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvItem.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvCustomSpec.SpecName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

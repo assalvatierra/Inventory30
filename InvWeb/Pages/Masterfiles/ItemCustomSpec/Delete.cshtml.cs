@@ -29,7 +29,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpec
                 return NotFound();
             }
 
-            InvCustomSpec = await _context.InvCustomSpec
+            InvCustomSpec = await _context.InvCustomSpecs
                 .Include(i => i.InvCustomSpecType).FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvCustomSpec == null)
@@ -46,11 +46,11 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpec
                 return NotFound();
             }
 
-            InvCustomSpec = await _context.InvCustomSpec.FindAsync(id);
+            InvCustomSpec = await _context.InvCustomSpecs.FindAsync(id);
 
             if (InvCustomSpec != null)
             {
-                _context.InvCustomSpec.Remove(InvCustomSpec);
+                _context.InvCustomSpecs.Remove(InvCustomSpec);
                 await _context.SaveChangesAsync();
             }
 

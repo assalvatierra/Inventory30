@@ -29,7 +29,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpecType
                 return NotFound();
             }
 
-            InvCustomSpecType = await _context.InvCustomSpecType.FirstOrDefaultAsync(m => m.Id == id);
+            InvCustomSpecType = await _context.InvCustomSpecTypes.FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvCustomSpecType == null)
             {
@@ -45,11 +45,11 @@ namespace InvWeb.Pages.Masterfiles.ItemCustomSpecType
                 return NotFound();
             }
 
-            InvCustomSpecType = await _context.InvCustomSpecType.FindAsync(id);
+            InvCustomSpecType = await _context.InvCustomSpecTypes.FindAsync(id);
 
             if (InvCustomSpecType != null)
             {
-                _context.InvCustomSpecType.Remove(InvCustomSpecType);
+                _context.InvCustomSpecTypes.Remove(InvCustomSpecType);
                 await _context.SaveChangesAsync();
             }
 

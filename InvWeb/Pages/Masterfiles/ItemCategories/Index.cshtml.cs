@@ -26,6 +26,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
             InvCategory = await _context.InvCategories
                 .Include(i=>i.InvCategorySpecDefs)
                     .ThenInclude(i=>i.InvItemSysDefinedSpec)
+                .Include(i => i.InvCatCustomSpecs)
+                    .ThenInclude(i=>i.InvCustomSpec)
                 .ToListAsync();
         }
     }

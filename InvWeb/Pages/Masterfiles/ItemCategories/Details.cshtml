@@ -50,5 +50,48 @@
 
             <a asp-page="./SysDefinedSpec/Add" asp-route-id="@Model.InvCategory.Id"> + Specification</a>
         </dd>
+
     </dl>
 </div>
+
+<h3> Custom Category Specification </h3>
+<hr />
+
+<a asp-page="./CustomSpec/Add" asp-route-id="@Model.InvCategory.Id" class="btn btn-primary"> Add Specification</a>
+ <table class="table">
+     <tr>
+         <th>
+             Custom Spec
+        </th>
+        <th>
+            Remarks
+        </th>
+        <th>
+            Order
+        </th>
+         <th> 
+
+         </th>
+     </tr>
+    @foreach(var spec in Model.InvCategory.InvCatCustomSpecs.OrderBy(c=>c.Order)){
+
+        var customSpecDetails = spec.InvCustomSpec;
+        <tr>
+            <td>
+                <span> @customSpecDetails.SpecName : </span>
+                <span> @customSpecDetails.Measurement </span>
+            </td>
+            <td>
+                 <span> @spec.Remarks </span>
+            </td>
+            <td>
+                 <span> @spec.Order </span>
+            </td>
+            <td>
+
+                <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id" > Edit </a> | 
+                <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id"> Delete </a>
+            </td>
+        </tr>
+    }
+ </table>

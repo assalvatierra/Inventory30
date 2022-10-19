@@ -20,10 +20,10 @@
                 @Html.DisplayNameFor(model => model.InvCategory[0].Description)
             </th>
             <th>
-                Spec Code
+                Defined Spec
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvCategory[0].Remarks)
+                Custom Spec
             </th>
             <th></th>
         </tr>
@@ -36,6 +36,10 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
+                <br>
+                <span> 
+                @Html.DisplayFor(modelItem => item.Remarks)
+                </span>
             </td>
             <td>
                 @foreach(var spec in item.InvCategorySpecDefs){
@@ -46,14 +50,26 @@
                     <br />
                 }
 
-                <a asp-page="./SysDefinedSpec/Add" asp-route-id="@item.Id"> + Specification </a>
+                <a asp-page="./SysDefinedSpec/Add" asp-route-id="@item.Id"> +Specification </a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
+                @foreach(var spec in item.InvCatCustomSpecs.OrderBy(c=>c.Order)){
+                    var customSpecDetails = spec.InvCustomSpec;
+                        <span> @customSpecDetails.SpecName : </span>
+                        <span> @customSpecDetails.Measurement </span>
+
+                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> x </a>
+
+                        <br />
+                        <span> @customSpecDetails.Remarks </span>
+                    <br />
+                }
+
+                    <a asp-page="./CustomSpec/Add" asp-route-id="@item.Id"> +Specification </a>
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                @*<a asp-page="./Details" asp-route-id="@item.Id">Details</a> |*@
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

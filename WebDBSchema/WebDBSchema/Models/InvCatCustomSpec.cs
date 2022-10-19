@@ -22,11 +22,11 @@ namespace WebDBSchema.Models
     
         public int Id { get; set; }
         public int InvCategoryId { get; set; }
-        public int InvItemCustomSpecTypeId { get; set; }
         public int Order { get; set; }
         public string Remarks { get; set; }
+        public int InvCustomSpecId { get; set; }
     
         public virtual InvCategory InvCategory { get; set; }
-        public virtual InvCustomSpec InvItemCustomSpecType { get; set; }
+        public virtual InvCustomSpec InvCustomSpec { get; set; }
     }
 }

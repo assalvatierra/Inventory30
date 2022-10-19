@@ -15,9 +15,18 @@ namespace InvWeb.Data.Interfaces
         public Task<int> EditItemSpecification(InvItemSpec_Steel invItemSpec);
         public Task<int> DeleteItemSpecification(InvItemSpec_Steel invItemSpec);
         public InvItemSpec_Steel GetItemSpecification(int id);
-        public List<InvItemSpec_Steel> GetItemSpecificationByInvItemId(int invItemId);
+        public List<InvItemSpec_Steel> GetItemSpecification_ByInvItemId(int invItemId);
         public Task<bool> CheckItemHasAnyInvSpec(int invItemId);
         public SelectList GetDefindSpecsSelectList();
         public bool IsCategoryHaveSpecDefs(int? categoryId);
+
+
+        public Task<int> AddItemCustomSpecification(InvItemCustomSpec invItemSpec);
+        public Task<int> EditItemCustomSpecification(InvItemCustomSpec invItemSpec);
+        public Task<int> DeleteItemCustomSpecification(InvItemCustomSpec invItemSpec);
+        public InvItemCustomSpec GetItemCustomSpecification(int id);
+        public List<InvItemCustomSpec> GetItemCustomSpecification_ByInvItemId(int invItemId);
+
+        public InvCustomSpec GetCustomSpecification(int id);
     }
 }

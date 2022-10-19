@@ -4,8 +4,10 @@ SET @Today = GetDate()
 --Sample Items --
 IF NOT EXISTS (SELECT 1 FROM InvItems)
 BEGIN
-	insert into InvItems([Code],[Description],[Remarks],[InvUomId]) values
-	('ITEM01','SAMPLE ITEM', '', 1)
+	insert into InvItems([Code],[Description],[Remarks],[InvUomId],[InvCategoryId]) values
+	('001','Steel', '', 1, 1),
+	('002','Pipe' , '', 1, 1),
+	('003','Plate', '', 1, 1)
 	;
 END
 
@@ -20,7 +22,7 @@ END
 IF NOT EXISTS (SELECT 1 FROM InvSupplierItems)
 BEGIN
 	insert into InvSupplierItems([InvSupplierId],[InvItemId],[Remarks],[Price],[LastUpdate],[LeadTime],[UserId]) values
-	(1,1,'',50, @Today ,'30 Days','admin@gmail.com');
+	(1, 2,'',50, @Today ,'30 Days','admin@gmail.com');
 END
 
 -- Store 1 : Transaction Headers --
@@ -29,7 +31,7 @@ insert into InvTrxHdrs([InvStoreId],[DtTrx],[UserId],[Remarks],[InvTrxTypeId],[I
 
 --Store 1: Transaction Detalis --
 insert into InvTrxDtls([InvTrxHdrId],[InvUomId],[ItemQty],[InvItemId],[InvTrxDtlOperatorId]) values 
-(1, 1, 1, 1, 1);
+(1, 1, 1, 2, 1);
 
 -- Store 2 : Transaction Headers --
 insert into InvTrxHdrs([InvStoreId],[DtTrx],[UserId],[Remarks],[InvTrxTypeId],[InvTrxHdrStatusId]) values
@@ -37,15 +39,15 @@ insert into InvTrxHdrs([InvStoreId],[DtTrx],[UserId],[Remarks],[InvTrxTypeId],[I
 
 --Store 2: Transaction Detalis --
 insert into InvTrxDtls([InvTrxHdrId],[InvUomId],[ItemQty],[InvItemId],[InvTrxDtlOperatorId]) values
-(1, 1, 1, 1, 1);
+(1, 1, 1, 2, 1);
 
 --Inv Classifications --
 insert into InvItemClasses ([InvItemId],[InvClassificationId]) values
-(1, 1);
+(2, 1);
 
 --Inv Items Warning Levels --
 insert into InvWarningLevels([InvItemId],[Level1],[Level2],[InvWarningTypeId],[InvUomId]) values
-(1, 11, 15, 1, 1);
+(2, 11, 15, 1, 1);
 
 
 --Inv Uom Conversions
@@ -58,3 +60,18 @@ insert into InvUomConversions([InvUomId_base],[InvUomId_into],[Factor],[Descript
 
 (3, 1, 0.03, 'Foot to Meters'),
 (3, 2, 12  , 'Foot to Inches');
+
+
+-- Inv Custom Specs
+
+IF NOT EXISTS (SELECT 1 FROM InvCustomSpecs)
+BEGIN
+	-- Classifications --
+	insert into InvCustomSpecs([SpecName],[InvCustomSpecTypeId],[Order],[Measurement],[Remarks]) values
+	('Weight', 1, 1, '',''),
+	('Color' , 2, 1, '',''),
+	('Conductivity', 1, 1, '',''),
+	('Strength' , 1, 1, '',''),
+	('Toughness', 1, 1, '',''),
+	('Ductility', 1, 1, '','');
+END

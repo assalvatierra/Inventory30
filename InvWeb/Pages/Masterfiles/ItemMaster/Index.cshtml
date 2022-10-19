@@ -23,16 +23,16 @@
                 Category
             </th>
             <th>
+                UoM
+            </th>
+            <th>
                 Classifications
             </th>
             <th>
                 Specifications
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.Remarks)
-            </th>
-            <th>
-                UoM
+                Warnings
             </th>
             <th></th>
         </tr>
@@ -47,11 +47,18 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.Description)
 
+                    @if(String.IsNullOrEmpty(item.InvItem.Remarks)){
+                        <span> @item.InvItem.Remarks </span>
+                    }
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.InvCategory.Description)
                 </td>
 
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
+                </td>
                 <td>
                     @foreach (var classes  in item.InvItemClasses)
                     {
@@ -74,27 +81,55 @@
                         foreach (var spec in item.InvItem.InvItemSpec_Steel)
                         {
                             <p>
-                                <span class="text-info"> For </span>
+                                <span class="text-info"> </span>
                                 @spec.SpecFor
 
                                 <span class="text-info"> - </span>
                                 @spec.SpecInfo
                                 <br>
                                 <span class="text-info"> Size</span>
-                                @spec.SizeDesc : @spec.SizeValue
+                                @spec.SizeValue : @spec.SizeDesc
 
                                 <span class="text-info">  Weight </span>
-                                @spec.WtDesc : @spec.WtValue
+                                @spec.WtValue : @spec.WtDesc
                             </p>
 
                         }
                     }
+
+                    <!-- Custom Specs -->
+                    @if(item.InvItem.InvItemCustomSpecs != null){
+                        foreach (var spec in item.InvItem.InvItemCustomSpecs)
+                        {
+                            <p>
+                                @spec.InvCustomSpec.SpecName   
+                                <span class="text-info"> : </span>
+                                @spec.SpecValue  @spec.InvCustomSpec.Measurement 
+                               
+                                @if (!String.IsNullOrEmpty(spec.Remarks))
+                                {
+                                    <br> @spec.Remarks
+                                }
+                            </p>
+                        }
+                    }
+                    @if (item.InvItem.InvItemCustomSpecs.Count() == 0)
+                    {
+                        <a asp-page="./CustomSpec/Add" asp-route-id="@item.InvItem.Id"> + Specification</a>
+                    }
                 </td>
+
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Remarks)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
+                    <!--Warnings -->
+                    @foreach(var warning in item.InvItem.InvWarningLevels){
+                        <p> @warning.InvWarningType.Desc :
+                            @warning.Level1 - @warning.Level2 @warning.InvUom.uom
+                        </p>
+                    }
+
+                    @if(item.InvItem.InvWarningLevels.Count() == 0){
+                        <a asp-page="./WarningLevels/Add" asp-route-id="@item.InvItem.Id">+ Warning Level</a>
+                    }
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.InvItem.Id">Edit</a> |

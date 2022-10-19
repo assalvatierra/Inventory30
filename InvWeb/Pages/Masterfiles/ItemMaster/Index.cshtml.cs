@@ -33,13 +33,22 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 .Include(i => i.InvCategory)
                 .Include(i => i.InvItemSpec_Steel)
                 .Include(i => i.InvUom)
+                .Include(i => i.InvItemCustomSpecs)
+                    .ThenInclude(i=>i.InvCustomSpec)
+                .Include(i => i.InvWarningLevels)
+                    .ThenInclude(i => i.InvWarningType)
+                .Include(i => i.InvWarningLevels)
+                    .ThenInclude(i => i.InvUom)
                 .OrderBy(s=>s.Code)
                     .ThenBy(s2=>s2.Description)
                 .ToListAsync();
 
             foreach (var item in InvItem)
             {
-                var invItemClassGroup = await _context.InvItemClasses.Where(i => i.InvItemId == item.Id).Include(i => i.InvClassification).ToListAsync();
+                var invItemClassGroup = await _context.InvItemClasses
+                    .Where(i => i.InvItemId == item.Id)
+                    .Include(i => i.InvClassification)
+                    .ToListAsync();
 
                 var invItemClass = new InvItemIndexModel
                 {

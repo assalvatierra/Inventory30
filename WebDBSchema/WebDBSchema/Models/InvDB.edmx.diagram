@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="de232ff8a3f9488aa81b1797db2da041" Name="Diagram1" ZoomLevel="62" >
+      <Diagram DiagramId="de232ff8a3f9488aa81b1797db2da041" Name="Diagram1" ZoomLevel="90" >
         <EntityTypeShape EntityType="InvDB.InvItem" Width="1.5" PointX="6" PointY="3.75" />
         <EntityTypeShape EntityType="InvDB.InvItemClass" Width="1.5" PointX="6" PointY="0.875" />
         <EntityTypeShape EntityType="InvDB.InvClassification" Width="1.5" PointX="3.5" PointY="0.75" />
@@ -82,11 +82,11 @@
         <EntityTypeShape EntityType="InvDB.InvItemCustomSpec" Width="1.5" PointX="19" PointY="4.375" />
         <EntityTypeShape EntityType="InvDB.InvCatCustomSpec" Width="1.5" PointX="21.375" PointY="2.625" />
         <AssociationConnector Association="InvDB.InvCategoryInvCatCustomSpec" />
-        <AssociationConnector Association="InvDB.InvItemCustomSpecTypeInvCatCustomSpec" />
         <EntityTypeShape EntityType="InvDB.InvCustomSpecType" Width="1.5" PointX="23.5" PointY="1.125" />
         <AssociationConnector Association="InvDB.InvCustomSpecTypeInvCustomSpec" />
         <AssociationConnector Association="InvDB.InvItemInvItemCustomSpec" />
         <AssociationConnector Association="InvDB.InvCustomSpecInvItemCustomSpec" />
+        <AssociationConnector Association="InvDB.InvCustomSpecInvCatCustomSpec" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

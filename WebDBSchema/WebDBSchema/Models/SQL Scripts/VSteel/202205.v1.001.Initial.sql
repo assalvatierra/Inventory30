@@ -66,3 +66,12 @@ BEGIN
 	insert into InvClassifications([Classification]) values
 	('Others');
 END
+
+
+IF NOT EXISTS (SELECT 1 FROM InvCustomSpecTypes)
+BEGIN
+	-- Classifications --
+	insert into InvCustomSpecTypes([Type]) values
+	('Numeric'),
+	('Text');
+END
