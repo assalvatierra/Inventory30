@@ -42,10 +42,6 @@
                 </div>
         </div>
         
-        @if (Model.showSpec)
-        {
-            <partial name="_InvItemSpec" model="Model.InvItemSpec_Steel" />
-        }
     </div>
 </form>
 
@@ -56,21 +52,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script>
-
-        function CheckCategory_DefinedSpecCount(){
-            var categoryId = $("#InvCategoryId").val();
-            var desc = $("#InvItemDesc").val();
-            var code = $("#InvItemCode").val();
-            var remarks = $("#InvItemRemarks").val();
-            var uomId = $("#InvItemUomId").val();
-
-            //reload page
-            window.location.href = "/Masterfiles/ItemMaster/Create?desc=" + desc 
-                + "&code=" + code + "&categoryId=" + categoryId + "&remarks=" + remarks
-                + "&uomId=" + uomId;
-
-        }
-
-    </script>
 }
