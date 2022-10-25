@@ -48,6 +48,12 @@
                 <td>
                     @item.Description
                     <br /><span class="text-muted" style="font-size:0.7em"> Category: @item.Category </span>
+
+                    @if (!String.IsNullOrEmpty(item.ItemSpec))
+                    {
+                        <br />
+                        <span style="font-size:11px;"> @item.ItemSpec </span>
+                    }
                 </td>
                 <td>
                     <partial name="_PartialStockWarning" model="item" />

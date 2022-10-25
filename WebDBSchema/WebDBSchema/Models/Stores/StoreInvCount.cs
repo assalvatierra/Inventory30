@@ -18,6 +18,7 @@ namespace WebDBSchema.Models.Stores
         public decimal Adjustments { get; set; }
         public int CategoryId { get; set; }
         public string Category { get; set; }
+        public string ItemSpec { get; set; }
 
         public ICollection<InvWarningLevel> InvWarningLevels { get; set; }
     }

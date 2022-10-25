@@ -126,6 +126,7 @@ namespace InvWeb.Data.Services
             storeInv.InvWarningLevels = itemDetails.InvWarningLevels;
             storeInv.Category = category;
             storeInv.CategoryId = categoryId;
+            storeInv.ItemSpec = GetItemCustomSpec(itemDetails.Id);
 
             return storeInv;
         }
@@ -435,7 +436,31 @@ namespace InvWeb.Data.Services
             return TotalConverted;
         }
 
-        
+
+
+        private string GetItemCustomSpec(int itemId)
+        {
+
+            //get item Details
+            var itemSpecResult = _context.InvItemCustomSpecs
+                .Where(i => i.InvItemId == itemId)
+                .Include(i => i.InvCustomSpec)
+                .ToList();
+
+            string _itemSpec = "";
+            if (itemSpecResult != null)
+            {
+                foreach (var spec in itemSpecResult)
+                {
+                    _itemSpec += spec.InvCustomSpec.SpecName + " : "
+                        + spec.SpecValue + " " + spec.InvCustomSpec.Measurement + " "
+                        + spec.Remarks + ", ";
+                }
+            }
+
+            return _itemSpec;
+
+        }
 
         #endregion
     }
