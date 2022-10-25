@@ -349,9 +349,11 @@ namespace InvWeb.Data.Services
         public async Task<List<InvItem>> GetItemsAsync()
         {
             return await _context.InvItems
-                .Include(c => c.InvWarningLevels)
-                .ThenInclude(c => c.InvWarningType)
-                .Include(c=>c.InvUom)
+                .Include(i => i.InvWarningLevels)
+                    .ThenInclude(i => i.InvWarningType)
+                .Include(i => i.InvUom)
+                .Include(i => i.InvItemCustomSpecs)
+                    .ThenInclude(i => i.InvCustomSpec)
                 .ToListAsync();
         }
 
