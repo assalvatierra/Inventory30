@@ -16,27 +16,27 @@
             <input type="hidden" asp-for="InvItem.Id" id="InvItemId" />
             <div class="form-group">
                 <label asp-for="InvItem.Description" class="control-label" required></label>
-                <input asp-for="InvItem.Description" class="form-control" />
+                <input asp-for="InvItem.Description" class="form-control" maxlength="120" />
                 <span asp-validation-for="InvItem.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="InvItem.Code" class="control-label" required></label>
-                <input asp-for="InvItem.Code" class="form-control" />
+                <input asp-for="InvItem.Code" class="form-control" maxlength="40" />
                 <span asp-validation-for="InvItem.Code" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvItem.InvCategoryId" class="control-label"></label>
+                <label asp-for="InvItem.InvCategoryId" class="control-label"> Category </label>
                 <select asp-for="InvItem.InvCategoryId" id="InvCategoryId"  class="form-control" asp-items="ViewBag.InvCategoryId"
                         onchange="CheckCategory_DefinedSpecCount()"></select>
                 <span asp-validation-for="InvItem.InvCategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="InvItem.Remarks" class="control-label"></label>
-                <input asp-for="InvItem.Remarks" class="form-control" />
+                <input asp-for="InvItem.Remarks" class="form-control" maxlength="120" />
                 <span asp-validation-for="InvItem.Remarks" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvItem.InvUomId" class="control-label"></label>
+                <label asp-for="InvItem.InvUomId" class="control-label"> UOM </label>
                 <select asp-for="InvItem.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
                 <span asp-validation-for="InvItem.InvUomId" class="text-danger"></span>
             </div>
