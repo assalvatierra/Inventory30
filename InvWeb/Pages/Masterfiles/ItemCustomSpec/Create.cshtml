@@ -15,7 +15,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="InvCustomSpec.SpecName" class="control-label"></label>
-                <input asp-for="InvCustomSpec.SpecName" class="form-control" />
+                <input asp-for="InvCustomSpec.SpecName" class="form-control" maxlength="50" />
                 <span asp-validation-for="InvCustomSpec.SpecName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,17 +24,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="InvCustomSpec.Order" class="control-label"></label>
-                <input asp-for="InvCustomSpec.Order" class="form-control" />
+                <input asp-for="InvCustomSpec.Order" class="form-control" maxlength="5" />
                 <span asp-validation-for="InvCustomSpec.Order" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="InvCustomSpec.Measurement" class="control-label"></label>
-                <input asp-for="InvCustomSpec.Measurement" class="form-control" />
+                <input asp-for="InvCustomSpec.Measurement" class="form-control" maxlength="20" />
                 <span asp-validation-for="InvCustomSpec.Measurement" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="InvCustomSpec.Remarks" class="control-label"></label>
-                <input asp-for="InvCustomSpec.Remarks" class="form-control" />
+                <input asp-for="InvCustomSpec.Remarks" class="form-control" maxlength="50" />
                 <span asp-validation-for="InvCustomSpec.Remarks" class="text-danger"></span>
             </div>
             <div class="form-group">

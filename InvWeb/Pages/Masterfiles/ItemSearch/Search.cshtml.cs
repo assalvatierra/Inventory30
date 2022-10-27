@@ -38,7 +38,8 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
             foreach (var item in ApprovedItemDetails)
             { 
                 //get item Details
-                var itemDetails = _context.InvItems.Find(item.InvItemId);
+                var itemDetails = _context.InvItems
+                    .Find(item.InvItemId);
 
                 //check if item is in the search result list
                 var IsItemInList = (ItemSearchResults.Where(c => c.Id == item.InvItemId).Count() == 0) && item.ItemQty > 0;
@@ -46,6 +47,7 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
                 //if item is not in the list
                 if (IsItemInList)
                 {
+
                     //adding item to the list
                     ItemSearchResults.Add(new ItemSearchResult
                     {
@@ -55,6 +57,7 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
                         Code = itemDetails.Code,
                         ItemRemarks = itemDetails.Remarks,
                         Uom = itemDetails.InvUom.uom,
+                        ItemSpec = GetItemCustomSpec(item.InvItemId)
                     });
                 }
             }
@@ -68,6 +71,30 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
                          c.ItemRemarks.ToLower().Contains(srchString)
                     ).ToList();
             }
+
+        }
+
+        private string GetItemCustomSpec(int itemId)
+        {
+
+            //get item Details
+            var itemSpecResult = _context.InvItemCustomSpecs
+                .Where(i => i.InvItemId == itemId)
+                .Include(i => i.InvCustomSpec)
+                .ToList();
+
+            string _itemSpec = "";
+            if (itemSpecResult != null)
+            {
+                foreach (var spec in itemSpecResult)
+                {
+                    _itemSpec += spec.InvCustomSpec.SpecName + " : " 
+                        + spec.SpecValue + " " + spec.InvCustomSpec.Measurement + " " 
+                        + spec.Remarks + ", ";
+                }
+            }
+
+            return _itemSpec;
 
         }
 

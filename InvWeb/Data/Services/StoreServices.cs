@@ -126,6 +126,7 @@ namespace InvWeb.Data.Services
             storeInv.InvWarningLevels = itemDetails.InvWarningLevels;
             storeInv.Category = category;
             storeInv.CategoryId = categoryId;
+            storeInv.ItemSpec = GetItemCustomSpec(itemDetails.Id);
 
             return storeInv;
         }
@@ -349,9 +350,11 @@ namespace InvWeb.Data.Services
         public async Task<List<InvItem>> GetItemsAsync()
         {
             return await _context.InvItems
-                .Include(c => c.InvWarningLevels)
-                .ThenInclude(c => c.InvWarningType)
-                .Include(c=>c.InvUom)
+                .Include(i => i.InvWarningLevels)
+                    .ThenInclude(i => i.InvWarningType)
+                .Include(i => i.InvUom)
+                .Include(i => i.InvItemCustomSpecs)
+                    .ThenInclude(i => i.InvCustomSpec)
                 .ToListAsync();
         }
 
@@ -433,7 +436,31 @@ namespace InvWeb.Data.Services
             return TotalConverted;
         }
 
-        
+
+
+        private string GetItemCustomSpec(int itemId)
+        {
+
+            //get item Details
+            var itemSpecResult = _context.InvItemCustomSpecs
+                .Where(i => i.InvItemId == itemId)
+                .Include(i => i.InvCustomSpec)
+                .ToList();
+
+            string _itemSpec = "";
+            if (itemSpecResult != null)
+            {
+                foreach (var spec in itemSpecResult)
+                {
+                    _itemSpec += spec.InvCustomSpec.SpecName + " : "
+                        + spec.SpecValue + " " + spec.InvCustomSpec.Measurement + " "
+                        + spec.Remarks + ", ";
+                }
+            }
+
+            return _itemSpec;
+
+        }
 
         #endregion
     }

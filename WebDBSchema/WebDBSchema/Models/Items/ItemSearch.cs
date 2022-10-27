@@ -15,6 +15,8 @@ namespace WebDBSchema.Models.Items
         public int Qty { get; set; }
         public string Uom { get; set; }
         public string InvStore { get; set; }
+        
+        public string ItemSpec { get; set; }
     }
 
     

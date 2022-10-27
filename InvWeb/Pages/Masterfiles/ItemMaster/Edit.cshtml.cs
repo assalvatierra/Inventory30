@@ -59,12 +59,6 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 InvItem.InvCategoryId = (int)categoryId;
             }
 
-            //update showSpec flag based on Category
-            this.showSpec = _itemSpecServices.IsCategoryHaveSpecDefs(InvItem.InvCategoryId);
-
-            //get item specifications details
-            InvItemSpec_Steel = GetItemSpecDetails(InvItem.Id);
-
             ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description");
             ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
             return Page();
@@ -102,80 +96,13 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 }
             }
 
-            await UpdateItemSpecification(InvItemSpec_Steel, InvItem.Id);
-
             return RedirectToPage("./Index");
         }
-
-       
 
         private bool InvItemExists(int id)
         {
             return _context.InvItems.Any(e => e.Id == id);
         }
 
-        private InvItemSpec_Steel GetItemSpecDetails(int itemId)
-        {
-            try
-            {
-                var itemSpecLatest = _itemSpecServices.GetItemSpecification_ByInvItemId(itemId);
-
-                if (itemSpecLatest == null)
-                {
-                    return null;
-                }
-
-                return itemSpecLatest.FirstOrDefault();
-            }
-            catch
-            {
-                _logger.LogError("ItemsMasters Edit: Unable to GetItemSpecDetails itemId:" + itemId);
-                return new InvItemSpec_Steel();
-            }
-        }
-
-        private async Task<int> UpdateItemSpecification(InvItemSpec_Steel invItemSpec, int invItemId)
-        {
-            try
-            {
-                var isItemHaveSpecDetails = await _itemSpecServices.CheckItemHasAnyInvSpec(invItemId);
-                if (isItemHaveSpecDetails)
-                {
-                    InvItemSpec_Steel.InvItemId = invItemId;
-
-                    return await _itemSpecServices.EditItemSpecification(InvItemSpec_Steel);
-                }
-
-                InvItemSpec_Steel.InvItemId = invItemId;
-
-                if (Validate_InvItemSpec_isValid())
-                {
-                    //if no item spec record, add item spec to item 
-                    return await _itemSpecServices.AddItemSpecification(InvItemSpec_Steel);
-                }
-
-                return 0;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("ItemsMasters Edit: Unable to UpdateItemSpecification itemId:" + invItemSpec.InvItemId + " " + ex.Message);
-                return 0;
-            }
-        }
-
-        private bool Validate_InvItemSpec_isValid()
-        {
-            if (InvItemSpec_Steel.InvItemId == 0)
-            {
-                return false;
-            }
-
-            if (String.IsNullOrEmpty(InvItemSpec_Steel.SpecFor))
-            {
-                return false;
-            }
-
-            return true;
-        }
     }
 }

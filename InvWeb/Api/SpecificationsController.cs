@@ -114,7 +114,7 @@ namespace InvWeb.Api
             }
             catch(Exception ex)
             {
-                throw ex;
+                //throw ex;
                 return BadRequest();
             }
 
