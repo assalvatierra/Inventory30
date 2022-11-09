@@ -28,12 +28,12 @@
             <th>
                 Classifications
             </th>
-            <th>
+           @* <th>
                 Specifications
             </th>
             <th>
                 Warnings
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -74,6 +74,7 @@
                     }
                 </td>
 
+                @* 
                 <td>
                     @if (item.InvItem.InvItemSpec_Steel != null)
                     {
@@ -118,8 +119,9 @@
                         <a asp-page="./CustomSpec/Add" asp-route-id="@item.InvItem.Id"> + Specification</a>
                     }
                 </td>
+                *@
 
-                <td>
+               @* <td>
                     <!--Warnings -->
                     @foreach(var warning in item.InvItem.InvWarningLevels){
                         <p> @warning.InvWarningType.Desc :
@@ -131,6 +133,7 @@
                         <a asp-page="./WarningLevels/Add" asp-route-id="@item.InvItem.Id">+ Warning Level</a>
                     }
                 </td>
+                *@
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.InvItem.Id">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.InvItem.Id">Details</a> |
