@@ -39,6 +39,9 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 .Include(i => i.InvCategory)
                     .ThenInclude(i => i.InvCatCustomSpecs)
                     .ThenInclude(i => i.InvCustomSpec)
+                .Include(i => i.InvCategory)
+                    .ThenInclude(i =>i. InvCategorySpecDefs)
+                    .ThenInclude(i =>i.InvItemSysDefinedSpec)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
 
@@ -52,7 +55,16 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 .Include(i => i.InvClassification)
                 .ToListAsync();
 
+            ViewData["IsSteelSpec"] = IsItemCategorySpecSteel();
+
             return Page();
+        }
+
+        private bool IsItemCategorySpecSteel()
+        {
+            return InvItem.InvCategory.InvCategorySpecDefs
+                 .Where(i => i.InvItemSysDefinedSpec.SpecCode == "002")
+                 .Any();
         }
     }
 }

@@ -5,6 +5,7 @@
     ViewData["Title"] = "Item Details";
 
     IEnumerable<WebDBSchema.Models.InvItemClass> invItemClasses = ViewBag.InvItemClass;
+    bool isSteelCategory = (bool)ViewData["IsSteelSpec"];
 }
 
 <h1>Item Details</h1>
@@ -35,14 +36,21 @@
             @Html.DisplayFor(model => model.InvItem.Remarks)
         </dd>
         <dt class="col-sm-2">
-            UoM
+            Unit of Measure
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.InvItem.InvUom.uom)
         </dd>
         <dt class="col-sm-2">
+            Category
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItem.InvCategory.Description)
+        </dd>
+        <dt class="col-sm-2">
             Classification
         </dt>
+
         <dd class="col-sm-10">
             @if (Model.InvItem.InvItemClasses.Count() != 0)
             {
@@ -64,28 +72,33 @@
 </div>
 
 <hr />
-<h4> Custom Specifications </h4>
-<div class="btn-group">
-    <a asp-page="./CustomSpec/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
-</div>
-<table class="table" id="ItemSpecTable">
-    <tr>
-        <th> Spec </th>
-        <th width="250"> Value </th>
-        <th> Measurement </th>
-        <th> Remarks </th>
-        <th> Order </th>
-        <th></th>
-    </tr>
 
-    @foreach(var catSpec in Model.InvItem.InvCategory.InvCatCustomSpecs.OrderByDescending(i=>i.Order)){
-     
-        if (Model.InvItem.InvItemCustomSpecs.Where(i=>i.InvCustomSpecId == catSpec.InvCustomSpecId).Any())
+<div class="card">
+    <div class="card-body">
+        <h4> Custom Specifications </h4>
+        <div class="btn-group">
+            <a asp-page="./CustomSpec/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
+        </div>
+    </div>
+
+    <table class="table" id="ItemSpecTable">
+        <tr>
+            <th> Spec </th>
+            <th width="250"> Value </th>
+            <th> Measurement </th>
+            <th> Remarks </th>
+            <th> Order </th>
+            <th></th>
+        </tr>
+
+        @foreach (var catSpec in Model.InvItem.InvCategory.InvCatCustomSpecs.OrderByDescending(i => i.Order))
         {
 
-            var spec = Model.InvItem.InvItemCustomSpecs.Where(i => i.InvCustomSpecId == catSpec.InvCustomSpecId).First();
+            if (Model.InvItem.InvItemCustomSpecs.Where(i => i.InvCustomSpecId == catSpec.InvCustomSpecId).Any())
+            {
+                var spec = Model.InvItem.InvItemCustomSpecs.Where(i => i.InvCustomSpecId == catSpec.InvCustomSpecId).First();
 
-            <tr class="itemspec">
+                <tr class="itemspec">
                     <td class="itemspec-td-id" hidden>
                         <input type="text" class="id" value="@spec.Id">
                     </td>
@@ -96,7 +109,7 @@
                         @spec.InvCustomSpec.SpecName
                     </td>
                     <td class="itemspec-td-value">
-                        <input type="text" style="max-width:200px;" value="@spec.SpecValue" class="form-control"  maxlength="20">
+                        <input type="text" style="max-width:200px;" value="@spec.SpecValue" class="form-control" maxlength="20">
                     </td>
                     <td>
                         @spec.InvCustomSpec.Measurement
@@ -109,45 +122,81 @@
                     </td>
                     <td>
                         <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id" class="btn btn-light"> Edit </a>
-                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id"  class="btn btn-light"> Delete </a>
+                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> Delete </a>
                     </td>
                 </tr>
-            
 
-            continue;
-        }else{
-            <tr class="catspec">
-                <td class="catspec-td-id" hidden>
-                    <input type="text" class="id" value="@catSpec.InvCustomSpecId">
+
+                continue;
+            }
+            else
+            {
+                <tr class="catspec">
+                    <td class="catspec-td-id" hidden>
+                        <input type="text" class="id" value="@catSpec.InvCustomSpecId">
+                    </td>
+                    <td class="catspec-td-name">
+                        @catSpec.InvCustomSpec.SpecName
+                    </td>
+                    <td class="catspec-td-value">
+                        <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="20">
+                    </td>
+                    <td>
+                        @catSpec.InvCustomSpec.Measurement
+                    </td>
+                    <td class="catspec-td-remarks">
+                        <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="80">
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+        }
+
+        @if(isSteelCategory){
+            <tr>
+                <td colspan="5">
+                    <b> Steel Specs </b>
                 </td>
-                <td class="catspec-td-name">
-                    @catSpec.InvCustomSpec.SpecName
+            </tr>
+            <tr>
+                <td>
+                    <span> Info </span>
                 </td>
-                <td class="catspec-td-value">
+                <td colspan="5">
                     <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="20">
                 </td>
+            </tr>
+            <tr>
                 <td>
-                    @catSpec.InvCustomSpec.Measurement
+                    <span> Size </span>
                 </td>
-                <td class="catspec-td-remarks">
-                    <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="80">
+                <td colspan="5">
+                    <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="20">
                 </td>
+            </tr>
+            <tr>
                 <td>
+                    <span> Weight </span>
                 </td>
-                <td>
+                <td colspan="5"> 
+                    <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="20">
                 </td>
             </tr>
         }
-    }
 
-</table>
+    </table>
+    <hr />
+    <div class="card-body">
+        <button class="btn btn-primary" id="SaveChangesBtn" onclick="SaveSpecTableChanges(@Model.InvItem.Id)"> Save Changes </button>
+    </div>
 
-<div>
-    <button class="btn btn-primary" id="SaveChangesBtn" onclick="SaveSpecTableChanges(@Model.InvItem.Id)"> Save Changes </button>
 </div>
-
-
 <hr />
+
+@*
 <h4> Steel Specifications </h4>
 <a asp-page="./SpecSteel/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
 <table class="table">
@@ -183,38 +232,45 @@
 
 </table>
 
-<hr />
-<h4> Warning Levels </h4>
-<a asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Warning Level</a>
-<table class="table">
-    <tr>
-        <th> Qty Range </th>
-        <th> type </th>
-        <th> Unit </th>
-        <th></th>
-    </tr>
+<hr />*@
 
-    @foreach (var warning in Model.InvItem.InvWarningLevels)
-    {
+<div class="card" >
+    <div class="card-body">
+
+        <h4> Warning Levels </h4>
+        <a asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Warning Level</a>
+
+    </div>
+    <table class="table">
         <tr>
-            <td>
-                @warning.Level1 -  @warning.Level2
-            </td>
-            <td>
-                @warning.InvWarningType.Desc
-            </td>
-            <td>
-                @warning.InvUom.uom
-            </td>
-            <td>
-                <a asp-page="./WarningLevels/Edit" asp-route-id="@warning.Id"> Edit </a>
-                <a asp-page="./WarningLevels/Delete" asp-route-id="@warning.Id"> Delete </a>
-            </td>
+            <th> Qty Range </th>
+            <th> type </th>
+            <th> Unit </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var warning in Model.InvItem.InvWarningLevels)
+        {
+            <tr>
+                <td>
+                    @warning.Level1 -  @warning.Level2
+                </td>
+                <td>
+                    @warning.InvWarningType.Desc
+                </td>
+                <td>
+                    @warning.InvUom.uom
+                </td>
+                <td>
+                    <a asp-page="./WarningLevels/Edit" asp-route-id="@warning.Id"> Edit </a>
+                    <a asp-page="./WarningLevels/Delete" asp-route-id="@warning.Id"> Delete </a>
+                </td>
+            </tr>
+        }
 
+    </table>
+
+</div>
 
 @section Scripts {
 
