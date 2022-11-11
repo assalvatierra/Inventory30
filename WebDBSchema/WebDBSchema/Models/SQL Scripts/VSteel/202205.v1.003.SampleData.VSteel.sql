@@ -66,7 +66,7 @@ insert into InvUomConversions([InvUomId_base],[InvUomId_into],[Factor],[Descript
 
 IF NOT EXISTS (SELECT 1 FROM InvCustomSpecs)
 BEGIN
-	-- Classifications --
+	-- Custom Specs --
 	insert into InvCustomSpecs([SpecName],[InvCustomSpecTypeId],[Order],[Measurement],[Remarks]) values
 	('Weight', 1, 1, '',''),
 	('Color' , 2, 1, '',''),
@@ -74,4 +74,11 @@ BEGIN
 	('Strength' , 1, 1, '',''),
 	('Toughness', 1, 1, '',''),
 	('Ductility', 1, 1, '','');
+END
+
+IF NOT EXISTS (SELECT 1 FROM InvItemSysDefinedSpecs)
+BEGIN
+	insert into InvItemSysDefinedSpecs([SpecName],[SpecCode],[SpecGroup]) values
+	('Length', 'LGT', 'Size'),
+	('Width' , 'WDT', 'Size');
 END
