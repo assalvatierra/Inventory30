@@ -7,6 +7,7 @@ using WebDBSchema.Models;
 using InvWeb.Data.Models;
 using System;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace InvWeb.Api
 {
@@ -113,6 +114,51 @@ namespace InvWeb.Api
                 return Ok();
             }
             catch(Exception ex)
+            {
+                //throw ex;
+                return BadRequest();
+            }
+
+        }
+
+        //PUD : /PutUpdateInvSteelSpec
+        [HttpPost]
+        public async Task<IActionResult> PutUpdateInvSteelSpec([FromBody] SpecsApiModel.Api_AddItem_SteelSpec item_Spec)
+        {
+            try
+            {
+                var InvSteelSpec = _itemSpecServices.GetItemSpecification_ByInvItemId(item_Spec.InvItemId);
+                if (InvSteelSpec.FirstOrDefault() == null)
+                {
+                    // ADD ITEM STEEL SPEC 
+                    InvItemSpec_Steel new_invItemSpec = new InvItemSpec_Steel();
+                    new_invItemSpec.InvItemId = item_Spec.InvItemId;
+                    new_invItemSpec.SpecFor = item_Spec.SpecFor;
+                    new_invItemSpec.SpecInfo = item_Spec.SpecInfo;
+                    new_invItemSpec.SizeValue = item_Spec.SizeValue;
+                    new_invItemSpec.SizeDesc = item_Spec.SizeDesc;
+                    new_invItemSpec.WtValue = item_Spec.WtValue;
+                    new_invItemSpec.WtDesc = item_Spec.WtDesc;
+                     
+                    await _itemSpecServices.AddItemSpecification(new_invItemSpec);
+                    return Ok();
+                }
+
+                InvItemSpec_Steel invItemSpec = InvSteelSpec.FirstOrDefault();
+
+                invItemSpec.InvItemId = item_Spec.InvItemId;
+                invItemSpec.SpecFor   = item_Spec.SpecFor;
+                invItemSpec.SpecInfo  = item_Spec.SpecInfo;
+                invItemSpec.SizeValue = item_Spec.SizeValue;
+                invItemSpec.SizeDesc  = item_Spec.SizeDesc;
+                invItemSpec.WtValue   = item_Spec.WtValue;
+                invItemSpec.WtDesc    = item_Spec.WtDesc;
+
+                await _itemSpecServices.EditItemSpecification(invItemSpec);
+
+                return Ok();
+            }
+            catch (Exception ex)
             {
                 //throw ex;
                 return BadRequest();

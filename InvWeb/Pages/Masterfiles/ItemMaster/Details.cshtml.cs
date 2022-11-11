@@ -50,12 +50,14 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return NotFound();
             }
 
+
             ViewData["InvItemClass"] = await _context.InvItemClasses
                 .Where(i => i.InvItemId == id)
                 .Include(i => i.InvClassification)
                 .ToListAsync();
 
             ViewData["IsSteelSpec"] = IsItemCategorySpecSteel();
+            ViewData["SteelSpecDetails"] = GetInvItemSpec_SteelDetails();
 
             return Page();
         }
@@ -66,5 +68,18 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                  .Where(i => i.InvItemSysDefinedSpec.SpecCode == "002")
                  .Any();
         }
+
+        private InvItemSpec_Steel GetInvItemSpec_SteelDetails()
+        {
+            var specSteel = InvItem.InvItemSpec_Steel;
+
+            if (specSteel == null)
+            {
+                return null;
+            }
+
+            return specSteel.FirstOrDefault();
+        }
+
     }
 }

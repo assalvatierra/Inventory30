@@ -6,6 +6,7 @@
 
     IEnumerable<WebDBSchema.Models.InvItemClass> invItemClasses = ViewBag.InvItemClass;
     bool isSteelCategory = (bool)ViewData["IsSteelSpec"];
+    var steelDetails = (WebDBSchema.Models.InvItemSpec_Steel)ViewData["SteelSpecDetails"];
 }
 
 <h1>Item Details</h1>
@@ -155,6 +156,7 @@
             }
         }
 
+        <!-- Steel Specifications -->
         @if(isSteelCategory){
             <tr>
                 <td colspan="5">
@@ -165,24 +167,39 @@
                 <td>
                     <span> Info </span>
                 </td>
+                <td colspan="1">
+                    <span> For: </span><br>
+                    <input type="text" id="steel-spec-for" value="@steelDetails.SpecFor" class="form-control" maxlength="10" style="max-width:200px;">
+                </td>
                 <td colspan="5">
-                    <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="20">
+                    <span> Description: </span><br>
+                    <input type="text" id="steel-spec-info" value="@steelDetails.SpecInfo" class="form-control" maxlength="80" style="max-width:200px;">
                 </td>
             </tr>
             <tr>
                 <td>
                     <span> Size </span>
                 </td>
-                <td colspan="5">
-                    <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="20">
+                <td colspan="1">
+                    <span> Value: </span><br>
+                    <input type="text" id="steel-spec-size" value="@steelDetails.SizeValue" class="form-control" maxlength="10" style="max-width:200px;">
+                </td>
+                <td colspan="4">
+                    <span> Description: </span><br>
+                    <input type="text" id="steel-spec-size-desc" value="@steelDetails.SizeDesc" class="form-control" maxlength="30" style="max-width:200px;">
                 </td>
             </tr>
             <tr>
                 <td>
                     <span> Weight </span>
                 </td>
-                <td colspan="5"> 
-                    <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="20">
+                <td colspan="1"> 
+                    <span> Value: </span><br>
+                    <input type="text" id="steel-spec-weight" value="@steelDetails.WtValue" class="form-control" maxlength="10"  style="max-width:200px;" >
+                </td>
+                <td colspan="4"> 
+                    <span> Description: </span><br>
+                    <input type="text" id="steel-spec-weight-desc" value="@steelDetails.WtDesc" class="form-control" maxlength="30"  style="max-width:200px;" >
                 </td>
             </tr>
         }
@@ -277,6 +294,8 @@
     <script>
         function SaveSpecTableChanges(itemId){
 
+            console.log(itemId)
+
             $('#SaveChangesBtn').prop('disabled', true);
 
             //Add
@@ -301,6 +320,9 @@
 
                 PUT_Update_ItemCustomSpec(id,customspecId, name, value, itemId, remarks);
             });
+
+            //update Steel
+            POST_ADD_UPDATE_ItemSpecs(itemId);
 
             //delay 2 sec
             setTimeout(() => {
@@ -375,6 +397,56 @@
                         //window.location.reload(false);
                     } else {
                         //alert("Unable to save item custom specifications");
+                    }
+                }
+            });
+        }
+
+        function POST_ADD_UPDATE_ItemSpecs(id){
+
+            var steelFor        = $("#steel-spec-for").val();
+            var steelInfo       = $("#steel-spec-info").val();
+            var steelSize       = $("#steel-spec-size").val();
+            var steelSizeDesc   = $("#steel-spec-size-desc").val();
+            var steelWeight     = $("#steel-spec-weight").val();
+            var steelWeightDesc = $("#steel-spec-weight-desc").val();
+
+            var spec_Data = {
+                InvItemId: id,
+                SpecFor:   steelFor,
+                SpecInfo:  steelInfo,
+                SizeValue: steelSize,
+                SizeDesc:  steelSizeDesc,
+                WtValue:   steelWeight,
+                WtDesc:    steelWeightDesc
+            }
+
+            console.log(spec_Data);
+
+            if (steelFor == "" && steelInfo == "" && steelSize == "" && steelWeight == "") {
+                console.log("Steel Spec not saved");
+                return false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/Specifications/PutUpdateInvSteelSpec",
+                async: false,
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(spec_Data),
+                success: function (result) {
+
+                },
+                error: function (result) {
+                    //console.log(error);
+                    if (result.status == 200) {
+                        //reload page
+                        //window.location.reload(false);
+                        console.log("Steel Spec Saved : status 200");
+                    } else {
+                        //alert("Unable to save item custom specifications");
+                        console.log("Steel Spec Saved");
                     }
                 }
             });
