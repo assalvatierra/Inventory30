@@ -27,6 +27,7 @@ namespace InvWeb.Pages.Masterfiles.ItemCategories.SysDefinedSpec
             ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Description", id);
             ViewData["InvItemSysDefinedSpecsId"] = _itemSpecServices.GetDefindSpecsSelectList();
             ViewData["SysDefinedSpecsList"] = _context.InvItemSysDefinedSpecs.ToList();
+            ViewData["CategoryId"] = id;
             return Page();
         }
 

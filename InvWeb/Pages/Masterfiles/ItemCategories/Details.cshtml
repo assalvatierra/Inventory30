@@ -8,7 +8,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>InvCategory</h4>
+    <h4>Category</h4>
 
     <div>
         <a asp-page="./Edit" asp-route-id="@Model.InvCategory.Id">Edit</a> |
@@ -44,18 +44,16 @@
                 var specdetails = spec.InvItemSysDefinedSpec;
 
                 <span> (@specdetails.SpecCode) @specdetails.SpecName - @specdetails.SpecGroup </span>
-                <a asp-page="./SysDefinedSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> x </a>
                 <br />
             }
-
-            <a asp-page="./SysDefinedSpec/Add" asp-route-id="@Model.InvCategory.Id"> + Specification</a>
         </dd>
 
     </dl>
 </div>
 
-<h3> Custom Category Specification </h3>
+
 <hr />
+<h3> Custom Category Specification </h3>
 
 <a asp-page="./CustomSpec/Add" asp-route-id="@Model.InvCategory.Id" class="btn btn-primary"> Add Specification</a>
  <table class="table">
@@ -95,3 +93,52 @@
         </tr>
     }
  </table>
+
+
+
+<hr />
+
+<h3> Defined Specification </h3>
+
+<div class="btn-group">
+
+    <a asp-page="./SysDefinedSpec/Add" asp-route-id="@Model.InvCategory.Id" class="btn btn-primary">
+        Add Defined Specification
+    </a>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Code
+        </th>
+        <th>
+            Group
+        </th>
+        <th>
+
+        </th>
+    </tr> 
+    @foreach (var spec in Model.InvCategory.InvCategorySpecDefs)
+    {
+
+        var defSpecDetails = spec.InvItemSysDefinedSpec;
+        <tr>
+            <td>
+                @defSpecDetails.SpecName 
+            </td>
+            <td>
+                @defSpecDetails.SpecCode
+            </td>
+            <td>
+                @defSpecDetails.SpecGroup
+            </td>
+            <td>
+                <a asp-page="./SysDefinedSpec/Delete" asp-route-id="@spec.Id"> Edit </a> |
+                <a asp-page="./SysDefinedSpec/Edit" asp-route-id="@spec.Id"> Delete </a>
+            </td>
+        </tr>
+    }
+</table>

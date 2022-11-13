@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Select a Defined Specifications"; 
     IEnumerable<WebDBSchema.Models.InvItemSysDefinedSpecs> sysDefinedSpecsList = ViewData["SysDefinedSpecsList"] as IEnumerable<WebDBSchema.Models.InvItemSysDefinedSpecs>;
-
+    var categoryId = ViewData["CategoryId"];
 }
 <h1>Select</h1>
 
@@ -12,7 +12,8 @@
 <h4>Select a Defined Specifications</h4>
 
 <div>
-    <a asp-page="../Index">Back to List</a>
+    <a asp-page="../Index">Back to List</a> | 
+    <a asp-page="../Details" asp-route-id="@categoryId">Back to Details</a>
 </div>
 <hr />
 <div class="row" hidden>
