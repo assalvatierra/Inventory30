@@ -7,6 +7,7 @@
     IEnumerable<WebDBSchema.Models.InvItemClass> invItemClasses = ViewBag.InvItemClass;
     bool isSteelCategory = (bool)ViewData["IsSteelSpec"];
     var steelDetails = (WebDBSchema.Models.InvItemSpec_Steel)ViewData["SteelSpecDetails"];
+    IEnumerable<WebDBSchema.Models.InvItemCustomSpec> itemCustomSpecs = ViewData["ItemCustomSpecs"] as IEnumerable<WebDBSchema.Models.InvItemCustomSpec>;
 }
 
 <h1>Item Details</h1>
@@ -127,7 +128,6 @@
                     </td>
                 </tr>
 
-
                 continue;
             }
             else
@@ -154,12 +154,48 @@
                     </td>
                 </tr>
             }
+
+        }
+
+        @if(Model.InvItem.InvItemCustomSpecs.Any()){
+
+            @foreach (var spec in itemCustomSpecs)
+            {
+
+                <tr>
+                    <td class="itemspec-td-id" hidden>
+                        <input type="text" class="id" value="@spec.Id">
+                    </td>
+                    <td class="itemspec-td-customspec-id" hidden>
+                        <input type="text" class="id" value="@spec.InvCustomSpecId">
+                    </td>
+                    <td class="itemspec-td-name">
+                        @spec.InvCustomSpec.SpecName
+                    </td>
+                    <td class="itemspec-td-value">
+                        <input type="text" style="max-width:200px;" value="@spec.SpecValue" class="form-control" maxlength="20">
+                    </td>
+                    <td>
+                        @spec.InvCustomSpec.Measurement
+                    </td>
+                    <td class="itemspec-td-remarks">
+                        <input type="text" style="max-width:200px;" value="@spec.Remarks" class="form-control" maxlength="80">
+                    </td>
+                    <td>
+                        @spec.Order
+                    </td>
+                    <td>
+                        <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id" class="btn btn-light"> Edit </a>
+                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> Delete </a>
+                    </td>
+                </tr>
+            }
         }
 
         <!-- Steel Specifications -->
         @if(isSteelCategory){
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <b> Steel Specs </b>
                 </td>
             </tr>
