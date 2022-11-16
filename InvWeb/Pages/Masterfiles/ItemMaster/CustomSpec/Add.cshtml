@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Add Item Custom Specification";
+    var invItemId = (int)ViewData["ItemId"];
 }
 
 <h1>Add</h1>
@@ -33,7 +34,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="InvItemCustomSpec.Order" class="control-label"></label>
-                <input asp-for="InvItemCustomSpec.Order" class="form-control" maxlength="5" />
+                <input asp-for="InvItemCustomSpec.Order" class="form-control" maxlength="5" value="1" />
                 <span asp-validation-for="InvItemCustomSpec.Order" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,7 +45,7 @@
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="../Details" asp-route-id="@invItemId">Back to List</a>
 </div>
 
 @section Scripts {

@@ -113,7 +113,7 @@ namespace InvWeb.Api
 
                 return Ok();
             }
-            catch(Exception ex)
+            catch
             {
                 //throw ex;
                 return BadRequest();
@@ -158,7 +158,7 @@ namespace InvWeb.Api
 
                 return Ok();
             }
-            catch (Exception ex)
+            catch
             {
                 //throw ex;
                 return BadRequest();

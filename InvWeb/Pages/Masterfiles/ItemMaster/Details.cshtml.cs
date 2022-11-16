@@ -58,6 +58,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
             ViewData["IsSteelSpec"] = IsItemCategorySpecSteel();
             ViewData["SteelSpecDetails"] = GetInvItemSpec_SteelDetails();
+            ViewData["ItemCustomSpecs"] = GetItemCustomSpecList();
+            ViewData["ItemCategoryCustomSpecs"] = GetItemCategoryCustomSpecList();
 
             return Page();
         }
@@ -81,5 +83,28 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             return specSteel.FirstOrDefault();
         }
 
+        private List<InvItemCustomSpec> GetItemCustomSpecList()
+        {
+            var catcustomSpecs = InvItem.InvCategory.InvCatCustomSpecs
+                                    .Select(c => c.InvCustomSpecId)
+                                    .ToList();
+            var customSpecs_NotIn_CategoryCustomSpecs = InvItem.InvItemCustomSpecs
+                                                        .Where(s => !catcustomSpecs.Contains(s.InvCustomSpecId))
+                                                        .ToList();
+
+            return customSpecs_NotIn_CategoryCustomSpecs;
+        }
+
+        private List<InvItemCustomSpec> GetItemCategoryCustomSpecList()
+        {
+            var catcustomSpecs = InvItem.InvCategory.InvCatCustomSpecs
+                                    .Select(c => c.InvCustomSpecId)
+                                    .ToList();
+            var customSpecs_NotIn_CategoryCustomSpecs = InvItem.InvItemCustomSpecs
+                                                        .Where(s => !catcustomSpecs.Contains(s.InvCustomSpecId))
+                                                        .ToList();
+
+            return customSpecs_NotIn_CategoryCustomSpecs;
+        }
     }
 }

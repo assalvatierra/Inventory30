@@ -21,8 +21,9 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.CustomSpec
 
         public IActionResult OnGet(int id)
         {
-            ViewData["InvCustomSpecId"] = new SelectList(_context.InvCustomSpecs, "Id", "SpecName", id);
-            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+            ViewData["InvCustomSpecId"] = new SelectList(_context.InvCustomSpecs, "Id", "SpecName");
+            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description", id);
+            ViewData["ItemId"] = id;
             return Page();
         }
 
