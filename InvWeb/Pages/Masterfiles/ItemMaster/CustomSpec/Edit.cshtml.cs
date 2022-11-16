@@ -39,7 +39,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.CustomSpec
                 return NotFound();
             }
            ViewData["InvCustomSpecId"] = new SelectList(_context.InvCustomSpecs, "Id", "SpecName");
-           ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+           ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description", id);
             return Page();
         }
 
