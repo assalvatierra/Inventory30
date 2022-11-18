@@ -1,0 +1,237 @@
+﻿@model WebDBSchema.Models.InvItem
+@{
+
+    bool isSteelCategory = (bool)ViewData["IsSteelSpec"];
+    var steelDetails = (WebDBSchema.Models.InvItemSpec_Steel)ViewData["SteelSpecDetails"];
+    IEnumerable<WebDBSchema.Models.InvItemCustomSpec> itemCustomSpecs = ViewData["ItemCustomSpecs"] as IEnumerable<WebDBSchema.Models.InvItemCustomSpec>;
+}
+
+
+<div class="card">
+    <div class="card-body">
+        <h4> Custom Specifications </h4>
+        <div class="btn-group">
+            <a asp-page="./CustomSpec/Add" asp-route-id="@Model.Id"> Add Specifications</a>
+        </div>
+    </div>
+
+    <table class="table" id="ItemSpecTable">
+        <tr>
+            <th> Spec </th>
+            <th width="250"> Value </th>
+            <th> Measurement </th>
+            <th> Remarks </th>
+            <th> Order </th>
+            <th></th>
+        </tr>
+
+        @foreach (var catSpec in Model.InvCategory.InvCatCustomSpecs.OrderByDescending(i => i.Order))
+        {
+
+            if (Model.InvItemCustomSpecs.Where(i => i.InvCustomSpecId == catSpec.InvCustomSpecId).Any())
+            {
+                var spec = Model.InvItemCustomSpecs.Where(i => i.InvCustomSpecId == catSpec.InvCustomSpecId).First();
+
+                <tr class="itemspec">
+                    <td class="itemspec-td-id" hidden>
+                        <input type="text" class="id" value="@spec.Id">
+                    </td>
+                    <td class="itemspec-td-customspec-id" hidden>
+                        <input type="text" class="id" value="@spec.InvCustomSpecId">
+                    </td>
+                    <td class="itemspec-td-name">
+                        @spec.InvCustomSpec.SpecName
+                    </td>
+                    <td class="itemspec-td-value">
+                        <input type="text" style="max-width:200px;" value="@spec.SpecValue" class="form-control" maxlength="20">
+                    </td>
+                    <td>
+                        @spec.InvCustomSpec.Measurement
+                    </td>
+                    <td class="itemspec-td-remarks">
+                        <input type="text" style="max-width:200px;" value="@spec.Remarks" class="form-control" maxlength="80">
+                    </td>
+                    <td>
+                        @spec.Order
+                    </td>
+                    <td>
+                        <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id" class="btn btn-light"> Edit </a>
+                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> Delete </a>
+                    </td>
+                </tr>
+
+                continue;
+            }
+            else
+            {
+                <tr class="catspec">
+                    <td class="catspec-td-id" hidden>
+                        <input type="text" class="id" value="@catSpec.InvCustomSpecId">
+                    </td>
+                    <td class="catspec-td-name">
+                        @catSpec.InvCustomSpec.SpecName
+                    </td>
+                    <td class="catspec-td-value">
+                        <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="20">
+                    </td>
+                    <td>
+                        @catSpec.InvCustomSpec.Measurement
+                    </td>
+                    <td class="catspec-td-remarks">
+                        <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="80">
+                    </td>
+
+                    <td>
+                    </td>
+
+                    <td>
+                    </td>
+                </tr>
+            }
+
+        }
+        
+        <!-- Other Custom Specifications -->
+        @if (Model.InvItemCustomSpecs.Any())
+        {
+
+            @foreach (var spec in itemCustomSpecs)
+            {
+
+                <tr class="itemspec">
+                    <td class="itemspec-td-id" hidden>
+                        <input type="text" class="id" value="@spec.Id">
+                    </td>
+                    <td class="itemspec-td-customspec-id" hidden>
+                        <input type="text" class="id" value="@spec.InvCustomSpecId">
+                    </td>
+                    <td class="itemspec-td-name">
+                        @spec.InvCustomSpec.SpecName
+                    </td>
+                    <td class="itemspec-td-value">
+                        <input type="text" style="max-width:200px;" value="@spec.SpecValue" class="form-control" maxlength="20">
+                    </td>
+                    <td>
+                        @spec.InvCustomSpec.Measurement
+                    </td>
+                    <td class="itemspec-td-remarks">
+                        <input type="text" style="max-width:200px;" value="@spec.Remarks" class="form-control" maxlength="80">
+                    </td>
+                    <td>
+                        @spec.Order
+                    </td>
+                    <td>
+                        <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id" class="btn btn-light"> Edit </a>
+                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> Delete </a>
+                    </td>
+                </tr>
+            }
+        }
+
+        <!-- Steel Specifications -->
+        @if (isSteelCategory)
+        {
+            @if (steelDetails != null)
+            {
+                <tr>
+                    <td colspan="6">
+                        <b> Steel Specs </b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span> Info </span>
+                    </td>
+                    <td colspan="1">
+                        <span> For: </span><br>
+                        <input type="text" id="steel-spec-for" value="@steelDetails.SpecInfo" class="form-control" maxlength="10" style="max-width:200px;">
+                    </td>
+                    <td colspan="5">
+                        <span> Description: </span><br>
+                        <input type="text" id="steel-spec-info" value="@steelDetails.SpecInfo" class="form-control" maxlength="80" style="max-width:200px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span> Size </span>
+                    </td>
+                    <td colspan="1">
+                        <span> Value: </span><br>
+                        <input type="text" id="steel-spec-size" value="@steelDetails.SizeValue" class="form-control" maxlength="10" style="max-width:200px;">
+                    </td>
+                    <td colspan="4">
+                        <span> Description: </span><br>
+                        <input type="text" id="steel-spec-size-desc" value="@steelDetails.SizeDesc" class="form-control" maxlength="30" style="max-width:200px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span> Weight </span>
+                    </td>
+                    <td colspan="1">
+                        <span> Value: </span><br>
+                        <input type="text" id="steel-spec-weight" value="@steelDetails.WtValue" class="form-control" maxlength="10" style="max-width:200px;">
+                    </td>
+                    <td colspan="4">
+                        <span> Description: </span><br>
+                        <input type="text" id="steel-spec-weight-desc" value="@steelDetails.WtDesc" class="form-control" maxlength="30" style="max-width:200px;">
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <b> Steel Specs </b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span> Info </span>
+                    </td>
+                    <td colspan="1">
+                        <span> For: </span><br>
+                        <input type="text" id="steel-spec-for" value="" class="form-control" maxlength="10" style="max-width:200px;">
+                    </td>
+                    <td colspan="5">
+                        <span> Description: </span><br>
+                        <input type="text" id="steel-spec-info" value="" class="form-control" maxlength="80" style="max-width:200px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span> Size </span>
+                    </td>
+                    <td colspan="1">
+                        <span> Value: </span><br>
+                        <input type="text" id="steel-spec-size" value="" class="form-control" maxlength="10" style="max-width:200px;">
+                    </td>
+                    <td colspan="4">
+                        <span> Description: </span><br>
+                        <input type="text" id="steel-spec-size-desc" value="" class="form-control" maxlength="30" style="max-width:200px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span> Weight </span>
+                    </td>
+                    <td colspan="1">
+                        <span> Value: </span><br>
+                        <input type="text" id="steel-spec-weight" value="" class="form-control" maxlength="10" style="max-width:200px;">
+                    </td>
+                    <td colspan="4">
+                        <span> Description: </span><br>
+                        <input type="text" id="steel-spec-weight-desc" value="" class="form-control" maxlength="30" style="max-width:200px;">
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+    <hr />
+    <div class="card-body">
+        <button class="btn btn-primary" id="SaveChangesBtn" onclick="SaveSpecTableChanges(@Model.Id)"> Save Changes </button>
+        <p id="custSpec-ErrorMessage" class="text-error"></p>
+    </div>
+
+</div>

@@ -77,7 +77,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
             if (specSteel == null)
             {
-                return null;
+                return new InvItemSpec_Steel() { };
             }
 
             return specSteel.FirstOrDefault();

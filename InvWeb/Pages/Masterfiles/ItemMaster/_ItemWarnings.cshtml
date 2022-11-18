@@ -1,0 +1,41 @@
+﻿@model WebDBSchema.Models.InvItem
+@{
+}
+
+<div class="card">
+    <div class="card-body">
+
+        <h4> Warning Levels </h4>
+        <a asp-page="./WarningLevels/Create" asp-route-id="@Model.Id"> Add Warning Level</a>
+
+    </div>
+    <table class="table">
+        <tr>
+            <th> Qty Range </th>
+            <th> type </th>
+            <th> Unit </th>
+            <th></th>
+        </tr>
+
+        @foreach (var warning in Model.InvWarningLevels)
+        {
+            <tr>
+                <td>
+                    @warning.Level1 -  @warning.Level2
+                </td>
+                <td>
+                    @warning.InvWarningType.Desc
+                </td>
+                <td>
+                    @warning.InvUom.uom
+                </td>
+                <td>
+                    <a asp-page="./WarningLevels/Edit" asp-route-id="@warning.Id"> Edit </a>
+                    <a asp-page="./WarningLevels/Delete" asp-route-id="@warning.Id"> Delete </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>
