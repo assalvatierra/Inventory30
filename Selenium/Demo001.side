@@ -1,0 +1,154 @@
+{
+  "id": "03971c4b-9085-4d5c-8ee5-c8307246a5d1",
+  "version": "2.0",
+  "name": "Demo001",
+  "url": "http://assalvatierra-001-site7.htempurl.com",
+  "tests": [{
+    "id": "8e00f3c6-550a-4bc5-be6c-fc475fcd8b2e",
+    "name": "Homepage-Store",
+    "commands": [{
+      "id": "63134fe4-73bc-462e-b941-e1152d396656",
+      "comment": "",
+      "command": "open",
+      "target": "/Identity/Account/Login?ReturnUrl=%2F",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6ee44fcb-e892-4466-9329-fef939a801f4",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1024x720",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e6d8a907-0aec-458f-998e-e5085928e842",
+      "comment": "",
+      "command": "click",
+      "target": "id=Input_Email",
+      "targets": [
+        ["id=Input_Email", "id"],
+        ["name=Input.Email", "name"],
+        ["css=#Input_Email", "css:finder"],
+        ["xpath=//input[@id='Input_Email']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "25e470dd-4f16-44d1-a8c2-7d0b3d72ca6e",
+      "comment": "",
+      "command": "type",
+      "target": "id=Input_Email",
+      "targets": [
+        ["id=Input_Email", "id"],
+        ["name=Input.Email", "name"],
+        ["css=#Input_Email", "css:finder"],
+        ["xpath=//input[@id='Input_Email']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@gmail.com"
+    }, {
+      "id": "8806286e-527a-45dc-95e3-5c7e81aeb218",
+      "comment": "",
+      "command": "type",
+      "target": "id=Input_Password",
+      "targets": [
+        ["id=Input_Password", "id"],
+        ["name=Input.Password", "name"],
+        ["css=#Input_Password", "css:finder"],
+        ["xpath=//input[@id='Input_Password']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "Admin123!"
+    }, {
+      "id": "615e44b7-b0f2-4f82-bb80-02ee8fc5e0d8",
+      "comment": "",
+      "command": "click",
+      "target": "id=login-submit",
+      "targets": [
+        ["id=login-submit", "id"],
+        ["css=#login-submit", "css:finder"],
+        ["xpath=//button[@id='login-submit']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div[4]/button", "xpath:idRelative"],
+        ["xpath=//div[4]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Log in')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "aa052b87-2846-437b-a7de-7a38c6a1a0e7",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Go to Store",
+      "targets": [
+        ["linkText=Go to Store", "linkText"],
+        ["css=.jumbotron > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Go to Store')]", "xpath:link"],
+        ["xpath=//div[@id='content']/div/main/div/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '/Stores/Main/1')])[2]", "xpath:href"],
+        ["xpath=//div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Go to Store')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "83cac051-c19e-4e7e-82b0-4c40ad84bb1e",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(3) > h4",
+      "targets": [
+        ["css=div:nth-child(3) > h4", "css:finder"],
+        ["xpath=//div[@id='content']/div/main/div/h4", "xpath:idRelative"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'Store')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2f07d1f2-f539-4323-b76e-1c02b85cecd4",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(3) > h4",
+      "targets": [
+        ["css=div:nth-child(3) > h4", "css:finder"],
+        ["xpath=//div[@id='content']/div/main/div/h4", "xpath:idRelative"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'Store')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4e1598b5-e700-4af1-99ae-718a3a7c65c5",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "css=div:nth-child(3) > h4",
+      "targets": [
+        ["css=div:nth-child(3) > h4", "css:finder"],
+        ["xpath=//div[@id='content']/div/main/div/h4", "xpath:idRelative"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'Store')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "509081f9-0e30-4319-8e58-87b10eee293e",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=div:nth-child(3) > h4",
+      "targets": [
+        ["css=div:nth-child(3) > h4", "css:finder"],
+        ["xpath=//div[@id='content']/div/main/div/h4", "xpath:idRelative"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'Store')]", "xpath:innerText"]
+      ],
+      "value": "Store"
+    }]
+  }],
+  "suites": [{
+    "id": "2ef935c5-87f3-409c-88f0-e7b5babe2c96",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["8e00f3c6-550a-4bc5-be6c-fc475fcd8b2e"]
+  }],
+  "urls": ["http://assalvatierra-001-site7.htempurl.com/"],
+  "plugins": []
+}

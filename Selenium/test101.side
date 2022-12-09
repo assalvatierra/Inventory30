@@ -1,0 +1,118 @@
+{
+  "id": "5dbebd60-c245-4158-bae7-5f191897522a",
+  "version": "2.0",
+  "name": "test101",
+  "url": "https://localhost:44359",
+  "tests": [{
+    "id": "0f97e888-db8e-446a-b46a-d87d56663714",
+    "name": "Login-test",
+    "commands": [{
+      "id": "5c4dcd5d-9264-4d26-b6f8-bf16f8b2d4e8",
+      "comment": "",
+      "command": "open",
+      "target": "/Identity/Account/Login?ReturnUrl=%2F",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "235c60fc-3dfd-42ba-9481-ee404da052cf",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1024x720",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c0ee75dd-1429-4efe-8d60-351707892b0d",
+      "comment": "",
+      "command": "click",
+      "target": "id=Input_Email",
+      "targets": [
+        ["id=Input_Email", "id"],
+        ["name=Input.Email", "name"],
+        ["css=#Input_Email", "css:finder"],
+        ["xpath=//input[@id='Input_Email']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "006145f3-bf4f-4a14-83b2-17eabf8de596",
+      "comment": "",
+      "command": "type",
+      "target": "id=Input_Email",
+      "targets": [
+        ["id=Input_Email", "id"],
+        ["name=Input.Email", "name"],
+        ["css=#Input_Email", "css:finder"],
+        ["xpath=//input[@id='Input_Email']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "admin@gmail.com"
+    }, {
+      "id": "fca824e7-c4f7-4e7f-ae46-9a9b513aa369",
+      "comment": "",
+      "command": "type",
+      "target": "id=Input_Password",
+      "targets": [
+        ["id=Input_Password", "id"],
+        ["name=Input.Password", "name"],
+        ["css=#Input_Password", "css:finder"],
+        ["xpath=//input[@id='Input_Password']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "Admin123!"
+    }, {
+      "id": "757110ce-5945-4679-a4a3-fa3bc1c9e77d",
+      "comment": "",
+      "command": "click",
+      "target": "id=login-submit",
+      "targets": [
+        ["id=login-submit", "id"],
+        ["css=#login-submit", "css:finder"],
+        ["xpath=//button[@id='login-submit']", "xpath:attributes"],
+        ["xpath=//form[@id='account']/div[4]/button", "xpath:idRelative"],
+        ["xpath=//div[4]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Log in')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "10c27312-18ba-4e51-a0ab-e043d6a2ed13",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Go to Store",
+      "targets": [
+        ["linkText=Go to Store", "linkText"],
+        ["css=.jumbotron > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Go to Store')]", "xpath:link"],
+        ["xpath=//div[@id='content']/div/main/div/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '/Stores/Main/1')])[2]", "xpath:href"],
+        ["xpath=//div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Go to Store')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fa6939c2-c6f6-4f7c-b3a5-cf9f1329ba86",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=div:nth-child(3) > h4",
+      "targets": [
+        ["css=div:nth-child(3) > h4", "css:finder"],
+        ["xpath=//div[@id='content']/div/main/div/h4", "xpath:idRelative"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'Store')]", "xpath:innerText"]
+      ],
+      "value": "Store"
+    }]
+  }],
+  "suites": [{
+    "id": "cace0508-56e1-463b-91a1-001ba7a67cf9",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["0f97e888-db8e-446a-b46a-d87d56663714"]
+  }],
+  "urls": ["https://localhost:44359/"],
+  "plugins": []
+}
