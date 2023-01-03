@@ -77,7 +77,7 @@
 <p>
     @if (Model.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
     {
-        <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvTrxHdr.Id">Add Item</a>
+        <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvTrxHdr.Id" class="btn btn-primary">Add Item</a>
     }
 </p>
 <table class="table">
