@@ -114,30 +114,36 @@ namespace InvWeb.Data.Services
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
         public SelectList GetInvItemsSelectList()
         {
-            return new SelectList( _context.InvItems.OrderBy(i => i.InvCategoryId).Select(x => new
-            {
-                Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
-                Value = x.Id
-            }), "Value", "Name");
+            return new SelectList( _context.InvItems.OrderBy(i => i.InvCategoryId)
+                .Include(i => i.InvCategory)
+                .Select(x => new
+                {
+                    Name = String.Format("{0} - {1} - {2} {3}", x.Code, x.InvCategory.Description , x.Description, x.Remarks),
+                    Value = x.Id
+                }), "Value", "Name");
         }
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List with parameter selectedId
         public SelectList GetInvItemsSelectList(int selected)
         {
-            return new SelectList(_context.InvItems.OrderBy(i => i.InvCategoryId).Select(x => new
-            {
-                Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
-                Value = x.Id
-            }), "Value", "Name", selected);
+            return new SelectList(_context.InvItems.OrderBy(i => i.InvCategoryId)
+                .Include(i => i.InvCategory)
+                .Select(x => new
+                {
+                    Name = String.Format("{0} - {1} - {2} {3}", x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+                    Value = x.Id
+                }), "Value", "Name", selected);
         }
 
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
         public SelectList GetInStockedInvItemsSelectList(List<int> storeItems)
         {
-            return new SelectList(_context.InvItems.Where(i=> storeItems.Contains(i.Id)).OrderBy(i => i.InvCategoryId).Select(x => new
+            return new SelectList(_context.InvItems.Where(i=> storeItems.Contains(i.Id)).OrderBy(i => i.InvCategoryId)
+                .Include(i => i.InvCategory)
+                .Select(x => new
             {
-                Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
+                Name = String.Format("{0} - {1} - {2} {3}", x.Code, x.InvCategory.Description, x.Description, x.Remarks),
                 Value = x.Id
             }), "Value", "Name");
         }
