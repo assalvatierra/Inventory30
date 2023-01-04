@@ -4,10 +4,47 @@
 @{
 
     IEnumerable<WebDBSchema.Models.Stores.StoreInvCount> storeInvs = ViewBag.StoreInv;
+    IEnumerable<WebDBSchema.Models.InvCategory> Categories = ViewBag.Categories;
+    bool IsAdmin = ViewBag.IsAdmin;
 }
 
-
 <!-- Summary Store Items -->
+
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 col-table-filter">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">Filter</label>
+                </div>
+                <select class="custom-select" id="inputSelect-Category">
+                    <option value="0" selected>Category</option>
+
+                    @foreach(var categories in Categories){
+                        <option value="@categories.Id"> @categories.Description </option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12 col-table-filter">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">Sort</label>
+                </div>
+                <select class="custom-select" id="inputSelect-Sort">
+                    <option value="ITEM" selected>Item Name</option>
+                    <option value="CODE" >Item Code</option>
+                    <option value="COUNT" >Count</option>
+                    <option value="CATEGORY" >Category</option>
+
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <button class="btn btn-primary" onclick="UpdateFilter()" > Update </button>
+        </div>
+    </div>
+
     <table class="table sortable-theme-bootstrap" data-sortable>
         <thead>
                         
@@ -24,20 +61,28 @@
                     </span>
 
                 </th>
-                            
-                <th>
-                    IN
-                </th>
-                <th>
-                    OUT
-                </th>
-                <th>
-                    +/-
-                </th>
+                           
+                @if(IsAdmin){
+                    <th>
+                        IN
+                    </th>
+                    <th>
+                        OUT
+                    </th>
+                    <th>
+                        +/-
+                    </th>
+                }
                 <th>
                     <span data-toggle="tooltip" data-placement="top" title="Available = (pending + accepted) - (requested + released)">
                         Expected
                     </span>
+                </th>
+                <th>
+                    Unit
+                </th>
+                <th>
+                    Remarks
                 </th>
             </tr>
         </thead>
@@ -47,6 +92,7 @@
             <tr>
                 <td>
                     @item.Description
+
                     <br /><span class="text-muted" style="font-size:0.7em"> Category: @item.Category </span>
 
                     @if (!String.IsNullOrEmpty(item.ItemSpec))
@@ -56,11 +102,12 @@
                     }
                 </td>
                 <td>
-                    <partial name="_PartialStockWarning" model="item" />
+                    @*<partial name="_PartialStockWarning" model="item" />*@
                 </td>
                 <td>
                     @item.OnHand
                 </td>
+
                 <td class="table-secondary">
                     @item.ReceivePending
                 </td>
@@ -70,8 +117,16 @@
                 <td class="table-secondary">
                     @item.Adjustments
                 </td>
+
                 <td>
                     @item.Available
+                </td>
+
+                <td>
+                    @item.Uom
+                </td>
+                <td>
+                    <partial name="_PartialStockWarning" model="item" />
                 </td>
             </tr>
             }

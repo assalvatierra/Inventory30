@@ -9,6 +9,7 @@ using WebDBSchema.Models;
 using WebDBSchema.Models.Stores;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
+using System.Reflection.Metadata;
 
 namespace InvWeb.Data.Services
 {
@@ -35,7 +36,7 @@ namespace InvWeb.Data.Services
 
         }
 
-        public async Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId)
+        public async Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId, int _categoryId, string sort)
         {
             try
             {
@@ -45,12 +46,25 @@ namespace InvWeb.Data.Services
                 decimal released = 0;
                 decimal requested = 0;
 
+                List<InvTrxDtl> Received;
+                List<InvTrxDtl> Released;
+                List<InvTrxDtl> Adjustment;
+
                 var invItems = await GetItemsAsync();
 
                 //Todo: add filter to add only trx with approved status (statusId = 1) 
-                var Received = await this.GetReceivedItemsAsync(storeId);
-                var Released = await this.GetReleasedItemsAsync(storeId);
-                var Adjustment = await this.GetAdjustmentItemsAsync(storeId);
+                if (_categoryId > 0)
+                {
+                     Received = await this.GetReleasedItemsByCatAsync(storeId, _categoryId);
+                     Released = await this.GetReceivedItemsByCatAsync(storeId, _categoryId);
+                     Adjustment = await this.GetAdjustmentItemsByCatAsync(storeId, _categoryId);
+                }
+                else
+                {
+                     Received = await this.GetReceivedItemsAsync(storeId);
+                     Released = await this.GetReleasedItemsAsync(storeId);
+                     Adjustment = await this.GetAdjustmentItemsAsync(storeId);
+                }
 
                 List<StoreInvCount> storeInvItems = new();
 
@@ -93,6 +107,9 @@ namespace InvWeb.Data.Services
 
                 }
 
+                //sort items
+                storeInvItems = SortInvCountItems(storeInvItems, sort);
+
                 _logger.LogInformation("StoreServices : GetStoreItemsSummary ");
 
                 return storeInvItems;
@@ -105,6 +122,26 @@ namespace InvWeb.Data.Services
             }
         }
 
+        private List<StoreInvCount> SortInvCountItems(List<StoreInvCount> _storeInvItems, String sort)
+        {
+
+            switch (sort)
+            {
+                case "ITEM":
+                    return _storeInvItems.OrderBy(i => i.Item).ToList();
+                case "CODE":
+                    return _storeInvItems.OrderBy(i => i.Code).ToList();
+                case "COUNT":
+                    return _storeInvItems.OrderBy(i => i.OnHand).ToList();
+                case "CATEGORY":
+                    return _storeInvItems.OrderBy(i => i.Description).ToList();
+                default:
+                    return _storeInvItems;
+            }
+
+        }
+
+
         private StoreInvCount AddItemToStoreInvcount(int id, InvItem itemDetails, decimal itemReceived,
             decimal itemReleased, decimal itemAdjustment, decimal accepted, decimal released, decimal pending, decimal requested
             , string category, int categoryId)
@@ -114,8 +151,7 @@ namespace InvWeb.Data.Services
 
             StoreInvCount storeInv = new StoreInvCount();
             storeInv.Id = id;
-            storeInv.Description = "(" + itemDetails.Code + ") " + itemDetails.Description + " " + itemDetails.Remarks
-                                 + " (" + itemDetails.InvUom.uom + ") ";
+            storeInv.Description = "(" + itemDetails.Code + ") " + itemDetails.Description + " " + itemDetails.Remarks;
             storeInv.Available = (itemReceived - itemReleased) + (itemAdjustment);
             storeInv.OnHand = (accepted - released) + (itemAdjustment);
             storeInv.ReceivePending = pending;
@@ -127,6 +163,9 @@ namespace InvWeb.Data.Services
             storeInv.Category = category;
             storeInv.CategoryId = categoryId;
             storeInv.ItemSpec = GetItemCustomSpec(itemDetails.Id);
+            storeInv.Uom = itemDetails.InvUom.uom;
+            storeInv.Item = itemDetails.Description;
+            storeInv.Code = itemDetails.Code;
 
             return storeInv;
         }
@@ -346,6 +385,34 @@ namespace InvWeb.Data.Services
                 .ToListAsync();
         }
 
+        public async Task<List<InvTrxDtl>> GetReceivedItemsByCatAsync(int storeId, int categoryId)
+        {
+            return await _context.InvTrxDtls
+               .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&
+                h.InvTrxHdr.InvStoreId == storeId && h.InvItem.InvCategoryId == categoryId)
+               .Include(h => h.InvTrxHdr)
+                .Include(h => h.InvItem)
+               .ToListAsync();
+        }
+        public async Task<List<InvTrxDtl>> GetReleasedItemsByCatAsync(int storeId, int categoryId)
+        {
+            return await _context.InvTrxDtls
+                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED &&
+                 h.InvTrxHdr.InvStoreId == storeId && h.InvItem.InvCategoryId == categoryId)
+                .Include(h => h.InvTrxHdr)
+                .Include(h => h.InvItem)
+                .ToListAsync();
+        }
+
+        public async Task<List<InvTrxDtl>> GetAdjustmentItemsByCatAsync(int storeId, int categoryId)
+        {
+            return await _context.InvTrxDtls
+                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT &&
+                 h.InvTrxHdr.InvStoreId == storeId && h.InvItem.InvCategoryId == categoryId)
+                .Include(h => h.InvTrxHdr)
+                .Include(h => h.InvItem)
+                .ToListAsync();
+        }
 
         public async Task<List<InvItem>> GetItemsAsync()
         {
@@ -460,6 +527,20 @@ namespace InvWeb.Data.Services
 
             return _itemSpec;
 
+        }
+
+
+        public Task<List<InvCategory>> GetCategoriesList()
+        {
+            try
+            {
+                return _context.InvCategories.ToListAsync();
+            }
+            catch
+            {
+                throw new Exception("StoreServices: Unable to GetCategoriesList.");
+               
+            }
         }
 
         #endregion

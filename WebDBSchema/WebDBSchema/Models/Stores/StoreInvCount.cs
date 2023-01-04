@@ -9,6 +9,9 @@ namespace WebDBSchema.Models.Stores
     {
         public int Id { get; set; }
         public string Description { get; set; }
+        public string Uom { get; set; }
+        public string Item { get; set; }
+        public string Code { get; set; }
         public decimal Available { get; set; }
         public decimal OnHand { get; set; }
         public decimal ReceivePending { get; set; }
