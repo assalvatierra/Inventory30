@@ -3,7 +3,9 @@
 
 @{
     ViewData["Title"] = "Receiving";
-    
+
+    bool IsAdmin = ViewBag.IsAdmin;
+
     int STATUS_PENDING = 1;
 }
 
@@ -122,7 +124,7 @@
                     </div>
                 </td>
                 <td>
-                    @if (item.InvTrxHdrStatusId == STATUS_PENDING)
+                    @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
                     {
                         <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Accept </button> 
                     }

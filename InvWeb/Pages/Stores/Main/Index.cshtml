@@ -8,6 +8,7 @@
     IEnumerable<WebDBSchema.Models.InvCategory> Categories = ViewBag.Categories;
     int? category = ViewBag.Category;
     string sort = ViewBag.Sort;
+    bool IsAdmin = ViewBag.IsAdmin;
 
     int? pendingReceiving = ViewBag.PendingReceiving != 0 ? ViewBag.PendingReceiving :  null;
     int? pendingReleasing = ViewBag.PendingReleasing != 0 ? ViewBag.PendingReleasing : null;
@@ -30,7 +31,7 @@
 </h1>
 
 <div>
-    <h4>Store</h4>
+    <h4>Store</h4> @IsAdmin
     <hr />
 </div>
 

@@ -5,6 +5,7 @@
     ViewData["Title"] = "Purchase Request";
     int TYPE_PURCHASEORDER = 4;
     int STATUS_PENDING = 1;
+    bool IsAdmin = ViewBag.IsAdmin;
 }
 
 <h1>
@@ -91,7 +92,7 @@
                 </div>
             </td>
             <td>
-                @if (item.InvPoHdrStatusId == STATUS_PENDING)
+                @if (item.InvPoHdrStatusId == STATUS_PENDING && IsAdmin)
                 {
                     <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Accept </button>
                 }

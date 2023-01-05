@@ -76,12 +76,12 @@ namespace InvWeb.Pages.Stores.Main
                 ViewData["PendingPurchaseOrder"] = await _storeSvc.GetPurchaseOrderPendingAsync(storeId);
                 ViewData["RecentTrxHdrs"] = await _storeSvc.GetRecentTransactions(storeId);
                 ViewData["Categories"] = await _storeSvc.GetCategoriesList();
-                ViewData["IsAdmin"] = true; // TOOD: check if user is admin
                 ViewData["Category"] = categoryId;
                 ViewData["Sort"] = sort;
 
                 _logger.LogInformation("Showing Store Main Page - StoreID : " + id);
 
+                ViewData["IsAdmin"] = User.IsInRole("ADMIN"); // TOOD: check if user is admin
                 return Page();
 
             }
