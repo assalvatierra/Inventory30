@@ -33,8 +33,9 @@ namespace InvWeb.Pages.Stores.Main
         }
 
         public InvStore InvStore { get; set; }
+        public int SelectedFilterCategory { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, int? categoryId, string sort)
         {
             try
             {
@@ -42,6 +43,12 @@ namespace InvWeb.Pages.Stores.Main
                 if (id == null)
                 {
                     return NotFound();
+                }
+
+
+                if (categoryId == null)
+                {
+                    categoryId = 0;
                 }
 
 
@@ -62,15 +69,19 @@ namespace InvWeb.Pages.Stores.Main
                 var storeId = (int)id;
 
                 ViewData["StoreId"] = id;
-                ViewData["StoreInv"] = await _storeSvc.GetStoreItemsSummary(storeId);
+                ViewData["StoreInv"] = await _storeSvc.GetStoreItemsSummary(storeId, (int)categoryId, sort);
                 ViewData["PendingReceiving"] = await _storeSvc.GetReceivingPendingAsync(storeId);
                 ViewData["PendingReleasing"] = await _storeSvc.GetReleasingPendingAsync(storeId);
                 ViewData["PendingAdjustment"] = await _storeSvc.GetAdjustmentPendingAsync(storeId);
                 ViewData["PendingPurchaseOrder"] = await _storeSvc.GetPurchaseOrderPendingAsync(storeId);
                 ViewData["RecentTrxHdrs"] = await _storeSvc.GetRecentTransactions(storeId);
+                ViewData["Categories"] = await _storeSvc.GetCategoriesList();
+                ViewData["Category"] = categoryId;
+                ViewData["Sort"] = sort;
 
                 _logger.LogInformation("Showing Store Main Page - StoreID : " + id);
 
+                ViewData["IsAdmin"] = User.IsInRole("ADMIN"); // TOOD: check if user is admin
                 return Page();
 
             }
@@ -108,5 +119,6 @@ namespace InvWeb.Pages.Stores.Main
 
             return false;
         }
+
     }
 }

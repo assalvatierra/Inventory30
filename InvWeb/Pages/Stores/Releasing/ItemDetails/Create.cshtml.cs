@@ -52,7 +52,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             var LotNoItemsIds = LotNoList.Select(c => c.LotNo).ToList();
             var selectedItem = " ";
 
-            var storeItems = _storeServices.GetStoreItemsSummary(storeId);
+            var storeItems = _storeServices.GetStoreItemsSummary(storeId, 0, null);
             var availbaleStoreItems = storeItems.Result.Where(i => i.Available > 0).Select(i=>i.Id).ToList();
 
 

@@ -52,6 +52,7 @@ namespace InvWeb.Pages.Stores.Releasing
 
             ViewData["StoreId"] = storeId;
             ViewData["Status"] = status;
+            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
             Status = status;
         }
 
