@@ -4,6 +4,10 @@
 @{
 
     IEnumerable<WebDBSchema.Models.InvTrxHdr> RecentTrxHdrs = ViewBag.RecentTrxHdrs;
+
+    int OPERATION_ADD = 1;
+    int OPERATION_SUBTRACT = 2;
+
 }
 
 <br />
@@ -18,16 +22,13 @@
                     <thead>
                         <tr>
                             <th>
+                                Details
+                            </th>
+                            <th>
                                 LotID
                             </th>
                             <th>
                                 Date
-                            </th>
-                            <th>
-                                Remarks
-                            </th>
-                            <th>
-                                Details
                             </th>
                             <th>
                                 Type
@@ -35,12 +36,36 @@
                             <th>
                                 Status
                             </th>
+                            <th>
+                                ADD
+                            </th>
+                            <th>
+                                LESS
+                            </th>
+                            <th>
+                                UNIT
+                            </th>
+                            <th>
+                                REMARKS
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in RecentTrxHdrs)
                         {
+                            @foreach (var dlts in item.InvTrxDtls)
+                            {
                             <tr>
+                                <td>
+                                    <div>
+                                            @dlts.InvItem.Description
+                                             <br /> 
+                                             <span style="font-size:9px;color:gray"> 
+                                                Category:  @dlts.InvItem.InvCategory.Description 
+                                             </span>
+                                           
+                                    </div>
+                                </td>
                                 <td>
                                     @item.Id
                                 </td>
@@ -48,30 +73,31 @@
                                     @item.DtTrx.ToString("MMM dd yyyy")
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Remarks)
-                                </td>
-                                <td>
-                                    <div>
-                                        <ul>
-                                            @foreach (var dlts in item.InvTrxDtls)
-                                            {
-                                                <li style="color:black;">
-                                                    @dlts.InvItem.Description  
-                                                    @dlts.InvItem.Remarks x
-                                                    @dlts.ItemQty
-                                                    @*@dlts.InvUom.uom*@
-                                                </li>
-                                            }
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
                                     @item.InvTrxType.Type
                                 </td>
                                 <td>
                                     @item.InvTrxHdrStatu.Status
                                 </td>
-                            </tr>
+                                <td>
+                                    @if (dlts.InvTrxDtlOperatorId == OPERATION_ADD)
+                                    {
+                                        @dlts.ItemQty
+                                    }
+                                </td>
+                                <td>
+                                    @if (dlts.InvTrxDtlOperatorId == OPERATION_SUBTRACT)
+                                    {
+                                        @dlts.ItemQty
+                                    }
+                                </td>
+                                <td>
+                                     @dlts.InvUom.uom
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Remarks)
+                                </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
