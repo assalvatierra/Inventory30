@@ -402,6 +402,7 @@
     <Property Name="InvItemId" Type="int" Nullable="false" />
     <Property Name="InvTrxDtlOperatorId" Type="int" Nullable="false" />
     <Property Name="LotNo" Type="int" Nullable="true" />
+    <Property Name="BatchNo" Type="nvarchar" Nullable="true" MaxLength="20" />
   </EntityType>
   <EntityType Name="InvTrxTypes">
     <Key>
@@ -1902,6 +1903,7 @@
           <NavigationProperty Name="InvTrxDtlOperator" Relationship="InvDB.InvTrxDtlOperatorInvTrxDtl" FromRole="InvTrxDtl" ToRole="InvTrxDtlOperator" />
           <Property Name="InvTrxDtlOperatorId" Type="Int32" Nullable="false" />
           <Property Name="LotNo" Type="Int32" Nullable="true" />
+          <Property Name="BatchNo" Type="String" Nullable="true" MaxLength="20" />
         </EntityType>
         <Association Name="InvTrxHdrInvTrxDtl">
           <End Type="InvDB.InvTrxHdr" Role="InvTrxHdr" Multiplicity="1" />
@@ -2551,6 +2553,7 @@
           <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
           <ScalarProperty Name="InvTrxDtlOperatorId" ColumnName="InvTrxDtlOperatorId" />
           <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+          <ScalarProperty Name="BatchNo" ColumnName="BatchNo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
