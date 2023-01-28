@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using WebDBSchema.Models;
 using InvWeb.Data.Services;
+using InvWeb.Data.Interfaces;
 
 namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 {
@@ -16,11 +17,13 @@ namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
         private readonly ItemServices _itemServices;
+        private readonly UomServices _uomServices;
 
         public EditModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);
+            _uomServices = new UomServices(context);
         }
 
         [BindProperty]
@@ -45,7 +48,7 @@ namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(InvTrxDtl.InvItemId);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
-            ViewData["InvUomId"] = _itemServices.GetConvertableUomSelectList();
+            ViewData["InvUomId"] = _uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId);
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
             return Page();
         }

@@ -20,9 +20,19 @@
                 <span asp-validation-for="InvTrxDtl.InvTrxHdrId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label"> BatchNo </label>
+                <input asp-for="InvTrxDtl.BatchNo" class="form-control" maxlength="20" />
+                <span asp-validation-for="InvTrxDtl.BatchNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label class="control-label"> Item </label>
                 <select asp-for="InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.InvItemId" id='itemDropdown'></select>
                 <span asp-validation-for="InvTrxDtl.InvItemId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Material </label>
+                <input asp-for="InvTrxDtl.Material" class="form-control" maxlength="10" />
+                <span asp-validation-for="InvTrxDtl.Material" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Qty</label>
