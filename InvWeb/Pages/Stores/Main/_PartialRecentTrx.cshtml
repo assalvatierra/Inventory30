@@ -58,16 +58,19 @@
                             <tr>
                                 <td>
                                     <div>
-                                            @dlts.InvItem.Description
-                                             <br /> 
-                                             <span style="font-size:9px;color:gray"> 
+                                         @dlts.InvItem.Description
+                                         <br />
+                                         <span style="font-size:11px;color:black">
+                                                Material:  @dlts.Material
+                                         </span>
+                                         <br /> 
+                                         <span style="font-size:9px;color:gray"> 
                                                 Category:  @dlts.InvItem.InvCategory.Description 
-                                             </span>
-                                           
+                                         </span>
                                     </div>
                                 </td>
                                 <td>
-                                    @item.Id
+                                        @item.Id / @dlts.BatchNo
                                 </td>
                                 <td>
                                     @item.DtTrx.ToString("MMM dd yyyy")

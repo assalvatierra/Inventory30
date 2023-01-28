@@ -60,7 +60,8 @@ namespace InvWeb.Data.Services
                         Date   = i.InvTrxHdr.DtTrx.ToShortDateString(),
                         Status = i.InvTrxHdr.InvTrxHdrStatu.Status,
                         Uom    = i.InvUom != null ? i.InvUom.uom : "",
-                        InvWarningLevels  = i.InvItem.InvWarningLevels
+                        InvWarningLevels  = i.InvItem.InvWarningLevels,
+                        BatchNo = i.BatchNo
                     });
                 });
 
