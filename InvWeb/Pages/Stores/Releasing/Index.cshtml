@@ -36,7 +36,7 @@
     <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId" class="btn btn-primary">Create New</a>
 </p>
 
-<form method="post" hidden>
+<form method="post">
     <div hidden>
         <input type="text" value="@ViewData["StoreId"]" name="storeId" id="storeId" />
     </div>
@@ -93,21 +93,39 @@
                 </td>
                 <td>
                     <div>
-                        <ul>
+                        <table class="table table-borderless">
+
                             @foreach (var dlts in item.InvTrxDtls)
                             {
-                                <li style="color:black;">
-                                    ( @dlts.InvItem.Code )
-                                    @dlts.InvItem.Description 
-                                    @dlts.InvItem.Remarks x
-                                    @dlts.ItemQty
 
-                                    @if(dlts.InvUom != null){
-                                        @dlts.InvUom.uom
-                                    }
-                                </li>
+                                <tr>
+                                    <td>
+                                        @dlts.BatchNo
+                                    </td>
+                                    <td>
+                                        ( @dlts.InvItem.Code )
+                                        @dlts.InvItem.Description
+                                        @dlts.InvItem.Remarks
+                                    </td>
+                                    <td>
+                                        @if (dlts.Material != null)
+                                        {
+                                            <span>
+                                                @dlts.Material
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @dlts.ItemQty
+
+                                        @if (dlts.InvUom != null)
+                                        {
+                                            @dlts.InvUom.uom
+                                        }
+                                    </td>
+                                </tr>
                             }
-                        </ul>
+                        </table>
                     </div>
                 </td>
                 <td>

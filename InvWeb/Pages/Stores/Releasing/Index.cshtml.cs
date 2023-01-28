@@ -70,12 +70,14 @@ namespace InvWeb.Pages.Stores.Releasing
             }
 
             InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType)
-                  .Where(i => i.InvTrxTypeId == TYPE_RELEASING &&
-                              i.InvStoreId == storeId)
-                .ToListAsync();
+               .Include(i => i.InvStore)
+               .Include(i => i.InvTrxHdrStatu)
+               .Include(i => i.InvTrxDtls)
+                   .ThenInclude(i => i.InvItem)
+                   .ThenInclude(i => i.InvUom)
+               .Where(i => i.InvTrxTypeId == TYPE_RELEASING
+                          && i.InvStoreId == storeId)
+               .Include(i => i.InvTrxType).ToListAsync();
 
             if (!String.IsNullOrWhiteSpace(Status))
             {
@@ -99,6 +101,7 @@ namespace InvWeb.Pages.Stores.Releasing
             }
 
             ViewData["StoreId"] = storeId;
+            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
 
             return Page();
         }
