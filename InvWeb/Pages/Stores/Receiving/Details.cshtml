@@ -72,16 +72,22 @@
     <thead>
         <tr>
             <th>
-                Code
+                Batch No
             </th>
             <th>
-                Item
+               (Code) Item
+            </th>
+            <th>
+                Material
             </th>
             <th>
                 Qty
             </th>
             <th>
-                Uom
+                Unit
+            </th>
+            <th>
+                Weight
             </th>
             <th></th>
         </tr>
@@ -91,7 +97,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Code)
+                    @Html.DisplayFor(modelItem => item.BatchNo)
                 </td>
                 <td>
                     ( @Html.DisplayFor(modelItem => item.InvItem.Code) )
@@ -99,11 +105,18 @@
                     @Html.DisplayFor(modelItem => item.InvItem.Remarks)
                 </td>
                 <td>
+                    @if (item.Material != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Material)
+                    }
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.ItemQty)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvUom.uom)
                 </td>
+
                 <td>
                     @if (Model.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
                     {
