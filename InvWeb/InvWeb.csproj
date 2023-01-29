@@ -43,6 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
     <ProjectReference Include="..\PageSettings\ObjectConfigService\ObjectConfigService.csproj" />
     <ProjectReference Include="..\PageSettings\PageConfigService\PageConfigService.csproj" />
     <ProjectReference Include="..\PageSettings\PageModels\ReportViewModel\ReportViewModel.csproj" />
