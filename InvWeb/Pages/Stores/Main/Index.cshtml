@@ -3,9 +3,9 @@
 
 @{
     ViewData["Title"] = "Main";
-    IEnumerable<WebDBSchema.Models.Stores.StoreInvCount> storeInvs = ViewBag.StoreInv;
-    IEnumerable<WebDBSchema.Models.InvTrxHdr> RecentTrxHdrs = ViewBag.RecentTrxHdrs;
-    IEnumerable<WebDBSchema.Models.InvCategory> Categories = ViewBag.Categories;
+    IEnumerable<CoreLib.Inventory.Models.Stores.StoreInvCount> storeInvs = ViewBag.StoreInv;
+    IEnumerable<CoreLib.Inventory.Models.InvTrxHdr> RecentTrxHdrs = ViewBag.RecentTrxHdrs;
+    IEnumerable<CoreLib.Inventory.Models.InvCategory> Categories = ViewBag.Categories;
     int? category = ViewBag.Category;
     string sort = ViewBag.Sort;
     bool IsAdmin = ViewBag.IsAdmin;

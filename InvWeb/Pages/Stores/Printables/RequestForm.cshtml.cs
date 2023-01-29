@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 using System.Linq;
 using ReportViewModel.InvStore;
 using PageConfigShared.Interfaces;

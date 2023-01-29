@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
-using WebDBSchema.Models;
-using WebDBSchema.Models.Items;
+using CoreLib.Inventory.Models;
+using CoreLib.Inventory.Models.Items;
 using InvWeb.Data.Services;
 
 namespace InvWeb.Pages.Masterfiles.ItemSearch

@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data.Services;
 using InvWeb.Data;
-using WebDBSchema.Models;
-using WebDBSchema.Models.Items;
+using CoreLib.Inventory.Models;
+using CoreLib.Inventory.Models.Items;
 using Microsoft.Extensions.Logging;
 using InvWeb.Data.Interfaces;
 

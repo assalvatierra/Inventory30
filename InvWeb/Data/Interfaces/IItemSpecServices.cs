@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebDBSchema.Models;
-using WebDBSchema.Models.Items;
+using CoreLib.Inventory.Models;
+using CoreLib.Inventory.Models.Items;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 using InvWeb.Data.Models;

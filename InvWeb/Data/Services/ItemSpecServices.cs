@@ -1,7 +1,7 @@
 ﻿using InvWeb.Data.Interfaces;
 using System;
 using System.Threading.Tasks;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Collections.Generic;

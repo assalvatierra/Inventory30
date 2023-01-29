@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebDBSchema.Models;
-using WebDBSchema.Models.Stores;
+using CoreLib.Inventory.Models;
+using CoreLib.Inventory.Models.Stores;
 
 namespace InvWeb.Data.Interfaces
 {

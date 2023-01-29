@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebDBSchema.Models.Users;
+using CoreLib.Inventory.Models.Users;
 using Newtonsoft.Json;
 
 namespace InvWeb.Api

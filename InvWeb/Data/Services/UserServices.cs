@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InvWeb.Data;
-using WebDBSchema.Models.Users;
+using CoreLib.Inventory.Models.Users;
 
 namespace InvWeb.Data.Services
 {
