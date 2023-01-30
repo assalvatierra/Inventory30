@@ -243,6 +243,8 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="120" />
     <Property Name="InvUomId" Type="int" Nullable="false" />
     <Property Name="InvCategoryId" Type="int" Nullable="false" />
+    <Property Name="Weight" Type="decimal" Nullable="true" Scale="2" />
+    <Property Name="Material" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="InvItemClasses">
     <Key>
@@ -403,7 +405,6 @@
     <Property Name="InvTrxDtlOperatorId" Type="int" Nullable="false" />
     <Property Name="LotNo" Type="int" Nullable="true" />
     <Property Name="BatchNo" Type="nvarchar" Nullable="true" MaxLength="20" />
-    <Property Name="Material" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="InvTrxTypes">
     <Key>
@@ -1390,6 +1391,8 @@
           <Property Name="InvCategoryId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvItemSpec_Steel" Relationship="InvDB.InvItemInvItemSpec_Steel" FromRole="InvItem" ToRole="InvItemSpec_Steel" />
           <NavigationProperty Name="InvItemCustomSpecs" Relationship="InvDB.InvItemInvItemCustomSpec" FromRole="InvItem" ToRole="InvItemCustomSpec" />
+          <Property Name="Weight" Type="Decimal" Nullable="true" Scale="2" />
+          <Property Name="Material" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <EntityType Name="InvItemClass">
           <Key>
@@ -1905,7 +1908,6 @@
           <Property Name="InvTrxDtlOperatorId" Type="Int32" Nullable="false" />
           <Property Name="LotNo" Type="Int32" Nullable="true" />
           <Property Name="BatchNo" Type="String" Nullable="true" MaxLength="20" />
-          <Property Name="Material" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <Association Name="InvTrxHdrInvTrxDtl">
           <End Type="InvDB.InvTrxHdr" Role="InvTrxHdr" Multiplicity="1" />
@@ -2380,6 +2382,8 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="InvUomId" ColumnName="InvUomId" />
           <ScalarProperty Name="InvCategoryId" ColumnName="InvCategoryId" />
+          <ScalarProperty Name="Weight" ColumnName="Weight" />
+          <ScalarProperty Name="Material" ColumnName="Material" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2556,7 +2560,6 @@
           <ScalarProperty Name="InvTrxDtlOperatorId" ColumnName="InvTrxDtlOperatorId" />
           <ScalarProperty Name="LotNo" ColumnName="LotNo" />
           <ScalarProperty Name="BatchNo" ColumnName="BatchNo" />
-          <ScalarProperty Name="Material" ColumnName="Material" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

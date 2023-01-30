@@ -22,7 +22,6 @@ namespace WebDBSchema.Models
         public int InvTrxDtlOperatorId { get; set; }
         public Nullable<int> LotNo { get; set; }
         public string BatchNo { get; set; }
-        public string Material { get; set; }
     
         public virtual InvTrxHdr InvTrxHdr { get; set; }
         public virtual InvUom InvUom { get; set; }
