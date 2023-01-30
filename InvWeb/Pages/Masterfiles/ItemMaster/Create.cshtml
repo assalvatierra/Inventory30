@@ -29,6 +29,16 @@
                         onchange="CheckCategory_DefinedSpecCount()"></select>
                 </div>
                 <div class="form-group">
+                    <label asp-for="InvItem.Weight" class="control-label"></label>
+                        <input asp-for="InvItem.Weight" id="InvItemRemarks" class="form-control" maxlength="6" />
+                    <span asp-validation-for="InvItem.Weight" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InvItem.Material" class="control-label"></label>
+                    <input asp-for="InvItem.Material" id="InvItemRemarks" class="form-control" maxlength="80" />
+                    <span asp-validation-for="InvItem.Material" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <label asp-for="InvItem.Remarks" class="control-label"></label>
                 <input asp-for="InvItem.Remarks" id="InvItemRemarks" class="form-control" maxlength="120" />
                     <span asp-validation-for="InvItem.Remarks" class="text-danger"></span>

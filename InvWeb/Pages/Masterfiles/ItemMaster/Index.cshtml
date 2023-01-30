@@ -23,6 +23,9 @@
                 Category
             </th>
             <th>
+                Weight
+            </th>
+            <th>
                 UoM
             </th>
             <th>
@@ -55,7 +58,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.InvCategory.Description)
                 </td>
-
+                <td>
+                    @if (item.InvItem.Weight != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.InvItem.Weight)
+                        <span> kg / pc </span>
+                    }
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
                 </td>
