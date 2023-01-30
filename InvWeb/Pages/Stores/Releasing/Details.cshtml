@@ -77,6 +77,9 @@
                 (Code) InvItem
             </th>
             <th>
+                HeatNo
+            </th>
+            <th>
                 Material
             </th>
             <th>
@@ -93,8 +96,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LotNo) /
-                    @Html.DisplayFor(modelItem => item.BatchNo)
+                    @Html.DisplayFor(modelItem => item.LotNo) 
                 </td>
                 <td>
                    ( @Html.DisplayFor(modelItem => item.InvItem.Code) )
@@ -102,10 +104,10 @@
                     @Html.DisplayFor(modelItem => item.InvItem.Remarks)
                 </td>
                 <td>
-                    @if (item.Material != null)
-                    {
-                        @Html.DisplayFor(modelItem => item.Material)
-                    }
+                    @Html.DisplayFor(modelItem => item.BatchNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.Material)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ItemQty)
