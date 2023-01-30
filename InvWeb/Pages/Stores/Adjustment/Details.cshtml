@@ -84,19 +84,19 @@
     <thead>
         <tr>
             <th>
-                Batch No
+                (Code) Item
             </th>
             <th>
-                (Code) Item
+                Heat No.
+            </th>
+            <th>
+                Material
             </th>
             <th>
                 Qty
             </th>
             <th>
                 Uom
-            </th>
-            <th>
-                Weight
             </th>
             <th>
                 Operation
@@ -109,19 +109,15 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.BatchNo)
-                </td>
-                <td>
                     ( @Html.DisplayFor(modelItem => item.InvItem.Code) )
                     @Html.DisplayFor(modelItem => item.InvItem.Description)
                     @Html.DisplayFor(modelItem => item.InvItem.Remarks)
                 </td>
                 <td>
-                    @if (item.Material != null)
-                    {
-                        @Html.DisplayFor(modelItem => item.Material)
-                    }
-
+                    @Html.DisplayFor(modelItem => item.BatchNo)
+                </td>
+                <td>
+                     @Html.DisplayFor(modelItem => item.InvItem.Material)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ItemQty)
