@@ -63,7 +63,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
             ViewData["InvItemId"] = _itemServices.GetInStockedInvItemsSelectList(itemId, availbaleStoreItems);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
-            ViewData["InvUomId"] = _uomServices.GetUomSelectListByItemId(invItemId);
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 2);
             ViewData["HdrId"] = hdrId;
             ViewData["LotNoItems"] = LotNoList;

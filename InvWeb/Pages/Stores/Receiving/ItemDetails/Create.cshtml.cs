@@ -36,7 +36,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             InvTrxDtl.InvTrxHdrId =(int)hdrId;
 
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList();
-            ViewData["InvUomId"] = _uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId);
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 1);
             ViewData["HdrId"] = hdrId;
