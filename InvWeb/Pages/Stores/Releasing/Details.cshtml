@@ -28,17 +28,18 @@
 
     <hr />
 
+
     <div class="row">
         <div class="col-lg-8 col-sm-12">
             <div class="row">
-                <div class="col-lg-8">
-                   Transaction: @Model.InvTrxHdr.InvTrxType.Type
+                <div class="col-lg-4">
+                    Type: @Model.InvTrxHdr.InvTrxType.Type
                 </div>
-                <div class="col-lg-2">
-                   Date: @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
+                <div class="col-lg-4">
+                    Date: @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
                 </div>
-                <div class="col-lg-2">
-                   Store: @Model.InvTrxHdr.InvStore.StoreName
+                <div class="col-lg-4">
+                    Store: @Model.InvTrxHdr.InvStore.StoreName
                 </div>
             </div>
             <div class="row">
@@ -50,10 +51,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-8">
-                   Status: @Model.InvTrxHdr.InvTrxHdrStatu.Status
+                    Status: @Model.InvTrxHdr.InvTrxHdrStatu.Status
                 </div>
                 <div class="col-lg-4">
-                   Performed By: @Model.InvTrxHdr.UserId
+                    Request By: @Model.InvTrxHdr.UserId
                 </div>
             </div>
         </div>
@@ -77,7 +78,7 @@
                 (Code) InvItem
             </th>
             <th>
-                HeatNo
+                Heat
             </th>
             <th>
                 Material
