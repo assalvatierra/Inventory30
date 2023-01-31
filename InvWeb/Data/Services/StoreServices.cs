@@ -10,6 +10,7 @@ using CoreLib.Inventory.Models.Stores;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 using System.Reflection.Metadata;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Data.Services
 {
