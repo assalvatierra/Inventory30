@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using System.Threading.Tasks;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 
 namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec.Category
 {

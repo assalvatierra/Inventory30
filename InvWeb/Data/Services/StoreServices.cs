@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using InvWeb.Data.Interfaces;
 using InvWeb.Data;
 using Microsoft.EntityFrameworkCore;
-using WebDBSchema.Models;
-using WebDBSchema.Models.Stores;
+using CoreLib.Inventory.Models;
+using CoreLib.Inventory.Models.Stores;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 using System.Reflection.Metadata;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Data.Services
 {

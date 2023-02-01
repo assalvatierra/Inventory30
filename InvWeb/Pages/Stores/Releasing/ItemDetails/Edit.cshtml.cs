@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data.Services;
-using WebDBSchema.Models;
-using WebDBSchema.Models.Items;
+using CoreLib.Inventory.Models;
+using CoreLib.Inventory.Models.Items;
 using InvWeb.Data.Interfaces;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
@@ -67,7 +67,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(itemId);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
-            ViewData["InvUomId"] = _uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId);
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
             ViewData["LotNoItems"]  = LotNoList;
             ViewData["StoreId"]     = storeId;

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
 
 namespace InvWeb.Pages.Masterfiles.StoreStock

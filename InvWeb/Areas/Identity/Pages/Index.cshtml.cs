@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
-using WebDBSchema.Models.Users;
+using CoreLib.Inventory.Models.Users;
 
 namespace InvWeb.Areas.Identity.Pages
 {

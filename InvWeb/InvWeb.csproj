@@ -43,11 +43,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
     <ProjectReference Include="..\PageSettings\ObjectConfigService\ObjectConfigService.csproj" />
     <ProjectReference Include="..\PageSettings\PageConfigService\PageConfigService.csproj" />
     <ProjectReference Include="..\PageSettings\PageModels\ReportViewModel\ReportViewModel.csproj" />
     <ProjectReference Include="..\PageSettings\PageViews\ReportBasicViews\ReportBasicViews.csproj" />
-    <ProjectReference Include="..\WebDBSchema\WebDBSchema\WebDBSchema.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,7 +18,7 @@ namespace InvWeb.Data
         {
         }
 
-        public DbSet<WebDBSchema.Models.Users.AppUser> AppUsers { get; set; }
+        public DbSet<CoreLib.Inventory.Models.Users.AppUser> AppUsers { get; set; }
         public DbSet<InvStore> InvStores { get; set; }
         public DbSet<InvItem> InvItems { get; set; }
         public DbSet<InvUom> InvUoms { get; set; }
@@ -43,10 +43,10 @@ namespace InvWeb.Data
         public DbSet<InvItemSysDefinedSpecs> InvItemSysDefinedSpecs { get; set; }
         public DbSet<InvItemSpec_Steel> InvItemSpec_Steel { get; set; }
         public DbSet<InvCategorySpecDef> InvCategorySpecDefs { get; set; }
-        public DbSet<WebDBSchema.Models.InvCustomSpecType> InvCustomSpecTypes { get; set; }
-        public DbSet<WebDBSchema.Models.InvCustomSpec> InvCustomSpecs { get; set; }
-        public DbSet<WebDBSchema.Models.InvCatCustomSpec> InvCatCustomSpecs { get; set; }
-        public DbSet<WebDBSchema.Models.InvItemCustomSpec> InvItemCustomSpecs { get; set; }
+        public DbSet<CoreLib.Inventory.Models.InvCustomSpecType> InvCustomSpecTypes { get; set; }
+        public DbSet<CoreLib.Inventory.Models.InvCustomSpec> InvCustomSpecs { get; set; }
+        public DbSet<CoreLib.Inventory.Models.InvCatCustomSpec> InvCatCustomSpecs { get; set; }
+        public DbSet<CoreLib.Inventory.Models.InvItemCustomSpec> InvItemCustomSpecs { get; set; }
 
     }
 }

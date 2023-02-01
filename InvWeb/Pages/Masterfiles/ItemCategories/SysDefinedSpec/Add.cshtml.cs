@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 
 namespace InvWeb.Pages.Masterfiles.ItemCategories.SysDefinedSpec
 {

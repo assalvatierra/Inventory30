@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebDBSchema.Models;
-using WebDBSchema.Models.Items;
+using CoreLib.Inventory.Models;
+using CoreLib.Inventory.Models.Items;
 using InvWeb.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -35,31 +35,26 @@ namespace InvWeb.Data.Services
             throw new NotImplementedException();
         }
 
-        public SelectList GetUomSelectList()
+        public List<InvUom> GetUomSelectList()
         {
             try
             {
-                return new SelectList(_context.InvUoms
-                    .Select(x => new
-                        {
-                            Name = x.uom,
-                            Value = x.Id
-                        }), "Value", "Name");
+                return _context.InvUoms.ToList();
             }
             catch (Exception ex)
             {
                 _logger.LogError("UomServices: Unable to GetUomSelectList " + ex.Message);
-                return new SelectList(null);
+                return new List<InvUom>();
             }
         }
 
-        public SelectList GetUomSelectListByItemId(int? itemId)
+        public List<InvUom> GetUomSelectListByItemId(int? itemId)
         {
             try
             {
                 if (itemId == null)
                 {
-                    return new SelectList(null);
+                    return new List<InvUom>();
                     //return GetUomSelectList();
                 }
 
@@ -67,7 +62,7 @@ namespace InvWeb.Data.Services
 
                 if (item == null)
                 {
-                    return new SelectList(null);
+                    return new List<InvUom>();
                     //return GetUomSelectList();
                 }
 
@@ -79,33 +74,28 @@ namespace InvWeb.Data.Services
 
                 if (UomConversionList == null)
                 {
-                    return new SelectList(_context.InvUoms
+                    return _context.InvUoms
                         .Where(i => item_BaseUom == i.Id)
-                        .Select(x => new {
-                            Name = x.uom,
-                            Value = x.Id
-                        }), "Value", "Name");
+                        .ToList();
                 }
 
-                return new SelectList(_context.InvUoms
+                return _context.InvUoms
                     .Where(i => UomConversionList.Contains(i.Id) ||
                                 item_BaseUom == i.Id)
-                    .Select(x => new {
-                            Name = x.uom,
-                            Value = x.Id
-                        }), "Value", "Name");
+                    .ToList();
             }
             catch (Exception ex)
             {
                 //throw ex;
                 _logger.LogError("UomServices: Unable to GetUomSelectListByItemId " + ex.Message);
-                return new SelectList(null);
+                return new List<InvUom>();
             }
         }
 
 
         public List<InvUom> GetUomListByItemId(int? itemId)
         {
+
             throw new NotImplementedException();
         }
 

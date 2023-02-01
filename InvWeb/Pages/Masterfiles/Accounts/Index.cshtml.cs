@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using InvWeb.Data;
-using WebDBSchema.Models.Users;
+using CoreLib.Inventory.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvWeb.Pages.Masterfiles.Accounts

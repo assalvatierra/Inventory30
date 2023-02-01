@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 
 namespace InvWeb.Api
 {

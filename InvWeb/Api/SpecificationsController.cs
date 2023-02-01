@@ -3,7 +3,7 @@ using InvWeb.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 using InvWeb.Data.Models;
 using System;
 using Microsoft.Extensions.Logging;

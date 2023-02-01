@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 
 namespace InvWeb.Pages.Masterfiles.ItemSpec_Steel
 {

@@ -4,10 +4,10 @@
 @{
     ViewData["Title"] = "Item Details";
 
-    IEnumerable<WebDBSchema.Models.InvItemClass> invItemClasses = ViewBag.InvItemClass;
+    IEnumerable<CoreLib.Inventory.Models.InvItemClass> invItemClasses = ViewBag.InvItemClass;
     bool isSteelCategory = (bool)ViewData["IsSteelSpec"];
-    var steelDetails = (WebDBSchema.Models.InvItemSpec_Steel)ViewData["SteelSpecDetails"];
-    IEnumerable<WebDBSchema.Models.InvItemCustomSpec> itemCustomSpecs = ViewData["ItemCustomSpecs"] as IEnumerable<WebDBSchema.Models.InvItemCustomSpec>;
+    var steelDetails = (CoreLib.Inventory.Models.InvItemSpec_Steel)ViewData["SteelSpecDetails"];
+    IEnumerable<CoreLib.Inventory.Models.InvItemCustomSpec> itemCustomSpecs = ViewData["ItemCustomSpecs"] as IEnumerable<CoreLib.Inventory.Models.InvItemCustomSpec>;
 }
 
 <h1>Item Details</h1>
