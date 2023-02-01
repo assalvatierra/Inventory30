@@ -21,6 +21,7 @@ namespace CoreLib.Inventory.Models
         public int InvItemId { get; set; }
         public int InvTrxDtlOperatorId { get; set; }
         public Nullable<int> LotNo { get; set; }
+        public string BatchNo { get; set; }
     
         public virtual InvTrxHdr InvTrxHdr { get; set; }
         public virtual InvUom InvUom { get; set; }

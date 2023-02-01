@@ -36,6 +36,8 @@ namespace CoreLib.Inventory.Models
         public string Remarks { get; set; }
         public int InvUomId { get; set; }
         public int InvCategoryId { get; set; }
+        public Nullable<decimal> Weight { get; set; }
+        public string Material { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvItemClass> InvItemClasses { get; set; }

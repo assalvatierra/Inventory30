@@ -14,6 +14,8 @@ namespace CoreLib.Inventory.Models.Items
         public string Uom { get; set; }
         public string Status { get; set; }
         public int Qty { get; set; }
+
+        public string BatchNo { get; set; }
         public ICollection<InvWarningLevel> InvWarningLevels { get; set; }
     }
 }
