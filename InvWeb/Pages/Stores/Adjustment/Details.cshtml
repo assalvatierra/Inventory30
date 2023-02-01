@@ -84,10 +84,13 @@
     <thead>
         <tr>
             <th>
-                Code
+                (Code) Item
             </th>
             <th>
-                Item
+                Heat No.
+            </th>
+            <th>
+                Material
             </th>
             <th>
                 Qty
@@ -106,12 +109,15 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Code)
-                </td>
-                <td>
                     ( @Html.DisplayFor(modelItem => item.InvItem.Code) )
                     @Html.DisplayFor(modelItem => item.InvItem.Description)
                     @Html.DisplayFor(modelItem => item.InvItem.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BatchNo)
+                </td>
+                <td>
+                     @Html.DisplayFor(modelItem => item.InvItem.Material)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ItemQty)

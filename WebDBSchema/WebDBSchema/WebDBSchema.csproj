@@ -365,6 +365,7 @@
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.000.Setup.Table.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202209.v1.002.Revised.SysDefinedSpec.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202209.v1.001.Add-Item-Spec.sql" />
+    <Content Include="Models\SQL Scripts\VSteel\Migration\202301.v1.004.Add.BatchNo.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202210.v1.003.Added.CustomSpecs.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

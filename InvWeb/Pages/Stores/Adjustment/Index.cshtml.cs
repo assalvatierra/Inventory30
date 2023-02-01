@@ -105,6 +105,7 @@ namespace InvWeb.Pages.Stores.Adjustment
                 };
             }
             ViewData["StoreId"] = storeId;
+            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
 
             return Page();
         }

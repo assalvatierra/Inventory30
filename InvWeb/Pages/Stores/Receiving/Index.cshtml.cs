@@ -78,7 +78,10 @@ namespace InvWeb.Pages.Stores.Receiving
                 .Include(i => i.InvStore)
                 .Include(i => i.InvTrxHdrStatu)
                 .Include(i => i.InvTrxType)
-                  .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
+                .Include(i => i.InvTrxDtls)
+                    .ThenInclude(i => i.InvItem)
+                    .ThenInclude(i => i.InvUom)
+                .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
                               i.InvStoreId == storeId)
                 .ToListAsync();
 
@@ -105,7 +108,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
 
             ViewData["StoreId"] = storeId;
-
+            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
             return Page();
         }
     }

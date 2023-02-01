@@ -13,6 +13,7 @@ namespace WebDBSchema.Models.Items
         public string Date { get; set; }
         public string Uom { get; set; }
         public string Status { get; set; }
+        public string BatchNo { get; set; }
         public int Qty { get; set; }
         public ICollection<InvWarningLevel> InvWarningLevels { get; set; }
     }

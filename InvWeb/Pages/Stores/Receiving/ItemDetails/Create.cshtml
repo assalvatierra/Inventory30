@@ -22,6 +22,11 @@
                 <select asp-for="InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.InvItemId" id='itemDropdown' ></select>
             </div>
             <div class="form-group">
+                <label class="control-label"> HeatNo </label>
+                <input asp-for="InvTrxDtl.BatchNo" class="form-control" maxlength="20" />
+                <span asp-validation-for="InvTrxDtl.BatchNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label class="control-label"> Qty </label>
                 <input asp-for="InvTrxDtl.ItemQty" class="form-control" value="1" />
                 <span asp-validation-for="InvTrxDtl.ItemQty" class="text-danger"></span>
