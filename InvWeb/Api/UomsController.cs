@@ -40,7 +40,7 @@ namespace InvWeb.Api
             {
                 return new List<UomsApiModel.ItemOumList>();
             }
-
+            
             return await uomServices.GetUomListByItemIdAsync(id);
         }
 

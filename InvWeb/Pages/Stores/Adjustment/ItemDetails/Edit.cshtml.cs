@@ -48,7 +48,7 @@ namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(InvTrxDtl.InvItemId);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
-            ViewData["InvUomId"] = _uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId);
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
             return Page();
         }

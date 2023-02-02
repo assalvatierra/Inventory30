@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
+using InvWeb.Data.Interfaces;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {
@@ -16,11 +17,13 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
         private readonly ItemServices _itemServices;
+        private readonly UomServices _uomServices;
 
         public EditModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);
+            _uomServices = new UomServices(context);
         }
 
         [BindProperty]
@@ -45,7 +48,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
             
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(InvPoItem.InvItemId);
             ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id");
-            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
             return Page();
         }
 

@@ -35,7 +35,7 @@ namespace InvWeb.Data.Services
             throw new NotImplementedException();
         }
 
-        public List<InvUom> GetUomSelectList()
+        public IEnumerable<InvUom> GetUomSelectList()
         {
             try
             {
@@ -48,7 +48,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public List<InvUom> GetUomSelectListByItemId(int? itemId)
+        public IEnumerable<InvUom> GetUomSelectListByItemId(int? itemId)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace InvWeb.Data.Services
         }
 
 
-        public List<InvUom> GetUomListByItemId(int? itemId)
+        public IEnumerable<InvUom> GetUomListByItemId(int? itemId)
         {
 
             throw new NotImplementedException();
@@ -118,7 +118,7 @@ namespace InvWeb.Data.Services
                 var UomList = new List<InvUom>();
                 var item_BaseUom = item.InvUomId;
 
-                List<int> UomConversionList = _context.InvUomConversions
+                IEnumerable<int> UomConversionList = _context.InvUomConversions
                     .Where(uom => uom.InvUomId_base == item_BaseUom)
                     .Select(c => c.InvUomId_into).ToList();
 
