@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
-using CoreLib.Inventory.Models.Items;
 using InvWeb.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using InvWeb.Data.Models;
+using Newtonsoft.Json.Linq;
+using CoreLib.Interfaces;
+using CoreLib.Models.API;
 
 namespace InvWeb.Data.Services
 {
@@ -92,14 +94,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-
-        public IEnumerable<InvUom> GetUomListByItemId(int? itemId)
-        {
-
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<UomsApiModel.ItemOumList>> GetUomListByItemIdAsync(int? itemId)
+        public IEnumerable<UomsApiModel.ItemOumList> GetItemUomListByItemId(int? itemId)
         {
             try
             {
@@ -124,17 +119,17 @@ namespace InvWeb.Data.Services
 
                 if (UomConversionList == null)
                 {
-                    UomList = await _context.InvUoms
+                    UomList = _context.InvUoms
                         .Where(i => item_BaseUom == i.Id)
-                        .ToListAsync();
+                        .ToList();
                 }
 
-                UomList = await _context.InvUoms
+                UomList = _context.InvUoms
                     .Where(i => UomConversionList.Contains(i.Id) ||
                                 item_BaseUom == i.Id)
-                    .ToListAsync();
+                    .ToList();
 
-                return   UomList.Select(uom => 
+                return UomList.Select(uom => 
                          new UomsApiModel.ItemOumList { Id = uom.Id, uom = uom.uom })
                          .ToList();
 

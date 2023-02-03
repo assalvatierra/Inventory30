@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Stores;
-
+using Corelib.Inventory.Interfaces;
 
 namespace InvWeb.Data.Services
 {
-    public class SearchServices
+    public class SearchServices : ISearchServices
     {
 
         private readonly ApplicationDbContext _context;
@@ -34,7 +34,7 @@ namespace InvWeb.Data.Services
         //PARAM: id (int) - 
         //RETURN: async List<InvTrxDtls> - List of Transaction Details
         //DESC: Get list of approved InvTrxDtls (Transaction Details) of specific inventory item
-        public async Task<List<InvTrxDtl>> GetInvDetailsByIdAsync(int id)
+        public async Task<IEnumerable<InvTrxDtl>> GetInvDetailsByIdAsync(int id)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace InvWeb.Data.Services
         //PARAM: NA
         //RETURN: async List<InvTrxDtls> - List of Transaction Details
         //DESC: Get list of approved InvTrxDtls (Transaction Details)
-        public async Task<List<InvTrxDtl>> GetApprovedInvDetailsAsync()
+        public async Task<IEnumerable<InvTrxDtl>> GetApprovedInvDetailsAsync()
         {
             try
             {

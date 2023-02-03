@@ -322,7 +322,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public async Task<List<InvTrxHdr>> GetRecentTransactions(int storeId)
+        public async Task<IEnumerable<InvTrxHdr>> GetRecentTransactions(int storeId)
         {
             try {
                 var today = GetCurrentDateTime().Date;
@@ -334,7 +334,8 @@ namespace InvWeb.Data.Services
                     .Include(i => i.InvTrxDtls)
                         .ThenInclude(i => i.InvItem)
                         .ThenInclude(i => i.InvUom)
-                    .Where(t => t.InvStoreId == storeId && t.DtTrx.Date == today).ToListAsync();
+                    .Where(t => t.InvStoreId == storeId && t.DtTrx.Date == today)
+                    .ToListAsync();
 
                 return recentTrx;
             }
@@ -354,6 +355,11 @@ namespace InvWeb.Data.Services
                 TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
 
             return _localTime;
+        }
+
+        public async Task<InvStore> GetStorebyIdAsync(int id)
+        {
+           return await _context.InvStores.FindAsync(id);
         }
 
         #region DBLayers

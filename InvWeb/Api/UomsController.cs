@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
+using InvWeb.Data.Interfaces;
+using CoreLib.Interfaces;
+using CoreLib.Models.API;
 
 namespace InvWeb.Api
 {
@@ -15,8 +18,8 @@ namespace InvWeb.Api
     public class UomsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly UomServices uomServices;
-
+        private readonly IUomServices uomServices;
+        
         public UomsController(ApplicationDbContext context)
         {
             _context = context;
@@ -34,14 +37,14 @@ namespace InvWeb.Api
         // GET: api/Uoms/5
         [Route("api/Uoms/GetUom/{id}")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<UomsApiModel.ItemOumList>>> GetUom(int id)
+        public IEnumerable<UomsApiModel.ItemOumList> GetUom(int id)
         {
             if (id == 0)
             {
                 return new List<UomsApiModel.ItemOumList>();
             }
             
-            return await uomServices.GetUomListByItemIdAsync(id);
+            return uomServices.GetItemUomListByItemId(id);
         }
 
     }
