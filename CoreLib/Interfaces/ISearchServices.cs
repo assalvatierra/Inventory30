@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Stores;
 
-namespace InvWeb.Data.Interfaces
+namespace Corelib.Inventory.Interfaces
 {
-    interface ISearchServices
+    public interface ISearchServices
     {
         public int GetAvailableCountByItem(int id, int? storeId);
         public int GetAvailableCountByItem(int id);
-        public Task<List<InvTrxDtl>> GetInvDetailsByIdAsync(int id);
+        public Task<IEnumerable<InvTrxDtl>> GetInvDetailsByIdAsync(int id);
+        public Task<IEnumerable<InvTrxDtl>> GetApprovedInvDetailsAsync();
     }
 }

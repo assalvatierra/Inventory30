@@ -14,6 +14,7 @@ namespace CoreLib.Inventory.Interfaces
         public Task<List<InvTrxDtl>> GetReceivedItemsAsync(int storeId);
         public Task<List<InvTrxDtl>> GetReleasedItemsAsync(int storeId);
         public Task<List<InvTrxDtl>> GetAdjustmentItemsAsync(int storeId);
+
         public int GetAdjustmentItemsCount(List<InvTrxDtl> adjustmentItems, int itemId);
         public int GetAvailableItemsCountByStore();
         public List<InvStore> GetStoreUsers(string user);
@@ -21,6 +22,13 @@ namespace CoreLib.Inventory.Interfaces
         public decimal ConvertItemUomtoDefault(InvItem item, InvTrxDtl invTrxDtl, int itemCount);
 
         public Task<List<InvCategory>> GetCategoriesList();
+
+        public Task<int> GetReceivingPendingAsync(int storeId);
+        public Task<int> GetReleasingPendingAsync(int storeId);
+        public Task<int> GetAdjustmentPendingAsync(int storeId);
+        public Task<int> GetPurchaseOrderPendingAsync(int storeId);
+        public Task<IEnumerable<InvTrxHdr>> GetRecentTransactions(int storeId);
+        public Task<InvStore> GetStorebyIdAsync(int id);
 
     }
 }
