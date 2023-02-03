@@ -15,15 +15,16 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Pages.Stores.Main
 {
     [Authorize(Roles = "ADMIN,STORE")]
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _context;
-        private readonly StoreServices _storeSvc;
+        private readonly ILogger<IndexModel> _logger;
+        private readonly IStoreServices _storeSvc;
 
         public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
         {
@@ -57,9 +58,7 @@ namespace InvWeb.Pages.Stores.Main
                     RedirectToAction("../../Shared/LoginPartial");
                 };
 
-                InvStore = await _context.InvStores
-                    .Where(s => s.Id == id)
-                    .FirstOrDefaultAsync(m => m.Id == id);
+                InvStore = await _storeSvc.GetStorebyIdAsync((int)id);
 
                 if (InvStore == null)
                 {

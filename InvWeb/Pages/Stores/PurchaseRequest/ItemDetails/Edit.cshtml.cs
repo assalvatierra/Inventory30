@@ -10,14 +10,15 @@ using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
 using InvWeb.Data.Interfaces;
+using CoreLib.Interfaces;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {
     public class EditModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
-        private readonly ItemServices _itemServices;
-        private readonly UomServices _uomServices;
+        private readonly IItemServices _itemServices;
+        private readonly IUomServices _uomServices;
 
         public EditModel(InvWeb.Data.ApplicationDbContext context)
         {
@@ -39,7 +40,8 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
             InvPoItem = await _context.InvPoItems
                 .Include(i => i.InvItem)
                 .Include(i => i.InvPoHdr)
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+                .Include(i => i.InvUom)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvPoItem == null)
             {
@@ -48,7 +50,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
             
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(InvPoItem.InvItemId);
             ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id");
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvPoItem.InvItemId), "Id", "uom", InvPoItem.InvUomId);
             return Page();
         }
 

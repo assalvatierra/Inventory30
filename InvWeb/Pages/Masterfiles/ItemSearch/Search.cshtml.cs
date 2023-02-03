@@ -9,13 +9,14 @@ using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 using InvWeb.Data.Services;
+using Corelib.Inventory.Interfaces;
 
 namespace InvWeb.Pages.Masterfiles.ItemSearch
 {
     public class SearchModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
-        private SearchServices services;
+        private ISearchServices services;
 
         public SearchModel(InvWeb.Data.ApplicationDbContext context)
         {

@@ -11,6 +11,8 @@ using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 using Microsoft.Extensions.Logging;
 using InvWeb.Data.Interfaces;
+using CoreLib.Inventory.Interfaces;
+using CoreLib.Interfaces;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
@@ -18,9 +20,9 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
     {
         private readonly ILogger<CreateModel> _logger;
         private readonly InvWeb.Data.ApplicationDbContext _context;
-        private readonly ItemServices _itemServices;
-        private readonly StoreServices _storeServices;
-        private readonly UomServices _uomServices;
+        private readonly IItemServices _itemServices;
+        private readonly IStoreServices _storeServices;
+        private readonly IUomServices _uomServices;
 
 
         public CreateModel(ILogger<CreateModel> logger, InvWeb.Data.ApplicationDbContext context)

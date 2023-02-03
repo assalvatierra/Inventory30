@@ -12,6 +12,7 @@ using CoreLib.Inventory.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Pages
 {
@@ -19,7 +20,7 @@ namespace InvWeb.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly StoreServices _storeSvc;
+        private readonly IStoreServices _storeSvc;
 
         public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
         {

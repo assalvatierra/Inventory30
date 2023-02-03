@@ -8,18 +8,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
+using InvWeb.Data.Interfaces;
+using CoreLib.Interfaces;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {
     public class CreateModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
-        private readonly ItemServices _itemServices;
+        private readonly IItemServices _itemServices;
+        private readonly IUomServices _uomServices;
+
 
         public CreateModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);
+            _uomServices = new UomServices(context);
         }
 
         public IActionResult OnGet(int? hdrId)
@@ -32,7 +37,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList();
             //ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
             ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id", hdrId);
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvPoItem.InvItemId), "Id", "uom");
             ViewData["HdrId"] = hdrId;
             return Page();
         }
