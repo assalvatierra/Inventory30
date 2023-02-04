@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using InvWeb.Data.Models;
 using Newtonsoft.Json.Linq;
-using CoreLib.Interfaces;
+using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.API;
 
 namespace InvWeb.Data.Services
