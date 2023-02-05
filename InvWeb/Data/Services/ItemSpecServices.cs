@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InvWeb.Data.Services
 {
@@ -138,14 +137,11 @@ namespace InvWeb.Data.Services
         }
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
-        public SelectList GetDefindSpecsSelectList()
+        public IEnumerable<InvItemSysDefinedSpecs> GetDefinedSpecs()
         {
-            return new SelectList(_context.InvItemSysDefinedSpecs.Select(x => new
-            {
-                Name = String.Format("({0}) {1} {2}", x.SpecCode, x.SpecName, x.SpecGroup),
-                Value = x.Id
-            }), "Value", "Name");
+            return _context.InvItemSysDefinedSpecs.ToList();
         }
+
 
         public bool IsCategoryHaveSpecDefs(int? categoryId)
         {

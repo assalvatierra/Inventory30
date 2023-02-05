@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
-using CoreLib.Inventory.Models.Items;
 using InvWeb.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using InvWeb.Data.Models;
+using Newtonsoft.Json.Linq;
+using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.API;
 
 namespace InvWeb.Data.Services
 {
@@ -35,7 +37,7 @@ namespace InvWeb.Data.Services
             throw new NotImplementedException();
         }
 
-        public List<InvUom> GetUomSelectList()
+        public IEnumerable<InvUom> GetUomSelectList()
         {
             try
             {
@@ -48,7 +50,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public List<InvUom> GetUomSelectListByItemId(int? itemId)
+        public IEnumerable<InvUom> GetUomSelectListByItemId(int? itemId)
         {
             try
             {
@@ -92,14 +94,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-
-        public List<InvUom> GetUomListByItemId(int? itemId)
-        {
-
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<UomsApiModel.ItemOumList>> GetUomListByItemIdAsync(int? itemId)
+        public IEnumerable<UomsApiModel.ItemOumList> GetItemUomListByItemId(int? itemId)
         {
             try
             {
@@ -118,23 +113,23 @@ namespace InvWeb.Data.Services
                 var UomList = new List<InvUom>();
                 var item_BaseUom = item.InvUomId;
 
-                List<int> UomConversionList = _context.InvUomConversions
+                IEnumerable<int> UomConversionList = _context.InvUomConversions
                     .Where(uom => uom.InvUomId_base == item_BaseUom)
                     .Select(c => c.InvUomId_into).ToList();
 
                 if (UomConversionList == null)
                 {
-                    UomList = await _context.InvUoms
+                    UomList = _context.InvUoms
                         .Where(i => item_BaseUom == i.Id)
-                        .ToListAsync();
+                        .ToList();
                 }
 
-                UomList = await _context.InvUoms
+                UomList = _context.InvUoms
                     .Where(i => UomConversionList.Contains(i.Id) ||
                                 item_BaseUom == i.Id)
-                    .ToListAsync();
+                    .ToList();
 
-                return   UomList.Select(uom => 
+                return UomList.Select(uom => 
                          new UomsApiModel.ItemOumList { Id = uom.Id, uom = uom.uom })
                          .ToList();
 

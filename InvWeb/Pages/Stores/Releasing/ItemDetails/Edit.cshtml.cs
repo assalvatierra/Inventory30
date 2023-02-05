@@ -10,14 +10,15 @@ using InvWeb.Data.Services;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 using InvWeb.Data.Interfaces;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
     public class EditModel : PageModel
     {
         private readonly InvWeb.Data.ApplicationDbContext _context;
-        private readonly ItemServices _itemServices;
-        private readonly UomServices _uomServices;
+        private readonly IItemServices _itemServices;
+        private readonly IUomServices _uomServices;
 
         public EditModel(InvWeb.Data.ApplicationDbContext context)
         {
@@ -67,7 +68,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(itemId);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom", InvTrxDtl.InvItem.InvUomId);
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
             ViewData["LotNoItems"]  = LotNoList;
             ViewData["StoreId"]     = storeId;

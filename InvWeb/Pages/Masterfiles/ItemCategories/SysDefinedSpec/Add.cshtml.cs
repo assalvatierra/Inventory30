@@ -1,3 +1,4 @@
+using System;
 using InvWeb.Data.Interfaces;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,15 @@ namespace InvWeb.Pages.Masterfiles.ItemCategories.SysDefinedSpec
         public IActionResult OnGet(int id)
         {
             ViewData["InvCategoryId"] = new SelectList(_context.InvCategories, "Id", "Description", id);
-            ViewData["InvItemSysDefinedSpecsId"] = _itemSpecServices.GetDefindSpecsSelectList();
+
+            //ViewData["InvItemSysDefinedSpecsId"] = _itemSpecServices.GetDefindSpecsSelectList();
+            ViewData["InvItemSysDefinedSpecsId"] =
+                new SelectList(_itemSpecServices.GetDefinedSpecs().Select(x => new
+                {
+                    Name = String.Format("({0}) {1} {2}", x.SpecCode, x.SpecName, x.SpecGroup),
+                    Value = x.Id
+                }), "Value", "Name");
+
             ViewData["SysDefinedSpecsList"] = _context.InvItemSysDefinedSpecs.ToList();
             ViewData["CategoryId"] = id;
             return Page();

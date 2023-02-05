@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Threading.Tasks;
-using InvWeb.Data.Models;
-
 
 namespace InvWeb.Data.Interfaces
 {
@@ -17,7 +14,10 @@ namespace InvWeb.Data.Interfaces
         public InvItemSpec_Steel GetItemSpecification(int id);
         public List<InvItemSpec_Steel> GetItemSpecification_ByInvItemId(int invItemId);
         public Task<bool> CheckItemHasAnyInvSpec(int invItemId);
-        public SelectList GetDefindSpecsSelectList();
+
+        //public SelectList GetDefindSpecsSelectList();
+        public IEnumerable<InvItemSysDefinedSpecs> GetDefinedSpecs();
+        
         public bool IsCategoryHaveSpecDefs(int? categoryId);
 
 
