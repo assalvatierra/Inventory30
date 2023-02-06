@@ -1,5 +1,4 @@
 ﻿using InvWeb.Data.Services;
-using InvWeb.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Api
 {

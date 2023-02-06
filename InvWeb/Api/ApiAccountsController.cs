@@ -1,5 +1,4 @@
-﻿using InvWeb.Data;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +9,7 @@ using CoreLib.Inventory.Models.Users;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Api
 {

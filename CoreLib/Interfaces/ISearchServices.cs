@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Stores;
 
-namespace Corelib.Inventory.Interfaces
+namespace CoreLib.Inventory.Interfaces
 {
     public interface ISearchServices
     {

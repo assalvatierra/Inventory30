@@ -8,6 +8,7 @@ using CoreLib.Inventory.Models.Items;
 using InvWeb.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Data.Services
 {

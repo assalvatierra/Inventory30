@@ -12,6 +12,7 @@ using InvWeb.Data.Models;
 using Newtonsoft.Json.Linq;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.API;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Data.Services
 {

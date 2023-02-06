@@ -5,22 +5,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
 using InvWeb.Data.Interfaces;
 using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {
     public class CreateModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly IItemServices _itemServices;
         private readonly IUomServices _uomServices;
 
 
-        public CreateModel(InvWeb.Data.ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);

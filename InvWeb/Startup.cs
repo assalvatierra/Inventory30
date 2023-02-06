@@ -17,6 +17,8 @@ using PageConfigShared;
 using PageObjectShared;
 using PageConfigService;
 using ObjectConfigService;
+using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb
 {
@@ -60,6 +62,9 @@ namespace InvWeb
                 .AddEntityFrameworkStores<SecurityDbContext>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, UserClaimsPrincipalFactory<IdentityUser, IdentityRole>>();
+
+            services.AddScoped<ISearchServices, InvWeb.Data.Services.SearchServices>();
+
 
             //services.Configure<PageConfigShared.TenantInfo>(Configuration.GetSection("TenantInfo"));
             string tenantcode = Configuration.GetSection("TenantInfo")["TenantCode"];

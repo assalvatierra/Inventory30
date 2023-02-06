@@ -6,26 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InvWeb.Data.Services;
-using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 using Microsoft.Extensions.Logging;
 using InvWeb.Data.Interfaces;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
     public class CreateModel : PageModel
     {
         private readonly ILogger<CreateModel> _logger;
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly IItemServices _itemServices;
         private readonly IStoreServices _storeServices;
         private readonly IUomServices _uomServices;
 
 
-        public CreateModel(ILogger<CreateModel> logger, InvWeb.Data.ApplicationDbContext context)
+        public CreateModel(ILogger<CreateModel> logger, ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);

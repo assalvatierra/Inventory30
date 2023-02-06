@@ -5,23 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 using InvWeb.Data.Services;
-using Corelib.Inventory.Interfaces;
+using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.ItemSearch
 {
     public class SearchModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private ISearchServices services;
 
-        public SearchModel(InvWeb.Data.ApplicationDbContext context)
+        public SearchModel(ApplicationDbContext context, ISearchServices iservices)
         {
             _context = context;
-            services = new SearchServices(context);
+            services = iservices;
         }
 
         public List<ItemSearchResult> ItemSearchResults { get;set; }

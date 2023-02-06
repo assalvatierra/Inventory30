@@ -5,20 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
 using InvWeb.Data.Interfaces;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 {
     public class CreateModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly ItemServices _itemServices;
         private readonly UomServices _uomServices;
 
-        public CreateModel(InvWeb.Data.ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);

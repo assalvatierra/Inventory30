@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InvWeb.Data;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,6 +15,7 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Stores.Main
 {

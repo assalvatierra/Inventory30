@@ -5,20 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
 using Microsoft.Extensions.Logging;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.ItemMaster
 {
     public class CreateModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<CreateModel> _logger;
         private readonly ItemSpecServices _itemSpecServices;
 
-        public CreateModel(InvWeb.Data.ApplicationDbContext context, ILogger<CreateModel> logger)
+        public CreateModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
             _logger = logger;

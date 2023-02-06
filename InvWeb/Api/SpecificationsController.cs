@@ -1,5 +1,4 @@
 ﻿using InvWeb.Data.Services;
-using InvWeb.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -8,6 +7,7 @@ using InvWeb.Data.Models;
 using System;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Api
 {

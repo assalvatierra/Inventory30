@@ -6,20 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
 using InvWeb.Data.Interfaces;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 {
     public class EditModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly ItemServices _itemServices;
         private readonly UomServices _uomServices;
 
-        public EditModel(InvWeb.Data.ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);

@@ -1,5 +1,4 @@
-﻿using InvWeb.Data;
-using InvWeb.Data.Interfaces;
+﻿using InvWeb.Data.Interfaces;
 using InvWeb.Data.Models;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Api
 {

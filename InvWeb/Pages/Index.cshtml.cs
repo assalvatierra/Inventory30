@@ -1,5 +1,4 @@
-﻿using InvWeb.Data;
-using InvWeb.Data.Services;
+﻿using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -13,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
 using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages
 {

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using System.Security.Claims;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.Stores.Users
 {

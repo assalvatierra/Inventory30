@@ -1,4 +1,3 @@
-using InvWeb.Data;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,6 +11,7 @@ using System.Linq;
 using ReportViewModel.InvStore;
 using PageConfigShared.Interfaces;
 using PageConfigShared.Model;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Stores.Printables
 {

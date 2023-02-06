@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InvWeb.Data.Interfaces;
-using InvWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Stores;
@@ -11,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 using System.Reflection.Metadata;
 using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Data.Services
 {

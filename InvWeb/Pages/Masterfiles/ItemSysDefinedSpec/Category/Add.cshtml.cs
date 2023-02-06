@@ -4,14 +4,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.ItemSysDefinedSpec.Category
 {
     public class AddModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public AddModel(InvWeb.Data.ApplicationDbContext context)
+        public AddModel(ApplicationDbContext context)
         {
             _context = context;
         }
