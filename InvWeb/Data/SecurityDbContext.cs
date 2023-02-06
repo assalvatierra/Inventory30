@@ -5,7 +5,7 @@ namespace InvWeb.Data
 {
     public class SecurityDbContext: IdentityDbContext
     {
-        public SecurityDbContext(DbContextOptions<ApplicationDbContext> options)
+        public SecurityDbContext(DbContextOptions<SecurityDbContext> options)
             : base(options)
         {
         }
