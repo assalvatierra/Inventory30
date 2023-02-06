@@ -6,15 +6,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using CoreLib.Inventory.Models.Users;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace InvWeb.Pages.Masterfiles.Accounts
 {
     [Authorize(Roles = "ADMIN")]
     public class ManageRolesModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly IdentityDbContext _context;
 
-        public ManageRolesModel(InvWeb.Data.ApplicationDbContext context)
+        public ManageRolesModel(IdentityDbContext context)
         {
             _context = context;
         }

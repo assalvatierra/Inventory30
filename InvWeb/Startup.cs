@@ -48,11 +48,16 @@ namespace InvWeb
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            //identity db
+            services.AddDbContext<SecurityDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<SecurityDbContext>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, UserClaimsPrincipalFactory<IdentityUser, IdentityRole>>();
 

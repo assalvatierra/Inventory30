@@ -9,23 +9,26 @@ using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using System.Security.Claims;
 using InvWeb.Data.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace InvWeb.Pages.Masterfiles.Stores.Users
 {
     public class CreateModel : PageModel
     {
+        private readonly IdentityDbContext _securitycontext;
         private readonly ApplicationDbContext _context;
         private readonly UserServices userServices;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(IdentityDbContext securitycontext, ApplicationDbContext context)
         {
+            _securitycontext = securitycontext;
             _context = context;
-            userServices = new UserServices(context);
+            userServices = new UserServices(_securitycontext);
         }
 
         public IActionResult OnGet(int id)
         {
-            _ = _context.Users;
+            //_ = _context.Users;
             ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName", id);
             ViewData["UserId"] = new SelectList(userServices.GetUserList(), "Username", "Username");
             ViewData["storeId"] = id;

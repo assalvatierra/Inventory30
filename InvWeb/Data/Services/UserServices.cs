@@ -4,14 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using InvWeb.Data;
 using CoreLib.Inventory.Models.Users;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace InvWeb.Data.Services
 {
     public class UserServices
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IdentityDbContext _context;
 
-        public UserServices(ApplicationDbContext context)
+        public UserServices(IdentityDbContext context)
         {
             _context = context;
         }

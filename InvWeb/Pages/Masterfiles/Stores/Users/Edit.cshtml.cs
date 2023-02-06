@@ -21,7 +21,7 @@ namespace InvWeb.Pages.Masterfiles.Stores.Users
         public EditModel(InvWeb.Data.ApplicationDbContext context)
         {
             _context = context;
-            userServices = new UserServices(context);
+            //userServices = new UserServices(context);
         }
 
         [BindProperty]

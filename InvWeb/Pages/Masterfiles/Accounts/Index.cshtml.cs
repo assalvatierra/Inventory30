@@ -7,14 +7,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using InvWeb.Data;
 using CoreLib.Inventory.Models.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace InvWeb.Pages.Masterfiles.Accounts
 {
     public class IndexModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly IdentityDbContext _context;
 
-        public IndexModel(InvWeb.Data.ApplicationDbContext context)
+        public IndexModel(IdentityDbContext context)
         {
             _context = context;
         }
