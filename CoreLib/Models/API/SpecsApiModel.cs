@@ -1,4 +1,4 @@
-﻿namespace InvWeb.Data.Models
+﻿namespace CoreLib.Models.API
 {
     public class SpecsApiModel
     {

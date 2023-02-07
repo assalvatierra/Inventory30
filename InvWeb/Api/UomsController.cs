@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
-using InvWeb.Data.Interfaces;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.API;
 using CoreLib.Models.Inventory;

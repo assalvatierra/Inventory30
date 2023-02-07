@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InvWeb.Data.Interfaces;
+using CoreLib.Inventory.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Stores;

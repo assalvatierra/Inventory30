@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
-using InvWeb.Data.Interfaces;
+using CoreLib.Inventory.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using InvWeb.Data.Models;
@@ -57,16 +57,16 @@ namespace InvWeb.Data.Services
             {
                 if (itemId == null)
                 {
-                    return new List<InvUom>();
-                    //return GetUomSelectList();
+                    //return default list
+                    return GetUomSelectList();
                 }
 
                 var item = _context.InvItems.Find(itemId);
 
                 if (item == null)
                 {
-                    return new List<InvUom>();
-                    //return GetUomSelectList();
+                    //return new List<InvUom>();
+                    return GetUomSelectList();
                 }
 
                 var item_BaseUom = item.InvUomId;
@@ -91,7 +91,7 @@ namespace InvWeb.Data.Services
             {
                 //throw ex;
                 _logger.LogError("UomServices: Unable to GetUomSelectListByItemId " + ex.Message);
-                return new List<InvUom>();
+                return GetUomSelectList();
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using InvWeb.Data.Interfaces;
+﻿using CoreLib.Inventory.Interfaces;
 using InvWeb.Data.Models;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Http;

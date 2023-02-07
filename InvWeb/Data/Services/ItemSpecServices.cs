@@ -1,4 +1,5 @@
-﻿using InvWeb.Data.Interfaces;
+﻿
+using CoreLib.Inventory.Interfaces;
 using System;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
