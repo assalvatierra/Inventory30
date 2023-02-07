@@ -1,5 +1,4 @@
-﻿using InvWeb.Data.Models;
-using InvWeb.Data.Services;
+﻿using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

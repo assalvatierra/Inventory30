@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
-using InvWeb.Data.Models;
 using System;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using CoreLib.Models.Inventory;
+using CoreLib.Models.API;
 
 namespace InvWeb.Api
 {

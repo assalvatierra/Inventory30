@@ -1,5 +1,4 @@
 ﻿using CoreLib.Inventory.Interfaces;
-using InvWeb.Data.Models;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch.Internal;
