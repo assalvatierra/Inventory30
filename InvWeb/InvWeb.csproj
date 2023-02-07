@@ -49,6 +49,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
+    <ProjectReference Include="..\Modules\Client\Inventory20\Inventory20.csproj" />
     <ProjectReference Include="..\Modules\Inventory\Inventory.csproj" />
     <ProjectReference Include="..\PageSettings\ObjectConfigService\ObjectConfigService.csproj" />
     <ProjectReference Include="..\PageSettings\PageConfigService\PageConfigService.csproj" />

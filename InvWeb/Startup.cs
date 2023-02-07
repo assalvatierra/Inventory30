@@ -19,6 +19,7 @@ using PageConfigService;
 using ObjectConfigService;
 using CoreLib.Models.Inventory;
 using CoreLib.Inventory.Interfaces;
+using Inventory20;
 
 namespace InvWeb
 {
@@ -63,7 +64,9 @@ namespace InvWeb
 
             services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, UserClaimsPrincipalFactory<IdentityUser, IdentityRole>>();
 
-            services.AddScoped<ISearchServices, InvWeb.Data.Services.SearchServices>();
+            //Modules and Services
+            //services.AddScoped<ISearchServices, InvWeb.Data.Services.SearchServices>();
+            services.AddScoped<ISearchServices, Inventory20.SearchService20>();
 
 
             //services.Configure<PageConfigShared.TenantInfo>(Configuration.GetSection("TenantInfo"));

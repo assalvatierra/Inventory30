@@ -13,18 +13,18 @@ namespace InvWeb.Data.Services
     public class SearchServices: ISearchServices
     {
 
-        private readonly ApplicationDbContext _context;
+        protected readonly ApplicationDbContext _context;
 
 
-        private readonly int TYPE_RECEIVED = 1;
-        private readonly int TYPE_RELEASED = 2;
-        private readonly int TYPE_ADJUSTMENT = 3;
+        protected readonly int TYPE_RECEIVED = 1;
+        protected readonly int TYPE_RELEASED = 2;
+        protected readonly int TYPE_ADJUSTMENT = 3;
 
-        private readonly int STATUS_REQUEST = 1;
-        private readonly int STATUS_APPROVED = 2;
-        //private readonly int STATUS_CANCELLED = 3;
+        protected readonly int STATUS_REQUEST = 1;
+        protected readonly int STATUS_APPROVED = 2;
+        //protected readonly int STATUS_CANCELLED = 3;
 
-        private readonly int OPERATOR_ADD = 1;
+        protected readonly int OPERATOR_ADD = 1;
 
         public SearchServices(ApplicationDbContext context)
         {
@@ -63,7 +63,7 @@ namespace InvWeb.Data.Services
         //PARAM: NA
         //RETURN: async List<InvTrxDtls> - List of Transaction Details
         //DESC: Get list of approved InvTrxDtls (Transaction Details)
-        public async Task<IEnumerable<InvTrxDtl>> GetApprovedInvDetailsAsync()
+        public virtual async Task<IEnumerable<InvTrxDtl>> GetApprovedInvDetailsAsync()
         {
             try
             {
