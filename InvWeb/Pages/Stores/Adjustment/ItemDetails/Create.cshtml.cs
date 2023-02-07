@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
-using InvWeb.Data.Interfaces;
+using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 {
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private readonly ItemServices _itemServices;
-        private readonly UomServices _uomServices;
+        private readonly IItemServices _itemServices;
+        private readonly IUomServices _uomServices;
 
         public CreateModel(ApplicationDbContext context)
         {
@@ -27,11 +29,18 @@ namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 
         public IActionResult OnGet(int hdrId)
         {
-            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList();
+            ViewData["InvItemId"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
+                                    .Select(x => new
+                                    {
+                                        Name = String.Format("{0} - {1} - {2} {3}",
+                                        x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+                                        Value = x.Id
+                                    }), "Value", "Name");
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
             ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
             ViewData["HdrId"] = hdrId;
+
             return Page();
         }
 

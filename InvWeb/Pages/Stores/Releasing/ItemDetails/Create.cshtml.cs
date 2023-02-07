@@ -9,10 +9,9 @@ using InvWeb.Data.Services;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 using Microsoft.Extensions.Logging;
-using InvWeb.Data.Interfaces;
-using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
+using Microsoft.EntityFrameworkCore;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
@@ -63,9 +62,17 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 Value = x.LotNo
             }), "Value", "Name");
 
-            ViewData["InvItemId"] = _itemServices.GetInStockedInvItemsSelectList(itemId, availbaleStoreItems);
+            ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availbaleStoreItems)
+                                    .Include(i => i.InvCategory)
+                                   .Select(x => new
+                                   {
+                                       Name = String.Format("{0} - {1} - {2} {3}",
+                                       x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+                                       Value = x.Id
+                                   }), "Value", "Name", itemId);
+            
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom");
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 2);
             ViewData["HdrId"] = hdrId;
             ViewData["LotNoItems"] = LotNoList;

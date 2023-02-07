@@ -1,5 +1,5 @@
 using System;
-using InvWeb.Data.Interfaces;
+using CoreLib.Inventory.Interfaces;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

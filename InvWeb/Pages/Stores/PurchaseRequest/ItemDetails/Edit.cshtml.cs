@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
-using InvWeb.Data.Interfaces;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
 

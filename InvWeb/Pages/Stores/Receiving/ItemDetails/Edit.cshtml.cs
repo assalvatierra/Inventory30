@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
-using InvWeb.Data.Interfaces;
+using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Stores.Receiving.ItemDetails
@@ -46,7 +46,14 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 return NotFound();
             }
 
-            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(InvTrxDtl.InvItemId);
+
+            ViewData["InvItemId"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
+                                    .Select(x => new
+                                    {
+                                        Name = String.Format("{0} - {1} - {2} {3}",
+                                        x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+                                        Value = x.Id
+                                    }), "Value", "Name", InvTrxDtl.InvItemId);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
             ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom", InvTrxDtl.InvItem.InvUomId);
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
