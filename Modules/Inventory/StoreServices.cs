@@ -12,7 +12,7 @@ using System.Reflection.Metadata;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
 
-namespace InvWeb.Data.Services
+namespace Modules.Inventory
 {
     public class StoreServices : IStoreServices
     {

@@ -16,6 +16,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Main
 {
@@ -30,7 +31,7 @@ namespace InvWeb.Pages.Stores.Main
         {
             _logger = logger;
             _context = context;
-            _storeSvc = new StoreServices(context, logger);
+            _storeSvc = new StoreServices(_context, logger);
         }
 
         public InvStore InvStore { get; set; }
