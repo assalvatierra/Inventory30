@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.ItemCategories.SysDefinedSpec
 {

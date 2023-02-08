@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Pages
 {

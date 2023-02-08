@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Models.Inventory;
 
-namespace InvWeb.Data.Services
+namespace Modules.Inventory
 {
     public class ItemSpecServices : IItemSpecServices
     {

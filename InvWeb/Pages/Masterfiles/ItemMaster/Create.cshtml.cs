@@ -9,6 +9,8 @@ using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
 using Microsoft.Extensions.Logging;
 using CoreLib.Models.Inventory;
+using Modules.Inventory;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Pages.Masterfiles.ItemMaster
 {
@@ -16,7 +18,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<CreateModel> _logger;
-        private readonly ItemSpecServices _itemSpecServices;
+        private readonly IItemSpecServices _itemSpecServices;
 
         public CreateModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
