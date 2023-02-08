@@ -8,13 +8,15 @@ using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
 using CoreLib.Models.Inventory;
+using Modules.Inventory;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Pages.Masterfiles.StoreStock
 {
     public class StoreStocksModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private SearchServices services;
+        private ISearchServices services;
 
         public StoreStocksModel(ApplicationDbContext context)
         {

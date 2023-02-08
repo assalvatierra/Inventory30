@@ -9,14 +9,16 @@ using InvWeb.Data.Services;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
 using Microsoft.EntityFrameworkCore;
+using Modules.Inventory;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 {
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private readonly ItemServices _itemServices;
-        private readonly UomServices _uomServices;
+        private readonly IItemServices _itemServices;
+        private readonly IUomServices _uomServices;
 
         public CreateModel(ApplicationDbContext context)
         {

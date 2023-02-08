@@ -1,10 +1,11 @@
 ﻿using CoreLib.Models.Inventory;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
+using Modules.Inventory;
 
 namespace Inventory20
 {
-    public class SearchService20 : InvWeb.Data.Services.SearchServices
+    public class SearchService20 : SearchServices
     {
 
        public SearchService20(ApplicationDbContext context) : base(context)

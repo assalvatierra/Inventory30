@@ -7,6 +7,8 @@ using CoreLib.Inventory.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using CoreLib.Models.Inventory;
+using Modules.Inventory;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Api
 {
@@ -16,7 +18,7 @@ namespace InvWeb.Api
     {
 
         private readonly ApplicationDbContext _context;
-        private readonly ItemServices itemServices;
+        private readonly IItemServices itemServices;
 
         public CategoriesController(ApplicationDbContext context)
         {

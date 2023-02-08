@@ -13,6 +13,7 @@ using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
 using Microsoft.Extensions.Logging;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {

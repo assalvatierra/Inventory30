@@ -9,6 +9,7 @@ using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {

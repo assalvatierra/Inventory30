@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 using CoreLib.Inventory.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using CoreLib.Models.Inventory;
 using System.Collections;
 
-namespace InvWeb.Data.Services
+namespace Modules.Inventory
 {
     public class ItemServices : IItemServices
     {

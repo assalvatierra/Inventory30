@@ -10,14 +10,15 @@ using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 {
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private readonly ItemServices _itemServices;
-        private readonly UomServices _uomServices;
+        private readonly IItemServices _itemServices;
+        private readonly IUomServices _uomServices;
 
         public EditModel(ApplicationDbContext context)
         {

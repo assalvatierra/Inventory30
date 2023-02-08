@@ -8,7 +8,7 @@ using CoreLib.Inventory.Models.Stores;
 using CoreLib.Models.Inventory;
 using CoreLib.Inventory.Interfaces;
 
-namespace InvWeb.Data.Services
+namespace Modules.Inventory
 {
     public class SearchServices: ISearchServices
     {

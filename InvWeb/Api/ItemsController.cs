@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Api
 {

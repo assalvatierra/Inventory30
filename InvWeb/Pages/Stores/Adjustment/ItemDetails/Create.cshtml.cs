@@ -11,6 +11,7 @@ using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
 using CoreLib.Inventory.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 {
