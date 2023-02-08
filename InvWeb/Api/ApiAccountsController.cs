@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Models.Inventory;
+using InvWeb.Data;
 
 namespace InvWeb.Api
 {
@@ -17,11 +18,11 @@ namespace InvWeb.Api
     [ApiController]
     public class ApiAccountsController : ControllerBase
     {
-        private readonly IdentityDbContext _securitycontext;
+        private readonly SecurityDbContext _securitycontext;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public ApiAccountsController(IdentityDbContext securitycontext, UserManager<IdentityUser> userManager, ApplicationDbContext context)
+        public ApiAccountsController(SecurityDbContext securitycontext, UserManager<IdentityUser> userManager, ApplicationDbContext context)
         {
             _securitycontext = securitycontext;
             _userManager = userManager;
@@ -60,7 +61,7 @@ namespace InvWeb.Api
                     UserId = userId
                 });
 
-                await _context.SaveChangesAsync();
+                await _securitycontext.SaveChangesAsync();
                 return StatusCode(200, "Add Successfull");
             }
             catch
