@@ -6,14 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.API;
 using CoreLib.Models.Inventory;
 
-namespace InvWeb.Data.Services
+namespace Modules.Inventory
 {
     public class UomServices : IUomServices
     {

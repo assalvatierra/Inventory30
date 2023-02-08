@@ -16,6 +16,7 @@ namespace InvWeb.Pages.Masterfiles.Stores.Users
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        //TODO: add interface IUserServices
         private readonly UserServices userServices;
 
         public EditModel(ApplicationDbContext context)

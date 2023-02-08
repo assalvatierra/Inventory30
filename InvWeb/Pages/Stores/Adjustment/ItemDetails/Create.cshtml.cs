@@ -9,7 +9,6 @@ using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
-using CoreLib.Inventory.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Modules.Inventory;
 

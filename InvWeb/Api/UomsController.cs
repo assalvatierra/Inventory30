@@ -8,6 +8,7 @@ using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.API;
 using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Api
 {
