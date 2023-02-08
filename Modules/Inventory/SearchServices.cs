@@ -35,7 +35,7 @@ namespace Modules.Inventory
         //PARAM: id (int) - 
         //RETURN: async List<InvTrxDtls> - List of Transaction Details
         //DESC: Get list of approved InvTrxDtls (Transaction Details) of specific inventory item
-        public async Task<IEnumerable<InvTrxDtl>> GetInvDetailsByIdAsync(int id)
+        public virtual async Task<IEnumerable<InvTrxDtl>> GetInvDetailsByIdAsync(int id)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace Modules.Inventory
         //RETURN: int - total available count of the item 
         //DESC: Get the total count of the item by getting the sum of
         //      received + (-)released count + (+/-)adjustment count
-        public int GetAvailableCountByItem(int id, int? storeId)
+        public virtual int GetAvailableCountByItem(int id, int? storeId)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace Modules.Inventory
             }
         }
 
-        public int GetAvailableCountByItem(int id)
+        public virtual int GetAvailableCountByItem(int id)
         {
             try
             {

@@ -30,12 +30,12 @@ namespace Modules.Inventory
 
         }
 
-        public int GetConverted_ItemCount_ByDefaultUom(int itemId)
+        public virtual int GetConverted_ItemCount_ByDefaultUom(int itemId)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<InvUom> GetUomSelectList()
+        public virtual IEnumerable<InvUom> GetUomSelectList()
         {
             try
             {
@@ -48,7 +48,7 @@ namespace Modules.Inventory
             }
         }
 
-        public IEnumerable<InvUom> GetUomSelectListByItemId(int? itemId)
+        public virtual IEnumerable<InvUom> GetUomSelectListByItemId(int? itemId)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace Modules.Inventory
             }
         }
 
-        public IEnumerable<UomsApiModel.ItemOumList> GetItemUomListByItemId(int? itemId)
+        public virtual IEnumerable<UomsApiModel.ItemOumList> GetItemUomListByItemId(int? itemId)
         {
             try
             {

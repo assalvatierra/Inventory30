@@ -27,7 +27,7 @@ namespace Modules.Inventory
             _context = context;
         }
 
-        public IEnumerable<ItemLotNoSelect> GetLotNotItemList(int itemid, int storeId)
+        public virtual IEnumerable<ItemLotNoSelect> GetLotNotItemList(int itemid, int storeId)
         {
             try
             {
@@ -107,52 +107,37 @@ namespace Modules.Inventory
         }
 
         //Get Queryable Inventory Items Ordered by Category
-        public IOrderedQueryable<InvItem> GetInvItemsOrderedByCategory()
+        public virtual IOrderedQueryable<InvItem> GetInvItemsOrderedByCategory()
         {
             return _context.InvItems.OrderBy(i => i.InvCategoryId);
         }
 
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
-        public IOrderedQueryable<InvItem> GetInvItemsSelectList()
+        public virtual IOrderedQueryable<InvItem> GetInvItemsSelectList()
         {
             return _context.InvItems.OrderBy(i => i.InvCategoryId);
 
-            //return new SelectList(_context.InvItems.OrderBy(i => i.InvCategoryId)
-            //    .Include(i => i.InvCategory)
-            //    .Select(x => new
-            //    {
-            //        Name = String.Format("{0} - {1} - {2} {3}", x.Code, x.InvCategory.Description, x.Description, x.Remarks),
-            //        Value = x.Id
-            //    }), "Value", "Name");
         }
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List with parameter selectedId
-        public IOrderedQueryable<InvItem> GetInvItemsSelectList(int selected)
+        public virtual IOrderedQueryable<InvItem> GetInvItemsSelectList(int selected)
         {
-            return _context.InvItems.OrderBy(i => i.InvCategoryId)
-               ;
+            return _context.InvItems.OrderBy(i => i.InvCategoryId) ;
         }
 
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
-        public IOrderedQueryable<InvItem> GetInStockedInvItemsSelectList(List<int> storeItems)
+        public virtual IOrderedQueryable<InvItem> GetInStockedInvItemsSelectList(List<int> storeItems)
         {
             return _context.InvItems.Where(i=> storeItems.Contains(i.Id))
-                .OrderBy(i => i.InvCategoryId)
-                ;
+                .OrderBy(i => i.InvCategoryId);
         }
 
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
-        public IOrderedQueryable<InvItem> GetInStockedInvItemsSelectList(int selected, List<int> storeItems)
+        public virtual IOrderedQueryable<InvItem> GetInStockedInvItemsSelectList(int selected, List<int> storeItems)
         {
-            //return new SelectList(_context.InvItems.Where(i => storeItems.Contains(i.Id)).OrderBy(i => i.InvCategoryId).Select(x => new
-            //{
-            //    Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
-            //    Value = x.Id
-            //}), "Value", "Name", selected);
-
             return _context.InvItems.Where(i => storeItems.Contains(i.Id))
                 .OrderBy(i => i.InvCategoryId);
            
@@ -171,7 +156,7 @@ namespace Modules.Inventory
             }
         }
 
-        public IQueryable<InvUom> GetConvertableUomSelectList()
+        public virtual IQueryable<InvUom> GetConvertableUomSelectList()
         {
             try
             {
@@ -179,15 +164,10 @@ namespace Modules.Inventory
 
                 return _context.InvUoms.Where(i => UomConversionList.Contains(i.Id));
 
-                //return new SelectList(_context.InvUoms.Where(i => UomConversionList.Contains(i.Id)).Select(x => new
-                //{
-                //    Name = x.uom,
-                //    Value = x.Id
-                //}), "Value", "Name");
             }
             catch
             {
-                return null;
+                throw new Exception("ItemServices: Unable to Get Uom list");
             }
         }
     }

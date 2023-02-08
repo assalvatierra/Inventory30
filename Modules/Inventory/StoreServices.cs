@@ -37,7 +37,7 @@ namespace Modules.Inventory
 
         }
 
-        public async Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId, int _categoryId, string sort)
+        public virtual async Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId, int _categoryId, string sort)
         {
             try
             {
@@ -196,7 +196,7 @@ namespace Modules.Inventory
 
         }
 
-        public int GetAdjustmentItemsCount(List<InvTrxDtl> adjustmentItems, int itemId)
+        public virtual int GetAdjustmentItemsCount(List<InvTrxDtl> adjustmentItems, int itemId)
         {
             try
             {
@@ -222,17 +222,17 @@ namespace Modules.Inventory
             }
         }
 
-        public int GetAvailableItemsCountByStore()
+        public virtual int GetAvailableItemsCountByStore()
         {
             throw new NotImplementedException();
         }
 
-        public int GetOnHandItemsCountByStore()
+        public virtual int GetOnHandItemsCountByStore()
         {
             throw new NotImplementedException();
         }
 
-        public decimal GetPendingItemsCount(List<InvTrxDtl> receivedItems, int itemId)
+        public virtual decimal GetPendingItemsCount(List<InvTrxDtl> receivedItems, int itemId)
         {
             var pendingList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 &&
                                             h.InvItemId == itemId).ToList();
@@ -241,21 +241,21 @@ namespace Modules.Inventory
 
         }
 
-        public decimal GetAcceptedItemsCount(List<InvTrxDtl> receivedItems, int itemId)
+        public virtual decimal GetAcceptedItemsCount(List<InvTrxDtl> receivedItems, int itemId)
         {
             var acceptedList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 &&
                                             h.InvItemId == itemId).ToList();
             return ConvertItemsListUoms(acceptedList);
         }
 
-        public decimal GetRequestedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
+        public virtual decimal GetRequestedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
         {
             var requestedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 &&
                                             h.InvItemId == itemId).ToList();
             return ConvertItemsListUoms(requestedList);
         }
 
-        public decimal GetReleasedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
+        public virtual decimal GetReleasedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
         {
             var releasedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 &&
                                             h.InvItemId == itemId).ToList();
@@ -263,7 +263,7 @@ namespace Modules.Inventory
         }
 
 
-        public async Task<int> GetReceivingPendingAsync(int storeId)
+        public virtual async Task<int> GetReceivingPendingAsync(int storeId)
         {
             try
             {
@@ -278,7 +278,7 @@ namespace Modules.Inventory
             }
         }
 
-        public async Task<int> GetReleasingPendingAsync(int storeId)
+        public virtual async Task<int> GetReleasingPendingAsync(int storeId)
         {
             try {
                 var storePendingReceiving = await _context.InvTrxHdrs
@@ -292,7 +292,7 @@ namespace Modules.Inventory
             }
         }
 
-        public async Task<int> GetAdjustmentPendingAsync(int storeId)
+        public virtual async Task<int> GetAdjustmentPendingAsync(int storeId)
         {
             try {
                 var storePendingReceiving = await _context.InvTrxHdrs
@@ -306,7 +306,7 @@ namespace Modules.Inventory
             }
         }
 
-        public async Task<int> GetPurchaseOrderPendingAsync(int storeId)
+        public virtual async Task<int> GetPurchaseOrderPendingAsync(int storeId)
         {
             try
             {
@@ -322,7 +322,7 @@ namespace Modules.Inventory
             }
         }
 
-        public async Task<IEnumerable<InvTrxHdr>> GetRecentTransactions(int storeId)
+        public virtual async Task<IEnumerable<InvTrxHdr>> GetRecentTransactions(int storeId)
         {
             try {
                 var today = GetCurrentDateTime().Date;
@@ -349,7 +349,7 @@ namespace Modules.Inventory
         //PARAM: NA
         //RETURN: datetime
         //DESC: get the current datetime based on the singapore standard time
-        public DateTime GetCurrentDateTime()
+        public virtual DateTime GetCurrentDateTime()
         {
             DateTime _localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow,
                 TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"));
@@ -364,7 +364,7 @@ namespace Modules.Inventory
 
         #region DBLayers
 
-        public async Task<List<InvTrxDtl>> GetReceivedItemsAsync(int storeId)
+        public virtual async Task<List<InvTrxDtl>> GetReceivedItemsAsync(int storeId)
         {
             return await _context.InvTrxDtls
                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&
@@ -374,7 +374,7 @@ namespace Modules.Inventory
         }
 
 
-        public async Task<List<InvTrxDtl>> GetReleasedItemsAsync(int storeId)
+        public virtual async Task<List<InvTrxDtl>> GetReleasedItemsAsync(int storeId)
         {
             return await _context.InvTrxDtls
                 .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED &&
@@ -383,7 +383,7 @@ namespace Modules.Inventory
                 .ToListAsync();
         }
 
-        public async Task<List<InvTrxDtl>> GetAdjustmentItemsAsync(int storeId)
+        public virtual async Task<List<InvTrxDtl>> GetAdjustmentItemsAsync(int storeId)
         {
             return await _context.InvTrxDtls
                 .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT &&
@@ -392,7 +392,7 @@ namespace Modules.Inventory
                 .ToListAsync();
         }
 
-        public async Task<List<InvTrxDtl>> GetReceivedItemsByCatAsync(int storeId, int categoryId)
+        public virtual async Task<List<InvTrxDtl>> GetReceivedItemsByCatAsync(int storeId, int categoryId)
         {
             return await _context.InvTrxDtls
                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&
@@ -401,7 +401,7 @@ namespace Modules.Inventory
                 .Include(h => h.InvItem)
                .ToListAsync();
         }
-        public async Task<List<InvTrxDtl>> GetReleasedItemsByCatAsync(int storeId, int categoryId)
+        public virtual async Task<List<InvTrxDtl>> GetReleasedItemsByCatAsync(int storeId, int categoryId)
         {
             return await _context.InvTrxDtls
                 .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED &&
@@ -411,7 +411,7 @@ namespace Modules.Inventory
                 .ToListAsync();
         }
 
-        public async Task<List<InvTrxDtl>> GetAdjustmentItemsByCatAsync(int storeId, int categoryId)
+        public virtual async Task<List<InvTrxDtl>> GetAdjustmentItemsByCatAsync(int storeId, int categoryId)
         {
             return await _context.InvTrxDtls
                 .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT &&
@@ -421,7 +421,7 @@ namespace Modules.Inventory
                 .ToListAsync();
         }
 
-        public async Task<List<InvItem>> GetItemsAsync()
+        public virtual async Task<List<InvItem>> GetItemsAsync()
         {
             return await _context.InvItems
                 .Include(i => i.InvWarningLevels)
@@ -433,12 +433,12 @@ namespace Modules.Inventory
         }
 
 
-        public async Task<InvCategory> GetCategoryById(int categoryId)
+        public virtual async Task<InvCategory> GetCategoryById(int categoryId)
         {
             return await _context.InvCategories.FindAsync(categoryId);
         }
 
-        public List<InvStore> GetStoreUsers(string user)
+        public virtual List<InvStore> GetStoreUsers(string user)
         {
 
             var storeIds = _context.InvStoreUsers.Where(s => s.InvStoreUserId == user)
@@ -448,7 +448,7 @@ namespace Modules.Inventory
             return _context.InvStores.Where(c => storeIds.Contains(c.Id)).ToList();
         }
 
-        public string GetStoreName(int storeId)
+        public virtual string GetStoreName(int storeId)
         {
             try
             {
@@ -462,7 +462,7 @@ namespace Modules.Inventory
             }
         }
 
-        public decimal ConvertItemUomtoDefault(InvItem item, InvTrxDtl invTrxDtl, int itemCount)
+        public virtual decimal ConvertItemUomtoDefault(InvItem item, InvTrxDtl invTrxDtl, int itemCount)
         {
             try
             {
@@ -537,7 +537,7 @@ namespace Modules.Inventory
         }
 
 
-        public Task<List<InvCategory>> GetCategoriesList()
+        public virtual Task<List<InvCategory>> GetCategoriesList()
         {
             try
             {
