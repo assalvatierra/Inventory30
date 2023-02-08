@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using InvWeb.Data;
 using CoreLib.Inventory.Models.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Data.Services
 {
-    public class UserServices
+    public class UserServices : IUserServices
     {
-        private readonly IdentityDbContext _context;
+        private readonly SecurityDbContext _context;
 
-        public UserServices(IdentityDbContext context)
+        public UserServices(SecurityDbContext context)
         {
             _context = context;
         }

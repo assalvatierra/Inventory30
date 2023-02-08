@@ -13,9 +13,9 @@ namespace InvWeb.Pages.Masterfiles.Accounts
 {
     public class IndexModel : PageModel
     {
-        private readonly IdentityDbContext _context;
+        private readonly SecurityDbContext _context;
 
-        public IndexModel(IdentityDbContext context)
+        public IndexModel(SecurityDbContext context)
         {
             _context = context;
         }

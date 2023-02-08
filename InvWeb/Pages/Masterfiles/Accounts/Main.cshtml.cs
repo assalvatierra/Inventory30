@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
+using InvWeb.Data;
 
 namespace InvWeb.Pages.Masterfiles.Accounts
 {
@@ -17,10 +17,10 @@ namespace InvWeb.Pages.Masterfiles.Accounts
     [Authorize(Roles = "ADMIN")]
     public class MainModel : PageModel
     {
-        private readonly IdentityDbContext _context;
+        private readonly SecurityDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public MainModel(IdentityDbContext context, UserManager<IdentityUser> userManager)
+        public MainModel(SecurityDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;

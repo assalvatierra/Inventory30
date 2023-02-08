@@ -57,4 +57,8 @@
     <ProjectReference Include="..\PageSettings\PageViews\ReportBasicViews\ReportBasicViews.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Services\" />
+  </ItemGroup>
+
 </Project>

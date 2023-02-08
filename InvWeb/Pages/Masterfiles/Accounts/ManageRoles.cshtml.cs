@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using CoreLib.Inventory.Models.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using InvWeb.Data;
 
 
 namespace InvWeb.Pages.Masterfiles.Accounts
@@ -14,9 +15,9 @@ namespace InvWeb.Pages.Masterfiles.Accounts
     [Authorize(Roles = "ADMIN")]
     public class ManageRolesModel : PageModel
     {
-        private readonly IdentityDbContext _context;
+        private readonly SecurityDbContext _context;
 
-        public ManageRolesModel(IdentityDbContext context)
+        public ManageRolesModel(SecurityDbContext context)
         {
             _context = context;
         }
@@ -27,21 +28,23 @@ namespace InvWeb.Pages.Masterfiles.Accounts
         {
             AppUserRoles = new List<AppUserRole>();
             //get user roles
+            //TODO: create services to get user roles of user
             var userroles = _context.UserRoles.Where(u => u.UserId == id).ToList();
 
             userroles.ForEach(r => {
-
 
                 AppUserRoles.Add(new AppUserRole
                 {
                     Id = 0,
                     RoleId = r.RoleId,
                     UserId = r.UserId,
+                    //TODO: create services to find user roles
                     RoleName = _context.Roles.Find(r.RoleId).Name
                 });
             });
 
             ViewData["User"] = id;
+            //TODO: create services to get all roles
             ViewData["Roles"] = _context.Roles.ToList();
         }
     }

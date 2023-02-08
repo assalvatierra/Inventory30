@@ -10,16 +10,17 @@ using System.Security.Claims;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using CoreLib.Models.Inventory;
+using InvWeb.Data;
 
 namespace InvWeb.Pages.Masterfiles.Stores.Users
 {
     public class CreateModel : PageModel
     {
-        private readonly IdentityDbContext _securitycontext;
+        private readonly SecurityDbContext _securitycontext;
         private readonly ApplicationDbContext _context;
         private readonly UserServices userServices;
 
-        public CreateModel(IdentityDbContext securitycontext, ApplicationDbContext context)
+        public CreateModel(SecurityDbContext securitycontext, ApplicationDbContext context)
         {
             _securitycontext = securitycontext;
             _context = context;

@@ -10,6 +10,8 @@ using CoreLib.Inventory.Models;
 using System.Security.Claims;
 using InvWeb.Data.Services;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using InvWeb.Data;
 
 namespace InvWeb.Pages.Masterfiles.Stores.Users
 {
@@ -17,12 +19,12 @@ namespace InvWeb.Pages.Masterfiles.Stores.Users
     {
         private readonly ApplicationDbContext _context;
         //TODO: add interface IUserServices
-        private readonly UserServices userServices;
+        private readonly IUserServices userServices;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context, SecurityDbContext securityContext)
         {
             _context = context;
-            //userServices = new UserServices(context);
+            userServices = new UserServices(securityContext);
         }
 
         [BindProperty]
