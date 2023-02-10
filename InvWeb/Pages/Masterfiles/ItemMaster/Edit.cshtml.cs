@@ -6,21 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using Microsoft.Extensions.Logging;
 using InvWeb.Data.Services;
 using NuGet.Versioning;
+using CoreLib.Models.Inventory;
+using Modules.Inventory;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Pages.Masterfiles.ItemMaster
 {
     public class EditModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<CreateModel> _logger;
-        private readonly ItemSpecServices _itemSpecServices;
+        private readonly IItemSpecServices _itemSpecServices;
 
-        public EditModel(InvWeb.Data.ApplicationDbContext context, ILogger<CreateModel> logger)
+        public EditModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
             _logger = logger;

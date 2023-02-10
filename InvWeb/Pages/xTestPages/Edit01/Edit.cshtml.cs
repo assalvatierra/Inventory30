@@ -6,19 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using PageObjectShared;
 using PageObjectShared.Interfaces;
 using PageObjectShared.Model;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.xTestPages.Edit01
 {
     public class EditModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         public IObjectConfigServices _objectConfigServices;
-        public EditModel(InvWeb.Data.ApplicationDbContext context, IObjectConfigServices objectConfigServices)
+        public EditModel(ApplicationDbContext context, IObjectConfigServices objectConfigServices)
         {
             _context = context;
 

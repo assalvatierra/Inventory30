@@ -6,22 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
 using CoreLib.Inventory.Models;
 using System.Security.Claims;
 using InvWeb.Data.Services;
+using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using InvWeb.Data;
 
 namespace InvWeb.Pages.Masterfiles.Stores.Users
 {
     public class EditModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
-        private readonly UserServices userServices;
+        private readonly ApplicationDbContext _context;
+        //TODO: add interface IUserServices
+        private readonly IUserServices userServices;
 
-        public EditModel(InvWeb.Data.ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context, SecurityDbContext securityContext)
         {
             _context = context;
-            userServices = new UserServices(context);
+            userServices = new UserServices(securityContext);
         }
 
         [BindProperty]

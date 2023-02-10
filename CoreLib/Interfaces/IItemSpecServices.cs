@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 
-namespace InvWeb.Data.Interfaces
+namespace CoreLib.Inventory.Interfaces
 {
     public interface IItemSpecServices
     {

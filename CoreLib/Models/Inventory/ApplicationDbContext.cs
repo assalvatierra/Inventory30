@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿//using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,11 +7,9 @@ using CoreLib.Inventory.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
-
-namespace InvWeb.Data
+namespace CoreLib.Models.Inventory
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -43,10 +41,10 @@ namespace InvWeb.Data
         public DbSet<InvItemSysDefinedSpecs> InvItemSysDefinedSpecs { get; set; }
         public DbSet<InvItemSpec_Steel> InvItemSpec_Steel { get; set; }
         public DbSet<InvCategorySpecDef> InvCategorySpecDefs { get; set; }
-        public DbSet<CoreLib.Inventory.Models.InvCustomSpecType> InvCustomSpecTypes { get; set; }
-        public DbSet<CoreLib.Inventory.Models.InvCustomSpec> InvCustomSpecs { get; set; }
-        public DbSet<CoreLib.Inventory.Models.InvCatCustomSpec> InvCatCustomSpecs { get; set; }
-        public DbSet<CoreLib.Inventory.Models.InvItemCustomSpec> InvItemCustomSpecs { get; set; }
+        public DbSet<InvCustomSpecType> InvCustomSpecTypes { get; set; }
+        public DbSet<InvCustomSpec> InvCustomSpecs { get; set; }
+        public DbSet<InvCatCustomSpec> InvCatCustomSpecs { get; set; }
+        public DbSet<InvItemCustomSpec> InvItemCustomSpecs { get; set; }
 
     }
 }

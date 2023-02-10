@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InvWeb.Data;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,6 +15,8 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Main
 {
@@ -30,7 +31,7 @@ namespace InvWeb.Pages.Stores.Main
         {
             _logger = logger;
             _context = context;
-            _storeSvc = new StoreServices(context, logger);
+            _storeSvc = new StoreServices(_context, logger);
         }
 
         public InvStore InvStore { get; set; }

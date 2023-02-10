@@ -21,6 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\ApplicationDbContext.cs" />
+    <Compile Remove="Data\Services\SearchServices.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.10" />
@@ -44,10 +49,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
+    <ProjectReference Include="..\Modules\Client\Inventory20\Inventory20.csproj" />
+    <ProjectReference Include="..\Modules\Inventory\Inventory.csproj" />
     <ProjectReference Include="..\PageSettings\ObjectConfigService\ObjectConfigService.csproj" />
     <ProjectReference Include="..\PageSettings\PageConfigService\PageConfigService.csproj" />
     <ProjectReference Include="..\PageSettings\PageModels\ReportViewModel\ReportViewModel.csproj" />
     <ProjectReference Include="..\PageSettings\PageViews\ReportBasicViews\ReportBasicViews.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Services\" />
   </ItemGroup>
 
 </Project>

@@ -5,25 +5,26 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Stores;
-using Corelib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
 
-namespace InvWeb.Data.Services
+namespace Modules.Inventory
 {
-    public class SearchServices : ISearchServices
+    public class SearchServices: ISearchServices
     {
 
-        private readonly ApplicationDbContext _context;
+        protected readonly ApplicationDbContext _context;
 
 
-        private readonly int TYPE_RECEIVED = 1;
-        private readonly int TYPE_RELEASED = 2;
-        private readonly int TYPE_ADJUSTMENT = 3;
+        protected readonly int TYPE_RECEIVED = 1;
+        protected readonly int TYPE_RELEASED = 2;
+        protected readonly int TYPE_ADJUSTMENT = 3;
 
-        private readonly int STATUS_REQUEST = 1;
-        private readonly int STATUS_APPROVED = 2;
-        //private readonly int STATUS_CANCELLED = 3;
+        protected readonly int STATUS_REQUEST = 1;
+        protected readonly int STATUS_APPROVED = 2;
+        //protected readonly int STATUS_CANCELLED = 3;
 
-        private readonly int OPERATOR_ADD = 1;
+        protected readonly int OPERATOR_ADD = 1;
 
         public SearchServices(ApplicationDbContext context)
         {
@@ -34,16 +35,16 @@ namespace InvWeb.Data.Services
         //PARAM: id (int) - 
         //RETURN: async List<InvTrxDtls> - List of Transaction Details
         //DESC: Get list of approved InvTrxDtls (Transaction Details) of specific inventory item
-        public async Task<IEnumerable<InvTrxDtl>> GetInvDetailsByIdAsync(int id)
+        public virtual async Task<IEnumerable<InvTrxDtl>> GetInvDetailsByIdAsync(int id)
         {
             try
             {
                 return await _context.InvTrxDtls
                     .Where(c => c.InvTrxHdr.InvTrxHdrStatusId > STATUS_REQUEST && c.InvItemId == id)
                     .Include(c => c.InvItem)
-                        .ThenInclude(c=>c.InvUom)
-                        .ThenInclude(c=>c.InvWarningLevels)
-                        .ThenInclude(c=>c.InvWarningType)
+                        .ThenInclude(c => c.InvUom)
+                        .ThenInclude(c => c.InvWarningLevels)
+                        .ThenInclude(c => c.InvWarningType)
                     .Include(c => c.InvTrxDtlOperator)
                     .Include(c => c.InvTrxHdr)
                        .ThenInclude(c => c.InvStore)
@@ -55,14 +56,14 @@ namespace InvWeb.Data.Services
             {
                 throw new Exception("SearchServices: Unable to GetInvDetailsByIdAsync");
             }
-           
+
         }
 
         //GET : GetApprovedInvDetailsAsync
         //PARAM: NA
         //RETURN: async List<InvTrxDtls> - List of Transaction Details
         //DESC: Get list of approved InvTrxDtls (Transaction Details)
-        public async Task<IEnumerable<InvTrxDtl>> GetApprovedInvDetailsAsync()
+        public virtual async Task<IEnumerable<InvTrxDtl>> GetApprovedInvDetailsAsync()
         {
             try
             {
@@ -86,7 +87,7 @@ namespace InvWeb.Data.Services
         //RETURN: int - total available count of the item 
         //DESC: Get the total count of the item by getting the sum of
         //      received + (-)released count + (+/-)adjustment count
-        public int GetAvailableCountByItem(int id, int? storeId)
+        public virtual int GetAvailableCountByItem(int id, int? storeId)
         {
             try
             {
@@ -99,7 +100,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public int GetAvailableCountByItem(int id)
+        public virtual int GetAvailableCountByItem(int id)
         {
             try
             {
@@ -150,7 +151,7 @@ namespace InvWeb.Data.Services
 
                 throw new Exception("SearchServices: Unable to GetReceivedCountByItem");
             }
-           
+
 
         }
 
@@ -207,7 +208,7 @@ namespace InvWeb.Data.Services
 
                 //get list of transactions with approved and adjustment 
                 var itemDtls = _context.InvTrxDtls
-                    .Where(i => i.InvItemId == id 
+                    .Where(i => i.InvItemId == id
                         && i.InvTrxHdr.InvTrxHdrStatusId >= STATUS_APPROVED
                         && i.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT)
                     .ToList();

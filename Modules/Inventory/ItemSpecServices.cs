@@ -1,4 +1,5 @@
-﻿using InvWeb.Data.Interfaces;
+﻿
+using CoreLib.Inventory.Interfaces;
 using System;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
@@ -6,8 +7,9 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using CoreLib.Models.Inventory;
 
-namespace InvWeb.Data.Services
+namespace Modules.Inventory
 {
     public class ItemSpecServices : IItemSpecServices
     {
@@ -28,7 +30,7 @@ namespace InvWeb.Data.Services
 
         }
 
-        public async Task<int> AddItemSpecification(InvItemSpec_Steel invItemSpec)
+        public virtual async Task<int> AddItemSpecification(InvItemSpec_Steel invItemSpec)
         {
             try
             {
@@ -42,7 +44,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public async Task<bool> CheckItemHasAnyInvSpec(int invItemId)
+        public virtual async Task<bool> CheckItemHasAnyInvSpec(int invItemId)
         {
             try
             {
@@ -55,7 +57,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public async Task<int> DeleteItemSpecification(InvItemSpec_Steel invItemSpec)
+        public virtual async Task<int> DeleteItemSpecification(InvItemSpec_Steel invItemSpec)
         {
             try
             {
@@ -69,7 +71,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public async Task<int> EditItemSpecification(InvItemSpec_Steel invItemSpec)
+        public virtual async Task<int> EditItemSpecification(InvItemSpec_Steel invItemSpec)
         {
             try
             {
@@ -86,7 +88,7 @@ namespace InvWeb.Data.Services
         }
 
 
-        public void EditItemSpecificationOnly(InvItemSpec_Steel invItemSpec)
+        public virtual void EditItemSpecificationOnly(InvItemSpec_Steel invItemSpec)
         {
             try
             {
@@ -102,7 +104,7 @@ namespace InvWeb.Data.Services
         }
 
 
-        public InvItemSpec_Steel GetItemSpecification(int id)
+        public virtual InvItemSpec_Steel GetItemSpecification(int id)
         {
             try
             {
@@ -119,7 +121,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public List<InvItemSpec_Steel> GetItemSpecification_ByInvItemId(int invItemId)
+        public virtual List<InvItemSpec_Steel> GetItemSpecification_ByInvItemId(int invItemId)
         {
             try
             {
@@ -137,13 +139,13 @@ namespace InvWeb.Data.Services
         }
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
-        public IEnumerable<InvItemSysDefinedSpecs> GetDefinedSpecs()
+        public virtual IEnumerable<InvItemSysDefinedSpecs> GetDefinedSpecs()
         {
             return _context.InvItemSysDefinedSpecs.ToList();
         }
 
 
-        public bool IsCategoryHaveSpecDefs(int? categoryId)
+        public virtual bool IsCategoryHaveSpecDefs(int? categoryId)
         {
             if (categoryId == null)
             {
@@ -162,7 +164,7 @@ namespace InvWeb.Data.Services
             return false;
         }
 
-        public async Task<int> AddItemCustomSpecification(InvItemCustomSpec invItemCustomSpec)
+        public virtual async Task<int> AddItemCustomSpecification(InvItemCustomSpec invItemCustomSpec)
         {
             try
             {
@@ -176,7 +178,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public async Task<int> EditItemCustomSpecification(InvItemCustomSpec invItemCustomSpec)
+        public virtual async Task<int> EditItemCustomSpecification(InvItemCustomSpec invItemCustomSpec)
         {
             try
             {
@@ -190,7 +192,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public async Task<int> DeleteItemCustomSpecification(InvItemCustomSpec invItemCustomSpec)
+        public virtual async Task<int> DeleteItemCustomSpecification(InvItemCustomSpec invItemCustomSpec)
         {
             try
             {
@@ -204,7 +206,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public InvItemCustomSpec GetItemCustomSpecification(int id)
+        public virtual InvItemCustomSpec GetItemCustomSpecification(int id)
         {
             try
             {
@@ -219,7 +221,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public List<InvItemCustomSpec> GetItemCustomSpecification_ByInvItemId(int invItemId)
+        public virtual List<InvItemCustomSpec> GetItemCustomSpecification_ByInvItemId(int invItemId)
         {
             try
             {
@@ -234,7 +236,7 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public InvCustomSpec GetCustomSpecification(int id)
+        public virtual InvCustomSpec GetCustomSpecification(int id)
         {
             try
             {

@@ -1,5 +1,5 @@
 using System;
-using InvWeb.Data.Interfaces;
+using CoreLib.Inventory.Interfaces;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,16 +8,18 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.ItemCategories.SysDefinedSpec
 {
     public class AddModel : PageModel
     {
 
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly IItemSpecServices _itemSpecServices;
 
-        public AddModel(InvWeb.Data.ApplicationDbContext context, ILogger<AddModel> logger)
+        public AddModel(ApplicationDbContext context, ILogger<AddModel> logger)
         {
             _context = context;
             _itemSpecServices = new ItemSpecServices(context, logger);

@@ -5,11 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
-using InvWeb.Data.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using CoreLib.Inventory.Interfaces;
 using Microsoft.Extensions.Logging;
+using CoreLib.Models.Inventory;
+using System.Collections;
 
-namespace InvWeb.Data.Services
+namespace Modules.Inventory
 {
     public class ItemServices : IItemServices
     {
@@ -26,7 +27,7 @@ namespace InvWeb.Data.Services
             _context = context;
         }
 
-        public List<ItemLotNoSelect> GetLotNotItemList(int itemid, int storeId)
+        public virtual IEnumerable<ItemLotNoSelect> GetLotNotItemList(int itemid, int storeId)
         {
             try
             {
@@ -106,58 +107,40 @@ namespace InvWeb.Data.Services
         }
 
         //Get Queryable Inventory Items Ordered by Category
-        public IOrderedQueryable<InvItem> GetInvItemsOrderedByCategory()
+        public virtual IOrderedQueryable<InvItem> GetInvItemsOrderedByCategory()
         {
             return _context.InvItems.OrderBy(i => i.InvCategoryId);
         }
 
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
-        public SelectList GetInvItemsSelectList()
+        public virtual IOrderedQueryable<InvItem> GetInvItemsSelectList()
         {
-            return new SelectList( _context.InvItems.OrderBy(i => i.InvCategoryId)
-                .Include(i => i.InvCategory)
-                .Select(x => new
-                {
-                    Name = String.Format("{0} - {1} - {2} {3}", x.Code, x.InvCategory.Description , x.Description, x.Remarks),
-                    Value = x.Id
-                }), "Value", "Name");
+            return _context.InvItems.OrderBy(i => i.InvCategoryId);
+
         }
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List with parameter selectedId
-        public SelectList GetInvItemsSelectList(int selected)
+        public virtual IOrderedQueryable<InvItem> GetInvItemsSelectList(int selected)
         {
-            return new SelectList(_context.InvItems.OrderBy(i => i.InvCategoryId)
-                .Include(i => i.InvCategory)
-                .Select(x => new
-                {
-                    Name = String.Format("{0} - {1} - {2} {3}", x.Code, x.InvCategory.Description, x.Description, x.Remarks),
-                    Value = x.Id
-                }), "Value", "Name", selected);
+            return _context.InvItems.OrderBy(i => i.InvCategoryId) ;
         }
 
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
-        public SelectList GetInStockedInvItemsSelectList(List<int> storeItems)
+        public virtual IOrderedQueryable<InvItem> GetInStockedInvItemsSelectList(List<int> storeItems)
         {
-            return new SelectList(_context.InvItems.Where(i=> storeItems.Contains(i.Id)).OrderBy(i => i.InvCategoryId)
-                .Include(i => i.InvCategory)
-                .Select(x => new
-            {
-                Name = String.Format("{0} - {1} - {2} {3}", x.Code, x.InvCategory.Description, x.Description, x.Remarks),
-                Value = x.Id
-            }), "Value", "Name");
+            return _context.InvItems.Where(i=> storeItems.Contains(i.Id))
+                .OrderBy(i => i.InvCategoryId);
         }
 
 
         //Get Select List of Inventory Items, used for Create or Edit Dropdowns List
-        public SelectList GetInStockedInvItemsSelectList(int selected, List<int> storeItems)
+        public virtual IOrderedQueryable<InvItem> GetInStockedInvItemsSelectList(int selected, List<int> storeItems)
         {
-            return new SelectList(_context.InvItems.Where(i => storeItems.Contains(i.Id)).OrderBy(i => i.InvCategoryId).Select(x => new
-            {
-                Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
-                Value = x.Id
-            }), "Value", "Name", selected);
+            return _context.InvItems.Where(i => storeItems.Contains(i.Id))
+                .OrderBy(i => i.InvCategoryId);
+           
         }
 
         private int ItemInStockQuantity(int itemId)
@@ -173,21 +156,18 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public SelectList GetConvertableUomSelectList()
+        public virtual IQueryable<InvUom> GetConvertableUomSelectList()
         {
             try
             {
                 List<int> UomConversionList = _context.InvUomConversions.Select(c => c.InvUomId_base).ToList();
 
-                return new SelectList(_context.InvUoms.Where(i => UomConversionList.Contains(i.Id)).Select(x => new
-                {
-                    Name = x.uom,
-                    Value = x.Id
-                }), "Value", "Name");
+                return _context.InvUoms.Where(i => UomConversionList.Contains(i.Id));
+
             }
             catch
             {
-                return new SelectList(null);
+                throw new Exception("ItemServices: Unable to Get Uom list");
             }
         }
     }

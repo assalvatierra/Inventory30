@@ -17,6 +17,9 @@ using PageConfigShared;
 using PageObjectShared;
 using PageConfigService;
 using ObjectConfigService;
+using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Inventory20;
 
 namespace InvWeb
 {
@@ -48,13 +51,23 @@ namespace InvWeb
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            //identity db
+            services.AddDbContext<SecurityDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<SecurityDbContext>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, UserClaimsPrincipalFactory<IdentityUser, IdentityRole>>();
+
+            //Modules and Services
+            //services.AddScoped<ISearchServices, InvWeb.Data.Services.SearchServices>();
+            services.AddScoped<ISearchServices, Inventory20.SearchService20>();
+
 
             //services.Configure<PageConfigShared.TenantInfo>(Configuration.GetSection("TenantInfo"));
             string tenantcode = Configuration.GetSection("TenantInfo")["TenantCode"];

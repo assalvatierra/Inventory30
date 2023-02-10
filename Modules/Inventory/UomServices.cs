@@ -5,15 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
-using InvWeb.Data.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using CoreLib.Inventory.Interfaces;
 using Microsoft.Extensions.Logging;
-using InvWeb.Data.Models;
-using Newtonsoft.Json.Linq;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.API;
+using CoreLib.Models.Inventory;
 
-namespace InvWeb.Data.Services
+namespace Modules.Inventory
 {
     public class UomServices : IUomServices
     {
@@ -32,12 +30,12 @@ namespace InvWeb.Data.Services
 
         }
 
-        public int GetConverted_ItemCount_ByDefaultUom(int itemId)
+        public virtual int GetConverted_ItemCount_ByDefaultUom(int itemId)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<InvUom> GetUomSelectList()
+        public virtual IEnumerable<InvUom> GetUomSelectList()
         {
             try
             {
@@ -50,22 +48,22 @@ namespace InvWeb.Data.Services
             }
         }
 
-        public IEnumerable<InvUom> GetUomSelectListByItemId(int? itemId)
+        public virtual IEnumerable<InvUom> GetUomSelectListByItemId(int? itemId)
         {
             try
             {
                 if (itemId == null)
                 {
-                    return new List<InvUom>();
-                    //return GetUomSelectList();
+                    //return default list
+                    return GetUomSelectList();
                 }
 
                 var item = _context.InvItems.Find(itemId);
 
                 if (item == null)
                 {
-                    return new List<InvUom>();
-                    //return GetUomSelectList();
+                    //return new List<InvUom>();
+                    return GetUomSelectList();
                 }
 
                 var item_BaseUom = item.InvUomId;
@@ -90,11 +88,11 @@ namespace InvWeb.Data.Services
             {
                 //throw ex;
                 _logger.LogError("UomServices: Unable to GetUomSelectListByItemId " + ex.Message);
-                return new List<InvUom>();
+                return GetUomSelectList();
             }
         }
 
-        public IEnumerable<UomsApiModel.ItemOumList> GetItemUomListByItemId(int? itemId)
+        public virtual IEnumerable<UomsApiModel.ItemOumList> GetItemUomListByItemId(int? itemId)
         {
             try
             {

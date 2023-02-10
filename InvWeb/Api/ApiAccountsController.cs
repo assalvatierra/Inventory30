@@ -1,5 +1,4 @@
-﻿using InvWeb.Data;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,6 +7,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models.Users;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using CoreLib.Models.Inventory;
+using InvWeb.Data;
 
 namespace InvWeb.Api
 {
@@ -15,13 +18,15 @@ namespace InvWeb.Api
     [ApiController]
     public class ApiAccountsController : ControllerBase
     {
+        private readonly SecurityDbContext _securitycontext;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public ApiAccountsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public ApiAccountsController(SecurityDbContext securitycontext, UserManager<IdentityUser> userManager, ApplicationDbContext context)
         {
-            _context = context;
+            _securitycontext = securitycontext;
             _userManager = userManager;
+            _context = context;
         }
 
         // GET: api/<ApiAccountController>
@@ -50,13 +55,13 @@ namespace InvWeb.Api
                 //var role = await _context.Roles.FindAsync(roleId.ToString());
                 ////_ = await _userManager.AddToRoleAsync(user, role.Name.ToUpper());
 
-                _context.UserRoles.Add(new IdentityUserRole<string>
+                _securitycontext.UserRoles.Add(new IdentityUserRole<string>
                 {
                     RoleId = roleId.ToString(),
                     UserId = userId
                 });
 
-                await _context.SaveChangesAsync();
+                await _securitycontext.SaveChangesAsync();
                 return StatusCode(200, "Add Successfull");
             }
             catch
@@ -73,14 +78,14 @@ namespace InvWeb.Api
         {
             try
             {
-                var userRole = _context.UserRoles.Where(r => r.RoleId == roleId.ToString() && r.UserId == userId).FirstOrDefault();
+                var userRole = _securitycontext.UserRoles.Where(r => r.RoleId == roleId.ToString() && r.UserId == userId).FirstOrDefault();
 
                 if (userRole == null)
                 {
                     return StatusCode(400, "Not found");
                 }
 
-                _context.UserRoles.Remove(userRole);
+                _securitycontext.UserRoles.Remove(userRole);
 
                 await _context.SaveChangesAsync();
 

@@ -1,4 +1,3 @@
-using InvWeb.Data;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,6 +11,9 @@ using System.Linq;
 using ReportViewModel.InvStore;
 using PageConfigShared.Interfaces;
 using PageConfigShared.Model;
+using CoreLib.Models.Inventory;
+using Modules.Inventory;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Pages.Stores.Printables
 {
@@ -19,7 +21,7 @@ namespace InvWeb.Pages.Stores.Printables
     {
         private readonly ILogger<RequestFormModel> _logger;
         private readonly ApplicationDbContext _context;
-        private readonly StoreServices _storeSvc;
+        private readonly IStoreServices _storeSvc;
         public IPageConfigServices _pageConfigServices;
 
         public TrxHdr _trxHdr;

@@ -8,23 +8,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InvWeb.Data.Services;
 using CoreLib.Inventory.Models;
-using CoreLib.Inventory.Models.Items;
-using InvWeb.Data.Interfaces;
 using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
     public class EditModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger<CreateModel> _logger;
         private readonly IItemServices _itemServices;
         private readonly IUomServices _uomServices;
+        private readonly IStoreServices _storeServices;
 
-        public EditModel(InvWeb.Data.ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
+            _logger = logger;
             _itemServices = new ItemServices(context);
             _uomServices = new UomServices(context);
+            _storeServices = new StoreServices(context, logger);
         }
 
         [BindProperty]
@@ -58,6 +63,9 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             var selectedItem = " (" + InvTrxDtl.InvItem.Code + ") " + InvTrxDtl.InvItem.Description
                                + " " + InvTrxDtl.InvItem.Remarks;
 
+            var storeItems = _storeServices.GetStoreItemsSummary(storeId, 0, null);
+            var availbaleStoreItems = storeItems.Result.Where(i => i.Available > 0).Select(i => i.Id).ToList();
+
             InvTrxDtl.InvItemId = itemId;
 
 
@@ -66,9 +74,17 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                     Value = x.LotNo
                 }), "Value", "Name");
 
-            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(itemId);
+            ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availbaleStoreItems)
+                                    .Include(i => i.InvCategory)
+                                   .Select(x => new
+                                   {
+                                       Name = String.Format("{0} - {1} - {2} {3}",
+                                       x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+                                       Value = x.Id
+                                   }), "Value", "Name", invItemId);
+
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom", InvTrxDtl.InvItem.InvUomId);
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom", InvTrxDtl.InvItem.InvUomId);
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
             ViewData["LotNoItems"]  = LotNoList;
             ViewData["StoreId"]     = storeId;

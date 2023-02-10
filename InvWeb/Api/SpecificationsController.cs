@@ -1,13 +1,15 @@
 ﻿using InvWeb.Data.Services;
-using InvWeb.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
-using InvWeb.Data.Models;
 using System;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using CoreLib.Models.Inventory;
+using CoreLib.Models.API;
+using Modules.Inventory;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Api
 {
@@ -16,7 +18,7 @@ namespace InvWeb.Api
     public class SpecificationsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly ItemSpecServices _itemSpecServices;
+        private readonly IItemSpecServices _itemSpecServices;
         private readonly ILogger<SpecificationsController> _logger;
 
         public SpecificationsController(ApplicationDbContext context, ILogger<SpecificationsController> logger)
