@@ -39,7 +39,7 @@ namespace PageConfigService
             this._version = targetVersion;
         }
 
-        public PageConfigInfo getPageConfig(string pageCode)
+        public PageConfigInfo? getPageConfig(string pageCode)
         {
             var configs = this._config.Where(d => d.PageCode == pageCode);
 
@@ -54,7 +54,6 @@ namespace PageConfigService
             List<PageConfigInfo> latestConfigs = latestConfigs = tenantConfigs;
             if (this._version != "LATEST")
                 latestConfigs = tenantConfigs.Where(d => d.Version == this._version).ToList();
-
 
             return latestConfigs.OrderByDescending(v => v.Order).FirstOrDefault();
 

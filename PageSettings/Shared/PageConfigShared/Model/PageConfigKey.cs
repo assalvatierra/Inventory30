@@ -8,8 +8,8 @@ namespace PageConfigShared.Model
 {
     public class PageConfigKey
     {
-        public string Key { get; set; }
-        public string Value { get; set; }
-        public string Remarks { get; set; } = string.Empty;
+        public string? Key { get; set; }
+        public string? Value { get; set; }
+        public string? Remarks { get; set; } = string.Empty;
     }
 }
