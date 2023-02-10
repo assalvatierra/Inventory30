@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\WebDBSchema\WebDBSchema\WebDBSchema.csproj" />
     <ProjectReference Include="..\..\Shared\PageObjectShared\PageObjectShared.csproj" />
   </ItemGroup>
 
