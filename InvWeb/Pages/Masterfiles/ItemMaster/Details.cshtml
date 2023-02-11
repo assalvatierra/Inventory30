@@ -2,15 +2,21 @@
 @model InvWeb.Pages.Masterfiles.ItemMaster.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Item Details";
 
-    IEnumerable<WebDBSchema.Models.InvItemClass> invItemClasses = ViewBag.InvItemClass;
+    IEnumerable<CoreLib.Inventory.Models.InvItemClass> invItemClasses = ViewBag.InvItemClass;
+    bool isSteelCategory = (bool)ViewData["IsSteelSpec"];
+    var steelDetails = (CoreLib.Inventory.Models.InvItemSpec_Steel)ViewData["SteelSpecDetails"];
+    IEnumerable<CoreLib.Inventory.Models.InvItemCustomSpec> itemCustomSpecs = ViewData["ItemCustomSpecs"] as IEnumerable<CoreLib.Inventory.Models.InvItemCustomSpec>;
 }
 
-<h1>Details</h1>
+<h1>Item Details</h1>
 
 <div>
-    <h4>InvItem</h4>
+    <a asp-page="./Edit" asp-route-id="@Model.InvItem.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
+<div>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -32,14 +38,38 @@
             @Html.DisplayFor(model => model.InvItem.Remarks)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvItem.InvUom)
+            Unit of Measure
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.InvItem.InvUom.uom)
         </dd>
         <dt class="col-sm-2">
+            Category
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItem.InvCategory.Description)
+        </dd>
+
+        
+        <dt class="col-sm-2">
+           Weight
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItem.Weight) kg/pc
+        </dd>
+
+        
+        <dt class="col-sm-2">
+            Material Grade
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItem.Material)
+        </dd>
+
+        <dt class="col-sm-2">
             Classification
         </dt>
+
         <dd class="col-sm-10">
             @if (Model.InvItem.InvItemClasses.Count() != 0)
             {
@@ -48,48 +78,432 @@
                 {
                     <span>
                         @classification.InvClassification.Classification
-                        -
-                        <a asp-page="./Classifications/Delete" asp-route-id="@classification.Id"> Remove</a>
+                        
+                        <a asp-page="./Classifications/Delete" asp-route-id="@classification.Id" class="btn btn-ligt"> x </a>
                     </span>
                     <br />
                 }
 
             }
-            <a asp-page="./Classifications/Create" asp-route-id="@Model.InvItem.Id">Add Classification</a>
+            <a asp-page="./Classifications/Create" asp-route-id="@Model.InvItem.Id">  Add Classification</a>
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.InvItem.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
 
 <hr />
-<a  asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Warning Level</a>
+
+<div class="card">
+    <div class="card-body">
+        <h4> Custom Specifications </h4>
+        <div class="btn-group">
+            <a asp-page="./CustomSpec/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
+        </div>
+    </div>
+
+    <table class="table" id="ItemSpecTable">
+        <tr>
+            <th> Spec </th>
+            <th width="250"> Value </th>
+            <th> Measurement </th>
+            <th> Remarks </th>
+            <th> Order </th>
+            <th></th>
+        </tr>
+
+        @foreach (var catSpec in Model.InvItem.InvCategory.InvCatCustomSpecs.OrderByDescending(i => i.Order))
+        {
+
+            if (Model.InvItem.InvItemCustomSpecs.Where(i => i.InvCustomSpecId == catSpec.InvCustomSpecId).Any())
+            {
+                var spec = Model.InvItem.InvItemCustomSpecs.Where(i => i.InvCustomSpecId == catSpec.InvCustomSpecId).First();
+
+                <tr class="itemspec">
+                    <td class="itemspec-td-id" hidden>
+                        <input type="text" class="id" value="@spec.Id">
+                    </td>
+                    <td class="itemspec-td-customspec-id" hidden>
+                        <input type="text" class="id" value="@spec.InvCustomSpecId">
+                    </td>
+                    <td class="itemspec-td-name">
+                        @spec.InvCustomSpec.SpecName
+                    </td>
+                    <td class="itemspec-td-value">
+                        <input type="text" style="max-width:200px;" value="@spec.SpecValue" class="form-control" maxlength="20">
+                    </td>
+                    <td>
+                        @spec.InvCustomSpec.Measurement
+                    </td>
+                    <td class="itemspec-td-remarks">
+                        <input type="text" style="max-width:200px;" value="@spec.Remarks" class="form-control" maxlength="80">
+                    </td>
+                    <td>
+                        @spec.Order
+                    </td>
+                    <td>
+                        <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id" class="btn btn-light"> Edit </a>
+                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> Delete </a>
+                    </td>
+                </tr>
+
+                continue;
+            }
+            else
+            {
+                <tr class="catspec">
+                    <td class="catspec-td-id" hidden>
+                        <input type="text" class="id" value="@catSpec.InvCustomSpecId">
+                    </td>
+                    <td class="catspec-td-name">
+                        @catSpec.InvCustomSpec.SpecName
+                    </td>
+                    <td class="catspec-td-value">
+                        <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="20">
+                    </td>
+                    <td>
+                        @catSpec.InvCustomSpec.Measurement
+                    </td>
+                    <td class="catspec-td-remarks">
+                        <input type="text" style="max-width:200px;" value="" class="form-control" maxlength="80">
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            }
+
+        }
+
+        @if(Model.InvItem.InvItemCustomSpecs.Any()){
+
+            @foreach (var spec in itemCustomSpecs)
+            {
+
+                <tr>
+                    <td class="itemspec-td-id" hidden>
+                        <input type="text" class="id" value="@spec.Id">
+                    </td>
+                    <td class="itemspec-td-customspec-id" hidden>
+                        <input type="text" class="id" value="@spec.InvCustomSpecId">
+                    </td>
+                    <td class="itemspec-td-name">
+                        @spec.InvCustomSpec.SpecName
+                    </td>
+                    <td class="itemspec-td-value">
+                        <input type="text" style="max-width:200px;" value="@spec.SpecValue" class="form-control" maxlength="20">
+                    </td>
+                    <td>
+                        @spec.InvCustomSpec.Measurement
+                    </td>
+                    <td class="itemspec-td-remarks">
+                        <input type="text" style="max-width:200px;" value="@spec.Remarks" class="form-control" maxlength="80">
+                    </td>
+                    <td>
+                        @spec.Order
+                    </td>
+                    <td>
+                        <a asp-page="./CustomSpec/Edit" asp-route-id="@spec.Id" class="btn btn-light"> Edit </a>
+                        <a asp-page="./CustomSpec/Delete" asp-route-id="@spec.Id" class="btn btn-light"> Delete </a>
+                    </td>
+                </tr>
+            }
+        }
+
+        <!-- Steel Specifications -->
+        @if(isSteelCategory){
+            <tr>
+                <td colspan="6">
+                    <b> Steel Specs </b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span> Info </span>
+                </td>
+                <td colspan="1">
+                    <span> For: </span><br>
+                    <input type="text" id="steel-spec-for" value="@steelDetails.SpecFor" class="form-control" maxlength="10" style="max-width:200px;">
+                </td>
+                <td colspan="5">
+                    <span> Description: </span><br>
+                    <input type="text" id="steel-spec-info" value="@steelDetails.SpecInfo" class="form-control" maxlength="80" style="max-width:200px;">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span> Size </span>
+                </td>
+                <td colspan="1">
+                    <span> Value: </span><br>
+                    <input type="text" id="steel-spec-size" value="@steelDetails.SizeValue" class="form-control" maxlength="10" style="max-width:200px;">
+                </td>
+                <td colspan="4">
+                    <span> Description: </span><br>
+                    <input type="text" id="steel-spec-size-desc" value="@steelDetails.SizeDesc" class="form-control" maxlength="30" style="max-width:200px;">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span> Weight </span>
+                </td>
+                <td colspan="1"> 
+                    <span> Value: </span><br>
+                    <input type="text" id="steel-spec-weight" value="@steelDetails.WtValue" class="form-control" maxlength="10"  style="max-width:200px;" >
+                </td>
+                <td colspan="4"> 
+                    <span> Description: </span><br>
+                    <input type="text" id="steel-spec-weight-desc" value="@steelDetails.WtDesc" class="form-control" maxlength="30"  style="max-width:200px;" >
+                </td>
+            </tr>
+        }
+
+    </table>
+    <hr />
+    <div class="card-body">
+        <button class="btn btn-primary" id="SaveChangesBtn" onclick="SaveSpecTableChanges(@Model.InvItem.Id)"> Save Changes </button>
+    </div>
+
+</div>
+<hr />
+
+@*
+<h4> Steel Specifications </h4>
+<a asp-page="./SpecSteel/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
 <table class="table">
     <tr>
-        <th> Qty Range </th>
-        <th> type </th>
-        <th> Unit </th>
+        <th> Spec For </th>
+        <th> Info </th>
+        <th> Size </th>
+        <th> Weight </th>
         <th></th>
     </tr>
 
-    @foreach (var warning in Model.InvItem.InvWarningLevels) { 
+    @foreach (var spec in Model.InvItem.InvItemSpec_Steel)
+    {
         <tr>
             <td>
-                @warning.Level1 -  @warning.Level2
+                @spec.SpecFor
             </td>
             <td>
-                @warning.InvWarningType.Desc
+                @spec.SpecInfo
             </td>
             <td>
-                @warning.InvUom.uom
+                @spec.SizeDesc :  @spec.SizeValue
             </td>
             <td>
-                <a asp-page="./WarningLevels/Edit" asp-route-id="@warning.Id"> Edit </a>
-                <a asp-page="./WarningLevels/Delete" asp-route-id="@warning.Id"> Delete </a>
+                @spec.WtDesc : @spec.WtValue
+            </td>
+            <td>
+                <a asp-page="./SpecSteel/Edit" asp-route-id="@spec.Id"> Edit </a>
+                <a asp-page="./SpecSteel/Delete" asp-route-id="@spec.Id"> Delete </a>
             </td>
         </tr>
     }
 
 </table>
+
+<hr />*@
+
+<div class="card" >
+    <div class="card-body">
+
+        <h4> Warning Levels </h4>
+        <a asp-page="./WarningLevels/Create" asp-route-id="@Model.InvItem.Id"> Add Warning Level</a>
+
+    </div>
+    <table class="table">
+        <tr>
+            <th> Qty Range </th>
+            <th> type </th>
+            <th> Unit </th>
+            <th></th>
+        </tr>
+
+        @foreach (var warning in Model.InvItem.InvWarningLevels)
+        {
+            <tr>
+                <td>
+                    @warning.Level1 -  @warning.Level2
+                </td>
+                <td>
+                    @warning.InvWarningType.Desc
+                </td>
+                <td>
+                    @warning.InvUom.uom
+                </td>
+                <td>
+                    <a asp-page="./WarningLevels/Edit" asp-route-id="@warning.Id"> Edit </a>
+                    <a asp-page="./WarningLevels/Delete" asp-route-id="@warning.Id"> Delete </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+
+@section Scripts {
+
+    <script>
+        function SaveSpecTableChanges(itemId){
+
+            console.log(itemId)
+
+            $('#SaveChangesBtn').prop('disabled', true);
+
+            //Add
+            $("#ItemSpecTable tr.catspec").each(function () {
+
+                var id = $(this).find("td.catspec-td-id input").val();
+                var name = $(this).find("td.catspec-td-name").text().trim();
+                var value = $(this).find("td.catspec-td-value input").val();
+                var remarks = $(this).find("td.catspec-td-remarks input").val();
+
+                POST_Add_ItemCustomSpec(id, name, value, itemId, remarks);
+            });
+
+            //Update
+            $("#ItemSpecTable tr.itemspec").each(function () {
+
+                var customspecId = $(this).find("td.itemspec-td-customspec-id input").val();
+                var id = $(this).find("td.itemspec-td-id input").val();
+                var name = $(this).find("td.itemspec-td-name").text().trim();
+                var value = $(this).find("td.itemspec-td-value input").val();
+                var remarks = $(this).find("td.itemspec-td-remarks input").val();
+
+                PUT_Update_ItemCustomSpec(id,customspecId, name, value, itemId, remarks);
+            });
+
+            //update Steel
+            POST_ADD_UPDATE_ItemSpecs(itemId);
+
+            //delay 2 sec
+            setTimeout(() => {
+                window.location.reload(false);
+            }, 1500);
+        }
+
+
+        function POST_Add_ItemCustomSpec(id, name, value, itemId, remarks){
+
+            var spec_Data = {
+                Id: 0,
+                CustomSpecId: id,
+                SpecName: name,
+                SpecValue: value,
+                InvItemId: itemId,
+                Remarks: remarks
+            }
+             
+             $.ajax({
+                type: "POST",
+                url: "/api/Specifications/PostAddInvCustomSpec",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                data: JSON.stringify(spec_Data) ,
+                success: function (result) {
+
+                },
+                error: function (result) {
+                    //console.log(error);
+                     if (result.status == 200) {
+                        //reload page
+                        //window.location.reload(false);
+                    } else {
+                        alert("Unable to save item custom specifications");
+                    }
+                }
+            }).done((res)=>{
+                //console.log(res);
+            });
+        }
+
+        
+        function PUT_Update_ItemCustomSpec(id, customSpecId, name, value, itemId, remarks){
+
+            var spec_Data = {
+                Id: id,
+                CustomSpecId: customSpecId,
+                SpecName: name,
+                SpecValue: value,
+                InvItemId: itemId,
+                Remarks: remarks
+            }
+
+            //console.log(spec_Data);
+
+            $.ajax({
+                type: "POST",
+                url: "/api/Specifications/PutUpdateInvCustomSpec",
+                async: false,
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(spec_Data) ,
+                success: function (result) {
+                  
+                },
+                error: function (result) {
+                    //console.log(error);
+                    if (result.status == 200) {
+                        //reload page
+                        //window.location.reload(false);
+                    } else {
+                        //alert("Unable to save item custom specifications");
+                    }
+                }
+            });
+        }
+
+        function POST_ADD_UPDATE_ItemSpecs(id){
+
+            var steelFor        = $("#steel-spec-for").val();
+            var steelInfo       = $("#steel-spec-info").val();
+            var steelSize       = $("#steel-spec-size").val();
+            var steelSizeDesc   = $("#steel-spec-size-desc").val();
+            var steelWeight     = $("#steel-spec-weight").val();
+            var steelWeightDesc = $("#steel-spec-weight-desc").val();
+
+            var spec_Data = {
+                InvItemId: id,
+                SpecFor:   steelFor,
+                SpecInfo:  steelInfo,
+                SizeValue: steelSize,
+                SizeDesc:  steelSizeDesc,
+                WtValue:   steelWeight,
+                WtDesc:    steelWeightDesc
+            }
+
+            console.log(spec_Data);
+
+            if (steelFor == "" && steelInfo == "" && steelSize == "" && steelWeight == "") {
+                console.log("Steel Spec not saved");
+                return false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/Specifications/PutUpdateInvSteelSpec",
+                async: false,
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(spec_Data),
+                success: function (result) {
+
+                },
+                error: function (result) {
+                    //console.log(error);
+                    if (result.status == 200) {
+                        //reload page
+                        //window.location.reload(false);
+                        console.log("Steel Spec Saved : status 200");
+                    } else {
+                        //alert("Unable to save item custom specifications");
+                        console.log("Steel Spec Saved");
+                    }
+                }
+            });
+        }
+
+    </script>
+}

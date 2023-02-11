@@ -2,14 +2,14 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/30/2022 13:02:54
--- Generated from EDMX file: C:\Users\Acer-PC\Documents\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
+-- Date Created: 01/30/2023 14:49:47
+-- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
---USE [InvDB3.mdf];
---GO
+USE [InvDB3.mdf];
+GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
 
@@ -137,6 +137,30 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvItems] DROP CONSTRAINT [FK_InvCategoryInvItem];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_InvItemInvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvCategorySpecDef]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCategorySpecDefs] DROP CONSTRAINT [FK_InvCategoryInvCategorySpecDef];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemSysDefinedSpecsInvCategorySpecDef]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCategorySpecDefs] DROP CONSTRAINT [FK_InvItemSysDefinedSpecsInvCategorySpecDef];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvCatCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvCategoryInvCatCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecTypeInvCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecTypeInvCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemCustomSpecs] DROP CONSTRAINT [FK_InvItemInvItemCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecInvItemCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecInvItemCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecInvCatCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecInvCatCustomSpec];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -223,6 +247,27 @@ GO
 IF OBJECT_ID(N'[dbo].[InvCategories]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvCategories];
 GO
+IF OBJECT_ID(N'[dbo].[InvItemSpec_Steel]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[InvItemSysDefinedSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemSysDefinedSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCategorySpecDefs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCategorySpecDefs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCustomSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCustomSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvItemCustomSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemCustomSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCatCustomSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCatCustomSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCustomSpecTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCustomSpecTypes];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -235,7 +280,9 @@ CREATE TABLE [dbo].[InvItems] (
     [Description] nvarchar(120)  NOT NULL,
     [Remarks] nvarchar(120)  NULL,
     [InvUomId] int  NOT NULL,
-    [InvCategoryId] int  NOT NULL
+    [InvCategoryId] int  NOT NULL,
+    [Weight] decimal(18,2)  NULL,
+    [Material] nvarchar(80)  NULL
 );
 GO
 
@@ -394,7 +441,8 @@ CREATE TABLE [dbo].[InvTrxDtls] (
     [ItemQty] int  NOT NULL,
     [InvItemId] int  NOT NULL,
     [InvTrxDtlOperatorId] int  NOT NULL,
-    [LotNo] int  NULL
+    [LotNo] int  NULL,
+    [BatchNo] nvarchar(20)  NULL
 );
 GO
 
@@ -480,6 +528,75 @@ CREATE TABLE [dbo].[InvCategories] (
     [Code] nvarchar(20)  NOT NULL,
     [Description] nvarchar(50)  NOT NULL,
     [Remarks] nvarchar(50)  NULL
+);
+GO
+
+-- Creating table 'InvItemSpec_Steel'
+CREATE TABLE [dbo].[InvItemSpec_Steel] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvItemId] int  NOT NULL,
+    [SpecFor] nvarchar(10)  NOT NULL,
+    [SizeValue] nvarchar(10)  NULL,
+    [SizeDesc] nvarchar(30)  NULL,
+    [WtValue] nvarchar(10)  NULL,
+    [WtDesc] nvarchar(30)  NULL,
+    [SpecInfo] nvarchar(80)  NULL
+);
+GO
+
+-- Creating table 'InvItemSysDefinedSpecs'
+CREATE TABLE [dbo].[InvItemSysDefinedSpecs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [SpecName] nvarchar(30)  NULL,
+    [SpecCode] nvarchar(10)  NOT NULL,
+    [SpecGroup] nvarchar(10)  NULL
+);
+GO
+
+-- Creating table 'InvCategorySpecDefs'
+CREATE TABLE [dbo].[InvCategorySpecDefs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvCategoryId] int  NOT NULL,
+    [InvItemSysDefinedSpecsId] int  NOT NULL
+);
+GO
+
+-- Creating table 'InvCustomSpecs'
+CREATE TABLE [dbo].[InvCustomSpecs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [SpecName] nvarchar(50)  NOT NULL,
+    [InvCustomSpecTypeId] int  NOT NULL,
+    [Order] int  NOT NULL,
+    [Measurement] nvarchar(20)  NULL,
+    [Remarks] nvarchar(50)  NULL
+);
+GO
+
+-- Creating table 'InvItemCustomSpecs'
+CREATE TABLE [dbo].[InvItemCustomSpecs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvItemId] int  NOT NULL,
+    [InvCustomSpecId] int  NOT NULL,
+    [SpecValue] nvarchar(30)  NULL,
+    [Remarks] nvarchar(50)  NULL,
+    [Order] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'InvCatCustomSpecs'
+CREATE TABLE [dbo].[InvCatCustomSpecs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [InvCategoryId] int  NOT NULL,
+    [Order] int  NOT NULL,
+    [Remarks] nvarchar(50)  NULL,
+    [InvCustomSpecId] int  NOT NULL
+);
+GO
+
+-- Creating table 'InvCustomSpecTypes'
+CREATE TABLE [dbo].[InvCustomSpecTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -646,6 +763,48 @@ GO
 -- Creating primary key on [Id] in table 'InvCategories'
 ALTER TABLE [dbo].[InvCategories]
 ADD CONSTRAINT [PK_InvCategories]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [PK_InvItemSpec_Steel]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvItemSysDefinedSpecs'
+ALTER TABLE [dbo].[InvItemSysDefinedSpecs]
+ADD CONSTRAINT [PK_InvItemSysDefinedSpecs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvCategorySpecDefs'
+ALTER TABLE [dbo].[InvCategorySpecDefs]
+ADD CONSTRAINT [PK_InvCategorySpecDefs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvCustomSpecs'
+ALTER TABLE [dbo].[InvCustomSpecs]
+ADD CONSTRAINT [PK_InvCustomSpecs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvItemCustomSpecs'
+ALTER TABLE [dbo].[InvItemCustomSpecs]
+ADD CONSTRAINT [PK_InvItemCustomSpecs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvCatCustomSpecs'
+ALTER TABLE [dbo].[InvCatCustomSpecs]
+ADD CONSTRAINT [PK_InvCatCustomSpecs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvCustomSpecTypes'
+ALTER TABLE [dbo].[InvCustomSpecTypes]
+ADD CONSTRAINT [PK_InvCustomSpecTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1251,6 +1410,126 @@ GO
 CREATE INDEX [IX_FK_InvCategoryInvItem]
 ON [dbo].[InvItems]
     ([InvCategoryId]);
+GO
+
+-- Creating foreign key on [InvItemId] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [FK_InvItemInvItemSpec_Steel]
+    FOREIGN KEY ([InvItemId])
+    REFERENCES [dbo].[InvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvItemSpec_Steel'
+CREATE INDEX [IX_FK_InvItemInvItemSpec_Steel]
+ON [dbo].[InvItemSpec_Steel]
+    ([InvItemId]);
+GO
+
+-- Creating foreign key on [InvCategoryId] in table 'InvCategorySpecDefs'
+ALTER TABLE [dbo].[InvCategorySpecDefs]
+ADD CONSTRAINT [FK_InvCategoryInvCategorySpecDef]
+    FOREIGN KEY ([InvCategoryId])
+    REFERENCES [dbo].[InvCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCategoryInvCategorySpecDef'
+CREATE INDEX [IX_FK_InvCategoryInvCategorySpecDef]
+ON [dbo].[InvCategorySpecDefs]
+    ([InvCategoryId]);
+GO
+
+-- Creating foreign key on [InvItemSysDefinedSpecsId] in table 'InvCategorySpecDefs'
+ALTER TABLE [dbo].[InvCategorySpecDefs]
+ADD CONSTRAINT [FK_InvItemSysDefinedSpecsInvCategorySpecDef]
+    FOREIGN KEY ([InvItemSysDefinedSpecsId])
+    REFERENCES [dbo].[InvItemSysDefinedSpecs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemSysDefinedSpecsInvCategorySpecDef'
+CREATE INDEX [IX_FK_InvItemSysDefinedSpecsInvCategorySpecDef]
+ON [dbo].[InvCategorySpecDefs]
+    ([InvItemSysDefinedSpecsId]);
+GO
+
+-- Creating foreign key on [InvCategoryId] in table 'InvCatCustomSpecs'
+ALTER TABLE [dbo].[InvCatCustomSpecs]
+ADD CONSTRAINT [FK_InvCategoryInvCatCustomSpec]
+    FOREIGN KEY ([InvCategoryId])
+    REFERENCES [dbo].[InvCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCategoryInvCatCustomSpec'
+CREATE INDEX [IX_FK_InvCategoryInvCatCustomSpec]
+ON [dbo].[InvCatCustomSpecs]
+    ([InvCategoryId]);
+GO
+
+-- Creating foreign key on [InvCustomSpecTypeId] in table 'InvCustomSpecs'
+ALTER TABLE [dbo].[InvCustomSpecs]
+ADD CONSTRAINT [FK_InvCustomSpecTypeInvCustomSpec]
+    FOREIGN KEY ([InvCustomSpecTypeId])
+    REFERENCES [dbo].[InvCustomSpecTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCustomSpecTypeInvCustomSpec'
+CREATE INDEX [IX_FK_InvCustomSpecTypeInvCustomSpec]
+ON [dbo].[InvCustomSpecs]
+    ([InvCustomSpecTypeId]);
+GO
+
+-- Creating foreign key on [InvItemId] in table 'InvItemCustomSpecs'
+ALTER TABLE [dbo].[InvItemCustomSpecs]
+ADD CONSTRAINT [FK_InvItemInvItemCustomSpec]
+    FOREIGN KEY ([InvItemId])
+    REFERENCES [dbo].[InvItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvItemCustomSpec'
+CREATE INDEX [IX_FK_InvItemInvItemCustomSpec]
+ON [dbo].[InvItemCustomSpecs]
+    ([InvItemId]);
+GO
+
+-- Creating foreign key on [InvCustomSpecId] in table 'InvItemCustomSpecs'
+ALTER TABLE [dbo].[InvItemCustomSpecs]
+ADD CONSTRAINT [FK_InvCustomSpecInvItemCustomSpec]
+    FOREIGN KEY ([InvCustomSpecId])
+    REFERENCES [dbo].[InvCustomSpecs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCustomSpecInvItemCustomSpec'
+CREATE INDEX [IX_FK_InvCustomSpecInvItemCustomSpec]
+ON [dbo].[InvItemCustomSpecs]
+    ([InvCustomSpecId]);
+GO
+
+-- Creating foreign key on [InvCustomSpecId] in table 'InvCatCustomSpecs'
+ALTER TABLE [dbo].[InvCatCustomSpecs]
+ADD CONSTRAINT [FK_InvCustomSpecInvCatCustomSpec]
+    FOREIGN KEY ([InvCustomSpecId])
+    REFERENCES [dbo].[InvCustomSpecs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvCustomSpecInvCatCustomSpec'
+CREATE INDEX [IX_FK_InvCustomSpecInvCatCustomSpec]
+ON [dbo].[InvCatCustomSpecs]
+    ([InvCustomSpecId]);
 GO
 
 -- --------------------------------------------------

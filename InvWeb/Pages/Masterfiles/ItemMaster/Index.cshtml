@@ -2,7 +2,7 @@
 @model InvWeb.Pages.Masterfiles.ItemMaster.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Item Masters Lists";
 }
 
 <h1>Item Masters</h1>
@@ -23,14 +23,23 @@
                 Category
             </th>
             <th>
+                Material
+            </th>
+            <th>
+                Weight
+            </th>
+            <th>
+                UoM
+            </th>
+            <th>
                 Classifications
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.Remarks)
+           @* <th>
+                Specifications
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.InvUom)
-            </th>
+                Warnings
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -43,31 +52,112 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.InvCategory.Description)
-                </td>
 
-                <td>
-                    @foreach (var classes  in item.InvItemClasses)
-                    {
-                        @Html.DisplayFor(modelItem => classes.InvClassification.Classification)
+                    @if(String.IsNullOrEmpty(item.InvItem.Remarks)){
+                        <span> @item.InvItem.Remarks </span>
                     }
 
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Remarks)
+                    @Html.DisplayFor(modelItem => item.InvItem.InvCategory.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.Material)
+                </td>   
+                <td>
+                    @if (item.InvItem.Weight != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.InvItem.Weight)
+                        <span> kg / pc </span>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
                 </td>
                 <td>
-                    <a asp-page="./Classifications/Add" asp-route-id="@item.InvItem.Id"> Classification</a> |
+                    @foreach (var classes  in item.InvItemClasses)
+                    {
+                        @Html.DisplayFor(modelItem => classes.InvClassification.Classification)
+                        <a asp-page="./Classifications/Delete" asp-route-id="@classes.Id"> x </a>
+
+                        <br />
+                    }
+
+                    @if (item.InvItemClasses.Count() == 0)
+                    {
+                        <a asp-page="./Classifications/Add" asp-route-id="@item.InvItem.Id"> + Classification</a>
+                    }
+                </td>
+
+                @* 
+                <td>
+                    @if (item.InvItem.InvItemSpec_Steel != null)
+                    {
+
+                        foreach (var spec in item.InvItem.InvItemSpec_Steel)
+                        {
+                            <p>
+                                <span class="text-info"> </span>
+                                @spec.SpecFor
+
+                                <span class="text-info"> - </span>
+                                @spec.SpecInfo
+                                <br>
+                                <span class="text-info"> Size</span>
+                                @spec.SizeValue : @spec.SizeDesc
+
+                                <span class="text-info">  Weight </span>
+                                @spec.WtValue : @spec.WtDesc
+                            </p>
+
+                        }
+                    }
+
+                    <!-- Custom Specs -->
+                    @if(item.InvItem.InvItemCustomSpecs != null){
+                        foreach (var spec in item.InvItem.InvItemCustomSpecs)
+                        {
+                            <p>
+                                @spec.InvCustomSpec.SpecName   
+                                <span class="text-info"> : </span>
+                                @spec.SpecValue  @spec.InvCustomSpec.Measurement 
+                               
+                                @if (!String.IsNullOrEmpty(spec.Remarks))
+                                {
+                                    <br> @spec.Remarks
+                                }
+                            </p>
+                        }
+                    }
+                    @if (item.InvItem.InvItemCustomSpecs.Count() == 0)
+                    {
+                        <a asp-page="./CustomSpec/Add" asp-route-id="@item.InvItem.Id"> + Specification</a>
+                    }
+                </td>
+                *@
+
+               @* <td>
+                    <!--Warnings -->
+                    @foreach(var warning in item.InvItem.InvWarningLevels){
+                        <p> @warning.InvWarningType.Desc :
+                            @warning.Level1 - @warning.Level2 @warning.InvUom.uom
+                        </p>
+                    }
+
+                    @if(item.InvItem.InvWarningLevels.Count() == 0){
+                        <a asp-page="./WarningLevels/Add" asp-route-id="@item.InvItem.Id">+ Warning Level</a>
+                    }
+                </td>
+                *@
+                <td>
                     <a asp-page="./Edit" asp-route-id="@item.InvItem.Id">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.InvItem.Id">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.InvItem.Id">Delete</a>
                 </td>
             </tr>
+
+
+           
         }
     </tbody>
 </table>

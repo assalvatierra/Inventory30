@@ -5,6 +5,7 @@
     ViewData["Title"] = "Purchase Request";
     int TYPE_PURCHASEORDER = 4;
     int STATUS_PENDING = 1;
+    bool IsAdmin = ViewBag.IsAdmin;
 }
 
 <h1>
@@ -39,7 +40,7 @@
     }
 </p>
 <p>
-    <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId">Create New</a>
+    <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId" class="btn btn-primary">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -91,7 +92,7 @@
                 </div>
             </td>
             <td>
-                @if (item.InvPoHdrStatusId == STATUS_PENDING)
+                @if (item.InvPoHdrStatusId == STATUS_PENDING && IsAdmin)
                 {
                     <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Accept </button>
                 }

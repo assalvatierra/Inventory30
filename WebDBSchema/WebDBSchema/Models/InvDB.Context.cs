@@ -52,5 +52,12 @@ namespace WebDBSchema.Models
         public virtual DbSet<InvWarningLevel> InvWarningLevels { get; set; }
         public virtual DbSet<InvWarningType> InvWarningTypes { get; set; }
         public virtual DbSet<InvCategory> InvCategories { get; set; }
+        public virtual DbSet<InvItemSpec_Steel> InvItemSpec_Steel { get; set; }
+        public virtual DbSet<InvItemSysDefinedSpecs> InvItemSysDefinedSpecs { get; set; }
+        public virtual DbSet<InvCategorySpecDef> InvCategorySpecDefs { get; set; }
+        public virtual DbSet<InvCustomSpec> InvCustomSpecs { get; set; }
+        public virtual DbSet<InvItemCustomSpec> InvItemCustomSpecs { get; set; }
+        public virtual DbSet<InvCatCustomSpec> InvCatCustomSpecs { get; set; }
+        public virtual DbSet<InvCustomSpecType> InvCustomSpecTypes { get; set; }
     }
 }

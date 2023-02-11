@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
     public class IndexModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(InvWeb.Data.ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -52,6 +52,7 @@ namespace InvWeb.Pages.Stores.Releasing
 
             ViewData["StoreId"] = storeId;
             ViewData["Status"] = status;
+            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
             Status = status;
         }
 
@@ -69,12 +70,14 @@ namespace InvWeb.Pages.Stores.Releasing
             }
 
             InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType)
-                  .Where(i => i.InvTrxTypeId == TYPE_RELEASING &&
-                              i.InvStoreId == storeId)
-                .ToListAsync();
+               .Include(i => i.InvStore)
+               .Include(i => i.InvTrxHdrStatu)
+               .Include(i => i.InvTrxDtls)
+                   .ThenInclude(i => i.InvItem)
+                   .ThenInclude(i => i.InvUom)
+               .Where(i => i.InvTrxTypeId == TYPE_RELEASING
+                          && i.InvStoreId == storeId)
+               .Include(i => i.InvTrxType).ToListAsync();
 
             if (!String.IsNullOrWhiteSpace(Status))
             {
@@ -98,6 +101,7 @@ namespace InvWeb.Pages.Stores.Releasing
             }
 
             ViewData["StoreId"] = storeId;
+            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
 
             return Page();
         }

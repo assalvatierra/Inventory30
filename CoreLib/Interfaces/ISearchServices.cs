@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CoreLib.Inventory.Models;
+using CoreLib.Inventory.Models.Stores;
+
+namespace CoreLib.Inventory.Interfaces
+{
+    public interface ISearchServices
+    {
+        public int GetAvailableCountByItem(int id, int? storeId);
+        public int GetAvailableCountByItem(int id);
+        public Task<IEnumerable<InvTrxDtl>> GetInvDetailsByIdAsync(int id);
+        public Task<IEnumerable<InvTrxDtl>> GetApprovedInvDetailsAsync();
+    }
+}

@@ -1,0 +1,61 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemCategories.SysDefinedSpec.AddModel
+
+@{
+    ViewData["Title"] = "Select a Defined Specifications"; 
+    IEnumerable<CoreLib.Inventory.Models.InvItemSysDefinedSpecs> sysDefinedSpecsList = ViewData["SysDefinedSpecsList"] as IEnumerable<CoreLib.Inventory.Models.InvItemSysDefinedSpecs>;
+    var categoryId = ViewData["CategoryId"];
+}
+<h1>Select</h1>
+
+
+<h4>Select a Defined Specifications</h4>
+
+<div>
+    <a asp-page="../Index">Back to List</a> | 
+    <a asp-page="../Details" asp-route-id="@categoryId">Back to Details</a>
+</div>
+<hr />
+<div class="row" hidden>
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="InvCategorySpecDefs.InvItemSysDefinedSpecsId" class="control-label"> Defined Specifications </label>
+                <select asp-for="InvCategorySpecDefs.InvItemSysDefinedSpecsId" class="form-control" id="InvItemSysDefinedSpecsId" asp-items="ViewBag.InvItemSysDefinedSpecsId"></select>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="InvCategorySpecDefs.InvCategoryId" class="control-label"> Category </label>
+                <select asp-for="InvCategorySpecDefs.InvCategoryId" class="form-control" asp-items="ViewBag.InvCategoryId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" id="SubmitBtn" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div clas="col-md-4" style="padding:15px;">
+        <div class="list-group" style="width:350px">
+            @foreach (var specs in sysDefinedSpecsList)
+            {
+                <button class="list-group-item list-group-item-action" onclick="SelectDefinedSpec(@specs.Id)">(@specs.SpecCode) @specs.SpecName - @specs.SpecGroup </button>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function SelectDefinedSpec(id) {
+
+            $("#InvItemSysDefinedSpecsId").val(id).change();
+            $("#SubmitBtn").trigger("click");
+        }
+    </script>
+}

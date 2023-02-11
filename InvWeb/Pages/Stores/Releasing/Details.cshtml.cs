@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
     public class DetailsModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DetailsModel(InvWeb.Data.ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context)
         {
             _context = context;
         }

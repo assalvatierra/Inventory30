@@ -71,24 +71,31 @@
 
         function AddUserRole(user, role) {
            $.post('/api/ApiAccounts/PostAddUserRole?roleId=' + role + '&userId=' + user,
-                null).done(() => {
+                null).done((result) => {
                     window.location.reload(false);
+
+                    //console.log(result);
+
+                }).fail(function (xhr, status, error) {
+                    // error handling
+                    alert("Unable to add role to this user. ");
                 });
         }
 
 
         function RemoveUserRole(user, role) {
             $.ajax({
-                url: '/api/ApiAccounts/RemoveUserRole?roleId=' + role + '&userId=' + user, // Url of backend (can be python, php, etc..)
-                type: "DELETE", // data type (can be get, post, put, delete)
-                data: null, // data in json format
-                async: false, // enable or disable async (optional, but suggested as false if you need to populate data afterwards)
+                url: '/api/ApiAccounts/RemoveUserRole?roleId=' + role + '&userId=' + user, 
+                type: "DELETE", 
+                data: null, 
+                async: false,
                 success: function (response, textStatus, jqXHR) {
-                    console.log(response);
+                    //console.log(response);
                     window.location.reload(false);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR);
+                    //console.log(jqXHR);
+                    alert("Unable to renive role to this user. ");
                 }
             });
         }

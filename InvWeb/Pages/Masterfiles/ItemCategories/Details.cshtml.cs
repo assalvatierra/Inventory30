@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
 {
     public class DetailsModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DetailsModel(InvWeb.Data.ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -28,7 +28,12 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster.Categories
                 return NotFound();
             }
 
-            InvCategory = await _context.InvCategories.FirstOrDefaultAsync(m => m.Id == id);
+            InvCategory = await _context.InvCategories
+                .Include(i=>i.InvCategorySpecDefs)
+                    .ThenInclude(i=>i.InvItemSysDefinedSpec)
+                .Include(i => i.InvCatCustomSpecs)
+                    .ThenInclude(i => i.InvCustomSpec)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvCategory == null)
             {

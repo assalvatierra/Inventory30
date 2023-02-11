@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ClientConfig\BaseConfig\BaseConfig.csproj" />
+    <ProjectReference Include="..\ClientConfig\VproConfig\VproConfig.csproj" />
+    <ProjectReference Include="..\Shared\PageConfigShared\PageConfigShared.csproj" />
+    <ProjectReference Include="..\Shared\PageObjectShared\PageObjectShared.csproj" />
+  </ItemGroup>
+
+</Project>

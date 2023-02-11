@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 using Microsoft.Extensions.Logging;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.ItemMaster.WarningLevels
 {
     public class DeleteModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<IndexModel> _logger;
 
-        public DeleteModel(ILogger<IndexModel> logger, InvWeb.Data.ApplicationDbContext context)
+        public DeleteModel(ILogger<IndexModel> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;

@@ -2,10 +2,10 @@
 @model InvWeb.Pages.Masterfiles.ItemMaster.Categories.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categories";
 }
 
-<h1>Index</h1>
+<h1>Item Category</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -20,22 +20,45 @@
                 @Html.DisplayNameFor(model => model.InvCategory[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvCategory[0].Remarks)
+                Defined Spec
+            </th>
+            <th>
+                Custom Spec
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.InvCategory) {
+    @foreach (var item in Model.InvCategory) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Code)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
+                <br>
+                <span> 
+                @Html.DisplayFor(modelItem => item.Remarks)
+                </span>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
+                @foreach(var spec in item.InvCategorySpecDefs){
+                    var specdetails = spec.InvItemSysDefinedSpec;
+
+                    <span> (@specdetails.SpecCode) @specdetails.SpecName - @specdetails.SpecGroup </span>
+                    <br />
+                }
+            </td>
+            <td>
+                @foreach(var spec in item.InvCatCustomSpecs.OrderBy(c=>c.Order)){
+                    var customSpecDetails = spec.InvCustomSpec;
+                        <span> @customSpecDetails.SpecName : </span>
+                        <span> @customSpecDetails.Measurement </span>
+
+                        <br />
+                        <span> @customSpecDetails.Remarks </span>
+                    <br />
+                }
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
@@ -43,6 +66,6 @@
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

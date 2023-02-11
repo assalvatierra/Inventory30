@@ -1,0 +1,63 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemSysDefinedSpec.IndexModel
+
+@{
+    ViewData["Title"] = "Index - Sys Defined Spec";
+}
+
+<h1>Defined Specifications</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Group
+            </th>
+            <th>
+                Category
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.InvItemSysDefinedSpecs)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecGroup)
+                </td>
+                <td>
+                    @if(item.InvCategorySpecDefs != null){
+                        var categorySpecDefs = item.InvCategorySpecDefs;
+                        foreach(var specDef in categorySpecDefs){
+                            <span> @specDef.InvCategory.Description </span>
+                            <a asp-page="./Category/Delete" asp-route-id="@specDef.Id" class="btn btn-light">  X  </a>
+                            <br />
+                        }
+                    }
+
+                    <a asp-page="./Category/Add" asp-route-id="@item.Id"> + Add Category</a>
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

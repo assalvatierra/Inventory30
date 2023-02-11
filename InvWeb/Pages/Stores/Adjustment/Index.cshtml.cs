@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Stores.Adjustment
 {
     public class IndexModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(InvWeb.Data.ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -63,6 +63,7 @@ namespace InvWeb.Pages.Stores.Adjustment
 
             ViewData["StoreId"] = storeId;
             ViewData["Status"] = status;
+            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
 
             return Page();
         }
@@ -104,6 +105,7 @@ namespace InvWeb.Pages.Stores.Adjustment
                 };
             }
             ViewData["StoreId"] = storeId;
+            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
 
             return Page();
         }

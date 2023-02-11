@@ -5,18 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
+using CoreLib.Models.Inventory;
+using Modules.Inventory;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Pages.Masterfiles.StoreStock
 {
     public class StoreStocksModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
-        private SearchServices services;
+        private readonly ApplicationDbContext _context;
+        private ISearchServices services;
 
-        public StoreStocksModel(InvWeb.Data.ApplicationDbContext context)
+        public StoreStocksModel(ApplicationDbContext context)
         {
             _context = context;
             services = new SearchServices(_context);

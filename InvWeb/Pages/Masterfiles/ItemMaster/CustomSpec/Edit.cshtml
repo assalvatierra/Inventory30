@@ -1,0 +1,60 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemMaster.CustomSpec.EditModel
+
+@{
+    ViewData["Title"] = "Item Custom Specification";
+}
+
+<h1>Edit</h1>
+
+<h4> Item Custom Specification </h4>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InvItemCustomSpec.Id" />
+            <div class="form-group" hidden>
+                <label asp-for="InvItemCustomSpec.InvItemId" class="control-label"></label>
+                <select asp-for="InvItemCustomSpec.InvItemId" class="form-control" asp-items="ViewBag.InvItemId"></select>
+                <span asp-validation-for="InvItemCustomSpec.InvItemId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemCustomSpec.InvCustomSpecId" class="control-label"></label>
+                <select asp-for="InvItemCustomSpec.InvCustomSpecId" class="form-control" asp-items="ViewBag.InvCustomSpecId"></select>
+                <span asp-validation-for="InvItemCustomSpec.InvCustomSpecId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemCustomSpec.SpecValue" class="control-label"></label>
+                <input asp-for="InvItemCustomSpec.SpecValue" class="form-control" maxlength="30" />
+                <span asp-validation-for="InvItemCustomSpec.SpecValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemCustomSpec.Remarks" class="control-label"></label>
+                <input asp-for="InvItemCustomSpec.Remarks" class="form-control" maxlength="50" />
+                <span asp-validation-for="InvItemCustomSpec.Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemCustomSpec.Order" class="control-label"></label>
+                <input asp-for="InvItemCustomSpec.Order" class="form-control" maxlength="5" />
+                <span asp-validation-for="InvItemCustomSpec.Order" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="../Details" asp-route-id="@Model.InvItemCustomSpec.InvItemId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

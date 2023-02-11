@@ -1,0 +1,53 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemCategories.CustomSpec.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>InvCatCustomSpec</h4>
+<div>
+    <a asp-page="../Index">Back to List</a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InvCatCustomSpec.Id" />
+            <div class="form-group">
+                <label asp-for="InvCatCustomSpec.InvCategoryId" class="control-label"></label>
+                <select asp-for="InvCatCustomSpec.InvCategoryId" class="form-control" asp-items="ViewBag.InvCategoryId"></select>
+                <span asp-validation-for="InvCatCustomSpec.InvCategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvCatCustomSpec.InvCustomSpecId" class="control-label"></label>
+                <select asp-for="InvCatCustomSpec.InvCustomSpecId" class="form-control" asp-items="ViewBag.InvItemCustomSpecTypeId"></select>
+                <span asp-validation-for="InvCatCustomSpec.InvCustomSpecId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvCatCustomSpec.Order" class="control-label"></label>
+                <input asp-for="InvCatCustomSpec.Order" class="form-control" maxlength="5" />
+                <span asp-validation-for="InvCatCustomSpec.Order" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvCatCustomSpec.Remarks" class="control-label"></label>
+                <input asp-for="InvCatCustomSpec.Remarks" class="form-control" maxlength="50" />
+                <span asp-validation-for="InvCatCustomSpec.Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="../Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

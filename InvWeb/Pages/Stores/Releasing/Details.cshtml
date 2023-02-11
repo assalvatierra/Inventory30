@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Releasing Details";
-    IEnumerable<WebDBSchema.Models.InvTrxDtl> invTrxDtls = ViewBag.InvTrxDtls;
+    IEnumerable<CoreLib.Inventory.Models.InvTrxDtl> invTrxDtls = ViewBag.InvTrxDtls;
     int STATUS_PENDING = 1;
 }
 
@@ -28,17 +28,18 @@
 
     <hr />
 
+
     <div class="row">
         <div class="col-lg-8 col-sm-12">
             <div class="row">
-                <div class="col-lg-8">
-                   Transaction: @Model.InvTrxHdr.InvTrxType.Type
+                <div class="col-lg-4">
+                    Type: @Model.InvTrxHdr.InvTrxType.Type
                 </div>
-                <div class="col-lg-2">
-                   Date: @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
+                <div class="col-lg-4">
+                    Date: @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
                 </div>
-                <div class="col-lg-2">
-                   Store: @Model.InvTrxHdr.InvStore.StoreName
+                <div class="col-lg-4">
+                    Store: @Model.InvTrxHdr.InvStore.StoreName
                 </div>
             </div>
             <div class="row">
@@ -50,10 +51,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-8">
-                   Status: @Model.InvTrxHdr.InvTrxHdrStatu.Status
+                    Status: @Model.InvTrxHdr.InvTrxHdrStatu.Status
                 </div>
                 <div class="col-lg-4">
-                   Performed By: @Model.InvTrxHdr.UserId
+                    Request By: @Model.InvTrxHdr.UserId
                 </div>
             </div>
         </div>
@@ -64,20 +65,23 @@
 <p>
    @if (Model.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
     {
-        <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvTrxHdr.Id">Add Item</a>
+        <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvTrxHdr.Id" class="btn btn-primary">Add Item</a>
     }
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Code
-            </th>
-            <th>
                 LotNo
             </th>
             <th>
-                InvItem
+                (Code) InvItem
+            </th>
+            <th>
+                Heat
+            </th>
+            <th>
+                Material
             </th>
             <th>
                 ItemQty
@@ -93,15 +97,18 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Code)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LotNo)
+                    @Html.DisplayFor(modelItem => item.LotNo) 
                 </td>
                 <td>
                    ( @Html.DisplayFor(modelItem => item.InvItem.Code) )
                     @Html.DisplayFor(modelItem => item.InvItem.Description)
                     @Html.DisplayFor(modelItem => item.InvItem.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BatchNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.Material)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ItemQty)

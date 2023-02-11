@@ -5,6 +5,7 @@
     ViewData["Title"] = "Adjustments";
     
     int STATUS_PENDING = 1;
+    bool IsAdmin = ViewBag.IsAdmin;
 }
 
 <h1>
@@ -39,9 +40,9 @@
     }
 </p>
 <p>
-    <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId">Create New</a>
+    <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId" class="btn btn-primary">Create New</a>
 </p>
-<form method="post" hidden>
+<form method="post">
     <div hidden>
         <input type="text" value="@ViewData["StoreId"]" name="storeId" id="storeId" />
     </div>
@@ -97,25 +98,43 @@
                 </td>
                 <td>
                     <div>
-                        <ul>
+                        <table class="table table-borderless">
+
                             @foreach (var dlts in item.InvTrxDtls)
                             {
-                            <li style="color:black;">
-                                ( @dlts.InvItem.Code )
-                                @dlts.InvItem.Description
-                                @dlts.InvItem.Remarks x
-                                @dlts.ItemQty
-                                
-                                @if(dlts.InvUom != null){
-                                   @dlts.InvUom.uom
-                                }
-                            </li>
+
+                                <tr>
+                                    <td>
+                                        @dlts.BatchNo
+                                    </td>
+                                    <td>
+                                        ( @dlts.InvItem.Code )
+                                        @dlts.InvItem.Description
+                                        @dlts.InvItem.Remarks
+                                    </td>
+                                    <td>
+                                        @dlts.InvItem.Material
+                                    </td>
+
+                                    <td>
+                                        @dlts.BatchNo
+                                    </td>
+                                    <td>
+                                        @dlts.ItemQty
+
+                                        @if (dlts.InvUom != null)
+                                        {
+                                            @dlts.InvUom.uom
+                                        }
+                                    </td>
+                                  
+                                </tr>
                             }
-                        </ul>
+                        </table>
                     </div>
                 </td>
                 <td>
-                    @if (item.InvTrxHdrStatusId == STATUS_PENDING)
+                    @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
                     {
                         <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Accept </button>
                     }

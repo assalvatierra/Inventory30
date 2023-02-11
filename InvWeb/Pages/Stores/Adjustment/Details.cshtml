@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Details";
-    IEnumerable<WebDBSchema.Models.InvTrxDtl> invTrxDtls = ViewBag.InvTrxDtls;
+    IEnumerable<CoreLib.Inventory.Models.InvTrxDtl> invTrxDtls = ViewBag.InvTrxDtls;
     int STATUS_PENDING = 1;
 }
 
@@ -77,17 +77,20 @@
 <p>
     @if (Model.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
     {
-        <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvTrxHdr.Id">Add Item</a>
+        <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvTrxHdr.Id" class="btn btn-primary">Add Item</a>
     }
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Code
+                (Code) Item
             </th>
             <th>
-                Item
+                Heat No.
+            </th>
+            <th>
+                Material
             </th>
             <th>
                 Qty
@@ -106,12 +109,15 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Code)
-                </td>
-                <td>
                     ( @Html.DisplayFor(modelItem => item.InvItem.Code) )
                     @Html.DisplayFor(modelItem => item.InvItem.Description)
                     @Html.DisplayFor(modelItem => item.InvItem.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BatchNo)
+                </td>
+                <td>
+                     @Html.DisplayFor(modelItem => item.InvItem.Material)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ItemQty)

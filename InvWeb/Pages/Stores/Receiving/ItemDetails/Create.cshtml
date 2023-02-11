@@ -2,12 +2,12 @@
 @model InvWeb.Pages.Stores.Receiving.ItemDetails.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Transaction Create";
 }
 
 <h1>Create</h1>
 
-<h4>InvTrxDtl</h4>
+<h4>Transaction Items</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,7 +19,12 @@
             </div>
             <div class="form-group">
                 <label class="control-label"> Item </label>
-                <select asp-for="InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize" asp-items="ViewBag.InvItemId"></select>
+                <select asp-for="InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.InvItemId" id='itemDropdown' ></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label"> HeatNo </label>
+                <input asp-for="InvTrxDtl.BatchNo" class="form-control" maxlength="20" />
+                <span asp-validation-for="InvTrxDtl.BatchNo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label"> Qty </label>
@@ -28,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label"> Uom </label>
-                <select asp-for="InvTrxDtl.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+                <select asp-for="InvTrxDtl.InvUomId" class="form-control" asp-items="ViewBag.InvUomId" id="UomDropdown"  ></select>
             </div>
             <div class="form-group" hidden>
                 <label asp-for="InvTrxDtl.InvTrxDtlOperatorId" class="control-label"></label>
@@ -47,4 +52,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/Store/ItemUomDropdown.js"></script>
 }

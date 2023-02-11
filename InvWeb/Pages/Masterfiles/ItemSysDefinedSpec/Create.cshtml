@@ -1,0 +1,44 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemSysDefinedSpec.CreateModel
+
+@{
+    ViewData["Title"] = "Create Sys Defined Spec";
+}
+
+<h1>Create</h1>
+
+<h4>Sys Defined Spec</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="InvItemSysDefinedSpecs.SpecName" class="control-label"></label>
+                <input asp-for="InvItemSysDefinedSpecs.SpecName" class="form-control" maxlength="30">
+                <span asp-validation-for="InvItemSysDefinedSpecs.SpecName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSysDefinedSpecs.SpecCode" class="control-label"></label>
+                <input asp-for="InvItemSysDefinedSpecs.SpecCode" class="form-control" maxlength="10">
+                <span asp-validation-for="InvItemSysDefinedSpecs.SpecCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSysDefinedSpecs.SpecGroup" class="control-label"></label>
+                <input asp-for="InvItemSysDefinedSpecs.SpecGroup" class="form-control" maxlength="10" />
+                <span asp-validation-for="InvItemSysDefinedSpecs.SpecGroup" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

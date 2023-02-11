@@ -1,0 +1,61 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemSysDefinedSpec.Category.AddModel
+
+@{
+    ViewData["Title"] = "Add Sys Defined Spec Category";
+    IEnumerable<CoreLib.Inventory.Models.InvCategory> invCategoryList = ViewData["InvCategoryList"] as IEnumerable<CoreLib.Inventory.Models.InvCategory>;
+}
+
+<h1>Select</h1>
+<h4>Select a category</h4>
+<div>
+    <a asp-page="../Index">Back to List</a>
+</div>
+<hr />
+
+<div class="row" hidden>
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="InvCategorySpecDefs.InvItemSysDefinedSpecsId" class="control-label"></label>
+                <select asp-for="InvCategorySpecDefs.InvItemSysDefinedSpecsId" class="form-control" asp-items="ViewBag.InvItemSysDefinedSpecsId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvCategorySpecDefs.InvCategoryId" class="control-label"> Category </label>
+                <select asp-for="InvCategorySpecDefs.InvCategoryId" class="form-control" id="InvCategoryId" asp-items="ViewBag.InvCategoryId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" id="SubmitBtn" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div clas="col-md-4" style="padding:15px;">
+        <div class="list-group" style="width:350px">
+            @foreach (var category in invCategoryList)
+            {
+                <button class="list-group-item list-group-item-action" onclick="SelectCategory(@category.Id)"> (@category.Code ) @category.Description </button>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function SelectCategory(id) {
+
+            $("#InvCategoryId").val(id).change();
+            $("#SubmitBtn").trigger("click");
+        }
+    </script>
+    }

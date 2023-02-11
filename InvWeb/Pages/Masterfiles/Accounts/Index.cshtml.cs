@@ -5,16 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using InvWeb.Data;
-using WebDBSchema.Models.Users;
+using CoreLib.Inventory.Models.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace InvWeb.Pages.Masterfiles.Accounts
 {
     public class IndexModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
+        private readonly SecurityDbContext _context;
 
-        public IndexModel(InvWeb.Data.ApplicationDbContext context)
+        public IndexModel(SecurityDbContext context)
         {
             _context = context;
         }

@@ -1,5 +1,4 @@
-﻿using InvWeb.Data;
-using InvWeb.Data.Services;
+﻿using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -8,10 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Pages
 {
@@ -19,7 +21,7 @@ namespace InvWeb.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly StoreServices _storeSvc;
+        private readonly IStoreServices _storeSvc;
 
         public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
         {

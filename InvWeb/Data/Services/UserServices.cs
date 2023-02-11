@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InvWeb.Data;
-using WebDBSchema.Models.Users;
+using CoreLib.Inventory.Models.Users;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using CoreLib.Inventory.Interfaces;
 
 namespace InvWeb.Data.Services
 {
-    public class UserServices
+    public class UserServices : IUserServices
     {
-        private readonly ApplicationDbContext _context;
+        private readonly SecurityDbContext _context;
 
-        public UserServices(ApplicationDbContext context)
+        public UserServices(SecurityDbContext context)
         {
             _context = context;
         }

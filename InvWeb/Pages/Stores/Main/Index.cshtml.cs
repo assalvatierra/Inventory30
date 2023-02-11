@@ -2,39 +2,42 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using InvWeb.Data;
 using InvWeb.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using WebDBSchema.Models;
-using WebDBSchema.Models.Stores;
+using CoreLib.Inventory.Models;
+using CoreLib.Inventory.Models.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Main
 {
     [Authorize(Roles = "ADMIN,STORE")]
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _context;
-        private readonly StoreServices _storeSvc;
+        private readonly ILogger<IndexModel> _logger;
+        private readonly IStoreServices _storeSvc;
 
         public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
-            _storeSvc = new StoreServices(context, logger);
+            _storeSvc = new StoreServices(_context, logger);
         }
 
         public InvStore InvStore { get; set; }
+        public int SelectedFilterCategory { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, int? categoryId, string sort)
         {
             try
             {
@@ -45,14 +48,18 @@ namespace InvWeb.Pages.Stores.Main
                 }
 
 
+                if (categoryId == null)
+                {
+                    categoryId = 0;
+                }
+
+
                 if (CheckUserLogin())
                 {
                     RedirectToAction("../../Shared/LoginPartial");
                 };
 
-                InvStore = await _context.InvStores
-                    .Where(s => s.Id == id)
-                    .FirstOrDefaultAsync(m => m.Id == id);
+                InvStore = await _storeSvc.GetStorebyIdAsync((int)id);
 
                 if (InvStore == null)
                 {
@@ -62,15 +69,19 @@ namespace InvWeb.Pages.Stores.Main
                 var storeId = (int)id;
 
                 ViewData["StoreId"] = id;
-                ViewData["StoreInv"] = await _storeSvc.GetStoreItemsSummary(storeId);
+                ViewData["StoreInv"] = await _storeSvc.GetStoreItemsSummary(storeId, (int)categoryId, sort);
                 ViewData["PendingReceiving"] = await _storeSvc.GetReceivingPendingAsync(storeId);
                 ViewData["PendingReleasing"] = await _storeSvc.GetReleasingPendingAsync(storeId);
                 ViewData["PendingAdjustment"] = await _storeSvc.GetAdjustmentPendingAsync(storeId);
                 ViewData["PendingPurchaseOrder"] = await _storeSvc.GetPurchaseOrderPendingAsync(storeId);
                 ViewData["RecentTrxHdrs"] = await _storeSvc.GetRecentTransactions(storeId);
+                ViewData["Categories"] = await _storeSvc.GetCategoriesList();
+                ViewData["Category"] = categoryId;
+                ViewData["Sort"] = sort;
 
                 _logger.LogInformation("Showing Store Main Page - StoreID : " + id);
 
+                ViewData["IsAdmin"] = User.IsInRole("ADMIN"); // TOOD: check if user is admin
                 return Page();
 
             }
@@ -108,5 +119,6 @@ namespace InvWeb.Pages.Stores.Main
 
             return false;
         }
+
     }
 }

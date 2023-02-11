@@ -26,6 +26,8 @@ namespace WebDBSchema.Models
             this.InvTrxDtls = new HashSet<InvTrxDtl>();
             this.InvUomConvItems = new HashSet<InvUomConvItem>();
             this.InvWarningLevels = new HashSet<InvWarningLevel>();
+            this.InvItemSpec_Steel = new HashSet<InvItemSpec_Steel>();
+            this.InvItemCustomSpecs = new HashSet<InvItemCustomSpec>();
         }
     
         public int Id { get; set; }
@@ -34,6 +36,8 @@ namespace WebDBSchema.Models
         public string Remarks { get; set; }
         public int InvUomId { get; set; }
         public int InvCategoryId { get; set; }
+        public Nullable<decimal> Weight { get; set; }
+        public string Material { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvItemClass> InvItemClasses { get; set; }
@@ -55,5 +59,9 @@ namespace WebDBSchema.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvWarningLevel> InvWarningLevels { get; set; }
         public virtual InvCategory InvCategory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvItemSpec_Steel> InvItemSpec_Steel { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvItemCustomSpec> InvItemCustomSpecs { get; set; }
     }
 }

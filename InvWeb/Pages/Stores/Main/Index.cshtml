@@ -1,10 +1,14 @@
-﻿@page "{id:int?}"
+﻿@page "{id:int?}/{categoryId:int?}"
 @model InvWeb.Pages.Stores.Main.IndexModel
 
 @{
     ViewData["Title"] = "Main";
-    IEnumerable<WebDBSchema.Models.Stores.StoreInvCount> storeInvs = ViewBag.StoreInv;
-    IEnumerable<WebDBSchema.Models.InvTrxHdr> RecentTrxHdrs = ViewBag.RecentTrxHdrs;
+    IEnumerable<CoreLib.Inventory.Models.Stores.StoreInvCount> storeInvs = ViewBag.StoreInv;
+    IEnumerable<CoreLib.Inventory.Models.InvTrxHdr> RecentTrxHdrs = ViewBag.RecentTrxHdrs;
+    IEnumerable<CoreLib.Inventory.Models.InvCategory> Categories = ViewBag.Categories;
+    int? category = ViewBag.Category;
+    string sort = ViewBag.Sort;
+    bool IsAdmin = ViewBag.IsAdmin;
 
     int? pendingReceiving = ViewBag.PendingReceiving != 0 ? ViewBag.PendingReceiving :  null;
     int? pendingReleasing = ViewBag.PendingReleasing != 0 ? ViewBag.PendingReleasing : null;
@@ -27,7 +31,7 @@
 </h1>
 
 <div>
-    <h4>Store</h4>
+    <h4>Store</h4> 
     <hr />
 </div>
 
@@ -141,32 +145,49 @@
                 <h4>Store Items</h4>
                 <p class="text-muted" style="font-size:0.7em"> Click the headers to sort </p>
                 <partial name="_PartialSummary" model="storeInvs" />
-
             </div>
         </div>
     </div>
 </div>
+
 <!-- Store Recent Transactions -->
 <partial name="_PartialRecentTrx" model="RecentTrxHdrs" />
-
-
-@*<partial name="_PartialStoreItems" />*@
-
-@{
-    //await Html.RenderPartialAsync("_PartialStoreItems", storeInvs);
-}
 
 @section Scripts{
     <script>
         $(()=>{
             //Initialize
             InitTooltip();
+            InitFilters();
         })
 
         function InitTooltip(){
             $('[data-toggle="tooltip"]').tooltip()
+            
+        }
+
+        function InitFilters(){
+            console.log("SORT: @sort" );
+
+            if (@category == null) {
+                $("#inputSelect-Category :selected").val(1);
+            } else {
+                $("#inputSelect-Category").val(@category);
+            }
+
+            if ('@sort' == '') {
+                $("#inputSelect-Sort :selected").val('ITEM');
+            } else {
+                $("#inputSelect-Sort").val('@sort');
+            }
 
         }
 
+        function UpdateFilter(){
+            var categoryVal = $('#inputSelect-Category :selected').val();
+            var sortVal = $('#inputSelect-Sort :selected').val();
+            window.location = '?categoryId=' + categoryVal + '&sort=' + sortVal;
+
+        }
     </script>
 }

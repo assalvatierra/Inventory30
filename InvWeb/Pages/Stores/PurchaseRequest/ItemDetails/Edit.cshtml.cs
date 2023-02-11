@@ -6,21 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
+using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {
     public class EditModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
-        private readonly ItemServices _itemServices;
+        private readonly ApplicationDbContext _context;
+        private readonly IItemServices _itemServices;
+        private readonly IUomServices _uomServices;
 
-        public EditModel(InvWeb.Data.ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);
+            _uomServices = new UomServices(context);
         }
 
         [BindProperty]
@@ -36,7 +40,8 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
             InvPoItem = await _context.InvPoItems
                 .Include(i => i.InvItem)
                 .Include(i => i.InvPoHdr)
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+                .Include(i => i.InvUom)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvPoItem == null)
             {
@@ -45,7 +50,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
             
             ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(InvPoItem.InvItemId);
             ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id");
-            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvPoItem.InvItemId), "Id", "uom", InvPoItem.InvUomId);
             return Page();
         }
 

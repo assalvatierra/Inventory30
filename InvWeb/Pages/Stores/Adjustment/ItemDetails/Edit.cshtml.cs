@@ -6,21 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using InvWeb.Data;
-using WebDBSchema.Models;
+using CoreLib.Inventory.Models;
 using InvWeb.Data.Services;
+using CoreLib.Inventory.Interfaces;
+using CoreLib.Models.Inventory;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 {
     public class EditModel : PageModel
     {
-        private readonly InvWeb.Data.ApplicationDbContext _context;
-        private readonly ItemServices _itemServices;
+        private readonly ApplicationDbContext _context;
+        private readonly IItemServices _itemServices;
+        private readonly IUomServices _uomServices;
 
-        public EditModel(InvWeb.Data.ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context)
         {
             _context = context;
             _itemServices = new ItemServices(context);
+            _uomServices = new UomServices(context);
         }
 
         [BindProperty]
@@ -43,9 +47,15 @@ namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
                 return NotFound();
             }
 
-            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(InvTrxDtl.InvItemId);
+            ViewData["InvItemId"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
+                                    .Select(x => new
+                                    {
+                                        Name = String.Format("{0} - {1} - {2} {3}",
+                                        x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+                                        Value = x.Id
+                                    }), "Value", "Name", InvTrxDtl.InvItemId);
             ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
-            ViewData["InvUomId"] = new SelectList(_context.InvUoms, "Id", "uom");
+            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
             ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
             return Page();
         }

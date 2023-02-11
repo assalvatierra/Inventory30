@@ -13,7 +13,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PageConfiguration;
+using PageConfigShared;
+using PageObjectShared;
+using PageConfigService;
+using ObjectConfigService;
+using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Inventory20;
 
 namespace InvWeb
 {
@@ -45,20 +51,34 @@ namespace InvWeb
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            //identity db
+            services.AddDbContext<SecurityDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<SecurityDbContext>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, UserClaimsPrincipalFactory<IdentityUser, IdentityRole>>();
 
-            //services.Configure<PageConfiguration.TenantInfo>(Configuration.GetSection("TenantInfo"));
+            //Modules and Services
+            //services.AddScoped<ISearchServices, InvWeb.Data.Services.SearchServices>();
+            services.AddScoped<ISearchServices, Inventory20.SearchService20>();
+
+
+            //services.Configure<PageConfigShared.TenantInfo>(Configuration.GetSection("TenantInfo"));
             string tenantcode = Configuration.GetSection("TenantInfo")["TenantCode"];
             string targetVersion = Configuration.GetSection("TenantInfo")["TargetVersion"];
 
-            services.AddScoped<PageConfiguration.Interfaces.IPageConfigServices, PageConfiguration.PageConfigServices>(x=>
-                new PageConfiguration.PageConfigServices(tenantcode, targetVersion)
+            services.AddScoped<PageConfigShared.Interfaces.IPageConfigServices, PageConfigService.PageConfigServices>(x=>
+                new PageConfigService.PageConfigServices(tenantcode, targetVersion)
+            );
+
+            services.AddScoped<PageObjectShared.Interfaces.IObjectConfigServices, ObjectConfigService.ObjectConfigServices> (x=>
+                new ObjectConfigService.ObjectConfigServices(tenantcode, targetVersion)    
             );
 
             services.AddRazorPages();

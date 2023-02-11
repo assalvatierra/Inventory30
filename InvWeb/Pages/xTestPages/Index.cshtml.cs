@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ReportViewModel.InvStore;
-using PageConfiguration.Interfaces;
-using PageConfiguration.Model;
-using PageConfiguration;
+using PageConfigShared.Interfaces;
+using PageConfigShared.Model;
+using PageConfigShared;
 
 namespace InvWeb.Pages.xTestPages
 {
@@ -39,6 +39,10 @@ namespace InvWeb.Pages.xTestPages
 
                 //this.processConfigKeys(pInfo.ConfigKeys);
             }
+
+
+
+
         }
 
         private void processConfigKeys(List<PageConfigKey> pkeys)
