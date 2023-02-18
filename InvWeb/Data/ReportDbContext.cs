@@ -57,6 +57,19 @@ namespace InvWeb.Data {
                 };
                 SqlDataConnections.Add(newData);
             }
+
+            var mssql_reports = "ReportsMssqlServer";
+            if (!SqlDataConnections.Any(x => x.Name == reportsDataConnectionName))
+            {
+                var newData = new SqlDataConnectionDescription
+                {
+                    Name = mssql_reports,
+                    DisplayName = "Reports MsSQL Server",
+                    ConnectionString = "Data Source=SQL5063.site4now.net;Initial Catalog=db_a0a0ae_inventorydev;User Id=db_a0a0ae_inventorydev_admin;Password=inventorydev123!;"
+                };
+                SqlDataConnections.Add(newData);
+            }
+
             SaveChanges();
         }
     }

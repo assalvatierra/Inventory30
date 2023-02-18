@@ -2,12 +2,16 @@
 @using InvWeb.Models
 @model ViewerModel
 
+    <div class="container-fluid">
+
+
 @{
     var viewerRender = Html.DevExpress().WebDocumentViewer("DocumentViewer")
         .Height("100%")
         .Bind(Model.ViewerModelToBind);
     @viewerRender.RenderHtml()
 }
+    </div>
 
 @section Scripts {
     <link href="~/css/dx-reporting-skeleton-screen.css" rel="stylesheet" />

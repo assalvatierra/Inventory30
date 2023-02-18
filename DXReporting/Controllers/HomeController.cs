@@ -52,7 +52,7 @@ namespace DXReporting.Controllers {
             [FromServices] IWebDocumentViewerClientSideModelGenerator clientSideModelGenerator,
             [FromQuery] string reportName) {
 
-            var reportToOpen = string.IsNullOrEmpty(reportName) ? "TestReport" : reportName;
+            var reportToOpen = string.IsNullOrEmpty(reportName) ? "ItemList" : reportName;
             var model = new Models.ViewerModel {
                 ViewerModelToBind = await clientSideModelGenerator.GetModelAsync(reportToOpen, WebDocumentViewerController.DefaultUri)
             };
