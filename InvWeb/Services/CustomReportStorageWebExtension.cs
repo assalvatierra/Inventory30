@@ -32,11 +32,15 @@ namespace InvWeb.Services
         }
 
         public override byte[] GetData(string url) {
+            var data = DbContext.Reports.ToList();
+
             // Uses a specified URL to return report layout data stored within a report storage medium.
             // This method is called if the **IsValidUrl** method returns **true**.
             // You can use the **GetData** method to process report parameters sent from the client
             // if the parameters are included in the report URL's query string.
             var reportData = DbContext.Reports.FirstOrDefault(x => x.Name == url);
+
+
             if(reportData != null)
                 return reportData.LayoutData;
 

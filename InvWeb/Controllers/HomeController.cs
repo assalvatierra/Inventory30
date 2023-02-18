@@ -20,7 +20,7 @@ namespace InvWeb.Controllers
         {
 
             //var reportToOpen = string.IsNullOrEmpty(reportName) ? "TestReport" : reportName;
-            var reportToOpen = "TestReport";
+            var reportToOpen = "ItemList";
 
             var model = new Models.ViewerModel
             {
