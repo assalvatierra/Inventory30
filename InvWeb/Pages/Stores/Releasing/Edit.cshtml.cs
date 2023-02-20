@@ -18,11 +18,11 @@ namespace InvWeb.Pages.Stores.Releasing
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<EditModel> _logger;
         private readonly IItemTrxServices itemTrxServices;
         private readonly IStoreServices storeServices;
 
-        public EditModel(ILogger<IndexModel> logger, ApplicationDbContext context)
+        public EditModel(ILogger<EditModel> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;

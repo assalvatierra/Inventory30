@@ -26,14 +26,30 @@ namespace Modules.Inventory
 
         }
 
-        public void CreateInvTrxHdrs()
+        public void CreateInvTrxHdrs(InvTrxHdr invTrxHdr)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.InvTrxHdrs.Remove(invTrxHdr);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to CreateInvTrxHdrs :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to CreateInvTrxHdrs :" + ex.Message);
+            }
         }
 
-        public void DeleteInvTrxHdrs()
+        public void DeleteInvTrxHdrs(InvTrxHdr invTrxHdr)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.InvTrxHdrs.Remove(invTrxHdr);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to DeleteInvTrxHdrs :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to DeleteInvTrxHdrs :" + ex.Message);
+            }
         }
 
         public void EditInvTrxHdrs(InvTrxHdr invTrxHdr)
@@ -84,6 +100,28 @@ namespace Modules.Inventory
                 throw new Exception("ItemTrxServices: Unable to GetInvTrxHdrsById :" + ex.Message);
             }
         }
+
+
+        public async Task<InvTrxHdr> GetInvTrxHdrsByIdAsync(int Id)
+        {
+            try
+            {
+                var invTrxHdr = await _context.InvTrxHdrs.FindAsync(Id);
+
+                if (invTrxHdr != null)
+                {
+                    return invTrxHdr;
+                }
+
+                return new InvTrxHdr();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetInvTrxHdrsById :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetInvTrxHdrsById :" + ex.Message);
+            }
+        }
+
 
         public IQueryable<InvTrxHdr> GetTrxHdrsByStoreId_Releasing(int storeId)
         {
@@ -207,6 +245,52 @@ namespace Modules.Inventory
             {
                 _logger.LogError("ItemTrxServices: Unable to FilterByOrder :" + ex.Message);
                 throw new Exception("ItemTrxServices: Unable to FilterByOrder :" + ex.Message);
+            }
+        }
+
+        public IQueryable<InvTrxDtl> GetInvTrxDtlsById(int Id)
+        {
+            try
+            {
+                return _context.InvTrxDtls
+                            .Include(i => i.InvUom)
+                            .Include(i => i.InvItem)
+                            .Where(i => i.InvTrxHdrId == Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetInvTrxDtlsById :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetInvTrxDtlsById :" + ex.Message);
+            }
+        }
+
+        public IQueryable<InvTrxDtl> GetInvTrxDtlsByStoreId(int storeId, int typeId)
+        {
+            try
+            {
+                return _context.InvTrxDtls
+                            .Include(i => i.InvUom)
+                            .Include(i => i.InvItem)
+                            .Where(i => i.InvTrxHdr.InvTrxTypeId == typeId && i.InvTrxHdr.InvStoreId == storeId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetInvTrxDtlsByStoreId :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetInvTrxDtlsByStoreId :" + ex.Message);
+            }
+        }
+
+        public async Task RemoveTrxDtlsList(int invHdrId)
+        {
+            try
+            {
+                var itemList = await _context.InvTrxDtls.Where(i => i.InvTrxHdrId == invHdrId).ToListAsync();
+                _context.InvTrxDtls.RemoveRange(itemList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to RemoveTrxDtlsList :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to RemoveTrxDtlsList :" + ex.Message);
             }
         }
     }

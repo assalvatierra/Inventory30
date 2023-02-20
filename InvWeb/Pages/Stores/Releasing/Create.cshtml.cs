@@ -8,16 +8,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CoreLib.Inventory.Models;
 using System.Security.Claims;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CreateModel> _logger;
+        private readonly IItemTrxServices itemTrxServices;
+        private readonly IStoreServices storeServices;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(ILogger<CreateModel> logger, ApplicationDbContext context)
         {
+            _logger = logger;
             _context = context;
+            itemTrxServices = new ItemTrxServices(_context, _logger);
+            storeServices = new StoreServices(_context, _logger);
         }
 
         public IActionResult OnGet(int? storeId)
@@ -27,9 +36,9 @@ namespace InvWeb.Pages.Stores.Releasing
                 return NotFound();
             }
 
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName", storeId);
-            ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(_context.InvTrxTypes, "Id", "Type", 2);
+            ViewData["InvStoreId"] = new SelectList(storeServices.GetInvStores(), "Id", "StoreName", storeId);
+            ViewData["InvTrxHdrStatusId"] = new SelectList(itemTrxServices.GetInvTrxHdrStatus(), "Id", "Status");
+            ViewData["InvTrxTypeId"] = new SelectList(itemTrxServices.GetInvTrxHdrTypes(), "Id", "Type", 2);
             ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
             ViewData["StoreId"] = storeId;
 
@@ -47,8 +56,8 @@ namespace InvWeb.Pages.Stores.Releasing
                 return Page();
             }
 
-            _context.InvTrxHdrs.Add(InvTrxHdr);
-            await _context.SaveChangesAsync();
+            itemTrxServices.CreateInvTrxHdrs(InvTrxHdr);
+            await itemTrxServices.SaveChanges();
 
             //return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId, status = "PENDING" });
             return RedirectToPage("./Details", new { id = InvTrxHdr.Id});
