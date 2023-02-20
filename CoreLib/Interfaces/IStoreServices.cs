@@ -10,6 +10,8 @@ namespace CoreLib.Inventory.Interfaces
 {
     public interface IStoreServices
     {
+
+        public IQueryable<InvStore> GetInvStores();
         public Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId, int categoryId, string sort);
         public Task<List<InvTrxDtl>> GetReceivedItemsAsync(int storeId);
         public Task<List<InvTrxDtl>> GetReleasedItemsAsync(int storeId);

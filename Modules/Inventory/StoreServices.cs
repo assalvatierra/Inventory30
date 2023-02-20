@@ -37,6 +37,17 @@ namespace Modules.Inventory
 
         }
 
+        public IQueryable<InvStore> GetInvStores()
+        {
+            try
+            {
+                return _context.InvStores;
+            }
+            catch
+            {
+                throw new Exception("StoreServices: Unable to GetInvStores.");
+            }
+        }
         public virtual async Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId, int _categoryId, string sort)
         {
             try
@@ -549,6 +560,7 @@ namespace Modules.Inventory
                
             }
         }
+
 
         #endregion
     }

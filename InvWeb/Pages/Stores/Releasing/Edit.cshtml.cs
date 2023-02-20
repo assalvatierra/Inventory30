@@ -9,16 +9,25 @@ using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using System.Security.Claims;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<IndexModel> _logger;
+        private readonly IItemTrxServices itemTrxServices;
+        private readonly IStoreServices storeServices;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(ILogger<IndexModel> logger, ApplicationDbContext context)
         {
+            _logger = logger;
             _context = context;
+            itemTrxServices = new ItemTrxServices(_context, _logger);
+            storeServices = new StoreServices(_context, _logger);
         }
 
         [BindProperty]
@@ -31,18 +40,16 @@ namespace InvWeb.Pages.Stores.Releasing
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
+            InvTrxHdr = await itemTrxServices.GetInvTrxHdrsById((int)id)
+                                             .FirstOrDefaultAsync();
 
             if (InvTrxHdr == null)
             {
                 return NotFound();
             }
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
-            ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(_context.InvTrxTypes, "Id", "Type", 2);
+            ViewData["InvStoreId"] = new SelectList(storeServices.GetInvStores(), "Id", "StoreName");
+            ViewData["InvTrxHdrStatusId"] = new SelectList(itemTrxServices.GetInvTrxHdrStatus(), "Id", "Status");
+            ViewData["InvTrxTypeId"] = new SelectList(itemTrxServices.GetInvTrxHdrTypes(), "Id", "Type", 2);
             ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
             return Page();
         }
@@ -56,11 +63,14 @@ namespace InvWeb.Pages.Stores.Releasing
                 return Page();
             }
 
-            _context.Attach(InvTrxHdr).State = EntityState.Modified;
+            //_context.Attach(InvTrxHdr).State = EntityState.Modified;
+            itemTrxServices.EditInvTrxHdrs(InvTrxHdr);
 
             try
             {
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
+
+                await itemTrxServices.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -74,7 +84,6 @@ namespace InvWeb.Pages.Stores.Releasing
                 }
             }
 
-            //return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId, status = "PENDING" });
             return RedirectToPage("./Details", new { id = InvTrxHdr.Id });
         }
 
