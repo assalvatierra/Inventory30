@@ -79,9 +79,22 @@ namespace Modules.Inventory
             }
         }
 
+        public bool InvTrxHdrExists(int id)
+        {
+            return _context.InvTrxHdrs.Any(e => e.Id == id);
+        }
+
         public IQueryable<InvTrxHdr> GetInvTrxHdrs()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _context.InvTrxHdrs;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetInvTrxHdrs :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetInvTrxHdrs :" + ex.Message);
+            }
         }
 
         public IQueryable<InvTrxHdr> GetInvTrxHdrsById(int Id)
@@ -286,6 +299,27 @@ namespace Modules.Inventory
             {
                 var itemList = await _context.InvTrxDtls.Where(i => i.InvTrxHdrId == invHdrId).ToListAsync();
                 _context.InvTrxDtls.RemoveRange(itemList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to RemoveTrxDtlsList :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to RemoveTrxDtlsList :" + ex.Message);
+            }
+        }
+
+
+        public int GetInvTrxStoreId(int hdrId)
+        {
+            try
+            {
+                var invHdr = this.GetInvTrxHdrsById((int)hdrId).FirstOrDefault();
+
+                if (invHdr == null)
+                {
+                    return 0;
+                }
+
+                return invHdr.InvStoreId;
             }
             catch (Exception ex)
             {

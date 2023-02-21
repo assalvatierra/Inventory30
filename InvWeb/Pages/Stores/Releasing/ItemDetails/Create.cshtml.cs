@@ -23,15 +23,20 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
         private readonly IItemServices _itemServices;
         private readonly IStoreServices _storeServices;
         private readonly IUomServices _uomServices;
+        private readonly IItemDtlsServices _itemDtlsServices;
+        private readonly IItemTrxServices _itemTrxServices;
+
 
 
         public CreateModel(ILogger<CreateModel> logger, ApplicationDbContext context)
         {
+            _logger = logger;
             _context = context;
             _itemServices = new ItemServices(context);
             _uomServices = new UomServices(context);
-            _storeServices = new StoreServices(context, logger);
-            _logger = logger;
+            _storeServices = new StoreServices(context, _logger);
+            _itemDtlsServices = new ItemDtlsServices(context, _logger);
+            _itemTrxServices = new ItemTrxServices(context, _logger);
         }
 
         public IActionResult OnGet(int? hdrId, int? invItemId)
@@ -46,39 +51,31 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 invItemId = 2;
             }
 
-            var invHdr = _context.InvTrxHdrs.Find(hdrId);
-
-            int storeId = invHdr.InvStoreId;
-            int itemId = invItemId == null ? 1 : (int)invItemId;
+            int storeId = _itemTrxServices.GetInvTrxStoreId((int)hdrId);
+            int itemId = GetDefaultInvitemId(invItemId);
             var LotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
-            var LotNoItemsIds = LotNoList.Select(c => c.LotNo).ToList();
-            var selectedItem = " ";
-
-            var storeItems = _storeServices.GetStoreItemsSummary(storeId, 0, null);
-            var availbaleStoreItems = storeItems.Result.Where(i => i.Available > 0).Select(i=>i.Id).ToList();
-
+            var availableItems = _storeServices.GetAvailableItemsIdsByStore(storeId);
 
             ViewData["LotNo"] = new SelectList(LotNoList.Select(x => new {
                 Name = String.Format("{0} ", x.LotNo),
                 Value = x.LotNo
             }), "Value", "Name");
 
-            ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availbaleStoreItems)
+            ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availableItems)
                                     .Include(i => i.InvCategory)
-                                   .Select(x => new
-                                   {
+                                    .Select(x => new {
                                        Name = String.Format("{0} - {1} - {2} {3}",
                                        x.Code, x.InvCategory.Description, x.Description, x.Remarks),
                                        Value = x.Id
-                                   }), "Value", "Name", itemId);
+                                     }), "Value", "Name", itemId);
             
             ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom");
-            ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
-            ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 2);
+            ViewData["InvTrxHdrId"] = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id", hdrId);
+            ViewData["InvTrxDtlOperatorId"] = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description", 2);
             ViewData["HdrId"] = hdrId;
             ViewData["LotNoItems"] = LotNoList;
             ViewData["StoreId"] = storeId;
-            ViewData["SelectedItem"] = selectedItem;
+            ViewData["SelectedItem"] = " ";
 
             return Page();
         }
@@ -103,8 +100,8 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                     return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
                 }
 
-                _context.InvTrxDtls.Add(InvTrxDtl);
-                await _context.SaveChangesAsync();
+                _itemDtlsServices.CreateInvDtls(InvTrxDtl);
+                await _itemDtlsServices.SaveChangesAsync();
 
                 return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
 
@@ -115,6 +112,11 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 _logger.LogError("Stores/Releasing/Create: Unable to OnPostAsync " + ex.Message);
                 return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
             }
+        }
+
+        private int GetDefaultInvitemId(int? invItemId)
+        {
+            return invItemId == null ? 1 : (int)invItemId;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace CoreLib.Inventory.Interfaces
         public Task<List<InvTrxDtl>> GetAdjustmentItemsAsync(int storeId);
 
         public int GetAdjustmentItemsCount(List<InvTrxDtl> adjustmentItems, int itemId);
-        public int GetAvailableItemsCountByStore();
+        public List<int> GetAvailableItemsIdsByStore(int storeId);
         public List<InvStore> GetStoreUsers(string user);
         public string GetStoreName(int storeId);
         public decimal ConvertItemUomtoDefault(InvItem item, InvTrxDtl invTrxDtl, int itemCount);

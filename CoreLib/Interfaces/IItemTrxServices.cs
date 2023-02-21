@@ -14,6 +14,7 @@ namespace CoreLib.Inventory.Interfaces
         public void EditInvTrxHdrs(InvTrxHdr invTrxHdr);
         public void DeleteInvTrxHdrs(InvTrxHdr invTrxHdr);
         public Task SaveChanges();
+        public bool InvTrxHdrExists(int id);
 
         //Transaction Headers
         public IQueryable<InvTrxHdr> GetInvTrxHdrs();
@@ -21,6 +22,7 @@ namespace CoreLib.Inventory.Interfaces
         public Task<InvTrxHdr> GetInvTrxHdrsByIdAsync(int Id);
         public IQueryable<InvTrxHdr> GetTrxHdrsByStoreId_Releasing(int storeId);
         public IQueryable<InvTrxHdr> GetInvTrxHdrsByStoreId(int storeId, int typeId);
+        public int GetInvTrxStoreId(int hdrId);
 
         //Transaction Details
         public IQueryable<InvTrxDtl> GetInvTrxDtlsById(int Id);

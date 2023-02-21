@@ -233,9 +233,20 @@ namespace Modules.Inventory
             }
         }
 
-        public virtual int GetAvailableItemsCountByStore()
+        //Get List of item Ids that area avalable or item count is > 0
+        public virtual List<int> GetAvailableItemsIdsByStore(int storeId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var storeItems = this.GetStoreItemsSummary(storeId, 0, "");
+                var availbaleStoreItemsIds = storeItems.Result.Where(i => i.Available > 0).Select(i => i.Id).ToList();
+
+                return availbaleStoreItemsIds;
+            }
+            catch
+            {
+                throw new Exception("StoreServices: Unable to GetAvailableItemsCountByStore.");
+            }
         }
 
         public virtual int GetOnHandItemsCountByStore()
