@@ -54,7 +54,16 @@ namespace Modules.Inventory
 
         public void EditInvDtls(InvTrxDtl invTrxDtl)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                _context.Attach(invTrxDtl).State = EntityState.Modified;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemDtlsServices: Unable to EditInvDtls :" + ex.Message);
+                throw new Exception("ItemDtlsServices: Unable to EditInvDtls :" + ex.Message);
+            }
         }
 
         public IQueryable<InvTrxDtl> GetInvDtlsById(int Id)
@@ -119,7 +128,7 @@ namespace Modules.Inventory
 
         public bool InvTrxDtlsExists(int id)
         {
-            throw new NotImplementedException();
+            return _context.InvTrxDtls.Any(e => e.Id == id);
         }
 
         public async Task SaveChangesAsync()

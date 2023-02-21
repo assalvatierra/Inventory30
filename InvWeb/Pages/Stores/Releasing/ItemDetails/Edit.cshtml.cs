@@ -22,6 +22,8 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
         private readonly IItemServices _itemServices;
         private readonly IUomServices _uomServices;
         private readonly IStoreServices _storeServices;
+        private readonly IItemDtlsServices _itemDtlsServices;
+        private readonly IItemTrxServices _itemTrxServices;
 
         public EditModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
@@ -30,6 +32,8 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             _itemServices = new ItemServices(context);
             _uomServices = new UomServices(context);
             _storeServices = new StoreServices(context, logger);
+            _itemDtlsServices = new ItemDtlsServices(context, _logger);
+            _itemTrxServices = new ItemTrxServices(context, _logger);
         }
 
         [BindProperty]
@@ -42,14 +46,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return NotFound();
             }
 
-            InvTrxDtl = await _context.InvTrxDtls
-                .Include(i => i.InvItem)
-                .ThenInclude(i=>i.InvWarningLevels)
-                .ThenInclude(i=>i.InvWarningType)
-                .Include(i => i.InvTrxHdr)
-                .Include(i => i.InvUom)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
+            InvTrxDtl = await _itemDtlsServices.GetInvDtlsByIdOnEdit((int)id);
 
             if (InvTrxDtl == null)
             {
@@ -57,14 +54,12 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             }
 
             int storeId = InvTrxDtl.InvTrxHdr.InvStoreId;
-            int itemId = invItemId  == null ? InvTrxDtl.InvItemId: (int)invItemId;
+            int itemId = GetDefaultInvitemId(invItemId);
             var LotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
-            var LotNoItemsIds = LotNoList.Select(c => c.LotNo).ToList();
             var selectedItem = " (" + InvTrxDtl.InvItem.Code + ") " + InvTrxDtl.InvItem.Description
                                + " " + InvTrxDtl.InvItem.Remarks;
 
-            var storeItems = _storeServices.GetStoreItemsSummary(storeId, 0, null);
-            var availbaleStoreItems = storeItems.Result.Where(i => i.Available > 0).Select(i => i.Id).ToList();
+            var availableItems = _storeServices.GetAvailableItemsIdsByStore(storeId);
 
             InvTrxDtl.InvItemId = itemId;
 
@@ -74,7 +69,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                     Value = x.LotNo
                 }), "Value", "Name");
 
-            ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availbaleStoreItems)
+            ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availableItems)
                                     .Include(i => i.InvCategory)
                                    .Select(x => new
                                    {
@@ -83,9 +78,9 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                                        Value = x.Id
                                    }), "Value", "Name", invItemId);
 
-            ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
+            ViewData["InvTrxHdrId"] = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id");
             ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom", InvTrxDtl.InvItem.InvUomId);
-            ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
+            ViewData["InvTrxDtlOperatorId"] = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description");
             ViewData["LotNoItems"]  = LotNoList;
             ViewData["StoreId"]     = storeId;
             ViewData["SelectedItem"] = selectedItem;
@@ -107,11 +102,11 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
             }
 
-            _context.Attach(InvTrxDtl).State = EntityState.Modified;
+            _itemDtlsServices.EditInvDtls(InvTrxDtl);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _itemDtlsServices.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -130,9 +125,12 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
         private bool InvTrxDtlExists(int id)
         {
-            return _context.InvTrxDtls.Any(e => e.Id == id);
+            return _itemDtlsServices.InvTrxDtlsExists(id);
         }
 
-
+        private int GetDefaultInvitemId(int? invItemId)
+        {
+            return invItemId == null ? InvTrxDtl.InvItemId : (int)invItemId; ;
+        }
     }
 }

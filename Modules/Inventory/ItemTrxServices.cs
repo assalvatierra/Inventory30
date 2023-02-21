@@ -30,7 +30,7 @@ namespace Modules.Inventory
         {
             try
             {
-                _context.InvTrxHdrs.Remove(invTrxHdr);
+                _context.InvTrxHdrs.Add(invTrxHdr);
             }
             catch (Exception ex)
             {
