@@ -57,7 +57,7 @@ namespace InvWeb.Pages.Stores.Releasing
             if (InvTrxHdr != null)
             {
                 //remove transactions detail items
-                itemTrxServices.RemoveTrxDtlsList(InvTrxHdr.Id);
+                await itemTrxServices.RemoveTrxDtlsList(InvTrxHdr.Id);
 
                 //remove header
                 itemTrxServices.DeleteInvTrxHdrs(InvTrxHdr);
