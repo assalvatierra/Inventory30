@@ -10,6 +10,7 @@ using CoreLib.Models.Inventory;
 using CoreLib.Inventory.Interfaces;
 using Modules.Inventory;
 using Microsoft.Extensions.Logging;
+using CoreLib.DTO;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
@@ -27,19 +28,25 @@ namespace InvWeb.Pages.Stores.Releasing
         }
 
         public IList<InvTrxHdr> InvTrxHdr { get;set; }
+        public ReleasingIndexModel ReleasingIndexModel { get; set; }
 
         private readonly int TYPE_RELEASING = 2;
 
-        public async Task OnGetAsync(int storeId, string status)
+        public async Task OnGetAsync(int? storeId, string status)
         {
-            InvTrxHdr = await itemTrxServices.GetInvTrxHdrsByStoreId(storeId, TYPE_RELEASING).ToListAsync();
-            InvTrxHdr = itemTrxServices.FilterByStatus(InvTrxHdr, status);
+            if (storeId == null)
+            {
+                //return NotFound();
+            }
 
-            ViewData["StoreId"] = storeId;
-            ViewData["Status"] = status;
-            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
+            if (!string.IsNullOrEmpty(status))
+            {
+                Status = status;
+            }
 
-            Status = status;
+            ReleasingIndexModel = await itemTrxServices.GetReleasingIndexModel_OnIndexOnGetAsync(
+                                           InvTrxHdr, (int)storeId, TYPE_RELEASING, status, IsUserRoleAdmin());
+
         }
 
 
@@ -55,14 +62,14 @@ namespace InvWeb.Pages.Stores.Releasing
                 return NotFound();
             }
 
-            InvTrxHdr = await itemTrxServices.GetInvTrxHdrsByStoreId((int)storeId, TYPE_RELEASING).ToListAsync();
-            InvTrxHdr = itemTrxServices.FilterByStatus(InvTrxHdr, Status);
-            InvTrxHdr = itemTrxServices.FilterByOrder(InvTrxHdr, Orderby);
-
-            ViewData["StoreId"] = storeId;
-            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
-
+            ReleasingIndexModel = await itemTrxServices.GetReleasingIndexModel_OnIndexOnPostAsync(
+                                           InvTrxHdr, (int)storeId, TYPE_RELEASING, Status, Orderby, IsUserRoleAdmin());
             return Page();
+        }
+
+        private bool IsUserRoleAdmin()
+        {
+            return User.IsInRole("ADMIN");
         }
     }
 }

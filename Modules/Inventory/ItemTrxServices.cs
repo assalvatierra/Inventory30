@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoreLib.DTO;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
@@ -325,6 +326,61 @@ namespace Modules.Inventory
             {
                 _logger.LogError("ItemTrxServices: Unable to RemoveTrxDtlsList :" + ex.Message);
                 throw new Exception("ItemTrxServices: Unable to RemoveTrxDtlsList :" + ex.Message);
+            }
+        }
+
+        public async Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnGetAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, bool userIsAdmin)
+        {
+            try
+            {
+
+                invTrxHdrs = await this.GetInvTrxHdrsByStoreId((int)storeId, TYPE_RELEASING).ToListAsync();
+                invTrxHdrs = this.FilterByStatus(invTrxHdrs, status);
+
+                //return invTrxHdrs;
+
+                return new ReleasingIndexModel()
+                {
+                    InvTrxHdrs = invTrxHdrs,
+                    Status = status,
+                    StoreId = (int)storeId,
+                    IsAdmin = userIsAdmin
+                };
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReleasingIndexModel_OnIndexOnGetAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReleasingIndexModel_OnIndexOnGetAsync :" + ex.Message);
+            }
+        }
+
+        public async Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin)
+        {
+            try
+            {
+
+                invTrxHdrs = await this.GetInvTrxHdrsByStoreId((int)storeId, TYPE_RELEASING).ToListAsync();
+                invTrxHdrs = this.FilterByStatus(invTrxHdrs, status);
+                invTrxHdrs = this.FilterByOrder(invTrxHdrs, orderBy);
+
+                //return invTrxHdrs;
+
+                return new ReleasingIndexModel()
+                {
+                    InvTrxHdrs = invTrxHdrs,
+                    Status = status,
+                    Order = orderBy,
+                    StoreId = (int)storeId,
+                    IsAdmin = userIsAdmin
+                };
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReleasingIndexModel_OnIndexOnPostAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReleasingIndexModel_OnIndexOnPostAsync :" + ex.Message);
             }
         }
     }
