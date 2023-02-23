@@ -11,6 +11,7 @@ using CoreLib.Models.Inventory;
 using CoreLib.Inventory.Interfaces;
 using Microsoft.Extensions.Logging;
 using Modules.Inventory;
+using CoreLib.DTO.Releasing;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
@@ -29,6 +30,9 @@ namespace InvWeb.Pages.Stores.Releasing
             storeServices = new StoreServices(_context, _logger);
         }
 
+        [BindProperty]
+        public ReleasingCreateModel ReleasingCreateModel { get; set; }
+
         public IActionResult OnGet(int? storeId)
         {
             if (storeId == null)
@@ -36,11 +40,15 @@ namespace InvWeb.Pages.Stores.Releasing
                 return NotFound();
             }
 
-            ViewData["InvStoreId"] = new SelectList(storeServices.GetInvStores(), "Id", "StoreName", storeId);
-            ViewData["InvTrxHdrStatusId"] = new SelectList(itemTrxServices.GetInvTrxHdrStatus(), "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(itemTrxServices.GetInvTrxHdrTypes(), "Id", "Type", 2);
-            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
-            ViewData["StoreId"] = storeId;
+            var storeList = storeServices.GetInvStores().ToList();
+
+            ReleasingCreateModel = itemTrxServices.GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr, (int)storeId, GetUser(), storeList);
+
+           // ViewData["InvStoreId"] = new SelectList(storeServices.GetInvStores(), "Id", "StoreName", storeId);
+            //ViewData["InvTrxHdrStatusId"] = new SelectList(itemTrxServices.GetInvTrxHdrStatus(), "Id", "Status");
+            //ViewData["InvTrxTypeId"] = new SelectList(itemTrxServices.GetInvTrxHdrTypes(), "Id", "Type", 2);
+            //ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
+            //ViewData["StoreId"] = storeId;
 
             return Page();
         }
@@ -51,16 +59,23 @@ namespace InvWeb.Pages.Stores.Releasing
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
+            InvTrxHdr = ReleasingCreateModel.InvTrxHdr;
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            itemTrxServices.CreateInvTrxHdrs(InvTrxHdr);
-            await itemTrxServices.SaveChanges();
+            //itemTrxServices.CreateInvTrxHdrs(ReleasingCreateModel.InvTrxHdr);
+            //await itemTrxServices.SaveChanges();
+            await itemTrxServices.GetReleasingCreateModel_OnCreateOnPostAsync(InvTrxHdr);
 
-            //return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId, status = "PENDING" });
             return RedirectToPage("./Details", new { id = InvTrxHdr.Id});
+        }
+
+        private string GetUser()
+        {
+            return User.FindFirstValue(ClaimTypes.Name);
         }
     }
 }

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CoreLib.DTO;
+using CoreLib.DTO.Releasing;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
@@ -381,6 +383,46 @@ namespace Modules.Inventory
             {
                 _logger.LogError("ItemTrxServices: Unable to GetReleasingIndexModel_OnIndexOnPostAsync :" + ex.Message);
                 throw new Exception("ItemTrxServices: Unable to GetReleasingIndexModel_OnIndexOnPostAsync :" + ex.Message);
+            }
+        }
+
+        public ReleasingCreateModel GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList)
+        {
+            try
+            {
+
+                return new ReleasingCreateModel
+                {
+                    InvStoresList = new SelectList(invStoreList, "Id", "StoreName", storeId),
+                    InvTrxHdrStatusList = new SelectList(this.GetInvTrxHdrStatus(), "Id", "Status"),
+                    InvTrxTypeList = new SelectList(this.GetInvTrxHdrTypes(), "Id", "Type", TYPE_RELEASING),
+                    User = User,
+                    StoreId = storeId
+                };
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnGetAsync :" + ex.Message); 
+                throw new Exception("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnGetAsync :" + ex.Message);
+                
+            }
+        }
+
+        public async Task GetReleasingCreateModel_OnCreateOnPostAsync(InvTrxHdr invTrxHdr)
+        {
+            try
+            {
+
+                this.CreateInvTrxHdrs(invTrxHdr);
+                await this.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
+
             }
         }
     }

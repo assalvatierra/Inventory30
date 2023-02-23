@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CoreLib.DTO;
+using CoreLib.DTO.Releasing;
 
 namespace CoreLib.Inventory.Interfaces
 {
@@ -28,6 +29,8 @@ namespace CoreLib.Inventory.Interfaces
         //Get View Models Data
         public Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnGetAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, bool userIsAdmin);
         public Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin);
+        public ReleasingCreateModel GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList);
+        public Task GetReleasingCreateModel_OnCreateOnPostAsync(InvTrxHdr invTrxHdr);
 
         //Transaction Details
         public IQueryable<InvTrxDtl> GetInvTrxDtlsById(int Id);
