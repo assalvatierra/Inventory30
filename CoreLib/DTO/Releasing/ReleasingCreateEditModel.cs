@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CoreLib.DTO.Releasing
 {
-    public class ReleasingCreateModel
+    public class ReleasingCreateEditModel
     {
         public InvTrxHdr InvTrxHdr { get; set; }
         public SelectList InvStoresList { get; set; }

@@ -12,6 +12,7 @@ using CoreLib.Models.Inventory;
 using CoreLib.Inventory.Interfaces;
 using Microsoft.Extensions.Logging;
 using Modules.Inventory;
+using CoreLib.DTO.Releasing;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
@@ -32,6 +33,8 @@ namespace InvWeb.Pages.Stores.Releasing
 
         [BindProperty]
         public InvTrxHdr InvTrxHdr { get; set; }
+        public ReleasingCreateEditModel ReleasingEditModel { get; set; }
+        public int StoreId { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -47,10 +50,16 @@ namespace InvWeb.Pages.Stores.Releasing
             {
                 return NotFound();
             }
-            ViewData["InvStoreId"] = new SelectList(storeServices.GetInvStores(), "Id", "StoreName");
-            ViewData["InvTrxHdrStatusId"] = new SelectList(itemTrxServices.GetInvTrxHdrStatus(), "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(itemTrxServices.GetInvTrxHdrTypes(), "Id", "Type", 2);
-            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
+
+            UpdateStoreId(InvTrxHdr.InvStoreId);
+
+            ReleasingEditModel = itemTrxServices.GetReleasingEditModel_OnEditOnGet(InvTrxHdr, StoreId, GetUser(), GetStores());
+
+            //ViewData["InvStoreId"] = new SelectList(storeServices.GetInvStores(), "Id", "StoreName");
+            //ViewData["InvTrxHdrStatusId"] = new SelectList(itemTrxServices.GetInvTrxHdrStatus(), "Id", "Status");
+            //ViewData["InvTrxTypeId"] = new SelectList(itemTrxServices.GetInvTrxHdrTypes(), "Id", "Type", 2);
+            //ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
+
             return Page();
         }
 
@@ -63,13 +72,10 @@ namespace InvWeb.Pages.Stores.Releasing
                 return Page();
             }
 
-            //_context.Attach(InvTrxHdr).State = EntityState.Modified;
             itemTrxServices.EditInvTrxHdrs(InvTrxHdr);
 
             try
             {
-                //await _context.SaveChangesAsync();
-
                 await itemTrxServices.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
@@ -90,6 +96,21 @@ namespace InvWeb.Pages.Stores.Releasing
         private bool InvTrxHdrExists(int id)
         {
             return _context.InvTrxHdrs.Any(e => e.Id == id);
+        }
+
+        private string GetUser()
+        {
+            return User.FindFirstValue(ClaimTypes.Name);
+        }
+
+        private List<InvStore> GetStores()
+        {
+            return storeServices.GetInvStores().ToList();
+        }
+
+        private void UpdateStoreId(int storeId)
+        {
+            StoreId = storeId;
         }
     }
 }

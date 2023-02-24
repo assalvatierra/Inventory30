@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoreLib.DTO;
 using CoreLib.DTO.Releasing;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
@@ -264,14 +263,22 @@ namespace Modules.Inventory
             }
         }
 
-        public virtual IQueryable<InvTrxDtl> GetInvTrxDtlsById(int Id)
+        public virtual IEnumerable<InvTrxDtl> GetInvTrxDtlsById(int Id)
         {
             try
             {
-                return _context.InvTrxDtls
+                var TrxDetailsItems = _context.InvTrxDtls
                             .Include(i => i.InvUom)
                             .Include(i => i.InvItem)
-                            .Where(i => i.InvTrxHdrId == Id);
+                            .Where(i => i.InvTrxHdrId == Id)
+                            .ToList();
+
+                if (TrxDetailsItems == null)
+                {
+                    return new List<InvTrxDtl>();
+                }
+
+                return TrxDetailsItems;
             }
             catch (Exception ex)
             {
@@ -386,13 +393,14 @@ namespace Modules.Inventory
             }
         }
 
-        public virtual ReleasingCreateModel GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList)
+        public virtual ReleasingCreateEditModel GetReleasingCreateModel_OnCreateOnGet(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList)
         {
             try
             {
 
-                return new ReleasingCreateModel
+                return new ReleasingCreateEditModel
                 {
+                    InvTrxHdr = invTrxHdr,
                     InvStoresList = new SelectList(invStoreList, "Id", "StoreName", storeId),
                     InvTrxHdrStatusList = new SelectList(this.GetInvTrxHdrStatus(), "Id", "Status"),
                     InvTrxTypeList = new SelectList(this.GetInvTrxHdrTypes(), "Id", "Type", TYPE_RELEASING),
@@ -403,25 +411,40 @@ namespace Modules.Inventory
             }
             catch (Exception ex)
             {
-                _logger.LogError("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnGetAsync :" + ex.Message); 
-                throw new Exception("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnGetAsync :" + ex.Message);
+                _logger.LogError("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnGet :" + ex.Message); 
+                throw new Exception("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnGet :" + ex.Message);
                 
             }
         }
 
-        public virtual void GetReleasingCreateModel_OnCreateOnPostAsync(InvTrxHdr invTrxHdr)
+
+        public virtual ReleasingCreateEditModel GetReleasingEditModel_OnEditOnGet(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList)
         {
             try
             {
-                this.CreateInvTrxHdrs(invTrxHdr);
+
+                return new ReleasingCreateEditModel
+                {
+                    InvTrxHdr = invTrxHdr,
+                    InvStoresList = new SelectList(invStoreList, "Id", "StoreName", invTrxHdr.InvStoreId),
+                    InvTrxHdrStatusList = new SelectList(this.GetInvTrxHdrStatus(), "Id", "Status", invTrxHdr.InvTrxHdrStatusId),
+                    InvTrxTypeList = new SelectList(this.GetInvTrxHdrTypes(), "Id", "Type", TYPE_RELEASING),
+                    User = User,
+                    StoreId = storeId
+                };
+
             }
             catch (Exception ex)
             {
-                _logger.LogError("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
-                throw new Exception("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
+                _logger.LogError("ItemTrxServices: Unable to GetReleasingEditModel_OnEditOnGet :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReleasingEditModel_OnEditOnGet :" + ex.Message);
 
             }
         }
+
+
+
+
         public virtual async Task DeleteInvTrxHdrs_AndTrxDtlsItems(InvTrxHdr invTrxHdr)
         {
             try
@@ -439,5 +462,6 @@ namespace Modules.Inventory
 
             }
         }
+
     }
 }

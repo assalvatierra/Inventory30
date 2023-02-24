@@ -10,6 +10,7 @@ using CoreLib.Models.Inventory;
 using CoreLib.Inventory.Interfaces;
 using Microsoft.Extensions.Logging;
 using Modules.Inventory;
+using CoreLib.DTO.Releasing;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
@@ -24,9 +25,12 @@ namespace InvWeb.Pages.Stores.Releasing
             _logger = logger;
             _context = context;
             itemTrxServices = new ItemTrxServices(_context, _logger);
+            ReleasingDetailsModel = new ReleasingDetailsModel();
+
         }
 
-        public InvTrxHdr InvTrxHdr { get; set; }
+        //public InvTrxHdr InvTrxHdr { get; set; }
+        public ReleasingDetailsModel ReleasingDetailsModel { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -35,16 +39,15 @@ namespace InvWeb.Pages.Stores.Releasing
                 return NotFound();
             }
 
-            InvTrxHdr = await itemTrxServices.GetInvTrxHdrsById((int)id)
+            ReleasingDetailsModel.InvTrxHdr = await itemTrxServices.GetInvTrxHdrsById((int)id)
                                              .FirstOrDefaultAsync();
 
-            if (InvTrxHdr == null)
+            if (ReleasingDetailsModel.InvTrxHdr == null)
             {
                 return NotFound();
             }
 
-            ViewData["InvTrxDtls"] = await itemTrxServices.GetInvTrxDtlsById((int)id)
-                                                          .ToListAsync();
+            ReleasingDetailsModel.InvTrxDtls = itemTrxServices.GetInvTrxDtlsById((int)id);
 
             return Page();
         }

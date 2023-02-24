@@ -10,7 +10,7 @@ using CoreLib.Models.Inventory;
 using CoreLib.Inventory.Interfaces;
 using Modules.Inventory;
 using Microsoft.Extensions.Logging;
-using CoreLib.DTO;
+using CoreLib.DTO.Releasing;
 
 namespace InvWeb.Pages.Stores.Releasing
 {

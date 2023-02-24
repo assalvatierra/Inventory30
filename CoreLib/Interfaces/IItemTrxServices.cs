@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoreLib.DTO;
 using CoreLib.DTO.Releasing;
 
 namespace CoreLib.Inventory.Interfaces
@@ -29,12 +28,12 @@ namespace CoreLib.Inventory.Interfaces
         //Get View Models Data
         public Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnGetAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, bool userIsAdmin);
         public Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin);
-        public ReleasingCreateModel GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList);
-        public void GetReleasingCreateModel_OnCreateOnPostAsync(InvTrxHdr invTrxHdr);
+        public ReleasingCreateEditModel GetReleasingCreateModel_OnCreateOnGet(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList);
+        public ReleasingCreateEditModel GetReleasingEditModel_OnEditOnGet(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList);
         public Task DeleteInvTrxHdrs_AndTrxDtlsItems(InvTrxHdr invTrxHdr);
 
         //Transaction Details
-        public IQueryable<InvTrxDtl> GetInvTrxDtlsById(int Id);
+        public IEnumerable<InvTrxDtl> GetInvTrxDtlsById(int Id);
         public IQueryable<InvTrxDtl> GetInvTrxDtlsByStoreId(int storeId, int typeId);
         public Task RemoveTrxDtlsList(int invHdrId);
 

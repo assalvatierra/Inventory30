@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoreLib.DTO
+namespace CoreLib.DTO.Releasing
 {
     public class ReleasingIndexModel
     {

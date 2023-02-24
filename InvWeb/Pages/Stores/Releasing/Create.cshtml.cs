@@ -30,7 +30,11 @@ namespace InvWeb.Pages.Stores.Releasing
             storeServices = new StoreServices(_context, _logger);
         }
 
-        public ReleasingCreateModel ReleasingCreateModel { get; set; }
+        [BindProperty]
+        public InvTrxHdr InvTrxHdr { get; set; }
+        public ReleasingCreateEditModel ReleasingCreateModel { get; set; }
+        public int StoreId { get; set; }
+
 
         public IActionResult OnGet(int? storeId)
         {
@@ -41,22 +45,17 @@ namespace InvWeb.Pages.Stores.Releasing
 
             this.UpdateStoreId((int)storeId);
 
-            ReleasingCreateModel = itemTrxServices.GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr, StoreId, GetUser(), GetStores());
-
+            ReleasingCreateModel = itemTrxServices.GetReleasingCreateModel_OnCreateOnGet(InvTrxHdr, StoreId, GetUser(), GetStores());
 
             return Page();
         }
-
-        [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
-        public int StoreId { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
-                ReleasingCreateModel = itemTrxServices.GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr, StoreId, GetUser(), GetStores());
+                ReleasingCreateModel = itemTrxServices.GetReleasingCreateModel_OnCreateOnGet(ReleasingCreateModel.InvTrxHdr, StoreId, GetUser(), GetStores());
                 return Page();
             }
 
