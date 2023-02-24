@@ -30,7 +30,6 @@ namespace InvWeb.Pages.Stores.Releasing
             storeServices = new StoreServices(_context, _logger);
         }
 
-        [BindProperty]
         public ReleasingCreateModel ReleasingCreateModel { get; set; }
 
         public IActionResult OnGet(int? storeId)
@@ -40,35 +39,29 @@ namespace InvWeb.Pages.Stores.Releasing
                 return NotFound();
             }
 
-            var storeList = storeServices.GetInvStores().ToList();
+            this.UpdateStoreId((int)storeId);
 
-            ReleasingCreateModel = itemTrxServices.GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr, (int)storeId, GetUser(), storeList);
+            ReleasingCreateModel = itemTrxServices.GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr, StoreId, GetUser(), GetStores());
 
-           // ViewData["InvStoreId"] = new SelectList(storeServices.GetInvStores(), "Id", "StoreName", storeId);
-            //ViewData["InvTrxHdrStatusId"] = new SelectList(itemTrxServices.GetInvTrxHdrStatus(), "Id", "Status");
-            //ViewData["InvTrxTypeId"] = new SelectList(itemTrxServices.GetInvTrxHdrTypes(), "Id", "Type", 2);
-            //ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
-            //ViewData["StoreId"] = storeId;
 
             return Page();
         }
 
         [BindProperty]
         public InvTrxHdr InvTrxHdr { get; set; }
+        public int StoreId { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            InvTrxHdr = ReleasingCreateModel.InvTrxHdr;
-
             if (!ModelState.IsValid)
             {
+                ReleasingCreateModel = itemTrxServices.GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr, StoreId, GetUser(), GetStores());
                 return Page();
             }
 
-            //itemTrxServices.CreateInvTrxHdrs(ReleasingCreateModel.InvTrxHdr);
-            //await itemTrxServices.SaveChanges();
-            await itemTrxServices.GetReleasingCreateModel_OnCreateOnPostAsync(InvTrxHdr);
+            itemTrxServices.CreateInvTrxHdrs(InvTrxHdr);
+            await itemTrxServices.SaveChanges();
 
             return RedirectToPage("./Details", new { id = InvTrxHdr.Id});
         }
@@ -76,6 +69,16 @@ namespace InvWeb.Pages.Stores.Releasing
         private string GetUser()
         {
             return User.FindFirstValue(ClaimTypes.Name);
+        }
+
+        private List<InvStore> GetStores()
+        {
+            return storeServices.GetInvStores().ToList();
+        }
+
+        private void UpdateStoreId(int storeId)
+        {
+            StoreId = storeId;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Modules.Inventory
 
         }
 
-        public void CreateInvTrxHdrs(InvTrxHdr invTrxHdr)
+        public virtual void CreateInvTrxHdrs(InvTrxHdr invTrxHdr)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace Modules.Inventory
             }
         }
 
-        public void DeleteInvTrxHdrs(InvTrxHdr invTrxHdr)
+        public virtual void DeleteInvTrxHdrs(InvTrxHdr invTrxHdr)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace Modules.Inventory
             }
         }
 
-        public void EditInvTrxHdrs(InvTrxHdr invTrxHdr)
+        public virtual void EditInvTrxHdrs(InvTrxHdr invTrxHdr)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Modules.Inventory
             }
         }
 
-        public async Task SaveChanges()
+        public virtual async Task SaveChanges()
         {
             try
             {
@@ -82,12 +82,12 @@ namespace Modules.Inventory
             }
         }
 
-        public bool InvTrxHdrExists(int id)
+        public virtual bool InvTrxHdrExists(int id)
         {
             return _context.InvTrxHdrs.Any(e => e.Id == id);
         }
 
-        public IQueryable<InvTrxHdr> GetInvTrxHdrs()
+        public virtual IQueryable<InvTrxHdr> GetInvTrxHdrs()
         {
             try
             {
@@ -100,7 +100,7 @@ namespace Modules.Inventory
             }
         }
 
-        public IQueryable<InvTrxHdr> GetInvTrxHdrsById(int Id)
+        public virtual IQueryable<InvTrxHdr> GetInvTrxHdrsById(int Id)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace Modules.Inventory
         }
 
 
-        public async Task<InvTrxHdr> GetInvTrxHdrsByIdAsync(int Id)
+        public virtual async Task<InvTrxHdr> GetInvTrxHdrsByIdAsync(int Id)
         {
             try
             {
@@ -139,7 +139,7 @@ namespace Modules.Inventory
         }
 
 
-        public IQueryable<InvTrxHdr> GetTrxHdrsByStoreId_Releasing(int storeId)
+        public virtual IQueryable<InvTrxHdr> GetTrxHdrsByStoreId_Releasing(int storeId)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace Modules.Inventory
             }
         }
 
-        public IQueryable<InvTrxHdr> GetInvTrxHdrsByStoreId(int storeId, int typeId)
+        public virtual IQueryable<InvTrxHdr> GetInvTrxHdrsByStoreId(int storeId, int typeId)
         {
             try
             {
@@ -183,7 +183,7 @@ namespace Modules.Inventory
         }
 
 
-        public IList<InvTrxHdr> FilterByStatus(IList<InvTrxHdr> invTrxHdrs, string status)
+        public virtual IList<InvTrxHdr> FilterByStatus(IList<InvTrxHdr> invTrxHdrs, string status)
         {
             try
             {
@@ -214,7 +214,7 @@ namespace Modules.Inventory
         }
 
 
-        public IList<InvTrxHdr> FilterByOrder(IList<InvTrxHdr> invTrxHdrs, string order)
+        public virtual IList<InvTrxHdr> FilterByOrder(IList<InvTrxHdr> invTrxHdrs, string order)
         {
             try
             {
@@ -238,7 +238,7 @@ namespace Modules.Inventory
             }
         }
 
-        public IQueryable<InvTrxHdrStatus> GetInvTrxHdrStatus()
+        public virtual IQueryable<InvTrxHdrStatus> GetInvTrxHdrStatus()
         {
             try
             {
@@ -251,7 +251,7 @@ namespace Modules.Inventory
             }
         }
 
-        public IQueryable<InvTrxType> GetInvTrxHdrTypes()
+        public virtual IQueryable<InvTrxType> GetInvTrxHdrTypes()
         {
             try
             {
@@ -264,7 +264,7 @@ namespace Modules.Inventory
             }
         }
 
-        public IQueryable<InvTrxDtl> GetInvTrxDtlsById(int Id)
+        public virtual IQueryable<InvTrxDtl> GetInvTrxDtlsById(int Id)
         {
             try
             {
@@ -280,7 +280,7 @@ namespace Modules.Inventory
             }
         }
 
-        public IQueryable<InvTrxDtl> GetInvTrxDtlsByStoreId(int storeId, int typeId)
+        public virtual IQueryable<InvTrxDtl> GetInvTrxDtlsByStoreId(int storeId, int typeId)
         {
             try
             {
@@ -296,7 +296,7 @@ namespace Modules.Inventory
             }
         }
 
-        public async Task RemoveTrxDtlsList(int invHdrId)
+        public virtual async Task RemoveTrxDtlsList(int invHdrId)
         {
             try
             {
@@ -311,7 +311,7 @@ namespace Modules.Inventory
         }
 
 
-        public int GetInvTrxStoreId(int hdrId)
+        public virtual int GetInvTrxStoreId(int hdrId)
         {
             try
             {
@@ -331,7 +331,7 @@ namespace Modules.Inventory
             }
         }
 
-        public async Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnGetAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, bool userIsAdmin)
+        public virtual async Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnGetAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, bool userIsAdmin)
         {
             try
             {
@@ -357,7 +357,7 @@ namespace Modules.Inventory
             }
         }
 
-        public async Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin)
+        public virtual async Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin)
         {
             try
             {
@@ -386,7 +386,7 @@ namespace Modules.Inventory
             }
         }
 
-        public ReleasingCreateModel GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList)
+        public virtual ReleasingCreateModel GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList)
         {
             try
             {
@@ -409,14 +409,28 @@ namespace Modules.Inventory
             }
         }
 
-        public async Task GetReleasingCreateModel_OnCreateOnPostAsync(InvTrxHdr invTrxHdr)
+        public virtual void GetReleasingCreateModel_OnCreateOnPostAsync(InvTrxHdr invTrxHdr)
         {
             try
             {
-
                 this.CreateInvTrxHdrs(invTrxHdr);
-                await this.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
 
+            }
+        }
+        public virtual async Task DeleteInvTrxHdrs_AndTrxDtlsItems(InvTrxHdr invTrxHdr)
+        {
+            try
+            {
+                //remove transactions detail items
+                await this.RemoveTrxDtlsList(invTrxHdr.Id);
+
+                //remove header
+                this.DeleteInvTrxHdrs(invTrxHdr);
             }
             catch (Exception ex)
             {

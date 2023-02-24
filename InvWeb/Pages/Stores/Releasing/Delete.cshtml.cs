@@ -57,10 +57,12 @@ namespace InvWeb.Pages.Stores.Releasing
             if (InvTrxHdr != null)
             {
                 //remove transactions detail items
-                await itemTrxServices.RemoveTrxDtlsList(InvTrxHdr.Id);
+                //await itemTrxServices.RemoveTrxDtlsList(InvTrxHdr.Id);
 
                 //remove header
-                itemTrxServices.DeleteInvTrxHdrs(InvTrxHdr);
+                //itemTrxServices.DeleteInvTrxHdrs(InvTrxHdr);
+
+                await itemTrxServices.DeleteInvTrxHdrs_AndTrxDtlsItems(InvTrxHdr);
                 await itemTrxServices.SaveChanges();
             }
 

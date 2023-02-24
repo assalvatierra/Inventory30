@@ -30,7 +30,8 @@ namespace CoreLib.Inventory.Interfaces
         public Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnGetAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, bool userIsAdmin);
         public Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin);
         public ReleasingCreateModel GetReleasingCreateModel_OnCreateOnGetAsync(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList);
-        public Task GetReleasingCreateModel_OnCreateOnPostAsync(InvTrxHdr invTrxHdr);
+        public void GetReleasingCreateModel_OnCreateOnPostAsync(InvTrxHdr invTrxHdr);
+        public Task DeleteInvTrxHdrs_AndTrxDtlsItems(InvTrxHdr invTrxHdr);
 
         //Transaction Details
         public IQueryable<InvTrxDtl> GetInvTrxDtlsById(int Id);
