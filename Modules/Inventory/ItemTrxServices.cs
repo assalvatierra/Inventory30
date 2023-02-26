@@ -403,7 +403,7 @@ namespace Modules.Inventory
                     InvTrxHdr = invTrxHdr,
                     InvStoresList = new SelectList(invStoreList, "Id", "StoreName", storeId),
                     InvTrxHdrStatusList = new SelectList(this.GetInvTrxHdrStatus(), "Id", "Status"),
-                    InvTrxTypeList = new SelectList(this.GetInvTrxHdrTypes(), "Id", "Type", TYPE_RELEASING),
+                    InvTrxTypeId = new SelectList(this.GetInvTrxHdrTypes(), "Id", "Type", TYPE_RELEASING),
                     User = User,
                     StoreId = storeId
                 };
@@ -428,7 +428,7 @@ namespace Modules.Inventory
                     InvTrxHdr = invTrxHdr,
                     InvStoresList = new SelectList(invStoreList, "Id", "StoreName", invTrxHdr.InvStoreId),
                     InvTrxHdrStatusList = new SelectList(this.GetInvTrxHdrStatus(), "Id", "Status", invTrxHdr.InvTrxHdrStatusId),
-                    InvTrxTypeList = new SelectList(this.GetInvTrxHdrTypes(), "Id", "Type", TYPE_RELEASING),
+                    InvTrxTypeId = new SelectList(this.GetInvTrxHdrTypes(), "Id", "Type", TYPE_RELEASING),
                     User = User,
                     StoreId = storeId
                 };

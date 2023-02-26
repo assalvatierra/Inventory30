@@ -32,8 +32,8 @@ namespace InvWeb.Pages.Stores.Releasing
         }
 
         [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
         public ReleasingCreateEditModel ReleasingEditModel { get; set; }
+        public InvTrxHdr InvTrxHdr;
         public int StoreId { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -55,11 +55,6 @@ namespace InvWeb.Pages.Stores.Releasing
 
             ReleasingEditModel = itemTrxServices.GetReleasingEditModel_OnEditOnGet(InvTrxHdr, StoreId, GetUser(), GetStores());
 
-            //ViewData["InvStoreId"] = new SelectList(storeServices.GetInvStores(), "Id", "StoreName");
-            //ViewData["InvTrxHdrStatusId"] = new SelectList(itemTrxServices.GetInvTrxHdrStatus(), "Id", "Status");
-            //ViewData["InvTrxTypeId"] = new SelectList(itemTrxServices.GetInvTrxHdrTypes(), "Id", "Type", 2);
-            //ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
-
             return Page();
         }
 
@@ -69,10 +64,11 @@ namespace InvWeb.Pages.Stores.Releasing
         {
             if (!ModelState.IsValid)
             {
+                ReleasingEditModel = itemTrxServices.GetReleasingEditModel_OnEditOnGet(ReleasingEditModel.InvTrxHdr, StoreId, GetUser(), GetStores());
                 return Page();
             }
 
-            itemTrxServices.EditInvTrxHdrs(InvTrxHdr);
+            itemTrxServices.EditInvTrxHdrs(ReleasingEditModel.InvTrxHdr);
 
             try
             {
@@ -80,7 +76,7 @@ namespace InvWeb.Pages.Stores.Releasing
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvTrxHdrExists(InvTrxHdr.Id))
+                if (!InvTrxHdrExists(ReleasingEditModel.InvTrxHdr.Id))
                 {
                     return NotFound();
                 }
@@ -90,7 +86,7 @@ namespace InvWeb.Pages.Stores.Releasing
                 }
             }
 
-            return RedirectToPage("./Details", new { id = InvTrxHdr.Id });
+            return RedirectToPage("./Details", new { id = ReleasingEditModel.InvTrxHdr.Id });
         }
 
         private bool InvTrxHdrExists(int id)

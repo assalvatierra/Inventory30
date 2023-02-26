@@ -30,11 +30,12 @@ namespace InvWeb.Pages.Stores.Releasing
             storeServices = new StoreServices(_context, _logger);
         }
 
+        //public InvTrxHdr InvTrxHdr { get; set; }
         [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
         public ReleasingCreateEditModel ReleasingCreateModel { get; set; }
+        public InvTrxHdr InvTrxHdr;
         public int StoreId { get; set; }
-
+        private int STATUS_RELEASED = 2;
 
         public IActionResult OnGet(int? storeId)
         {
@@ -46,7 +47,7 @@ namespace InvWeb.Pages.Stores.Releasing
             this.UpdateStoreId((int)storeId);
 
             ReleasingCreateModel = itemTrxServices.GetReleasingCreateModel_OnCreateOnGet(InvTrxHdr, StoreId, GetUser(), GetStores());
-
+            
             return Page();
         }
 
@@ -59,10 +60,10 @@ namespace InvWeb.Pages.Stores.Releasing
                 return Page();
             }
 
-            itemTrxServices.CreateInvTrxHdrs(InvTrxHdr);
+            itemTrxServices.CreateInvTrxHdrs(ReleasingCreateModel.InvTrxHdr);
             await itemTrxServices.SaveChanges();
 
-            return RedirectToPage("./Details", new { id = InvTrxHdr.Id});
+            return RedirectToPage("./Details", new { id = ReleasingCreateModel.InvTrxHdr.Id});
         }
 
         private string GetUser()
@@ -79,5 +80,6 @@ namespace InvWeb.Pages.Stores.Releasing
         {
             StoreId = storeId;
         }
+
     }
 }
