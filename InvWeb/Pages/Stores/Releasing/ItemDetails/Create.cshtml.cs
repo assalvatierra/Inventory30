@@ -13,6 +13,7 @@ using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
 using Microsoft.EntityFrameworkCore;
 using Modules.Inventory;
+using CoreLib.DTO.Releasing;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
@@ -39,6 +40,12 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             _itemTrxServices = new ItemTrxServices(context, _logger);
         }
 
+        [BindProperty]
+        public ItemDtlsCreateEditModel ItemDtlsCreateEditModel { get; set; }
+
+        //[BindProperty]
+        public InvTrxDtl InvTrxDtl { get; set; }
+
         public IActionResult OnGet(int? hdrId, int? invItemId)
         {
             if (hdrId == null)
@@ -53,35 +60,37 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
             int storeId = _itemTrxServices.GetInvTrxStoreId((int)hdrId);
             int itemId = GetDefaultInvitemId(invItemId);
-            var LotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
+            var lotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
             var availableItems = _storeServices.GetAvailableItemsIdsByStore(storeId);
 
-            ViewData["LotNo"] = new SelectList(LotNoList.Select(x => new {
+            //ItemDtlsCreateEditModel = _itemDtlsServices.GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl, storeId, invitem);
+            ItemDtlsCreateEditModel = new ItemDtlsCreateEditModel();
+            ItemDtlsCreateEditModel.InvTrxDtl = InvTrxDtl;
+
+            ItemDtlsCreateEditModel.LotNo = new SelectList(lotNoList.Select(x => new {
                 Name = String.Format("{0} ", x.LotNo),
                 Value = x.LotNo
             }), "Value", "Name");
 
-            ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availableItems)
+            ItemDtlsCreateEditModel.InvItems = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availableItems)
                                     .Include(i => i.InvCategory)
                                     .Select(x => new {
                                        Name = String.Format("{0} - {1} - {2} {3}",
                                        x.Code, x.InvCategory.Description, x.Description, x.Remarks),
                                        Value = x.Id
                                      }), "Value", "Name", itemId);
-            
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom");
-            ViewData["InvTrxHdrId"] = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id", hdrId);
-            ViewData["InvTrxDtlOperatorId"] = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description", 2);
-            ViewData["HdrId"] = hdrId;
-            ViewData["LotNoItems"] = LotNoList;
-            ViewData["StoreId"] = storeId;
-            ViewData["SelectedItem"] = " ";
+
+            ItemDtlsCreateEditModel.InvUoms = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom");
+            ItemDtlsCreateEditModel.InvTrxHdrs = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id", hdrId);
+            ItemDtlsCreateEditModel.InvTrxDtlOperators = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description", 2);
+            ItemDtlsCreateEditModel.HrdId = (int)hdrId;
+            ItemDtlsCreateEditModel.LotNoItems = lotNoList;
+            ItemDtlsCreateEditModel.StoreId = storeId;
+            ItemDtlsCreateEditModel.SelectedItem = " ";
 
             return Page();
         }
 
-        [BindProperty]
-        public InvTrxDtl InvTrxDtl { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -94,23 +103,23 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                     return Page();
                 }
 
-                if (InvTrxDtl.LotNo == 0 || InvTrxDtl.LotNo == null)
+                if (ItemDtlsCreateEditModel.InvTrxDtl.LotNo == 0 || ItemDtlsCreateEditModel.InvTrxDtl.LotNo == null)
                 {
                     //requires LotNo
-                    return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+                    return RedirectToPage("../Details", new { id = ItemDtlsCreateEditModel.InvTrxDtl.InvTrxHdrId });
                 }
 
-                _itemDtlsServices.CreateInvDtls(InvTrxDtl);
+                _itemDtlsServices.CreateInvDtls(ItemDtlsCreateEditModel.InvTrxDtl);
                 await _itemDtlsServices.SaveChangesAsync();
 
-                return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+                return RedirectToPage("../Details", new { id = ItemDtlsCreateEditModel.InvTrxDtl.InvTrxHdrId });
 
             }
             catch (Exception ex)
             {
 
                 _logger.LogError("Stores/Releasing/Create: Unable to OnPostAsync " + ex.Message);
-                return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+                return RedirectToPage("../Details", new { id = ItemDtlsCreateEditModel.InvTrxDtl.InvTrxHdrId });
             }
         }
 

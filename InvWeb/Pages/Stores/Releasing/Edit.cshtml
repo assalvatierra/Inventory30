@@ -14,7 +14,7 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ReleasingEditModel.InvTrxHdr.Id" />
-            <div class="form-group" >
+            <div class="form-group"hidden>
                 <label asp-for="ReleasingEditModel.InvTrxHdr.InvStoreId" class="control-label"></label>
                 <select asp-for="ReleasingEditModel.InvTrxHdr.InvStoreId" class="form-control" asp-items="Model.ReleasingEditModel.InvStoresList"></select>
                 <span asp-validation-for="ReleasingEditModel.InvTrxHdr.InvStoreId" class="text-danger"></span>
@@ -29,17 +29,17 @@
                 <input asp-for="ReleasingEditModel.InvTrxHdr.Remarks" class="form-control" maxlength="150" />
                 <span asp-validation-for="ReleasingEditModel.InvTrxHdr.Remarks" class="text-danger"></span>
             </div>
-            <div class="form-group" >
+            <div class="form-group" hidden>
                 <label asp-for="ReleasingEditModel.InvTrxHdr.InvTrxTypeId" class="control-label"></label>
                 <select asp-for="ReleasingEditModel.InvTrxHdr.InvTrxTypeId" class="form-control" asp-items="Model.ReleasingEditModel.InvTrxTypeId"></select>
                 <span asp-validation-for="ReleasingEditModel.InvTrxHdr.InvTrxTypeId" class="text-danger"></span>
             </div>
-            <div class="form-group" >
+            <div class="form-group" hidden>
                 <label asp-for="ReleasingEditModel.InvTrxHdr.InvTrxHdrStatusId" class="control-label"></label>
                 <select asp-for="ReleasingEditModel.InvTrxHdr.InvTrxHdrStatusId" class="form-control" asp-items="Model.ReleasingEditModel.InvTrxHdrStatusList"></select>
                 <span asp-validation-for="ReleasingEditModel.InvTrxHdr.InvTrxHdrStatusId" class="text-danger"></span>
             </div>
-            <div class="form-group" >
+            <div class="form-group" hidden>
                 <label asp-for="ReleasingEditModel.InvTrxHdr.UserId" class="control-label"></label>
                 <input asp-for="ReleasingEditModel.InvTrxHdr.UserId" class="form-control" value="@Model.ReleasingEditModel.User" />
                 <span asp-validation-for="ReleasingEditModel.InvTrxHdr.UserId" class="text-danger"></span>

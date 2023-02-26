@@ -1,5 +1,7 @@
-﻿using CoreLib.Inventory.Interfaces;
+﻿using CoreLib.DTO.Releasing;
+using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
+using CoreLib.Inventory.Models.Items;
 using CoreLib.Models.Inventory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -26,7 +28,7 @@ namespace Modules.Inventory
 
         }
 
-        public void CreateInvDtls(InvTrxDtl invTrxDtl)
+        public virtual void CreateInvDtls(InvTrxDtl invTrxDtl)
         {
             try
             {
@@ -39,7 +41,7 @@ namespace Modules.Inventory
             }
         }
 
-        public void DeleteInvDtls(InvTrxDtl invTrxDtl)
+        public virtual void DeleteInvDtls(InvTrxDtl invTrxDtl)
         {
             try
             {
@@ -52,7 +54,7 @@ namespace Modules.Inventory
             }
         }
 
-        public void EditInvDtls(InvTrxDtl invTrxDtl)
+        public virtual void EditInvDtls(InvTrxDtl invTrxDtl)
         {
             try
             {
@@ -66,7 +68,7 @@ namespace Modules.Inventory
             }
         }
 
-        public IQueryable<InvTrxDtl> GetInvDtlsById(int Id)
+        public virtual IQueryable<InvTrxDtl> GetInvDtlsById(int Id)
         {
             try
             {
@@ -84,12 +86,12 @@ namespace Modules.Inventory
             }
         }
 
-        public async Task<InvTrxDtl> GetInvDtlsByIdAsync(int Id)
+        public virtual async Task<InvTrxDtl> GetInvDtlsByIdAsync(int Id)
         {
             return await _context.InvTrxDtls.FindAsync(Id);
         }
 
-        public async Task<InvTrxDtl> GetInvDtlsByIdOnEdit(int Id)
+        public virtual async Task<InvTrxDtl> GetInvDtlsByIdOnEdit(int Id)
         {
             var invTrx = await _context.InvTrxDtls
                 .Include(i => i.InvItem)
@@ -107,12 +109,12 @@ namespace Modules.Inventory
             return invTrx;
         }
 
-        public IQueryable<InvTrxHdr> GetInvDtlsByStoreId(int storeId, int typeId)
+        public virtual IQueryable<InvTrxHdr> GetInvDtlsByStoreId(int storeId, int typeId)
         {
             throw new NotImplementedException();
         }
 
-        public IQueryable<InvTrxDtlOperator> GetInvTrxDtlOperators()
+        public virtual IQueryable<InvTrxDtlOperator> GetInvTrxDtlOperators()
         {
             try
             {
@@ -126,12 +128,12 @@ namespace Modules.Inventory
             }
         }
 
-        public bool InvTrxDtlsExists(int id)
+        public virtual bool InvTrxDtlsExists(int id)
         {
             return _context.InvTrxDtls.Any(e => e.Id == id);
         }
 
-        public async Task SaveChangesAsync()
+        public virtual async Task SaveChangesAsync()
         {
              await _context.SaveChangesAsync();
         }
@@ -139,6 +141,21 @@ namespace Modules.Inventory
         IQueryable<InvTrxDtl> IItemDtlsServices.GetInvDtlsByStoreId(int storeId, int typeId)
         {
             throw new NotImplementedException();
+        }
+
+        public virtual ReleasingCreateEditModel GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int storeId, List<InvTrxHdr> invTrxHdrs, IList<InvItem> invItems, IList<ItemLotNoSelect> itemLotNoSelects, IList<int> availableItems, IList<InvUom> invUoms)
+        {
+            try
+            {
+                return new ReleasingCreateEditModel(); // return null
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemDtlsServices: Error on GetReleasingItemTrxDtlsModel_OnCreateOnGet :" + ex.Message);
+                throw new Exception("ItemDtlsServices: Error on  GetReleasingItemTrxDtlsModel_OnCreateOnGet :" + ex.Message);
+                // return new ReleasingCreateEditModel(); // return null
+
+            }
         }
     }
 }

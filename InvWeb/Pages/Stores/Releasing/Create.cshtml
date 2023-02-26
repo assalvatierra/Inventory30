@@ -13,7 +13,7 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" >
+            <div class="form-group" hidden>
                 <label asp-for="ReleasingCreateModel.InvTrxHdr.InvStoreId" class="control-label"></label>
                 <select asp-for="ReleasingCreateModel.InvTrxHdr.InvStoreId" class="form-control" asp-items="Model.ReleasingCreateModel.InvStoresList"></select>
             </div>
@@ -27,15 +27,15 @@
                 <input asp-for="ReleasingCreateModel.InvTrxHdr.Remarks" class="form-control" />
                 <span asp-validation-for="ReleasingCreateModel.InvTrxHdr.Remarks" class="text-danger"></span>
             </div>
-            <div class="form-group" >
+            <div class="form-group"hidden>
                 <label asp-for="ReleasingCreateModel.InvTrxHdr.InvTrxTypeId" class="control-label"></label>
                 <select asp-for="ReleasingCreateModel.InvTrxHdr.InvTrxTypeId" class="form-control" value="Model.ReleasingCreateModel.InvTrxTypeId.SelectedValue" asp-items="Model.ReleasingCreateModel.InvTrxTypeId"></select>
             </div>
-            <div class="form-group" >
+            <div class="form-group" hidden>
                 <label asp-for="ReleasingCreateModel.InvTrxHdr.InvTrxHdrStatusId" class="control-label"></label>
                 <select asp-for="ReleasingCreateModel.InvTrxHdr.InvTrxHdrStatusId" class="form-control" asp-items="Model.ReleasingCreateModel.InvTrxHdrStatusList"></select>
             </div>
-            <div class="form-group" >
+            <div class="form-group" hidden>
                 <label asp-for="ReleasingCreateModel.InvTrxHdr.UserId" class="control-label"></label>
                 <input asp-for="ReleasingCreateModel.InvTrxHdr.UserId" class="form-control" value="@Model.ReleasingCreateModel.User" />
                 <span asp-validation-for="ReleasingCreateModel.InvTrxHdr.UserId" class="text-danger"></span>
