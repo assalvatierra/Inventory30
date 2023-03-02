@@ -1,14 +1,16 @@
 ﻿using eJob30.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using CoreLib.Interfaces.System;
 
 namespace eJob30.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private ISystemServices systemservices;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ISystemServices _sysservices)
         {
             _logger = logger;
         }
@@ -20,6 +22,7 @@ namespace eJob30.Controllers
 
         public IActionResult Modules()
         {
+            var sysItems = this.systemservices.getServices(0).ToList();
             return View();
         }
 

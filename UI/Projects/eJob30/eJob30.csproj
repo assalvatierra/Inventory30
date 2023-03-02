@@ -15,4 +15,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\CoreLib\CoreLib.csproj" />
+    <ProjectReference Include="..\..\..\Modules\System\RealSys.Module.SysLib\RealSys.Module.SysLib.csproj" />
+  </ItemGroup>
+
 </Project>

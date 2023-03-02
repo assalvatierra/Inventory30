@@ -1,13 +1,23 @@
 using eJob30.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using CoreLib.Models.System;
+using CoreLib.Interfaces.System;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("AuthenticationConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+//Real Sys - system dependencies
+builder.Services.AddDbContext<SysDBContext>(options =>
+    options.UseSqlServer(
+            builder.Configuration.GetConnectionString("DefaultConnection")
+        ));
+builder.Services.AddScoped<ISystemServices, RealSys.Module.SysLib.Lib.SystemServices>();
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
