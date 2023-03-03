@@ -13,6 +13,7 @@ namespace eJob30.Controllers
         public HomeController(ILogger<HomeController> logger, ISystemServices _sysservices)
         {
             _logger = logger;
+            this.systemservices= _sysservices;
         }
 
         public IActionResult Index()
