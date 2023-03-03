@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JobsV1.Models;
+using CoreLib.Models.SysDB;
 
 namespace CoreLib.Interfaces.System
 {

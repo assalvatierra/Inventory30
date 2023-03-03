@@ -8,11 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <Compile Remove="Areas\**" />
+    <Content Remove="Areas\**" />
+    <EmbeddedResource Remove="Areas\**" />
+    <None Remove="Areas\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>

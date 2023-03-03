@@ -63,7 +63,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBSchema", "DBSchemas\eJobs
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System", "System", "{55A060EC-55F2-477B-B935-66D0BACCDB3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealSys.Module.SysLib", "Modules\System\RealSys.Module.SysLib\RealSys.Module.SysLib.csproj", "{8AC62FED-105E-451D-BF6D-FD98D87B8789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealSys.Module.SysLib", "Modules\System\RealSys.Module.SysLib\RealSys.Module.SysLib.csproj", "{8AC62FED-105E-451D-BF6D-FD98D87B8789}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorSamples", "UI\Projects\Samples\RazorSamples\RazorSamples.csproj", "{BC58C7F2-C3BB-41EB-AC2E-F2190133205E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLib.Models.SysDB", "DBSchemas\CoreLib.Models.SysDB\CoreLib.Models.SysDB.csproj", "{7C10AD1A-6DEA-4591-8A91-6A918F17672E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +147,14 @@ Global
 		{8AC62FED-105E-451D-BF6D-FD98D87B8789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AC62FED-105E-451D-BF6D-FD98D87B8789}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AC62FED-105E-451D-BF6D-FD98D87B8789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC58C7F2-C3BB-41EB-AC2E-F2190133205E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC58C7F2-C3BB-41EB-AC2E-F2190133205E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC58C7F2-C3BB-41EB-AC2E-F2190133205E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC58C7F2-C3BB-41EB-AC2E-F2190133205E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C10AD1A-6DEA-4591-8A91-6A918F17672E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C10AD1A-6DEA-4591-8A91-6A918F17672E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C10AD1A-6DEA-4591-8A91-6A918F17672E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C10AD1A-6DEA-4591-8A91-6A918F17672E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -173,6 +185,8 @@ Global
 		{06D0AE33-7303-4F16-8AD3-B560151FE15F} = {86DD4DAA-295E-46BC-99A5-7720CCDDA3E7}
 		{55A060EC-55F2-477B-B935-66D0BACCDB3A} = {91635FA3-9938-44C6-B789-6DD7DF890FFD}
 		{8AC62FED-105E-451D-BF6D-FD98D87B8789} = {55A060EC-55F2-477B-B935-66D0BACCDB3A}
+		{BC58C7F2-C3BB-41EB-AC2E-F2190133205E} = {B6C4BDCB-2D7B-4C39-92C0-5B564130C50A}
+		{7C10AD1A-6DEA-4591-8A91-6A918F17672E} = {F1887AC6-5012-4A14-A02A-B316B8B29446}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {76C6498A-993D-4D1B-8A88-C496E545DF9D}
