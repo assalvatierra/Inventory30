@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoreLib.Models.System;
-using JobsV1.Models;
+using CoreLib.Models.SysDB;
 using CoreLib.Interfaces;
 using CoreLib.Interfaces.System;
 

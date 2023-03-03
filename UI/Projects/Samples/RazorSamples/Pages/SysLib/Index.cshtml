@@ -1,0 +1,72 @@
+﻿@page
+@model RazorSamples.Pages.SysLib.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SysService[0].SysCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SysService[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SysService[0].Remarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SysService[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SysService[0].IconPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SysService[0].SeqNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SysService[0].IconFA)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.SysService) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SysCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IconPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SeqNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IconFA)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

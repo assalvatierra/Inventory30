@@ -61,7 +61,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eJobs", "eJobs", "{86DD4DAA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBSchema", "DBSchemas\eJobsDBSchema\DBSchema.csproj", "{06D0AE33-7303-4F16-8AD3-B560151FE15F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System", "System", "{55A060EC-55F2-477B-B935-66D0BACCDB3A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{55A060EC-55F2-477B-B935-66D0BACCDB3A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealSys.Module.SysLib", "Modules\System\RealSys.Module.SysLib\RealSys.Module.SysLib.csproj", "{8AC62FED-105E-451D-BF6D-FD98D87B8789}"
 EndProject

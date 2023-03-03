@@ -1,7 +1,7 @@
 using eJob30.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using CoreLib.Models.System;
+using CoreLib.Models.SysDB;
 using CoreLib.Interfaces.System;
 
 var builder = WebApplication.CreateBuilder(args);

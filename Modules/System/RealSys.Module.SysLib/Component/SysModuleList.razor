@@ -1,7 +1,71 @@
-﻿<h3>SysModuleList</h3>
+﻿
+@using CoreLib.Models.SysDB;
+@using CoreLib.Interfaces.System;
+
+@inject ISystemServices sServices
 
 @code {
+
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public IList<SysService> SysService { get; set; } = default!;
+
+    public string textInit { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.textInit = "Sample Initialize";
+        //if (sServices != null)
+        //{
+        //    SysService = sServices.getServices(0).ToList();
+        //}
+    }
+
 
 }
 
 
+<h3>Sample Component : @Text</h3>
+<p>Time: @System.DateTime.Now</p>
+<p>Sample Init text: @textInit</p>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+ 
+    </thead>
+    <tbody>
+        @foreach (var item in SysService)
+        {
+            <tr>
+                <td>
+                    @item.SysCode
+                </td>
+                <td>
+                    @item.Description
+                </td>
+                <td>
+                    @item.Remarks
+                </td>
+                <td>
+                    @item.Status
+                </td>
+                <td>
+                    @item.IconPath
+                </td>
+                <td>
+                    @item.SeqNo
+                </td>
+                <td>
+                    @item.IconFA
+                </td>
+              
+            </tr>
+        }
+    </tbody>
+</table>

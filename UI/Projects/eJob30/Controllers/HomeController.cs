@@ -24,6 +24,8 @@ namespace eJob30.Controllers
         public IActionResult Modules()
         {
             var sysItems = this.systemservices.getServices(0).ToList();
+            ViewBag.sysItems = sysItems;
+
             return View();
         }
 
