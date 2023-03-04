@@ -4,14 +4,15 @@
 @{
     ViewData["Title"] = "Releasing";
 
-    bool IsAdmin = ViewBag.IsAdmin;
+    bool IsAdmin = Model.ReleasingIndexModel.IsAdmin;
     int STATUS_PENDING = 1;
+    
 }
 
 <h1>
     Releasing
 
-    @if (ViewBag.Status == "ACCEPTED")
+    @if (Model.ReleasingIndexModel.Status == "ACCEPTED")
     {
         <span style="font-size:1rem;">(Released)</span>
     }
@@ -22,23 +23,23 @@
 </h1>
 
 <p>
-    <a asp-page="../Main/Index" asp-route-id="@ViewBag.StoreId">Go back to MyStore</a> |
-    @if (ViewBag.Status == "ACCEPTED")
+    <a asp-page="../Main/Index" asp-route-id="@Model.ReleasingIndexModel.StoreId">Go back to MyStore</a> |
+    @if (Model.ReleasingIndexModel.Status == "ACCEPTED")
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.ReleasingIndexModel.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
     }
     else
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="ACCEPTED">Go recent Released</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.ReleasingIndexModel.StoreId" asp-route-Status="ACCEPTED">Go recent Released</a>
     }
 </p>
 <p>
-    <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId" class="btn btn-primary">Create New</a>
+    <a asp-page="Create" asp-route-storeId="@Model.ReleasingIndexModel.StoreId" class="btn btn-primary">Create New</a>
 </p>
 
 <form method="post">
     <div hidden>
-        <input type="text" value="@ViewData["StoreId"]" name="storeId" id="storeId" />
+        <input type="text" value="@Model.ReleasingIndexModel.StoreId" name="storeId" id="storeId" />
     </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-outline-primary" id="status-pending">
@@ -79,7 +80,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.InvTrxHdr)
+        @foreach (var item in Model.ReleasingIndexModel.InvTrxHdrs)
         {
             <tr>
                 <td>

@@ -13,6 +13,7 @@ using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
 using Microsoft.EntityFrameworkCore;
 using Modules.Inventory;
+using CoreLib.DTO.Releasing;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
@@ -23,16 +24,27 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
         private readonly IItemServices _itemServices;
         private readonly IStoreServices _storeServices;
         private readonly IUomServices _uomServices;
+        private readonly IItemDtlsServices _itemDtlsServices;
+        private readonly IItemTrxServices _itemTrxServices;
+
 
 
         public CreateModel(ILogger<CreateModel> logger, ApplicationDbContext context)
         {
+            _logger = logger;
             _context = context;
             _itemServices = new ItemServices(context);
             _uomServices = new UomServices(context);
-            _storeServices = new StoreServices(context, logger);
-            _logger = logger;
+            _storeServices = new StoreServices(context, _logger);
+            _itemDtlsServices = new ItemDtlsServices(context, _logger);
+            _itemTrxServices = new ItemTrxServices(context, _logger);
         }
+
+        [BindProperty]
+        public ItemDtlsCreateEditModel ItemDtlsCreateEditModel { get; set; }
+
+        //[BindProperty]
+        public InvTrxDtl InvTrxDtl { get; set; }
 
         public IActionResult OnGet(int? hdrId, int? invItemId)
         {
@@ -46,45 +58,39 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 invItemId = 2;
             }
 
-            var invHdr = _context.InvTrxHdrs.Find(hdrId);
+            int storeId = _itemTrxServices.GetInvTrxStoreId((int)hdrId);
+            int itemId = GetDefaultInvitemId(invItemId);
+            var lotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
+            var availableItems = _storeServices.GetAvailableItemsIdsByStore(storeId);
 
-            int storeId = invHdr.InvStoreId;
-            int itemId = invItemId == null ? 1 : (int)invItemId;
-            var LotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
-            var LotNoItemsIds = LotNoList.Select(c => c.LotNo).ToList();
-            var selectedItem = " ";
+            //ItemDtlsCreateEditModel = _itemDtlsServices.GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl, storeId, invitem);
+            ItemDtlsCreateEditModel = new ItemDtlsCreateEditModel();
+            ItemDtlsCreateEditModel.InvTrxDtl = InvTrxDtl;
 
-            var storeItems = _storeServices.GetStoreItemsSummary(storeId, 0, null);
-            var availbaleStoreItems = storeItems.Result.Where(i => i.Available > 0).Select(i=>i.Id).ToList();
-
-
-            ViewData["LotNo"] = new SelectList(LotNoList.Select(x => new {
+            ItemDtlsCreateEditModel.LotNo = new SelectList(lotNoList.Select(x => new {
                 Name = String.Format("{0} ", x.LotNo),
                 Value = x.LotNo
             }), "Value", "Name");
 
-            ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availbaleStoreItems)
+            ItemDtlsCreateEditModel.InvItems = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availableItems)
                                     .Include(i => i.InvCategory)
-                                   .Select(x => new
-                                   {
+                                    .Select(x => new {
                                        Name = String.Format("{0} - {1} - {2} {3}",
                                        x.Code, x.InvCategory.Description, x.Description, x.Remarks),
                                        Value = x.Id
-                                   }), "Value", "Name", itemId);
-            
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom");
-            ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
-            ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 2);
-            ViewData["HdrId"] = hdrId;
-            ViewData["LotNoItems"] = LotNoList;
-            ViewData["StoreId"] = storeId;
-            ViewData["SelectedItem"] = selectedItem;
+                                     }), "Value", "Name", itemId);
+
+            ItemDtlsCreateEditModel.InvUoms = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom");
+            ItemDtlsCreateEditModel.InvTrxHdrs = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id", hdrId);
+            ItemDtlsCreateEditModel.InvTrxDtlOperators = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description", 2);
+            ItemDtlsCreateEditModel.HrdId = (int)hdrId;
+            ItemDtlsCreateEditModel.LotNoItems = lotNoList;
+            ItemDtlsCreateEditModel.StoreId = storeId;
+            ItemDtlsCreateEditModel.SelectedItem = " ";
 
             return Page();
         }
 
-        [BindProperty]
-        public InvTrxDtl InvTrxDtl { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -97,24 +103,29 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                     return Page();
                 }
 
-                if (InvTrxDtl.LotNo == 0 || InvTrxDtl.LotNo == null)
+                if (ItemDtlsCreateEditModel.InvTrxDtl.LotNo == 0 || ItemDtlsCreateEditModel.InvTrxDtl.LotNo == null)
                 {
                     //requires LotNo
-                    return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+                    return RedirectToPage("../Details", new { id = ItemDtlsCreateEditModel.InvTrxDtl.InvTrxHdrId });
                 }
 
-                _context.InvTrxDtls.Add(InvTrxDtl);
-                await _context.SaveChangesAsync();
+                _itemDtlsServices.CreateInvDtls(ItemDtlsCreateEditModel.InvTrxDtl);
+                await _itemDtlsServices.SaveChangesAsync();
 
-                return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+                return RedirectToPage("../Details", new { id = ItemDtlsCreateEditModel.InvTrxDtl.InvTrxHdrId });
 
             }
             catch (Exception ex)
             {
 
                 _logger.LogError("Stores/Releasing/Create: Unable to OnPostAsync " + ex.Message);
-                return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+                return RedirectToPage("../Details", new { id = ItemDtlsCreateEditModel.InvTrxDtl.InvTrxHdrId });
             }
+        }
+
+        private int GetDefaultInvitemId(int? invItemId)
+        {
+            return invItemId == null ? 1 : (int)invItemId;
         }
     }
 }

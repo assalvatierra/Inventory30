@@ -14,31 +14,31 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.InvStoreId" class="control-label"></label>
-                <select asp-for="InvTrxHdr.InvStoreId" class="form-control" asp-items="ViewBag.InvStoreId"></select>
+                <label asp-for="ReleasingCreateModel.InvTrxHdr.InvStoreId" class="control-label"></label>
+                <select asp-for="ReleasingCreateModel.InvTrxHdr.InvStoreId" class="form-control" asp-items="Model.ReleasingCreateModel.InvStoresList"></select>
             </div>
             <div class="form-group">
-                <label asp-for="InvTrxHdr.DtTrx" class="control-label"></label>
-                <input asp-for="InvTrxHdr.DtTrx" class="form-control datepicker" type="text" />
-                <span asp-validation-for="InvTrxHdr.DtTrx" class="text-danger"></span>
+                <label asp-for="ReleasingCreateModel.InvTrxHdr.DtTrx" class="control-label"></label>
+                <input asp-for="ReleasingCreateModel.InvTrxHdr.DtTrx" class="form-control datepicker" type="text" />
+                <span asp-validation-for="ReleasingCreateModel.InvTrxHdr.DtTrx" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="InvTrxHdr.Remarks" class="control-label"></label>
-                <input asp-for="InvTrxHdr.Remarks" class="form-control" />
-                <span asp-validation-for="InvTrxHdr.Remarks" class="text-danger"></span>
+            <div class="form-group" >
+                <label asp-for="ReleasingCreateModel.InvTrxHdr.Remarks" class="control-label"></label>
+                <input asp-for="ReleasingCreateModel.InvTrxHdr.Remarks" class="form-control" />
+                <span asp-validation-for="ReleasingCreateModel.InvTrxHdr.Remarks" class="text-danger"></span>
             </div>
-            <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.InvTrxTypeId" class="control-label"></label>
-                <select asp-for="InvTrxHdr.InvTrxTypeId" class="form-control" asp-items="ViewBag.InvTrxTypeId"></select>
-            </div>
-            <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.InvTrxHdrStatusId" class="control-label"></label>
-                <select asp-for="InvTrxHdr.InvTrxHdrStatusId" class="form-control" asp-items="ViewBag.InvTrxHdrStatusId"></select>
+            <div class="form-group"hidden>
+                <label asp-for="ReleasingCreateModel.InvTrxHdr.InvTrxTypeId" class="control-label"></label>
+                <select asp-for="ReleasingCreateModel.InvTrxHdr.InvTrxTypeId" class="form-control" value="Model.ReleasingCreateModel.InvTrxTypeId.SelectedValue" asp-items="Model.ReleasingCreateModel.InvTrxTypeId"></select>
             </div>
             <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.UserId" class="control-label"></label>
-                <input asp-for="InvTrxHdr.UserId" class="form-control" value="@ViewBag.UserId" />
-                <span asp-validation-for="InvTrxHdr.UserId" class="text-danger"></span>
+                <label asp-for="ReleasingCreateModel.InvTrxHdr.InvTrxHdrStatusId" class="control-label"></label>
+                <select asp-for="ReleasingCreateModel.InvTrxHdr.InvTrxHdrStatusId" class="form-control" asp-items="Model.ReleasingCreateModel.InvTrxHdrStatusList"></select>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="ReleasingCreateModel.InvTrxHdr.UserId" class="control-label"></label>
+                <input asp-for="ReleasingCreateModel.InvTrxHdr.UserId" class="form-control" value="@Model.ReleasingCreateModel.User" />
+                <span asp-validation-for="ReleasingCreateModel.InvTrxHdr.UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -48,7 +48,7 @@
 </div>
 
 <div>
-    <a asp-page="Index" asp-route-storeId="@ViewBag.StoreId">Back to List</a>
+    <a asp-page="Index" asp-route-storeId="@Model.ReleasingCreateModel.StoreId">Back to List</a>
 </div>
 
 @section Scripts {
