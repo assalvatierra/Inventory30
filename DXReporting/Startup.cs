@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using DevExpress.AspNetCore;
 using DevExpress.AspNetCore.Reporting;
@@ -28,7 +28,7 @@ namespace DXReporting {
             services.AddDevExpressControls();
             services.AddScoped<ReportStorageWebExtension, CustomReportStorageWebExtension>();
             services
-                .AddMvc()
+                .AddMvc().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
                 .AddNewtonsoftJson();
             services.ConfigureReportingServices(configurator => {
                 configurator.ConfigureReportDesigner(designerConfigurator => {
