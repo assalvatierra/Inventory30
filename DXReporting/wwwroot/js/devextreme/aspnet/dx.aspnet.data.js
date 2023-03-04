@@ -1,4 +1,4 @@
-// Version: 2.8.6
+// Version: 2.9.0
 // https://github.com/DevExpress/DevExtreme.AspNet.Data
 // Copyright (c) Developer Express Inc.
 
@@ -368,7 +368,8 @@
 
     function getErrorMessageFromXhr(xhr) {
         var mime = xhr.getResponseHeader("Content-Type"),
-            responseText = xhr.responseText;
+            responseText = xhr.responseText,
+            candidate;
 
         if(!mime)
             return null;
@@ -379,13 +380,22 @@
         if(mime.indexOf("application/json") === 0) {
             var jsonObj = safeParseJSON(responseText);
 
-            if(typeof jsonObj === "string")
+            if(isNonEmptyString(jsonObj))
                 return jsonObj;
 
             if(typeof jsonObj === "object") {
+                candidate = jsonObj.title;
+                if(isNonEmptyString(candidate))
+                    return candidate;
+
+                candidate = jsonObj.detail;
+                if(isNonEmptyString(candidate))
+                    return candidate;
+
                 for(var key in jsonObj) {
-                    if(typeof jsonObj[key] === "string")
-                        return jsonObj[key];
+                    candidate = jsonObj[key];
+                    if(isNonEmptyString(candidate))
+                        return candidate;
                 }
             }
 
@@ -401,6 +411,10 @@
         } catch(x) {
             return null;
         }
+    }
+
+    function isNonEmptyString(value) {
+        return typeof value === "string" && value.length > 0;
     }
 
     return {
