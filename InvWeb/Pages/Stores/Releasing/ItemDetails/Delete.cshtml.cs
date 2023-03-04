@@ -7,16 +7,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using Microsoft.Extensions.Logging;
+using CoreLib.Inventory.Interfaces;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<DeleteModel> _logger;
+        private readonly IItemDtlsServices _itemDtlsServices;
 
-        public DeleteModel(ApplicationDbContext context)
+        public DeleteModel(ILogger<DeleteModel> logger, ApplicationDbContext context)
         {
             _context = context;
+            _logger = logger;
+            _itemDtlsServices = new ItemDtlsServices(context, _logger);
         }
 
         [BindProperty]
@@ -29,10 +36,8 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return NotFound();
             }
 
-            InvTrxDtl = await _context.InvTrxDtls
-                .Include(i => i.InvItem)
-                .Include(i => i.InvTrxHdr)
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+            InvTrxDtl = await _itemDtlsServices.GetInvDtlsById((int)id)
+                                .FirstOrDefaultAsync();
 
             if (InvTrxDtl == null)
             {
@@ -48,12 +53,12 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return NotFound();
             }
 
-            InvTrxDtl = await _context.InvTrxDtls.FindAsync(id);
+            InvTrxDtl = await _itemDtlsServices.GetInvDtlsByIdAsync((int)id);
 
             if (InvTrxDtl != null)
             {
-                _context.InvTrxDtls.Remove(InvTrxDtl);
-                await _context.SaveChangesAsync();
+                _itemDtlsServices.DeleteInvDtls(InvTrxDtl);
+                await _itemDtlsServices.SaveChangesAsync();
             }
 
             return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });

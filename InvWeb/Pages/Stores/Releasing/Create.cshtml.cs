@@ -8,17 +8,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CoreLib.Inventory.Models;
 using System.Security.Claims;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
+using CoreLib.DTO.Releasing;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CreateModel> _logger;
+        private readonly IItemTrxServices itemTrxServices;
+        private readonly IStoreServices storeServices;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(ILogger<CreateModel> logger, ApplicationDbContext context)
         {
+            _logger = logger;
             _context = context;
+            itemTrxServices = new ItemTrxServices(_context, _logger);
+            storeServices = new StoreServices(_context, _logger);
         }
+
+        //public InvTrxHdr InvTrxHdr { get; set; }
+        [BindProperty]
+        public ReleasingCreateEditModel ReleasingCreateModel { get; set; }
+        public InvTrxHdr InvTrxHdr;
+        public int StoreId { get; set; }
+        private int STATUS_RELEASED = 2;
 
         public IActionResult OnGet(int? storeId)
         {
@@ -27,31 +44,42 @@ namespace InvWeb.Pages.Stores.Releasing
                 return NotFound();
             }
 
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName", storeId);
-            ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(_context.InvTrxTypes, "Id", "Type", 2);
-            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
-            ViewData["StoreId"] = storeId;
+            this.UpdateStoreId((int)storeId);
 
+            ReleasingCreateModel = itemTrxServices.GetReleasingCreateModel_OnCreateOnGet(InvTrxHdr, StoreId, GetUser(), GetStores());
+            
             return Page();
         }
-
-        [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
+                ReleasingCreateModel = itemTrxServices.GetReleasingCreateModel_OnCreateOnGet(ReleasingCreateModel.InvTrxHdr, StoreId, GetUser(), GetStores());
                 return Page();
             }
 
-            _context.InvTrxHdrs.Add(InvTrxHdr);
-            await _context.SaveChangesAsync();
+            itemTrxServices.CreateInvTrxHdrs(ReleasingCreateModel.InvTrxHdr);
+            await itemTrxServices.SaveChanges();
 
-            //return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId, status = "PENDING" });
-            return RedirectToPage("./Details", new { id = InvTrxHdr.Id});
+            return RedirectToPage("./Details", new { id = ReleasingCreateModel.InvTrxHdr.Id});
         }
+
+        private string GetUser()
+        {
+            return User.FindFirstValue(ClaimTypes.Name);
+        }
+
+        private List<InvStore> GetStores()
+        {
+            return storeServices.GetInvStores().ToList();
+        }
+
+        private void UpdateStoreId(int storeId)
+        {
+            StoreId = storeId;
+        }
+
     }
 }

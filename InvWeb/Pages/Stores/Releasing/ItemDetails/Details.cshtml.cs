@@ -7,16 +7,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
     public class DetailsModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<DeleteModel> _logger;
+        private readonly IItemDtlsServices _itemDtlsServices;
 
-        public DetailsModel(ApplicationDbContext context)
+        public DetailsModel(ILogger<DeleteModel> logger, ApplicationDbContext context)
         {
             _context = context;
+            _logger = logger;
+            _itemDtlsServices = new ItemDtlsServices(context, _logger);
         }
 
         public InvTrxDtl InvTrxDtl { get; set; }
@@ -28,10 +35,9 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return NotFound();
             }
 
-            InvTrxDtl = await _context.InvTrxDtls
-                .Include(i => i.InvItem)
-                .Include(i => i.InvTrxHdr)
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+
+            InvTrxDtl = await _itemDtlsServices.GetInvDtlsById((int)id)
+                                .FirstOrDefaultAsync();
 
             if (InvTrxDtl == null)
             {

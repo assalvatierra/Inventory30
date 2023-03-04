@@ -12,6 +12,7 @@ using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
 using Microsoft.Extensions.Logging;
 using Modules.Inventory;
+using CoreLib.DTO.Releasing;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
@@ -22,6 +23,8 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
         private readonly IItemServices _itemServices;
         private readonly IUomServices _uomServices;
         private readonly IStoreServices _storeServices;
+        private readonly IItemDtlsServices _itemDtlsServices;
+        private readonly IItemTrxServices _itemTrxServices;
 
         public EditModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
@@ -30,9 +33,14 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             _itemServices = new ItemServices(context);
             _uomServices = new UomServices(context);
             _storeServices = new StoreServices(context, logger);
+            _itemDtlsServices = new ItemDtlsServices(context, _logger);
+            _itemTrxServices = new ItemTrxServices(context, _logger);
         }
 
         [BindProperty]
+        public ItemDtlsCreateEditModel ItemDtlsCreateEditModel { get; set; }
+
+        //[BindProperty]
         public InvTrxDtl InvTrxDtl { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id, int? invItemId)
@@ -42,14 +50,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return NotFound();
             }
 
-            InvTrxDtl = await _context.InvTrxDtls
-                .Include(i => i.InvItem)
-                .ThenInclude(i=>i.InvWarningLevels)
-                .ThenInclude(i=>i.InvWarningType)
-                .Include(i => i.InvTrxHdr)
-                .Include(i => i.InvUom)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
+            InvTrxDtl = await _itemDtlsServices.GetInvDtlsByIdOnEdit((int)id);
 
             if (InvTrxDtl == null)
             {
@@ -57,38 +58,57 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             }
 
             int storeId = InvTrxDtl.InvTrxHdr.InvStoreId;
-            int itemId = invItemId  == null ? InvTrxDtl.InvItemId: (int)invItemId;
-            var LotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
-            var LotNoItemsIds = LotNoList.Select(c => c.LotNo).ToList();
-            var selectedItem = " (" + InvTrxDtl.InvItem.Code + ") " + InvTrxDtl.InvItem.Description
-                               + " " + InvTrxDtl.InvItem.Remarks;
-
-            var storeItems = _storeServices.GetStoreItemsSummary(storeId, 0, null);
-            var availbaleStoreItems = storeItems.Result.Where(i => i.Available > 0).Select(i => i.Id).ToList();
+            int itemId = GetDefaultInvitemId(invItemId);
+            var lotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
+            var availableItems = _storeServices.GetAvailableItemsIdsByStore(storeId);
 
             InvTrxDtl.InvItemId = itemId;
 
+            ItemDtlsCreateEditModel = new ItemDtlsCreateEditModel();
+            ItemDtlsCreateEditModel.InvTrxDtl = InvTrxDtl;
 
-            ViewData["LotNo"] = new SelectList(LotNoList.Select(x => new {
-                    Name = String.Format("{0} ", x.LotNo),
-                    Value = x.LotNo
-                }), "Value", "Name");
+            ItemDtlsCreateEditModel.LotNo = new SelectList(lotNoList.Select(x => new {
+                Name = String.Format("{0} ", x.LotNo),
+                Value = x.LotNo
+            }), "Value", "Name", InvTrxDtl.LotNo);
 
-            ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availbaleStoreItems)
+            ItemDtlsCreateEditModel.InvItems = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availableItems)
                                     .Include(i => i.InvCategory)
-                                   .Select(x => new
-                                   {
-                                       Name = String.Format("{0} - {1} - {2} {3}",
+                                    .Select(x => new {
+                                        Name = String.Format("{0} - {1} - {2} {3}",
                                        x.Code, x.InvCategory.Description, x.Description, x.Remarks),
-                                       Value = x.Id
-                                   }), "Value", "Name", invItemId);
+                                        Value = x.Id
+                                    }), "Value", "Name", itemId);
 
-            ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom", InvTrxDtl.InvItem.InvUomId);
-            ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
-            ViewData["LotNoItems"]  = LotNoList;
-            ViewData["StoreId"]     = storeId;
-            ViewData["SelectedItem"] = selectedItem;
+            ItemDtlsCreateEditModel.InvUoms = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom", InvTrxDtl.InvUomId);
+            ItemDtlsCreateEditModel.InvTrxHdrs = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id", InvTrxDtl.InvTrxHdrId);
+            ItemDtlsCreateEditModel.InvTrxDtlOperators = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description", 2);
+            ItemDtlsCreateEditModel.HrdId = (int)InvTrxDtl.InvTrxHdrId;
+            ItemDtlsCreateEditModel.LotNoItems = lotNoList;
+            ItemDtlsCreateEditModel.StoreId = storeId;
+            ItemDtlsCreateEditModel.SelectedItem = " (" + InvTrxDtl.InvItem.Code + ") " + InvTrxDtl.InvItem.Description
+                               + " " + InvTrxDtl.InvItem.Remarks;
+
+            //ViewData["LotNo"] = new SelectList(lotNoList.Select(x => new {
+            //        Name = String.Format("{0} ", x.LotNo),
+            //        Value = x.LotNo
+            //    }), "Value", "Name");
+
+            //ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availableItems)
+            //                        .Include(i => i.InvCategory)
+            //                       .Select(x => new
+            //                       {
+            //                           Name = String.Format("{0} - {1} - {2} {3}",
+            //                           x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+            //                           Value = x.Id
+            //                       }), "Value", "Name", invItemId);
+
+            //ViewData["InvTrxHdrId"] = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id");
+            //ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom", InvTrxDtl.InvItem.InvUomId);
+            //ViewData["InvTrxDtlOperatorId"] = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description");
+            //ViewData["LotNoItems"]  =lotNoList;
+            //ViewData["StoreId"]     = storeId;
+            //ViewData["SelectedItem"] = selectedItem;
 
             return Page();
         }
@@ -102,20 +122,20 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return Page();
             }
 
-            if (InvTrxDtl.LotNo == 0 || InvTrxDtl.LotNo == null)
+            if (ItemDtlsCreateEditModel.InvTrxDtl.LotNo == 0 || ItemDtlsCreateEditModel.InvTrxDtl.LotNo == null)
             {
-                return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+                return RedirectToPage("../Details", new { id = ItemDtlsCreateEditModel.InvTrxDtl.InvTrxHdrId });
             }
 
-            _context.Attach(InvTrxDtl).State = EntityState.Modified;
+            _itemDtlsServices.EditInvDtls(ItemDtlsCreateEditModel.InvTrxDtl);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _itemDtlsServices.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvTrxDtlExists(InvTrxDtl.Id))
+                if (!InvTrxDtlExists(ItemDtlsCreateEditModel.InvTrxDtl.Id))
                 {
                     return NotFound();
                 }
@@ -125,14 +145,17 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 }
             }
 
-            return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+            return RedirectToPage("../Details", new { id = ItemDtlsCreateEditModel.InvTrxDtl.InvTrxHdrId });
         }
 
         private bool InvTrxDtlExists(int id)
         {
-            return _context.InvTrxDtls.Any(e => e.Id == id);
+            return _itemDtlsServices.InvTrxDtlsExists(id);
         }
 
-
+        private int GetDefaultInvitemId(int? invItemId)
+        {
+            return invItemId == null ? InvTrxDtl.InvItemId : (int)invItemId; ;
+        }
     }
 }
