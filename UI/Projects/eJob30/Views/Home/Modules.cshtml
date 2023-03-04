@@ -2,13 +2,14 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-@using RealSys.Module.SysLib.Component
+@using RealSys.Modules.SysLib.Component
 
 @{
-    int isample = 0;
 }
 
 <h2>Module list page</h2>
-<a asp-action="route" asp-route-id="@isample">Link</a>
-
-<component type="typeof(SysModuleList)" render-mode="Static" param-text='"Sample Comp"' param-SysService='ViewBag.sysItems' />
+<component type="typeof(SysModuleList)" render-mode="Static" 
+    param-text='"Sample Comp"' 
+    param-SysService='ViewBag.sysItems' 
+    param-targetController='"Home"'
+    param-targetRoute='"Route"'/>

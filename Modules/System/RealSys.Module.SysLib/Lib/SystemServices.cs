@@ -7,7 +7,7 @@ using CoreLib.Models.SysDB;
 using CoreLib.Interfaces;
 using CoreLib.Interfaces.System;
 
-namespace RealSys.Module.SysLib.Lib
+namespace RealSys.Modules.SysLib
 {
     public class SystemServices: ISystemServices
     {

@@ -63,7 +63,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBSchema", "DBSchemas\eJobs
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{55A060EC-55F2-477B-B935-66D0BACCDB3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealSys.Module.SysLib", "Modules\System\RealSys.Module.SysLib\RealSys.Module.SysLib.csproj", "{8AC62FED-105E-451D-BF6D-FD98D87B8789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealSys.Modules.SysLib", "Modules\System\RealSys.Module.SysLib\RealSys.Modules.SysLib.csproj", "{8AC62FED-105E-451D-BF6D-FD98D87B8789}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorSamples", "UI\Projects\Samples\RazorSamples\RazorSamples.csproj", "{BC58C7F2-C3BB-41EB-AC2E-F2190133205E}"
 EndProject
@@ -71,7 +71,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLib.Models.SysDB", "DBS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleBlazor", "UI\Projects\Samples\SampleBlazor\SampleBlazor.csproj", "{675CF27A-661F-4D84-AC80-FEF37F5EB8A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealSys.Module.Samples", "Modules\RealSys.Module.Samples\RealSys.Module.Samples.csproj", "{F4FEA196-95A1-4DDD-A5D8-7261FD067BF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealSys.Modules.Samples", "Modules\RealSys.Module.Samples\RealSys.Modules.Samples.csproj", "{F4FEA196-95A1-4DDD-A5D8-7261FD067BF5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleMVC", "UI\Projects\Samples\SampleMVC\SampleMVC.csproj", "{AD99DA68-F20A-401A-9FDE-E25241928CAF}"
 EndProject

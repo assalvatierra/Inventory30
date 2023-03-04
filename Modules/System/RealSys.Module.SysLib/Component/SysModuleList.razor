@@ -4,11 +4,9 @@
 @using Microsoft.AspNetCore.Mvc.RazorPages
 @using Microsoft.AspNetCore.Mvc
 
-@inject ISystemServices sServices
 @inject NavigationManager NavigationManager
 
 @code {
-
 
     [Parameter]
     public string Text { get; set; }
@@ -16,29 +14,25 @@
     [Parameter]
     public IList<SysService> SysService { get; set; } = default!;
 
-    public string textInit { get; set; }
+    [Parameter]
+    public string targetController { get; set; }
+
+    [Parameter]
+    public string targetRoute { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        this.textInit = "Sample Initialize";
-        //if (sServices != null)
-        //{
-        //    SysService = sServices.getServices(0).ToList();
-        //}
     }
-
-    int isample = 0;
 
 }
 
 
 <h3>Sample Component : @Text</h3>
 <p>Time: @System.DateTime.Now</p>
-<p>Sample Init text: @textInit</p>
+
 
 <p>
-    <a asp-action="route" asp-route-id="@isample">Link</a>
-    <a href="@($"{NavigationManager.BaseUri}Home/route")">123</a> |
+    <a href="@($"{NavigationManager.BaseUri}{targetController}/{targetRoute}")">123</a> |
     <a asp-page="Create">Create New</a>
 </p>
 <table class="table">
@@ -71,7 +65,9 @@
                     @item.IconFA
                 </td>
                 <td>
-                <a asp-action="route" asp-route-id="@item.Id">Link</a>
+                    <a href="@($"{NavigationManager.BaseUri}{targetController}/{targetRoute}/{item.Id}")">
+                        Edit
+                    </a>
                 </td>
             </tr>
         }

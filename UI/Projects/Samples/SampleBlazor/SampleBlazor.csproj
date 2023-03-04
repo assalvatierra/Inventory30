@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Modules\RealSys.Module.Samples\RealSys.Module.Samples.csproj" />
+    <ProjectReference Include="..\..\..\..\Modules\RealSys.Module.Samples\RealSys.Modules.Samples.csproj" />
   </ItemGroup>
 
 </Project>

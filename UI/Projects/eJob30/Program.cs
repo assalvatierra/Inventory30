@@ -16,7 +16,7 @@ builder.Services.AddDbContext<SysDBContext>(options =>
     options.UseSqlServer(
             builder.Configuration.GetConnectionString("DefaultConnection")
         ));
-builder.Services.AddScoped<ISystemServices, RealSys.Module.SysLib.Lib.SystemServices>();
+builder.Services.AddScoped<ISystemServices, RealSys.Modules.SysLib.SystemServices>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
