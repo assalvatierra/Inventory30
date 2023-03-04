@@ -1,8 +1,11 @@
 ﻿
 @using CoreLib.Models.SysDB;
 @using CoreLib.Interfaces.System;
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@using Microsoft.AspNetCore.Mvc
 
 @inject ISystemServices sServices
+@inject NavigationManager NavigationManager
 
 @code {
 
@@ -24,6 +27,7 @@
         //}
     }
 
+    int isample = 0;
 
 }
 
@@ -33,6 +37,8 @@
 <p>Sample Init text: @textInit</p>
 
 <p>
+    <a asp-action="route" asp-route-id="@isample">Link</a>
+    <a href="@($"{NavigationManager.BaseUri}Home/route")">123</a> |
     <a asp-page="Create">Create New</a>
 </p>
 <table class="table">
@@ -64,7 +70,9 @@
                 <td>
                     @item.IconFA
                 </td>
-              
+                <td>
+                <a asp-action="route" asp-route-id="@item.Id">Link</a>
+                </td>
             </tr>
         }
     </tbody>

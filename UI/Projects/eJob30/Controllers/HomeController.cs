@@ -28,7 +28,10 @@ namespace eJob30.Controllers
 
             return View();
         }
-
+        public IActionResult route(int Id)
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

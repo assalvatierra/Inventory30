@@ -1,0 +1,79 @@
+﻿
+@using CoreLib.Models.SysDB;
+@using CoreLib.Interfaces.System;
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@using Microsoft.AspNetCore.Mvc
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+@inject ISystemServices sServices
+@inject NavigationManager NavigationManager
+
+@code {
+
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public IList<SysService> SysService { get; set; } = default!;
+
+    public string textInit { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.textInit = "Sample Initialize";
+        //if (sServices != null)
+        //{
+        //    SysService = sServices.getServices(0).ToList();
+        //}
+    }
+
+    int isample = 0;
+
+}
+
+
+<h3>Job30 Component : @Text</h3>
+<p>Time: @System.DateTime.Now</p>
+<p>Sample Init text: @textInit</p>
+
+<p>
+    <a href="@($"{NavigationManager.BaseUri}Home/route")">123</a> |
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+ 
+    </thead>
+    <tbody>
+        @foreach (var item in SysService)
+        {
+            <tr>
+                <td>
+                    @item.SysCode
+                </td>
+                <td>
+                    @item.Description
+                </td>
+                <td>
+                    @item.Remarks
+                </td>
+                <td>
+                    @item.Status
+                </td>
+                <td>
+                    @item.IconPath
+                </td>
+                <td>
+                    @item.SeqNo
+                </td>
+                <td>
+                    @item.IconFA
+                </td>
+                <td>
+                <a asp-action="route" asp-route-id="@item.Id">Link</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
