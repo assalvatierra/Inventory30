@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoreLib.DTO.Receiving;
 using CoreLib.DTO.Releasing;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
@@ -462,6 +463,78 @@ namespace Modules.Inventory
 
             }
         }
+
+
+        public virtual async Task<ReceivingIndexModel> GetReceivingIndexModel_OnIndexOnGetAsync(IList<InvTrxHdr> InvTrxHdrs, int storeId, int TypeId, string status, bool userIsAdmin)
+        {
+            try
+            {
+                ReceivingIndexModel receivingIndexModel = new ReceivingIndexModel();
+
+                InvTrxHdrs = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType)
+                .Include(i => i.InvTrxDtls)
+                    .ThenInclude(i => i.InvItem)
+                    .ThenInclude(i => i.InvUom)
+                .Where(i => i.InvTrxTypeId == TypeId &&
+                              i.InvStoreId == storeId)
+                .ToListAsync();
+
+                InvTrxHdrs = this.FilterByStatus(InvTrxHdrs, status);
+
+                receivingIndexModel.InvTrxHdrs = InvTrxHdrs;
+                receivingIndexModel.StoreId = storeId;
+                receivingIndexModel.Status = status;
+                receivingIndexModel.IsAdmin = userIsAdmin;
+
+                return receivingIndexModel;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReceivingIndexModel_OnIndexOnGetAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReceivingIndexModel_OnIndexOnGetAsync :" + ex.Message);
+
+            }
+        }
+
+
+        public virtual async Task<ReceivingIndexModel> GetReceivingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> InvTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin)
+        {
+            try
+            {
+                ReceivingIndexModel receivingIndexModel = new ReceivingIndexModel();
+
+                InvTrxHdrs = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType)
+                .Include(i => i.InvTrxDtls)
+                    .ThenInclude(i => i.InvItem)
+                    .ThenInclude(i => i.InvUom)
+                .Where(i => i.InvTrxTypeId == TypeId &&
+                              i.InvStoreId == storeId)
+                .ToListAsync();
+
+                InvTrxHdrs = this.FilterByStatus(InvTrxHdrs, status);
+                InvTrxHdrs = this.FilterByOrder(InvTrxHdrs, orderBy);
+
+                receivingIndexModel.InvTrxHdrs = InvTrxHdrs;
+                receivingIndexModel.StoreId = storeId;
+                receivingIndexModel.Status = status;
+                receivingIndexModel.IsAdmin = userIsAdmin;
+
+                return receivingIndexModel;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReceivingIndexModel_OnIndexOnGetAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReceivingIndexModel_OnIndexOnGetAsync :" + ex.Message);
+
+            }
+        }
+
 
     }
 }

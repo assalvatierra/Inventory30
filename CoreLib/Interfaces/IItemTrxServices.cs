@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CoreLib.DTO.Releasing;
+using CoreLib.DTO.Receiving;
 
 namespace CoreLib.Inventory.Interfaces
 {
@@ -26,11 +27,16 @@ namespace CoreLib.Inventory.Interfaces
         public int GetInvTrxStoreId(int hdrId);
 
         //Get View Models Data
+        //Releasing
         public Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnGetAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, bool userIsAdmin);
         public Task<ReleasingIndexModel> GetReleasingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin);
         public ReleasingCreateEditModel GetReleasingCreateModel_OnCreateOnGet(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList);
         public ReleasingCreateEditModel GetReleasingEditModel_OnEditOnGet(InvTrxHdr invTrxHdr, int storeId, string User, IList<InvStore> invStoreList);
         public Task DeleteInvTrxHdrs_AndTrxDtlsItems(InvTrxHdr invTrxHdr);
+
+        //Receiving
+        public Task<ReceivingIndexModel> GetReceivingIndexModel_OnIndexOnGetAsync(IList<InvTrxHdr> InvTrxHdrs, int storeId, int TypeId, string status, bool userIsAdmin);
+        public Task<ReceivingIndexModel> GetReceivingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> InvTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin);
 
         //Transaction Details
         public IEnumerable<InvTrxDtl> GetInvTrxDtlsById(int Id);
