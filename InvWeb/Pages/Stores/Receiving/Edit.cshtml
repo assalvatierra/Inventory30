@@ -15,34 +15,31 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="InvTrxHdr.Id" />
             <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.InvStoreId" class="control-label"></label>
-                <select asp-for="InvTrxHdr.InvStoreId" class="form-control" asp-items="ViewBag.InvStoreId"></select>
-                <span asp-validation-for="InvTrxHdr.InvStoreId" class="text-danger"></span>
+                <label asp-for="ReceivingEditModel.InvTrxHdr.InvStoreId" class="control-label"></label>
+                <select asp-for="ReceivingEditModel.InvTrxHdr.InvStoreId" class="form-control" asp-items="Model.ReceivingEditModel.InvStoresList"></select>
             </div>
             <div class="form-group">
-                <label asp-for="InvTrxHdr.DtTrx" class="control-label"></label>
-                <input asp-for="InvTrxHdr.DtTrx" class="form-control" />
-                <span asp-validation-for="InvTrxHdr.DtTrx" class="text-danger"></span>
+                <label asp-for="ReceivingEditModel.InvTrxHdr.DtTrx" class="control-label"></label>
+                <input asp-for="ReceivingEditModel.InvTrxHdr.DtTrx" class="form-control datepicker" type="text" />
+                <span asp-validation-for="ReceivingEditModel.InvTrxHdr.DtTrx" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvTrxHdr.Remarks" class="control-label"></label>
-                <input asp-for="InvTrxHdr.Remarks" class="form-control" />
-                <span asp-validation-for="InvTrxHdr.Remarks" class="text-danger"></span>
+                <label asp-for="ReceivingEditModel.InvTrxHdr.Remarks" class="control-label"></label>
+                <input asp-for="ReceivingEditModel.InvTrxHdr.Remarks" class="form-control" maxlength="80" />
+                <span asp-validation-for="ReceivingEditModel.InvTrxHdr.Remarks" class="text-danger"></span>
             </div>
             <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.InvTrxTypeId" class="control-label"></label>
-                <select asp-for="InvTrxHdr.InvTrxTypeId" class="form-control" asp-items="ViewBag.InvTrxTypeId"></select>
-                <span asp-validation-for="InvTrxHdr.InvTrxTypeId" class="text-danger"></span>
+                <label asp-for="ReceivingEditModel.InvTrxHdr.InvTrxTypeId" class="control-label"></label>
+                <select asp-for="ReceivingEditModel.InvTrxHdr.InvTrxTypeId" class="form-control" asp-items="Model.ReceivingEditModel.InvTrxTypeId"></select>
             </div>
             <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.InvTrxHdrStatusId" class="control-label"></label>
-                <select asp-for="InvTrxHdr.InvTrxHdrStatusId" class="form-control" asp-items="ViewBag.InvTrxHdrStatusId"></select>
-                <span asp-validation-for="InvTrxHdr.InvTrxHdrStatusId" class="text-danger"></span>
+                <label asp-for="ReceivingEditModel.InvTrxHdr.InvTrxHdrStatusId" class="control-label"></label>
+                <select asp-for="ReceivingEditModel.InvTrxHdr.InvTrxHdrStatusId" class="form-control" asp-items="Model.ReceivingEditModel.InvTrxHdrStatusList"></select>
             </div>
             <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.UserId" class="control-label"></label>
-                <input asp-for="InvTrxHdr.UserId" class="form-control" value="@ViewBag.UserId" />
-                <span asp-validation-for="InvTrxHdr.UserId" class="text-danger"></span>
+                <label asp-for="ReceivingEditModel.InvTrxHdr.UserId" class="control-label"></label>
+                <input asp-for="ReceivingEditModel.InvTrxHdr.UserId" class="form-control" value="@Model.ReceivingEditModel.User" />
+                <span asp-validation-for="ReceivingEditModel.InvTrxHdr.UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -52,7 +49,7 @@
 </div>
 
 <div>
-    <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId" >Back to List</a>
+    <a asp-page="./Index" asp-route-storeId="@Model.ReceivingEditModel.InvTrxHdr.InvStoreId">Back to List</a>
 </div>
 
 @section Scripts {

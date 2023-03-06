@@ -37,6 +37,8 @@ namespace CoreLib.Inventory.Interfaces
         //Receiving
         public Task<ReceivingIndexModel> GetReceivingIndexModel_OnIndexOnGetAsync(IList<InvTrxHdr> InvTrxHdrs, int storeId, int TypeId, string status, bool userIsAdmin);
         public Task<ReceivingIndexModel> GetReceivingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> InvTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin);
+        public ReceivingCreateEditModel GetReceivingCreateModel_OnCreateOnGet(InvTrxHdr invTrxHdr, int storeId, string User);
+        public ReceivingCreateEditModel GetReceivingEditModel_OnEditOnGet(InvTrxHdr invTrxHdr, int storeId, string User);
 
         //Transaction Details
         public IEnumerable<InvTrxDtl> GetInvTrxDtlsById(int Id);

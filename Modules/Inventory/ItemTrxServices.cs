@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using CoreLib.DTO.Receiving;
@@ -8,6 +9,7 @@ using CoreLib.DTO.Releasing;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using Inventory.DBAccess;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -19,6 +21,7 @@ namespace Modules.Inventory
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
+        private readonly DBMasterService dBMaster;
 
         private readonly int TYPE_RELEASING = 2;
 
@@ -26,6 +29,8 @@ namespace Modules.Inventory
         {
             _context = context;
             _logger = logger;
+
+            dBMaster = new DBMasterService(_context, _logger);
 
         }
 
@@ -122,7 +127,12 @@ namespace Modules.Inventory
         {
             try
             {
-                var invTrxHdr = await _context.InvTrxHdrs.FindAsync(Id);
+                //var invTrxHdr = await _context.InvTrxHdrs.FindAsync(Id);
+
+                var invTrxHdr = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == Id);
 
                 if (invTrxHdr != null)
                 {
@@ -535,6 +545,49 @@ namespace Modules.Inventory
             }
         }
 
+
+        public virtual ReceivingCreateEditModel GetReceivingCreateModel_OnCreateOnGet(InvTrxHdr invTrxHdr, int storeId, string User)
+        {
+            try
+            {
+                return new ReceivingCreateEditModel
+                {
+                    InvTrxHdr = invTrxHdr,
+                    InvStoresList = new SelectList(dBMaster.StoreDb.GetStoreList(), "Id", "StoreName", storeId),
+                    InvTrxHdrStatusList = new SelectList(dBMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status"),
+                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1),
+                    User = User,
+                    StoreId = storeId
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
+
+            }
+        }
+        public virtual ReceivingCreateEditModel GetReceivingEditModel_OnEditOnGet(InvTrxHdr invTrxHdr, int storeId, string User)
+        {
+            try
+            {
+                return new ReceivingCreateEditModel
+                {
+                    InvTrxHdr = invTrxHdr,
+                    InvStoresList = new SelectList(dBMaster.StoreDb.GetStoreList(), "Id", "StoreName", storeId),
+                    InvTrxHdrStatusList = new SelectList(dBMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status"),
+                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1),
+                    User = User,
+                    StoreId = storeId
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReceivingEditModel_OnEditOnGet :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReceivingEditModel_OnEditOnGet :" + ex.Message);
+
+            }
+        }
 
     }
 }
