@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Details";
-    IEnumerable<CoreLib.Inventory.Models.InvTrxDtl> invTrxDtls = ViewBag.InvTrxDtls;
+    IEnumerable<CoreLib.Inventory.Models.InvTrxDtl> invTrxDtls =Model.ReceivingDetailsModel.InvTrxDtls;
     
     int STATUS_PENDING = 1;
 }
@@ -13,17 +13,17 @@
 <div>
     <h4> Transaction Header</h4>
     <div>
-        @if (Model.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
+        @if (Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
         {
-            <a asp-page="./Edit" asp-route-id="@Model.InvTrxHdr.Id">Edit</a> <span> | </span> 
-            <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId" asp-route-status="PENDING">Back to List</a>  
+            <a asp-page="./Edit" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id">Edit</a> <span> | </span>
+            <a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="PENDING">Back to List</a>
             <div class="pull-left">
-                <a asp-page="../Printables/RequestForm" asp-route-id="@Model.InvTrxHdr.Id" asp-route-type="@Model.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a> 
+                <a asp-page="../Printables/RequestForm" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
             </div>
         }
         else
         {
-            <a asp-page="./Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId" asp-route-status="ACCEPTED">Back to List</a>
+            <a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="ACCEPTED">Back to List</a>
         }
     </div>
 
@@ -33,28 +33,28 @@
         <div class="col-lg-8 col-sm-12">
             <div class="row">
                 <div class="col-lg-4">
-                    Type: @Model.InvTrxHdr.InvTrxType.Type
+                    Type: @Model.ReceivingDetailsModel.InvTrxHdr.InvTrxType.Type
                 </div>
                 <div class="col-lg-4">
-                    Date: @Model.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
+                    Date: @Model.ReceivingDetailsModel.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
                 </div>
                 <div class="col-lg-4">
-                    Store: @Model.InvTrxHdr.InvStore.StoreName
+                    Store: @Model.ReceivingDetailsModel.InvTrxHdr.InvStore.StoreName
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div style="border:0px solid black;margin:0px 0px;padding:0px;">
-                        Remarks: @Model.InvTrxHdr.Remarks
+                        Remarks: @Model.ReceivingDetailsModel.InvTrxHdr.Remarks
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-8">
-                   Status: @Model.InvTrxHdr.InvTrxHdrStatu.Status
+                    Status: @Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status
                 </div>
                 <div class="col-lg-4">
-                   Request By: @Model.InvTrxHdr.UserId
+                    Request By: @Model.ReceivingDetailsModel.InvTrxHdr.UserId
                 </div>
             </div>
         </div>
@@ -63,9 +63,9 @@
 <hr />
 <h4> Transaction Details</h4>
 <p>
-    @if (Model.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
+    @if (Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
     {
-        <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvTrxHdr.Id" class="btn btn-primary">Add Item</a>
+        <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.ReceivingDetailsModel.InvTrxHdr.Id" class="btn btn-primary">Add Item</a>
     }
 </p>
 <table class="table">
@@ -112,7 +112,7 @@
                 </td>
 
                 <td>
-                    @if (Model.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
+                    @if (Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
                     {
                         <a asp-page="./ItemDetails/Edit" asp-route-id="@item.Id">Edit</a><span> | </span> 
                         <a asp-page="./ItemDetails/Delete" asp-route-id="@item.Id">Delete</a>

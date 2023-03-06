@@ -281,6 +281,7 @@ namespace Modules.Inventory
                 var TrxDetailsItems = _context.InvTrxDtls
                             .Include(i => i.InvUom)
                             .Include(i => i.InvItem)
+                            .Include(i => i.InvTrxHdr)
                             .Where(i => i.InvTrxHdrId == Id)
                             .ToList();
 
