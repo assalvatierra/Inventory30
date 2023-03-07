@@ -1,4 +1,5 @@
-﻿using CoreLib.DTO.Releasing;
+﻿using CoreLib.DTO.Receiving;
+using CoreLib.DTO.Releasing;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 using System;
@@ -24,7 +25,8 @@ namespace CoreLib.Inventory.Interfaces
 
         //Create / Edit Models
         public ReleasingCreateEditModel GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int storeId, List<InvTrxHdr> invTrxHdrs, IList<InvItem> invItems, IList<ItemLotNoSelect> itemLotNoSelects, IList<int> availableItems, IList<InvUom> invUoms);
-        //public ReleasingCreateEditModel GetReleasingEditModel_OnEditOnGet(InvTrxDtl invTrxDtl, int storeId, IList<InvStore> invStoreList);
+      
+        public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId);
 
         // Operators
         public IQueryable<InvTrxDtlOperator> GetInvTrxDtlOperators();

@@ -38,7 +38,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
         }
 
         [BindProperty]
-        public ItemDtlsCreateEditModel ItemDtlsCreateEditModel { get; set; }
+        public ReleasingItemDtlsCreateEditModel ItemDtlsCreateEditModel { get; set; }
 
         //[BindProperty]
         public InvTrxDtl InvTrxDtl { get; set; }
@@ -64,7 +64,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
             InvTrxDtl.InvItemId = itemId;
 
-            ItemDtlsCreateEditModel = new ItemDtlsCreateEditModel();
+            ItemDtlsCreateEditModel = new ReleasingItemDtlsCreateEditModel();
             ItemDtlsCreateEditModel.InvTrxDtl = InvTrxDtl;
 
             ItemDtlsCreateEditModel.LotNo = new SelectList(lotNoList.Select(x => new {

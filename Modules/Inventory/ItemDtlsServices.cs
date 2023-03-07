@@ -1,8 +1,11 @@
-﻿using CoreLib.DTO.Releasing;
+﻿using CoreLib.DTO.Receiving;
+using CoreLib.DTO.Releasing;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 using CoreLib.Models.Inventory;
+using Inventory.DBAccess;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,6 +21,9 @@ namespace Modules.Inventory
 
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
+        private readonly DBMasterService dBMaster;
+        private readonly IUomServices uomServices;
+        private readonly IItemServices itemServices;
 
         private readonly int TYPE_RELEASING = 2;
 
@@ -26,6 +32,9 @@ namespace Modules.Inventory
             _context = context;
             _logger = logger;
 
+            dBMaster = new DBMasterService(_context, _logger);
+            uomServices = new UomServices(_context);
+            itemServices = new ItemServices(_context);
         }
 
         public virtual void CreateInvDtls(InvTrxDtl invTrxDtl)
@@ -155,6 +164,41 @@ namespace Modules.Inventory
                 throw new Exception("ItemDtlsServices: Error on  GetReleasingItemTrxDtlsModel_OnCreateOnGet :" + ex.Message);
                 // return new ReleasingCreateEditModel(); // return null
 
+            }
+        }
+
+        public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId)
+        {
+            try
+            {
+                var invTrxHeader = _context.InvTrxHdrs.Find(hdrId);
+                
+                var receivingItemDtls = new ReceivingItemDtlsCreateEditModel();
+                
+                receivingItemDtls.InvTrxDtl = new InvTrxDtl();
+                receivingItemDtls.InvTrxDtl.InvItemId = 2;
+                receivingItemDtls.InvTrxDtl.InvTrxHdrId = hdrId;
+
+                receivingItemDtls.InvItems = new SelectList(itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
+                                        .Select(x => new
+                                        {
+                                            Name = String.Format("{0} - {1} - {2} {3}",
+                                            x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+                                            Value = x.Id
+                                        }), "Value", "Name");
+
+                receivingItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(receivingItemDtls.InvTrxDtl.InvItemId), "Id", "uom");
+                receivingItemDtls.InvTrxHdrs = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
+                receivingItemDtls.InvTrxDtlOperators = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 1);
+                receivingItemDtls.HrdId = hdrId;
+                receivingItemDtls.StoreId = invTrxHeader.InvStoreId;
+
+                return receivingItemDtls;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemDtlsServices: Error on GetReleasingItemTrxDtlsModel_OnCreateOnGet :" + ex.Message);
+                throw new Exception("ItemDtlsServices: Error on  GetReleasingItemTrxDtlsModel_OnCreateOnGet :" + ex.Message);
             }
         }
     }

@@ -22,10 +22,10 @@ namespace InvWeb.Pages.Stores.Receiving
         private readonly ILogger<CreateModel> _logger;
         private readonly IItemTrxServices itemTrxServices;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
-            _context = context;
+            _logger = logger;
             itemTrxServices = new ItemTrxServices(_context, _logger);
         }
 

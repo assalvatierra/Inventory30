@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CoreLib.DTO.Releasing
 {
-    public class ItemDtlsCreateEditModel
+    public class ReleasingItemDtlsCreateEditModel
     {
         public InvTrxDtl? InvTrxDtl { get; set; }
         public SelectList? InvTrxHdrs { get; set; }

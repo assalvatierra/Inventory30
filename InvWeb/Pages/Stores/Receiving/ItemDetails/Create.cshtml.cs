@@ -11,21 +11,31 @@ using CoreLib.Models.Inventory;
 using Microsoft.EntityFrameworkCore;
 using Modules.Inventory;
 using CoreLib.Inventory.Interfaces;
+using CoreLib.DTO.Receiving;
+using Microsoft.Extensions.Logging;
+using CoreLib.DTO.Releasing;
 
 namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 {
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CreateModel> _logger;
         private readonly IItemServices _itemServices;
         private readonly IUomServices _uomServices;
+        private readonly IItemDtlsServices _itemDtlsServices;
+        private readonly IItemTrxServices _itemTrxServices;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
-            _itemServices = new ItemServices(context);
-            _uomServices = new UomServices(context);
+            _logger = logger;
+            _itemServices = new ItemServices(_context);
+            _uomServices = new UomServices(_context);
+            _itemTrxServices = new ItemTrxServices(_context, _logger);
         }
+
+        public ReceivingItemDtlsCreateEditModel ItemDtlsCreateModel;
 
         public IActionResult OnGet(int? hdrId)
         {
@@ -34,22 +44,25 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 hdrId ??= 0;
             }
 
-            InvTrxDtl = new InvTrxDtl();
-            InvTrxDtl.InvItemId = 2;
-            InvTrxDtl.InvTrxHdrId =(int)hdrId;
+            ItemDtlsCreateModel = _itemDtlsServices.GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl, (int)hdrId);
 
-            ViewData["InvItemId"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
-                                    .Select(x => new
-                                    {
-                                        Name = String.Format("{0} - {1} - {2} {3}",
-                                        x.Code, x.InvCategory.Description, x.Description, x.Remarks),
-                                        Value = x.Id
-                                    }), "Value", "Name");
+            //InvTrxDtl = new InvTrxDtl();
+            //InvTrxDtl.InvItemId = 2;
+            //InvTrxDtl.InvTrxHdrId =(int)hdrId;
 
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
-            ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
-            ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 1);
-            ViewData["HdrId"] = hdrId;
+            //ViewData["InvItemId"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
+            //                        .Select(x => new
+            //                        {
+            //                            Name = String.Format("{0} - {1} - {2} {3}",
+            //                            x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+            //                            Value = x.Id
+            //                        }), "Value", "Name");
+
+            //ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
+            //ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
+            //ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 1);
+            //ViewData["HdrId"] = hdrId;
+
             return Page();
         }
 
