@@ -21,21 +21,18 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<CreateModel> _logger;
-        private readonly IItemServices _itemServices;
-        private readonly IUomServices _uomServices;
         private readonly IItemDtlsServices _itemDtlsServices;
-        private readonly IItemTrxServices _itemTrxServices;
 
         public CreateModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
             _logger = logger;
-            _itemServices = new ItemServices(_context);
-            _uomServices = new UomServices(_context);
-            _itemTrxServices = new ItemTrxServices(_context, _logger);
+            _itemDtlsServices = new ItemDtlsServices(_context, _logger);
         }
 
-        public ReceivingItemDtlsCreateEditModel ItemDtlsCreateModel;
+        [BindProperty]
+        public ReceivingItemDtlsCreateEditModel ItemDtlsCreateModel { get; set; }
+        public InvTrxDtl InvTrxDtl { get; set; }
 
         public IActionResult OnGet(int? hdrId)
         {
@@ -44,30 +41,13 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 hdrId ??= 0;
             }
 
+
             ItemDtlsCreateModel = _itemDtlsServices.GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl, (int)hdrId);
 
-            //InvTrxDtl = new InvTrxDtl();
-            //InvTrxDtl.InvItemId = 2;
-            //InvTrxDtl.InvTrxHdrId =(int)hdrId;
-
-            //ViewData["InvItemId"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
-            //                        .Select(x => new
-            //                        {
-            //                            Name = String.Format("{0} - {1} - {2} {3}",
-            //                            x.Code, x.InvCategory.Description, x.Description, x.Remarks),
-            //                            Value = x.Id
-            //                        }), "Value", "Name");
-
-            //ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
-            //ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
-            //ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 1);
-            //ViewData["HdrId"] = hdrId;
 
             return Page();
         }
 
-        [BindProperty]
-        public InvTrxDtl InvTrxDtl { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -77,10 +57,10 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 return Page();
             }
 
-            _context.InvTrxDtls.Add(InvTrxDtl);
-            await _context.SaveChangesAsync();
+            _itemDtlsServices.CreateInvDtls(ItemDtlsCreateModel.InvTrxDtl);
+            await _itemDtlsServices.SaveChangesAsync();
 
-            return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+            return RedirectToPage("../Details", new { id = ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId });
         }
 
     }

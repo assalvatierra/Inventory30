@@ -24,9 +24,11 @@ namespace CoreLib.Inventory.Interfaces
         public Task<InvTrxDtl> GetInvDtlsByIdOnEdit(int Id);
 
         //Create / Edit Models
-        public ReleasingCreateEditModel GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int storeId, List<InvTrxHdr> invTrxHdrs, IList<InvItem> invItems, IList<ItemLotNoSelect> itemLotNoSelects, IList<int> availableItems, IList<InvUom> invUoms);
+        public ReleasingItemDtlsCreateEditModel GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId, int invItemId);
       
         public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId);
+
+        public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsEditModel_OnEditOnGet(InvTrxDtl invTrxDtl);
 
         // Operators
         public IQueryable<InvTrxDtlOperator> GetInvTrxDtlOperators();

@@ -40,7 +40,12 @@ namespace InvWeb.Pages.Stores.Receiving
                 return NotFound();
             }
 
-            ReceivingIndexModel = await itemTrxServices.GetReceivingIndexModel_OnIndexOnGetAsync(InvTrxHdr, (int)storeId, TYPE_RECEIVING, Status, IsUserRoleAdmin());
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "PENDING";
+            }
+
+            ReceivingIndexModel = await itemTrxServices.GetReceivingIndexModel_OnIndexOnGetAsync(InvTrxHdr, (int)storeId, TYPE_RECEIVING, status, IsUserRoleAdmin());
 
             return Page();
         }

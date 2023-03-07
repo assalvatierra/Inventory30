@@ -12,7 +12,8 @@ namespace CoreLib.DTO.Receiving
 {
     public class ReceivingItemDtlsCreateEditModel
     {
-        public InvTrxDtl? InvTrxDtl { get; set; }
+        [Required]
+        public InvTrxDtl InvTrxDtl { get; set; }
         public SelectList? InvTrxHdrs { get; set; }
         public SelectList? InvTrxDtlOperators { get; set; }
         public SelectList? InvItems { get; set; }

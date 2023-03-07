@@ -58,35 +58,10 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 invItemId = 2;
             }
 
-            int storeId = _itemTrxServices.GetInvTrxStoreId((int)hdrId);
             int itemId = GetDefaultInvitemId(invItemId);
-            var lotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
-            var availableItems = _storeServices.GetAvailableItemsIdsByStore(storeId);
 
-            //ItemDtlsCreateEditModel = _itemDtlsServices.GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl, storeId, invitem);
-            ItemDtlsCreateEditModel = new ReleasingItemDtlsCreateEditModel();
-            ItemDtlsCreateEditModel.InvTrxDtl = InvTrxDtl;
-
-            ItemDtlsCreateEditModel.LotNo = new SelectList(lotNoList.Select(x => new {
-                Name = String.Format("{0} ", x.LotNo),
-                Value = x.LotNo
-            }), "Value", "Name");
-
-            ItemDtlsCreateEditModel.InvItems = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availableItems)
-                                    .Include(i => i.InvCategory)
-                                    .Select(x => new {
-                                       Name = String.Format("{0} - {1} - {2} {3}",
-                                       x.Code, x.InvCategory.Description, x.Description, x.Remarks),
-                                       Value = x.Id
-                                     }), "Value", "Name", itemId);
-
-            ItemDtlsCreateEditModel.InvUoms = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom");
-            ItemDtlsCreateEditModel.InvTrxHdrs = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id", hdrId);
-            ItemDtlsCreateEditModel.InvTrxDtlOperators = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description", 2);
-            ItemDtlsCreateEditModel.HrdId = (int)hdrId;
-            ItemDtlsCreateEditModel.LotNoItems = lotNoList;
-            ItemDtlsCreateEditModel.StoreId = storeId;
-            ItemDtlsCreateEditModel.SelectedItem = " ";
+            ItemDtlsCreateEditModel = _itemDtlsServices.GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl, (int)hdrId, itemId);
+          
 
             return Page();
         }
