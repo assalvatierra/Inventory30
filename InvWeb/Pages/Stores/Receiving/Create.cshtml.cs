@@ -8,45 +8,74 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CoreLib.Inventory.Models;
 using System.Security.Claims;
 using CoreLib.Models.Inventory;
+using CoreLib.DTO.Releasing;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
+using CoreLib.DTO.Receiving;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CreateModel> _logger;
+        private readonly IItemTrxServices itemTrxServices;
 
         public CreateModel(ApplicationDbContext context)
         {
             _context = context;
-        }
-
-        public IActionResult OnGet(int? storeId)
-        {
-
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName", storeId);
-            ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1);
-            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
-            ViewData["StoreId"] = storeId ?? 0;
-            return Page();
+            _context = context;
+            itemTrxServices = new ItemTrxServices(_context, _logger);
         }
 
         [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
+        public ReceivingCreateEditModel ReceivingCreateModel { get; set; }
+        public InvTrxHdr InvTrxHdr;
+        public int StoreId { get; set; }
+        private int STATUS_RECEIVING = 1;
+
+        public IActionResult OnGet(int? storeId)
+        {
+            if (storeId == null)
+            {
+                return NotFound();
+            }
+
+            this.UpdateStoreId((int)storeId);
+
+            ReceivingCreateModel = itemTrxServices.GetReceivingCreateModel_OnCreateOnGet(InvTrxHdr, StoreId, GetUser());
+
+            return Page();
+        }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
+                ReceivingCreateModel = itemTrxServices.GetReceivingCreateModel_OnCreateOnGet(InvTrxHdr, StoreId, GetUser());
                 return Page();
             }
 
-            _context.InvTrxHdrs.Add(InvTrxHdr);
+            //_context.InvTrxHdrs.Add(ReceivingCreateModel.InvTrxHdr);
+
+            itemTrxServices.CreateInvTrxHdrs(ReceivingCreateModel.InvTrxHdr);
             await _context.SaveChangesAsync();
 
-            //return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId, status = "PENDING" });
-            return RedirectToPage("./Details", new { id = InvTrxHdr.Id });
+            return RedirectToPage("./Details", new { id = ReceivingCreateModel.InvTrxHdr.Id });
         }
+
+        private string GetUser()
+        {
+            return User.FindFirstValue(ClaimTypes.Name);
+        }
+
+
+        private void UpdateStoreId(int storeId)
+        {
+            StoreId = storeId;
+        }
+
     }
 }

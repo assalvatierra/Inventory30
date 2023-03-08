@@ -9,12 +9,18 @@ using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using System.Security.Claims;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using CoreLib.DTO.Receiving;
+using Inventory.DBAccess;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CreateModel> _logger;
+        private readonly IItemTrxServices itemTrxServices;
 
         public EditModel(ApplicationDbContext context)
         {
@@ -22,7 +28,10 @@ namespace InvWeb.Pages.Stores.Receiving
         }
 
         [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
+        public ReceivingCreateEditModel ReceivingEditModel { get; set; }
+        public InvTrxHdr InvTrxHdr;
+        public int StoreId { get; set; }
+        private int STATUS_RECEIVING = 1;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -31,19 +40,17 @@ namespace InvWeb.Pages.Stores.Receiving
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
+            InvTrxHdr = await itemTrxServices.GetInvTrxHdrsByIdAsync((int)id);
 
             if (InvTrxHdr == null)
             {
                 return NotFound();
             }
-            ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
-            ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
-            ViewData["InvTrxTypeId"] = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1);
-            ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
+
+            this.UpdateStoreId((int)InvTrxHdr.InvStoreId);
+
+            ReceivingEditModel = itemTrxServices.GetReceivingCreateModel_OnCreateOnGet(InvTrxHdr, StoreId, GetUser());
+
             return Page();
         }
 
@@ -53,10 +60,13 @@ namespace InvWeb.Pages.Stores.Receiving
         {
             if (!ModelState.IsValid)
             {
+                ReceivingEditModel = itemTrxServices.GetReceivingCreateModel_OnCreateOnGet(ReceivingEditModel.InvTrxHdr, StoreId, GetUser());
                 return Page();
             }
 
-            _context.Attach(InvTrxHdr).State = EntityState.Modified;
+            //_context.Attach(InvTrxHdr).State = EntityState.Modified;
+
+            itemTrxServices.EditInvTrxHdrs(ReceivingEditModel.InvTrxHdr);
 
             try
             {
@@ -75,12 +85,22 @@ namespace InvWeb.Pages.Stores.Receiving
             }
 
             //return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId, status = "PENDING" });
-            return RedirectToPage("./Details", new { id = InvTrxHdr.Id });
+            return RedirectToPage("./Details", new { id = ReceivingEditModel.InvTrxHdr.Id });
         }
 
         private bool InvTrxHdrExists(int id)
         {
-            return _context.InvTrxHdrs.Any(e => e.Id == id);
+            return itemTrxServices.InvTrxHdrExists(id); 
+        }
+
+        private string GetUser()
+        {
+            return User.FindFirstValue(ClaimTypes.Name);
+        }
+
+        private void UpdateStoreId(int storeId)
+        {
+            StoreId = storeId;
         }
     }
 }

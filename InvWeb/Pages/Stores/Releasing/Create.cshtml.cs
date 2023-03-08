@@ -30,7 +30,6 @@ namespace InvWeb.Pages.Stores.Releasing
             storeServices = new StoreServices(_context, _logger);
         }
 
-        //public InvTrxHdr InvTrxHdr { get; set; }
         [BindProperty]
         public ReleasingCreateEditModel ReleasingCreateModel { get; set; }
         public InvTrxHdr InvTrxHdr;

@@ -7,19 +7,29 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Modules.Inventory;
+using Microsoft.Extensions.Logging;
+using CoreLib.DTO.Releasing;
+using CoreLib.DTO.Receiving;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IItemTrxServices itemTrxServices;
+        private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context, ILogger<IndexModel> logger)
         {
+            _logger = logger;
             _context = context;
+            itemTrxServices = new ItemTrxServices(_context, _logger);
         }
 
         public IList<InvTrxHdr> InvTrxHdr { get;set; }
+        public ReceivingIndexModel ReceivingIndexModel { get; set; }
 
         private readonly int TYPE_RECEIVING = 1;
 
@@ -30,35 +40,8 @@ namespace InvWeb.Pages.Stores.Receiving
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType)
-                .Include(i => i.InvTrxDtls)
-                    .ThenInclude(i => i.InvItem)
-                    .ThenInclude(i => i.InvUom)
-                .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
-                              i.InvStoreId   == storeId)
-                .ToListAsync();
+            ReceivingIndexModel = await itemTrxServices.GetReceivingIndexModel_OnIndexOnGetAsync(InvTrxHdr, (int)storeId, TYPE_RECEIVING, Status, IsUserRoleAdmin());
 
-            if (!String.IsNullOrWhiteSpace(status))
-            {
-                InvTrxHdr = status switch
-                {
-                    "PENDING" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
-                    "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
-                    "ALL" => InvTrxHdr.ToList(),
-                    _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
-                };
-            }
-            else
-            {
-                InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
-            }
-
-            ViewData["StoreId"] = storeId;
-            ViewData["Status"] = status;
-            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
             return Page();
         }
 
@@ -74,42 +57,14 @@ namespace InvWeb.Pages.Stores.Receiving
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType)
-                .Include(i => i.InvTrxDtls)
-                    .ThenInclude(i => i.InvItem)
-                    .ThenInclude(i => i.InvUom)
-                .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
-                              i.InvStoreId == storeId)
-                .ToListAsync();
+            ReceivingIndexModel = await itemTrxServices.GetReceivingIndexModel_OnIndexOnPostAsync(InvTrxHdr, (int)storeId, TYPE_RECEIVING, Status, Orderby, IsUserRoleAdmin());
 
-            if (!String.IsNullOrWhiteSpace(Status))
-            {
-                InvTrxHdr = Status switch
-                {
-                    "PENDING" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
-                    "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
-                    "ALL" => InvTrxHdr.ToList(),
-                    _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
-                };
-            }
-
-            if (!String.IsNullOrWhiteSpace(Orderby))
-            {
-                InvTrxHdr = Orderby switch
-                {
-                    "ASC" => InvTrxHdr.OrderBy(c => c.DtTrx).ToList(),
-                    "DESC" => InvTrxHdr.OrderByDescending(c => c.DtTrx).ToList(),
-                    _ => InvTrxHdr.OrderBy(c => c.DtTrx).ToList(),
-                };
-            }
-
-
-            ViewData["StoreId"] = storeId;
-            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
             return Page();
+        }
+
+        private bool IsUserRoleAdmin()
+        {
+            return User.IsInRole("ADMIN");
         }
     }
 }

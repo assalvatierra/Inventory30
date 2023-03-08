@@ -14,31 +14,31 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.InvStoreId" class="control-label"></label>
-                <select asp-for="InvTrxHdr.InvStoreId" class="form-control" asp-items="ViewBag.InvStoreId"></select>
+                <label asp-for="ReceivingCreateModel.InvTrxHdr.InvStoreId" class="control-label"></label>
+                <select asp-for="ReceivingCreateModel.InvTrxHdr.InvStoreId" class="form-control" asp-items="Model.ReceivingCreateModel.InvStoresList"></select>
             </div>
             <div class="form-group">
-                <label asp-for="InvTrxHdr.DtTrx" class="control-label"></label>
-                <input asp-for="InvTrxHdr.DtTrx" class="form-control datepicker" type="text"/>
-                <span asp-validation-for="InvTrxHdr.DtTrx" class="text-danger"></span>
+                <label asp-for="ReceivingCreateModel.InvTrxHdr.DtTrx" class="control-label"></label>
+                <input asp-for="ReceivingCreateModel.InvTrxHdr.DtTrx" class="form-control datepicker" type="text" />
+                <span asp-validation-for="ReceivingCreateModel.InvTrxHdr.DtTrx" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvTrxHdr.Remarks" class="control-label"></label>
-                <input asp-for="InvTrxHdr.Remarks" class="form-control" />
-                <span asp-validation-for="InvTrxHdr.Remarks" class="text-danger"></span>
+                <label asp-for="ReceivingCreateModel.InvTrxHdr.Remarks" class="control-label"></label>
+                <input asp-for="ReceivingCreateModel.InvTrxHdr.Remarks" class="form-control" maxlength="80" />
+                <span asp-validation-for="ReceivingCreateModel.InvTrxHdr.Remarks" class="text-danger"></span>
             </div>
             <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.InvTrxTypeId" class="control-label"></label>
-                <select asp-for="InvTrxHdr.InvTrxTypeId" class="form-control" asp-items="ViewBag.InvTrxTypeId"></select>
+                <label asp-for="ReceivingCreateModel.InvTrxHdr.InvTrxTypeId" class="control-label"></label>
+                <select asp-for="ReceivingCreateModel.InvTrxHdr.InvTrxTypeId" class="form-control" asp-items="Model.ReceivingCreateModel.InvTrxTypeId"></select>
             </div>
             <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.InvTrxHdrStatusId" class="control-label"></label>
-                <select asp-for="InvTrxHdr.InvTrxHdrStatusId" class="form-control" asp-items="ViewBag.InvTrxHdrStatusId"></select>
+                <label asp-for="ReceivingCreateModel.InvTrxHdr.InvTrxHdrStatusId" class="control-label"></label>
+                <select asp-for="ReceivingCreateModel.InvTrxHdr.InvTrxHdrStatusId" class="form-control" asp-items="Model.ReceivingCreateModel.InvTrxHdrStatusList"></select>
             </div>
-            <div class="form-group" hidden>
-                <label asp-for="InvTrxHdr.UserId" class="control-label"></label>
-                <input asp-for="InvTrxHdr.UserId" class="form-control" value="@ViewBag.UserId" />
-                <span asp-validation-for="InvTrxHdr.UserId" class="text-danger"></span>
+            <div class="form-group"hidden>
+                <label asp-for="ReceivingCreateModel.InvTrxHdr.UserId" class="control-label"></label>
+                <input asp-for="ReceivingCreateModel.InvTrxHdr.UserId" class="form-control" value="@Model.ReceivingCreateModel.User" />
+                <span asp-validation-for="ReceivingCreateModel.InvTrxHdr.UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -48,7 +48,7 @@
 </div>
 
 <div>
-    <a asp-page="Index" asp-route-storeId="@ViewBag.StoreId">Back to List</a>
+    <a asp-page="Index" asp-route-storeId="@Model.ReceivingCreateModel.StoreId">Back to List</a>
 </div>
 
 @section Scripts {

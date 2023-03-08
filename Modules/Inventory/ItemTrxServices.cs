@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using CoreLib.DTO.Receiving;
 using CoreLib.DTO.Releasing;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using Inventory.DBAccess;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -18,6 +21,7 @@ namespace Modules.Inventory
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
+        private readonly DBMasterService dBMaster;
 
         private readonly int TYPE_RELEASING = 2;
 
@@ -25,6 +29,8 @@ namespace Modules.Inventory
         {
             _context = context;
             _logger = logger;
+
+            dBMaster = new DBMasterService(_context, _logger);
 
         }
 
@@ -121,7 +127,12 @@ namespace Modules.Inventory
         {
             try
             {
-                var invTrxHdr = await _context.InvTrxHdrs.FindAsync(Id);
+                //var invTrxHdr = await _context.InvTrxHdrs.FindAsync(Id);
+
+                var invTrxHdr = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == Id);
 
                 if (invTrxHdr != null)
                 {
@@ -270,6 +281,7 @@ namespace Modules.Inventory
                 var TrxDetailsItems = _context.InvTrxDtls
                             .Include(i => i.InvUom)
                             .Include(i => i.InvItem)
+                            .Include(i => i.InvTrxHdr)
                             .Where(i => i.InvTrxHdrId == Id)
                             .ToList();
 
@@ -459,6 +471,121 @@ namespace Modules.Inventory
             {
                 _logger.LogError("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
                 throw new Exception("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
+
+            }
+        }
+
+
+        public virtual async Task<ReceivingIndexModel> GetReceivingIndexModel_OnIndexOnGetAsync(IList<InvTrxHdr> InvTrxHdrs, int storeId, int TypeId, string status, bool userIsAdmin)
+        {
+            try
+            {
+                ReceivingIndexModel receivingIndexModel = new ReceivingIndexModel();
+
+                InvTrxHdrs = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType)
+                .Include(i => i.InvTrxDtls)
+                    .ThenInclude(i => i.InvItem)
+                    .ThenInclude(i => i.InvUom)
+                .Where(i => i.InvTrxTypeId == TypeId &&
+                              i.InvStoreId == storeId)
+                .ToListAsync();
+
+                InvTrxHdrs = this.FilterByStatus(InvTrxHdrs, status);
+
+                receivingIndexModel.InvTrxHdrs = InvTrxHdrs;
+                receivingIndexModel.StoreId = storeId;
+                receivingIndexModel.Status = status;
+                receivingIndexModel.IsAdmin = userIsAdmin;
+
+                return receivingIndexModel;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReceivingIndexModel_OnIndexOnGetAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReceivingIndexModel_OnIndexOnGetAsync :" + ex.Message);
+
+            }
+        }
+
+
+        public virtual async Task<ReceivingIndexModel> GetReceivingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> InvTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin)
+        {
+            try
+            {
+                ReceivingIndexModel receivingIndexModel = new ReceivingIndexModel();
+
+                InvTrxHdrs = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType)
+                .Include(i => i.InvTrxDtls)
+                    .ThenInclude(i => i.InvItem)
+                    .ThenInclude(i => i.InvUom)
+                .Where(i => i.InvTrxTypeId == TypeId &&
+                              i.InvStoreId == storeId)
+                .ToListAsync();
+
+                InvTrxHdrs = this.FilterByStatus(InvTrxHdrs, status);
+                InvTrxHdrs = this.FilterByOrder(InvTrxHdrs, orderBy);
+
+                receivingIndexModel.InvTrxHdrs = InvTrxHdrs;
+                receivingIndexModel.StoreId = storeId;
+                receivingIndexModel.Status = status;
+                receivingIndexModel.IsAdmin = userIsAdmin;
+
+                return receivingIndexModel;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReceivingIndexModel_OnIndexOnGetAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReceivingIndexModel_OnIndexOnGetAsync :" + ex.Message);
+
+            }
+        }
+
+
+        public virtual ReceivingCreateEditModel GetReceivingCreateModel_OnCreateOnGet(InvTrxHdr invTrxHdr, int storeId, string User)
+        {
+            try
+            {
+                return new ReceivingCreateEditModel
+                {
+                    InvTrxHdr = invTrxHdr,
+                    InvStoresList = new SelectList(dBMaster.StoreDb.GetStoreList(), "Id", "StoreName", storeId),
+                    InvTrxHdrStatusList = new SelectList(dBMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status"),
+                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1),
+                    User = User,
+                    StoreId = storeId
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReleasingCreateModel_OnCreateOnPostAsync :" + ex.Message);
+
+            }
+        }
+        public virtual ReceivingCreateEditModel GetReceivingEditModel_OnEditOnGet(InvTrxHdr invTrxHdr, int storeId, string User)
+        {
+            try
+            {
+                return new ReceivingCreateEditModel
+                {
+                    InvTrxHdr = invTrxHdr,
+                    InvStoresList = new SelectList(dBMaster.StoreDb.GetStoreList(), "Id", "StoreName", storeId),
+                    InvTrxHdrStatusList = new SelectList(dBMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status"),
+                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1),
+                    User = User,
+                    StoreId = storeId
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetReceivingEditModel_OnEditOnGet :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetReceivingEditModel_OnEditOnGet :" + ex.Message);
 
             }
         }

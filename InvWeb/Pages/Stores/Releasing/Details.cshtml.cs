@@ -25,12 +25,12 @@ namespace InvWeb.Pages.Stores.Releasing
             _logger = logger;
             _context = context;
             itemTrxServices = new ItemTrxServices(_context, _logger);
-            ReleasingDetailsModel = new ReleasingDetailsModel();
+            ReleasingDetailsModel = new ReceivingDetailsModel();
 
         }
 
         //public InvTrxHdr InvTrxHdr { get; set; }
-        public ReleasingDetailsModel ReleasingDetailsModel { get; set; }
+        public ReceivingDetailsModel ReleasingDetailsModel { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Receiving";
 
-    bool IsAdmin = ViewBag.IsAdmin;
+    bool IsAdmin = Model.ReceivingIndexModel.IsAdmin;
 
     int STATUS_PENDING = 1;
 }
@@ -12,11 +12,11 @@
 <h1>
     Receiving
 
-    @if (ViewBag.Status == "ACCEPTED")
+    @if (Model.Status == "ACCEPTED")
     {
         <span style="font-size:1rem;">(Approved)</span>
     }
-    else if (ViewBag.Status == "PENDING")
+    else if (Model.Status == "PENDING")
     {
         <span style="font-size:1rem;">(Pending Approval)</span>
     }
@@ -28,27 +28,27 @@
 </h1>
 
 <p>
-    <a asp-page="../Main/Index" asp-route-id="@ViewBag.StoreId">Go back to MyStore</a> |
-    @if (ViewBag.Status == "ACCEPTED")
+    <a asp-page="../Main/Index" asp-route-id="@Model.ReceivingIndexModel.StoreId">Go back to MyStore</a> |
+    @if (Model.ReceivingIndexModel.Status == "ACCEPTED")
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.ReceivingIndexModel.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
     }
-    else if (ViewBag.Status == "PENDING")
+    else if (Model.ReceivingIndexModel.Status == "PENDING")
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="ACCEPTED">Go recent Approval</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.ReceivingIndexModel.StoreId" asp-route-Status="ACCEPTED">Go recent Approval</a>
     }
     else
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.ReceivingIndexModel.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
     }
 </p>
 <p>
-    <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId" class="btn btn-primary">Create New</a>
+    <a asp-page="Create" asp-route-storeId="@Model.ReceivingIndexModel.StoreId" class="btn btn-primary">Create New</a>
 </p>
 
 <form method="post" >
     <div hidden>
-        <input type="text" value="@ViewData["StoreId"]" name="storeId" id="storeId" />
+        <input type="text" value="@Model.ReceivingIndexModel.StoreId" name="storeId" id="storeId" />
     </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-outline-primary" id="status-pending">
@@ -79,7 +79,7 @@
                 Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvTrxHdr[0].Remarks)
+                Remarks
             </th>
             <th>
                 Details
@@ -89,7 +89,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.InvTrxHdr)
+        @foreach (var item in Model.ReceivingIndexModel.InvTrxHdrs)
         {
             <tr>
                 <td>
@@ -158,7 +158,7 @@
             </tr>
         }
 
-        @if (Model.InvTrxHdr == null)
+        @if (Model.ReceivingIndexModel.InvTrxHdrs == null)
         {
             <tr>
                 <td class="text-center" colspan="6">
@@ -175,8 +175,8 @@
 
         $(() => {
             //on init status
-            StatusFilter("@Model.Status");
-            OrderFilter("@Model.Orderby");
+            StatusFilter("@Model.ReceivingIndexModel.Status");
+            OrderFilter("@Model.ReceivingIndexModel.Order");
         });
 
     </script>

@@ -7,17 +7,26 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<DeleteModel> _logger;
+        private readonly IItemTrxServices itemTrxServices;
 
-        public DeleteModel(ApplicationDbContext context)
+
+        public DeleteModel(ILogger<DeleteModel> logger, ApplicationDbContext context)
         {
+            _logger = logger;
             _context = context;
+            itemTrxServices = new ItemTrxServices(_context, _logger);
         }
+
 
         [BindProperty]
         public InvTrxHdr InvTrxHdr { get; set; }
@@ -29,10 +38,7 @@ namespace InvWeb.Pages.Stores.Receiving
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
+            InvTrxHdr = await itemTrxServices.GetInvTrxHdrsById((int)id).FirstOrDefaultAsync();
 
             if (InvTrxHdr == null)
             {
@@ -48,16 +54,12 @@ namespace InvWeb.Pages.Stores.Receiving
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs.FindAsync(id);
+            InvTrxHdr = await itemTrxServices.GetInvTrxHdrsByIdAsync((int)id);
 
             if (InvTrxHdr != null)
             {
-                //remove transactions detail items
-                var itemList = await _context.InvTrxDtls.Where(i => i.InvTrxHdrId == InvTrxHdr.Id).ToListAsync();
-                _context.InvTrxDtls.RemoveRange(itemList);
-
-                _context.InvTrxHdrs.Remove(InvTrxHdr);
-                await _context.SaveChangesAsync();
+                await itemTrxServices.DeleteInvTrxHdrs_AndTrxDtlsItems(InvTrxHdr);
+                await itemTrxServices.SaveChanges();
             }
 
             return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId, status = "PENDING" });
