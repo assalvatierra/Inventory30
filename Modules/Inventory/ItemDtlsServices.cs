@@ -1,4 +1,5 @@
-﻿using CoreLib.DTO.Receiving;
+﻿using CoreLib.DTO.Common.TrxDetails;
+using CoreLib.DTO.Receiving;
 using CoreLib.DTO.Releasing;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
@@ -314,6 +315,34 @@ namespace Modules.Inventory
                 _logger.LogError("ItemDtlsServices: Error on GeReceivingItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
                 throw new Exception("ItemDtlsServices: Error on  GeReceivingItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
             }
+
+
+        }
+        public async Task<TrxDetailsItemDetailsModel> GetTrxDetailsModel_OnDetailsAsync(int id)
+        {
+
+            try
+            {
+                var trxDetailsModel = new TrxDetailsItemDetailsModel();
+
+                var trxDetails = await dbMaster.InvTrxDtlDb.GetInvTrxDtl().FirstOrDefaultAsync(m => m.Id == id);
+
+                if (trxDetails == null)
+                {
+                    return trxDetailsModel;
+                }
+
+                trxDetailsModel.InvTrxDtl = trxDetails;
+                trxDetailsModel.HrdId = trxDetailsModel.InvTrxDtl.InvTrxHdrId;
+
+                return trxDetailsModel;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemDtlsServices: Error on GetTrxDetailsModel_OnDetails :" + ex.Message);
+                throw new Exception("ItemDtlsServices: Error on  GetTrxDetailsModel_OnDetails :" + ex.Message);
+            }
+
         }
     }
 }

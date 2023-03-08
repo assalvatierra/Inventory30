@@ -1,4 +1,5 @@
-﻿using CoreLib.DTO.Receiving;
+﻿using CoreLib.DTO.Common.TrxDetails;
+using CoreLib.DTO.Receiving;
 using CoreLib.DTO.Releasing;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
@@ -25,10 +26,10 @@ namespace CoreLib.Inventory.Interfaces
 
         //Create / Edit Models
         public ReleasingItemDtlsCreateEditModel GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId, int invItemId);
-      
         public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId);
-
         public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsEditModel_OnEditOnGet(InvTrxDtl invTrxDtl);
+        public Task<TrxDetailsItemDetailsModel> GetTrxDetailsModel_OnDetailsAsync(int id);
+
 
         // Operators
         public IQueryable<InvTrxDtlOperator> GetInvTrxDtlOperators();

@@ -19,6 +19,7 @@ namespace Inventory.DBAccess
         public IInvTrxHdrStatusDb InvTrxHdrStatusDb;
         public IInvTrxHdrDb InvTrxHdrDb;
         public IInvTrxDtlOperatorDb InvTrxDtlOperatorDb;
+        public IInvTrxDtlDb InvTrxDtlDb;
 
 
         public DBMasterService(ApplicationDbContext context, ILogger logger)
@@ -30,6 +31,7 @@ namespace Inventory.DBAccess
             InvTrxHdrStatusDb = new InvTrxHdrStatusDb(_context, _logger);
             InvTrxHdrDb = new InvTrxHdrDb(_context, _logger);
             InvTrxDtlOperatorDb = new InvTrxDtlOperatorDb(_context, _logger);
+            InvTrxDtlDb = new InvTrxDtlDb(_context, _logger);
 
         }
 
@@ -37,6 +39,7 @@ namespace Inventory.DBAccess
         public IInvTrxHdrStatusDb GetInvTrxHdrStatusDb() { return InvTrxHdrStatusDb; }
         public IInvTrxHdrDb GetInvTrxHdrDb() { return InvTrxHdrDb; }
         public IInvTrxDtlOperatorDb GetInvTrxDtlOperatorDb() { return InvTrxDtlOperatorDb; }
+        public IInvTrxDtlDb GetInvTrxDtlDb() { return InvTrxDtlDb; }
 
     }
 }

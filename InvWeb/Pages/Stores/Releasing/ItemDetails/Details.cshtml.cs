@@ -10,6 +10,7 @@ using CoreLib.Models.Inventory;
 using CoreLib.Inventory.Interfaces;
 using Microsoft.Extensions.Logging;
 using Modules.Inventory;
+using CoreLib.DTO.Common.TrxDetails;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
@@ -26,7 +27,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             _itemDtlsServices = new ItemDtlsServices(context, _logger);
         }
 
-        public InvTrxDtl InvTrxDtl { get; set; }
+        public TrxDetailsItemDetailsModel TrxDetailsItem { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -35,11 +36,9 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return NotFound();
             }
 
+            TrxDetailsItem = await _itemDtlsServices.GetTrxDetailsModel_OnDetailsAsync((int)id);
 
-            InvTrxDtl = await _itemDtlsServices.GetInvDtlsById((int)id)
-                                .FirstOrDefaultAsync();
-
-            if (InvTrxDtl == null)
+            if (TrxDetailsItem.InvTrxDtl == null)
             {
                 return NotFound();
             }

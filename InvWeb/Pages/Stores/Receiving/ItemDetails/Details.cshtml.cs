@@ -7,19 +7,27 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
+using CoreLib.DTO.Common.TrxDetails;
 
 namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 {
     public class DetailsModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<DetailsModel> _logger;
+        private readonly IItemDtlsServices _itemDtlsServices;
 
-        public DetailsModel(ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context, ILogger<DetailsModel> logger)
         {
             _context = context;
+            _logger = logger;
+            _itemDtlsServices = new ItemDtlsServices(_context, _logger);
         }
 
-        public InvTrxDtl InvTrxDtl { get; set; }
+        public TrxDetailsItemDetailsModel TrxDetailsItem { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,12 +36,9 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 return NotFound();
             }
 
-            InvTrxDtl = await _context.InvTrxDtls
-                .Include(i => i.InvItem)
-                .Include(i => i.InvTrxHdr)
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
-
-            if (InvTrxDtl == null)
+            TrxDetailsItem = await _itemDtlsServices.GetTrxDetailsModel_OnDetailsAsync((int)id);
+ 
+            if (TrxDetailsItem.InvTrxDtl == null)
             {
                 return NotFound();
             }
