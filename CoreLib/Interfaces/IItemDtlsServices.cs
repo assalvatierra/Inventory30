@@ -29,6 +29,7 @@ namespace CoreLib.Inventory.Interfaces
         public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId);
         public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsEditModel_OnEditOnGet(InvTrxDtl invTrxDtl);
         public Task<TrxDetailsItemDetailsModel> GetTrxDetailsModel_OnDetailsAsync(int id);
+        public Task<TrxDetailsItemDeleteModel> GetTrxDetailsModel_OnDeleteAsync(int id);
 
 
         // Operators

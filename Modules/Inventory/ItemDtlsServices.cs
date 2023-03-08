@@ -102,12 +102,8 @@ namespace Modules.Inventory
 
         public virtual async Task<InvTrxDtl> GetInvDtlsByIdAsync(int Id)
         {
-            //return await _context.InvTrxDtls.FindAsync(Id);
+            return await _context.InvTrxDtls.FindAsync(Id);
 
-            return await _context.InvTrxDtls
-                .Include(i => i.InvItem)
-                .Include(i => i.InvTrxHdr)
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == Id);
         }
 
         public virtual async Task<InvTrxDtl> GetInvDtlsByIdOnEdit(int Id)
@@ -339,10 +335,35 @@ namespace Modules.Inventory
             }
             catch (Exception ex)
             {
-                _logger.LogError("ItemDtlsServices: Error on GetTrxDetailsModel_OnDetails :" + ex.Message);
-                throw new Exception("ItemDtlsServices: Error on  GetTrxDetailsModel_OnDetails :" + ex.Message);
+                _logger.LogError("ItemDtlsServices: Error on GetTrxDetailsModel_OnDetailsAsync :" + ex.Message);
+                throw new Exception("ItemDtlsServices: Error on  GetTrxDetailsModel_OnDetailsAsync :" + ex.Message);
             }
 
+        }
+
+        public async Task<TrxDetailsItemDeleteModel> GetTrxDetailsModel_OnDeleteAsync(int id)
+        {
+            try
+            {
+                var trxDeleteModel = new TrxDetailsItemDeleteModel();
+
+                var trxDetails = await dbMaster.InvTrxDtlDb.GetInvTrxDtl().FirstOrDefaultAsync(m => m.Id == id);
+
+                if (trxDetails == null)
+                {
+                    return trxDeleteModel;
+                }
+
+                trxDeleteModel.InvTrxDtl = trxDetails;
+                trxDeleteModel.HrdId = trxDeleteModel.InvTrxDtl.InvTrxHdrId;
+
+                return trxDeleteModel;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemDtlsServices: Error on GetTrxDetailsModel_OnDeleteAsync :" + ex.Message);
+                throw new Exception("ItemDtlsServices: Error on  GetTrxDetailsModel_OnDeleteAsync :" + ex.Message);
+            }
         }
     }
 }
