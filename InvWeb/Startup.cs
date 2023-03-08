@@ -21,6 +21,13 @@ using CoreLib.Models.Inventory;
 using CoreLib.Inventory.Interfaces;
 using Inventory20;
 
+using DevExpress.AspNetCore;
+using DevExpress.AspNetCore.Reporting;
+using DevExpress.XtraReports.Web.Extensions;
+using InvWeb.Services;
+//using InvWeb.Data;
+
+
 namespace InvWeb
 {
     public class Startup
@@ -35,6 +42,27 @@ namespace InvWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Devexpress 
+            services.AddDevExpressControls();
+            services.AddScoped<ReportStorageWebExtension, CustomReportStorageWebExtension>();
+
+            services
+                .AddMvc()
+                .AddNewtonsoftJson();
+            services.ConfigureReportingServices(configurator => {
+                configurator.ConfigureReportDesigner(designerConfigurator => {
+                });
+                configurator.ConfigureWebDocumentViewer(viewerConfigurator => {
+                    viewerConfigurator.UseCachedReportSourceBuilder();
+                    viewerConfigurator.RegisterConnectionProviderFactory<CustomSqlDataConnectionProviderFactory>();
+                });
+                configurator.UseAsyncEngine();
+            });
+//            services.AddDbContext<ReportDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("ReportsDataConnectionString")));
+            services.AddDbContext<ReportDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
 
             //add sessions
             services.AddDistributedMemoryCache();
@@ -124,6 +152,10 @@ namespace InvWeb
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers(); //Mapping API controllers
+                
+                endpoints.MapControllerRoute(
+                                    name: "default",
+                                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
