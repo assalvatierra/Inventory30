@@ -13,18 +13,21 @@ using CoreLib.Inventory.Interfaces;
 using Microsoft.Extensions.Logging;
 using CoreLib.DTO.Receiving;
 using Inventory.DBAccess;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<CreateModel> _logger;
+        private readonly ILogger<EditModel> _logger;
         private readonly IItemTrxServices itemTrxServices;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context, ILogger<EditModel> logger)
         {
             _context = context;
+            _logger = logger;
+            itemTrxServices = new ItemTrxServices(_context, _logger);
         }
 
         [BindProperty]
@@ -49,7 +52,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             this.UpdateStoreId((int)InvTrxHdr.InvStoreId);
 
-            ReceivingEditModel = itemTrxServices.GetReceivingCreateModel_OnCreateOnGet(InvTrxHdr, StoreId, GetUser());
+            ReceivingEditModel = itemTrxServices.GetReceivingEditModel_OnEditOnGet(InvTrxHdr, StoreId, GetUser());
 
             return Page();
         }
@@ -60,7 +63,7 @@ namespace InvWeb.Pages.Stores.Receiving
         {
             if (!ModelState.IsValid)
             {
-                ReceivingEditModel = itemTrxServices.GetReceivingCreateModel_OnCreateOnGet(ReceivingEditModel.InvTrxHdr, StoreId, GetUser());
+                ReceivingEditModel = itemTrxServices.GetReceivingEditModel_OnEditOnGet(ReceivingEditModel.InvTrxHdr, StoreId, GetUser());
                 return Page();
             }
 
@@ -74,7 +77,7 @@ namespace InvWeb.Pages.Stores.Receiving
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvTrxHdrExists(InvTrxHdr.Id))
+                if (!InvTrxHdrExists(ReceivingEditModel.InvTrxHdr.Id))
                 {
                     return NotFound();
                 }

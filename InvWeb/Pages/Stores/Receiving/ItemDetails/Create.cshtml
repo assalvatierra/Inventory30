@@ -14,30 +14,30 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" hidden>
-                <label asp-for="InvTrxDtl.InvTrxHdrId" class="control-label"></label>
-                <select asp-for="InvTrxDtl.InvTrxHdrId" class="form-control" asp-items="ViewBag.InvTrxHdrId"></select>
+                <label asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId" class="control-label"></label>
+                <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvTrxHdrs"></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> Item </label>
-                <select asp-for="InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.InvItemId" id='itemDropdown' ></select>
+                <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize select2" asp-items="Model.ItemDtlsCreateModel.InvItems" id='itemDropdown'></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> HeatNo </label>
-                <input asp-for="InvTrxDtl.BatchNo" class="form-control" maxlength="20" />
-                <span asp-validation-for="InvTrxDtl.BatchNo" class="text-danger"></span>
+                <input asp-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" class="form-control" maxlength="20" />
+                <span asp-validation-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label"> Qty </label>
-                <input asp-for="InvTrxDtl.ItemQty" class="form-control" value="1" />
-                <span asp-validation-for="InvTrxDtl.ItemQty" class="text-danger"></span>
+                <input asp-for="ItemDtlsCreateModel.InvTrxDtl.ItemQty" class="form-control" value="1" />
+                <span asp-validation-for="ItemDtlsCreateModel.InvTrxDtl.ItemQty" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label"> Uom </label>
-                <select asp-for="InvTrxDtl.InvUomId" class="form-control" asp-items="ViewBag.InvUomId" id="UomDropdown"  ></select>
+                <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvUomId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvUoms" id="UomDropdown"></select>
             </div>
             <div class="form-group" hidden>
-                <label asp-for="InvTrxDtl.InvTrxDtlOperatorId" class="control-label"></label>
-                <select asp-for="InvTrxDtl.InvTrxDtlOperatorId" class="form-control" asp-items="ViewBag.InvTrxDtlOperatorId"></select>
+                <label asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxDtlOperatorId" class="control-label"></label>
+                <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxDtlOperatorId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvTrxDtlOperators"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -47,7 +47,7 @@
 </div>
 
 <div>
-    <a asp-page="../Details" asp-route-id="@ViewBag.HdrId">Back to List</a>
+    <a asp-page="../Details" asp-route-id="@Model.ItemDtlsCreateModel.HrdId">Back to List</a>
 </div>
 
 @section Scripts {

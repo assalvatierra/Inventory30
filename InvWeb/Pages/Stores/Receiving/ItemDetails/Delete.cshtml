@@ -13,34 +13,34 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxDtl.ItemQty)
+            @Html.DisplayNameFor(model => model.ItemDetailsDeleteModel.InvTrxDtl.ItemQty)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxDtl.ItemQty)
+            @Html.DisplayFor(model => model.ItemDetailsDeleteModel.InvTrxDtl.ItemQty)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxDtl.InvTrxHdr)
+            @Html.DisplayNameFor(model => model.ItemDetailsDeleteModel.InvTrxDtl.InvTrxHdr)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxDtl.InvTrxHdr.Id)
+            @Html.DisplayFor(model => model.ItemDetailsDeleteModel.InvTrxDtl.InvTrxHdr.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxDtl.InvUom)
+            @Html.DisplayNameFor(model => model.ItemDetailsDeleteModel.InvTrxDtl.InvUom)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxDtl.InvUom.Id)
+            @Html.DisplayFor(model => model.ItemDetailsDeleteModel.InvTrxDtl.InvUom.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxDtl.InvItem)
+            @Html.DisplayNameFor(model => model.ItemDetailsDeleteModel.InvTrxDtl.InvItem)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxDtl.InvItem.Id)
+            @Html.DisplayFor(model => model.ItemDetailsDeleteModel.InvTrxDtl.InvItem.Id)
         </dd>
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="InvTrxDtl.Id" />
+        <input type="hidden" asp-for="@Model.ItemDetailsDeleteModel.InvTrxDtl.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="../Details" asp-route-id="@Model.InvTrxDtl.InvTrxHdrId">Back to List</a>
+        <a asp-page="../Details" asp-route-id="@Model.ItemDetailsDeleteModel.InvTrxDtl.InvTrxHdrId">Back to List</a>
     </form>
 </div>

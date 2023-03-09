@@ -1,4 +1,6 @@
-﻿using CoreLib.DTO.Releasing;
+﻿using CoreLib.DTO.Common.TrxDetails;
+using CoreLib.DTO.Receiving;
+using CoreLib.DTO.Releasing;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 using System;
@@ -23,8 +25,12 @@ namespace CoreLib.Inventory.Interfaces
         public Task<InvTrxDtl> GetInvDtlsByIdOnEdit(int Id);
 
         //Create / Edit Models
-        public ReleasingCreateEditModel GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int storeId, List<InvTrxHdr> invTrxHdrs, IList<InvItem> invItems, IList<ItemLotNoSelect> itemLotNoSelects, IList<int> availableItems, IList<InvUom> invUoms);
-        //public ReleasingCreateEditModel GetReleasingEditModel_OnEditOnGet(InvTrxDtl invTrxDtl, int storeId, IList<InvStore> invStoreList);
+        public ReleasingItemDtlsCreateEditModel GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId, int invItemId);
+        public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId);
+        public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsEditModel_OnEditOnGet(InvTrxDtl invTrxDtl);
+        public Task<TrxDetailsItemDetailsModel> GetTrxDetailsModel_OnDetailsAsync(int id);
+        public Task<TrxDetailsItemDeleteModel> GetTrxDetailsModel_OnDeleteAsync(int id);
+
 
         // Operators
         public IQueryable<InvTrxDtlOperator> GetInvTrxDtlOperators();

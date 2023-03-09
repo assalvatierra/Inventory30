@@ -10,6 +10,7 @@ using CoreLib.Models.Inventory;
 using Microsoft.Extensions.Logging;
 using CoreLib.Inventory.Interfaces;
 using Modules.Inventory;
+using CoreLib.DTO.Common.TrxDetails;
 
 namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
@@ -19,14 +20,16 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
         private readonly ILogger<DeleteModel> _logger;
         private readonly IItemDtlsServices _itemDtlsServices;
 
-        public DeleteModel(ILogger<DeleteModel> logger, ApplicationDbContext context)
+        public DeleteModel(ApplicationDbContext context, ILogger<DeleteModel> logger)
         {
             _context = context;
             _logger = logger;
-            _itemDtlsServices = new ItemDtlsServices(context, _logger);
+            _itemDtlsServices = new ItemDtlsServices(_context, _logger);
         }
 
+
         [BindProperty]
+        public TrxDetailsItemDeleteModel ItemDetailsDeleteModel { get; set; }
         public InvTrxDtl InvTrxDtl { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -36,10 +39,9 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return NotFound();
             }
 
-            InvTrxDtl = await _itemDtlsServices.GetInvDtlsById((int)id)
-                                .FirstOrDefaultAsync();
+            ItemDetailsDeleteModel = await _itemDtlsServices.GetTrxDetailsModel_OnDeleteAsync((int)id);
 
-            if (InvTrxDtl == null)
+            if (ItemDetailsDeleteModel.InvTrxDtl == null)
             {
                 return NotFound();
             }
@@ -53,15 +55,19 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return NotFound();
             }
 
-            InvTrxDtl = await _itemDtlsServices.GetInvDtlsByIdAsync((int)id);
+            //InvTrxDtl = await _context.InvTrxDtls.FindAsync(id);
 
-            if (InvTrxDtl != null)
+            ItemDetailsDeleteModel.InvTrxDtl = await _itemDtlsServices.GetInvDtlsByIdAsync((int)id);
+
+            if (ItemDetailsDeleteModel.InvTrxDtl != null)
             {
-                _itemDtlsServices.DeleteInvDtls(InvTrxDtl);
+                _itemDtlsServices.DeleteInvDtls(ItemDetailsDeleteModel.InvTrxDtl);
                 await _itemDtlsServices.SaveChangesAsync();
+
+                //_context.InvTrxDtls.Remove(InvTrxDtl);
             }
 
-            return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+            return RedirectToPage("../Details", new { id = ItemDetailsDeleteModel.InvTrxDtl.InvTrxHdrId });
         }
     }
 }

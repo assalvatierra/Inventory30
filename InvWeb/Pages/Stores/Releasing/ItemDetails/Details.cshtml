@@ -8,48 +8,42 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Releasing Item</h4>
+    <h4>InvTrxDtl</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxDtl.InvTrxHdr)
+            @Html.DisplayNameFor(model => model.TrxDetailsItem.InvTrxDtl.InvTrxHdr)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxDtl.InvTrxHdr.Id)
+            @Html.DisplayFor(model => model.TrxDetailsItem.InvTrxDtl.InvTrxHdr.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxDtl.InvItem)
+            @Html.DisplayNameFor(model => model.TrxDetailsItem.InvTrxDtl.InvItem)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxDtl.InvItem.Description)
+            @Html.DisplayFor(model => model.TrxDetailsItem.InvTrxDtl.InvItem.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxDtl.ItemQty)
+            @Html.DisplayNameFor(model => model.TrxDetailsItem.InvTrxDtl.ItemQty)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxDtl.ItemQty)
+            @Html.DisplayFor(model => model.TrxDetailsItem.InvTrxDtl.ItemQty)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxDtl.LotNo)
+            @Html.DisplayNameFor(model => model.TrxDetailsItem.InvTrxDtl.InvUom)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxDtl.LotNo)
+            @Html.DisplayFor(model => model.TrxDetailsItem.InvTrxDtl.InvUom.uom)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxDtl.InvUom)
+            @Html.DisplayNameFor(model => model.TrxDetailsItem.InvTrxDtl.BatchNo)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxDtl.InvUom.uom)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxDtl.BatchNo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxDtl.BatchNo)
+            @Html.DisplayFor(model => model.TrxDetailsItem.InvTrxDtl.BatchNo)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-page="./Edit" asp-route-id="@Model.InvTrxDtl.Id">Edit</a> |
-    <a asp-page="../Details" asp-route-id="@Model.InvTrxDtl.InvTrxHdrId">Back to Details</a>
+    <a asp-page="./Edit" asp-route-id="@Model.TrxDetailsItem.InvTrxDtl.Id">Edit</a> |
+    <a asp-page="../Details" asp-route-id="@Model.TrxDetailsItem.InvTrxDtl.InvTrxHdrId">Back to List</a>
 </div>
