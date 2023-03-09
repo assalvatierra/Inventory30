@@ -1,6 +1,7 @@
 ﻿using CoreLib.Interfaces.DBAccess;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -30,14 +31,35 @@ namespace Inventory.DBAccess
 
         public InvTrxHdr GetInvTrxHdrsById(int id)
         {
-            var invHdr = _context.InvTrxHdrs.Find(id);
+            var invtrxHdr = _context.InvTrxHdrs.Find(id);
 
-            if (invHdr == null)
+            if (invtrxHdr == null)
+            {
+                return new InvTrxHdr();
+            }
+
+            return invtrxHdr;
+        }
+
+        public async Task<IList<InvTrxHdr>> GetInvTrxHdrsByTypeIdAndStoreId(int typeId, int storeId)
+        {
+            var invtrxHdr = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType)
+                .Include(i => i.InvTrxDtls)
+                    .ThenInclude(i => i.InvItem)
+                    .ThenInclude(i => i.InvUom)
+                .Where(i => i.InvTrxTypeId == typeId &&
+                              i.InvStoreId == storeId)
+                .ToListAsync();
+
+            if (invtrxHdr == null)
             {
                 return null;
             }
 
-            return invHdr;
+            return invtrxHdr;
         }
     }
 }

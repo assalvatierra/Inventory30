@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using CoreLib.DTO.Common.TrxHeader;
 using CoreLib.DTO.Receiving;
 using CoreLib.DTO.Releasing;
 using CoreLib.Inventory.Interfaces;
@@ -586,6 +587,100 @@ namespace Modules.Inventory
             {
                 _logger.LogError("ItemTrxServices: Unable to GetReceivingEditModel_OnEditOnGet :" + ex.Message);
                 throw new Exception("ItemTrxServices: Unable to GetReceivingEditModel_OnEditOnGet :" + ex.Message);
+
+            }
+        }
+
+
+        public async Task<TrxHeaderIndexModel> GetTrxHeaderIndexModel_OnGetAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int typeId, string status, bool userIsAdmin)
+        {
+            try
+            {
+                TrxHeaderIndexModel trxIndexModel = new TrxHeaderIndexModel();
+
+                invTrxHdrs = await dBMaster.InvTrxHdrDb.GetInvTrxHdrsByTypeIdAndStoreId(typeId, storeId);
+
+                invTrxHdrs = this.FilterByStatus(invTrxHdrs, status);
+
+                trxIndexModel.InvTrxHdrs = invTrxHdrs;
+                trxIndexModel.StoreId = storeId;
+                trxIndexModel.Status = status;
+                trxIndexModel.IsAdmin = userIsAdmin;
+
+                return trxIndexModel;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetTrxHeaderIndexModel_OnGetAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetTrxHeaderIndexModel_OnGetAsync :" + ex.Message);
+
+            }
+        }
+        public async Task<TrxHeaderIndexModel> GetTrxHeaderIndexModel_OnPostAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int typeId, string status, string orderBy, bool userIsAdmin)
+        {
+            try
+            {
+                TrxHeaderIndexModel trxIndexModel = new TrxHeaderIndexModel();
+
+                invTrxHdrs = await dBMaster.InvTrxHdrDb.GetInvTrxHdrsByTypeIdAndStoreId(typeId, storeId);
+
+                invTrxHdrs = this.FilterByStatus(invTrxHdrs, status);
+                invTrxHdrs = this.FilterByOrder(invTrxHdrs, orderBy);
+
+                trxIndexModel.InvTrxHdrs = invTrxHdrs;
+                trxIndexModel.StoreId = storeId;
+                trxIndexModel.Status = status;
+                trxIndexModel.IsAdmin = userIsAdmin;
+
+                return trxIndexModel;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetTrxHeaderIndexModel_OnPostAsync :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetTrxHeaderIndexModel_OnPostAsync :" + ex.Message);
+
+            }
+        }
+
+        public TrxHeaderCreateEditModel GetTrxHeaderCreateModel_OnCreateOnGet(InvTrxHdr invTrxHdr, int storeId, string User)
+        {
+            try
+            {
+                return new TrxHeaderCreateEditModel
+                {
+                    InvTrxHdr = invTrxHdr,
+                    InvStoresList = new SelectList(dBMaster.StoreDb.GetStoreList(), "Id", "StoreName", storeId),
+                    InvTrxHdrStatusList = new SelectList(dBMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status"),
+                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1),
+                    User = User,
+                    StoreId = storeId
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetTrxHeaderCreateModel_OnCreateOnGet :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetTrxHeaderCreateModel_OnCreateOnGet :" + ex.Message);
+
+            }
+        }
+        public TrxHeaderCreateEditModel GetTrxHeaderEditModel_OnEditOnGet(InvTrxHdr invTrxHdr, int storeId, string User)
+        {
+            try
+            {
+                return new TrxHeaderCreateEditModel
+                {
+                    InvTrxHdr = invTrxHdr,
+                    InvStoresList = new SelectList(dBMaster.StoreDb.GetStoreList(), "Id", "StoreName", storeId),
+                    InvTrxHdrStatusList = new SelectList(dBMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status"),
+                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1),
+                    User = User,
+                    StoreId = storeId
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetTrxHeaderEditModel_OnEditOnGet :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetTrxHeaderEditModel_OnEditOnGet :" + ex.Message);
 
             }
         }

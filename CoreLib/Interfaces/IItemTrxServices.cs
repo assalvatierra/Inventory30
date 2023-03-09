@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CoreLib.DTO.Releasing;
 using CoreLib.DTO.Receiving;
+using CoreLib.DTO.Common.TrxHeader;
 
 namespace CoreLib.Inventory.Interfaces
 {
@@ -39,6 +40,13 @@ namespace CoreLib.Inventory.Interfaces
         public Task<ReceivingIndexModel> GetReceivingIndexModel_OnIndexOnPostAsync(IList<InvTrxHdr> InvTrxHdrs, int storeId, int TypeId, string status, string orderBy, bool userIsAdmin);
         public ReceivingCreateEditModel GetReceivingCreateModel_OnCreateOnGet(InvTrxHdr invTrxHdr, int storeId, string User);
         public ReceivingCreateEditModel GetReceivingEditModel_OnEditOnGet(InvTrxHdr invTrxHdr, int storeId, string User);
+
+        //Common : Adjustments
+        public Task<TrxHeaderIndexModel> GetTrxHeaderIndexModel_OnGetAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int typeId, string status, bool userIsAdmin);
+        public Task<TrxHeaderIndexModel> GetTrxHeaderIndexModel_OnPostAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int typeId, string status, string orderBy, bool userIsAdmin);
+        public TrxHeaderCreateEditModel GetTrxHeaderCreateModel_OnCreateOnGet(InvTrxHdr invTrxHdr, int storeId, string User);
+        public TrxHeaderCreateEditModel GetTrxHeaderEditModel_OnEditOnGet(InvTrxHdr invTrxHdr, int storeId, string User);
+
 
         //Transaction Details
         public IEnumerable<InvTrxDtl> GetInvTrxDtlsById(int Id);

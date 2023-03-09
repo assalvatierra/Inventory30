@@ -20,21 +20,12 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<EditModel> _logger;
-
-        private readonly IItemServices _itemServices;
-        private readonly IUomServices _uomServices;
-
-        private readonly IItemTrxServices _itemTrxServices;
         private readonly IItemDtlsServices _itemDtlsServices;
 
         public EditModel(ApplicationDbContext context, ILogger<EditModel> logger)
         {
             _context = context;
             _logger = logger;
-
-            _itemServices = new ItemServices(context);
-            _uomServices = new UomServices(context);
-            _itemTrxServices = new ItemTrxServices(_context, _logger);
             _itemDtlsServices = new ItemDtlsServices(_context, _logger);
         }
 
@@ -59,30 +50,6 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 
             //refactored
             ItemDtlsEditModel = _itemDtlsServices.GeReceivingItemDtlsEditModel_OnEditOnGet(InvTrxDtl);
-
-
-            //old
-            //InvTrxDtl = await _context.InvTrxDtls
-            //    .Include(i => i.InvItem)
-            //    .Include(i => i.InvTrxHdr)
-            //    .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
-
-            //if (InvTrxDtl == null)
-            //{
-            //    return NotFound();
-            //}
-
-
-            //ViewData["InvItemId"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
-            //                        .Select(x => new
-            //                        {
-            //                            Name = String.Format("{0} - {1} - {2} {3}",
-            //                            x.Code, x.InvCategory.Description, x.Description, x.Remarks),
-            //                            Value = x.Id
-            //                        }), "Value", "Name", InvTrxDtl.InvItemId);
-            //ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id");
-            //ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom", InvTrxDtl.InvItem.InvUomId);
-            //ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
 
             return Page();
         }

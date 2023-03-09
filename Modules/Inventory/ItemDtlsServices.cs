@@ -215,7 +215,7 @@ namespace Modules.Inventory
                 
                 var receivingItemDtls = new ReceivingItemDtlsCreateEditModel();
                 
-                receivingItemDtls.InvTrxDtl = invTrxDtl;
+                receivingItemDtls.InvTrxDtl = new InvTrxDtl();
                 receivingItemDtls.InvTrxDtl.InvItemId = 2; // default
                 receivingItemDtls.InvTrxDtl.InvTrxHdrId = hdrId;
                 receivingItemDtls.InvTrxDtl.InvTrxDtlOperatorId = 1;
@@ -286,6 +286,12 @@ namespace Modules.Inventory
         {
             try
             {
+                var invTrxHeader = itemTrxServices.GetInvTrxHdrsById(invTrxDtl.InvTrxHdrId).FirstOrDefault();
+
+                if (invTrxHeader == null)
+                {
+                    return new ReceivingItemDtlsCreateEditModel();
+                }
 
                 var receivingItemDtls = new ReceivingItemDtlsCreateEditModel();
                 receivingItemDtls.InvTrxDtl = invTrxDtl;
@@ -302,7 +308,7 @@ namespace Modules.Inventory
                 receivingItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(receivingItemDtls.InvTrxDtl.InvItemId), "Id", "uom");
                 receivingItemDtls.InvTrxDtlOperators = new SelectList(dbMaster.InvTrxDtlOperatorDb.GetOperators(), "Id", "Description");
                 receivingItemDtls.HrdId = invTrxDtl.InvTrxHdrId;
-                receivingItemDtls.StoreId = invTrxDtl.InvTrxHdr.InvStoreId;
+                receivingItemDtls.StoreId = invTrxHeader.InvStoreId;
 
                 return receivingItemDtls;
             }
@@ -311,9 +317,8 @@ namespace Modules.Inventory
                 _logger.LogError("ItemDtlsServices: Error on GeReceivingItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
                 throw new Exception("ItemDtlsServices: Error on  GeReceivingItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
             }
-
-
         }
+
         public async Task<TrxDetailsItemDetailsModel> GetTrxDetailsModel_OnDetailsAsync(int id)
         {
 

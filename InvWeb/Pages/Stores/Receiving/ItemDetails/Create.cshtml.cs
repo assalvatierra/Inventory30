@@ -41,7 +41,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 hdrId ??= 0;
             }
 
-
+          
             ItemDtlsCreateModel = _itemDtlsServices.GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl, (int)hdrId);
 
 
