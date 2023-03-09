@@ -11,5 +11,6 @@ namespace CoreLib.Interfaces.DBAccess
     {
         public IQueryable<InvTrxHdr> GetInvTrxHdrs();
         public InvTrxHdr GetInvTrxHdrsById(int id);
+        public Task<IList<InvTrxHdr>> GetInvTrxHdrsByTypeIdAndStoreId(int typeId, int storeId);
     }
 }
