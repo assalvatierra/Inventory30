@@ -7,19 +7,29 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
+using CoreLib.Inventory.Interfaces;
+using CoreLib.DTO.Receiving;
+using CoreLib.DTO.Common.TrxHeader;
 
 namespace InvWeb.Pages.Stores.Adjustment
 {
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IItemTrxServices itemTrxServices;
+        private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context, ILogger<IndexModel> logger)
         {
+            _logger = logger;
             _context = context;
+            itemTrxServices = new ItemTrxServices(_context, _logger);
         }
 
         public IList<InvTrxHdr> InvTrxHdr { get;set; }
+        public TrxHeaderIndexModel AdjustmentIndexModel { get; set; }
 
         [BindProperty]
         public string Status { get; set; }   // filter Parameter
@@ -36,34 +46,41 @@ namespace InvWeb.Pages.Stores.Adjustment
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType)
-                .Include(i => i.InvTrxDtls)
-                    .ThenInclude(i => i.InvItem)
-                    .ThenInclude(i => i.InvUom)
-                .Where(i => i.InvStoreId == storeId && i.InvTrxTypeId == 3)
-                .ToListAsync();
-
-            if (!String.IsNullOrWhiteSpace(status))
+            if (string.IsNullOrEmpty(status))
             {
-                InvTrxHdr = status switch
-                {
-                    "PENDING" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
-                    "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
-                    "ALL" => InvTrxHdr.ToList(),
-                    _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
-                };
-            }
-            else
-            {
-                InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
+                status = "PENDING";
             }
 
-            ViewData["StoreId"] = storeId;
-            ViewData["Status"] = status;
-            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
+            AdjustmentIndexModel = await itemTrxServices.GetTrxHeaderIndexModel_OnGetAsync(InvTrxHdr, (int)storeId, TYPE_ADJUSTMENT, status, IsUserAdmin());
+
+            //InvTrxHdr = await _context.InvTrxHdrs
+            //    .Include(i => i.InvStore)
+            //    .Include(i => i.InvTrxHdrStatu)
+            //    .Include(i => i.InvTrxType)
+            //    .Include(i => i.InvTrxDtls)
+            //        .ThenInclude(i => i.InvItem)
+            //        .ThenInclude(i => i.InvUom)
+            //    .Where(i => i.InvStoreId == storeId && i.InvTrxTypeId == 3)
+            //    .ToListAsync();
+
+            //if (!String.IsNullOrWhiteSpace(status))
+            //{
+            //    InvTrxHdr = status switch
+            //    {
+            //        "PENDING" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+            //        "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
+            //        "ALL" => InvTrxHdr.ToList(),
+            //        _ => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+            //    };
+            //}
+            //else
+            //{
+            //    InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList();
+            //}
+
+            //ViewData["StoreId"] = storeId;
+            //ViewData["Status"] = status;
+            //ViewData["IsAdmin"] = User.IsInRole("ADMIN");
 
             return Page();
         }
@@ -76,38 +93,45 @@ namespace InvWeb.Pages.Stores.Adjustment
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType)
-                  .Where(i => i.InvTrxTypeId == TYPE_ADJUSTMENT &&
-                              i.InvStoreId == storeId)
-                .ToListAsync();
+            AdjustmentIndexModel = await itemTrxServices.GetTrxHeaderIndexModel_OnPostAsync(InvTrxHdr, (int)storeId, TYPE_ADJUSTMENT, Status, Orderby,IsUserAdmin());
 
-            if (!String.IsNullOrWhiteSpace(Status))
-            {
-                InvTrxHdr = Status switch
-                {
-                    "PENDING"  => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
-                    "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
-                    "ALL"      => InvTrxHdr.ToList(),
-                    _          => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
-                };
-            }
+            //InvTrxHdr = await _context.InvTrxHdrs
+            //    .Include(i => i.InvStore)
+            //    .Include(i => i.InvTrxHdrStatu)
+            //    .Include(i => i.InvTrxType)
+            //      .Where(i => i.InvTrxTypeId == TYPE_ADJUSTMENT &&
+            //                  i.InvStoreId == storeId)
+            //    .ToListAsync();
 
-            if (!String.IsNullOrWhiteSpace(Orderby))
-            {
-                InvTrxHdr = Orderby switch
-                {
-                    "ASC"  => InvTrxHdr.OrderBy(c => c.DtTrx).ToList(),
-                    "DESC" => InvTrxHdr.OrderByDescending(c => c.DtTrx).ToList(),
-                    _      => InvTrxHdr.OrderBy(c => c.DtTrx).ToList(),
-                };
-            }
-            ViewData["StoreId"] = storeId;
-            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
+            //if (!String.IsNullOrWhiteSpace(Status))
+            //{
+            //    InvTrxHdr = Status switch
+            //    {
+            //        "PENDING"  => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+            //        "ACCEPTED" => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
+            //        "ALL"      => InvTrxHdr.ToList(),
+            //        _          => InvTrxHdr.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
+            //    };
+            //}
+
+            //if (!String.IsNullOrWhiteSpace(Orderby))
+            //{
+            //    InvTrxHdr = Orderby switch
+            //    {
+            //        "ASC"  => InvTrxHdr.OrderBy(c => c.DtTrx).ToList(),
+            //        "DESC" => InvTrxHdr.OrderByDescending(c => c.DtTrx).ToList(),
+            //        _      => InvTrxHdr.OrderBy(c => c.DtTrx).ToList(),
+            //    };
+            //}
+            //ViewData["StoreId"] = storeId;
+            //ViewData["IsAdmin"] = User.IsInRole("ADMIN");
 
             return Page();
+        }
+
+        private bool IsUserAdmin()
+        {
+            return User.IsInRole("ADMIN");
         }
     }
 }

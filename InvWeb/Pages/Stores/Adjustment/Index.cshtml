@@ -5,16 +5,16 @@
     ViewData["Title"] = "Adjustments";
     
     int STATUS_PENDING = 1;
-    bool IsAdmin = ViewBag.IsAdmin;
+    bool IsAdmin = Model.AdjustmentIndexModel.IsAdmin;
 }
 
 <h1>
     Adjustments
-    @if (ViewBag.Status == "ACCEPTED")
+    @if (Model.AdjustmentIndexModel.Status == "ACCEPTED")
     {
         <span style="font-size:1rem;">(Approved)</span>
     }
-    else if (ViewBag.Status == "PENDING")
+    else if (Model.AdjustmentIndexModel.Status == "PENDING")
     {
         <span style="font-size:1rem;">(Pending Approval)</span>
     }
@@ -25,22 +25,22 @@
 </h1>
 
 <p>
-    <a asp-page="../Main/Index" asp-route-id="@ViewBag.StoreId">Go back to MyStore</a> |
-    @if (ViewBag.Status == "ACCEPTED")
+    <a asp-page="../Main/Index" asp-route-id="@Model.AdjustmentIndexModel.StoreId">Go back to MyStore</a> |
+    @if (Model.AdjustmentIndexModel.Status == "ACCEPTED")
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.AdjustmentIndexModel.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
     }
-    else if (ViewBag.Status == "PENDING")
+    else if (Model.AdjustmentIndexModel.Status == "PENDING")
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="ACCEPTED">Go recent Approval</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.AdjustmentIndexModel.StoreId" asp-route-Status="ACCEPTED">Go recent Approval</a>
     }
     else
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.AdjustmentIndexModel.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
     }
 </p>
 <p>
-    <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId" class="btn btn-primary">Create New</a>
+    <a asp-page="Create" asp-route-storeId="@Model.AdjustmentIndexModel.StoreId" class="btn btn-primary">Create New</a>
 </p>
 <form method="post">
     <div hidden>
@@ -84,7 +84,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.InvTrxHdr)
+        @foreach (var item in Model.AdjustmentIndexModel.InvTrxHdrs)
         {
             <tr>
                 <td>
@@ -164,8 +164,8 @@
 
         $(() => {
             //on init status
-            StatusFilter("@Model.Status");
-            OrderFilter("@Model.Orderby");
+            StatusFilter("@Model.AdjustmentIndexModel.Status");
+            OrderFilter("@Model.AdjustmentIndexModel.Order");
         });
 
     </script>
