@@ -646,12 +646,17 @@ namespace Modules.Inventory
         {
             try
             {
+                invTrxHdr = new InvTrxHdr();
+                invTrxHdr.InvStoreId = storeId;
+                invTrxHdr.InvTrxHdrStatusId = 1;
+                invTrxHdr.InvTrxTypeId = 3;
+
                 return new TrxHeaderCreateEditModel
                 {
                     InvTrxHdr = invTrxHdr,
                     InvStoresList = new SelectList(dBMaster.StoreDb.GetStoreList(), "Id", "StoreName", storeId),
                     InvTrxHdrStatusList = new SelectList(dBMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status"),
-                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1),
+                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 3),
                     User = User,
                     StoreId = storeId
                 };
@@ -672,7 +677,7 @@ namespace Modules.Inventory
                     InvTrxHdr = invTrxHdr,
                     InvStoresList = new SelectList(dBMaster.StoreDb.GetStoreList(), "Id", "StoreName", storeId),
                     InvTrxHdrStatusList = new SelectList(dBMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status"),
-                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1),
+                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 3),
                     User = User,
                     StoreId = storeId
                 };
