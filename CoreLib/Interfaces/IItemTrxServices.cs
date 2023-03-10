@@ -46,6 +46,8 @@ namespace CoreLib.Inventory.Interfaces
         public Task<TrxHeaderIndexModel> GetTrxHeaderIndexModel_OnPostAsync(IList<InvTrxHdr> invTrxHdrs, int storeId, int typeId, string status, string orderBy, bool userIsAdmin);
         public TrxHeaderCreateEditModel GetTrxHeaderCreateModel_OnCreateOnGet(InvTrxHdr invTrxHdr, int storeId, string User);
         public TrxHeaderCreateEditModel GetTrxHeaderEditModel_OnEditOnGet(InvTrxHdr invTrxHdr, int storeId, string User);
+        public Task<TrxHeaderDeleteModel> GetTrxHeaderDeleteModel_OnDeleteOnGet(int id);
+        public Task<TrxHeaderDetailsModel> GetTrxHeaderDetailsModel_OnDetailsOnGet(int id);
 
 
         //Transaction Details

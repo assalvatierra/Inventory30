@@ -7,19 +7,31 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
+using CoreLib.DTO.Common.TrxHeader;
 
 namespace InvWeb.Pages.Stores.Adjustment
 {
     public class DetailsModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<DeleteModel> _logger;
+        private readonly IItemTrxServices itemTrxServices;
 
-        public DetailsModel(ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context, ILogger<DeleteModel> logger)
         {
             _context = context;
+            _logger = logger;
+            _context = context;
+            itemTrxServices = new ItemTrxServices(_context, _logger);
         }
 
-        public InvTrxHdr InvTrxHdr { get; set; }
+        [BindProperty]
+        public TrxHeaderDetailsModel HeaderDetailsModel { get; set; }
+
+        //public InvTrxHdr InvTrxHdr { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,18 +40,9 @@ namespace InvWeb.Pages.Stores.Adjustment
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
+            HeaderDetailsModel =  await itemTrxServices.GetTrxHeaderDetailsModel_OnDetailsOnGet((int)id);
 
-            ViewData["InvTrxDtls"] = await _context.InvTrxDtls.Where(i => i.InvTrxHdrId == id)
-                .Include(i => i.InvItem)
-                .Include(i => i.InvUom)
-                .Include(i => i.InvTrxDtlOperator)
-                .ToListAsync();
-
-            if (InvTrxHdr == null)
+            if (HeaderDetailsModel.InvTrxHdr == null)
             {
                 return NotFound();
             }
