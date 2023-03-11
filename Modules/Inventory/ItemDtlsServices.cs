@@ -370,5 +370,83 @@ namespace Modules.Inventory
                 throw new Exception("ItemDtlsServices: Error on  GetTrxDetailsModel_OnDeleteAsync :" + ex.Message);
             }
         }
+
+        public TrxItemsCreateEditModel GeItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId)
+        {
+            try
+            {
+                var invTrxHeader = itemTrxServices.GetInvTrxHdrsById(hdrId).FirstOrDefault();
+
+                if (invTrxHeader == null)
+                {
+                    return new TrxItemsCreateEditModel();
+                }
+
+                var trxItemDtls = new TrxItemsCreateEditModel();
+
+                trxItemDtls.InvTrxDtl = new InvTrxDtl();
+                trxItemDtls.InvTrxDtl.InvItemId = 2; // default
+                trxItemDtls.InvTrxDtl.InvTrxHdrId = hdrId;
+                trxItemDtls.InvTrxDtl.InvTrxDtlOperatorId = 1;
+
+                trxItemDtls.InvItems = new SelectList(itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
+                                        .Select(x => new
+                                        {
+                                            Name = String.Format("{0} - {1} - {2} {3}",
+                                            x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+                                            Value = x.Id
+                                        }), "Value", "Name");
+
+                trxItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(trxItemDtls.InvTrxDtl.InvItemId), "Id", "uom");
+                trxItemDtls.InvTrxHdrs = new SelectList(dbMaster.InvTrxHdrDb.GetInvTrxHdrs(), "Id", "Id", hdrId);
+                trxItemDtls.InvTrxDtlOperators = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 1);
+                trxItemDtls.HrdId = hdrId;
+                trxItemDtls.StoreId = invTrxHeader.InvStoreId;
+
+                return trxItemDtls;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemDtlsServices: Error on GeItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
+                throw new Exception("ItemDtlsServices: Error on GeItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
+            }
+        }
+
+        public TrxItemsCreateEditModel GeItemDtlsEditModel_OnEditOnGet(InvTrxDtl invTrxDtl)
+        {
+            try
+            {
+                var invTrxHeader = itemTrxServices.GetInvTrxHdrsById(invTrxDtl.InvTrxHdrId).FirstOrDefault();
+
+                if (invTrxHeader == null)
+                {
+                    return new TrxItemsCreateEditModel();
+                }
+
+                var receivingItemDtls = new TrxItemsCreateEditModel();
+                receivingItemDtls.InvTrxDtl = invTrxDtl;
+
+                receivingItemDtls.InvItems = new SelectList(itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
+                                        .Select(x => new
+                                        {
+                                            Name = String.Format("{0} - {1} - {2} {3}",
+                                            x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+                                            Value = x.Id
+                                        }), "Value", "Name", receivingItemDtls.InvTrxDtl.InvItemId);
+
+                receivingItemDtls.InvTrxHdrs = new SelectList(dbMaster.InvTrxHdrDb.GetInvTrxHdrs(), "Id", "Id");
+                receivingItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(receivingItemDtls.InvTrxDtl.InvItemId), "Id", "uom");
+                receivingItemDtls.InvTrxDtlOperators = new SelectList(dbMaster.InvTrxDtlOperatorDb.GetOperators(), "Id", "Description");
+                receivingItemDtls.HrdId = invTrxDtl.InvTrxHdrId;
+                receivingItemDtls.StoreId = invTrxHeader.InvStoreId;
+
+                return receivingItemDtls;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemDtlsServices: Error on GeReceivingItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
+                throw new Exception("ItemDtlsServices: Error on  GeReceivingItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
+            }
+        }
     }
 }

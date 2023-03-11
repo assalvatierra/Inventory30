@@ -15,34 +15,34 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="InvTrxDtl.Id" />
             <div class="form-group" hidden>
-                <label asp-for="InvTrxDtl.InvTrxHdrId" class="control-label"></label>
-                <select asp-for="InvTrxDtl.InvTrxHdrId" class="form-control" asp-items="ViewBag.InvTrxHdrId"></select>
-                <span asp-validation-for="InvTrxDtl.InvTrxHdrId" class="text-danger"></span>
+                <label asp-for="ItemsEditModel.InvTrxDtl.InvTrxHdrId" class="control-label"></label>
+                <select asp-for="ItemsEditModel.InvTrxDtl.InvTrxHdrId" class="form-control" asp-items="Model.ItemsEditModel.InvTrxHdrs"></select>
+                <span asp-validation-for="ItemsEditModel.InvTrxDtl.InvTrxHdrId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label"> Item </label>
-                <select asp-for="InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.InvItemId" id='itemDropdown'></select>
-                <span asp-validation-for="InvTrxDtl.InvItemId" class="text-danger"></span>
+                <select asp-for="ItemsEditModel.InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize select2" asp-items="Model.ItemsEditModel.InvItems" id='itemDropdown'></select>
+                <span asp-validation-for="ItemsEditModel.InvTrxDtl.InvItemId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label"> BatchNo </label>
-                <input asp-for="InvTrxDtl.BatchNo" class="form-control" maxlength="20" />
-                <span asp-validation-for="InvTrxDtl.BatchNo" class="text-danger"></span>
+                <input asp-for="ItemsEditModel.InvTrxDtl.BatchNo" class="form-control" maxlength="20" />
+                <span asp-validation-for="ItemsEditModel.InvTrxDtl.BatchNo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Qty</label>
-                <input asp-for="InvTrxDtl.ItemQty" class="form-control" />
-                <span asp-validation-for="InvTrxDtl.ItemQty" class="text-danger"></span>
+                <input asp-for="ItemsEditModel.InvTrxDtl.ItemQty" class="form-control" />
+                <span asp-validation-for="ItemsEditModel.InvTrxDtl.ItemQty" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Uom</label>
-                <select asp-for="InvTrxDtl.InvUomId" class="form-control" asp-items="ViewBag.InvUomId" id="UomDropdown"></select>
-                <span asp-validation-for="InvTrxDtl.InvUomId" class="text-danger"></span>
+                <select asp-for="ItemsEditModel.InvTrxDtl.InvUomId" class="form-control" asp-items="Model.ItemsEditModel.InvUoms" id="UomDropdown"></select>
+                <span asp-validation-for="ItemsEditModel.InvTrxDtl.InvUomId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Operator</label>
-                <select asp-for="InvTrxDtl.InvTrxDtlOperatorId" class="form-control" asp-items="ViewBag.InvTrxDtlOperatorId"></select>
-                <span asp-validation-for="InvTrxDtl.InvTrxDtlOperatorId" class="text-danger"></span>
+                <select asp-for="ItemsEditModel.InvTrxDtl.InvTrxDtlOperatorId" class="form-control" asp-items="Model.ItemsEditModel.InvTrxDtlOperators"></select>
+                <span asp-validation-for="ItemsEditModel.InvTrxDtl.InvTrxDtlOperatorId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

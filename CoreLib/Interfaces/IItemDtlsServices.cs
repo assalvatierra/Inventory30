@@ -31,6 +31,9 @@ namespace CoreLib.Inventory.Interfaces
         public Task<TrxDetailsItemDetailsModel> GetTrxDetailsModel_OnDetailsAsync(int id);
         public Task<TrxDetailsItemDeleteModel> GetTrxDetailsModel_OnDeleteAsync(int id);
 
+        //Adjustment
+        public TrxItemsCreateEditModel GeItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId);
+        public TrxItemsCreateEditModel GeItemDtlsEditModel_OnEditOnGet(InvTrxDtl invTrxDtl);
 
         // Operators
         public IQueryable<InvTrxDtlOperator> GetInvTrxDtlOperators();
