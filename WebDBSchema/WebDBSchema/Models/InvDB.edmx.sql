@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/30/2023 14:49:47
+-- Date Created: 03/12/2023 16:30:09
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -161,6 +161,15 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecInvCatCustomSpec]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecInvCatCustomSpec];
 GO
+IF OBJECT_ID(N'[dbo].[FK_RptCategoryRptReportCat]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RptReportCats] DROP CONSTRAINT [FK_RptCategoryRptReportCat];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RptAccessTypeRptReportRoles]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RptReportRoles] DROP CONSTRAINT [FK_RptAccessTypeRptReportRoles];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RptAccessTypeRptReportUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RptReportUsers] DROP CONSTRAINT [FK_RptAccessTypeRptReportUser];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -267,6 +276,21 @@ IF OBJECT_ID(N'[dbo].[InvCatCustomSpecs]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvCustomSpecTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvCustomSpecTypes];
+GO
+IF OBJECT_ID(N'[dbo].[RptCategories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RptCategories];
+GO
+IF OBJECT_ID(N'[dbo].[RptReportCats]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RptReportCats];
+GO
+IF OBJECT_ID(N'[dbo].[RptReportUsers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RptReportUsers];
+GO
+IF OBJECT_ID(N'[dbo].[RptReportRoles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RptReportRoles];
+GO
+IF OBJECT_ID(N'[dbo].[RptAccessTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RptAccessTypes];
 GO
 
 -- --------------------------------------------------
@@ -600,6 +624,47 @@ CREATE TABLE [dbo].[InvCustomSpecTypes] (
 );
 GO
 
+-- Creating table 'RptCategories'
+CREATE TABLE [dbo].[RptCategories] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(50)  NULL,
+    [Description] nvarchar(255)  NOT NULL
+);
+GO
+
+-- Creating table 'RptReportCats'
+CREATE TABLE [dbo].[RptReportCats] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [RptCategoryId] int  NOT NULL,
+    [ReportId] int  NOT NULL
+);
+GO
+
+-- Creating table 'RptReportUsers'
+CREATE TABLE [dbo].[RptReportUsers] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ReportId] int  NOT NULL,
+    [AspNetUserId] nvarchar(255)  NOT NULL,
+    [RptAccessTypeId] int  NOT NULL
+);
+GO
+
+-- Creating table 'RptReportRoles'
+CREATE TABLE [dbo].[RptReportRoles] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ReportId] int  NOT NULL,
+    [AspNetRoleId] int  NOT NULL,
+    [RptAccessTypeId] int  NOT NULL
+);
+GO
+
+-- Creating table 'RptAccessTypes'
+CREATE TABLE [dbo].[RptAccessTypes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(50)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -805,6 +870,36 @@ GO
 -- Creating primary key on [Id] in table 'InvCustomSpecTypes'
 ALTER TABLE [dbo].[InvCustomSpecTypes]
 ADD CONSTRAINT [PK_InvCustomSpecTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'RptCategories'
+ALTER TABLE [dbo].[RptCategories]
+ADD CONSTRAINT [PK_RptCategories]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'RptReportCats'
+ALTER TABLE [dbo].[RptReportCats]
+ADD CONSTRAINT [PK_RptReportCats]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'RptReportUsers'
+ALTER TABLE [dbo].[RptReportUsers]
+ADD CONSTRAINT [PK_RptReportUsers]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'RptReportRoles'
+ALTER TABLE [dbo].[RptReportRoles]
+ADD CONSTRAINT [PK_RptReportRoles]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'RptAccessTypes'
+ALTER TABLE [dbo].[RptAccessTypes]
+ADD CONSTRAINT [PK_RptAccessTypes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1530,6 +1625,51 @@ GO
 CREATE INDEX [IX_FK_InvCustomSpecInvCatCustomSpec]
 ON [dbo].[InvCatCustomSpecs]
     ([InvCustomSpecId]);
+GO
+
+-- Creating foreign key on [RptCategoryId] in table 'RptReportCats'
+ALTER TABLE [dbo].[RptReportCats]
+ADD CONSTRAINT [FK_RptCategoryRptReportCat]
+    FOREIGN KEY ([RptCategoryId])
+    REFERENCES [dbo].[RptCategories]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RptCategoryRptReportCat'
+CREATE INDEX [IX_FK_RptCategoryRptReportCat]
+ON [dbo].[RptReportCats]
+    ([RptCategoryId]);
+GO
+
+-- Creating foreign key on [RptAccessTypeId] in table 'RptReportRoles'
+ALTER TABLE [dbo].[RptReportRoles]
+ADD CONSTRAINT [FK_RptAccessTypeRptReportRoles]
+    FOREIGN KEY ([RptAccessTypeId])
+    REFERENCES [dbo].[RptAccessTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RptAccessTypeRptReportRoles'
+CREATE INDEX [IX_FK_RptAccessTypeRptReportRoles]
+ON [dbo].[RptReportRoles]
+    ([RptAccessTypeId]);
+GO
+
+-- Creating foreign key on [RptAccessTypeId] in table 'RptReportUsers'
+ALTER TABLE [dbo].[RptReportUsers]
+ADD CONSTRAINT [FK_RptAccessTypeRptReportUser]
+    FOREIGN KEY ([RptAccessTypeId])
+    REFERENCES [dbo].[RptAccessTypes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RptAccessTypeRptReportUser'
+CREATE INDEX [IX_FK_RptAccessTypeRptReportUser]
+ON [dbo].[RptReportUsers]
+    ([RptAccessTypeId]);
 GO
 
 -- --------------------------------------------------

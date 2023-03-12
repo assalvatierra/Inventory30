@@ -87,6 +87,14 @@
         <AssociationConnector Association="InvDB.InvItemInvItemCustomSpec" />
         <AssociationConnector Association="InvDB.InvCustomSpecInvItemCustomSpec" />
         <AssociationConnector Association="InvDB.InvCustomSpecInvCatCustomSpec" />
+        <EntityTypeShape EntityType="InvDB.RptCategory" Width="1.5" PointX="22.625" PointY="8" />
+        <EntityTypeShape EntityType="InvDB.RptReportCat" Width="1.5" PointX="22.625" PointY="10.25" />
+        <AssociationConnector Association="InvDB.RptCategoryRptReportCat" />
+        <EntityTypeShape EntityType="InvDB.RptReportUser" Width="1.5" PointX="24.875" PointY="10.125" />
+        <EntityTypeShape EntityType="InvDB.RptReportRoles" Width="1.5" PointX="26.75" PointY="10.125" />
+        <EntityTypeShape EntityType="InvDB.RptAccessType" Width="1.5" PointX="25.5" PointY="7.625" />
+        <AssociationConnector Association="InvDB.RptAccessTypeRptReportRoles" />
+        <AssociationConnector Association="InvDB.RptAccessTypeRptReportUser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

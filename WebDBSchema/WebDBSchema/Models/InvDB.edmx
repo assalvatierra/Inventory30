@@ -40,6 +40,11 @@
     <EntitySet Name="InvItemCustomSpecs" EntityType="InvDB.Store.InvItemCustomSpecs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvCatCustomSpecs" EntityType="InvDB.Store.InvCatCustomSpecs" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvCustomSpecTypes" EntityType="InvDB.Store.InvCustomSpecTypes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RptCategories" EntityType="InvDB.Store.RptCategories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RptReportCats" EntityType="InvDB.Store.RptReportCats" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RptReportUsers" EntityType="InvDB.Store.RptReportUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RptReportRoles" EntityType="InvDB.Store.RptReportRoles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RptAccessTypes" EntityType="InvDB.Store.RptAccessTypes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -231,6 +236,18 @@
     <AssociationSet Name="InvCustomSpecInvCatCustomSpec" Association="InvDB.Store.InvCustomSpecInvCatCustomSpec">
       <End Role="InvCustomSpec" EntitySet="InvCustomSpecs" />
       <End Role="InvCatCustomSpec" EntitySet="InvCatCustomSpecs" />
+    </AssociationSet>
+    <AssociationSet Name="RptCategoryRptReportCat" Association="InvDB.Store.RptCategoryRptReportCat">
+      <End Role="RptCategory" EntitySet="RptCategories" />
+      <End Role="RptReportCat" EntitySet="RptReportCats" />
+    </AssociationSet>
+    <AssociationSet Name="RptAccessTypeRptReportRoles" Association="InvDB.Store.RptAccessTypeRptReportRoles">
+      <End Role="RptAccessType" EntitySet="RptAccessTypes" />
+      <End Role="RptReportRoles" EntitySet="RptReportRoles" />
+    </AssociationSet>
+    <AssociationSet Name="RptAccessTypeRptReportUser" Association="InvDB.Store.RptAccessTypeRptReportUser">
+      <End Role="RptAccessType" EntitySet="RptAccessTypes" />
+      <End Role="RptReportUser" EntitySet="RptReportUsers" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="InvItems">
@@ -559,6 +576,47 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RptCategories">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="RptReportCats">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RptCategoryId" Type="int" Nullable="false" />
+    <Property Name="ReportId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RptReportUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReportId" Type="int" Nullable="false" />
+    <Property Name="AspNetUserId" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="RptAccessTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RptReportRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReportId" Type="int" Nullable="false" />
+    <Property Name="AspNetRoleId" Type="int" Nullable="false" />
+    <Property Name="RptAccessTypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RptAccessTypes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="50" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -1136,6 +1194,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="RptCategoryRptReportCat">
+    <End Role="RptCategory" Type="InvDB.Store.RptCategories" Multiplicity="1" />
+    <End Role="RptReportCat" Type="InvDB.Store.RptReportCats" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RptCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RptReportCat">
+        <PropertyRef Name="RptCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RptAccessTypeRptReportRoles">
+    <End Role="RptAccessType" Type="InvDB.Store.RptAccessTypes" Multiplicity="1" />
+    <End Role="RptReportRoles" Type="InvDB.Store.RptReportRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RptAccessType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RptReportRoles">
+        <PropertyRef Name="RptAccessTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RptAccessTypeRptReportUser">
+    <End Role="RptAccessType" Type="InvDB.Store.RptAccessTypes" Multiplicity="1" />
+    <End Role="RptReportUser" Type="InvDB.Store.RptReportUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RptAccessType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RptReportUser">
+        <PropertyRef Name="RptAccessTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -1366,6 +1460,23 @@
           <AssociationSet Name="InvCustomSpecInvCatCustomSpec" Association="InvDB.InvCustomSpecInvCatCustomSpec">
             <End Role="InvCustomSpec" EntitySet="InvCustomSpecs" />
             <End Role="InvCatCustomSpec" EntitySet="InvCatCustomSpecs" />
+          </AssociationSet>
+          <EntitySet Name="RptCategories" EntityType="InvDB.RptCategory" />
+          <EntitySet Name="RptReportCats" EntityType="InvDB.RptReportCat" />
+          <AssociationSet Name="RptCategoryRptReportCat" Association="InvDB.RptCategoryRptReportCat">
+            <End Role="RptCategory" EntitySet="RptCategories" />
+            <End Role="RptReportCat" EntitySet="RptReportCats" />
+          </AssociationSet>
+          <EntitySet Name="RptReportUsers" EntityType="InvDB.RptReportUser" />
+          <EntitySet Name="RptReportRoles" EntityType="InvDB.RptReportRoles" />
+          <EntitySet Name="RptAccessTypes" EntityType="InvDB.RptAccessType" />
+          <AssociationSet Name="RptAccessTypeRptReportRoles" Association="InvDB.RptAccessTypeRptReportRoles">
+            <End Role="RptAccessType" EntitySet="RptAccessTypes" />
+            <End Role="RptReportRoles" EntitySet="RptReportRoles" />
+          </AssociationSet>
+          <AssociationSet Name="RptAccessTypeRptReportUser" Association="InvDB.RptAccessTypeRptReportUser">
+            <End Role="RptAccessType" EntitySet="RptAccessTypes" />
+            <End Role="RptReportUser" EntitySet="RptReportUsers" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
@@ -2367,6 +2478,89 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="RptCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="true" MaxLength="50" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="255" />
+          <NavigationProperty Name="RptReportCats" Relationship="InvDB.RptCategoryRptReportCat" FromRole="RptCategory" ToRole="RptReportCat" />
+        </EntityType>
+        <EntityType Name="RptReportCat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="RptCategory" Relationship="InvDB.RptCategoryRptReportCat" FromRole="RptReportCat" ToRole="RptCategory" />
+          <Property Name="RptCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="ReportId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="RptCategoryRptReportCat">
+          <End Type="InvDB.RptCategory" Role="RptCategory" Multiplicity="1" />
+          <End Type="InvDB.RptReportCat" Role="RptReportCat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RptCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RptReportCat">
+              <PropertyRef Name="RptCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RptReportUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportId" Type="Int32" Nullable="false" />
+          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="255" />
+          <NavigationProperty Name="RptAccessType" Relationship="InvDB.RptAccessTypeRptReportUser" FromRole="RptReportUser" ToRole="RptAccessType" />
+          <Property Name="RptAccessTypeId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RptReportRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportId" Type="Int32" Nullable="false" />
+          <Property Name="AspNetRoleId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RptAccessType" Relationship="InvDB.RptAccessTypeRptReportRoles" FromRole="RptReportRoles" ToRole="RptAccessType" />
+          <Property Name="RptAccessTypeId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RptAccessType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" />
+          <NavigationProperty Name="RptReportRoles" Relationship="InvDB.RptAccessTypeRptReportRoles" FromRole="RptAccessType" ToRole="RptReportRoles" />
+          <NavigationProperty Name="RptReportUsers" Relationship="InvDB.RptAccessTypeRptReportUser" FromRole="RptAccessType" ToRole="RptReportUser" />
+        </EntityType>
+        <Association Name="RptAccessTypeRptReportRoles">
+          <End Type="InvDB.RptAccessType" Role="RptAccessType" Multiplicity="1" />
+          <End Type="InvDB.RptReportRoles" Role="RptReportRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RptAccessType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RptReportRoles">
+              <PropertyRef Name="RptAccessTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RptAccessTypeRptReportUser">
+          <End Type="InvDB.RptAccessType" Role="RptAccessType" Multiplicity="1" />
+          <End Type="InvDB.RptReportUser" Role="RptReportUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RptAccessType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RptReportUser">
+              <PropertyRef Name="RptAccessTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2731,6 +2925,52 @@
         <MappingFragment StoreEntitySet="InvCustomSpecTypes">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RptCategories">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.RptCategory)">
+        <MappingFragment StoreEntitySet="RptCategories">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RptReportCats">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.RptReportCat)">
+        <MappingFragment StoreEntitySet="RptReportCats">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RptCategoryId" ColumnName="RptCategoryId" />
+          <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RptReportUsers">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.RptReportUser)">
+        <MappingFragment StoreEntitySet="RptReportUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+          <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+          <ScalarProperty Name="RptAccessTypeId" ColumnName="RptAccessTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RptReportRoles">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.RptReportRoles)">
+        <MappingFragment StoreEntitySet="RptReportRoles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+          <ScalarProperty Name="AspNetRoleId" ColumnName="AspNetRoleId" />
+          <ScalarProperty Name="RptAccessTypeId" ColumnName="RptAccessTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RptAccessTypes">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.RptAccessType)">
+        <MappingFragment StoreEntitySet="RptAccessTypes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
