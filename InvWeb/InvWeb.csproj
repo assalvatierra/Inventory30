@@ -63,6 +63,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Services\" />
+    <Folder Include="Pages\Reports\" />
   </ItemGroup>
 
 </Project>

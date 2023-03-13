@@ -64,5 +64,6 @@ namespace WebDBSchema.Models
         public virtual DbSet<RptReportUser> RptReportUsers { get; set; }
         public virtual DbSet<RptReportRoles> RptReportRoles { get; set; }
         public virtual DbSet<RptAccessType> RptAccessTypes { get; set; }
+        public virtual DbSet<Report> Reports { get; set; }
     }
 }

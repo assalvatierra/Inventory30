@@ -320,6 +320,12 @@
     </Compile>
     <Compile Include="Models\Items\ItemLotNoSelect.cs" />
     <Compile Include="Models\Items\ItemSearch.cs" />
+    <Compile Include="Models\Report.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RptAccessType.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RptCategory.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
