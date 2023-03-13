@@ -5,16 +5,16 @@
     ViewData["Title"] = "Purchase Request";
     int TYPE_PURCHASEORDER = 4;
     int STATUS_PENDING = 1;
-    bool IsAdmin = ViewBag.IsAdmin;
+    bool IsAdmin = Model.InvPOHdrModel.IsAdmin;
 }
 
 <h1>
     Purchase Request
-    @if (ViewBag.Status == "ACCEPTED")
+    @if (Model.InvPOHdrModel.Status == "ACCEPTED")
     {
         <span style="font-size:1rem;">(Approved)</span>
     }
-    else if (ViewBag.Status == "PENDING")
+    else if (Model.InvPOHdrModel.Status == "PENDING")
     {
         <span style="font-size:1rem;">(Pending Approval)</span>
     }
@@ -25,22 +25,22 @@
 </h1>
 
 <p>
-    <a asp-page="../Main/Index" asp-route-id="@ViewBag.StoreId">Go back to MyStore</a> |
-    @if (ViewBag.Status == "ACCEPTED")
+    <a asp-page="../Main/Index" asp-route-id="@Model.InvPOHdrModel.StoreId">Go back to MyStore</a> |
+    @if (Model.InvPOHdrModel.Status == "ACCEPTED")
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.InvPOHdrModel.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
     }
-    else if (ViewBag.Status == "PENDING")
+    else if (Model.InvPOHdrModel.Status == "PENDING")
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="ACCEPTED">Go recent Approval</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.InvPOHdrModel.StoreId" asp-route-Status="ACCEPTED">Go recent Approval</a>
     }
     else
     {
-        <a asp-page="./Index" asp-route-storeId="@ViewBag.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.InvPOHdrModel.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
     }
 </p>
 <p>
-    <a asp-page="Create" asp-route-storeId="@ViewBag.StoreId" class="btn btn-primary">Create New</a>
+    <a asp-page="Create" asp-route-storeId="@Model.InvPOHdrModel.StoreId" class="btn btn-primary">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -62,7 +62,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.InvPoHdr)
+        @foreach (var item in Model.InvPOHdrModel.InvPoHdrs)
         {
         <tr>
             <td>
