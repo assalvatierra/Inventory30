@@ -33,12 +33,12 @@ namespace InvWeb.Controllers
         {
             var dataSources = new Dictionary<string, object>();
             // Create a SQL data source with the specified connection string.
-            SqlDataSource ds = new SqlDataSource("NWindConnectionString");
+            SqlDataSource ds = new SqlDataSource("DefaultConnection");
             // Create a SQL query to access the Products data table.
-            SelectQuery query = SelectQueryFluentBuilder.AddTable("Products").SelectAllColumnsFromTable().Build("Products");
-            ds.Queries.Add(query);
+            //SelectQuery query = SelectQueryFluentBuilder.AddTable("Reports").SelectAllColumnsFromTable().Build("Reports");
+            //ds.Queries.Add(query);
             ds.RebuildResultSchema();
-            dataSources.Add("Northwind", ds);
+            dataSources.Add("DoesntWorkYet", ds);
             return dataSources;
         }
 
@@ -59,8 +59,8 @@ namespace InvWeb.Controllers
             [FromQuery] string reportName)
         {
 
-            //var reportToOpen = string.IsNullOrEmpty(reportName) ? "TestReport" : reportName;
-            var reportToOpen = "ItemList";
+            var reportToOpen = string.IsNullOrEmpty(reportName) ? "TestReport" : reportName;
+            //var reportToOpen = "ItemList";
 
             var model = new Models.ViewerModel
             {

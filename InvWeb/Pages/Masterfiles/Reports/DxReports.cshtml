@@ -1,0 +1,33 @@
+﻿@page
+@model InvWeb.Pages.Reports.IndexModel
+
+@{
+    ViewData["Title"] = "Reports List";
+}
+
+
+<a asp-area="" asp-controller="Home" asp-action="Designer">Designer</a>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Report Name
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.invReports)
+        {
+            <tr>
+                <td>
+                    <a asp-area="" asp-controller="Home" asp-action="Viewer" asp-route-reportName=@item.Name>@item.Name</a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+

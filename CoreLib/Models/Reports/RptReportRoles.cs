@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CoreLib.Reports.Models
+namespace RealSys.CoreLib.Models.Reports
 {
     using System;
     using System.Collections.Generic;
