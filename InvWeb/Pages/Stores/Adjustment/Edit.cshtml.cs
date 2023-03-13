@@ -33,7 +33,7 @@ namespace InvWeb.Pages.Stores.Adjustment
         public TrxHeaderCreateEditModel AdjustmentCreateModel { get; set; }
         public InvTrxHdr InvTrxHdr;
         public int StoreId { get; set; }
-        private int STATUS_ADJUSTMENT = 3;
+        //private int STATUS_ADJUSTMENT = 3;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
