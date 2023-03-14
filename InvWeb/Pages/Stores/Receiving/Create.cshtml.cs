@@ -33,7 +33,7 @@ namespace InvWeb.Pages.Stores.Receiving
         public ReceivingCreateEditModel ReceivingCreateModel { get; set; }
         public InvTrxHdr InvTrxHdr;
         public int StoreId { get; set; }
-        private int STATUS_RECEIVING = 1;
+        //private int STATUS_RECEIVING = 1;
 
         public IActionResult OnGet(int? storeId)
         {

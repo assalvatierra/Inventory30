@@ -13,46 +13,46 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.DtTrx)
+            @Html.DisplayNameFor(model => model.TrxDeleteModel.InvTrxHdr.DtTrx)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.DtTrx)
+            @Html.DisplayFor(model => model.TrxDeleteModel.InvTrxHdr.DtTrx)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.UserId)
+            @Html.DisplayNameFor(model => model.TrxDeleteModel.InvTrxHdr.UserId)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.UserId)
+            @Html.DisplayFor(model => model.TrxDeleteModel.InvTrxHdr.UserId)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.Remarks)
+            @Html.DisplayNameFor(model => model.TrxDeleteModel.InvTrxHdr.Remarks)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.Remarks)
+            @Html.DisplayFor(model => model.TrxDeleteModel.InvTrxHdr.Remarks)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.InvStore)
+            @Html.DisplayNameFor(model => model.TrxDeleteModel.InvTrxHdr.InvStore)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.InvStore.Id)
+            @Html.DisplayFor(model => model.TrxDeleteModel.InvTrxHdr.InvStore.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.InvTrxType)
+            @Html.DisplayNameFor(model => model.TrxDeleteModel.InvTrxHdr.InvTrxType)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxType.Id)
+            @Html.DisplayFor(model => model.TrxDeleteModel.InvTrxHdr.InvTrxType.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvTrxHdr.InvTrxHdrStatu)
+            @Html.DisplayNameFor(model => model.TrxDeleteModel.InvTrxHdr.InvTrxHdrStatu)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvTrxHdr.InvTrxHdrStatu.Id)
+            @Html.DisplayFor(model => model.TrxDeleteModel.InvTrxHdr.InvTrxHdrStatu.Id)
         </dd>
     </dl>
 
     <form method="post">
-        <input type="hidden" asp-for="InvTrxHdr.Id" />
+        <input type="hidden" asp-for="@Model.TrxDeleteModel.InvTrxHdr.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="Index" asp-route-storeId="@Model.InvTrxHdr.InvStoreId">Back to List</a>
+        <a asp-page="Index" asp-route-storeId="@Model.TrxDeleteModel.InvTrxHdr.InvStoreId">Back to List</a>
     </form>
 </div>

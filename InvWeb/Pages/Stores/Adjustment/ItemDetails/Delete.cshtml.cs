@@ -7,19 +7,29 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using CoreLib.DTO.Common.TrxDetails;
+using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 {
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<DeleteModel> _logger;
+        private readonly IItemDtlsServices _itemDtlsServices;
 
-        public DeleteModel(ApplicationDbContext context)
+        public DeleteModel(ApplicationDbContext context, ILogger<DeleteModel> logger)
         {
             _context = context;
+            _logger = logger;
+            _itemDtlsServices = new ItemDtlsServices(_context, _logger);
         }
 
+
         [BindProperty]
+        public TrxDetailsItemDeleteModel ItemDetailsDeleteModel { get; set; }
         public InvTrxDtl InvTrxDtl { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -29,12 +39,9 @@ namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
                 return NotFound();
             }
 
-            InvTrxDtl = await _context.InvTrxDtls
-                .Include(i => i.InvItem)
-                .Include(i => i.InvTrxHdr)
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+            ItemDetailsDeleteModel = await _itemDtlsServices.GetTrxDetailsModel_OnDeleteAsync((int)id);
 
-            if (InvTrxDtl == null)
+            if (ItemDetailsDeleteModel.InvTrxDtl == null)
             {
                 return NotFound();
             }
@@ -48,15 +55,16 @@ namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
                 return NotFound();
             }
 
-            InvTrxDtl = await _context.InvTrxDtls.FindAsync(id);
+            ItemDetailsDeleteModel.InvTrxDtl = await _itemDtlsServices.GetInvDtlsByIdAsync((int)id);
 
-            if (InvTrxDtl != null)
+            if (ItemDetailsDeleteModel.InvTrxDtl != null)
             {
-                _context.InvTrxDtls.Remove(InvTrxDtl);
-                await _context.SaveChangesAsync();
+                _itemDtlsServices.DeleteInvDtls(ItemDetailsDeleteModel.InvTrxDtl);
+                await _itemDtlsServices.SaveChangesAsync();
+
             }
 
-            return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+            return RedirectToPage("../Details", new { id = ItemDetailsDeleteModel.InvTrxDtl.InvTrxHdrId });
         }
     }
 }

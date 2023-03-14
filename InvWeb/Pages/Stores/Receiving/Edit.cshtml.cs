@@ -34,7 +34,7 @@ namespace InvWeb.Pages.Stores.Receiving
         public ReceivingCreateEditModel ReceivingEditModel { get; set; }
         public InvTrxHdr InvTrxHdr;
         public int StoreId { get; set; }
-        private int STATUS_RECEIVING = 1;
+        //private int STATUS_RECEIVING = 1;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

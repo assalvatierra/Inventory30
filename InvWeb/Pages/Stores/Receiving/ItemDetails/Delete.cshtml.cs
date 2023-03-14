@@ -55,8 +55,6 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 return NotFound();
             }
 
-            //InvTrxDtl = await _context.InvTrxDtls.FindAsync(id);
-
             ItemDetailsDeleteModel.InvTrxDtl = await _itemDtlsServices.GetInvDtlsByIdAsync((int)id);
 
             if (ItemDetailsDeleteModel.InvTrxDtl != null)
@@ -64,7 +62,6 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 _itemDtlsServices.DeleteInvDtls(ItemDetailsDeleteModel.InvTrxDtl);
                 await _itemDtlsServices.SaveChangesAsync();
 
-                //_context.InvTrxDtls.Remove(InvTrxDtl);
             }
 
             return RedirectToPage("../Details", new { id = ItemDetailsDeleteModel.InvTrxDtl.InvTrxHdrId });

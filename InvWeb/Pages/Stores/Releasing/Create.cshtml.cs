@@ -34,7 +34,7 @@ namespace InvWeb.Pages.Stores.Releasing
         public ReleasingCreateEditModel ReleasingCreateModel { get; set; }
         public InvTrxHdr InvTrxHdr;
         public int StoreId { get; set; }
-        private int STATUS_RELEASED = 2;
+        //private int STATUS_RELEASED = 2;
 
         public IActionResult OnGet(int? storeId)
         {
