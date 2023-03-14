@@ -33,10 +33,10 @@ namespace InvWeb.Controllers
         {
             var dataSources = new Dictionary<string, object>();
             // Create a SQL data source with the specified connection string.
-            SqlDataSource ds = new SqlDataSource("ReportConnection");
+            SqlDataSource ds = new SqlDataSource("ReportsMssqlServer");
             // Create a SQL query to access the Products data table.
-            //SelectQuery query = SelectQueryFluentBuilder.AddTable("Reports").SelectAllColumnsFromTable().Build("Reports");
-            //ds.Queries.Add(query);
+            SelectQuery query = SelectQueryFluentBuilder.AddTable("InvCategories").SelectAllColumnsFromTable().Build("Reports");
+            ds.Queries.Add(query);
             ds.RebuildResultSchema();
             dataSources.Add("DoesntWorkYet", ds);
             return dataSources;

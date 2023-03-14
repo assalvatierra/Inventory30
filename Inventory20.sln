@@ -53,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DXReporting", "DXReporting\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDBSchema", "WebDBSchema\WebDBSchema\WebDBSchema.csproj", "{F8A495AA-6C5E-43E1-96E1-27E1095BF337}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealSys.Modules.Reports", "Modules\RealSys.Modules.Reports\RealSys.Modules.Reports.csproj", "{4917511C-7793-4DDD-A9FE-903EB187D82F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealSys.Modules.Reports", "Modules\RealSys.Modules.Reports\RealSys.Modules.Reports.csproj", "{4917511C-7793-4DDD-A9FE-903EB187D82F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
