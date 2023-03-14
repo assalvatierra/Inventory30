@@ -7,19 +7,37 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.DTO.Common.TrxHeader;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
+using CoreLib.DTO.PurchaseOrder;
+using CoreLib.Interfaces;
+using Inventory;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest
 {
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IInvPOHdrServices invPOHdrServices;
+        private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context, ILogger<IndexModel> logger)
         {
+            _logger = logger;
             _context = context;
+            invPOHdrServices = new InvPOHdrServices(_context, _logger);
         }
 
-        public IList<InvPoHdr> InvPoHdr { get;set; }
+        public IList<InvPoHdr> InvPoHdr { get; set; }
+        public InvPOHdrModel InvPOHdrModel { get; set; }
+
+        [BindProperty]
+        public string Status { get; set; }   // filter Parameter
+        [BindProperty]
+        public string Orderby { get; set; }   //this is the key bit
+
 
         public async Task<IActionResult> OnGetAsync(int? storeId, string status)
         {
@@ -28,31 +46,17 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
                 return NotFound();
             }
 
-            InvPoHdr = await _context.InvPoHdrs
-                .Include(i => i.InvPoHdrStatu)
-                .Include(i => i.InvStore)
-                .Include(i => i.InvSupplier)
-                .Include(i => i.InvPoItems)
-                    .ThenInclude(i => i.InvItem)
-                    .ThenInclude(i => i.InvUom)
-                  .Where(i => i.InvStoreId == storeId)
-                .ToListAsync();
-
-            if (!String.IsNullOrWhiteSpace(status))
-            {
-                InvPoHdr = status switch
-                {
-                    "PENDING" => InvPoHdr.Where(i => i.InvPoHdrStatusId == 1).ToList(),
-                    "ACCEPTED" => InvPoHdr.Where(i => i.InvPoHdrStatusId == 2).ToList(),
-                    "ALL" => InvPoHdr.ToList(),
-                    _ => InvPoHdr.Where(i => i.InvPoHdrStatusId == 1).ToList(),
-                };
-            }
+            InvPOHdrModel = await invPOHdrServices.GetInvPOHdrModel_OnIndex(InvPoHdr, (int)storeId, status, IsUserAdminRole());
 
             ViewData["StoreId"] = storeId;
             ViewData["Status"] = status;
             ViewData["IsAdmin"] = User.IsInRole("ADMIN");
             return Page();
+        }
+
+        private bool IsUserAdminRole()
+        {
+            return User.IsInRole("ADMIN");
         }
     }
 }

@@ -7,20 +7,32 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
+using CoreLib.DTO.Common.TrxHeader;
 
 namespace InvWeb.Pages.Stores.Adjustment
 {
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<DeleteModel> _logger;
+        private readonly IItemTrxServices itemTrxServices;
 
-        public DeleteModel(ApplicationDbContext context)
+
+        public DeleteModel(ILogger<DeleteModel> logger, ApplicationDbContext context)
         {
+            _logger = logger;
             _context = context;
+            itemTrxServices = new ItemTrxServices(_context, _logger);
         }
 
+
         [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
+        public TrxHeaderDeleteModel TrxDeleteModel { get; set; }
+
+        //public InvTrxHdr InvTrxHdr { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,12 +41,13 @@ namespace InvWeb.Pages.Stores.Adjustment
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
+            //InvTrxHdr = await _context.InvTrxHdrs
+            //    .Include(i => i.InvStore)
+            //    .Include(i => i.InvTrxHdrStatu)
+            //    .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
+            TrxDeleteModel = await itemTrxServices.GetTrxHeaderDeleteModel_OnDeleteOnGet((int)id);
 
-            if (InvTrxHdr == null)
+            if (TrxDeleteModel.InvTrxHdr == null)
             {
                 return NotFound();
             }
@@ -48,19 +61,19 @@ namespace InvWeb.Pages.Stores.Adjustment
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs.FindAsync(id);
+            TrxDeleteModel.InvTrxHdr = await _context.InvTrxHdrs.FindAsync(id);
 
-            if (InvTrxHdr != null)
+            if (TrxDeleteModel.InvTrxHdr != null)
             {
                 //remove transactions detail items
-                var itemList = await _context.InvTrxDtls.Where(i => i.InvTrxHdrId == InvTrxHdr.Id).ToListAsync();
+                var itemList = await _context.InvTrxDtls.Where(i => i.InvTrxHdrId == TrxDeleteModel.InvTrxHdr.Id).ToListAsync();
                 _context.InvTrxDtls.RemoveRange(itemList);
 
-                _context.InvTrxHdrs.Remove(InvTrxHdr);
+                _context.InvTrxHdrs.Remove(TrxDeleteModel.InvTrxHdr);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId });
+            return RedirectToPage("./Index", new { storeId = TrxDeleteModel.InvTrxHdr.InvStoreId });
         }
     }
 }

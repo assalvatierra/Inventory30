@@ -8,20 +8,32 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.DTO.Common.TrxHeader;
+using CoreLib.Inventory.Interfaces;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
+using System.Security.Claims;
 
 namespace InvWeb.Pages.Stores.Adjustment
 {
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CreateModel> _logger;
+        private readonly IItemTrxServices itemTrxServices;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
+            _logger = logger;
+            itemTrxServices = new ItemTrxServices(_context, _logger);
         }
 
         [BindProperty]
-        public InvTrxHdr InvTrxHdr { get; set; }
+        public TrxHeaderCreateEditModel AdjustmentCreateModel { get; set; }
+        public InvTrxHdr InvTrxHdr;
+        public int StoreId { get; set; }
+        //private int STATUS_ADJUSTMENT = 3;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,18 +42,17 @@ namespace InvWeb.Pages.Stores.Adjustment
                 return NotFound();
             }
 
-            InvTrxHdr = await _context.InvTrxHdrs
-                .Include(i => i.InvStore)
-                .Include(i => i.InvTrxHdrStatu)
-                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
+            InvTrxHdr = await itemTrxServices.GetInvTrxHdrsByIdAsync((int)id);
 
             if (InvTrxHdr == null)
             {
                 return NotFound();
             }
-           ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
-           ViewData["InvTrxHdrStatusId"] = new SelectList(_context.InvTrxHdrStatus, "Id", "Status");
-           ViewData["InvTrxTypeId"] = new SelectList(_context.InvTrxTypes, "Id", "Type");
+
+            this.SetStoreId((int)InvTrxHdr.InvStoreId);
+
+            AdjustmentCreateModel = itemTrxServices.GetTrxHeaderEditModel_OnEditOnGet(InvTrxHdr, StoreId, GetUser());
+
             return Page();
         }
 
@@ -51,14 +62,15 @@ namespace InvWeb.Pages.Stores.Adjustment
         {
             if (!ModelState.IsValid)
             {
+                AdjustmentCreateModel = itemTrxServices.GetTrxHeaderEditModel_OnEditOnGet(AdjustmentCreateModel.InvTrxHdr, StoreId, GetUser());
                 return Page();
             }
 
-            _context.Attach(InvTrxHdr).State = EntityState.Modified;
+            itemTrxServices.EditInvTrxHdrs(AdjustmentCreateModel.InvTrxHdr);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await itemTrxServices.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -72,12 +84,20 @@ namespace InvWeb.Pages.Stores.Adjustment
                 }
             }
 
-            return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId });
+            return RedirectToPage("./Index", new { storeId = AdjustmentCreateModel.InvTrxHdr.InvStoreId });
         }
 
         private bool InvTrxHdrExists(int id)
         {
             return _context.InvTrxHdrs.Any(e => e.Id == id);
+        }
+        private string GetUser()
+        {
+            return User.FindFirstValue(ClaimTypes.Name);
+        }
+        private void SetStoreId(int storeId)
+        {
+            StoreId = storeId;
         }
     }
 }

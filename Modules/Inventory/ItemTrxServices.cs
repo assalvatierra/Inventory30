@@ -646,12 +646,17 @@ namespace Modules.Inventory
         {
             try
             {
+                invTrxHdr = new InvTrxHdr();
+                invTrxHdr.InvStoreId = storeId;
+                invTrxHdr.InvTrxHdrStatusId = 1;
+                invTrxHdr.InvTrxTypeId = 3;
+
                 return new TrxHeaderCreateEditModel
                 {
                     InvTrxHdr = invTrxHdr,
                     InvStoresList = new SelectList(dBMaster.StoreDb.GetStoreList(), "Id", "StoreName", storeId),
                     InvTrxHdrStatusList = new SelectList(dBMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status"),
-                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1),
+                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 3),
                     User = User,
                     StoreId = storeId
                 };
@@ -672,7 +677,7 @@ namespace Modules.Inventory
                     InvTrxHdr = invTrxHdr,
                     InvStoresList = new SelectList(dBMaster.StoreDb.GetStoreList(), "Id", "StoreName", storeId),
                     InvTrxHdrStatusList = new SelectList(dBMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status"),
-                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 1),
+                    InvTrxTypeId = new SelectList(_context.Set<InvTrxType>(), "Id", "Type", 3),
                     User = User,
                     StoreId = storeId
                 };
@@ -681,6 +686,46 @@ namespace Modules.Inventory
             {
                 _logger.LogError("ItemTrxServices: Unable to GetTrxHeaderEditModel_OnEditOnGet :" + ex.Message);
                 throw new Exception("ItemTrxServices: Unable to GetTrxHeaderEditModel_OnEditOnGet :" + ex.Message);
+
+            }
+        }
+
+
+        public async Task<TrxHeaderDeleteModel> GetTrxHeaderDeleteModel_OnDeleteOnGet(int id)
+        {
+            try
+            {
+
+                var _trxHeader = await this.GetInvTrxHdrsByIdAsync(id);
+
+                return new TrxHeaderDeleteModel
+                {
+                    InvTrxHdr = _trxHeader,
+                    StoreId = _trxHeader.InvStoreId
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetTrxHeaderDeleteModel_OnDeleteOnGet :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetTrxHeaderDeleteModel_OnDeleteOnGet :" + ex.Message);
+
+            }
+        }
+        public async Task<TrxHeaderDetailsModel> GetTrxHeaderDetailsModel_OnDetailsOnGet(int id)
+        {
+            try
+            {
+                TrxHeaderDetailsModel trxHeaderDetails = new TrxHeaderDetailsModel();
+                trxHeaderDetails.InvTrxHdr = await this.GetInvTrxHdrsByIdAsync(id);
+                trxHeaderDetails.InvTrxDtls = this.GetInvTrxDtlsById(id);
+                trxHeaderDetails.StoreId = trxHeaderDetails.InvTrxHdr.InvStoreId;
+
+                return trxHeaderDetails;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to GetTrxHeaderDetailsModel_OnDetailsOnGet :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to GetTrxHeaderDetailsModel_OnDetailsOnGet :" + ex.Message);
 
             }
         }

@@ -11,41 +11,35 @@ using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
 using Microsoft.EntityFrameworkCore;
 using Modules.Inventory;
+using Microsoft.Extensions.Logging;
+using CoreLib.DTO.Common.TrxDetails;
 
 namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
 {
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private readonly IItemServices _itemServices;
-        private readonly IUomServices _uomServices;
+        private readonly ILogger<CreateModel> _logger;
+        private readonly IItemDtlsServices itemDtlsServices;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
-            _itemServices = new ItemServices(context);
-            _uomServices = new UomServices(context);
-        }
-
-        public IActionResult OnGet(int hdrId)
-        {
-            ViewData["InvItemId"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
-                                    .Select(x => new
-                                    {
-                                        Name = String.Format("{0} - {1} - {2} {3}",
-                                        x.Code, x.InvCategory.Description, x.Description, x.Remarks),
-                                        Value = x.Id
-                                    }), "Value", "Name");
-            ViewData["InvTrxHdrId"] = new SelectList(_context.InvTrxHdrs, "Id", "Id", hdrId);
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvTrxDtl.InvItemId), "Id", "uom");
-            ViewData["InvTrxDtlOperatorId"] = new SelectList(_context.InvTrxDtlOperators, "Id", "Description");
-            ViewData["HdrId"] = hdrId;
-
-            return Page();
+            _logger = logger;
+            itemDtlsServices = new ItemDtlsServices(_context, _logger);
         }
 
         [BindProperty]
+        public TrxItemsCreateEditModel ItemsCreateModel { get; set; }
         public InvTrxDtl InvTrxDtl { get; set; }
+
+        public IActionResult OnGet(int hdrId)
+        {
+            ItemsCreateModel = itemDtlsServices.GeItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl, hdrId);
+
+            return Page();
+        }
+        
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -55,10 +49,13 @@ namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
                 return Page();
             }
 
-            _context.InvTrxDtls.Add(InvTrxDtl);
-            await _context.SaveChangesAsync();
+            //_context.InvTrxDtls.Add(ItemsCreateModel.InvTrxDtl);
+            //await _context.SaveChangesAsync();
 
-            return RedirectToPage("../Details", new { id = InvTrxDtl.InvTrxHdrId });
+            itemDtlsServices.CreateInvDtls(ItemsCreateModel.InvTrxDtl);
+            await itemDtlsServices.SaveChangesAsync();
+
+            return RedirectToPage("../Details", new { id = ItemsCreateModel.InvTrxDtl.InvTrxHdrId });
         }
     }
 }
