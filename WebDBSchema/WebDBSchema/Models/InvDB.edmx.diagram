@@ -96,6 +96,9 @@
         <AssociationConnector Association="InvDB.RptAccessTypeRptReportRoles" />
         <AssociationConnector Association="InvDB.RptAccessTypeRptReportUser" />
         <EntityTypeShape EntityType="InvDB.Report" Width="1.5" PointX="27.75" PointY="12.75" />
+        <AssociationConnector Association="InvDB.ReportRptReportUser" />
+        <AssociationConnector Association="InvDB.ReportRptReportRoles" />
+        <AssociationConnector Association="InvDB.ReportRptReportCat" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

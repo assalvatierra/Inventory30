@@ -49,5 +49,7 @@ namespace CoreLib.Models.Inventory
 
 
         public DbSet<Report> Reports { get; set; }
+
+        public DbSet<RptReportCat> rptReportCats { get; set; }
     }
 }

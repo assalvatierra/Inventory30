@@ -15,10 +15,11 @@ namespace WebDBSchema.Models
     public partial class RptReportRoles
     {
         public int Id { get; set; }
-        public int ReportId { get; set; }
         public int AspNetRoleId { get; set; }
         public int RptAccessTypeId { get; set; }
+        public int ReportId { get; set; }
     
         public virtual RptAccessType RptAccessType { get; set; }
+        public virtual Report Report { get; set; }
     }
 }

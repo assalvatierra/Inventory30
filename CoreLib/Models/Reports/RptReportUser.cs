@@ -20,5 +20,7 @@ namespace RealSys.CoreLib.Models.Reports
         public int RptAccessTypeId { get; set; }
     
         public virtual RptAccessType RptAccessType { get; set; }
+        public virtual Report Report { get; set; }
+
     }
 }

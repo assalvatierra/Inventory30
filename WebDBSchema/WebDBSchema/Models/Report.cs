@@ -14,9 +14,24 @@ namespace WebDBSchema.Models
     
     public partial class Report
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Report()
+        {
+            this.RptReportUsers = new HashSet<RptReportUser>();
+            this.RptReportRoles = new HashSet<RptReportRoles>();
+            this.RptReportCats = new HashSet<RptReportCat>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public byte[] LayoutData { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RptReportUser> RptReportUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RptReportRoles> RptReportRoles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RptReportCat> RptReportCats { get; set; }
     }
 }
