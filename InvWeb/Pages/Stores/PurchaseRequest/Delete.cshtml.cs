@@ -7,20 +7,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.DTO.PurchaseOrder;
+using CoreLib.Interfaces;
+using Inventory;
+using Microsoft.Extensions.Logging;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest
 {
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IInvPOHdrServices invPOHdrServices;
+        private readonly ILogger<IndexModel> _logger;
 
-        public DeleteModel(ApplicationDbContext context)
+        public DeleteModel(ApplicationDbContext context, ILogger<IndexModel> logger)
         {
             _context = context;
+            _context = context;
+            invPOHdrServices = new InvPOHdrServices(_context, _logger);
         }
 
         [BindProperty]
-        public InvPoHdr InvPoHdr { get; set; }
+        public InvPOHdrDeleteModel InvPoHdrDelete { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,12 +37,9 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
                 return NotFound();
             }
 
-            InvPoHdr = await _context.InvPoHdrs
-                .Include(i => i.InvPoHdrStatu)
-                .Include(i => i.InvStore)
-                .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == id);
+            InvPoHdrDelete.InvPoHdr = await invPOHdrServices.GetInvPoHdrsbyIdAsync((int)id);
 
-            if (InvPoHdr == null)
+            if (InvPoHdrDelete.InvPoHdr == null)
             {
                 return NotFound();
             }
@@ -48,19 +53,17 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
                 return NotFound();
             }
 
-            InvPoHdr = await _context.InvPoHdrs.FindAsync(id);
+            InvPoHdrDelete.InvPoHdr = await invPOHdrServices.InvPOHdrDelete_FindByIdAsync((int)id);
 
-            if (InvPoHdr != null)
+            if (InvPoHdrDelete.InvPoHdr != null)
             {
                 //remove transactions detail items
-                var itemList = await _context.InvPoItems.Where(i => i.InvPoHdrId == InvPoHdr.Id).ToListAsync();
-                _context.InvPoItems.RemoveRange(itemList);
+                invPOHdrServices.RemoveInvPOHdrDeleteModel(InvPoHdrDelete);
 
-                _context.InvPoHdrs.Remove(InvPoHdr);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index", new { storeId = InvPoHdr.InvStoreId });
+            return RedirectToPage("./Index", new { storeId = InvPoHdrDelete.InvPoHdr.InvStoreId });
         }
     }
 }
