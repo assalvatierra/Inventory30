@@ -38,7 +38,7 @@ namespace InvWeb.Controllers
             SelectQuery query = SelectQueryFluentBuilder.AddTable("InvCategories").SelectAllColumnsFromTable().Build("Reports");
             ds.Queries.Add(query);
             ds.RebuildResultSchema();
-            dataSources.Add("DoesntWorkYet", ds);
+            dataSources.Add("InventoryDB", ds);
             return dataSources;
         }
 
