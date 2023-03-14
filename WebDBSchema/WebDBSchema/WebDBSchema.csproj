@@ -320,6 +320,24 @@
     </Compile>
     <Compile Include="Models\Items\ItemLotNoSelect.cs" />
     <Compile Include="Models\Items\ItemSearch.cs" />
+    <Compile Include="Models\Report.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RptAccessType.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RptCategory.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RptReportCat.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RptReportRoles.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RptReportUser.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Stores\StoreInvCount.cs" />
     <Compile Include="Models\Users\AppUser.cs" />
     <Compile Include="Models\Users\AppUserRole.cs" />
