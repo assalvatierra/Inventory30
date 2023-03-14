@@ -14,10 +14,11 @@ namespace RealSys.Modules.Reports
         }
         public IList<Report> GetAvailableReportsByUserId(string id)
         {
-            id = "";
+            var rptIds = new List<int> { 1, 2 };
             return _context.Reports
-                //.Include(i=>i.RptReportCats.Where(a=>a.RptCategoryId==1))
+                .Include(i=>i.RptReportCats).ThenInclude(i=>i.RptCategory)
                 //.Include(i=>i.RptReportUsers.Where(a=>a.AspNetUserId==id))
+                .Where( s=> rptIds.Contains (s.Id) )
                 .ToList();
 
         }
