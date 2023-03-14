@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CoreLib.DTO.PurchaseOrder
 {
-    public class InvPOHdrCreateModel
+    public class InvPOHdrCreateEditModel
     {
         [Required]
         public InvPoHdr InvPoHdr { get; set; }

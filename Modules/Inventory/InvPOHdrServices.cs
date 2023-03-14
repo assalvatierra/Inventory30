@@ -33,22 +33,47 @@ namespace Inventory
 
         public void CreateInvPoHdrs(InvPoHdr InvPoHdr)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.InvPoHdrs.Add(InvPoHdr);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvPOHdrServices: Unable to CreateInvPoHdrs :" + ex.Message);
+                throw new Exception("InvPOHdrServices: Unable to CreateInvPoHdrs :" + ex.Message);
+
+            }
+
         }
 
         public void DeleteInvPoHdrs(InvPoHdr InvPoHdr)
         {
-            throw new NotImplementedException();
+            _context.InvPoHdrs.Remove(InvPoHdr);
         }
 
         public void EditInvPoHdrs(InvPoHdr InvPoHdr)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                _context.Attach(InvPoHdr).State = EntityState.Modified;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvPOHdrServices: Unable to EditInvPoHdrs :" + ex.Message);
+                throw new Exception("InvPOHdrServices: Unable to EditInvPoHdrs :" + ex.Message);
+
+            }
         }
 
-        public Task<InvPoHdr> GetInvPoHdrsbyIdAsync(int id)
+        public async Task<InvPoHdr> GetInvPoHdrsbyIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var InvPOHdr = await _context.InvPoHdrs
+                 .Include(i => i.InvPoHdrStatu)
+                 .Include(i => i.InvStore)
+                 .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == id);
+
+            return InvPOHdr;
         }
 
         public async Task<IEnumerable<InvPoHdr>> GetInvPoHdrsListAsync(int storeId)
@@ -115,28 +140,28 @@ namespace Inventory
             }
             catch (Exception ex)
             {
-                _logger.LogError("ItemTrxServices: Unable to SortInvPOHdrList_Status :" + ex.Message);
-                throw new Exception("ItemTrxServices: Unable to SortInvPOHdrList_Status :" + ex.Message);
+                _logger.LogError("InvPOHdrServices: Unable to SortInvPOHdrList_Status :" + ex.Message);
+                throw new Exception("InvPOHdrServices: Unable to SortInvPOHdrList_Status :" + ex.Message);
 
             }
         }
 
         public bool InvTrxDtlsExists(int id)
         {
-            throw new NotImplementedException();
+            return _context.InvPoHdrs.Any(e => e.Id == id);
         }
 
-        public Task SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            await _context.SaveChangesAsync();
         }
 
-        public InvPOHdrCreateModel GetInvPOHdrModel_OnCreate(InvPOHdrCreateModel InvPoHdr, int storeId, string User)
+        public InvPOHdrCreateEditModel GetInvPOHdrModel_OnCreate(InvPOHdrCreateEditModel InvPoHdr, int storeId, string User)
         {
             try
             {
 
-                InvPoHdr = new InvPOHdrCreateModel();
+                InvPoHdr = new InvPOHdrCreateEditModel();
                 InvPoHdr.InvPoHdr = new InvPoHdr();
 
                 InvPoHdr.InvPoHdrStatusId = new SelectList(_context.InvPoHdrStatus, "Id", "Status");
@@ -145,15 +170,62 @@ namespace Inventory
                 InvPoHdr.UserId = User;
                 InvPoHdr.StoreId = storeId;
 
+                InvPoHdr.InvPoHdr.InvStoreId = storeId;
+                InvPoHdr.InvPoHdr.UserId = User;
+
                 return InvPoHdr;
 
             }
             catch (Exception ex)
             {
-                _logger.LogError("ItemTrxServices: Unable to SortInvPOHdrList_Status :" + ex.Message);
-                throw new Exception("ItemTrxServices: Unable to SortInvPOHdrList_Status :" + ex.Message);
+                _logger.LogError("InvPOHdrServices: Unable to GetInvPOHdrModel_OnCreate :" + ex.Message);
+                throw new Exception("InvPOHdrServices: Unable to GetInvPOHdrModel_OnCreate :" + ex.Message);
 
             }
+        }
+
+        public InvPOHdrCreateEditModel GetInvPOHdrModel_OnEdit(InvPOHdrCreateEditModel InvPoHdr)
+        {
+            try
+            {
+
+                InvPoHdr.InvPoHdrStatusId = new SelectList(_context.InvPoHdrStatus, "Id", "Status");
+                InvPoHdr.InvStoreId = new SelectList(_context.InvStores, "Id", "StoreName");
+                InvPoHdr.InvSupplierId = new SelectList(_context.InvSuppliers, "Id", "Name");
+                InvPoHdr.UserId = InvPoHdr.UserId;
+                InvPoHdr.StoreId = InvPoHdr.StoreId;
+
+                return InvPoHdr;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvPOHdrServices: Unable to GetInvPOHdrModel_OnCreate :" + ex.Message);
+                throw new Exception("InvPOHdrServices: Unable to GetInvPOHdrModel_OnCreate :" + ex.Message);
+
+            }
+        }
+
+        public void RemoveInvPOHdrDeleteModel(InvPOHdrDeleteModel InvPoHdrDelete)
+        {
+            try
+            {
+                var itemList = _context.InvPoItems.Where(i => i.InvPoHdrId == InvPoHdrDelete.InvPoHdr.Id).ToList();
+                _context.InvPoItems.RemoveRange(itemList);
+
+                DeleteInvPoHdrs(InvPoHdrDelete.InvPoHdr);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvPOHdrServices: Unable to GetInvPOHdrModel_OnCreate :" + ex.Message);
+                throw new Exception("InvPOHdrServices: Unable to GetInvPOHdrModel_OnCreate :" + ex.Message);
+
+            }
+        }
+
+        public async Task<InvPoHdr> InvPOHdrDelete_FindByIdAsync(int id)
+        {
+            return await _context.InvPoHdrs.FindAsync(id);
         }
     }
 }
