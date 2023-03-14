@@ -11,17 +11,17 @@
 
 <div>
 
-    @if (Model.InvPoHdr.InvPoHdrStatusId == STATUS_PENDING)
+    @if (Model.InvPoHdrDetails.InvPoHdr.InvPoHdrStatusId == STATUS_PENDING)
         {
-            <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdr.InvStoreId">Back to List</a><span> | </span>  
-            <a asp-page="./Edit" asp-route-id="@Model.InvPoHdr.Id">Edit</a> 
-           <div class="pull-left">
-              <a asp-page="../Printables/RequestForm" asp-route-id="@Model.InvPoHdr.Id" asp-route-type="4" target="_blank" class="btn btn-primary">Print Voucher</a> 
-          </div>
+            <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdrDetails.InvPoHdr.InvStoreId">Back to List</a><span> | </span>
+        <a asp-page="./Edit" asp-route-id="@Model.InvPoHdrDetails.InvPoHdr.Id">Edit</a>
+        <div class="pull-left">
+            <a asp-page="../Printables/RequestForm" asp-route-id="@Model.InvPoHdrDetails.InvPoHdr.Id" asp-route-type="4" target="_blank" class="btn btn-primary">Print Voucher</a>
+        </div>
         }
         else
         {
-            <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdr.InvStoreId" asp-route-status="ACCEPTED">Back to List</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdrDetails.InvPoHdr.InvStoreId" asp-route-status="ACCEPTED">Back to List</a>
         }
 
 </div>
@@ -34,37 +34,37 @@
             LotNo
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoHdr.Id)
+            @Html.DisplayFor(model => model.InvPoHdrDetails.InvPoHdr.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoHdr.DtPo)
+            @Html.DisplayNameFor(model => model.InvPoHdrDetails.InvPoHdr.DtPo)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoHdr.DtPo)
+            @Html.DisplayFor(model => model.InvPoHdrDetails.InvPoHdr.DtPo)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoHdr.UserId)
+            @Html.DisplayNameFor(model => model.InvPoHdrDetails.InvPoHdr.UserId)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoHdr.UserId)
+            @Html.DisplayFor(model => model.InvPoHdrDetails.InvPoHdr.UserId)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoHdr.InvSupplier)
+            @Html.DisplayNameFor(model => model.InvPoHdrDetails.InvPoHdr.InvSupplier)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoHdr.InvSupplier.Name)
+            @Html.DisplayFor(model => model.InvPoHdrDetails.InvPoHdr.InvSupplier.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoHdr.InvStore)
+            @Html.DisplayNameFor(model => model.InvPoHdrDetails.InvPoHdr.InvStore)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoHdr.InvStore.StoreName)
+            @Html.DisplayFor(model => model.InvPoHdrDetails.InvPoHdr.InvStore.StoreName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoHdr.InvPoHdrStatu)
+            @Html.DisplayNameFor(model => model.InvPoHdrDetails.InvPoHdr.InvPoHdrStatu)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoHdr.InvPoHdrStatu.Status)
+            @Html.DisplayFor(model => model.InvPoHdrDetails.InvPoHdr.InvPoHdrStatu.Status)
         </dd>
     </dl>
 </div>
@@ -72,7 +72,7 @@
 <hr />
 <h4> Request Items </h4>
 <p>
-    <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvPoHdr.Id" class="btn btn-primary">Add Item</a>
+    <a asp-page="./ItemDetails/Create" asp-route-hdrId="@Model.InvPoHdrDetails.InvPoHdr.Id" class="btn btn-primary">Add Item</a>
 </p>
 <table class="table">
     <thead>

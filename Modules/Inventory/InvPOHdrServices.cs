@@ -227,5 +227,33 @@ namespace Inventory
         {
             return await _context.InvPoHdrs.FindAsync(id);
         }
+
+        public async Task<InvPOHdrDetailsModel> GetInvPOHdrModel_OnDetails(InvPOHdrDetailsModel InvPOHdrDetails, int invPOHdrId , int storeId, string status, bool IsUserAdmin)
+        {
+            try
+            {
+                InvPOHdrDetails.InvPoHdr = await _context.InvPoHdrs
+                    .Include(i => i.InvPoHdrStatu)
+                    .Include(i => i.InvStore)
+                    .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == invPOHdrId);
+
+                InvPOHdrDetails.InvPoItems = await _context.InvPoItems
+                    .Include(i => i.InvItem)
+                    .Include(i => i.InvPoHdr)
+                    .Include(i => i.InvUom)
+                    .Where(i => i.InvPoHdrId == invPOHdrId)
+                    .ToListAsync();
+
+                InvPOHdrDetails.StoreId = storeId;
+
+                return InvPOHdrDetails;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvPOHdrServices: Unable to GetInvPOHdrModel_OnCreate :" + ex.Message);
+                throw new Exception("InvPOHdrServices: Unable to GetInvPOHdrModel_OnCreate :" + ex.Message);
+
+            }
+        }
     }
 }
