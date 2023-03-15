@@ -14,6 +14,8 @@ namespace RealSys.CoreLib.Interfaces.Reports
         public IList<int>? GetUserReportsByUsername(string userName);
         //public IList<int>? GetUserReportsByRoleIds(IList<int> roleIds);
 
+        public IQueryable<RptCategory> rptCategories { get; }
+
 
     }
 }

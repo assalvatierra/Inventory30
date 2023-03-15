@@ -18,7 +18,7 @@ namespace WebDBSchema.Models
         public Report()
         {
             this.RptReportUsers = new HashSet<RptReportUser>();
-            this.RptReportRoles = new HashSet<RptReportRoles>();
+            this.RptReportRoles = new HashSet<RptReportRole>();
             this.RptReportCats = new HashSet<RptReportCat>();
         }
     
@@ -30,7 +30,7 @@ namespace WebDBSchema.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RptReportUser> RptReportUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RptReportRoles> RptReportRoles { get; set; }
+        public virtual ICollection<RptReportRole> RptReportRoles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RptReportCat> RptReportCats { get; set; }
     }

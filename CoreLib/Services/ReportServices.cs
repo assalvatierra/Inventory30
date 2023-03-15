@@ -26,5 +26,10 @@ namespace RealSys.CoreLib.Services
             return this._reportsRepo.GetAvailableReportsByIds(rptIDs);
         }
 
+        public IList<RptCategory> GetAvailableCategories()
+        {
+            return this._reportsRepo.rptCategories.ToList();
+        }
+
     }
 }

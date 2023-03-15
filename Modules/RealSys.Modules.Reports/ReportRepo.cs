@@ -33,6 +33,12 @@ namespace RealSys.Modules.Reports
                 .Select(s=>s.Id).ToList();
         }
 
-
+        public IQueryable<RptCategory> rptCategories 
+        {
+            get
+            {
+                return this._context.rptCategories;
+            }
+        }
     }
 }
