@@ -12,7 +12,7 @@ namespace RealSys.CoreLib.Models.Reports
     using System;
     using System.Collections.Generic;
     
-    public partial class RptReportRoles
+    public partial class RptReportRole
     {
         public int Id { get; set; }
         public int ReportId { get; set; }

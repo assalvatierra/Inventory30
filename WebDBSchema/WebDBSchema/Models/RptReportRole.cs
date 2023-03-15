@@ -12,7 +12,7 @@ namespace WebDBSchema.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RptReportRoles
+    public partial class RptReportRole
     {
         public int Id { get; set; }
         public int AspNetRoleId { get; set; }

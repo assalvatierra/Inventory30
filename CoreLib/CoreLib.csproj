@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Reports\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
