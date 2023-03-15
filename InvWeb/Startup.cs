@@ -94,11 +94,15 @@ namespace InvWeb
 
             services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, UserClaimsPrincipalFactory<IdentityUser, IdentityRole>>();
 
-            //Modules and Services
+            //Modules and Repos
             //services.AddScoped<ISearchServices, InvWeb.Data.Services.SearchServices>();
             services.AddScoped<ISearchServices, Inventory20.SearchService20>();
-            services.AddScoped<RealSys.CoreLib.Interfaces.Reports.IReportServices,
-                RealSys.Modules.Reports.ReportServices>();
+            services.AddScoped<RealSys.CoreLib.Interfaces.Reports.IReportRepo,
+                RealSys.Modules.Reports.ReportRepo>();
+
+            //Services
+            services.AddScoped<RealSys.CoreLib.Services.ReportServices,
+                RealSys.CoreLib.Services.ReportServices>();
 
 
             //services.Configure<PageConfigShared.TenantInfo>(Configuration.GetSection("TenantInfo"));

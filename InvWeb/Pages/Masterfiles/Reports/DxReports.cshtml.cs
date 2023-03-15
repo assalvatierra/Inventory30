@@ -7,26 +7,27 @@ using RealSys.CoreLib.Models.Reports;
 using CoreLib.Models.Inventory;
 using Microsoft.Extensions.Logging;
 using RealSys.CoreLib.Interfaces.Reports;
+using RealSys.CoreLib.Services;
 
 namespace InvWeb.Pages.Reports
 {
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly IReportServices _reportService;
+        private readonly ReportServices _reportSvc;
 
         public IList<Report> invReports { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger, IReportServices reportService)
+        public IndexModel(ILogger<IndexModel> logger, ReportServices reportSvc)
         {
             _logger = logger;
-            _reportService = reportService;
+            _reportSvc = reportSvc;
         }
 
 
         public async Task OnGetAsync()
         {
-            this.invReports = this._reportService.GetAvailableReportsByUserId("AAA");
+            this.invReports = this._reportSvc.GetAvailableReports(this.HttpContext.User.Identity.Name);
 
         }
     }
