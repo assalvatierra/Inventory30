@@ -1483,6 +1483,18 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
             <End Role="RptReportUser" EntitySet="RptReportUsers" />
           </AssociationSet>
           <EntitySet Name="Reports" EntityType="InvDB.Report" />
+          <AssociationSet Name="ReportRptReportUser" Association="InvDB.ReportRptReportUser">
+            <End Role="Report" EntitySet="Reports" />
+            <End Role="RptReportUser" EntitySet="RptReportUsers" />
+          </AssociationSet>
+          <AssociationSet Name="ReportRptReportRoles" Association="InvDB.ReportRptReportRoles">
+            <End Role="Report" EntitySet="Reports" />
+            <End Role="RptReportRoles" EntitySet="RptReportRoles" />
+          </AssociationSet>
+          <AssociationSet Name="ReportRptReportCat" Association="InvDB.ReportRptReportCat">
+            <End Role="Report" EntitySet="Reports" />
+            <End Role="RptReportCat" EntitySet="RptReportCats" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
           <Key>
@@ -2500,6 +2512,8 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
           <NavigationProperty Name="RptCategory" Relationship="InvDB.RptCategoryRptReportCat" FromRole="RptReportCat" ToRole="RptCategory" />
           <Property Name="RptCategoryId" Type="Int32" Nullable="false" />
           <Property Name="ReportId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Report" Relationship="InvDB.ReportRptReportCat" FromRole="RptReportCat" ToRole="Report" />
+          <Property Name="ReportId1" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="RptCategoryRptReportCat">
           <End Type="InvDB.RptCategory" Role="RptCategory" Multiplicity="1" />
@@ -2518,20 +2532,22 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ReportId" Type="Int32" Nullable="false" />
           <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="RptAccessType" Relationship="InvDB.RptAccessTypeRptReportUser" FromRole="RptReportUser" ToRole="RptAccessType" />
           <Property Name="RptAccessTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Report" Relationship="InvDB.ReportRptReportUser" FromRole="RptReportUser" ToRole="Report" />
+          <Property Name="ReportId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="RptReportRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ReportId" Type="Int32" Nullable="false" />
           <Property Name="AspNetRoleId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="RptAccessType" Relationship="InvDB.RptAccessTypeRptReportRoles" FromRole="RptReportRoles" ToRole="RptAccessType" />
           <Property Name="RptAccessTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Report" Relationship="InvDB.ReportRptReportRoles" FromRole="RptReportRoles" ToRole="Report" />
+          <Property Name="ReportId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="RptAccessType">
           <Key>
@@ -2574,7 +2590,46 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="DisplayName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="LayoutData" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="RptReportUsers" Relationship="InvDB.ReportRptReportUser" FromRole="Report" ToRole="RptReportUser" />
+          <NavigationProperty Name="RptReportRoles" Relationship="InvDB.ReportRptReportRoles" FromRole="Report" ToRole="RptReportRoles" />
+          <NavigationProperty Name="RptReportCats" Relationship="InvDB.ReportRptReportCat" FromRole="Report" ToRole="RptReportCat" />
         </EntityType>
+        <Association Name="ReportRptReportUser">
+          <End Type="InvDB.Report" Role="Report" Multiplicity="1" />
+          <End Type="InvDB.RptReportUser" Role="RptReportUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Report">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RptReportUser">
+              <PropertyRef Name="ReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ReportRptReportRoles">
+          <End Type="InvDB.Report" Role="Report" Multiplicity="1" />
+          <End Type="InvDB.RptReportRoles" Role="RptReportRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Report">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RptReportRoles">
+              <PropertyRef Name="ReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ReportRptReportCat">
+          <End Type="InvDB.Report" Role="Report" Multiplicity="1" />
+          <End Type="InvDB.RptReportCat" Role="RptReportCat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Report">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RptReportCat">
+              <PropertyRef Name="ReportId1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2964,7 +3019,6 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
       <EntityTypeMapping TypeName="IsTypeOf(InvDB.RptReportUser)">
         <MappingFragment StoreEntitySet="RptReportUsers">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ReportId" ColumnName="ReportId" />
           <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
           <ScalarProperty Name="RptAccessTypeId" ColumnName="RptAccessTypeId" />
         </MappingFragment>
@@ -2974,7 +3028,6 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
       <EntityTypeMapping TypeName="IsTypeOf(InvDB.RptReportRoles)">
         <MappingFragment StoreEntitySet="RptReportRoles">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ReportId" ColumnName="ReportId" />
           <ScalarProperty Name="AspNetRoleId" ColumnName="AspNetRoleId" />
           <ScalarProperty Name="RptAccessTypeId" ColumnName="RptAccessTypeId" />
         </MappingFragment>

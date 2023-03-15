@@ -1,6 +1,7 @@
 ﻿using CoreLib.Models.Inventory;
 using RealSys.CoreLib.Interfaces.Reports;
 using RealSys.CoreLib.Models.Reports;
+using Microsoft.EntityFrameworkCore;
 
 namespace RealSys.Modules.Reports
 {
@@ -13,7 +14,12 @@ namespace RealSys.Modules.Reports
         }
         public IList<Report> GetAvailableReportsByUserId(string id)
         {
-            return _context.Reports.ToList();
+            var rptIds = new List<int> { 1, 2 };
+            return _context.Reports
+                .Include(i=>i.RptReportCats).ThenInclude(i=>i.RptCategory)
+                //.Include(i=>i.RptReportUsers.Where(a=>a.AspNetUserId==id))
+                .Where( s=> rptIds.Contains (s.Id) )
+                .ToList();
 
         }
     }

@@ -19,5 +19,6 @@ namespace RealSys.CoreLib.Models.Reports
         public int ReportId { get; set; }
     
         public virtual RptCategory RptCategory { get; set; }
+        public virtual Report Report { get; set; }
     }
 }

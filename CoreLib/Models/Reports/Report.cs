@@ -18,5 +18,9 @@ namespace RealSys.CoreLib.Models.Reports
         public string Name { get; set; }
         public string DisplayName { get; set; }
         public byte[] LayoutData { get; set; }
+        public virtual ICollection<RptReportUser> RptReportUsers { get; set; }
+        public virtual ICollection<RptReportRoles> RptReportRoles { get; set; }
+        public virtual ICollection<RptReportCat> RptReportCats { get; set; }
+
     }
 }
