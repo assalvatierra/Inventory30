@@ -7,20 +7,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Interfaces;
+using Microsoft.Extensions.Logging;
+using Inventory;
+using CoreLib.DTO.PurchaseOrder;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CreateModel> _logger;
+        private readonly IInvPOItemServices invPOItemServices;
 
-        public DeleteModel(ApplicationDbContext context)
+        public DeleteModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
+            _logger = logger;
+            invPOItemServices = new InvPOItemServices(_context, _logger);
         }
 
         [BindProperty]
-        public InvPoItem InvPoItem { get; set; }
+        public InvPOItemDelete InvPOItemDelete { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,15 +37,13 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
                 return NotFound();
             }
 
-            InvPoItem = await _context.InvPoItems
-                .Include(i => i.InvItem)
-                .Include(i => i.InvPoHdr)
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+            InvPOItemDelete = await invPOItemServices.GetInvPOItemModel_OnDelete(InvPOItemDelete, (int)id);
 
-            if (InvPoItem == null)
+            if (InvPOItemDelete.InvPoItem == null)
             {
                 return NotFound();
             }
+
             return Page();
         }
 
@@ -48,15 +54,9 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
                 return NotFound();
             }
 
-            InvPoItem = await _context.InvPoItems.FindAsync(id);
+            await invPOItemServices.DeleteInvPoItem((int)id);
 
-            if (InvPoItem != null)
-            {
-                _context.InvPoItems.Remove(InvPoItem);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("../Details", new { id = InvPoItem.InvPoHdrId });
+            return RedirectToPage("../Details", new { id = InvPOItemDelete.InvPoItem.InvPoHdrId });
         }
     }
 }

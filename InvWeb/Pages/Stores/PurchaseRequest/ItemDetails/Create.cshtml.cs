@@ -10,22 +10,32 @@ using InvWeb.Data.Services;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
 using Modules.Inventory;
+using CoreLib.DTO.PurchaseOrder;
+using CoreLib.Interfaces;
+using Inventory;
+using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private readonly IItemServices _itemServices;
-        private readonly IUomServices _uomServices;
+        private readonly ILogger<CreateModel> _logger;
+        private readonly IInvPOItemServices invPOItemServices;
 
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
-            _itemServices = new ItemServices(context);
-            _uomServices = new UomServices(context);
+            _logger = logger;
+            invPOItemServices = new InvPOItemServices(_context, _logger);
         }
+
+        [BindProperty]
+        public InvPOItemCreateEditModel InvPOItemCreate { get; set; }
+        public InvPoItem InvPoItem { get; set; }
+
 
         public IActionResult OnGet(int? hdrId)
         {
@@ -34,16 +44,10 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
                 return NotFound();
             }
 
-            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList();
-            //ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
-            ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id", hdrId);
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvPoItem.InvItemId), "Id", "uom");
-            ViewData["HdrId"] = hdrId;
+            InvPOItemCreate = invPOItemServices.GetInvPOItemModel_OnCreate(InvPOItemCreate, (int)hdrId);
+
             return Page();
         }
-
-        [BindProperty]
-        public InvPoItem InvPoItem { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -53,10 +57,14 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
                 return Page();
             }
 
-            _context.InvPoItems.Add(InvPoItem);
-            await _context.SaveChangesAsync();
+            invPOItemServices.CreateInvPoItem(InvPOItemCreate.InvPoItem);
+            await invPOItemServices.SaveChangesAsync();
 
-            return RedirectToPage("../Details", new { id = InvPoItem.InvPoHdrId });
+            return RedirectToPage("../Details", new { id = InvPOItemCreate.InvPoItem.InvPoHdrId });
+        }
+        private string GetUser()
+        {
+            return User.FindFirstValue(ClaimTypes.Name);
         }
     }
 }

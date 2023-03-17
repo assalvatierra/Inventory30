@@ -23,7 +23,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
         public DeleteModel(ApplicationDbContext context, ILogger<IndexModel> logger)
         {
             _context = context;
-            _context = context;
+            _logger = logger;
             invPOHdrServices = new InvPOHdrServices(_context, _logger);
         }
 
