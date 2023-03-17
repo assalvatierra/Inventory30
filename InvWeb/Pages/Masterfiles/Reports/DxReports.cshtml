@@ -13,26 +13,41 @@
     <thead>
         <tr>
             <th>
-                Category
-            </th>
-            <th>
-                Report Name
+                Reports
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.invReports)
+        @foreach (var category in Model.rptCategories)
         {
             <tr>
                 <td>
-                    
-                <td>
-                    <a asp-area="" asp-controller="Home" asp-action="Viewer" asp-route-reportName=@item.Name>@item.Name</a>
+                    @category.Description
+                    <table class="table">
+                        <tbody>
+                            @foreach (var rptItem in Model.invReports)
+                            {
+                                var rptcats = rptItem.RptReportCats.ToList();
+                                foreach(var i in rptcats)
+                                {
+                                    @if (i.RptCategoryId==category.Id)
+                                    {
+                                    <tr>
+                                        <td>
+                                        <a asp-area="" asp-controller="Home" asp-action="Viewer" asp-route-reportName=@rptItem.Name>@rptItem.Name</a>
+                                        </td>
+                                    </tr>
+                                    }
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+
                 </td>
             </tr>
 
         }
     </tbody>
 </table>
-
 
