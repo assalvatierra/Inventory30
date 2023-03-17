@@ -11,23 +11,28 @@ using InvWeb.Data.Services;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.Inventory;
 using Modules.Inventory;
+using CoreLib.Interfaces;
+using Microsoft.Extensions.Logging;
+using Inventory;
+using CoreLib.DTO.PurchaseOrder;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 {
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private readonly IItemServices _itemServices;
-        private readonly IUomServices _uomServices;
+        private readonly ILogger<EditModel> _logger;
+        private readonly IInvPOItemServices invPOItemServices;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context, ILogger<EditModel> logger)
         {
             _context = context;
-            _itemServices = new ItemServices(context);
-            _uomServices = new UomServices(context);
+            _logger = logger;
+            invPOItemServices = new InvPOItemServices(_context, _logger);
         }
 
         [BindProperty]
+        public InvPOItemCreateEditModel InvPOItemEdit { get; set; }
         public InvPoItem InvPoItem { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -37,20 +42,8 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
                 return NotFound();
             }
 
-            InvPoItem = await _context.InvPoItems
-                .Include(i => i.InvItem)
-                .Include(i => i.InvPoHdr)
-                .Include(i => i.InvUom)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            InvPOItemEdit = await invPOItemServices.GetInvPOItemModel_OnEdit(InvPOItemEdit, (int)id);
 
-            if (InvPoItem == null)
-            {
-                return NotFound();
-            }
-            
-            ViewData["InvItemId"] = _itemServices.GetInvItemsSelectList(InvPoItem.InvItemId);
-            ViewData["InvPoHdrId"] = new SelectList(_context.InvPoHdrs, "Id", "Id");
-            ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(InvPoItem.InvItemId), "Id", "uom", InvPoItem.InvUomId);
             return Page();
         }
 
@@ -63,11 +56,13 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
                 return Page();
             }
 
-            _context.Attach(InvPoItem).State = EntityState.Modified;
+            //_context.Attach(InvPoItem).State = EntityState.Modified;
+            invPOItemServices.EditInvPoItem(InvPOItemEdit.InvPoItem);
 
             try
             {
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
+                await invPOItemServices.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -81,12 +76,12 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
                 }
             }
 
-            return RedirectToPage("../Details", new { id = InvPoItem.InvPoHdrId });
+            return RedirectToPage("../Details", new { id = InvPOItemEdit.InvPoItem.InvPoHdrId });
         }
 
         private bool InvPoItemExists(int id)
         {
-            return _context.InvPoItems.Any(e => e.Id == id);
+            return invPOItemServices.InvPOItemExists(id);
         }
     }
 }
