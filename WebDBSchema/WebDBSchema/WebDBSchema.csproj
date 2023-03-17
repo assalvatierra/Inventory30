@@ -332,7 +332,7 @@
     <Compile Include="Models\RptReportCat.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RptReportRoles.cs">
+    <Compile Include="Models\RptReportRole.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RptReportUser.cs">

@@ -1472,11 +1472,11 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
             <End Role="RptReportCat" EntitySet="RptReportCats" />
           </AssociationSet>
           <EntitySet Name="RptReportUsers" EntityType="InvDB.RptReportUser" />
-          <EntitySet Name="RptReportRoles" EntityType="InvDB.RptReportRoles" />
+          <EntitySet Name="RptReportRoles1" EntityType="InvDB.RptReportRole" />
           <EntitySet Name="RptAccessTypes" EntityType="InvDB.RptAccessType" />
           <AssociationSet Name="RptAccessTypeRptReportRoles" Association="InvDB.RptAccessTypeRptReportRoles">
             <End Role="RptAccessType" EntitySet="RptAccessTypes" />
-            <End Role="RptReportRoles" EntitySet="RptReportRoles" />
+            <End Role="RptReportRoles" EntitySet="RptReportRoles1" />
           </AssociationSet>
           <AssociationSet Name="RptAccessTypeRptReportUser" Association="InvDB.RptAccessTypeRptReportUser">
             <End Role="RptAccessType" EntitySet="RptAccessTypes" />
@@ -1489,7 +1489,7 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
           </AssociationSet>
           <AssociationSet Name="ReportRptReportRoles" Association="InvDB.ReportRptReportRoles">
             <End Role="Report" EntitySet="Reports" />
-            <End Role="RptReportRoles" EntitySet="RptReportRoles" />
+            <End Role="RptReportRoles" EntitySet="RptReportRoles1" />
           </AssociationSet>
           <AssociationSet Name="ReportRptReportCat" Association="InvDB.ReportRptReportCat">
             <End Role="Report" EntitySet="Reports" />
@@ -2513,7 +2513,6 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
           <Property Name="RptCategoryId" Type="Int32" Nullable="false" />
           <Property Name="ReportId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Report" Relationship="InvDB.ReportRptReportCat" FromRole="RptReportCat" ToRole="Report" />
-          <Property Name="ReportId1" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="RptCategoryRptReportCat">
           <End Type="InvDB.RptCategory" Role="RptCategory" Multiplicity="1" />
@@ -2538,7 +2537,7 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
           <NavigationProperty Name="Report" Relationship="InvDB.ReportRptReportUser" FromRole="RptReportUser" ToRole="Report" />
           <Property Name="ReportId" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="RptReportRoles">
+        <EntityType Name="RptReportRole">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -2560,7 +2559,7 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
         </EntityType>
         <Association Name="RptAccessTypeRptReportRoles">
           <End Type="InvDB.RptAccessType" Role="RptAccessType" Multiplicity="1" />
-          <End Type="InvDB.RptReportRoles" Role="RptReportRoles" Multiplicity="*" />
+          <End Type="InvDB.RptReportRole" Role="RptReportRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="RptAccessType">
               <PropertyRef Name="Id" />
@@ -2608,7 +2607,7 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
         </Association>
         <Association Name="ReportRptReportRoles">
           <End Type="InvDB.Report" Role="Report" Multiplicity="1" />
-          <End Type="InvDB.RptReportRoles" Role="RptReportRoles" Multiplicity="*" />
+          <End Type="InvDB.RptReportRole" Role="RptReportRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Report">
               <PropertyRef Name="Id" />
@@ -2626,7 +2625,7 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="RptReportCat">
-              <PropertyRef Name="ReportId1" />
+              <PropertyRef Name="ReportId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3024,8 +3023,8 @@ warning 6002: The table/view 'db_a0a0ae_inventorydev.dbo.InvCategorySpecDefs' do
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="RptReportRoles">
-      <EntityTypeMapping TypeName="IsTypeOf(InvDB.RptReportRoles)">
+    <EntitySetMapping Name="RptReportRoles1">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.RptReportRole)">
         <MappingFragment StoreEntitySet="RptReportRoles">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="AspNetRoleId" ColumnName="AspNetRoleId" />

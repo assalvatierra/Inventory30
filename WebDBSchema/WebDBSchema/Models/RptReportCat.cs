@@ -17,7 +17,6 @@ namespace WebDBSchema.Models
         public int Id { get; set; }
         public int RptCategoryId { get; set; }
         public int ReportId { get; set; }
-        public int ReportId1 { get; set; }
     
         public virtual RptCategory RptCategory { get; set; }
         public virtual Report Report { get; set; }

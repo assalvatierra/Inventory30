@@ -17,7 +17,7 @@ namespace RealSys.CoreLib.Models.Reports
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public RptAccessType()
         {
-            this.RptReportRoles = new HashSet<RptReportRoles>();
+            this.RptReportRoles = new HashSet<RptReportRole>();
             this.RptReportUsers = new HashSet<RptReportUser>();
         }
     
@@ -25,7 +25,7 @@ namespace RealSys.CoreLib.Models.Reports
         public string Code { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RptReportRoles> RptReportRoles { get; set; }
+        public virtual ICollection<RptReportRole> RptReportRoles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RptReportUser> RptReportUsers { get; set; }
     }
