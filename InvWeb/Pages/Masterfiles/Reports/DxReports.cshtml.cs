@@ -18,7 +18,7 @@ namespace InvWeb.Pages.Reports
 
         public IList<Report> invReports { get; set; }
         public IList<RptCategory> rptCategories { get; set; }   
-
+        public string userRptLevel { get; set; }
         public IndexModel(ILogger<IndexModel> logger, ReportServices reportSvc)
         {
             _logger = logger;
@@ -28,6 +28,9 @@ namespace InvWeb.Pages.Reports
 
         public async Task OnGetAsync()
         {
+            this.userRptLevel = "CREATOR";
+            //this.userRptLevel = "ADMIN";
+
             this.rptCategories = this._reportSvc.GetAvailableCategories();
             this.invReports = this._reportSvc.GetAvailableReports(this.HttpContext.User.Identity.Name);
 
