@@ -37,6 +37,11 @@ namespace Inventory.DBAccess
             _context.Attach(invPoHdr).State = EntityState.Modified;
         }
 
+        public IQueryable<InvPoHdr> GetInvPOHdrs()
+        {
+            return _context.InvPoHdrs;
+        }
+
         public async Task<InvPoHdr?> GetInvPOHdrAsync(int id)
         {
             return await _context.InvPoHdrs

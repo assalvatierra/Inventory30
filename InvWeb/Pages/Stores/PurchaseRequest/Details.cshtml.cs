@@ -19,12 +19,12 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
     {
         private readonly ApplicationDbContext _context;
         private readonly IInvPOHdrServices invPOHdrServices;
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<DetailsModel> _logger;
 
-        public DetailsModel(ApplicationDbContext context, ILogger<IndexModel> logger)
+        public DetailsModel(ApplicationDbContext context, ILogger<DetailsModel> logger)
         {
             _context = context;
-            _context = context;
+            _logger = logger;
             invPOHdrServices = new InvPOHdrServices(_context, _logger);
         }
 
@@ -41,7 +41,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
                 return NotFound();
             }
 
-            InvPoHdrDetails = await invPOHdrServices.GetInvPOHdrModel_OnDetails(InvPoHdrDetails, (int)id, StoredID, Status, IsUserAdminRole());
+            InvPoHdrDetails = await invPOHdrServices.GetInvPOHdrModel_OnDetails(InvPoHdrDetails, (int)id, Status, IsUserAdminRole());
 
             if (InvPoHdrDetails.InvPoHdr == null)
             {

@@ -24,6 +24,6 @@ namespace CoreLib.Interfaces
         public InvPOHdrCreateEditModel GetInvPOHdrModel_OnEdit(InvPOHdrCreateEditModel InvPoHdr);
         public void RemoveInvPOHdrDeleteModel(InvPOHdrDeleteModel InvPoHdrDelete);
         public Task<InvPoHdr> InvPOHdrDelete_FindByIdAsync(int id);
-        public Task<InvPOHdrDetailsModel> GetInvPOHdrModel_OnDetails(InvPOHdrDetailsModel InvPOHdrDetails, int invPOHdrId, int storeId, string status, bool IsUserAdmin);
+        public Task<InvPOHdrDetailsModel> GetInvPOHdrModel_OnDetails(InvPOHdrDetailsModel InvPOHdrDetails, int invPOHdrId, string status, bool IsUserAdmin);
     }
 }

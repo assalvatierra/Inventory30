@@ -18,9 +18,9 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
     {
         private readonly ApplicationDbContext _context;
         private readonly IInvPOHdrServices invPOHdrServices;
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<DeleteModel> _logger;
 
-        public DeleteModel(ApplicationDbContext context, ILogger<IndexModel> logger)
+        public DeleteModel(ApplicationDbContext context, ILogger<DeleteModel> logger)
         {
             _context = context;
             _logger = logger;

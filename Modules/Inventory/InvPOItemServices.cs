@@ -21,7 +21,6 @@ namespace Inventory
         private readonly ApplicationDbContext _context;
         private readonly ILogger _logger;
         private readonly DBMasterService dbMaster;
-        private readonly IItemServices itemServices;
         private readonly IUomServices uomServices;
 
         public InvPOItemServices(ApplicationDbContext context, ILogger logger)
@@ -30,7 +29,6 @@ namespace Inventory
             _logger = logger;
 
             dbMaster = new DBMasterService(_context, _logger);
-            itemServices = new ItemServices(_context);
             uomServices = new UomServices(_context);
         }
 
@@ -84,10 +82,20 @@ namespace Inventory
             }
         }
 
+        public async Task<InvPoItem> GetInvPoItemById(int id)
+        {
+            return await dbMaster.InvPOItemDb.GetInvPoItem(id);
+        }
+
         public InvPOItemCreateEditModel GetInvPOItemModel_OnCreate(InvPOItemCreateEditModel InvPOItemCreate, int hdrId)
         {
             try
             {
+                if (InvPOItemCreate == null)
+                {
+                    InvPOItemCreate = new InvPOItemCreateEditModel();
+                }
+
                 //create defaults
                 InvPOItemCreate.InvPoItem = new InvPoItem();
                 InvPOItemCreate.InvPoItem.InvPoHdrId = hdrId;
@@ -113,11 +121,20 @@ namespace Inventory
         {
             try
             {
+                if (invPOItemDelete == null)
+                {
+                    invPOItemDelete = new InvPOItemDelete();
+                }
 
-                invPOItemDelete.InvPoItem = await _context.InvPoItems
-                    .Include(i => i.InvItem)
-                    .Include(i => i.InvPoHdr)
-                    .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+                var _tempItemDelete = await dbMaster.InvPOItemDb.GetInvPoItem(id);
+
+                if (_tempItemDelete == null)
+                {
+                    return invPOItemDelete;
+                }
+
+                invPOItemDelete.InvPoItem = _tempItemDelete;
+                invPOItemDelete.InvHdrId = _tempItemDelete.InvPoHdrId;
 
                 return invPOItemDelete;
 
@@ -135,15 +152,16 @@ namespace Inventory
             try
             {
 
-                var invPoItem = await _context.InvPoItems
-                    .Include(i => i.InvItem)
-                    .Include(i => i.InvPoHdr)
-                    .Include(i => i.InvUom)
-                    .FirstOrDefaultAsync(m => m.Id == id);
+                if (InvPOItemEdit == null)
+                {
+                    InvPOItemEdit = new InvPOItemCreateEditModel();
+                }
+
+                var invPoItem = await dbMaster.InvPOItemDb.GetInvPoItem(id);
 
                 if (invPoItem == null)
                 {
-                    return null;
+                    return InvPOItemEdit;
                 }
 
                 InvPOItemEdit.InvPoItem = invPoItem;

@@ -17,10 +17,10 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<CreateModel> _logger;
+        private readonly ILogger<DeleteModel> _logger;
         private readonly IInvPOItemServices invPOItemServices;
 
-        public DeleteModel(ApplicationDbContext context, ILogger<CreateModel> logger)
+        public DeleteModel(ApplicationDbContext context, ILogger<DeleteModel> logger)
         {
             _context = context;
             _logger = logger;
@@ -29,6 +29,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
 
         [BindProperty]
         public InvPOItemDelete InvPOItemDelete { get; set; }
+        public int InvHdrId { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -44,6 +45,8 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
                 return NotFound();
             }
 
+            InvHdrId = InvPOItemDelete.InvHdrId;
+
             return Page();
         }
 
@@ -54,9 +57,17 @@ namespace InvWeb.Pages.Stores.PurchaseRequest.ItemDetails
                 return NotFound();
             }
 
+            var InvPOItem = await invPOItemServices.GetInvPoItemById((int)id);
+           
+
+            if(InvPOItem == null)
+            {
+                return NotFound();
+            }
+
             await invPOItemServices.DeleteInvPoItem((int)id);
 
-            return RedirectToPage("../Details", new { id = InvPOItemDelete.InvPoItem.InvPoHdrId });
+            return RedirectToPage("../Details", new { id = InvPOItem.InvPoHdrId });
         }
     }
 }

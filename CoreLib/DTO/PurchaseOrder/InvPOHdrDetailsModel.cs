@@ -9,7 +9,7 @@ namespace CoreLib.DTO.PurchaseOrder
 {
     public class InvPOHdrDetailsModel
     {
-        public InvPoHdr InvPoHdr { get; set; }
+        public InvPoHdr? InvPoHdr { get; set; }
         public IEnumerable<InvPoItem>? InvPoItems { get; set; }
         public int StoreId { get; set; }
     }

@@ -11,6 +11,6 @@ namespace CoreLib.DTO.PurchaseOrder
     {
         public InvPoItem InvPoItem { get; set; }
 
-        public int StoreId { get; set; }
+        public int InvHdrId { get; set; }
     }
 }

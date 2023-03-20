@@ -39,8 +39,12 @@ namespace Inventory.DBAccess
 
         public async Task<InvPoItem?> GetInvPoItem(int id)
         {
+          
             return await _context.InvPoItems
-                .FirstOrDefaultAsync(m => m.Id == id);
+                    .Include(i => i.InvItem)
+                    .Include(i => i.InvPoHdr)
+                    .Include(i => i.InvUom)
+                    .FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<IQueryable<InvPoItem>> GetInvPoItemList()

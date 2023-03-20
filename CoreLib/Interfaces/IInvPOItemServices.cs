@@ -17,6 +17,8 @@ namespace CoreLib.Interfaces
         public Task SaveChangesAsync();
         public bool InvPOItemExists(int id);
 
+        public Task<InvPoItem> GetInvPoItemById(int id);
+
         public InvPOItemCreateEditModel GetInvPOItemModel_OnCreate(InvPOItemCreateEditModel InvPOItemCreate, int hdrId);
         public Task<InvPOItemCreateEditModel> GetInvPOItemModel_OnEdit(InvPOItemCreateEditModel InvPOItemEdit, int id);
         public Task<InvPOItemDelete> GetInvPOItemModel_OnDelete(InvPOItemDelete invPOItemDelete, int id);

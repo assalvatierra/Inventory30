@@ -228,14 +228,27 @@ namespace Inventory
             return await _context.InvPoHdrs.FindAsync(id);
         }
 
-        public async Task<InvPOHdrDetailsModel> GetInvPOHdrModel_OnDetails(InvPOHdrDetailsModel InvPOHdrDetails, int invPOHdrId , int storeId, string status, bool IsUserAdmin)
+        public async Task<InvPOHdrDetailsModel> GetInvPOHdrModel_OnDetails(InvPOHdrDetailsModel InvPOHdrDetails, int invPOHdrId , string status, bool IsUserAdmin)
         {
             try
             {
-                InvPOHdrDetails.InvPoHdr = await _context.InvPoHdrs
+
+                if (InvPOHdrDetails == null)
+                {
+                    InvPOHdrDetails = new InvPOHdrDetailsModel();
+                }
+
+                 var invPoHeader = await _context.InvPoHdrs
                     .Include(i => i.InvPoHdrStatu)
                     .Include(i => i.InvStore)
                     .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == invPOHdrId);
+
+                if (invPoHeader == null)
+                {
+                    return InvPOHdrDetails;
+                }
+
+                InvPOHdrDetails.InvPoHdr = invPoHeader;
 
                 InvPOHdrDetails.InvPoItems = await _context.InvPoItems
                     .Include(i => i.InvItem)
@@ -244,7 +257,7 @@ namespace Inventory
                     .Where(i => i.InvPoHdrId == invPOHdrId)
                     .ToListAsync();
 
-                InvPOHdrDetails.StoreId = storeId;
+                InvPOHdrDetails.StoreId = InvPOHdrDetails.InvPoHdr.InvStoreId;
 
                 return InvPOHdrDetails;
             }
