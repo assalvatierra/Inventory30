@@ -59,5 +59,11 @@ namespace WebDBSchema.Models
         public virtual DbSet<InvItemCustomSpec> InvItemCustomSpecs { get; set; }
         public virtual DbSet<InvCatCustomSpec> InvCatCustomSpecs { get; set; }
         public virtual DbSet<InvCustomSpecType> InvCustomSpecTypes { get; set; }
+        public virtual DbSet<RptCategory> RptCategories { get; set; }
+        public virtual DbSet<RptReportCat> RptReportCats { get; set; }
+        public virtual DbSet<RptReportUser> RptReportUsers { get; set; }
+        public virtual DbSet<RptReportRole> RptReportRoles1 { get; set; }
+        public virtual DbSet<RptAccessType> RptAccessTypes { get; set; }
+        public virtual DbSet<Report> Reports { get; set; }
     }
 }

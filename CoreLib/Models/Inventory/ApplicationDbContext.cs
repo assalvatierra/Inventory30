@@ -6,6 +6,7 @@ using System.Text;
 using CoreLib.Inventory.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using RealSys.CoreLib.Models.Reports;
 
 namespace CoreLib.Models.Inventory
 {
@@ -45,6 +46,14 @@ namespace CoreLib.Models.Inventory
         public DbSet<InvCustomSpec> InvCustomSpecs { get; set; }
         public DbSet<InvCatCustomSpec> InvCatCustomSpecs { get; set; }
         public DbSet<InvItemCustomSpec> InvItemCustomSpecs { get; set; }
+
+
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<RptCategory> rptCategories { get; set; }
+        public DbSet<RptReportCat> rptReportCats { get; set; }
+        public DbSet<RptReportUser> rptReportUsers { get; set; }
+        public DbSet<RptReportRole> rptReportRoles { get; set; }
+        public DbSet<RptAccessType> rptAccessTypes { get; set; }
 
     }
 }

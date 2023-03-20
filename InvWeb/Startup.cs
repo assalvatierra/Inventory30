@@ -24,9 +24,8 @@ using Inventory20;
 using DevExpress.AspNetCore;
 using DevExpress.AspNetCore.Reporting;
 using DevExpress.XtraReports.Web.Extensions;
-using InvWeb.Services;
-//using InvWeb.Data;
 
+using InvWeb.Services;
 
 namespace InvWeb
 {
@@ -49,8 +48,16 @@ namespace InvWeb
             services
                 .AddMvc()
                 .AddNewtonsoftJson();
+
+            //services.AddDbContext<ReportDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("ReportsDataConnectionString")));
+            services.AddDbContext<ReportDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+
             services.ConfigureReportingServices(configurator => {
                 configurator.ConfigureReportDesigner(designerConfigurator => {
+                    designerConfigurator.RegisterDataSourceWizardConnectionStringsProvider<CustomSqlDataSourceWizardConnectionStringsProvider>();
+                    designerConfigurator.EnableCustomSql();
                 });
                 configurator.ConfigureWebDocumentViewer(viewerConfigurator => {
                     viewerConfigurator.UseCachedReportSourceBuilder();
@@ -58,11 +65,6 @@ namespace InvWeb
                 });
                 configurator.UseAsyncEngine();
             });
-//            services.AddDbContext<ReportDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("ReportsDataConnectionString")));
-            services.AddDbContext<ReportDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
 
             //add sessions
             services.AddDistributedMemoryCache();
@@ -92,9 +94,15 @@ namespace InvWeb
 
             services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, UserClaimsPrincipalFactory<IdentityUser, IdentityRole>>();
 
-            //Modules and Services
+            //Modules and Repos
             //services.AddScoped<ISearchServices, InvWeb.Data.Services.SearchServices>();
             services.AddScoped<ISearchServices, Inventory20.SearchService20>();
+            services.AddScoped<RealSys.CoreLib.Interfaces.Reports.IReportRepo,
+                RealSys.Modules.Reports.ReportRepo>();
+
+            //Services
+            services.AddScoped<RealSys.CoreLib.Services.ReportServices,
+                RealSys.CoreLib.Services.ReportServices>();
 
 
             //services.Configure<PageConfigShared.TenantInfo>(Configuration.GetSection("TenantInfo"));

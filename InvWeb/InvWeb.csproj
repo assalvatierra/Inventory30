@@ -55,6 +55,7 @@
     <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
     <ProjectReference Include="..\Modules\Client\Inventory20\Inventory20.csproj" />
     <ProjectReference Include="..\Modules\Inventory\Inventory.csproj" />
+    <ProjectReference Include="..\Modules\RealSys.Modules.Reports\RealSys.Modules.Reports.csproj" />
     <ProjectReference Include="..\PageSettings\ObjectConfigService\ObjectConfigService.csproj" />
     <ProjectReference Include="..\PageSettings\PageConfigService\PageConfigService.csproj" />
     <ProjectReference Include="..\PageSettings\PageModels\ReportViewModel\ReportViewModel.csproj" />
@@ -63,7 +64,6 @@
 
   <ItemGroup>
     <Folder Include="Data\Services\" />
-    <Folder Include="Pages\Supplier\" />
   </ItemGroup>
 
 </Project>
