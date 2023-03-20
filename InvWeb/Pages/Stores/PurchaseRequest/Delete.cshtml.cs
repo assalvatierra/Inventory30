@@ -37,12 +37,17 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
                 return NotFound();
             }
 
+            InvPoHdrDelete = new InvPOHdrDeleteModel();
+
             InvPoHdrDelete.InvPoHdr = await invPOHdrServices.GetInvPoHdrsbyIdAsync((int)id);
 
             if (InvPoHdrDelete.InvPoHdr == null)
             {
                 return NotFound();
             }
+
+            InvPoHdrDelete.StoreId = InvPoHdrDelete.InvPoHdr.InvStoreId;
+
             return Page();
         }
 

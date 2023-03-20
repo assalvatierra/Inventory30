@@ -42,7 +42,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
 
             POHdrEditModel = new InvPOHdrCreateEditModel();
 
-           var invPoHdr =  await invPOHdrServices.GetInvPoHdrsbyIdAsync((int)id);
+            var invPoHdr =  await invPOHdrServices.GetInvPoHdrsbyIdAsync((int)id);
 
             if (invPoHdr == null)
             {
@@ -51,10 +51,6 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
 
             POHdrEditModel = invPOHdrServices.GetInvPOHdrModel_OnEdit(POHdrEditModel);
             POHdrEditModel.InvPoHdr = invPoHdr;
-            //ViewData["InvPoHdrStatusId"] = new SelectList(_context.InvPoHdrStatus, "Id", "Status");
-            //ViewData["InvStoreId"] = new SelectList(_context.InvStores, "Id", "StoreName");
-            //ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
-            //ViewData["UserId"] = User.FindFirstValue(ClaimTypes.Name);
 
             return Page();
         }
@@ -68,17 +64,15 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
                 return Page();
             }
 
-            //_context.Attach(InvPoHdr).State = EntityState.Modified;
             invPOHdrServices.EditInvPoHdrs(POHdrEditModel.InvPoHdr);
 
             try
             {
-                //await _context.SaveChangesAsync();
                 await invPOHdrServices.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvPoHdrExists(InvPoHdr.Id))
+                if (!InvPoHdrExists(POHdrEditModel.InvPoHdr.Id))
                 {
                     return NotFound();
                 }
@@ -88,7 +82,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
                 }
             }
 
-            return RedirectToPage("./Index", new { storeId = InvPoHdr.InvStoreId });
+            return RedirectToPage("./Index", new { storeId = POHdrEditModel.InvPoHdr.InvStoreId });
         }
 
         private bool InvPoHdrExists(int id)
