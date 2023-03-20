@@ -62,5 +62,12 @@ namespace Inventory.DBAccess
                     .ThenInclude(i => i.InvUom)
                 .ToListAsync();
         }
+
+
+        public async Task<InvPoHdr?> FindInvPOHdrByIdAsync(int id)
+        {
+            return await _context.InvPoHdrs.FindAsync(id);
+        }
+       
     }
 }

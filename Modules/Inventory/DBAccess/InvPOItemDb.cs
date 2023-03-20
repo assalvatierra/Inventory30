@@ -22,6 +22,11 @@ namespace Inventory.DBAccess
             _logger = logger;
         }
 
+        public IQueryable<InvPoItem> GetInvPoItems()
+        {
+            return _context.InvPoItems;
+        }
+
         public void CreateInvPoItem(InvPoItem invPoItem)
         {
             _context.InvPoItems.Add(invPoItem);
@@ -47,10 +52,20 @@ namespace Inventory.DBAccess
                     .FirstOrDefaultAsync(m => m.Id == id);
         }
 
+        public async Task<InvPoItem> GetInvPoItemAsync(int id)
+        {
+            return await _context.InvPoItems.FindAsync(id);
+        }
+
         public async Task<IQueryable<InvPoItem>> GetInvPoItemList()
         {
             return (IQueryable<InvPoItem>)await _context.InvPoItems
                 .ToListAsync();
+        }
+
+        public IEnumerable<InvPoItem> GetInvPoItemsByHdrId(int invPoHdrId)
+        {
+            return _context.InvPoItems.Where(i => i.InvPoHdrId == invPoHdrId).ToList();
         }
     }
 }

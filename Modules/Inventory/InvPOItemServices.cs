@@ -51,7 +51,7 @@ namespace Inventory
             try
             {
 
-                var invPoItem = await _context.InvPoItems.FindAsync(id);
+                var invPoItem = await dbMaster.InvPOItemDb.GetInvPoItemAsync(id);
 
                 if (invPoItem != null)
                 {

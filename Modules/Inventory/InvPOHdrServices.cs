@@ -35,7 +35,7 @@ namespace Inventory
         {
             try
             {
-                _context.InvPoHdrs.Add(InvPoHdr);
+                dbMaster.InvPOHdrDb.CreateInvPOHdr(InvPoHdr);
             }
             catch (Exception ex)
             {
@@ -48,15 +48,14 @@ namespace Inventory
 
         public void DeleteInvPoHdrs(InvPoHdr InvPoHdr)
         {
-            _context.InvPoHdrs.Remove(InvPoHdr);
+            dbMaster.InvPOHdrDb.DeleteInvPOHdr(InvPoHdr);
         }
 
         public void EditInvPoHdrs(InvPoHdr InvPoHdr)
         {
             try
             {
-
-                _context.Attach(InvPoHdr).State = EntityState.Modified;
+                dbMaster.InvPOHdrDb.EditInvPOHdr(InvPoHdr);
             }
             catch (Exception ex)
             {
@@ -68,7 +67,7 @@ namespace Inventory
 
         public async Task<InvPoHdr> GetInvPoHdrsbyIdAsync(int id)
         {
-            var InvPOHdr = await _context.InvPoHdrs
+            var InvPOHdr = await dbMaster.InvPOHdrDb.GetInvPOHdrs()
                  .Include(i => i.InvPoHdrStatu)
                  .Include(i => i.InvStore)
                  .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == id);
@@ -79,7 +78,7 @@ namespace Inventory
         public async Task<IEnumerable<InvPoHdr>> GetInvPoHdrsListAsync(int storeId)
         {
 
-            return await _context.InvPoHdrs
+            return await dbMaster.InvPOHdrDb.GetInvPOHdrs()
                 .Include(i => i.InvPoHdrStatu)
                 .Include(i => i.InvStore)
                 .Include(i => i.InvSupplier)
@@ -164,9 +163,9 @@ namespace Inventory
                 InvPoHdr = new InvPOHdrCreateEditModel();
                 InvPoHdr.InvPoHdr = new InvPoHdr();
 
-                InvPoHdr.InvPoHdrStatusId = new SelectList(_context.InvPoHdrStatus, "Id", "Status");
-                InvPoHdr.InvStoreId = new SelectList(_context.InvStores, "Id", "StoreName", storeId);
-                InvPoHdr.InvSupplierId = new SelectList(_context.InvSuppliers, "Id", "Name");
+                InvPoHdr.InvPoHdrStatusId = new SelectList(dbMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status");
+                InvPoHdr.InvStoreId = new SelectList(dbMaster.StoreDb.GetStoreList(), "Id", "StoreName", storeId);
+                InvPoHdr.InvSupplierId = new SelectList(dbMaster.InvSupplierDb.GetInvSuppliers(), "Id", "Name");
                 InvPoHdr.UserId = User;
                 InvPoHdr.StoreId = storeId;
 
@@ -189,9 +188,9 @@ namespace Inventory
             try
             {
 
-                InvPoHdr.InvPoHdrStatusId = new SelectList(_context.InvPoHdrStatus, "Id", "Status");
-                InvPoHdr.InvStoreId = new SelectList(_context.InvStores, "Id", "StoreName");
-                InvPoHdr.InvSupplierId = new SelectList(_context.InvSuppliers, "Id", "Name");
+                InvPoHdr.InvPoHdrStatusId = new SelectList(dbMaster.InvTrxHdrStatusDb.GetInvTrxHdrStatus(), "Id", "Status");
+                InvPoHdr.InvStoreId = new SelectList(dbMaster.StoreDb.GetStoreList(), "Id", "StoreName");
+                InvPoHdr.InvSupplierId = new SelectList(dbMaster.InvSupplierDb.GetInvSuppliers(), "Id", "Name");
                 InvPoHdr.UserId = InvPoHdr.UserId;
                 InvPoHdr.StoreId = InvPoHdr.StoreId;
 
@@ -210,7 +209,7 @@ namespace Inventory
         {
             try
             {
-                var itemList = _context.InvPoItems.Where(i => i.InvPoHdrId == InvPoHdrDelete.InvPoHdr.Id).ToList();
+                var itemList = dbMaster.InvPOItemDb.GetInvPoItemsByHdrId(InvPoHdrDelete.InvPoHdr.Id);
                 _context.InvPoItems.RemoveRange(itemList);
 
                 DeleteInvPoHdrs(InvPoHdrDelete.InvPoHdr);
@@ -225,7 +224,7 @@ namespace Inventory
 
         public async Task<InvPoHdr> InvPOHdrDelete_FindByIdAsync(int id)
         {
-            return await _context.InvPoHdrs.FindAsync(id);
+            return await dbMaster.InvPOHdrDb.FindInvPOHdrByIdAsync(id);
         }
 
         public async Task<InvPOHdrDetailsModel> GetInvPOHdrModel_OnDetails(InvPOHdrDetailsModel InvPOHdrDetails, int invPOHdrId , string status, bool IsUserAdmin)
@@ -238,7 +237,7 @@ namespace Inventory
                     InvPOHdrDetails = new InvPOHdrDetailsModel();
                 }
 
-                 var invPoHeader = await _context.InvPoHdrs
+                 var invPoHeader = await dbMaster.InvPOHdrDb.GetInvPOHdrs()
                     .Include(i => i.InvPoHdrStatu)
                     .Include(i => i.InvStore)
                     .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == invPOHdrId);
@@ -250,12 +249,13 @@ namespace Inventory
 
                 InvPOHdrDetails.InvPoHdr = invPoHeader;
 
-                InvPOHdrDetails.InvPoItems = await _context.InvPoItems
+                InvPOHdrDetails.InvPoItems = await dbMaster.InvPOItemDb.GetInvPoItems()
                     .Include(i => i.InvItem)
                     .Include(i => i.InvPoHdr)
                     .Include(i => i.InvUom)
                     .Where(i => i.InvPoHdrId == invPOHdrId)
                     .ToListAsync();
+
 
                 InvPOHdrDetails.StoreId = InvPOHdrDetails.InvPoHdr.InvStoreId;
 
