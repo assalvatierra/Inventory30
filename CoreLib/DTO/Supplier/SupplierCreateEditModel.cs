@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoreLib.Inventory.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace CoreLib.DTO.Supplier
 {
-    internal class SupplierCreateEditModel
+    public class SupplierCreateEditModel
     {
+        public InvSupplier InvSupplier { get; set; }
     }
 }
