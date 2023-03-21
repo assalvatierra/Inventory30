@@ -13,34 +13,34 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoItem.InvItem)
+            @Html.DisplayNameFor(model => model.InvPOItemDelete.InvPoItem.InvItem)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoItem.InvItem.Description)
+            @Html.DisplayFor(model => model.InvPOItemDelete.InvPoItem.InvItem.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoItem.ItemQty)
+            @Html.DisplayNameFor(model => model.InvPOItemDelete.InvPoItem.ItemQty)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoItem.ItemQty)
+            @Html.DisplayFor(model => model.InvPOItemDelete.InvPoItem.ItemQty)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoItem.InvUom)
+            @Html.DisplayNameFor(model => model.InvPOItemDelete.InvPoItem.InvUom)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoItem.InvUom.uom)
+            @Html.DisplayFor(model => model.InvPOItemDelete.InvPoItem.InvUom.uom)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoItem.InvPoHdr)
+            @Html.DisplayNameFor(model => model.InvPOItemDelete.InvPoItem.InvPoHdr)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoItem.InvPoHdr.Id)
+            @Html.DisplayFor(model => model.InvPOItemDelete.InvPoItem.InvPoHdr.Id)
         </dd>
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="InvPoItem.Id" />
+        <input type="hidden" asp-for="@Model.InvPOItemDelete.InvPoItem.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="../Details" asp-route-id="@Model.InvPoItem.InvPoHdrId">Back to List</a>
+        <a asp-page="../Details" asp-route-id="@Model.InvPOItemDelete.InvPoItem.InvPoHdrId">Back to List</a>
     </form>
 </div>

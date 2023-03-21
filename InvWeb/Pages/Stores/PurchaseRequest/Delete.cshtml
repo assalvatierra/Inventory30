@@ -13,40 +13,40 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoHdr.DtPo)
+            @Html.DisplayNameFor(model => model.InvPoHdrDelete.InvPoHdr.DtPo)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoHdr.DtPo)
+            @Html.DisplayFor(model => model.InvPoHdrDelete.InvPoHdr.DtPo)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoHdr.UserId)
+            @Html.DisplayNameFor(model => model.InvPoHdrDelete.InvPoHdr.UserId)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoHdr.UserId)
+            @Html.DisplayFor(model => model.InvPoHdrDelete.InvPoHdr.UserId)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoHdr.InvSupplier)
+            @Html.DisplayNameFor(model => model.InvPoHdrDelete.InvPoHdr.InvSupplier)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoHdr.InvSupplier.Id)
+            @Html.DisplayFor(model => model.InvPoHdrDelete.InvPoHdr.InvSupplier.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoHdr.InvStore)
+            @Html.DisplayNameFor(model => model.InvPoHdrDelete.InvPoHdr.InvStore)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoHdr.InvStore.Id)
+            @Html.DisplayFor(model => model.InvPoHdrDelete.InvPoHdr.InvStore.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.InvPoHdr.InvPoHdrStatu)
+            @Html.DisplayNameFor(model => model.InvPoHdrDelete.InvPoHdr.InvPoHdrStatu)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.InvPoHdr.InvPoHdrStatu.Id)
+            @Html.DisplayFor(model => model.InvPoHdrDelete.InvPoHdr.InvPoHdrStatu.Id)
         </dd>
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="InvPoHdr.Id" />
+        <input type="hidden" asp-for="InvPoHdrDelete.InvPoHdr.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdr.InvStoreId">Back to List</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.InvPoHdrDelete.InvPoHdr.InvStoreId">Back to List</a>
     </form>
 </div>

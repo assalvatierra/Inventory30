@@ -7,19 +7,32 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.DTO.PurchaseOrder;
+using CoreLib.Interfaces;
+using Inventory;
+using Microsoft.Extensions.Logging;
+using DevExpress.Printing.Utils.DocumentStoring;
 
 namespace InvWeb.Pages.Stores.PurchaseRequest
 {
     public class DetailsModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IInvPOHdrServices invPOHdrServices;
+        private readonly ILogger<DetailsModel> _logger;
 
-        public DetailsModel(ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context, ILogger<DetailsModel> logger)
         {
             _context = context;
+            _logger = logger;
+            invPOHdrServices = new InvPOHdrServices(_context, _logger);
         }
 
-        public InvPoHdr InvPoHdr { get; set; }
+        public InvPOHdrDetailsModel InvPoHdrDetails { get; set; }
+
+        public int StoredID {get;set; }
+        public string Status { get; set; }
+        //public InvPoHdr InvPoHdr { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,23 +41,17 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
                 return NotFound();
             }
 
-            InvPoHdr = await _context.InvPoHdrs
-                .Include(i => i.InvPoHdrStatu)
-                .Include(i => i.InvStore)
-                .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == id);
+            InvPoHdrDetails = await invPOHdrServices.GetInvPOHdrModel_OnDetails(InvPoHdrDetails, (int)id, Status, IsUserAdminRole());
 
-            ViewData["InvPoItems"] = await _context.InvPoItems
-                .Include(i => i.InvItem)
-                .Include(i => i.InvPoHdr)
-                .Include(i => i.InvUom)
-                .Where(  i => i.InvPoHdrId == id)
-                .ToListAsync();
-
-            if (InvPoHdr == null)
+            if (InvPoHdrDetails.InvPoHdr == null)
             {
                 return NotFound();
             }
             return Page();
+        }
+        private bool IsUserAdminRole()
+        {
+            return User.IsInRole("ADMIN");
         }
     }
 }

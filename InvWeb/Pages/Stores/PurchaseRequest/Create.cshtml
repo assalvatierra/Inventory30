@@ -14,26 +14,26 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="InvPoHdr.DtPo" class="control-label"></label>
-                <input asp-for="InvPoHdr.DtPo" class="form-control datepicker" type="text" />
-                <span asp-validation-for="InvPoHdr.DtPo" class="text-danger"></span>
+                <label asp-for="InvPOHdrCreateModel.InvPoHdr.DtPo" class="control-label"></label>
+                <input asp-for="InvPOHdrCreateModel.InvPoHdr.DtPo" class="form-control datepicker" type="text" />
+                <span asp-validation-for="InvPOHdrCreateModel.InvPoHdr.DtPo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvPoHdr.InvSupplierId" class="control-label"></label>
-                <select asp-for="InvPoHdr.InvSupplierId" class="form-control" asp-items="ViewBag.InvSupplierId"></select>
+                <label asp-for="InvPOHdrCreateModel.InvPoHdr.InvSupplierId" class="control-label"></label>
+                <select asp-for="InvPOHdrCreateModel.InvPoHdr.InvSupplierId" class="form-control" asp-items="Model.InvPOHdrCreateModel.InvSupplierId"></select>
             </div>
             <div class="form-group" hidden>
-                <label asp-for="InvPoHdr.InvStoreId" class="control-label"></label>
-                <select asp-for="InvPoHdr.InvStoreId" class="form-control" asp-items="ViewBag.InvStoreId"></select>
+                <label asp-for="InvPOHdrCreateModel.InvPoHdr.InvStoreId" class="control-label"></label>
+                <select asp-for="InvPOHdrCreateModel.InvPoHdr.InvStoreId" class="form-control" asp-items="Model.InvPOHdrCreateModel.InvStoreId"></select>
             </div>
             <div class="form-group" hidden>
-                <label asp-for="InvPoHdr.UserId" class="control-label"></label>
-                <input asp-for="InvPoHdr.UserId" class="form-control" value="@ViewBag.UserId" />
-                <span asp-validation-for="InvPoHdr.UserId" class="text-danger"></span>
+                <label asp-for="InvPOHdrCreateModel.InvPoHdr.UserId" class="control-label"></label>
+                <input asp-for="InvPOHdrCreateModel.InvPoHdr.UserId" class="form-control" value="@Model.InvPOHdrCreateModel.UserId" />
+                <span asp-validation-for="InvPOHdrCreateModel.InvPoHdr.UserId" class="text-danger"></span>
             </div>
-            <div class="form-group" hidden>
-                <label asp-for="InvPoHdr.InvPoHdrStatusId" class="control-label"></label>
-                <select asp-for="InvPoHdr.InvPoHdrStatusId" class="form-control" asp-items="ViewBag.InvPoHdrStatusId"></select>
+            <div class="form-group"hidden>
+                <label asp-for="InvPOHdrCreateModel.InvPoHdr.InvPoHdrStatusId" class="control-label"></label>
+                <select asp-for="InvPOHdrCreateModel.InvPoHdr.InvPoHdrStatusId" class="form-control" asp-items="Model.InvPOHdrCreateModel.InvPoHdrStatusId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -43,7 +43,7 @@
 </div>
 
 <div>
-    <a asp-page="Index" asp-route-storeId="@ViewBag.StoreId">Back to List</a>
+    <a asp-page="Index" asp-route-storeId="@Model.InvPOHdrCreateModel.StoreId">Back to List</a>
 </div>
 
 @section Scripts {

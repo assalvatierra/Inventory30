@@ -20,6 +20,10 @@ namespace CoreLib.Interfaces
         public Task<IEnumerable<InvPoHdr>> GetInvPoHdrsListAsync(int storeId);
 
         public Task<InvPOHdrModel> GetInvPOHdrModel_OnIndex(IList<InvPoHdr> InvPoHdrs, int storeId, string status, bool IsUserAdmin);
-        public InvPOHdrCreateModel GetInvPOHdrModel_OnCreate(InvPOHdrCreateModel InvPoHdr, int storeId, string User);
+        public InvPOHdrCreateEditModel GetInvPOHdrModel_OnCreate(InvPOHdrCreateEditModel InvPoHdr, int storeId, string User);
+        public InvPOHdrCreateEditModel GetInvPOHdrModel_OnEdit(InvPOHdrCreateEditModel InvPoHdr);
+        public void RemoveInvPOHdrDeleteModel(InvPOHdrDeleteModel InvPoHdrDelete);
+        public Task<InvPoHdr> InvPOHdrDelete_FindByIdAsync(int id);
+        public Task<InvPOHdrDetailsModel> GetInvPOHdrModel_OnDetails(InvPOHdrDetailsModel InvPOHdrDetails, int invPOHdrId, string status, bool IsUserAdmin);
     }
 }
