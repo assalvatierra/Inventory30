@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
 
-namespace InvWeb.Pages.Masterfiles.Supplier
+namespace InvWeb.Suppliers.Supplier
 {
     public class DetailsModel : PageModel
     {

@@ -9,7 +9,7 @@ using CoreLib.Inventory.Models;
 using Microsoft.AspNetCore.Authorization;
 using CoreLib.Models.Inventory;
 
-namespace InvWeb.Pages.Masterfiles.Supplier
+namespace InvWeb.Suppliers.Supplier
 {
     [Authorize(Roles = "ADMIN")]
     public class IndexModel : PageModel

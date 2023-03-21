@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
 
-namespace InvWeb.Pages.Masterfiles.Supplier
+namespace InvWeb.Suppliers.Supplier
 {
     public class CreateModel : PageModel
     {
