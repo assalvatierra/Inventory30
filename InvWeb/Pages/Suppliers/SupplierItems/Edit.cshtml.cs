@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
 
-namespace InvWeb.Pages.Masterfiles.SupplierItems
+namespace InvWeb.Suppliers.SupplierItems
 {
     public class EditModel : PageModel
     {

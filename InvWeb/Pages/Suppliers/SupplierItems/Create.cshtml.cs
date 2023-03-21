@@ -9,7 +9,7 @@ using CoreLib.Inventory.Models;
 using System.Security.Claims;
 using CoreLib.Models.Inventory;
 
-namespace InvWeb.Pages.Masterfiles.SupplierItems
+namespace InvWeb.Suppliers.SupplierItems
 {
     public class CreateModel : PageModel
     {
