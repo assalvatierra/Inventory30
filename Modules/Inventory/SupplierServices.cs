@@ -29,22 +29,72 @@ namespace Inventory
 
         public void CreateInvSupplier(InvSupplier invSupplier)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+               dbMaster.InvSupplierDb.CreateInvSupplier(invSupplier);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
-        public void DeleteInvSupplierById(int id)
+        public void UpdateInvSupplier(InvSupplier invSupplier)
         {
-            throw new NotImplementedException();
+            try
+            {
+                dbMaster.InvSupplierDb.EditInvSupplier(invSupplier);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public bool InvSupplierExists(int id)
+        {
+            return _context.InvSuppliers.Any(e => e.Id == id);
+        }
+
+        public void DeleteInvSupplier(InvSupplier invSupplier)
+        {
+                
+            try
+            {
+                dbMaster.InvSupplierDb.DeleteInvSupplier(invSupplier);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
+        public async Task<InvSupplier> FindInvSupplierByIdAsync(int id)
+        {
+            return await _context.InvSuppliers.FindAsync(id);
+
+        }
+
+
+        public async Task<InvSupplier> GetInvSupplierByIdAsync(int id)
+        {
+            return await _context.InvSuppliers.FirstOrDefaultAsync(m => m.Id == id);
+
         }
 
         public InvSupplier GetInvSupplierById(int id)
         {
-            throw new NotImplementedException();
+
+            return _context.InvSuppliers.FirstOrDefault(m => m.Id == id);
+
         }
 
         public IEnumerable<InvSupplier> GetInvSuppliers()
         {
-            throw new NotImplementedException();
+            return dbMaster.InvSupplierDb.GetInvSuppliers();
         }
 
         public async Task<SupplierIndexModel> GetSupplierIndexModelOnIndexGet(SupplierIndexModel supplierIndex)
@@ -66,9 +116,10 @@ namespace Inventory
             }
         }
 
-        public void UpdateInvSupplierById(InvSupplier invSupplier)
+        public async Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            await _context.SaveChangesAsync();
         }
+
     }
 }

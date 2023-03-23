@@ -12,11 +12,15 @@ namespace CoreLib.Interfaces
     {
 
         public InvSupplier GetInvSupplierById(int id);
+        public Task<InvSupplier> GetInvSupplierByIdAsync(int id);
+        public Task<InvSupplier> FindInvSupplierByIdAsync(int id);
         public IEnumerable<InvSupplier> GetInvSuppliers();
         public void CreateInvSupplier(InvSupplier invSupplier);
-        public void DeleteInvSupplierById(int id);
-        public void UpdateInvSupplierById(InvSupplier invSupplier);
+        public void DeleteInvSupplier(InvSupplier invSupplier);
+        public void UpdateInvSupplier(InvSupplier invSupplier);
         public Task<SupplierIndexModel> GetSupplierIndexModelOnIndexGet(SupplierIndexModel supplierIndex);
+        public bool InvSupplierExists(int id);
+        public Task SaveChangesAsync();
        
     }
 }

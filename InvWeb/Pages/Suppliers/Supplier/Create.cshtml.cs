@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Modules.Inventory;
 using CoreLib.Interfaces;
 using Inventory;
+using CoreLib.DTO.Supplier;
 
 namespace InvWeb.Suppliers.Supplier
 {
@@ -34,7 +35,8 @@ namespace InvWeb.Suppliers.Supplier
         }
 
         [BindProperty]
-        public InvSupplier InvSupplier { get; set; }
+        public SupplierCreateEditModel SupplierCreateModel { get; set; }
+        //public InvSupplier InvSupplier { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -44,8 +46,8 @@ namespace InvWeb.Suppliers.Supplier
                 return Page();
             }
 
-            _context.InvSuppliers.Add(InvSupplier);
-            await _context.SaveChangesAsync();
+            supplierServices.CreateInvSupplier(SupplierCreateModel.InvSupplier);
+            await supplierServices.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

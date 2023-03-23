@@ -9,10 +9,9 @@ namespace CoreLib.Interfaces.DBAccess
 {
     public interface IInvPOHdrDb
     {
-        public IQueryable<InvPoHdr> GetInvPOHdrs();
         public Task<InvPoHdr?> GetInvPOHdrAsync(int id);
         public Task<InvPoHdr?> FindInvPOHdrByIdAsync(int id);
-        
+        public IQueryable<InvPoHdr> GetInvPOHdrs();        
         public Task<IQueryable<InvPoHdr>> GetInvPOHdrListAsync();
         public void CreateInvPOHdr(InvPoHdr invPoHdr);
         public void EditInvPOHdr(InvPoHdr invPoHdr);

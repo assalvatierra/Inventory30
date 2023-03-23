@@ -13,16 +13,16 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="InvSupplier.Id" />
+            <input type="hidden" asp-for="SupplierEditModel.InvSupplier.Id" />
             <div class="form-group">
-                <label asp-for="InvSupplier.Name" class="control-label"></label>
-                <input asp-for="InvSupplier.Name" class="form-control" />
-                <span asp-validation-for="InvSupplier.Name" class="text-danger"></span>
+                <label asp-for="SupplierEditModel.InvSupplier.Name" class="control-label"></label>
+                <input asp-for="SupplierEditModel.InvSupplier.Name" class="form-control" />
+                <span asp-validation-for="SupplierEditModel.InvSupplier.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="InvSupplier.Remarks" class="control-label"></label>
-                <input asp-for="InvSupplier.Remarks" class="form-control" />
-                <span asp-validation-for="InvSupplier.Remarks" class="text-danger"></span>
+                <label asp-for="SupplierEditModel.InvSupplier.Remarks" class="control-label"></label>
+                <input asp-for="SupplierEditModel.InvSupplier.Remarks" class="form-control" />
+                <span asp-validation-for="SupplierEditModel.InvSupplier.Remarks" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

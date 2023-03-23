@@ -7,20 +7,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Interfaces;
+using Inventory;
+using Microsoft.Extensions.Logging;
+using CoreLib.DTO.Supplier;
 
 namespace InvWeb.Suppliers.Supplier
 {
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<DeleteModel> _logger;
+        private readonly ISupplierServices supplierServices;
 
-        public DeleteModel(ApplicationDbContext context)
+        public DeleteModel(ApplicationDbContext context, ILogger<DeleteModel> logger)
         {
             _context = context;
+            _logger = logger;
+            supplierServices = new SupplierServices(_context, _logger);
         }
 
         [BindProperty]
-        public InvSupplier InvSupplier { get; set; }
+        public SupplierDeleteModel InvSupplierDelete { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,9 +37,14 @@ namespace InvWeb.Suppliers.Supplier
                 return NotFound();
             }
 
-            InvSupplier = await _context.InvSuppliers.FirstOrDefaultAsync(m => m.Id == id);
+            if (InvSupplierDelete == null)
+            {
+                InvSupplierDelete = new SupplierDeleteModel();
+            }
 
-            if (InvSupplier == null)
+            InvSupplierDelete.InvSupplier = await supplierServices.GetInvSupplierByIdAsync((int)id);
+
+            if (InvSupplierDelete.InvSupplier == null)
             {
                 return NotFound();
             }
@@ -45,12 +58,12 @@ namespace InvWeb.Suppliers.Supplier
                 return NotFound();
             }
 
-            InvSupplier = await _context.InvSuppliers.FindAsync(id);
+            InvSupplierDelete.InvSupplier = await supplierServices.FindInvSupplierByIdAsync((int)id);
 
-            if (InvSupplier != null)
+            if (InvSupplierDelete.InvSupplier != null)
             {
-                _context.InvSuppliers.Remove(InvSupplier);
-                await _context.SaveChangesAsync();
+                supplierServices.DeleteInvSupplier(InvSupplierDelete.InvSupplier);
+                await supplierServices.SaveChangesAsync();
             }
 
             return RedirectToPage("./Index");
