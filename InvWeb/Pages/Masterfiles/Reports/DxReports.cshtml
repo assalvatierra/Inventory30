@@ -6,8 +6,13 @@
 }
 
 
-<a asp-area="" asp-controller="Home" asp-action="Designer">Designer</a>
-<hr />
+@if (Model.userRptLevel == "ADMIN" || Model.userRptLevel == "CREATOR")
+{
+    <a asp-area="" asp-controller="Home" asp-action="Designer">Designer</a>
+    <hr />
+}
+
+
 
 <table class="table">
     <thead>
