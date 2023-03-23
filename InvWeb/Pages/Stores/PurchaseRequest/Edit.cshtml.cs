@@ -25,7 +25,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
         public EditModel(ApplicationDbContext context, ILogger<IndexModel> logger)
         {
             _context = context;
-            _context = context;
+            _logger = logger;
             invPOHdrServices = new InvPOHdrServices(_context, _logger);
         }
 
