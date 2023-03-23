@@ -9,6 +9,7 @@ namespace CoreLib.Interfaces.DBAccess
 {
     public interface IInvSupplierDb
     {
+        public Task<IList<InvSupplier>> GetInvSuppliersAsync();
         public IList<InvSupplier> GetInvSuppliers();
         public InvSupplier GetInvSupplierbyId(int id);
     }

@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using Microsoft.AspNetCore.Authorization;
 using CoreLib.Models.Inventory;
+using CoreLib.Interfaces;
+using Microsoft.Extensions.Logging;
+using Inventory;
+using CoreLib.DTO.Supplier;
 
 namespace InvWeb.Suppliers.Supplier
 {
@@ -15,17 +19,24 @@ namespace InvWeb.Suppliers.Supplier
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CreateModel> _logger;
+        private readonly ISupplierServices supplierServices;
 
-        public IndexModel(ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
+            _logger = logger;
+            supplierServices = new SupplierServices(_context, _logger);
         }
 
         public IList<InvSupplier> InvSupplier { get;set; }
 
+        public SupplierIndexModel SupplierIndexModel { get; set; }
+
         public async Task OnGetAsync()
         {
-            InvSupplier = await _context.InvSuppliers.ToListAsync();
+            //InvSupplier = await _context.InvSuppliers.ToListAsync();
+            SupplierIndexModel = await supplierServices.GetSupplierIndexModelOnIndexGet(SupplierIndexModel);
         }
     }
 }

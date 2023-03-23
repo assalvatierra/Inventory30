@@ -9,7 +9,7 @@ namespace CoreLib.DTO.Supplier
 {
     public class SupplierIndexModel
     {
-        public InvSupplier InvSupplier { get; set; }
+        public IList<InvSupplier> InvSupplier { get; set; }
 
     }
 }

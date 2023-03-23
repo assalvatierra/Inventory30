@@ -16,7 +16,7 @@ namespace CoreLib.Interfaces
         public void CreateInvSupplier(InvSupplier invSupplier);
         public void DeleteInvSupplierById(int id);
         public void UpdateInvSupplierById(InvSupplier invSupplier);
-        public SupplierIndexModel GetSupplierIndexModelOnIndexGet(SupplierIndexModel supplierIndex);
+        public Task<SupplierIndexModel> GetSupplierIndexModelOnIndexGet(SupplierIndexModel supplierIndex);
        
     }
 }

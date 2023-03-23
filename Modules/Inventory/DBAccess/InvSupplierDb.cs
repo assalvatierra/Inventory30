@@ -1,6 +1,7 @@
 ﻿using CoreLib.Interfaces.DBAccess;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,10 @@ namespace Inventory.DBAccess
         public IList<InvSupplier> GetInvSuppliers()
         {
             return _context.InvSuppliers.ToList();
+        }
+        public async Task<IList<InvSupplier>> GetInvSuppliersAsync()
+        {
+            return await _context.InvSuppliers.ToListAsync();
         }
     }
 }
