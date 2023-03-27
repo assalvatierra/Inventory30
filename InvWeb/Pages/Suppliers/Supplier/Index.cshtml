@@ -2,7 +2,7 @@
 @model InvWeb.Suppliers.Supplier.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Suppliers Index";
 }
 
 <h1>Suppliers </h1>
@@ -14,10 +14,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.InvSupplier[0].Name)
+                Supplier Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvSupplier[0].Remarks)
+                @Html.DisplayNameFor(model => model.SupplierIndexModel.InvSupplier[0].Remarks)
             </th>
             <th>
 
@@ -27,7 +27,8 @@
     </thead>
    
     <tbody>
-@foreach (var item in Model.InvSupplier) {
+        @foreach (var item in Model.SupplierIndexModel.InvSupplier)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -37,7 +38,7 @@
             </td>
             <td>
 
-                <a asp-page="../SupplierItems/Index" asp-route-id="@item.Id">Items</a> 
+                <a asp-page="../SupplierItems/Index" asp-route-id="@item.Id">Supplier Items</a> 
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

@@ -29,13 +29,11 @@ namespace InvWeb.Suppliers.Supplier
             supplierServices = new SupplierServices(_context, _logger);
         }
 
-        public IList<InvSupplier> InvSupplier { get;set; }
 
         public SupplierIndexModel SupplierIndexModel { get; set; }
 
         public async Task OnGetAsync()
         {
-            //InvSupplier = await _context.InvSuppliers.ToListAsync();
             SupplierIndexModel = await supplierServices.GetSupplierIndexModelOnIndexGet(SupplierIndexModel);
         }
     }
