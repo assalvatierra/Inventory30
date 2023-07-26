@@ -2,13 +2,11 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/12/2023 16:30:09
+-- Date Created: 07/26/2023 17:32:22
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
-GO
-USE [InvDB3.mdf];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -165,10 +163,40 @@ IF OBJECT_ID(N'[dbo].[FK_RptCategoryRptReportCat]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RptReportCats] DROP CONSTRAINT [FK_RptCategoryRptReportCat];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RptAccessTypeRptReportRoles]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[RptReportRoles] DROP CONSTRAINT [FK_RptAccessTypeRptReportRoles];
+    ALTER TABLE [dbo].[RptReportRoles1] DROP CONSTRAINT [FK_RptAccessTypeRptReportRoles];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RptAccessTypeRptReportUser]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RptReportUsers] DROP CONSTRAINT [FK_RptAccessTypeRptReportUser];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ReportRptReportUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RptReportUsers] DROP CONSTRAINT [FK_ReportRptReportUser];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ReportRptReportRoles]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RptReportRoles1] DROP CONSTRAINT [FK_ReportRptReportRoles];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ReportRptReportCat]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RptReportCats] DROP CONSTRAINT [FK_ReportRptReportCat];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SteelMainCatInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelMainCatInvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SteelSubCatInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelSubCatInvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SteelBrandInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelBrandInvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SteelMaterialInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelMaterialInvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SteelOriginInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelOriginInvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SteeelMaterialGradeInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteeelMaterialGradeInvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SteelQtyUnitInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelQtyUnitInvItemSpec_Steel];
 GO
 
 -- --------------------------------------------------
@@ -286,11 +314,35 @@ GO
 IF OBJECT_ID(N'[dbo].[RptReportUsers]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RptReportUsers];
 GO
-IF OBJECT_ID(N'[dbo].[RptReportRoles]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[RptReportRoles];
+IF OBJECT_ID(N'[dbo].[RptReportRoles1]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RptReportRoles1];
 GO
 IF OBJECT_ID(N'[dbo].[RptAccessTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RptAccessTypes];
+GO
+IF OBJECT_ID(N'[dbo].[Reports]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Reports];
+GO
+IF OBJECT_ID(N'[dbo].[SteelMainCats]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SteelMainCats];
+GO
+IF OBJECT_ID(N'[dbo].[SteelSubCats]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SteelSubCats];
+GO
+IF OBJECT_ID(N'[dbo].[SteelBrands]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SteelBrands];
+GO
+IF OBJECT_ID(N'[dbo].[SteelMaterials]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SteelMaterials];
+GO
+IF OBJECT_ID(N'[dbo].[SteelOrigins]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SteelOrigins];
+GO
+IF OBJECT_ID(N'[dbo].[SteeelMaterialGrades]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SteeelMaterialGrades];
+GO
+IF OBJECT_ID(N'[dbo].[SteelQtyUnits]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SteelQtyUnits];
 GO
 
 -- --------------------------------------------------
@@ -304,9 +356,7 @@ CREATE TABLE [dbo].[InvItems] (
     [Description] nvarchar(120)  NOT NULL,
     [Remarks] nvarchar(120)  NULL,
     [InvUomId] int  NOT NULL,
-    [InvCategoryId] int  NOT NULL,
-    [Weight] decimal(18,2)  NULL,
-    [Material] nvarchar(80)  NULL
+    [InvCategoryId] int  NOT NULL
 );
 GO
 
@@ -558,13 +608,18 @@ GO
 -- Creating table 'InvItemSpec_Steel'
 CREATE TABLE [dbo].[InvItemSpec_Steel] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [Description] nvarchar(180)  NOT NULL,
+    [Code] nvarchar(max)  NULL,
     [InvItemId] int  NOT NULL,
-    [SpecFor] nvarchar(10)  NOT NULL,
-    [SizeValue] nvarchar(10)  NULL,
-    [SizeDesc] nvarchar(30)  NULL,
-    [WtValue] nvarchar(10)  NULL,
-    [WtDesc] nvarchar(30)  NULL,
-    [SpecInfo] nvarchar(80)  NULL
+    [SteelMainCatId] int  NOT NULL,
+    [SteelSubCatId] int  NOT NULL,
+    [SteelBrandId] int  NOT NULL,
+    [SteelMaterialId] int  NOT NULL,
+    [SteelOriginId] int  NOT NULL,
+    [SteeelMaterialGradeId] int  NOT NULL,
+    [SteelQtyUnitId] int  NOT NULL,
+    [WtKgm] decimal(18,0)  NOT NULL,
+    [WtKgpc] decimal(18,0)  NOT NULL
 );
 GO
 
@@ -643,18 +698,18 @@ GO
 -- Creating table 'RptReportUsers'
 CREATE TABLE [dbo].[RptReportUsers] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [ReportId] int  NOT NULL,
     [AspNetUserId] nvarchar(255)  NOT NULL,
-    [RptAccessTypeId] int  NOT NULL
+    [RptAccessTypeId] int  NOT NULL,
+    [ReportId] int  NOT NULL
 );
 GO
 
--- Creating table 'RptReportRoles'
-CREATE TABLE [dbo].[RptReportRoles] (
+-- Creating table 'RptReportRoles1'
+CREATE TABLE [dbo].[RptReportRoles1] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [ReportId] int  NOT NULL,
     [AspNetRoleId] int  NOT NULL,
-    [RptAccessTypeId] int  NOT NULL
+    [RptAccessTypeId] int  NOT NULL,
+    [ReportId] int  NOT NULL
 );
 GO
 
@@ -662,6 +717,71 @@ GO
 CREATE TABLE [dbo].[RptAccessTypes] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Code] nvarchar(50)  NOT NULL
+);
+GO
+
+-- Creating table 'Reports'
+CREATE TABLE [dbo].[Reports] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] varchar(250)  NULL,
+    [DisplayName] varchar(250)  NULL,
+    [LayoutData] varbinary(max)  NULL
+);
+GO
+
+-- Creating table 'SteelMainCats'
+CREATE TABLE [dbo].[SteelMainCats] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(40)  NOT NULL,
+    [Code] nvarchar(20)  NULL
+);
+GO
+
+-- Creating table 'SteelSubCats'
+CREATE TABLE [dbo].[SteelSubCats] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(40)  NOT NULL,
+    [Code] nvarchar(20)  NULL
+);
+GO
+
+-- Creating table 'SteelBrands'
+CREATE TABLE [dbo].[SteelBrands] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(80)  NOT NULL,
+    [Code] nvarchar(20)  NULL
+);
+GO
+
+-- Creating table 'SteelMaterials'
+CREATE TABLE [dbo].[SteelMaterials] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(80)  NOT NULL,
+    [Code] nvarchar(20)  NULL
+);
+GO
+
+-- Creating table 'SteelOrigins'
+CREATE TABLE [dbo].[SteelOrigins] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(40)  NOT NULL,
+    [Code] nvarchar(20)  NULL
+);
+GO
+
+-- Creating table 'SteeelMaterialGrades'
+CREATE TABLE [dbo].[SteeelMaterialGrades] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(60)  NOT NULL,
+    [Code] nvarchar(20)  NULL
+);
+GO
+
+-- Creating table 'SteelQtyUnits'
+CREATE TABLE [dbo].[SteelQtyUnits] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(60)  NOT NULL,
+    [Code] nvarchar(20)  NULL
 );
 GO
 
@@ -891,15 +1011,63 @@ ADD CONSTRAINT [PK_RptReportUsers]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'RptReportRoles'
-ALTER TABLE [dbo].[RptReportRoles]
-ADD CONSTRAINT [PK_RptReportRoles]
+-- Creating primary key on [Id] in table 'RptReportRoles1'
+ALTER TABLE [dbo].[RptReportRoles1]
+ADD CONSTRAINT [PK_RptReportRoles1]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [Id] in table 'RptAccessTypes'
 ALTER TABLE [dbo].[RptAccessTypes]
 ADD CONSTRAINT [PK_RptAccessTypes]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Reports'
+ALTER TABLE [dbo].[Reports]
+ADD CONSTRAINT [PK_Reports]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SteelMainCats'
+ALTER TABLE [dbo].[SteelMainCats]
+ADD CONSTRAINT [PK_SteelMainCats]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SteelSubCats'
+ALTER TABLE [dbo].[SteelSubCats]
+ADD CONSTRAINT [PK_SteelSubCats]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SteelBrands'
+ALTER TABLE [dbo].[SteelBrands]
+ADD CONSTRAINT [PK_SteelBrands]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SteelMaterials'
+ALTER TABLE [dbo].[SteelMaterials]
+ADD CONSTRAINT [PK_SteelMaterials]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SteelOrigins'
+ALTER TABLE [dbo].[SteelOrigins]
+ADD CONSTRAINT [PK_SteelOrigins]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SteeelMaterialGrades'
+ALTER TABLE [dbo].[SteeelMaterialGrades]
+ADD CONSTRAINT [PK_SteeelMaterialGrades]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SteelQtyUnits'
+ALTER TABLE [dbo].[SteelQtyUnits]
+ADD CONSTRAINT [PK_SteelQtyUnits]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1642,8 +1810,8 @@ ON [dbo].[RptReportCats]
     ([RptCategoryId]);
 GO
 
--- Creating foreign key on [RptAccessTypeId] in table 'RptReportRoles'
-ALTER TABLE [dbo].[RptReportRoles]
+-- Creating foreign key on [RptAccessTypeId] in table 'RptReportRoles1'
+ALTER TABLE [dbo].[RptReportRoles1]
 ADD CONSTRAINT [FK_RptAccessTypeRptReportRoles]
     FOREIGN KEY ([RptAccessTypeId])
     REFERENCES [dbo].[RptAccessTypes]
@@ -1653,7 +1821,7 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_RptAccessTypeRptReportRoles'
 CREATE INDEX [IX_FK_RptAccessTypeRptReportRoles]
-ON [dbo].[RptReportRoles]
+ON [dbo].[RptReportRoles1]
     ([RptAccessTypeId]);
 GO
 
@@ -1670,6 +1838,156 @@ GO
 CREATE INDEX [IX_FK_RptAccessTypeRptReportUser]
 ON [dbo].[RptReportUsers]
     ([RptAccessTypeId]);
+GO
+
+-- Creating foreign key on [ReportId] in table 'RptReportUsers'
+ALTER TABLE [dbo].[RptReportUsers]
+ADD CONSTRAINT [FK_ReportRptReportUser]
+    FOREIGN KEY ([ReportId])
+    REFERENCES [dbo].[Reports]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ReportRptReportUser'
+CREATE INDEX [IX_FK_ReportRptReportUser]
+ON [dbo].[RptReportUsers]
+    ([ReportId]);
+GO
+
+-- Creating foreign key on [ReportId] in table 'RptReportRoles1'
+ALTER TABLE [dbo].[RptReportRoles1]
+ADD CONSTRAINT [FK_ReportRptReportRoles]
+    FOREIGN KEY ([ReportId])
+    REFERENCES [dbo].[Reports]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ReportRptReportRoles'
+CREATE INDEX [IX_FK_ReportRptReportRoles]
+ON [dbo].[RptReportRoles1]
+    ([ReportId]);
+GO
+
+-- Creating foreign key on [ReportId] in table 'RptReportCats'
+ALTER TABLE [dbo].[RptReportCats]
+ADD CONSTRAINT [FK_ReportRptReportCat]
+    FOREIGN KEY ([ReportId])
+    REFERENCES [dbo].[Reports]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ReportRptReportCat'
+CREATE INDEX [IX_FK_ReportRptReportCat]
+ON [dbo].[RptReportCats]
+    ([ReportId]);
+GO
+
+-- Creating foreign key on [SteelMainCatId] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [FK_SteelMainCatInvItemSpec_Steel]
+    FOREIGN KEY ([SteelMainCatId])
+    REFERENCES [dbo].[SteelMainCats]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SteelMainCatInvItemSpec_Steel'
+CREATE INDEX [IX_FK_SteelMainCatInvItemSpec_Steel]
+ON [dbo].[InvItemSpec_Steel]
+    ([SteelMainCatId]);
+GO
+
+-- Creating foreign key on [SteelSubCatId] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [FK_SteelSubCatInvItemSpec_Steel]
+    FOREIGN KEY ([SteelSubCatId])
+    REFERENCES [dbo].[SteelSubCats]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SteelSubCatInvItemSpec_Steel'
+CREATE INDEX [IX_FK_SteelSubCatInvItemSpec_Steel]
+ON [dbo].[InvItemSpec_Steel]
+    ([SteelSubCatId]);
+GO
+
+-- Creating foreign key on [SteelBrandId] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [FK_SteelBrandInvItemSpec_Steel]
+    FOREIGN KEY ([SteelBrandId])
+    REFERENCES [dbo].[SteelBrands]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SteelBrandInvItemSpec_Steel'
+CREATE INDEX [IX_FK_SteelBrandInvItemSpec_Steel]
+ON [dbo].[InvItemSpec_Steel]
+    ([SteelBrandId]);
+GO
+
+-- Creating foreign key on [SteelMaterialId] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [FK_SteelMaterialInvItemSpec_Steel]
+    FOREIGN KEY ([SteelMaterialId])
+    REFERENCES [dbo].[SteelMaterials]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SteelMaterialInvItemSpec_Steel'
+CREATE INDEX [IX_FK_SteelMaterialInvItemSpec_Steel]
+ON [dbo].[InvItemSpec_Steel]
+    ([SteelMaterialId]);
+GO
+
+-- Creating foreign key on [SteelOriginId] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [FK_SteelOriginInvItemSpec_Steel]
+    FOREIGN KEY ([SteelOriginId])
+    REFERENCES [dbo].[SteelOrigins]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SteelOriginInvItemSpec_Steel'
+CREATE INDEX [IX_FK_SteelOriginInvItemSpec_Steel]
+ON [dbo].[InvItemSpec_Steel]
+    ([SteelOriginId]);
+GO
+
+-- Creating foreign key on [SteeelMaterialGradeId] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [FK_SteeelMaterialGradeInvItemSpec_Steel]
+    FOREIGN KEY ([SteeelMaterialGradeId])
+    REFERENCES [dbo].[SteeelMaterialGrades]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SteeelMaterialGradeInvItemSpec_Steel'
+CREATE INDEX [IX_FK_SteeelMaterialGradeInvItemSpec_Steel]
+ON [dbo].[InvItemSpec_Steel]
+    ([SteeelMaterialGradeId]);
+GO
+
+-- Creating foreign key on [SteelQtyUnitId] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [FK_SteelQtyUnitInvItemSpec_Steel]
+    FOREIGN KEY ([SteelQtyUnitId])
+    REFERENCES [dbo].[SteelQtyUnits]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SteelQtyUnitInvItemSpec_Steel'
+CREATE INDEX [IX_FK_SteelQtyUnitInvItemSpec_Steel]
+ON [dbo].[InvItemSpec_Steel]
+    ([SteelQtyUnitId]);
 GO
 
 -- --------------------------------------------------

@@ -65,5 +65,12 @@ namespace WebDBSchema.Models
         public virtual DbSet<RptReportRole> RptReportRoles1 { get; set; }
         public virtual DbSet<RptAccessType> RptAccessTypes { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
+        public virtual DbSet<SteelMainCat> SteelMainCats { get; set; }
+        public virtual DbSet<SteelSubCat> SteelSubCats { get; set; }
+        public virtual DbSet<SteelBrand> SteelBrands { get; set; }
+        public virtual DbSet<SteelMaterial> SteelMaterials { get; set; }
+        public virtual DbSet<SteelOrigin> SteelOrigins { get; set; }
+        public virtual DbSet<SteeelMaterialGrade> SteeelMaterialGrades { get; set; }
+        public virtual DbSet<SteelQtyUnit> SteelQtyUnits { get; set; }
     }
 }
