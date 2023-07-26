@@ -8,20 +8,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.DTO.Supplier;
+using CoreLib.Interfaces;
+using Inventory;
+using Microsoft.Extensions.Logging;
 
-namespace InvWeb.Pages.Masterfiles.SupplierItems
+namespace InvWeb.Suppliers.Supplier
 {
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<EditModel> _logger;
+        private readonly ISupplierServices supplierServices;
 
-        public EditModel(ApplicationDbContext context)
+        public EditModel(ApplicationDbContext context, ILogger<EditModel> logger)
         {
             _context = context;
+            _logger = logger;
+            supplierServices = new SupplierServices(_context, _logger);
         }
 
         [BindProperty]
-        public InvSupplierItem InvSupplierItem { get; set; }
+        public SupplierCreateEditModel SupplierEditModel { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,16 +38,17 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
                 return NotFound();
             }
 
-            InvSupplierItem = await _context.InvSupplierItems
-                .Include(i => i.InvItem)
-                .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == id);
+            if (SupplierEditModel == null)
+            {
+                SupplierEditModel = new SupplierCreateEditModel();
+            }
 
-            if (InvSupplierItem == null)
+            SupplierEditModel.InvSupplier = await supplierServices.GetInvSupplierByIdAsync((int)id);
+
+            if (SupplierEditModel.InvSupplier == null)
             {
                 return NotFound();
             }
-            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
-            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
             return Page();
         }
 
@@ -52,15 +61,15 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
                 return Page();
             }
 
-            _context.Attach(InvSupplierItem).State = EntityState.Modified;
+            supplierServices.UpdateInvSupplier(SupplierEditModel.InvSupplier);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await supplierServices.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvSupplierItemExists(InvSupplierItem.Id))
+                if (!supplierServices.InvSupplierExists(SupplierEditModel.InvSupplier.Id))
                 {
                     return NotFound();
                 }
@@ -70,12 +79,8 @@ namespace InvWeb.Pages.Masterfiles.SupplierItems
                 }
             }
 
-            return RedirectToPage("./Index", new { id = InvSupplierItem.InvSupplierId });
+            return RedirectToPage("./Index");
         }
 
-        private bool InvSupplierItemExists(int id)
-        {
-            return _context.InvSupplierItems.Any(e => e.Id == id);
-        }
     }
 }

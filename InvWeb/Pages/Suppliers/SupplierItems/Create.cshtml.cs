@@ -8,16 +8,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CoreLib.Inventory.Models;
 using System.Security.Claims;
 using CoreLib.Models.Inventory;
+using CoreLib.Interfaces;
+using Inventory;
+using Microsoft.Extensions.Logging;
+using CoreLib;
 
-namespace InvWeb.Pages.Masterfiles.SupplierItems
+namespace InvWeb.Suppliers.SupplierItems
 {
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CreateModel> _logger;
+        private readonly ISupItemServices supItemServices;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
+            _logger = logger;
+            supItemServices = new SupItemServices(_context, _logger);
         }
 
         public IActionResult OnGet(int? id)

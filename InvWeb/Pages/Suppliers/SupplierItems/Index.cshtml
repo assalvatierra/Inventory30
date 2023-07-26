@@ -1,6 +1,6 @@
 ﻿@page "{id:int?}"
 
-@model InvWeb.Pages.Masterfiles.SupplierItems.IndexModel
+@model InvWeb.Suppliers.SupplierItems.IndexModel
 
 @{
     ViewData["Title"] = "Index";
@@ -17,7 +17,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>
+            @*    <th>
                     @Html.DisplayNameFor(model => model.InvSupplierItem[0].InvItem.Description)
                 </th>
                 <th>
@@ -34,14 +34,14 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.InvSupplierItem[0].LeadTime)
-                </th>
+                </th>*@
                 <th></th>
             </tr>
         </thead>
         <tbody>
 
 
-            @foreach (var item in Model.InvSupplierItem)
+          @*  @foreach (var item in Model.InvSupplierItem)
             {
                 <tr>
                     <td>
@@ -68,7 +68,7 @@
                         <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
-            }
+            }*@
         </tbody>
     </table>
 

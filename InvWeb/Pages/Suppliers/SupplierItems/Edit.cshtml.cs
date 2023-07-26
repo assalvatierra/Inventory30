@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
 
-namespace InvWeb.Pages.Masterfiles.Supplier
+namespace InvWeb.Suppliers.SupplierItems
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace InvWeb.Pages.Masterfiles.Supplier
         }
 
         [BindProperty]
-        public InvSupplier InvSupplier { get; set; }
+        public InvSupplierItem InvSupplierItem { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,12 +30,16 @@ namespace InvWeb.Pages.Masterfiles.Supplier
                 return NotFound();
             }
 
-            InvSupplier = await _context.InvSuppliers.FirstOrDefaultAsync(m => m.Id == id);
+            InvSupplierItem = await _context.InvSupplierItems
+                .Include(i => i.InvItem)
+                .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvSupplier == null)
+            if (InvSupplierItem == null)
             {
                 return NotFound();
             }
+            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+            ViewData["InvSupplierId"] = new SelectList(_context.InvSuppliers, "Id", "Name");
             return Page();
         }
 
@@ -48,7 +52,7 @@ namespace InvWeb.Pages.Masterfiles.Supplier
                 return Page();
             }
 
-            _context.Attach(InvSupplier).State = EntityState.Modified;
+            _context.Attach(InvSupplierItem).State = EntityState.Modified;
 
             try
             {
@@ -56,7 +60,7 @@ namespace InvWeb.Pages.Masterfiles.Supplier
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvSupplierExists(InvSupplier.Id))
+                if (!InvSupplierItemExists(InvSupplierItem.Id))
                 {
                     return NotFound();
                 }
@@ -66,12 +70,12 @@ namespace InvWeb.Pages.Masterfiles.Supplier
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { id = InvSupplierItem.InvSupplierId });
         }
 
-        private bool InvSupplierExists(int id)
+        private bool InvSupplierItemExists(int id)
         {
-            return _context.InvSuppliers.Any(e => e.Id == id);
+            return _context.InvSupplierItems.Any(e => e.Id == id);
         }
     }
 }

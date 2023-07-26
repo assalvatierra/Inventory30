@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
 
-namespace InvWeb.Pages.Masterfiles.Supplier
+namespace InvWeb.Suppliers.SupplierItems
 {
     public class DeleteModel : PageModel
     {
@@ -20,7 +20,7 @@ namespace InvWeb.Pages.Masterfiles.Supplier
         }
 
         [BindProperty]
-        public InvSupplier InvSupplier { get; set; }
+        public InvSupplierItem InvSupplierItem { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,9 +29,11 @@ namespace InvWeb.Pages.Masterfiles.Supplier
                 return NotFound();
             }
 
-            InvSupplier = await _context.InvSuppliers.FirstOrDefaultAsync(m => m.Id == id);
+            InvSupplierItem = await _context.InvSupplierItems
+                .Include(i => i.InvItem)
+                .Include(i => i.InvSupplier).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvSupplier == null)
+            if (InvSupplierItem == null)
             {
                 return NotFound();
             }
@@ -45,15 +47,15 @@ namespace InvWeb.Pages.Masterfiles.Supplier
                 return NotFound();
             }
 
-            InvSupplier = await _context.InvSuppliers.FindAsync(id);
+            InvSupplierItem = await _context.InvSupplierItems.FindAsync(id);
 
-            if (InvSupplier != null)
+            if (InvSupplierItem != null)
             {
-                _context.InvSuppliers.Remove(InvSupplier);
+                _context.InvSupplierItems.Remove(InvSupplierItem);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Index", new { id = InvSupplierItem.InvSupplierId });
         }
     }
 }
