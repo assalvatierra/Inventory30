@@ -19,7 +19,8 @@ namespace CoreLib
         public void CreateInvSupplier(InvSupplierItem invSupplierItem);
         public void DeleteInvSupplier(InvSupplierItem invSupplierItem);
         public void UpdateInvSupplier(InvSupplierItem invSupplierItem);
-        public Task<SupplierItemCreateEditModel> GetSupplierItemIndexModel_OnIndexGet(SupplierItemCreateEditModel supplierIndex);
+        public Task<SupplierItemIndexModel> GetSupplierItemIndexModel_OnIndexGet(SupplierItemIndexModel supplierIndex);
+        public Task<SupplierItemCreateEditModel> GetSupplierItemIndexModel_OnCreateGet(SupplierItemCreateEditModel supplierIndex);
         public bool InvSupplierExists(int id);
         public Task SaveChangesAsync();
 

@@ -56,7 +56,17 @@ namespace Inventory
             throw new NotImplementedException();
         }
 
+        public Task<SupplierItemCreateEditModel> GetSupplierItemIndexModel_OnCreateGet(SupplierItemCreateEditModel supplierIndex)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<SupplierItemCreateEditModel> GetSupplierItemIndexModel_OnIndexGet(SupplierItemCreateEditModel supplierIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SupplierItemIndexModel> GetSupplierItemIndexModel_OnIndexGet(SupplierItemIndexModel supplierIndex)
         {
             throw new NotImplementedException();
         }
