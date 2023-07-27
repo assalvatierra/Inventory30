@@ -338,6 +338,27 @@
     <Compile Include="Models\RptReportUser.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SteeelMaterialGrade.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SteelBrand.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SteelMainCat.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SteelMaterial.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SteelOrigin.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SteelQtyUnit.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SteelSubCat.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Stores\StoreInvCount.cs" />
     <Compile Include="Models\Users\AppUser.cs" />
     <Compile Include="Models\Users\AppUserRole.cs" />
@@ -378,6 +399,8 @@
     <Content Include="Models\SQL Scripts\Vpro\Migration\202210.v1.003.Added.CustomSpecs.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.001.Initial.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.002.InitialRoles.sql" />
+    <Content Include="Models\SQL Scripts\VSteel\202307.v1.005.AddReports.sql" />
+    <Content Include="Models\SQL Scripts\VSteel\202307.v1.004.UpdateSpecSteel.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.003.SampleData.VSteel.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.000.AspNetUsers.Table.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.000.Setup.Table.sql" />
