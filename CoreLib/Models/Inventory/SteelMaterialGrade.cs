@@ -9,7 +9,7 @@
 
 namespace CoreLib.Inventory.Models
 {
-    public class SteeelMaterialGrade
+    public class SteelMaterialGrade
     {
         public int Id { get; set; }
         public string Name { get; set; }

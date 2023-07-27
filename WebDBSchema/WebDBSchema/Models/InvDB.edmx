@@ -51,8 +51,7 @@
     <EntitySet Name="SteelBrands" EntityType="InvDB.Store.SteelBrands" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SteelMaterials" EntityType="InvDB.Store.SteelMaterials" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SteelOrigins" EntityType="InvDB.Store.SteelOrigins" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SteeelMaterialGrades" EntityType="InvDB.Store.SteeelMaterialGrades" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SteelQtyUnits" EntityType="InvDB.Store.SteelQtyUnits" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SteelMaterialGrades" EntityType="InvDB.Store.SteelMaterialGrades" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -289,12 +288,8 @@
       <End Role="SteelOrigin" EntitySet="SteelOrigins" />
       <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
     </AssociationSet>
-    <AssociationSet Name="SteeelMaterialGradeInvItemSpec_Steel" Association="InvDB.Store.SteeelMaterialGradeInvItemSpec_Steel">
-      <End Role="SteeelMaterialGrade" EntitySet="SteeelMaterialGrades" />
-      <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
-    </AssociationSet>
-    <AssociationSet Name="SteelQtyUnitInvItemSpec_Steel" Association="InvDB.Store.SteelQtyUnitInvItemSpec_Steel">
-      <End Role="SteelQtyUnit" EntitySet="SteelQtyUnits" />
+    <AssociationSet Name="SteelMaterialGradeInvItemSpec_Steel" Association="InvDB.Store.SteelMaterialGradeInvItemSpec_Steel">
+      <End Role="SteelMaterialGrade" EntitySet="SteelMaterialGrades" />
       <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
     </AssociationSet>
   </EntityContainer>
@@ -567,8 +562,7 @@
     <Property Name="SteelBrandId" Type="int" Nullable="false" />
     <Property Name="SteelMaterialId" Type="int" Nullable="false" />
     <Property Name="SteelOriginId" Type="int" Nullable="false" />
-    <Property Name="SteeelMaterialGradeId" Type="int" Nullable="false" />
-    <Property Name="SteelQtyUnitId" Type="int" Nullable="false" />
+    <Property Name="SteelMaterialGradeId" Type="int" Nullable="false" />
     <Property Name="WtKgm" Type="decimal" Nullable="false" />
     <Property Name="WtKgpc" Type="decimal" Nullable="false" />
   </EntityType>
@@ -718,20 +712,12 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="40" />
     <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
   </EntityType>
-  <EntityType Name="SteeelMaterialGrades">
+  <EntityType Name="SteelMaterialGrades">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="60" />
-    <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
-  </EntityType>
-  <EntityType Name="SteelQtyUnits">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
@@ -1442,27 +1428,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="SteeelMaterialGradeInvItemSpec_Steel">
-    <End Role="SteeelMaterialGrade" Type="InvDB.Store.SteeelMaterialGrades" Multiplicity="1" />
+  <Association Name="SteelMaterialGradeInvItemSpec_Steel">
+    <End Role="SteelMaterialGrade" Type="InvDB.Store.SteelMaterialGrades" Multiplicity="1" />
     <End Role="InvItemSpec_Steel" Type="InvDB.Store.InvItemSpec_Steel" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="SteeelMaterialGrade">
+      <Principal Role="SteelMaterialGrade">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="InvItemSpec_Steel">
-        <PropertyRef Name="SteeelMaterialGradeId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="SteelQtyUnitInvItemSpec_Steel">
-    <End Role="SteelQtyUnit" Type="InvDB.Store.SteelQtyUnits" Multiplicity="1" />
-    <End Role="InvItemSpec_Steel" Type="InvDB.Store.InvItemSpec_Steel" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SteelQtyUnit">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="InvItemSpec_Steel">
-        <PropertyRef Name="SteelQtyUnitId" />
+        <PropertyRef Name="SteelMaterialGradeId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1748,18 +1722,13 @@
             <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
           </AssociationSet>
           <EntitySet Name="SteelOrigins" EntityType="InvDB.SteelOrigin" />
-          <EntitySet Name="SteeelMaterialGrades" EntityType="InvDB.SteeelMaterialGrade" />
-          <EntitySet Name="SteelQtyUnits" EntityType="InvDB.SteelQtyUnit" />
+          <EntitySet Name="SteelMaterialGrades" EntityType="InvDB.SteelMaterialGrade" />
           <AssociationSet Name="SteelOriginInvItemSpec_Steel" Association="InvDB.SteelOriginInvItemSpec_Steel">
             <End Role="SteelOrigin" EntitySet="SteelOrigins" />
             <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
           </AssociationSet>
-          <AssociationSet Name="SteeelMaterialGradeInvItemSpec_Steel" Association="InvDB.SteeelMaterialGradeInvItemSpec_Steel">
-            <End Role="SteeelMaterialGrade" EntitySet="SteeelMaterialGrades" />
-            <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
-          </AssociationSet>
-          <AssociationSet Name="SteelQtyUnitInvItemSpec_Steel" Association="InvDB.SteelQtyUnitInvItemSpec_Steel">
-            <End Role="SteelQtyUnit" EntitySet="SteelQtyUnits" />
+          <AssociationSet Name="SteelMaterialGradeInvItemSpec_Steel" Association="InvDB.SteelMaterialGradeInvItemSpec_Steel">
+            <End Role="SteelMaterialGrade" EntitySet="SteelMaterialGrades" />
             <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
           </AssociationSet>
         </EntityContainer>
@@ -2602,12 +2571,10 @@
           <Property Name="SteelMaterialId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="SteelOrigin" Relationship="InvDB.SteelOriginInvItemSpec_Steel" FromRole="InvItemSpec_Steel" ToRole="SteelOrigin" />
           <Property Name="SteelOriginId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="SteeelMaterialGrade" Relationship="InvDB.SteeelMaterialGradeInvItemSpec_Steel" FromRole="InvItemSpec_Steel" ToRole="SteeelMaterialGrade" />
-          <Property Name="SteeelMaterialGradeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="SteelQtyUnit" Relationship="InvDB.SteelQtyUnitInvItemSpec_Steel" FromRole="InvItemSpec_Steel" ToRole="SteelQtyUnit" />
-          <Property Name="SteelQtyUnitId" Type="Int32" Nullable="false" />
+          <Property Name="SteelMaterialGradeId" Type="Int32" Nullable="false" />
           <Property Name="WtKgm" Type="Decimal" Nullable="false" />
           <Property Name="WtKgpc" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="SteelMaterialGrade" Relationship="InvDB.SteelMaterialGradeInvItemSpec_Steel" FromRole="InvItemSpec_Steel" ToRole="SteelMaterialGrade" />
         </EntityType>
         <EntityType Name="InvItemSysDefinedSpecs">
           <Key>
@@ -2999,23 +2966,14 @@
           <NavigationProperty Name="InvItemSpec_Steel" Relationship="InvDB.SteelOriginInvItemSpec_Steel" FromRole="SteelOrigin" ToRole="InvItemSpec_Steel" />
           <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
         </EntityType>
-        <EntityType Name="SteeelMaterialGrade">
+        <EntityType Name="SteelMaterialGrade">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="60" />
-          <NavigationProperty Name="InvItemSpec_Steel" Relationship="InvDB.SteeelMaterialGradeInvItemSpec_Steel" FromRole="SteeelMaterialGrade" ToRole="InvItemSpec_Steel" />
           <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
-        </EntityType>
-        <EntityType Name="SteelQtyUnit">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="60" />
-          <NavigationProperty Name="InvItemSpec_Steel" Relationship="InvDB.SteelQtyUnitInvItemSpec_Steel" FromRole="SteelQtyUnit" ToRole="InvItemSpec_Steel" />
-          <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
+          <NavigationProperty Name="InvItemSpec_Steel" Relationship="InvDB.SteelMaterialGradeInvItemSpec_Steel" FromRole="SteelMaterialGrade" ToRole="InvItemSpec_Steel" />
         </EntityType>
         <Association Name="SteelOriginInvItemSpec_Steel">
           <End Type="InvDB.SteelOrigin" Role="SteelOrigin" Multiplicity="1" />
@@ -3029,27 +2987,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="SteeelMaterialGradeInvItemSpec_Steel">
-          <End Type="InvDB.SteeelMaterialGrade" Role="SteeelMaterialGrade" Multiplicity="1" />
+        <Association Name="SteelMaterialGradeInvItemSpec_Steel">
+          <End Type="InvDB.SteelMaterialGrade" Role="SteelMaterialGrade" Multiplicity="1" />
           <End Type="InvDB.InvItemSpec_Steel" Role="InvItemSpec_Steel" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SteeelMaterialGrade">
+            <Principal Role="SteelMaterialGrade">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="InvItemSpec_Steel">
-              <PropertyRef Name="SteeelMaterialGradeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="SteelQtyUnitInvItemSpec_Steel">
-          <End Type="InvDB.SteelQtyUnit" Role="SteelQtyUnit" Multiplicity="1" />
-          <End Type="InvDB.InvItemSpec_Steel" Role="InvItemSpec_Steel" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SteelQtyUnit">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="InvItemSpec_Steel">
-              <PropertyRef Name="SteelQtyUnitId" />
+              <PropertyRef Name="SteelMaterialGradeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3354,8 +3300,7 @@
           <ScalarProperty Name="SteelBrandId" ColumnName="SteelBrandId" />
           <ScalarProperty Name="SteelMaterialId" ColumnName="SteelMaterialId" />
           <ScalarProperty Name="SteelOriginId" ColumnName="SteelOriginId" />
-          <ScalarProperty Name="SteeelMaterialGradeId" ColumnName="SteeelMaterialGradeId" />
-          <ScalarProperty Name="SteelQtyUnitId" ColumnName="SteelQtyUnitId" />
+          <ScalarProperty Name="SteelMaterialGradeId" ColumnName="SteelMaterialGradeId" />
           <ScalarProperty Name="WtKgm" ColumnName="WtKgm" />
           <ScalarProperty Name="WtKgpc" ColumnName="WtKgpc" />
         </MappingFragment>
@@ -3524,18 +3469,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="SteeelMaterialGrades">
-      <EntityTypeMapping TypeName="IsTypeOf(InvDB.SteeelMaterialGrade)">
-        <MappingFragment StoreEntitySet="SteeelMaterialGrades">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Code" ColumnName="Code" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SteelQtyUnits">
-      <EntityTypeMapping TypeName="IsTypeOf(InvDB.SteelQtyUnit)">
-        <MappingFragment StoreEntitySet="SteelQtyUnits">
+    <EntitySetMapping Name="SteelMaterialGrades">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.SteelMaterialGrade)">
+        <MappingFragment StoreEntitySet="SteelMaterialGrades">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Code" ColumnName="Code" />

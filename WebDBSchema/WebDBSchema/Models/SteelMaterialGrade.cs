@@ -12,10 +12,10 @@ namespace WebDBSchema.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SteeelMaterialGrade
+    public partial class SteelMaterialGrade
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SteeelMaterialGrade()
+        public SteelMaterialGrade()
         {
             this.InvItemSpec_Steel = new HashSet<InvItemSpec_Steel>();
         }

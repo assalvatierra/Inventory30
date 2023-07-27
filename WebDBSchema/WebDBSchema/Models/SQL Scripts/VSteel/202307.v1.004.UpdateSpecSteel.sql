@@ -18,8 +18,7 @@ ALTER TABLE [dbo].[InvItemSpec_Steel]
     [SteelBrandId] int   ,
     [SteelMaterialId] int,
     [SteelOriginId] int  ,
-    [SteeelMaterialGradeId] int,
-    [SteelQtyUnitId] int  ,
+    [SteelMaterialGradeId] int,
     [WtKgm] decimal(18,0) ,
     [WtKgpc] decimal(18,0) ;
 
@@ -64,26 +63,25 @@ CREATE TABLE [dbo].[SteelOrigins] (
 );
 GO
 
--- Creating table 'SteeelMaterialGrades'
-CREATE TABLE [dbo].[SteeelMaterialGrades] (
+-- Creating table 'SteelMaterialGrades'
+CREATE TABLE [dbo].[SteelMaterialGrades] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(60)  NOT NULL,
     [Code] nvarchar(20)  NULL
 );
 GO
 
--- Creating table 'SteelQtyUnits'
-CREATE TABLE [dbo].[SteelQtyUnits] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(60)  NOT NULL,
-    [Code] nvarchar(20)  NULL
-);
-GO
 
 
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
+
+-- Creating primary key on [Id] in table 'Reports'
+ALTER TABLE [dbo].[Reports]
+ADD CONSTRAINT [PK_Reports]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
 
 -- Creating primary key on [Id] in table 'SteelMainCats'
 ALTER TABLE [dbo].[SteelMainCats]
@@ -116,15 +114,56 @@ ADD CONSTRAINT [PK_SteelOrigins]
 GO
 
 -- Creating primary key on [Id] in table 'SteeelMaterialGrades'
-ALTER TABLE [dbo].[SteeelMaterialGrades]
-ADD CONSTRAINT [PK_SteeelMaterialGrades]
+ALTER TABLE [dbo].[SteelMaterialGrades]
+ADD CONSTRAINT [PK_SteelMaterialGrades]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 
 
--- Creating primary key on [Id] in table 'SteelQtyUnits'
-ALTER TABLE [dbo].[SteelQtyUnits]
-ADD CONSTRAINT [PK_SteelQtyUnits]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
+
+-- Creating foreign key on [ReportId] in table 'RptReportUsers'
+ALTER TABLE [dbo].[RptReportUsers]
+ADD CONSTRAINT [FK_ReportRptReportUser]
+    FOREIGN KEY ([ReportId])
+    REFERENCES [dbo].[Reports]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ReportRptReportUser'
+CREATE INDEX [IX_FK_ReportRptReportUser]
+ON [dbo].[RptReportUsers]
+    ([ReportId]);
+GO
+
+-- Creating foreign key on [ReportId] in table 'RptReportRoles1'
+ALTER TABLE [dbo].[RptReportRoles1]
+ADD CONSTRAINT [FK_ReportRptReportRoles]
+    FOREIGN KEY ([ReportId])
+    REFERENCES [dbo].[Reports]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ReportRptReportRoles'
+CREATE INDEX [IX_FK_ReportRptReportRoles]
+ON [dbo].[RptReportRoles1]
+    ([ReportId]);
+GO
+
+-- Creating foreign key on [ReportId] in table 'RptReportCats'
+ALTER TABLE [dbo].[RptReportCats]
+ADD CONSTRAINT [FK_ReportRptReportCat]
+    FOREIGN KEY ([ReportId])
+    REFERENCES [dbo].[Reports]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ReportRptReportCat'
+CREATE INDEX [IX_FK_ReportRptReportCat]
+ON [dbo].[RptReportCats]
+    ([ReportId]);
+GO
 
 -- Creating foreign key on [SteelMainCatId] in table 'InvItemSpec_Steel'
 ALTER TABLE [dbo].[InvItemSpec_Steel]
@@ -201,32 +240,17 @@ ON [dbo].[InvItemSpec_Steel]
     ([SteelOriginId]);
 GO
 
--- Creating foreign key on [SteeelMaterialGradeId] in table 'InvItemSpec_Steel'
+-- Creating foreign key on [SteelMaterialGradeId] in table 'InvItemSpec_Steel'
 ALTER TABLE [dbo].[InvItemSpec_Steel]
-ADD CONSTRAINT [FK_SteeelMaterialGradeInvItemSpec_Steel]
-    FOREIGN KEY ([SteeelMaterialGradeId])
-    REFERENCES [dbo].[SteeelMaterialGrades]
+ADD CONSTRAINT [FK_SteelMaterialGradeInvItemSpec_Steel]
+    FOREIGN KEY ([SteelMaterialGradeId])
+    REFERENCES [dbo].[SteelMaterialGrades]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_SteeelMaterialGradeInvItemSpec_Steel'
-CREATE INDEX [IX_FK_SteeelMaterialGradeInvItemSpec_Steel]
+-- Creating non-clustered index for FOREIGN KEY 'FK_SteelMaterialGradeInvItemSpec_Steel'
+CREATE INDEX [IX_FK_SteelMaterialGradeInvItemSpec_Steel]
 ON [dbo].[InvItemSpec_Steel]
-    ([SteeelMaterialGradeId]);
-GO
-
--- Creating foreign key on [SteelQtyUnitId] in table 'InvItemSpec_Steel'
-ALTER TABLE [dbo].[InvItemSpec_Steel]
-ADD CONSTRAINT [FK_SteelQtyUnitInvItemSpec_Steel]
-    FOREIGN KEY ([SteelQtyUnitId])
-    REFERENCES [dbo].[SteelQtyUnits]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_SteelQtyUnitInvItemSpec_Steel'
-CREATE INDEX [IX_FK_SteelQtyUnitInvItemSpec_Steel]
-ON [dbo].[InvItemSpec_Steel]
-    ([SteelQtyUnitId]);
+    ([SteelMaterialGradeId]);
 GO

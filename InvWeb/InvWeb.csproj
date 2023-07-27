@@ -64,6 +64,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Services\" />
+    <Folder Include="Pages\Masterfiles\ItemSpecSteel\" />
   </ItemGroup>
 
 </Project>

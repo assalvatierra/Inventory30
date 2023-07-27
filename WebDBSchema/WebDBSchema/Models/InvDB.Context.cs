@@ -70,7 +70,6 @@ namespace WebDBSchema.Models
         public virtual DbSet<SteelBrand> SteelBrands { get; set; }
         public virtual DbSet<SteelMaterial> SteelMaterials { get; set; }
         public virtual DbSet<SteelOrigin> SteelOrigins { get; set; }
-        public virtual DbSet<SteeelMaterialGrade> SteeelMaterialGrades { get; set; }
-        public virtual DbSet<SteelQtyUnit> SteelQtyUnits { get; set; }
+        public virtual DbSet<SteelMaterialGrade> SteelMaterialGrades { get; set; }
     }
 }

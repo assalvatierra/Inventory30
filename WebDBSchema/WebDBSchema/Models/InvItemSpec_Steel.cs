@@ -23,8 +23,7 @@ namespace WebDBSchema.Models
         public int SteelBrandId { get; set; }
         public int SteelMaterialId { get; set; }
         public int SteelOriginId { get; set; }
-        public int SteeelMaterialGradeId { get; set; }
-        public int SteelQtyUnitId { get; set; }
+        public int SteelMaterialGradeId { get; set; }
         public decimal WtKgm { get; set; }
         public decimal WtKgpc { get; set; }
     
@@ -34,7 +33,6 @@ namespace WebDBSchema.Models
         public virtual SteelBrand SteelBrand { get; set; }
         public virtual SteelMaterial SteelMaterial { get; set; }
         public virtual SteelOrigin SteelOrigin { get; set; }
-        public virtual SteeelMaterialGrade SteeelMaterialGrade { get; set; }
-        public virtual SteelQtyUnit SteelQtyUnit { get; set; }
+        public virtual SteelMaterialGrade SteelMaterialGrade { get; set; }
     }
 }

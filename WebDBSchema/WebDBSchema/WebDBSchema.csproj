@@ -338,9 +338,6 @@
     <Compile Include="Models\RptReportUser.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SteeelMaterialGrade.cs">
-      <DependentUpon>InvDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\SteelBrand.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
@@ -350,10 +347,10 @@
     <Compile Include="Models\SteelMaterial.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SteelOrigin.cs">
+    <Compile Include="Models\SteelMaterialGrade.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SteelQtyUnit.cs">
+    <Compile Include="Models\SteelOrigin.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SteelSubCat.cs">

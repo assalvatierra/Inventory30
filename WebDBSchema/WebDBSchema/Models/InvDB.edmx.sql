@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/26/2023 17:32:22
+-- Date Created: 07/27/2023 10:49:07
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -192,11 +192,8 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SteelOriginInvItemSpec_Steel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelOriginInvItemSpec_Steel];
 GO
-IF OBJECT_ID(N'[dbo].[FK_SteeelMaterialGradeInvItemSpec_Steel]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteeelMaterialGradeInvItemSpec_Steel];
-GO
-IF OBJECT_ID(N'[dbo].[FK_SteelQtyUnitInvItemSpec_Steel]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelQtyUnitInvItemSpec_Steel];
+IF OBJECT_ID(N'[dbo].[FK_SteelMaterialGradeInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelMaterialGradeInvItemSpec_Steel];
 GO
 
 -- --------------------------------------------------
@@ -338,11 +335,8 @@ GO
 IF OBJECT_ID(N'[dbo].[SteelOrigins]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SteelOrigins];
 GO
-IF OBJECT_ID(N'[dbo].[SteeelMaterialGrades]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[SteeelMaterialGrades];
-GO
-IF OBJECT_ID(N'[dbo].[SteelQtyUnits]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[SteelQtyUnits];
+IF OBJECT_ID(N'[dbo].[SteelMaterialGrades]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SteelMaterialGrades];
 GO
 
 -- --------------------------------------------------
@@ -616,8 +610,7 @@ CREATE TABLE [dbo].[InvItemSpec_Steel] (
     [SteelBrandId] int  NOT NULL,
     [SteelMaterialId] int  NOT NULL,
     [SteelOriginId] int  NOT NULL,
-    [SteeelMaterialGradeId] int  NOT NULL,
-    [SteelQtyUnitId] int  NOT NULL,
+    [SteelMaterialGradeId] int  NOT NULL,
     [WtKgm] decimal(18,0)  NOT NULL,
     [WtKgpc] decimal(18,0)  NOT NULL
 );
@@ -769,16 +762,8 @@ CREATE TABLE [dbo].[SteelOrigins] (
 );
 GO
 
--- Creating table 'SteeelMaterialGrades'
-CREATE TABLE [dbo].[SteeelMaterialGrades] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(60)  NOT NULL,
-    [Code] nvarchar(20)  NULL
-);
-GO
-
--- Creating table 'SteelQtyUnits'
-CREATE TABLE [dbo].[SteelQtyUnits] (
+-- Creating table 'SteelMaterialGrades'
+CREATE TABLE [dbo].[SteelMaterialGrades] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(60)  NOT NULL,
     [Code] nvarchar(20)  NULL
@@ -1059,15 +1044,9 @@ ADD CONSTRAINT [PK_SteelOrigins]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'SteeelMaterialGrades'
-ALTER TABLE [dbo].[SteeelMaterialGrades]
-ADD CONSTRAINT [PK_SteeelMaterialGrades]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'SteelQtyUnits'
-ALTER TABLE [dbo].[SteelQtyUnits]
-ADD CONSTRAINT [PK_SteelQtyUnits]
+-- Creating primary key on [Id] in table 'SteelMaterialGrades'
+ALTER TABLE [dbo].[SteelMaterialGrades]
+ADD CONSTRAINT [PK_SteelMaterialGrades]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1960,34 +1939,19 @@ ON [dbo].[InvItemSpec_Steel]
     ([SteelOriginId]);
 GO
 
--- Creating foreign key on [SteeelMaterialGradeId] in table 'InvItemSpec_Steel'
+-- Creating foreign key on [SteelMaterialGradeId] in table 'InvItemSpec_Steel'
 ALTER TABLE [dbo].[InvItemSpec_Steel]
-ADD CONSTRAINT [FK_SteeelMaterialGradeInvItemSpec_Steel]
-    FOREIGN KEY ([SteeelMaterialGradeId])
-    REFERENCES [dbo].[SteeelMaterialGrades]
+ADD CONSTRAINT [FK_SteelMaterialGradeInvItemSpec_Steel]
+    FOREIGN KEY ([SteelMaterialGradeId])
+    REFERENCES [dbo].[SteelMaterialGrades]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_SteeelMaterialGradeInvItemSpec_Steel'
-CREATE INDEX [IX_FK_SteeelMaterialGradeInvItemSpec_Steel]
+-- Creating non-clustered index for FOREIGN KEY 'FK_SteelMaterialGradeInvItemSpec_Steel'
+CREATE INDEX [IX_FK_SteelMaterialGradeInvItemSpec_Steel]
 ON [dbo].[InvItemSpec_Steel]
-    ([SteeelMaterialGradeId]);
-GO
-
--- Creating foreign key on [SteelQtyUnitId] in table 'InvItemSpec_Steel'
-ALTER TABLE [dbo].[InvItemSpec_Steel]
-ADD CONSTRAINT [FK_SteelQtyUnitInvItemSpec_Steel]
-    FOREIGN KEY ([SteelQtyUnitId])
-    REFERENCES [dbo].[SteelQtyUnits]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_SteelQtyUnitInvItemSpec_Steel'
-CREATE INDEX [IX_FK_SteelQtyUnitInvItemSpec_Steel]
-ON [dbo].[InvItemSpec_Steel]
-    ([SteelQtyUnitId]);
+    ([SteelMaterialGradeId]);
 GO
 
 -- --------------------------------------------------

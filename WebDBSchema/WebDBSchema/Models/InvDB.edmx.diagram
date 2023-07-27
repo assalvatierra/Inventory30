@@ -108,11 +108,9 @@
         <EntityTypeShape EntityType="InvDB.SteelMaterial" Width="1.5" PointX="17.375" PointY="6.75" />
         <AssociationConnector Association="InvDB.SteelMaterialInvItemSpec_Steel" />
         <EntityTypeShape EntityType="InvDB.SteelOrigin" Width="1.5" PointX="19.25" PointY="5.625" />
-        <EntityTypeShape EntityType="InvDB.SteeelMaterialGrade" Width="1.5" PointX="19.25" PointY="7.875" />
-        <EntityTypeShape EntityType="InvDB.SteelQtyUnit" Width="1.5" PointX="17.375" PointY="8.875" />
+        <EntityTypeShape EntityType="InvDB.SteelMaterialGrade" Width="1.5" PointX="19.25" PointY="7.875" />
         <AssociationConnector Association="InvDB.SteelOriginInvItemSpec_Steel" />
-        <AssociationConnector Association="InvDB.SteeelMaterialGradeInvItemSpec_Steel" />
-        <AssociationConnector Association="InvDB.SteelQtyUnitInvItemSpec_Steel" />
+        <AssociationConnector Association="InvDB.SteelMaterialGradeInvItemSpec_Steel" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
