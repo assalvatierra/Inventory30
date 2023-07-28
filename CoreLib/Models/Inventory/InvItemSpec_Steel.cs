@@ -34,6 +34,5 @@ namespace CoreLib.Inventory.Models
         public virtual SteelMaterial SteelMaterial { get; set; }
         public virtual SteelOrigin SteelOrigin { get; set; }
         public virtual SteelMaterialGrade SteelMaterialGrade { get; set; }
-        public virtual SteelQtyUnit SteelQtyUnit { get; set; }
     }
 }
