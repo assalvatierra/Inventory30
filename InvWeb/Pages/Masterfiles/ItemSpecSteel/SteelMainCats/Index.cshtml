@@ -1,11 +1,11 @@
 ﻿@page
-@model InvWeb.Pages.Masterfiles.ItemSpecSteel.SteelBrands.IndexModel
+@model InvWeb.Pages.Masterfiles.ItemSpecSteel.SteelMainCats.IndexModel
 
 @{
-    ViewData["Title"] = "SteelBrands";
+    ViewData["Title"] = "SteelMainCats";
 }
 
-<h1>SteelBrands</h1>
+<h1>SteelMainCats</h1>
 
 <p>
     <a asp-page="../../ItemSpecSteel/Index">Back to Steel Specs</a>
@@ -17,16 +17,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SteelBrand[0].Name)
+                @Html.DisplayNameFor(model => model.SteelMainCat[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SteelBrand[0].Code)
+                @Html.DisplayNameFor(model => model.SteelMainCat[0].Code)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.SteelBrand) {
+@foreach (var item in Model.SteelMainCat) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -40,6 +40,6 @@
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-    }
+}
     </tbody>
 </table>

@@ -2,10 +2,17 @@
 @model InvWeb.Pages.Masterfiles.ItemSpecSteel.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Steel Item Specifications";
 }
 
-<h1>Index</h1>
+<h1>Steel Item Specifications</h1>
+
+<a asp-page="./SteelBrands/Index">SteelBrands</a> |
+<a asp-page="./SteelMainCats/Index">SteelMainCats</a> |
+<a asp-page="./SteelSubCats/Index">SteelSubCats</a>|
+<a asp-page="./SteelMaterials/Index">SteelMaterials</a>|
+<a asp-page="./SteelMaterialGrades/Index">SteelMaterialGrades</a>|
+<a asp-page="./SteelOrigins/Index">SteelOrigins</a>
 
 <p>
     <a asp-page="Create">Create New</a>
