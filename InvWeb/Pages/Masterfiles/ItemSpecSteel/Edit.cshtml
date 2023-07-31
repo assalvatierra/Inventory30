@@ -1,0 +1,85 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemSpecSteel.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>InvItemSpec_Steel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InvItemSpec_Steel.Id" />
+            <div class="form-group">
+                <label asp-for="InvItemSpec_Steel.Description" class="control-label"></label>
+                <input asp-for="InvItemSpec_Steel.Description" class="form-control" />
+                <span asp-validation-for="InvItemSpec_Steel.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSpec_Steel.Code" class="control-label"></label>
+                <input asp-for="InvItemSpec_Steel.Code" class="form-control" />
+                <span asp-validation-for="InvItemSpec_Steel.Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSpec_Steel.InvItemId" class="control-label"></label>
+                <select asp-for="InvItemSpec_Steel.InvItemId" class="form-control" asp-items="ViewBag.InvItemId"></select>
+                <span asp-validation-for="InvItemSpec_Steel.InvItemId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSpec_Steel.SteelMainCatId" class="control-label"></label>
+                <select asp-for="InvItemSpec_Steel.SteelMainCatId" class="form-control" asp-items="ViewBag.SteelMainCatId"></select>
+                <span asp-validation-for="InvItemSpec_Steel.SteelMainCatId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSpec_Steel.SteelSubCatId" class="control-label"></label>
+                <select asp-for="InvItemSpec_Steel.SteelSubCatId" class="form-control" asp-items="ViewBag.SteelSubCatId"></select>
+                <span asp-validation-for="InvItemSpec_Steel.SteelSubCatId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSpec_Steel.SteelBrandId" class="control-label"></label>
+                <select asp-for="InvItemSpec_Steel.SteelBrandId" class="form-control" asp-items="ViewBag.SteelBrandId"></select>
+                <span asp-validation-for="InvItemSpec_Steel.SteelBrandId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSpec_Steel.SteelMaterialId" class="control-label"></label>
+                <select asp-for="InvItemSpec_Steel.SteelMaterialId" class="form-control" asp-items="ViewBag.SteelMaterialId"></select>
+                <span asp-validation-for="InvItemSpec_Steel.SteelMaterialId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSpec_Steel.SteelOriginId" class="control-label"></label>
+                <select asp-for="InvItemSpec_Steel.SteelOriginId" class="form-control" asp-items="ViewBag.SteelOriginId"></select>
+                <span asp-validation-for="InvItemSpec_Steel.SteelOriginId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSpec_Steel.SteelMaterialGradeId" class="control-label"></label>
+                <select asp-for="InvItemSpec_Steel.SteelMaterialGradeId" class="form-control" asp-items="ViewBag.SteelMaterialGradeId"></select>
+                <span asp-validation-for="InvItemSpec_Steel.SteelMaterialGradeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSpec_Steel.WtKgm" class="control-label"></label>
+                <input asp-for="InvItemSpec_Steel.WtKgm" class="form-control" />
+                <span asp-validation-for="InvItemSpec_Steel.WtKgm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemSpec_Steel.WtKgpc" class="control-label"></label>
+                <input asp-for="InvItemSpec_Steel.WtKgpc" class="form-control" />
+                <span asp-validation-for="InvItemSpec_Steel.WtKgpc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

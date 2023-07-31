@@ -1,0 +1,88 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemSpecSteel.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>InvItemSpec_Steel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemSpec_Steel.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemSpec_Steel.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemSpec_Steel.Code)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemSpec_Steel.Code)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemSpec_Steel.WtKgm)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemSpec_Steel.WtKgm)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemSpec_Steel.WtKgpc)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemSpec_Steel.WtKgpc)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemSpec_Steel.InvItem)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemSpec_Steel.InvItem.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemSpec_Steel.SteelMainCat)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemSpec_Steel.SteelMainCat.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemSpec_Steel.SteelSubCat)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemSpec_Steel.SteelSubCat.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemSpec_Steel.SteelBrand)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemSpec_Steel.SteelBrand.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemSpec_Steel.SteelMaterial)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemSpec_Steel.SteelMaterial.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemSpec_Steel.SteelOrigin)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemSpec_Steel.SteelOrigin.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemSpec_Steel.SteelMaterialGrade)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemSpec_Steel.SteelMaterialGrade.Id)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="InvItemSpec_Steel.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>
