@@ -46,6 +46,7 @@
     <EntitySet Name="RptReportRoles1" EntityType="InvDB.Store.RptReportRoles1" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RptAccessTypes" EntityType="InvDB.Store.RptAccessTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Reports" EntityType="InvDB.Store.Reports" store:Type="Tables" Schema="dbo" />
+
     <EntitySet Name="SteelMainCats" EntityType="InvDB.Store.SteelMainCats" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SteelSubCats" EntityType="InvDB.Store.SteelSubCats" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SteelBrands" EntityType="InvDB.Store.SteelBrands" store:Type="Tables" Schema="dbo" />
@@ -565,6 +566,7 @@
     <Property Name="SteelMaterialGradeId" Type="int" Nullable="false" />
     <Property Name="WtKgm" Type="decimal" Nullable="false" />
     <Property Name="WtKgpc" Type="decimal" Nullable="false" />
+
   </EntityType>
   <EntityType Name="InvItemSysDefinedSpecs">
     <Key>

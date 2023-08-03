@@ -32,6 +32,17 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             var InvItem = await _context.InvItems
                 .Include(i => i.InvCategory)
                 .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelMainCat)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelSubCat)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelMaterial)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelMaterialGrade)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelOrigin)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelBrand)
                 .Include(i => i.InvUom)
                 .Include(i => i.InvItemCustomSpecs)
                     .ThenInclude(i=>i.InvCustomSpec)
@@ -45,15 +56,15 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
             foreach (var item in InvItem)
             {
-                var invItemClassGroup = await _context.InvItemClasses
-                    .Where(i => i.InvItemId == item.Id)
-                    .Include(i => i.InvClassification)
-                    .ToListAsync();
+                var invItemClassGroup = item.InvItemClasses.ToList();
+
+                var invItemSpecSteel = item.InvItemSpec_Steel.FirstOrDefault();
 
                 var invItemClass = new InvItemIndexModel
                 {
                     InvItem = item,
-                    InvItemClasses = invItemClassGroup
+                    InvItemClasses = invItemClassGroup,
+                    InvItemSpec_Steel = invItemSpecSteel
                 };
 
                 InvItemIndex.Add(invItemClass);
@@ -64,6 +75,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
     public class InvItemIndexModel
     {
         public InvItem InvItem { get; set; }
+        public InvItemSpec_Steel? InvItemSpec_Steel { get; set; }
         public IEnumerable<InvItemClass> InvItemClasses { get;set; }
     }
 }

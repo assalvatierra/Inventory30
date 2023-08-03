@@ -42,6 +42,18 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 .Include(i => i.InvCategory)
                     .ThenInclude(i =>i. InvCategorySpecDefs)
                     .ThenInclude(i =>i.InvItemSysDefinedSpec)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelMainCat)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelSubCat)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelMaterial)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelMaterialGrade)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelOrigin)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelBrand)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
 
