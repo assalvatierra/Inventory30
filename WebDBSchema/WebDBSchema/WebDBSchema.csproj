@@ -378,8 +378,6 @@
     <Content Include="Models\SQL Scripts\Vpro\Migration\202210.v1.003.Added.CustomSpecs.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.001.Initial.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.002.InitialRoles.sql" />
-    <Content Include="Models\SQL Scripts\VSteel\202307.v1.005.AddReports.sql" />
-    <Content Include="Models\SQL Scripts\VSteel\202307.v1.004.UpdateSpecSteel.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.003.SampleData.VSteel.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.000.AspNetUsers.Table.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.000.Setup.Table.sql" />

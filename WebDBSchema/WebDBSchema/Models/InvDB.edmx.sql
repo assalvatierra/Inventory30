@@ -2,11 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/03/2023 13:58:55
+-- Date Created: 03/12/2023 16:30:09
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
+GO
+USE [InvDB3.mdf];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -15,125 +17,59 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_InvAdjHdrInvAdjItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvAdjItems] DROP CONSTRAINT [FK_InvAdjHdrInvAdjItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvCatCustomSpec]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvCategoryInvCatCustomSpec];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvItems] DROP CONSTRAINT [FK_InvCategoryInvItem];
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemClass]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemClasses] DROP CONSTRAINT [FK_InvItemInvItemClass];
 GO
 IF OBJECT_ID(N'[dbo].[FK_InvClassificationInvItemClass]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvItemClasses] DROP CONSTRAINT [FK_InvClassificationInvItemClass];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvClassificationInvUomConvItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvClassificationInvUomConvItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecInvCatCustomSpec]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecInvCatCustomSpec];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecInvItemCustomSpec]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvItemCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecInvItemCustomSpec];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecTypeInvCustomSpec]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecTypeInvCustomSpec];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemInvAdjItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvAdjItems] DROP CONSTRAINT [FK_InvItemInvAdjItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemClass]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvItemClasses] DROP CONSTRAINT [FK_InvItemInvItemClass];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemCustomSpec]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvItemCustomSpecs] DROP CONSTRAINT [FK_InvItemInvItemCustomSpec];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemSpec_Steel]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_InvItemInvItemSpec_Steel];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemInvPoItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvPoItems] DROP CONSTRAINT [FK_InvItemInvPoItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemInvRecItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvRecItems] DROP CONSTRAINT [FK_InvItemInvRecItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemInvRequestItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvRequestItems] DROP CONSTRAINT [FK_InvItemInvRequestItem];
+IF OBJECT_ID(N'[dbo].[FK_InvSupplierInvSupplierItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvSupplierItems] DROP CONSTRAINT [FK_InvSupplierInvSupplierItem];
 GO
 IF OBJECT_ID(N'[dbo].[FK_InvItemInvSupplierItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvSupplierItems] DROP CONSTRAINT [FK_InvItemInvSupplierItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemInvTrxDtl]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvItemInvTrxDtl];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemInvUomConvItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvItemInvUomConvItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvItemInvWarningLevel]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvItemInvWarningLevel];
-GO
-IF OBJECT_ID(N'[InvDBStoreContainer].[FK_InvItemSysDefinedSpecsInvCategorySpecDef]', 'F') IS NOT NULL
-    ALTER TABLE [InvDBStoreContainer].[InvCategorySpecDefs] DROP CONSTRAINT [FK_InvItemSysDefinedSpecsInvCategorySpecDef];
+IF OBJECT_ID(N'[dbo].[FK_InvSupplierInvPoHdr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvPoHdrs] DROP CONSTRAINT [FK_InvSupplierInvPoHdr];
 GO
 IF OBJECT_ID(N'[dbo].[FK_InvPoHdrInvPoItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvPoItems] DROP CONSTRAINT [FK_InvPoHdrInvPoItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvPoHdrStatusInvPoHdr]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvPoHdrs] DROP CONSTRAINT [FK_InvPoHdrStatusInvPoHdr];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvRecHdrInvRecItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvRecItems] DROP CONSTRAINT [FK_InvRecHdrInvRecItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvRecItemInvRequestItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvRequestItems] DROP CONSTRAINT [FK_InvRecItemInvRequestItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvRequestHdrInvRequestItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvRequestItems] DROP CONSTRAINT [FK_InvRequestHdrInvRequestItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvStoreInvAdjHdr]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvAdjHdrs] DROP CONSTRAINT [FK_InvStoreInvAdjHdr];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvStoreInvPoHdr]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvPoHdrs] DROP CONSTRAINT [FK_InvStoreInvPoHdr];
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvPoItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvPoItems] DROP CONSTRAINT [FK_InvItemInvPoItem];
 GO
 IF OBJECT_ID(N'[dbo].[FK_InvStoreInvRecHdr]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvRecHdrs] DROP CONSTRAINT [FK_InvStoreInvRecHdr];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvStoreInvRequestHdr]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvRequestHdrs] DROP CONSTRAINT [FK_InvStoreInvRequestHdr];
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvRecItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvRecItems] DROP CONSTRAINT [FK_InvItemInvRecItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvStoreInvStoreUser]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvStoreUsers] DROP CONSTRAINT [FK_InvStoreInvStoreUser];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvStoreInvTrxHdr]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvTrxHdrs] DROP CONSTRAINT [FK_InvStoreInvTrxHdr];
-GO
-IF OBJECT_ID(N'[dbo].[FK_InvSupplierInvPoHdr]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvPoHdrs] DROP CONSTRAINT [FK_InvSupplierInvPoHdr];
+IF OBJECT_ID(N'[dbo].[FK_InvRecHdrInvRecItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvRecItems] DROP CONSTRAINT [FK_InvRecHdrInvRecItem];
 GO
 IF OBJECT_ID(N'[dbo].[FK_InvSupplierInvRecHdr]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvRecHdrs] DROP CONSTRAINT [FK_InvSupplierInvRecHdr];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvSupplierInvSupplierItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvSupplierItems] DROP CONSTRAINT [FK_InvSupplierInvSupplierItem];
+IF OBJECT_ID(N'[dbo].[FK_InvStoreInvRequestHdr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvRequestHdrs] DROP CONSTRAINT [FK_InvStoreInvRequestHdr];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvTrxDtlOperatorInvTrxDtl]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvTrxDtlOperatorInvTrxDtl];
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvRequestItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvRequestItems] DROP CONSTRAINT [FK_InvItemInvRequestItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvTrxHdrInvTrxDtl]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvTrxHdrInvTrxDtl];
+IF OBJECT_ID(N'[dbo].[FK_InvRequestHdrInvRequestItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvRequestItems] DROP CONSTRAINT [FK_InvRequestHdrInvRequestItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvTrxHdrStatusInvTrxHdr]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvTrxHdrs] DROP CONSTRAINT [FK_InvTrxHdrStatusInvTrxHdr];
+IF OBJECT_ID(N'[dbo].[FK_InvStoreInvPoHdr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvPoHdrs] DROP CONSTRAINT [FK_InvStoreInvPoHdr];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvTrxTypeInvTrxHdr]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvTrxHdrs] DROP CONSTRAINT [FK_InvTrxTypeInvTrxHdr];
+IF OBJECT_ID(N'[dbo].[FK_InvStoreInvAdjHdr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvAdjHdrs] DROP CONSTRAINT [FK_InvStoreInvAdjHdr];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvUomConversionInvUomConvItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvUomConversionInvUomConvItem];
+IF OBJECT_ID(N'[dbo].[FK_InvAdjHdrInvAdjItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvAdjItems] DROP CONSTRAINT [FK_InvAdjHdrInvAdjItem];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvUomInvAdjItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvAdjItems] DROP CONSTRAINT [FK_InvUomInvAdjItem];
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvAdjItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvAdjItems] DROP CONSTRAINT [FK_InvItemInvAdjItem];
 GO
 IF OBJECT_ID(N'[dbo].[FK_InvUomInvItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvItems] DROP CONSTRAINT [FK_InvUomInvItem];
@@ -147,14 +83,86 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvUomInvRequestItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvRequestItems] DROP CONSTRAINT [FK_InvUomInvRequestItem];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvUomInvAdjItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvAdjItems] DROP CONSTRAINT [FK_InvUomInvAdjItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvRecItemInvRequestItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvRequestItems] DROP CONSTRAINT [FK_InvRecItemInvRequestItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvStoreInvTrxHdr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxHdrs] DROP CONSTRAINT [FK_InvStoreInvTrxHdr];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvTrxHdrInvTrxDtl]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvTrxHdrInvTrxDtl];
+GO
 IF OBJECT_ID(N'[dbo].[FK_InvUomInvTrxDtl]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvUomInvTrxDtl];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvTrxTypeInvTrxHdr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxHdrs] DROP CONSTRAINT [FK_InvTrxTypeInvTrxHdr];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvPoHdrStatusInvPoHdr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvPoHdrs] DROP CONSTRAINT [FK_InvPoHdrStatusInvPoHdr];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvTrxHdrStatusInvTrxHdr]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxHdrs] DROP CONSTRAINT [FK_InvTrxHdrStatusInvTrxHdr];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvTrxDtl]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvItemInvTrxDtl];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvTrxDtlOperatorInvTrxDtl]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxDtls] DROP CONSTRAINT [FK_InvTrxDtlOperatorInvTrxDtl];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvStoreInvStoreUser]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvStoreUsers] DROP CONSTRAINT [FK_InvStoreInvStoreUser];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvUomConversionInvUomConvItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvUomConversionInvUomConvItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvClassificationInvUomConvItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvClassificationInvUomConvItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvUomConvItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvUomConvItems] DROP CONSTRAINT [FK_InvItemInvUomConvItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvWarningLevel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvItemInvWarningLevel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvWarningTypeInvWarningLevel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvWarningTypeInvWarningLevel];
 GO
 IF OBJECT_ID(N'[dbo].[FK_InvUomInvWarningLevel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvUomInvWarningLevel];
 GO
-IF OBJECT_ID(N'[dbo].[FK_InvWarningTypeInvWarningLevel]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[InvWarningLevels] DROP CONSTRAINT [FK_InvWarningTypeInvWarningLevel];
+IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItems] DROP CONSTRAINT [FK_InvCategoryInvItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_InvItemInvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvCategorySpecDef]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCategorySpecDefs] DROP CONSTRAINT [FK_InvCategoryInvCategorySpecDef];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemSysDefinedSpecsInvCategorySpecDef]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCategorySpecDefs] DROP CONSTRAINT [FK_InvItemSysDefinedSpecsInvCategorySpecDef];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCategoryInvCatCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvCategoryInvCatCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecTypeInvCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecTypeInvCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemCustomSpecs] DROP CONSTRAINT [FK_InvItemInvItemCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecInvItemCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecInvItemCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvCustomSpecInvCatCustomSpec]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvCatCustomSpecs] DROP CONSTRAINT [FK_InvCustomSpecInvCatCustomSpec];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RptCategoryRptReportCat]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[RptReportCats] DROP CONSTRAINT [FK_RptCategoryRptReportCat];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RptAccessTypeRptReportRoles]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RptReportRoles] DROP CONSTRAINT [FK_RptAccessTypeRptReportRoles];
@@ -162,55 +170,31 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_RptAccessTypeRptReportUser]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[RptReportUsers] DROP CONSTRAINT [FK_RptAccessTypeRptReportUser];
 GO
-IF OBJECT_ID(N'[dbo].[FK_RptCategoryRptReportCat]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[RptReportCats] DROP CONSTRAINT [FK_RptCategoryRptReportCat];
-GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[InvAdjHdrs]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvAdjHdrs];
-GO
-IF OBJECT_ID(N'[dbo].[InvAdjItems]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvAdjItems];
-GO
-IF OBJECT_ID(N'[dbo].[InvCatCustomSpecs]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvCatCustomSpecs];
-GO
-IF OBJECT_ID(N'[dbo].[InvCategories]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvCategories];
-GO
-IF OBJECT_ID(N'[dbo].[InvClassifications]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvClassifications];
-GO
-IF OBJECT_ID(N'[dbo].[InvCustomSpecs]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvCustomSpecs];
-GO
-IF OBJECT_ID(N'[dbo].[InvCustomSpecTypes]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvCustomSpecTypes];
+IF OBJECT_ID(N'[dbo].[InvItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItems];
 GO
 IF OBJECT_ID(N'[dbo].[InvItemClasses]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvItemClasses];
 GO
-IF OBJECT_ID(N'[dbo].[InvItemCustomSpecs]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvItemCustomSpecs];
+IF OBJECT_ID(N'[dbo].[InvClassifications]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvClassifications];
 GO
-IF OBJECT_ID(N'[dbo].[InvItems]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvItems];
+IF OBJECT_ID(N'[dbo].[InvSuppliers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvSuppliers];
 GO
-IF OBJECT_ID(N'[dbo].[InvItemSpec_Steel]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvItemSpec_Steel];
+IF OBJECT_ID(N'[dbo].[InvSupplierItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvSupplierItems];
 GO
-IF OBJECT_ID(N'[dbo].[InvItemSysDefinedSpecs]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvItemSysDefinedSpecs];
+IF OBJECT_ID(N'[dbo].[InvStores]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvStores];
 GO
 IF OBJECT_ID(N'[dbo].[InvPoHdrs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvPoHdrs];
-GO
-IF OBJECT_ID(N'[dbo].[InvPoHdrStatus]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvPoHdrStatus];
 GO
 IF OBJECT_ID(N'[dbo].[InvPoItems]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvPoItems];
@@ -227,32 +211,35 @@ GO
 IF OBJECT_ID(N'[dbo].[InvRequestItems]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvRequestItems];
 GO
-IF OBJECT_ID(N'[dbo].[InvStores]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvStores];
+IF OBJECT_ID(N'[dbo].[InvAdjHdrs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvAdjHdrs];
 GO
-IF OBJECT_ID(N'[dbo].[InvStoreUsers]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvStoreUsers];
+IF OBJECT_ID(N'[dbo].[InvAdjItems]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvAdjItems];
 GO
-IF OBJECT_ID(N'[dbo].[InvSupplierItems]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvSupplierItems];
-GO
-IF OBJECT_ID(N'[dbo].[InvSuppliers]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvSuppliers];
-GO
-IF OBJECT_ID(N'[dbo].[InvTrxDtlOperators]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvTrxDtlOperators];
-GO
-IF OBJECT_ID(N'[dbo].[InvTrxDtls]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvTrxDtls];
+IF OBJECT_ID(N'[dbo].[InvUoms]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvUoms];
 GO
 IF OBJECT_ID(N'[dbo].[InvTrxHdrs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvTrxHdrs];
 GO
-IF OBJECT_ID(N'[dbo].[InvTrxHdrStatus]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvTrxHdrStatus];
+IF OBJECT_ID(N'[dbo].[InvTrxDtls]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvTrxDtls];
 GO
 IF OBJECT_ID(N'[dbo].[InvTrxTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvTrxTypes];
+GO
+IF OBJECT_ID(N'[dbo].[InvPoHdrStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvPoHdrStatus];
+GO
+IF OBJECT_ID(N'[dbo].[InvTrxHdrStatus]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvTrxHdrStatus];
+GO
+IF OBJECT_ID(N'[dbo].[InvTrxDtlOperators]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvTrxDtlOperators];
+GO
+IF OBJECT_ID(N'[dbo].[InvStoreUsers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvStoreUsers];
 GO
 IF OBJECT_ID(N'[dbo].[InvUomConversions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvUomConversions];
@@ -260,20 +247,35 @@ GO
 IF OBJECT_ID(N'[dbo].[InvUomConvItems]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvUomConvItems];
 GO
-IF OBJECT_ID(N'[dbo].[InvUoms]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[InvUoms];
-GO
 IF OBJECT_ID(N'[dbo].[InvWarningLevels]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvWarningLevels];
 GO
 IF OBJECT_ID(N'[dbo].[InvWarningTypes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvWarningTypes];
 GO
-IF OBJECT_ID(N'[dbo].[Reports]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Reports];
+IF OBJECT_ID(N'[dbo].[InvCategories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCategories];
 GO
-IF OBJECT_ID(N'[dbo].[RptAccessTypes]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[RptAccessTypes];
+IF OBJECT_ID(N'[dbo].[InvItemSpec_Steel]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemSpec_Steel];
+GO
+IF OBJECT_ID(N'[dbo].[InvItemSysDefinedSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemSysDefinedSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCategorySpecDefs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCategorySpecDefs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCustomSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCustomSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvItemCustomSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemCustomSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCatCustomSpecs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCatCustomSpecs];
+GO
+IF OBJECT_ID(N'[dbo].[InvCustomSpecTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvCustomSpecTypes];
 GO
 IF OBJECT_ID(N'[dbo].[RptCategories]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RptCategories];
@@ -281,14 +283,14 @@ GO
 IF OBJECT_ID(N'[dbo].[RptReportCats]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RptReportCats];
 GO
-IF OBJECT_ID(N'[dbo].[RptReportRoles]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[RptReportRoles];
-GO
 IF OBJECT_ID(N'[dbo].[RptReportUsers]', 'U') IS NOT NULL
     DROP TABLE [dbo].[RptReportUsers];
 GO
-IF OBJECT_ID(N'[InvDBStoreContainer].[InvCategorySpecDefs]', 'U') IS NOT NULL
-    DROP TABLE [InvDBStoreContainer].[InvCategorySpecDefs];
+IF OBJECT_ID(N'[dbo].[RptReportRoles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RptReportRoles];
+GO
+IF OBJECT_ID(N'[dbo].[RptAccessTypes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RptAccessTypes];
 GO
 
 -- --------------------------------------------------
@@ -464,7 +466,7 @@ CREATE TABLE [dbo].[InvTrxDtls] (
     [InvItemId] int  NOT NULL,
     [InvTrxDtlOperatorId] int  NOT NULL,
     [LotNo] int  NULL,
-    [BatchNo] varchar(40)  NULL
+    [BatchNo] nvarchar(20)  NULL
 );
 GO
 
@@ -641,18 +643,18 @@ GO
 -- Creating table 'RptReportUsers'
 CREATE TABLE [dbo].[RptReportUsers] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [ReportId] int  NOT NULL,
     [AspNetUserId] nvarchar(255)  NOT NULL,
-    [RptAccessTypeId] int  NOT NULL,
-    [ReportId] int  NOT NULL
+    [RptAccessTypeId] int  NOT NULL
 );
 GO
 
--- Creating table 'RptReportRoles1'
-CREATE TABLE [dbo].[RptReportRoles1] (
+-- Creating table 'RptReportRoles'
+CREATE TABLE [dbo].[RptReportRoles] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [ReportId] int  NOT NULL,
     [AspNetRoleId] int  NOT NULL,
-    [RptAccessTypeId] int  NOT NULL,
-    [ReportId] int  NOT NULL
+    [RptAccessTypeId] int  NOT NULL
 );
 GO
 
@@ -660,15 +662,6 @@ GO
 CREATE TABLE [dbo].[RptAccessTypes] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Code] nvarchar(50)  NOT NULL
-);
-GO
-
--- Creating table 'Reports'
-CREATE TABLE [dbo].[Reports] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] varchar(250)  NULL,
-    [DisplayName] varchar(250)  NULL,
-    [LayoutData] varbinary(max)  NULL
 );
 GO
 
@@ -898,21 +891,15 @@ ADD CONSTRAINT [PK_RptReportUsers]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'RptReportRoles1'
-ALTER TABLE [dbo].[RptReportRoles1]
-ADD CONSTRAINT [PK_RptReportRoles1]
+-- Creating primary key on [Id] in table 'RptReportRoles'
+ALTER TABLE [dbo].[RptReportRoles]
+ADD CONSTRAINT [PK_RptReportRoles]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
 -- Creating primary key on [Id] in table 'RptAccessTypes'
 ALTER TABLE [dbo].[RptAccessTypes]
 ADD CONSTRAINT [PK_RptAccessTypes]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'Reports'
-ALTER TABLE [dbo].[Reports]
-ADD CONSTRAINT [PK_Reports]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1655,8 +1642,8 @@ ON [dbo].[RptReportCats]
     ([RptCategoryId]);
 GO
 
--- Creating foreign key on [RptAccessTypeId] in table 'RptReportRoles1'
-ALTER TABLE [dbo].[RptReportRoles1]
+-- Creating foreign key on [RptAccessTypeId] in table 'RptReportRoles'
+ALTER TABLE [dbo].[RptReportRoles]
 ADD CONSTRAINT [FK_RptAccessTypeRptReportRoles]
     FOREIGN KEY ([RptAccessTypeId])
     REFERENCES [dbo].[RptAccessTypes]
@@ -1666,7 +1653,7 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_RptAccessTypeRptReportRoles'
 CREATE INDEX [IX_FK_RptAccessTypeRptReportRoles]
-ON [dbo].[RptReportRoles1]
+ON [dbo].[RptReportRoles]
     ([RptAccessTypeId]);
 GO
 
@@ -1683,51 +1670,6 @@ GO
 CREATE INDEX [IX_FK_RptAccessTypeRptReportUser]
 ON [dbo].[RptReportUsers]
     ([RptAccessTypeId]);
-GO
-
--- Creating foreign key on [ReportId] in table 'RptReportUsers'
-ALTER TABLE [dbo].[RptReportUsers]
-ADD CONSTRAINT [FK_ReportRptReportUser]
-    FOREIGN KEY ([ReportId])
-    REFERENCES [dbo].[Reports]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ReportRptReportUser'
-CREATE INDEX [IX_FK_ReportRptReportUser]
-ON [dbo].[RptReportUsers]
-    ([ReportId]);
-GO
-
--- Creating foreign key on [ReportId] in table 'RptReportRoles1'
-ALTER TABLE [dbo].[RptReportRoles1]
-ADD CONSTRAINT [FK_ReportRptReportRoles]
-    FOREIGN KEY ([ReportId])
-    REFERENCES [dbo].[Reports]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ReportRptReportRoles'
-CREATE INDEX [IX_FK_ReportRptReportRoles]
-ON [dbo].[RptReportRoles1]
-    ([ReportId]);
-GO
-
--- Creating foreign key on [ReportId] in table 'RptReportCats'
-ALTER TABLE [dbo].[RptReportCats]
-ADD CONSTRAINT [FK_ReportRptReportCat]
-    FOREIGN KEY ([ReportId])
-    REFERENCES [dbo].[Reports]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ReportRptReportCat'
-CREATE INDEX [IX_FK_ReportRptReportCat]
-ON [dbo].[RptReportCats]
-    ([ReportId]);
 GO
 
 -- --------------------------------------------------
