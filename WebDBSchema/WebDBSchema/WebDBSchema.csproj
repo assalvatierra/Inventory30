@@ -414,6 +414,7 @@
     <Content Include="Models\InvDB.edmx.diagram">
       <DependentUpon>InvDB.edmx</DependentUpon>
     </Content>
+    <Content Include="Models\SQL Scripts\VSteel\Migration\202308.v1.005.Update.SteelSpecs.sql" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
