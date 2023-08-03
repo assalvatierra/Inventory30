@@ -27,7 +27,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             _itemSpecServices = new ItemSpecServices(context, logger);
         }
 
-        public IActionResult OnGet(string desc,string code, int? categoryId, string remarks, int? uomId)
+        public IActionResult OnGet(string desc, string code, int? categoryId, string remarks, int? uomId)
         {
 
             //load InvItem on page reload 
@@ -38,7 +38,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 InvItem.Code = code;
                 InvItem.Remarks = remarks;
 
-                if (categoryId  != null)
+                if (categoryId != null)
                 {
                     InvItem.InvCategoryId = (int)categoryId;
                 }
@@ -50,13 +50,21 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             }
 
             //set initial category to default = 1
-            if(categoryId == null)
+            if (categoryId == null)
             {
                 categoryId = 1;
             }
 
             ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description", categoryId);
             ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
+
+            //Steel Specifications
+            ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats, "Id", "Name");
+            ViewData["SteelSubCats"]  = new SelectList(_context.SteelSubCats, "Id", "Name");
+            ViewData["SteelBrands"]   = new SelectList(_context.SteelBrands, "Id", "Name");
+            ViewData["SteelOrigins"]  = new SelectList(_context.SteelOrigins, "Id", "Name");
+            ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials, "Id", "Name");
+            ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades, "Id", "Name");
             return Page();
         }
 
@@ -75,11 +83,24 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             }
 
             _context.InvItems.Add(InvItem);
+
             await _context.SaveChangesAsync();
 
+            await AddInvItemSteel();
 
             return RedirectToPage("./Index");
         }
 
+        public async Task AddInvItemSteel()
+        {
+            InvItemSpec_Steel.InvItemId = InvItem.Id;
+
+            _context.InvItemSpec_Steel.Add(InvItemSpec_Steel);
+
+            await _context.SaveChangesAsync();
+        }
+
     }
+
+
 }

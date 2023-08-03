@@ -17,6 +17,8 @@ namespace CoreLib.Inventory.Models.Items
         public string InvStore { get; set; }
         
         public string ItemSpec { get; set; }
+
+        public InvItemSpec_Steel? InvItemSpec_Steel { get; set; }
     }
 
     
