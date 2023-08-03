@@ -47,6 +47,12 @@ namespace CoreLib.Models.Inventory
         public DbSet<InvCatCustomSpec> InvCatCustomSpecs { get; set; }
         public DbSet<InvItemCustomSpec> InvItemCustomSpecs { get; set; }
 
+        public virtual DbSet<SteelMainCat>? SteelMainCats { get; set; }
+        public virtual DbSet<SteelSubCat>? SteelSubCats { get; set; }
+        public virtual DbSet<SteelBrand>? SteelBrands { get; set; }
+        public virtual DbSet<SteelMaterial>? SteelMaterials { get; set; }
+        public virtual DbSet<SteelOrigin>? SteelOrigins { get; set; }
+        public virtual DbSet<SteelMaterialGrade>? SteelMaterialGrades { get; set; }
 
         public DbSet<Report> Reports { get; set; }
         public DbSet<RptCategory> rptCategories { get; set; }
