@@ -23,43 +23,23 @@
                 Category
             </th>
             <th>
+                Material
+            </th>
+            <th>
+                Weight
+            </th>
+            <th>
                 UoM
             </th>
-            @*
             <th>
                 Classifications
             </th>
-            <th>
+           @* <th>
                 Specifications
             </th>
             <th>
                 Warnings
-            </th>
-            *@
-            <th>
-                Main Category
-            </th>
-            <th>
-                Sub Category
-            </th>
-            <th>
-                Brand
-            </th>
-            <th>
-                Origin
-            </th>
-            <th>
-                Material
-            </th>
-            <th>
-                Material Grade
-            </th>
-            <th>
-                KG/M
-            </th>
-            <th>
-                KG/PC
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -76,29 +56,39 @@
                     @if(String.IsNullOrEmpty(item.InvItem.Remarks)){
                         <span> @item.InvItem.Remarks </span>
                     }
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.InvCategory.Description)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.Material)
+                </td>   
+                <td>
+                    @if (item.InvItem.Weight != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.InvItem.Weight)
+                        <span> kg / pc </span>
+                    }
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
                 </td>
-                @*
                 <td>
-                    foreach (var classes  in item.InvItemClasses)
+                    @foreach (var classes  in item.InvItemClasses)
                     {
-                        Html.DisplayFor(modelItem => classes.InvClassification.Classification)
-                        *<a asp-page="./Classifications/Delete" asp-route-id="@classes.Id"> x </a>
+                        @Html.DisplayFor(modelItem => classes.InvClassification.Classification)
+                        <a asp-page="./Classifications/Delete" asp-route-id="@classes.Id"> x </a>
 
                         <br />
                     }
 
-                    if (item.InvItemClasses.Count() == 0)
+                    @if (item.InvItemClasses.Count() == 0)
                     {
                         <a asp-page="./Classifications/Add" asp-route-id="@item.InvItem.Id"> + Classification</a>
                     }
                 </td>
-                *@
+
                 @* 
                 <td>
                     @if (item.InvItem.InvItemSpec_Steel != null)
@@ -159,54 +149,6 @@
                     }
                 </td>
                 *@
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelMainCat.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelSubCat.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelBrand.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelOrigin.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelMaterial.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelMaterialGrade.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.WtKgpc
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.WtKgm
-                    }
-                </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.InvItem.Id">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.InvItem.Id">Details</a> |

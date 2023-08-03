@@ -11,7 +11,8 @@ ALTER TABLE [dbo].[InvItemSpec_Steel]
 
 ALTER TABLE [dbo].[InvItemSpec_Steel] 
    ADD  
-
+    [Description] nvarchar(180),
+    [Code] nvarchar(max)  ,
     [SteelMainCatId] int ,
     [SteelSubCatId] int  ,
     [SteelBrandId] int   ,

@@ -35,54 +35,34 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
 
             //get all accepted items details
             var ApprovedItemDetails = await services.GetApprovedInvDetailsAsync();
-
-            //get items not in records
-            var AllItemsList = await _context.InvItems
-                    .Include(i => i.InvUom)
-                    .Include(i => i.InvItemSpec_Steel)
-                        .ThenInclude(i => i.SteelMainCat)
-                    .Include(i => i.InvItemSpec_Steel)
-                        .ThenInclude(i => i.SteelSubCat)
-                    .Include(i => i.InvItemSpec_Steel)
-                        .ThenInclude(i => i.SteelMaterial)
-                    .Include(i => i.InvItemSpec_Steel)
-                        .ThenInclude(i => i.SteelMaterialGrade)
-                    .Include(i => i.InvItemSpec_Steel)
-                        .ThenInclude(i => i.SteelOrigin)
-                    .Include(i => i.InvItemSpec_Steel)
-                        .ThenInclude(i => i.SteelBrand)
-                    .Include(i=>i.InvItemCustomSpecs)
-                        .ThenInclude(i=>i.InvCustomSpec)
-                    .ToListAsync();
-
-            foreach (var item in AllItemsList)
+           
+            foreach (var item in ApprovedItemDetails)
             { 
                 //get item Details
-                //var itemDetails = 
-                //    .FirstOrDefaultAsync(m => m.Id == item.Id);
+                var itemDetails = _context.InvItems
+                    .Find(item.InvItemId);
 
                 //check if item is in the search result list
-                var IsItemInList = (ItemSearchResults.Where(c => c.Id == item.Id).Count() == 0);
+                var IsItemInList = (ItemSearchResults.Where(c => c.Id == item.InvItemId).Count() == 0) && item.ItemQty > 0;
 
                 //if item is not in the list
                 if (IsItemInList)
                 {
-                    //adding item to the list
-                    var newItemResult = new ItemSearchResult();
-                    newItemResult.Id = item.Id;
-                    newItemResult.Item = item.Description;
-                    newItemResult.Qty = services.GetAvailableCountByItem(item.Id);
-                    newItemResult.Code = item.Code;
-                    newItemResult.ItemRemarks = item.Remarks;
-                    newItemResult.Uom = item.InvUom.uom;
-                    newItemResult.ItemSpec = GetItemCustomSpec(item.InvItemCustomSpecs);
-                    newItemResult.InvItemSpec_Steel = item.InvItemSpec_Steel.FirstOrDefault();
 
-                    ItemSearchResults.Add(newItemResult);
+                    //adding item to the list
+                    ItemSearchResults.Add(new ItemSearchResult
+                    {
+                        Id = item.InvItemId,
+                        Item = itemDetails.Description,
+                        Qty = services.GetAvailableCountByItem(item.InvItemId),
+                        Code = itemDetails.Code,
+                        ItemRemarks = itemDetails.Remarks,
+                        Uom = itemDetails.InvUom.uom,
+                        ItemSpec = GetItemCustomSpec(item.InvItemId)
+                    });
                 }
             }
-
-
+            
             //apply search by input string of the existing list
             if (!String.IsNullOrEmpty(SearchStr))
             {
@@ -95,14 +75,19 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
 
         }
 
-        private string GetItemCustomSpec(ICollection<InvItemCustomSpec> invItemCustomSpec)
+        private string GetItemCustomSpec(int itemId)
         {
 
-         
+            //get item Details
+            var itemSpecResult = _context.InvItemCustomSpecs
+                .Where(i => i.InvItemId == itemId)
+                .Include(i => i.InvCustomSpec)
+                .ToList();
+
             string _itemSpec = "";
-            if (invItemCustomSpec != null)
+            if (itemSpecResult != null)
             {
-                foreach (var spec in invItemCustomSpec)
+                foreach (var spec in itemSpecResult)
                 {
                     _itemSpec += spec.InvCustomSpec.SpecName + " : " 
                         + spec.SpecValue + " " + spec.InvCustomSpec.Measurement + " " 
@@ -113,20 +98,6 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
             return _itemSpec;
 
         }
-
-        private InvItemSpec_Steel GetItemSpec_Steel(InvItem item)
-        {
-            if (item.InvItemSpec_Steel != null)
-            {
-                return item.InvItemSpec_Steel.FirstOrDefault();
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-
 
     }
 }

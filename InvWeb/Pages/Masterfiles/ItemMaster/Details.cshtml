@@ -95,69 +95,12 @@
 <div class="card">
     <div class="card-body">
         <h4> Steel Specifications </h4>
-        <table class="table">
+        <table>
             <tr>
-                <th>
-                    Category
-                </th>
-                <th>
-                    Sub-Category
-                </th>
-                <th>
-                    Brand
-                </th>
-                <th>
-                    Origin
-                </th>
-                <th>
-                    Material
-                </th>
-                <th>
-                    Material Grade
-                </th>
-                <th>
-                    Kgm
-                </th>
-                <th>
-                    Kgpc
-                </th>
                 <th>
 
                 </th>
             </tr>
-            @foreach (var spec in Model.InvItem.InvItemSpec_Steel)
-            {
-
-                <tr>
-                    <td>
-                        @spec.SteelMainCat.Name
-                    </td>
-                    <td>
-                        @spec.SteelSubCat.Name
-                    </td>
-                    <td>
-                        @spec.SteelBrand.Name
-                    </td>
-                    <td>
-                        @spec.SteelOrigin.Name
-                    </td>
-                    <td>
-                        @spec.SteelMaterial.Name
-                    </td>
-                    <td>
-                        @spec.SteelMaterialGrade.Name
-                    </td>
-                    <td>
-                        @spec.WtKgm
-                    </td>
-                    <td>
-                        @spec.WtKgpc
-                    </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@Model.InvItem.Id">Edit</a>
-                    </td>
-                </tr>
-            }
         </table>
 
     </div>

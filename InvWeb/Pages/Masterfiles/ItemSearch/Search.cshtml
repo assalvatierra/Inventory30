@@ -20,32 +20,6 @@
             <th>
                 Description
             </th>
-
-            <th>
-                Category
-            </th>
-            <th>
-                Sub-Category
-            </th>
-            <th>
-                Brand
-            </th>
-            <th>
-                Origin
-            </th>
-            <th>
-                Material
-            </th>
-            <th>
-                Material Grade
-            </th>
-            <th>
-                Kgm
-            </th>
-            <th>
-                Kgpc
-            </th>
-
             <th>
                 Qty
             </th>
@@ -75,55 +49,6 @@
                     @if(!String.IsNullOrEmpty(item.ItemSpec)){
                         <br />
                         <span style="font-size:11px;"> @item.ItemSpec </span>
-                    }
-                </td>
-
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelMainCat.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelSubCat.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelBrand.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelOrigin.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelMaterial.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelMaterialGrade.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.WtKgpc
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.WtKgm
                     }
                 </td>
                 <td>
