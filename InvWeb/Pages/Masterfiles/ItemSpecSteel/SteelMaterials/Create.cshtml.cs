@@ -1,11 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Threading.Tasks;
-using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemSpec_Steel
+namespace InvWeb.Pages.Masterfiles.ItemSpecSteel.SteelMaterials
 {
     public class CreateModel : PageModel
     {
@@ -18,22 +21,22 @@ namespace InvWeb.Pages.Masterfiles.ItemSpec_Steel
 
         public IActionResult OnGet()
         {
-            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
             return Page();
         }
 
         [BindProperty]
-        public InvItemSpec_Steel InvItemSpec_Steel { get; set; }
+        public SteelMaterial SteelMaterial { get; set; } = default!;
+        
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+          if (!ModelState.IsValid || _context.SteelMaterials == null || SteelMaterial == null)
             {
                 return Page();
             }
 
-            _context.InvItemSpec_Steel.Add(InvItemSpec_Steel);
+            _context.SteelMaterials.Add(SteelMaterial);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

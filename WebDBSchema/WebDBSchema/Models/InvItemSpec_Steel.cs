@@ -15,14 +15,24 @@ namespace WebDBSchema.Models
     public partial class InvItemSpec_Steel
     {
         public int Id { get; set; }
+        public string Description { get; set; }
+        public string Code { get; set; }
         public int InvItemId { get; set; }
-        public string SpecFor { get; set; }
-        public string SizeValue { get; set; }
-        public string SizeDesc { get; set; }
-        public string WtValue { get; set; }
-        public string WtDesc { get; set; }
-        public string SpecInfo { get; set; }
+        public int SteelMainCatId { get; set; }
+        public int SteelSubCatId { get; set; }
+        public int SteelBrandId { get; set; }
+        public int SteelMaterialId { get; set; }
+        public int SteelOriginId { get; set; }
+        public int SteelMaterialGradeId { get; set; }
+        public decimal WtKgm { get; set; }
+        public decimal WtKgpc { get; set; }
     
         public virtual InvItem InvItem { get; set; }
+        public virtual SteelMainCat SteelMainCat { get; set; }
+        public virtual SteelSubCat SteelSubCat { get; set; }
+        public virtual SteelBrand SteelBrand { get; set; }
+        public virtual SteelMaterial SteelMaterial { get; set; }
+        public virtual SteelOrigin SteelOrigin { get; set; }
+        public virtual SteelMaterialGrade SteelMaterialGrade { get; set; }
     }
 }

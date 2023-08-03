@@ -94,6 +94,22 @@
 
 <div class="card">
     <div class="card-body">
+        <h4> Steel Specifications </h4>
+        <table>
+            <tr>
+                <th>
+
+                </th>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+<hr />
+
+<div class="card">
+    <div class="card-body">
         <h4> Custom Specifications </h4>
         <div class="btn-group">
             <a asp-page="./CustomSpec/Add" asp-route-id="@Model.InvItem.Id"> Add Specifications</a>
@@ -220,7 +236,7 @@
                 <td>
                     <span> Info </span>
                 </td>
-                <td colspan="1">
+@*                <td colspan="1">
                     <span> For: </span><br>
                     <input type="text" id="steel-spec-for" value="@steelDetails.SpecFor" class="form-control" maxlength="10" style="max-width:200px;">
                 </td>
@@ -253,7 +269,7 @@
                 <td colspan="4"> 
                     <span> Description: </span><br>
                     <input type="text" id="steel-spec-weight-desc" value="@steelDetails.WtDesc" class="form-control" maxlength="30"  style="max-width:200px;" >
-                </td>
+                </td>*@
             </tr>
         }
 

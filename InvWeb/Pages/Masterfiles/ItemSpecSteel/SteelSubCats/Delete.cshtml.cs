@@ -1,11 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemSpec_Steel
+namespace InvWeb.Pages.Masterfiles.ItemSpecSteel.SteelSubCats
 {
     public class DeleteModel : PageModel
     {
@@ -17,36 +20,40 @@ namespace InvWeb.Pages.Masterfiles.ItemSpec_Steel
         }
 
         [BindProperty]
-        public InvItemSpec_Steel InvItemSpec_Steel { get; set; }
+      public SteelSubCat SteelSubCat { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.SteelSubCats == null)
             {
                 return NotFound();
             }
 
-            InvItemSpec_Steel = await _context.InvItemSpec_Steel.FirstOrDefaultAsync(m => m.Id == id);
+            var steelsubcat = await _context.SteelSubCats.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (InvItemSpec_Steel == null)
+            if (steelsubcat == null)
             {
                 return NotFound();
+            }
+            else 
+            {
+                SteelSubCat = steelsubcat;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.SteelSubCats == null)
             {
                 return NotFound();
             }
+            var steelsubcat = await _context.SteelSubCats.FindAsync(id);
 
-            InvItemSpec_Steel = await _context.InvItemSpec_Steel.FindAsync(id);
-
-            if (InvItemSpec_Steel != null)
+            if (steelsubcat != null)
             {
-                _context.InvItemSpec_Steel.Remove(InvItemSpec_Steel);
+                SteelSubCat = steelsubcat;
+                _context.SteelSubCats.Remove(SteelSubCat);
                 await _context.SaveChangesAsync();
             }
 

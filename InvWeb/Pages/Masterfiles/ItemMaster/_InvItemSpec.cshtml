@@ -10,37 +10,50 @@
         <h4>Specifications</h4>
         <hr />
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="SpecFor" class="control-label"></label>
-                <input asp-for="SpecFor" class="form-control" maxlength="10">
-                <span asp-validation-for="SpecFor" class="text-danger"></span>
+                <label asp-for="InvItemId" class="control-label"></label>
+                <select asp-for="InvItemId" class="form-control" asp-items="ViewBag.InvItemId"></select>
+            </div>
+           <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" maxlength="40" />
+                <span asp-validation-for="Code" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SpecInfo" class="control-label"></label>
-                <input asp-for="SpecInfo" class="form-control" maxlength="80" />
-                <span asp-validation-for="SpecInfo" class="text-danger"></span>
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" maxlength="160" />
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SizeDesc" class="control-label"></label>
-                <input asp-for="SizeDesc" class="form-control" maxlength="30" />
-                <span asp-validation-for="SizeDesc" class="text-danger"></span>
+                <label asp-for="SteelMaterialId" class="control-label"> Category </label>
+                <select asp-for="SteelMaterialId" id="InvCategoryId" class="form-control"
+                        asp-items="ViewBag.SteelMaterialId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="SizeValue" class="control-label"></label>
-                <input asp-for="SizeValue" class="form-control" maxlength="10" />
-                <span asp-validation-for="SizeValue" class="text-danger"></span>
+                <label asp-for="SteelMaterialGradeId" class="control-label"> Category </label>
+                <select asp-for="SteelMaterialGradeId" id="InvCategoryId" class="form-control" 
+                        asp-items="ViewBag.SteeelMaterialGradeId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="WtDesc" class="control-label"></label>
-                <input asp-for="WtDesc" class="form-control" maxlength="30" />
-                <span asp-validation-for="WtDesc" class="text-danger"></span>
+                <label asp-for="SteelBrandId" class="control-label"> Brand </label>
+                <select asp-for="SteelBrandId" id="InvCategoryId" class="form-control"
+                        asp-items="ViewBag.SteelBrandId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="WtValue" class="control-label"></label>
-                <input asp-for="WtValue" class="form-control" maxlength="10" />
-                <span asp-validation-for="WtValue" class="text-danger"></span>
+                <label asp-for="SteelMainCatId" class="control-label"> Main Category </label>
+                <select asp-for="SteelMainCatId" id="InvCategoryId" class="form-control"
+                        asp-items="ViewBag.SteelMainCatId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SteelSubCatId" class="control-label"> Sub Category </label>
+                <select asp-for="SteelSubCatId" id="InvCategoryId" class="form-control"
+                        asp-items="ViewBag.SteelSubCatId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SteelOriginId" class="control-label"> Origin </label>
+                <select asp-for="SteelOriginId" id="InvCategoryId" class="form-control"
+                        asp-items="ViewBag.SteelOriginId"></select>
             </div>
         </form>
     </div>

@@ -1,0 +1,103 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemSpecSteel.IndexModel
+
+@{
+    ViewData["Title"] = "Steel Item Specifications";
+}
+
+<h1>Steel Item Specifications</h1>
+
+<a asp-page="./SteelBrands/Index">SteelBrands</a> |
+<a asp-page="./SteelMainCats/Index">SteelMainCats</a> |
+<a asp-page="./SteelSubCats/Index">SteelSubCats</a>|
+<a asp-page="./SteelMaterials/Index">SteelMaterials</a>|
+<a asp-page="./SteelMaterialGrades/Index">SteelMaterialGrades</a>|
+<a asp-page="./SteelOrigins/Index">SteelOrigins</a>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].WtKgm)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].WtKgpc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].InvItem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SteelMainCat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SteelSubCat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SteelBrand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SteelMaterial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SteelOrigin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemSpec_Steel[0].SteelMaterialGrade)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.InvItemSpec_Steel) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WtKgm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WtKgpc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvItem.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SteelMainCat.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SteelSubCat.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SteelBrand.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SteelMaterial.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SteelOrigin.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SteelMaterialGrade.Id)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

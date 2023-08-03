@@ -1,13 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
-using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using CoreLib.Inventory.Models;
 
-namespace InvWeb.Pages.Masterfiles.ItemSpec_Steel
+namespace InvWeb.Pages.Masterfiles.ItemSpecSteel.SteelBrands
 {
     public class EditModel : PageModel
     {
@@ -19,24 +21,21 @@ namespace InvWeb.Pages.Masterfiles.ItemSpec_Steel
         }
 
         [BindProperty]
-        public InvItemSpec_Steel InvItemSpec_Steel { get; set; }
+        public SteelBrand SteelBrand { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.SteelBrands == null)
             {
                 return NotFound();
             }
 
-            InvItemSpec_Steel = await _context.InvItemSpec_Steel
-                .Include(i => i.InvItem)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (InvItemSpec_Steel == null)
+            var steelbrand =  await _context.SteelBrands.FirstOrDefaultAsync(m => m.Id == id);
+            if (steelbrand == null)
             {
                 return NotFound();
             }
-            ViewData["InvItemId"] = new SelectList(_context.InvItems, "Id", "Description");
+            SteelBrand = steelbrand;
             return Page();
         }
 
@@ -49,7 +48,7 @@ namespace InvWeb.Pages.Masterfiles.ItemSpec_Steel
                 return Page();
             }
 
-            _context.Attach(InvItemSpec_Steel).State = EntityState.Modified;
+            _context.Attach(SteelBrand).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +56,7 @@ namespace InvWeb.Pages.Masterfiles.ItemSpec_Steel
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvPoHdrExists(InvItemSpec_Steel.Id))
+                if (!SteelBrandExists(SteelBrand.Id))
                 {
                     return NotFound();
                 }
@@ -70,9 +69,9 @@ namespace InvWeb.Pages.Masterfiles.ItemSpec_Steel
             return RedirectToPage("./Index");
         }
 
-        private bool InvPoHdrExists(int id)
+        private bool SteelBrandExists(int id)
         {
-            return _context.InvPoHdrs.Any(e => e.Id == id);
+          return (_context.SteelBrands?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
