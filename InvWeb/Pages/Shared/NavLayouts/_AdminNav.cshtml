@@ -1,4 +1,13 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@{
+    string storeLabel = "";
+    if (Context.Session.GetString("_StoreLabel") != null)
+    {
+        storeLabel = Context.Session.GetString("_StoreLabel");
+
+    }
+}
 
 <ul class="list-unstyled components">
     <li>
