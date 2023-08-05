@@ -5,11 +5,39 @@
         <a href="/" id="sidenav-Home">Home</a>
     </li>
     <li>
-        <a href="/Masterfiles/Stores" id="sidenav-Stores">Stores</a>
+        <a href="/Masterfiles/ItemSearch/Search">Search</a>
+    </li>
+    <li>
+        <a href="/Masterfiles/Stores" id="sidenav-Stores">Store (Warehouse)</a>
+    </li>
+    <li>
+        <a href="/Masterfiles/ItemMaster">Items</a>
+    </li>
+    <li>
+        <a href="/Suppliers">Suppliers</a>
+    </li>
+    <li>
+        <a href="/Masterfiles/Accounts/Main" id="sidenav-Accounts">Accounts</a>
+    </li>
+    <li>
+        <a asp-page="/Masterfiles/Reports/DxReports" id="sidenav-Reports">Reports</a>
+    </li>
+
+    <li class="dropdown-btn">
+        <a href="#" id="sidenav-Items">
+            Settings
+            <i class="float-right dropdown-toggle"></i>
+        </a>
+    </li>
+
+    <li class="dropdown-container">
+        <a href="/Masterfiles/ItemCategories">Item Settings</a>
+        <a href="/Masterfiles/ItemCategories">Supplier Settings</a>
+        <a href="/Masterfiles/ItemCategories">System Settings</a>
     </li>
 
 
-    <li class="dropdown-btn">
+    @*<li class="dropdown-btn">
         <a href="#" id="sidenav-Items">
             Items Masterfile
             <i class="float-right dropdown-toggle"></i>
@@ -30,30 +58,8 @@
     </li>
 
     <li>
-        <a href="/Suppliers">Suppliers</a>
-    </li>
-
-    <li>
         <a href="/PurchaseOrders/InvPOHdrs">Purchase Orders</a>
-    </li>
-
-    <li>
-        <a href="/Masterfiles/Accounts/Main" id="sidenav-Accounts">Accounts</a>
-    </li>
-
-
-    <li>
-        @*<a href="/Masterfiles/Reports" id="sidenav-Reports">Reports</a>*@
-        <a asp-page="/Masterfiles/Reports/DxReports" id="sidenav-Reports">Reports</a>
-
-    </li>
-
-    <li>
-        <a href="/Masterfiles/ItemSearch/Search">Item Search</a>
-    </li>
-    <li>
-        <hr />
-    </li>
+    </li>*@
 
     <li>
         <p> My Store </p>

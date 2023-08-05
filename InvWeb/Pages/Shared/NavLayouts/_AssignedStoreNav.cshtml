@@ -12,7 +12,7 @@
 
     if (Context.Session.GetString("_CurrentUserStores") != null)
     {
-        userStores = Context.Session.GetString("_CurrentUserStores");
+         userStores = Context.Session.GetString("_CurrentUserStores");
          usersStoresArr  = JsonConvert.DeserializeObject(userStores);
 
     }
