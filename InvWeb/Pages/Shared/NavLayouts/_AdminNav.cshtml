@@ -7,6 +7,12 @@
         storeLabel = Context.Session.GetString("_StoreLabel");
 
     }
+
+
+    InvWeb.Shared.SystemSetting label = new InvWeb.Shared.SystemSetting();
+    string sStore = label.GetValue("Store");
+
+
 }
 
 <ul class="list-unstyled components">
@@ -17,7 +23,7 @@
         <a href="/Masterfiles/ItemSearch/Search">Search</a>
     </li>
     <li>
-        <a href="/Masterfiles/Stores" id="sidenav-Stores">Store (Warehouse)</a>
+        <a href="/Masterfiles/Stores" id="sidenav-Stores">@sStore</a>
     </li>
     <li>
         <a href="/Masterfiles/ItemMaster">Items</a>
