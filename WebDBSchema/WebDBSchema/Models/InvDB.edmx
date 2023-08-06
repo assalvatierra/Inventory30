@@ -46,13 +46,13 @@
     <EntitySet Name="RptReportRoles1" EntityType="InvDB.Store.RptReportRoles1" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RptAccessTypes" EntityType="InvDB.Store.RptAccessTypes" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Reports" EntityType="InvDB.Store.Reports" store:Type="Tables" Schema="dbo" />
-
     <EntitySet Name="SteelMainCats" EntityType="InvDB.Store.SteelMainCats" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SteelSubCats" EntityType="InvDB.Store.SteelSubCats" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SteelBrands" EntityType="InvDB.Store.SteelBrands" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SteelMaterials" EntityType="InvDB.Store.SteelMaterials" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SteelOrigins" EntityType="InvDB.Store.SteelOrigins" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SteelMaterialGrades" EntityType="InvDB.Store.SteelMaterialGrades" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SysLabels" EntityType="InvDB.Store.SysLabels" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -566,7 +566,6 @@
     <Property Name="SteelMaterialGradeId" Type="int" Nullable="false" />
     <Property Name="WtKgm" Type="decimal" Nullable="false" />
     <Property Name="WtKgpc" Type="decimal" Nullable="false" />
-
   </EntityType>
   <EntityType Name="InvItemSysDefinedSpecs">
     <Key>
@@ -721,6 +720,15 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="60" />
     <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="SysLabels">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="DisplayText" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="DisplayLang" Type="nvarchar" Nullable="false" MaxLength="2" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -1733,6 +1741,7 @@
             <End Role="SteelMaterialGrade" EntitySet="SteelMaterialGrades" />
             <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
           </AssociationSet>
+          <EntitySet Name="SysLabels" EntityType="InvDB.SysLabel" />
         </EntityContainer>
         <EntityType Name="InvItem">
           <Key>
@@ -3001,6 +3010,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SysLabel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="DisplayText" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="DisplayLang" Type="String" Nullable="false" MaxLength="2" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3477,6 +3495,16 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SysLabels">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.SysLabel)">
+        <MappingFragment StoreEntitySet="SysLabels">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="DisplayText" ColumnName="DisplayText" />
+          <ScalarProperty Name="DisplayLang" ColumnName="DisplayLang" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

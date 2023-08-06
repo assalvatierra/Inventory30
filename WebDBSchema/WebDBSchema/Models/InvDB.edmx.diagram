@@ -111,6 +111,7 @@
         <EntityTypeShape EntityType="InvDB.SteelMaterialGrade" Width="1.5" PointX="19.25" PointY="7.875" />
         <AssociationConnector Association="InvDB.SteelOriginInvItemSpec_Steel" />
         <AssociationConnector Association="InvDB.SteelMaterialGradeInvItemSpec_Steel" />
+        <EntityTypeShape EntityType="InvDB.SysLabel" Width="1.5" PointX="27.75" PointY="17.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
