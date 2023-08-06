@@ -1742,6 +1742,7 @@
             <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
           </AssociationSet>
           <EntitySet Name="SysLabels" EntityType="InvDB.SysLabel" />
+          <EntitySet Name="SysSettings" EntityType="InvDB.SysSetting" />
         </EntityContainer>
         <EntityType Name="InvItem">
           <Key>
@@ -3018,6 +3019,14 @@
           <Property Name="Code" Type="String" Nullable="false" MaxLength="50" />
           <Property Name="DisplayText" Type="String" Nullable="false" MaxLength="50" />
           <Property Name="DisplayLang" Type="String" Nullable="false" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="SysSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="10" />
+          <Property Name="SysValue" Type="String" Nullable="false" MaxLength="255" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>

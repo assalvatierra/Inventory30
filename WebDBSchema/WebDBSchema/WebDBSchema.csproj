@@ -360,6 +360,9 @@
     <Compile Include="Models\SysLabel.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SysSetting.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Users\AppUser.cs" />
     <Compile Include="Models\Users\AppUserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
