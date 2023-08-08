@@ -30,7 +30,7 @@ namespace RealSys.Modules.Reports
         public IList<int>? GetUserReportsByUsername(string userName)
         {
             return _context.rptReportUsers.Where(d => d.AspNetUserId == userName)
-                .Select(s=>s.Id).ToList();
+                .Select(s=>s.ReportId).ToList();
         }
 
         public IQueryable<RptCategory> rptCategories 
