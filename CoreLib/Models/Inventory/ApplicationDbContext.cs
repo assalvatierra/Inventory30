@@ -54,6 +54,7 @@ namespace CoreLib.Models.Inventory
         public virtual DbSet<SteelOrigin>? SteelOrigins { get; set; }
         public virtual DbSet<SteelMaterialGrade>? SteelMaterialGrades { get; set; }
         public virtual DbSet<SysLabel> SysLabels { get; set; }
+        public virtual DbSet<SysSetting> SysSettings { get; set; }
 
         public DbSet<Report>? Reports { get; set; }
         public DbSet<RptCategory>? rptCategories { get; set; }
