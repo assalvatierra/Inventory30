@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/05/2023 16:17:24
+-- Date Created: 08/07/2023 15:10:50
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -337,6 +337,9 @@ IF OBJECT_ID(N'[dbo].[SteelOrigins]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SteelMaterialGrades]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SteelMaterialGrades];
+GO
+IF OBJECT_ID(N'[dbo].[SysLabels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysLabels];
 GO
 
 -- --------------------------------------------------
@@ -779,6 +782,14 @@ CREATE TABLE [dbo].[SysLabels] (
 );
 GO
 
+-- Creating table 'SysSettings'
+CREATE TABLE [dbo].[SysSettings] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(10)  NOT NULL,
+    [SysValue] nvarchar(255)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -1062,6 +1073,12 @@ GO
 -- Creating primary key on [Id] in table 'SysLabels'
 ALTER TABLE [dbo].[SysLabels]
 ADD CONSTRAINT [PK_SysLabels]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SysSettings'
+ALTER TABLE [dbo].[SysSettings]
+ADD CONSTRAINT [PK_SysSettings]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

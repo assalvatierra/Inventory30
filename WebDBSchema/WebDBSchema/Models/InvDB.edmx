@@ -53,6 +53,7 @@
     <EntitySet Name="SteelOrigins" EntityType="InvDB.Store.SteelOrigins" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SteelMaterialGrades" EntityType="InvDB.Store.SteelMaterialGrades" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SysLabels" EntityType="InvDB.Store.SysLabels" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SysSettings" EntityType="InvDB.Store.SysSettings" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -729,6 +730,14 @@
     <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="DisplayText" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="DisplayLang" Type="nvarchar" Nullable="false" MaxLength="2" />
+  </EntityType>
+  <EntityType Name="SysSettings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="SysValue" Type="nvarchar" Nullable="false" MaxLength="255" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -3514,6 +3523,15 @@
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="DisplayText" ColumnName="DisplayText" />
           <ScalarProperty Name="DisplayLang" ColumnName="DisplayLang" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SysSettings">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.SysSetting)">
+        <MappingFragment StoreEntitySet="SysSettings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="SysValue" ColumnName="SysValue" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
