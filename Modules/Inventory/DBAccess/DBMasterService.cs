@@ -23,6 +23,7 @@ namespace Inventory.DBAccess
         public IInvPOHdrDb InvPOHdrDb;
         public IInvPOItemDb InvPOItemDb;
         public IInvSupplierDb InvSupplierDb;
+        public IInvPOApprovalDb InvPOApprovalDb;
 
 
         public DBMasterService(ApplicationDbContext context, ILogger logger)
@@ -38,6 +39,7 @@ namespace Inventory.DBAccess
             InvPOHdrDb = new InvPOHdrDb(_context, _logger);
             InvPOItemDb = new InvPOItemDb(_context, _logger);
             InvSupplierDb = new InvSupplierDb(_context, _logger);
+            InvPOApprovalDb = new InvPOApprovalDb(_context, _logger);
 
         }
 
@@ -49,6 +51,7 @@ namespace Inventory.DBAccess
         public IInvPOHdrDb GetInvPOHdrDb() { return InvPOHdrDb; }
         public IInvPOItemDb GetInvPOItemDb() { return InvPOItemDb; }
         public IInvSupplierDb GetInvSupplierDb() { return InvSupplierDb; }
+        public IInvPOApprovalDb GetInvPOApprovalDb() { return InvPOApprovalDb; }
 
     }
 }
