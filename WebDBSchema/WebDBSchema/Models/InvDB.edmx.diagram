@@ -113,6 +113,10 @@
         <AssociationConnector Association="InvDB.SteelMaterialGradeInvItemSpec_Steel" />
         <EntityTypeShape EntityType="InvDB.SysLabel" Width="1.5" PointX="27.75" PointY="17.375" />
         <EntityTypeShape EntityType="InvDB.SysSetting" Width="1.5" PointX="29.75" PointY="17.25" />
+        <EntityTypeShape EntityType="InvDB.InvTrxApproval" Width="1.5" PointX="11" PointY="20.75" />
+        <AssociationConnector Association="InvDB.InvTrxHdrInvTrxApproval" />
+        <EntityTypeShape EntityType="InvDB.InvPoApproval" Width="1.5" PointX="7.5" PointY="11.25" />
+        <AssociationConnector Association="InvDB.InvPoHdrInvPoApproval" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -53,6 +53,9 @@
     <EntitySet Name="SteelOrigins" EntityType="InvDB.Store.SteelOrigins" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SteelMaterialGrades" EntityType="InvDB.Store.SteelMaterialGrades" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="SysLabels" EntityType="InvDB.Store.SysLabels" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SysSettings" EntityType="InvDB.Store.SysSettings" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvTrxApprovals" EntityType="InvDB.Store.InvTrxApprovals" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvPoApprovals" EntityType="InvDB.Store.InvPoApprovals" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -292,6 +295,14 @@
     <AssociationSet Name="SteelMaterialGradeInvItemSpec_Steel" Association="InvDB.Store.SteelMaterialGradeInvItemSpec_Steel">
       <End Role="SteelMaterialGrade" EntitySet="SteelMaterialGrades" />
       <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
+    </AssociationSet>
+    <AssociationSet Name="InvTrxHdrInvTrxApproval" Association="InvDB.Store.InvTrxHdrInvTrxApproval">
+      <End Role="InvTrxHdr" EntitySet="InvTrxHdrs" />
+      <End Role="InvTrxApproval" EntitySet="InvTrxApprovals" />
+    </AssociationSet>
+    <AssociationSet Name="InvPoHdrInvPoApproval" Association="InvDB.Store.InvPoHdrInvPoApproval">
+      <End Role="InvPoHdr" EntitySet="InvPoHdrs" />
+      <End Role="InvPoApproval" EntitySet="InvPoApprovals" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="InvItems">
@@ -729,6 +740,40 @@
     <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="DisplayText" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="DisplayLang" Type="nvarchar" Nullable="false" MaxLength="2" />
+  </EntityType>
+  <EntityType Name="SysSettings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="SysValue" Type="nvarchar" Nullable="false" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="InvTrxApprovals">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ApprovedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="ApprovedDate" Type="datetime" Nullable="false" />
+    <Property Name="VerifiedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="VerifiedDate" Type="datetime" Nullable="false" />
+    <Property Name="EncodedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="EncodedDate" Type="datetime" Nullable="false" />
+    <Property Name="InvTrxHdrId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="InvPoApprovals">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ApprovedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="ApprovedDate" Type="datetime" Nullable="false" />
+    <Property Name="VerifiedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="VerifiedDate" Type="datetime" Nullable="false" />
+    <Property Name="EncodedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="EncodedDate" Type="datetime" Nullable="false" />
+    <Property Name="InvPoHdrId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -1450,6 +1495,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="InvTrxHdrInvTrxApproval">
+    <End Role="InvTrxHdr" Type="InvDB.Store.InvTrxHdrs" Multiplicity="1" />
+    <End Role="InvTrxApproval" Type="InvDB.Store.InvTrxApprovals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvTrxHdr">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvTrxApproval">
+        <PropertyRef Name="InvTrxHdrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvPoHdrInvPoApproval">
+    <End Role="InvPoHdr" Type="InvDB.Store.InvPoHdrs" Multiplicity="1" />
+    <End Role="InvPoApproval" Type="InvDB.Store.InvPoApprovals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvPoHdr">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvPoApproval">
+        <PropertyRef Name="InvPoHdrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -1743,6 +1812,16 @@
           </AssociationSet>
           <EntitySet Name="SysLabels" EntityType="InvDB.SysLabel" />
           <EntitySet Name="SysSettings" EntityType="InvDB.SysSetting" />
+          <EntitySet Name="InvTrxApprovals" EntityType="InvDB.InvTrxApproval" />
+          <AssociationSet Name="InvTrxHdrInvTrxApproval" Association="InvDB.InvTrxHdrInvTrxApproval">
+            <End Role="InvTrxHdr" EntitySet="InvTrxHdrs" />
+            <End Role="InvTrxApproval" EntitySet="InvTrxApprovals" />
+          </AssociationSet>
+          <EntitySet Name="InvPoApprovals" EntityType="InvDB.InvPoApproval" />
+          <AssociationSet Name="InvPoHdrInvPoApproval" Association="InvDB.InvPoHdrInvPoApproval">
+            <End Role="InvPoHdr" EntitySet="InvPoHdrs" />
+            <End Role="InvPoApproval" EntitySet="InvPoApprovals" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
           <Key>
@@ -1888,6 +1967,7 @@
           <Property Name="UserId" Type="String" Nullable="false" />
           <NavigationProperty Name="InvPoHdrStatu" Relationship="InvDB.InvPoHdrStatusInvPoHdr" FromRole="InvPoHdr" ToRole="InvPoHdrStatus" />
           <Property Name="InvPoHdrStatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvPoApprovals" Relationship="InvDB.InvPoHdrInvPoApproval" FromRole="InvPoHdr" ToRole="InvPoApproval" />
         </EntityType>
         <Association Name="InvSupplierInvPoHdr">
           <End Type="InvDB.InvSupplier" Role="InvSupplier" Multiplicity="1" />
@@ -2253,6 +2333,7 @@
           <Property Name="InvTrxTypeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvTrxHdrStatu" Relationship="InvDB.InvTrxHdrStatusInvTrxHdr" FromRole="InvTrxHdr" ToRole="InvTrxHdrStatus" />
           <Property Name="InvTrxHdrStatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvTrxApprovals" Relationship="InvDB.InvTrxHdrInvTrxApproval" FromRole="InvTrxHdr" ToRole="InvTrxApproval" />
         </EntityType>
         <Association Name="InvStoreInvTrxHdr">
           <End Type="InvDB.InvStore" Role="InvStore" Multiplicity="1" />
@@ -3028,6 +3109,58 @@
           <Property Name="Code" Type="String" Nullable="false" MaxLength="10" />
           <Property Name="SysValue" Type="String" Nullable="false" MaxLength="255" />
         </EntityType>
+        <EntityType Name="InvTrxApproval">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApprovedBy" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="ApprovedDate" Type="DateTime" Nullable="false" />
+          <Property Name="VerifiedBy" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="VerifiedDate" Type="DateTime" Nullable="false" />
+          <Property Name="EncodedBy" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="EncodedDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="InvTrxHdr" Relationship="InvDB.InvTrxHdrInvTrxApproval" FromRole="InvTrxApproval" ToRole="InvTrxHdr" />
+          <Property Name="InvTrxHdrId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvTrxHdrInvTrxApproval">
+          <End Type="InvDB.InvTrxHdr" Role="InvTrxHdr" Multiplicity="1" />
+          <End Type="InvDB.InvTrxApproval" Role="InvTrxApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvTrxHdr">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvTrxApproval">
+              <PropertyRef Name="InvTrxHdrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvPoApproval">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ApprovedBy" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="ApprovedDate" Type="DateTime" Nullable="false" />
+          <Property Name="VerifiedBy" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="VerifiedDate" Type="DateTime" Nullable="false" />
+          <Property Name="EncodedBy" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="EncodedDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="InvPoHdr" Relationship="InvDB.InvPoHdrInvPoApproval" FromRole="InvPoApproval" ToRole="InvPoHdr" />
+          <Property Name="InvPoHdrId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvPoHdrInvPoApproval">
+          <End Type="InvDB.InvPoHdr" Role="InvPoHdr" Multiplicity="1" />
+          <End Type="InvDB.InvPoApproval" Role="InvPoApproval" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvPoHdr">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvPoApproval">
+              <PropertyRef Name="InvPoHdrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3514,6 +3647,43 @@
           <ScalarProperty Name="Code" ColumnName="Code" />
           <ScalarProperty Name="DisplayText" ColumnName="DisplayText" />
           <ScalarProperty Name="DisplayLang" ColumnName="DisplayLang" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SysSettings">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.SysSetting)">
+        <MappingFragment StoreEntitySet="SysSettings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="SysValue" ColumnName="SysValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvTrxApprovals">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvTrxApproval)">
+        <MappingFragment StoreEntitySet="InvTrxApprovals">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+          <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+          <ScalarProperty Name="VerifiedBy" ColumnName="VerifiedBy" />
+          <ScalarProperty Name="VerifiedDate" ColumnName="VerifiedDate" />
+          <ScalarProperty Name="EncodedBy" ColumnName="EncodedBy" />
+          <ScalarProperty Name="EncodedDate" ColumnName="EncodedDate" />
+          <ScalarProperty Name="InvTrxHdrId" ColumnName="InvTrxHdrId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvPoApprovals">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvPoApproval)">
+        <MappingFragment StoreEntitySet="InvPoApprovals">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+          <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+          <ScalarProperty Name="VerifiedBy" ColumnName="VerifiedBy" />
+          <ScalarProperty Name="VerifiedDate" ColumnName="VerifiedDate" />
+          <ScalarProperty Name="EncodedBy" ColumnName="EncodedBy" />
+          <ScalarProperty Name="EncodedDate" ColumnName="EncodedDate" />
+          <ScalarProperty Name="InvPoHdrId" ColumnName="InvPoHdrId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

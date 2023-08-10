@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/05/2023 16:17:24
+-- Date Created: 08/10/2023 16:56:33
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -337,6 +337,9 @@ IF OBJECT_ID(N'[dbo].[SteelOrigins]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SteelMaterialGrades]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SteelMaterialGrades];
+GO
+IF OBJECT_ID(N'[dbo].[SysLabels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysLabels];
 GO
 
 -- --------------------------------------------------
@@ -779,6 +782,40 @@ CREATE TABLE [dbo].[SysLabels] (
 );
 GO
 
+-- Creating table 'SysSettings'
+CREATE TABLE [dbo].[SysSettings] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(10)  NOT NULL,
+    [SysValue] nvarchar(255)  NOT NULL
+);
+GO
+
+-- Creating table 'InvTrxApprovals'
+CREATE TABLE [dbo].[InvTrxApprovals] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ApprovedBy] nvarchar(40)  NOT NULL,
+    [ApprovedDate] datetime  NOT NULL,
+    [VerifiedBy] nvarchar(40)  NOT NULL,
+    [VerifiedDate] datetime  NOT NULL,
+    [EncodedBy] nvarchar(40)  NOT NULL,
+    [EncodedDate] datetime  NOT NULL,
+    [InvTrxHdrId] int  NOT NULL
+);
+GO
+
+-- Creating table 'InvPoApprovals'
+CREATE TABLE [dbo].[InvPoApprovals] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ApprovedBy] nvarchar(40)  NOT NULL,
+    [ApprovedDate] datetime  NOT NULL,
+    [VerifiedBy] nvarchar(40)  NOT NULL,
+    [VerifiedDate] datetime  NOT NULL,
+    [EncodedBy] nvarchar(40)  NOT NULL,
+    [EncodedDate] datetime  NOT NULL,
+    [InvPoHdrId] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -1062,6 +1099,24 @@ GO
 -- Creating primary key on [Id] in table 'SysLabels'
 ALTER TABLE [dbo].[SysLabels]
 ADD CONSTRAINT [PK_SysLabels]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SysSettings'
+ALTER TABLE [dbo].[SysSettings]
+ADD CONSTRAINT [PK_SysSettings]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvTrxApprovals'
+ALTER TABLE [dbo].[InvTrxApprovals]
+ADD CONSTRAINT [PK_InvTrxApprovals]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvPoApprovals'
+ALTER TABLE [dbo].[InvPoApprovals]
+ADD CONSTRAINT [PK_InvPoApprovals]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1967,6 +2022,36 @@ GO
 CREATE INDEX [IX_FK_SteelMaterialGradeInvItemSpec_Steel]
 ON [dbo].[InvItemSpec_Steel]
     ([SteelMaterialGradeId]);
+GO
+
+-- Creating foreign key on [InvTrxHdrId] in table 'InvTrxApprovals'
+ALTER TABLE [dbo].[InvTrxApprovals]
+ADD CONSTRAINT [FK_InvTrxHdrInvTrxApproval]
+    FOREIGN KEY ([InvTrxHdrId])
+    REFERENCES [dbo].[InvTrxHdrs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvTrxHdrInvTrxApproval'
+CREATE INDEX [IX_FK_InvTrxHdrInvTrxApproval]
+ON [dbo].[InvTrxApprovals]
+    ([InvTrxHdrId]);
+GO
+
+-- Creating foreign key on [InvPoHdrId] in table 'InvPoApprovals'
+ALTER TABLE [dbo].[InvPoApprovals]
+ADD CONSTRAINT [FK_InvPoHdrInvPoApproval]
+    FOREIGN KEY ([InvPoHdrId])
+    REFERENCES [dbo].[InvPoHdrs]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvPoHdrInvPoApproval'
+CREATE INDEX [IX_FK_InvPoHdrInvPoApproval]
+ON [dbo].[InvPoApprovals]
+    ([InvPoHdrId]);
 GO
 
 -- --------------------------------------------------

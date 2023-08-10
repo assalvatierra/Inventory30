@@ -73,5 +73,7 @@ namespace WebDBSchema.Models
         public virtual DbSet<SteelMaterialGrade> SteelMaterialGrades { get; set; }
         public virtual DbSet<SysLabel> SysLabels { get; set; }
         public virtual DbSet<SysSetting> SysSettings { get; set; }
+        public virtual DbSet<InvTrxApproval> InvTrxApprovals { get; set; }
+        public virtual DbSet<InvPoApproval> InvPoApprovals { get; set; }
     }
 }
