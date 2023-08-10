@@ -37,6 +37,9 @@ namespace InvWeb.Suppliers.SupplierItems
                 return NotFound();
             }
 
+            SupplierItemIndex = new SupplierItemIndexModel();
+            SupplierItemIndex.SupplierId = (int)id;
+
             SupplierItemIndex = await supItemServices.GetSupplierItemIndexModel_OnIndexGet(SupplierItemIndex);
 
             //InvSupplierItem = await _context.InvSupplierItems
