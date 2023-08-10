@@ -18,6 +18,7 @@ namespace WebDBSchema.Models
         public InvTrxHdr()
         {
             this.InvTrxDtls = new HashSet<InvTrxDtl>();
+            this.InvTrxApprovals = new HashSet<InvTrxApproval>();
         }
     
         public int Id { get; set; }
@@ -33,5 +34,7 @@ namespace WebDBSchema.Models
         public virtual ICollection<InvTrxDtl> InvTrxDtls { get; set; }
         public virtual InvTrxType InvTrxType { get; set; }
         public virtual InvTrxHdrStatus InvTrxHdrStatu { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvTrxApproval> InvTrxApprovals { get; set; }
     }
 }
