@@ -123,6 +123,19 @@ namespace Inventory
             }
         }
 
+        public bool InvTrxCheckHaveApprovalExist(int TrxId)
+        {
+            try { 
+                return _context.InvTrxApprovals.Any(c => c.InvTrxHdrId == TrxId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvApprovalServices: Unable to InvTrxCheckHaveApprovalExist :" + ex.Message);
+                throw new Exception("InvApprovalServices: Unable to InvTrxCheckHaveApprovalExist :" + ex.Message);
+
+            }
+        }
+
         public bool InvTrxApprovalExists(int id)
         {
             try
@@ -135,6 +148,11 @@ namespace Inventory
                 throw new Exception("InvApprovalServices: Unable to InvPoApprovalExists :" + ex.Message);
 
             }
+        }
+
+        public InvTrxApproval GetExistingApproval(int TrxId)
+        {
+            return _context.InvTrxApprovals.FirstOrDefault(c => c.InvTrxHdrId == TrxId);
         }
 
         public async Task SaveChangesAsync()

@@ -12,6 +12,8 @@ using CoreLib.Inventory.Interfaces;
 using Microsoft.Extensions.Logging;
 using Modules.Inventory;
 using CoreLib.DTO.Releasing;
+using CoreLib.Interfaces;
+using Inventory;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
@@ -21,6 +23,7 @@ namespace InvWeb.Pages.Stores.Releasing
         private readonly ILogger<CreateModel> _logger;
         private readonly IItemTrxServices itemTrxServices;
         private readonly IStoreServices storeServices;
+        private readonly IInvApprovalServices invApprovalServices;
 
         public CreateModel(ILogger<CreateModel> logger, ApplicationDbContext context)
         {
@@ -28,6 +31,7 @@ namespace InvWeb.Pages.Stores.Releasing
             _context = context;
             itemTrxServices = new ItemTrxServices(_context, _logger);
             storeServices = new StoreServices(_context, _logger);
+            invApprovalServices = new InvApprovalServices(_context, _logger);
         }
 
         [BindProperty]
@@ -62,6 +66,8 @@ namespace InvWeb.Pages.Stores.Releasing
             itemTrxServices.CreateInvTrxHdrs(ReleasingCreateModel.InvTrxHdr);
             await itemTrxServices.SaveChanges();
 
+            CreateTrxHdrApproval();
+
             return RedirectToPage("./Details", new { id = ReleasingCreateModel.InvTrxHdr.Id});
         }
 
@@ -78,6 +84,18 @@ namespace InvWeb.Pages.Stores.Releasing
         private void UpdateStoreId(int storeId)
         {
             StoreId = storeId;
+        }
+
+
+        private void CreateTrxHdrApproval()
+        {
+            var newTrxHdrApproval = new InvTrxApproval();
+            newTrxHdrApproval.EncodedBy = GetUser();
+            newTrxHdrApproval.EncodedDate = DateTime.UtcNow;
+
+            invApprovalServices.CreateTrxApproval(newTrxHdrApproval);
+
+            invApprovalServices.SaveChangesAsync();
         }
 
     }

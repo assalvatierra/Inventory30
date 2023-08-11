@@ -14,5 +14,6 @@ namespace CoreLib.DTO.Releasing
         public string Status { get; set; }
         public string Order { get; set; }
         public bool IsAdmin { get; set; }
+
     }
 }

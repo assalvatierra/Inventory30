@@ -18,6 +18,8 @@ namespace CoreLib.Interfaces
         public void DeletePoApproval(InvPOApproval invPOApproval);
         public bool InvTrxApprovalExists(int id);
         public bool InvPoApprovalExists(int id);
+        public bool InvTrxCheckHaveApprovalExist(int TrxId);
+        public InvTrxApproval GetExistingApproval(int TrxId);
         public Task SaveChangesAsync();
     }
 }
