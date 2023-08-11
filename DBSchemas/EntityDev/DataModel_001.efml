@@ -1,0 +1,1344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<efcore p1:name="db_a0a0ae_inventorydevModel" p1:Guid="9a62d6cc-f270-4e47-89a5-a72204c2132c" xmlns:p1="http://devart.com/schemas/EntityDeveloper/1.0">
+  <class name="AspNetRole" entity-set="AspNetRoles" table="AspNetRoles" schema="dbo" p1:Guid="74f12d90-d685-4c88-a827-77a771200c67">
+    <id name="Id" type="String" p1:ValidateMaxLength="128" p1:ValidateRequired="true" p1:Guid="376ae70a-eb91-4d6f-b870-2f9324cb34d8">
+      <column name="Id" not-null="True" length="128" sql-type="nvarchar" p1:unicode="True" />
+    </id>
+    <property name="Name" type="String" p1:ValidateMaxLength="256" p1:ValidateRequired="true" p1:Guid="33f37049-5b93-4720-b73c-f0a8ef46bb27">
+      <column name="Name" not-null="True" length="256" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="NormalizedName" type="String" p1:nullable="True" p1:ValidateMaxLength="128" p1:ValidateRequired="false" p1:Guid="786ea9d5-8703-4360-8922-a4c66a729013">
+      <column name="NormalizedName" not-null="False" length="128" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="ConcurrencyStamp" type="String" p1:nullable="True" p1:ValidateMaxLength="128" p1:ValidateRequired="false" p1:Guid="3550f569-2c6f-4f38-936a-f3de654a2118">
+      <column name="ConcurrencyStamp" not-null="False" length="128" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="AspNetUserClaim" entity-set="AspNetUserClaims" table="AspNetUserClaims" schema="dbo" p1:Guid="7ce13b59-42d8-428a-aa8e-48e9bf9fb9f4">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="2b665c15-2422-4d9d-8157-f8a5718d822c">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="UserId" type="String" p1:ValidateMaxLength="128" p1:ValidateRequired="true" p1:Guid="62ceb14c-6590-4f08-9042-ecd498e5425f">
+      <column name="UserId" not-null="True" length="128" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="ClaimType" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="b8c5a48d-d6d8-4891-81f4-5b93506eab07">
+      <column name="ClaimType" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="ClaimValue" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="12f43113-dd8c-4833-911f-5bf61ccdeb82">
+      <column name="ClaimValue" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="AspNetUserLogin" entity-set="AspNetUserLogins" table="AspNetUserLogins" schema="dbo" p1:Guid="887a5337-de69-42d2-97aa-910b8a5346af">
+    <composite-id>
+      <key-property name="LoginProvider" type="String" p1:ValidateMaxLength="128" p1:ValidateRequired="true" p1:Guid="7382a0b2-b435-40f4-98dc-c280275523e9">
+        <column name="LoginProvider" not-null="True" length="128" sql-type="nvarchar" p1:unicode="True" />
+      </key-property>
+      <key-property name="ProviderKey" type="String" primary-key-index="1" p1:ValidateMaxLength="128" p1:ValidateRequired="true" p1:Guid="8bf1d8ee-2386-4ca2-9e1d-5ea740c6f145">
+        <column name="ProviderKey" not-null="True" length="128" sql-type="nvarchar" p1:unicode="True" />
+      </key-property>
+      <key-property name="UserId" type="String" primary-key-index="2" p1:ValidateMaxLength="128" p1:ValidateRequired="true" p1:Guid="9820e4f6-d1ea-4290-9dd1-132ea4917758">
+        <column name="UserId" not-null="True" length="128" sql-type="nvarchar" p1:unicode="True" />
+      </key-property>
+    </composite-id>
+  </class>
+  <class name="AspNetUserRole" entity-set="AspNetUserRoles" table="AspNetUserRoles" schema="dbo" p1:Guid="2d355125-fb43-4ebd-a672-19d463015edd">
+    <composite-id>
+      <key-property name="UserId" type="String" p1:ValidateMaxLength="128" p1:ValidateRequired="true" p1:Guid="a0473484-ac8e-410c-8be2-c16e36437713">
+        <column name="UserId" not-null="True" length="128" sql-type="nvarchar" p1:unicode="True" />
+      </key-property>
+      <key-property name="RoleId" type="String" primary-key-index="1" p1:ValidateMaxLength="128" p1:ValidateRequired="true" p1:Guid="64b60db5-d8b3-4957-a0c3-666a898a4bd1">
+        <column name="RoleId" not-null="True" length="128" sql-type="nvarchar" p1:unicode="True" />
+      </key-property>
+    </composite-id>
+  </class>
+  <class name="AspNetUser" entity-set="AspNetUsers" table="AspNetUsers" schema="dbo" p1:Guid="5e57774a-e501-4c4c-be91-6403bc92de97">
+    <id name="Id" type="String" p1:ValidateMaxLength="128" p1:ValidateRequired="true" p1:Guid="ec743a60-724d-4a52-91de-c10e0ece4a34">
+      <column name="Id" not-null="True" length="128" sql-type="nvarchar" p1:unicode="True" />
+    </id>
+    <property name="Email" type="String" p1:nullable="True" p1:ValidateMaxLength="256" p1:ValidateRequired="false" p1:Guid="de550d4e-921d-44ab-b330-bba63ee102f6">
+      <column name="Email" not-null="False" length="256" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="EmailConfirmed" type="Boolean" p1:ValidateRequired="true" p1:Guid="9f35d9de-6ce3-4e42-b92b-d7d9d70da157">
+      <column name="EmailConfirmed" not-null="True" sql-type="bit" p1:unicode="False" />
+    </property>
+    <property name="PasswordHash" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="bfd3a14c-100b-449e-81f0-02491a8f2598">
+      <column name="PasswordHash" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="SecurityStamp" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="3e1e9c57-d6b1-4777-8dac-8ae27f585f5d">
+      <column name="SecurityStamp" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="PhoneNumber" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="b9bb32a5-6d1b-4593-a224-390efa765fc7">
+      <column name="PhoneNumber" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="PhoneNumberConfirmed" type="Boolean" p1:ValidateRequired="true" p1:Guid="a841254e-1fc9-44c1-ba74-c15415f1f5a4">
+      <column name="PhoneNumberConfirmed" not-null="True" sql-type="bit" p1:unicode="False" />
+    </property>
+    <property name="TwoFactorEnabled" type="Boolean" p1:ValidateRequired="true" p1:Guid="bcbc54d9-eafe-4b48-8ff0-b918f55e26dd">
+      <column name="TwoFactorEnabled" not-null="True" sql-type="bit" p1:unicode="False" />
+    </property>
+    <property name="LockoutEndDateUtc" type="DateTime" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="599eb19a-c40b-4a6b-921c-25ec0589eef9">
+      <column name="LockoutEndDateUtc" not-null="False" sql-type="datetime" p1:unicode="False" />
+    </property>
+    <property name="LockoutEnabled" type="Boolean" p1:ValidateRequired="true" p1:Guid="ff684a22-5c43-4b9a-90a9-e1fe8c04f898">
+      <column name="LockoutEnabled" not-null="True" sql-type="bit" p1:unicode="False" />
+    </property>
+    <property name="AccessFailedCount" type="Int32" p1:ValidateRequired="true" p1:Guid="eb3e34ff-b81c-4aee-83e9-462509bdaaf7">
+      <column name="AccessFailedCount" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="UserName" type="String" p1:ValidateMaxLength="256" p1:ValidateRequired="true" p1:Guid="96c13fe8-55cc-4595-8157-f2eba5e418ee">
+      <column name="UserName" not-null="True" length="256" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="ConcurrencyStamp" type="String" p1:nullable="True" p1:ValidateMaxLength="256" p1:ValidateRequired="false" p1:Guid="2e24654d-f0d5-40ef-9ec9-3a23675db07d">
+      <column name="ConcurrencyStamp" not-null="False" length="256" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="LockoutEnd" type="DateTime" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="d79b3cf2-d100-4af3-87a8-80fe398dfc85">
+      <column name="LockoutEnd" not-null="False" sql-type="datetime" p1:unicode="False" />
+    </property>
+    <property name="NormalizedEmail" type="String" p1:ValidateMaxLength="256" p1:ValidateRequired="true" p1:Guid="1daac1e6-b846-4f8b-8634-6491adddf105">
+      <column name="NormalizedEmail" not-null="True" length="256" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="NormalizedUserName" type="String" p1:ValidateMaxLength="256" p1:ValidateRequired="true" p1:Guid="05295feb-a9e6-403f-9121-bf59bc2b3566">
+      <column name="NormalizedUserName" not-null="True" length="256" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvAdjHdr" entity-set="InvAdjHdrs" table="InvAdjHdrs" schema="dbo" p1:Guid="ee127e23-72fc-4757-ada1-acbf24cc9858">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="b660c8dc-2fb0-411b-a11c-ed5e2b33cb46">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvStoreId" type="Int32" p1:ValidateRequired="true" p1:Guid="5bb17a9d-b165-4161-a648-d659720c23da">
+      <column name="InvStoreId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="DtAdj" type="String" p1:ValidateRequired="true" p1:Guid="71cfa6e4-b0f8-4e8b-b9b6-edcd413ed13b">
+      <column name="dtAdj" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="Status" type="String" p1:ValidateRequired="true" p1:Guid="71d359b2-cb57-4f17-a6b8-01ea9c07f767">
+      <column name="Status" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="Remarks" type="String" p1:ValidateRequired="true" p1:Guid="29c5b190-5bd9-42a8-8dae-849e42d55842">
+      <column name="Remarks" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvAdjItem" entity-set="InvAdjItems" table="InvAdjItems" schema="dbo" p1:Guid="bf05e74f-48cf-41dd-8a05-456fee4c98da">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="88372899-ba3e-4d0c-bcc1-8bc4b39e6c50">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvAdjHdrId" type="Int32" p1:ValidateRequired="true" p1:Guid="feecf61a-9d70-461b-a017-4d1b411dd5f3">
+      <column name="InvAdjHdrId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvItemId" type="Int32" p1:ValidateRequired="true" p1:Guid="40d31df5-d315-4dd5-b85a-878964a7d479">
+      <column name="InvItemId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvUomId" type="Int32" p1:ValidateRequired="true" p1:Guid="e0e8b09c-edad-4d15-abd9-5ee60e9e1413">
+      <column name="InvUomId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="QtyAdded" type="String" p1:ValidateRequired="true" p1:Guid="89ef6681-070c-4dbf-8cd7-b68d2c5d2386">
+      <column name="QtyAdded" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="QtyDeduct" type="String" p1:ValidateRequired="true" p1:Guid="c0c62740-c115-49b6-a634-d88a8a6cc5af">
+      <column name="QtyDeduct" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvCatCustomSpec" entity-set="InvCatCustomSpecs" table="InvCatCustomSpecs" schema="dbo" p1:Guid="9fc12fa1-1355-4645-9199-d2ae5b96c4c0">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="bd468f3a-4397-4582-85a3-2072519793a4">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvCategoryId" type="Int32" p1:ValidateRequired="true" p1:Guid="61d4fd0b-4aa4-4eb8-a275-db926ba1ef59">
+      <column name="InvCategoryId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="Order" type="Int32" p1:ValidateRequired="true" p1:Guid="18381a4c-3c82-4ce4-8ed6-1b5988625b7c">
+      <column name="`Order`" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="Remarks" type="String" p1:nullable="True" p1:ValidateMaxLength="50" p1:ValidateRequired="false" p1:Guid="45536fa5-d16f-4317-a167-59b9ad9f9cdc">
+      <column name="Remarks" not-null="False" length="50" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="InvCustomSpecId" type="Int32" p1:ValidateRequired="true" p1:Guid="05506083-dd17-4da4-9fdd-96b4931826a6">
+      <column name="InvCustomSpecId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvCategory" entity-set="InvCategories" table="InvCategories" schema="dbo" p1:Guid="7eb7383a-6764-4f83-839d-ce9bb5d5baf7">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="43de2c97-70b3-40cd-9f0e-12921e6aadf3">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Code" type="String" p1:ValidateMaxLength="20" p1:ValidateRequired="true" p1:Guid="f2f1b061-938d-4bd9-8446-1f38b17f3a8d">
+      <column name="Code" not-null="True" length="20" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Description" type="String" p1:ValidateMaxLength="50" p1:ValidateRequired="true" p1:Guid="57691bd9-108f-4d18-98a9-ae2187d76212">
+      <column name="Description" not-null="True" length="50" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Remarks" type="String" p1:nullable="True" p1:ValidateMaxLength="50" p1:ValidateRequired="false" p1:Guid="1f297161-f3d7-4dfd-8f27-c1adcba9e809">
+      <column name="Remarks" not-null="False" length="50" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvCategorySpecDef" entity-set="InvCategorySpecDefs" table="InvCategorySpecDefs" schema="dbo" p1:Guid="8185354c-e44e-4158-aed6-2710e7dbeba8">
+    <property name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="f79d6248-182e-48ab-b76d-e1769768d391">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvCategoryId" type="Int32" p1:ValidateRequired="true" p1:Guid="11efe82a-a36c-4f1d-92a3-1c20a9773f4b">
+      <column name="InvCategoryId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvItemSysDefinedSpecsId" type="Int32" p1:ValidateRequired="true" p1:Guid="11d78c04-5105-4251-a796-50c4f104a048">
+      <column name="InvItemSysDefinedSpecsId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvClassification" entity-set="InvClassifications" table="InvClassifications" schema="dbo" p1:Guid="d20d0d46-e209-4403-a1c3-5a4450046628">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="73feee6c-68c8-44d4-bba4-09280fd7931b">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Classification" type="String" p1:ValidateRequired="true" p1:Guid="b1e7c00f-6e7e-4fc4-baed-55890853115a">
+      <column name="Classification" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvCustomSpec" entity-set="InvCustomSpecs" table="InvCustomSpecs" schema="dbo" p1:Guid="1d0ece24-eadb-4dfb-9282-64ae2f323dbf">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="6abf7634-7a23-470c-b782-d9f07361fd71">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="SpecName" type="String" p1:ValidateMaxLength="50" p1:ValidateRequired="true" p1:Guid="f0ff02c9-3c38-48f2-8623-03f3747b010a">
+      <column name="SpecName" not-null="True" length="50" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="InvCustomSpecTypeId" type="Int32" p1:ValidateRequired="true" p1:Guid="eff15532-24bc-47cc-8201-4cb5cd1c0c6e">
+      <column name="InvCustomSpecTypeId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="Order" type="Int32" p1:ValidateRequired="true" p1:Guid="5014edb3-0693-4720-b44c-6f60df4ba7eb">
+      <column name="`Order`" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="Measurement" type="String" p1:nullable="True" p1:ValidateMaxLength="20" p1:ValidateRequired="false" p1:Guid="31f16b7f-5b8e-474f-90f7-0a2acc4231c3">
+      <column name="Measurement" not-null="False" length="20" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Remarks" type="String" p1:nullable="True" p1:ValidateMaxLength="50" p1:ValidateRequired="false" p1:Guid="263b9dac-2382-46e7-86b5-cb657ae620ab">
+      <column name="Remarks" not-null="False" length="50" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvCustomSpecType" entity-set="InvCustomSpecTypes" table="InvCustomSpecTypes" schema="dbo" p1:Guid="94dd38a6-7c86-498c-9ea7-2eb95559adc0">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="3887fc2f-5c6a-4dc0-b7b2-fcfd401a7fa9">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Type" type="String" p1:ValidateRequired="true" p1:Guid="95ca2da1-1b3a-496d-b3be-dcb755bf0d1a">
+      <column name="Type" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvItemClass" entity-set="InvItemClasses" table="InvItemClasses" schema="dbo" p1:Guid="bbc1dac7-5519-44be-8033-5f00e0f5c237">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="9656fd08-d4e4-4b99-bac8-c4fbba34e6d6">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvItemId" type="Int32" p1:ValidateRequired="true" p1:Guid="73a370e8-bf0b-4ba7-b7e4-e9505b2f3c03">
+      <column name="InvItemId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvClassificationId" type="Int32" p1:ValidateRequired="true" p1:Guid="dbf7244a-fb34-4c4c-b4e7-a909e2a7637a">
+      <column name="InvClassificationId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvItemCustomSpec" entity-set="InvItemCustomSpecs" table="InvItemCustomSpecs" schema="dbo" p1:Guid="f67b4f1f-0cbb-480d-b6fc-c1a306a6347e">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="3736edcc-14f1-4064-b2d4-45fc8e6086e6">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvItemId" type="Int32" p1:ValidateRequired="true" p1:Guid="6a7fd967-b0d6-4ef8-b380-98676224ba20">
+      <column name="InvItemId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvCustomSpecId" type="Int32" p1:ValidateRequired="true" p1:Guid="b94a6aaa-4ab6-4e61-b752-1971dc1f0356">
+      <column name="InvCustomSpecId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="SpecValue" type="String" p1:nullable="True" p1:ValidateMaxLength="30" p1:ValidateRequired="false" p1:Guid="4ffe6550-06b2-4ded-bfb7-c639d60c2c9f">
+      <column name="SpecValue" not-null="False" length="30" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Remarks" type="String" p1:nullable="True" p1:ValidateMaxLength="50" p1:ValidateRequired="false" p1:Guid="5e60c2e4-16b9-407c-95db-bc54baec2401">
+      <column name="Remarks" not-null="False" length="50" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Order" type="String" p1:ValidateRequired="true" p1:Guid="60059526-fd76-4c87-b375-280436d0ff72">
+      <column name="`Order`" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvItem" entity-set="InvItems" table="InvItems" schema="dbo" p1:Guid="f56a8fb0-793f-4311-b435-46651f1caf65">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="cab7b484-5ad3-4bc6-a1ed-4e9e61dc3e1f">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Code" type="String" p1:ValidateMaxLength="40" p1:ValidateRequired="true" p1:Guid="6e63e14a-cad9-411c-8343-58c8c957eefe">
+      <column name="Code" not-null="True" length="40" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Description" type="String" p1:ValidateMaxLength="120" p1:ValidateRequired="true" p1:Guid="45e6742e-9e57-424f-b43f-b332ed94271b">
+      <column name="Description" not-null="True" length="120" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Remarks" type="String" p1:nullable="True" p1:ValidateMaxLength="120" p1:ValidateRequired="false" p1:Guid="82a69b59-f23a-4226-92ab-ed6ecc93d7e0">
+      <column name="Remarks" not-null="False" length="120" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="InvUomId" type="Int32" p1:ValidateRequired="true" p1:Guid="13a3a384-d7a6-43b8-bfed-805e84305ea7">
+      <column name="InvUomId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvCategoryId" type="Int32" p1:ValidateRequired="true" p1:Guid="b836fb0d-0431-45e5-82a1-e7df9cd0029a">
+      <column name="InvCategoryId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="Weight" type="Decimal" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="2ad5ecac-d77c-46d7-80c0-accc22489f9f">
+      <column name="Weight" not-null="False" precision="18" scale="2" sql-type="decimal" p1:unicode="False" />
+    </property>
+    <property name="Material" type="String" p1:nullable="True" p1:ValidateMaxLength="80" p1:ValidateRequired="false" p1:Guid="b486ecd8-73e8-47c6-88da-05c391450afb">
+      <column name="Material" not-null="False" length="80" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvItemSpec_Steel" entity-set="InvItemSpec_Steels" table="InvItemSpec_Steel" schema="dbo" p1:Guid="97caa5e9-81e1-4657-bcbd-1906bec99d73">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="03b87f2a-0d16-4023-9e6c-64b7b7d86cf9">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvItemId" type="Int32" p1:ValidateRequired="true" p1:Guid="f20cdbdc-8fc0-41b6-b7c3-ab75b8f4756c">
+      <column name="InvItemId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="Description" type="String" p1:nullable="True" p1:ValidateMaxLength="180" p1:ValidateRequired="false" p1:Guid="eb1800ab-b327-4141-9686-82e5f075c6e3">
+      <column name="Description" not-null="False" length="180" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Code" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="92a5b068-103b-472a-ab00-8180bc51c8e4">
+      <column name="Code" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="SteelMainCatId" type="Int32" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="2954eeac-d119-40c0-a054-dcaad2b154fb">
+      <column name="SteelMainCatId" not-null="False" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="SteelSubCatId" type="Int32" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="2327c262-291a-4ff9-b94e-3540653d2c15">
+      <column name="SteelSubCatId" not-null="False" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="SteelBrandId" type="Int32" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="5836bde9-4d0d-430e-a2c9-1eb623279639">
+      <column name="SteelBrandId" not-null="False" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="SteelMaterialId" type="Int32" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="71fc7e96-8287-4a76-909f-6ec3061deac3">
+      <column name="SteelMaterialId" not-null="False" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="SteelOriginId" type="Int32" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="e3ca4aca-bde6-4748-bd98-cd53101b0c15">
+      <column name="SteelOriginId" not-null="False" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="SteelMaterialGradeId" type="Int32" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="f8196f95-7eb6-4508-9713-2bacd0d3dd97">
+      <column name="SteelMaterialGradeId" not-null="False" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="WtKgm" type="Decimal" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="c1b7d671-2dca-4390-a4db-0693c1b919e0">
+      <column name="WtKgm" not-null="False" precision="18" scale="0" sql-type="decimal" p1:unicode="False" />
+    </property>
+    <property name="WtKgpc" type="Decimal" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="4a06ee38-33be-4a35-9f24-af2da63c3339">
+      <column name="WtKgpc" not-null="False" precision="18" scale="0" sql-type="decimal" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvItemSysDefinedSpec" entity-set="InvItemSysDefinedSpecs" table="InvItemSysDefinedSpecs" schema="dbo" p1:Guid="943677d7-e0fb-4d4e-b24d-317bf041733a">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="9f4b1cb2-bf32-494f-97a5-7e0e68cd1c99">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="SpecName" type="String" p1:nullable="True" p1:ValidateMaxLength="30" p1:ValidateRequired="false" p1:Guid="ac4b1012-41db-4d07-ba62-68a78eeb5f03">
+      <column name="SpecName" not-null="False" length="30" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="SpecCode" type="String" p1:ValidateMaxLength="10" p1:ValidateRequired="true" p1:Guid="b5305451-e8c2-4c7f-81c9-0ef36f06e9e0">
+      <column name="SpecCode" not-null="True" length="10" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="SpecGroup" type="String" p1:nullable="True" p1:ValidateMaxLength="10" p1:ValidateRequired="false" p1:Guid="026ffd8e-ac4e-4b6a-aea3-16adcec1f7e8">
+      <column name="SpecGroup" not-null="False" length="10" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvPoHdr" entity-set="InvPoHdrs" table="InvPoHdrs" schema="dbo" p1:Guid="01452145-9732-4598-b0fb-dc4c956b83fd">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="8dcd8d3f-9b3c-473f-8619-b679d1422d57">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvSupplierId" type="Int32" p1:ValidateRequired="true" p1:Guid="5174e676-0680-4ea8-9635-c72cac0cbd9d">
+      <column name="InvSupplierId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvStoreId" type="Int32" p1:ValidateRequired="true" p1:Guid="0f5ff0c2-ccf1-4b84-9901-8997a21466ce">
+      <column name="InvStoreId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="DtPo" type="DateTime" p1:ValidateRequired="true" p1:Guid="0f56f498-a3cd-4f97-8518-f3cd9014584c">
+      <column name="DtPo" not-null="True" sql-type="datetime" p1:unicode="False" />
+    </property>
+    <property name="UserId" type="String" p1:ValidateRequired="true" p1:Guid="31bdba8e-a553-4978-8cdf-7b434fbcd54b">
+      <column name="UserId" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="InvPoHdrStatusId" type="Int32" p1:ValidateRequired="true" p1:Guid="b7d2b489-df79-4332-b361-5ea57d76a75b">
+      <column name="InvPoHdrStatusId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvPoHdrStatus" entity-set="InvPoHdrStatuses" table="InvPoHdrStatus" schema="dbo" p1:Guid="de57e813-5d32-427e-9f1a-117599a25623">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="593a231c-3ee0-4786-b9ac-b01bb04d68a7">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Status" type="String" p1:ValidateMaxLength="20" p1:ValidateRequired="true" p1:Guid="57997fac-17dc-40fb-934d-aeeb913d3a92">
+      <column name="Status" not-null="True" length="20" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="OrderNo" type="Int32" p1:ValidateRequired="true" p1:Guid="b8e83eb8-efe7-438f-b331-bf499af22bb6">
+      <column name="OrderNo" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvPoItem" entity-set="InvPoItems" table="InvPoItems" schema="dbo" p1:Guid="0aa25548-ac1b-487b-8a8a-b13693b14b12">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="632ae62e-c5b9-4523-9ba7-4d7b0f46d831">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvPoHdrId" type="Int32" p1:ValidateRequired="true" p1:Guid="da5efa94-4a73-4045-bc69-8d3ac8fdd230">
+      <column name="InvPoHdrId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvItemId" type="Int32" p1:ValidateRequired="true" p1:Guid="b9894378-a10b-43a4-b04e-5693730759cb">
+      <column name="InvItemId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="ItemQty" type="String" p1:ValidateRequired="true" p1:Guid="d554dbf4-4cc7-4d40-a143-d7f5358be60e">
+      <column name="ItemQty" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="InvUomId" type="Int32" p1:ValidateRequired="true" p1:Guid="381e1e49-98f2-4fdb-8d80-7c27356290a3">
+      <column name="InvUomId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvRecHdr" entity-set="InvRecHdrs" table="InvRecHdrs" schema="dbo" p1:Guid="ae0feb96-aaea-4dfd-8d57-bdb389ff0217">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="dcf7c7de-79a7-49cb-9a28-74b39f9b843e">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvStoreId" type="Int32" p1:ValidateRequired="true" p1:Guid="dd1e5198-ed09-4064-83b3-fe97b0b62450">
+      <column name="InvStoreId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvSupplierId" type="Int32" p1:ValidateRequired="true" p1:Guid="c6a770dc-63f6-4ef1-b559-30ed04965dae">
+      <column name="InvSupplierId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="DtRec" type="String" p1:ValidateRequired="true" p1:Guid="6a7767d8-d943-4515-ab1f-11fb0f161b36">
+      <column name="DtRec" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="Status" type="String" p1:ValidateRequired="true" p1:Guid="3b8be2e6-21c2-4260-a9f4-0fde5aa1eab7">
+      <column name="Status" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="UserId" type="String" p1:ValidateRequired="true" p1:Guid="d4750b77-19c9-429c-a131-2b89bf15362c">
+      <column name="UserId" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvRecItem" entity-set="InvRecItems" table="InvRecItems" schema="dbo" p1:Guid="e85fb64c-eb7c-476d-8779-91d0b77697b5">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="f41cf83d-84d5-4e9a-9e22-2554e8874418">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvItemId" type="Int32" p1:ValidateRequired="true" p1:Guid="767f6723-cdda-471d-85a3-829e81c351a6">
+      <column name="InvItemId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvRecHdrId" type="Int32" p1:ValidateRequired="true" p1:Guid="3cabacdd-3328-4854-8488-aefc178beeee">
+      <column name="InvRecHdrId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvUomId" type="Int32" p1:ValidateRequired="true" p1:Guid="4ea96743-ae12-4f25-8943-6ca92e0946a9">
+      <column name="InvUomId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="ItemQty" type="String" p1:ValidateRequired="true" p1:Guid="62261406-54b6-494d-9c84-6ddfccc4aba6">
+      <column name="ItemQty" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvRequestHdr" entity-set="InvRequestHdrs" table="InvRequestHdrs" schema="dbo" p1:Guid="68c097af-c817-4938-bb4a-aac022dcd204">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="d836ca9b-28bf-472d-ae49-8a5bd8c20670">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvStoreId" type="Int32" p1:ValidateRequired="true" p1:Guid="a56f96aa-4c28-4717-b767-8fe0291ca60b">
+      <column name="InvStoreId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="DtRec" type="String" p1:ValidateRequired="true" p1:Guid="69a3ec8e-0595-4ff4-a776-44603cb48971">
+      <column name="DtRec" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="Status" type="String" p1:ValidateRequired="true" p1:Guid="a356b1df-9cf3-4d79-9a7e-feb34fdacc88">
+      <column name="Status" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="UserId" type="String" p1:ValidateRequired="true" p1:Guid="4775213a-6ecf-4121-8a07-8596d1ad5c35">
+      <column name="UserId" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="Remarks" type="String" p1:ValidateRequired="true" p1:Guid="1145c2f2-1ecc-40cc-a9c9-b6c39903cb05">
+      <column name="Remarks" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvRequestItem" entity-set="InvRequestItems" table="InvRequestItems" schema="dbo" p1:Guid="6afbb906-da98-4a56-adf3-64b7fb417a79">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="9f495c15-5433-4fde-b905-dd4c6d125158">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvItemId" type="Int32" p1:ValidateRequired="true" p1:Guid="54b0d437-c147-46e0-8dd3-2bef64640c54">
+      <column name="InvItemId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvRequestHdrId" type="Int32" p1:ValidateRequired="true" p1:Guid="de0197c7-8ac2-4b43-a0ef-d426c87d806f">
+      <column name="InvRequestHdrId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvUomId" type="Int32" p1:ValidateRequired="true" p1:Guid="78a1c222-4a84-486e-9cf2-3242a838ee1d">
+      <column name="InvUomId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="ItemQty" type="String" p1:ValidateRequired="true" p1:Guid="7e55afad-deb3-4474-a736-7e457f27fef5">
+      <column name="ItemQty" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="InvRecItemId" type="Int32" p1:ValidateRequired="true" p1:Guid="dd597faa-78a1-4f6f-9e2e-2187485c2980">
+      <column name="InvRecItemId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvStore" entity-set="InvStores" table="InvStores" schema="dbo" p1:Guid="b6aac238-92a5-48f4-b004-aec21718b3e5">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="f67f7447-786c-4509-8284-f95511a728f0">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="StoreName" type="String" p1:ValidateRequired="true" p1:Guid="dc66724a-b070-49b9-b17d-5c9fb714b63e">
+      <column name="StoreName" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvStoreUser" entity-set="InvStoreUsers" table="InvStoreUsers" schema="dbo" p1:Guid="7eb79ad7-cacc-43b1-a47a-dc2b64cc75ec">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="35d144b2-85fc-4859-a95f-deadd942f208">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvStoreUserId" type="String" p1:ValidateMaxLength="40" p1:ValidateRequired="true" p1:Guid="1c53e148-5069-455c-9efd-31533154f0a8">
+      <column name="InvStoreUserId" not-null="True" length="40" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="InvStoreId" type="Int32" p1:ValidateRequired="true" p1:Guid="71c9e894-b580-47f2-94fd-2e290998177f">
+      <column name="InvStoreId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvSupplierItem" entity-set="InvSupplierItems" table="InvSupplierItems" schema="dbo" p1:Guid="0a065a4f-8f0e-48ed-8949-0cd530db6f4d">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="279aabd8-f768-4393-9000-a2c7c11b002c">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvSupplierId" type="Int32" p1:ValidateRequired="true" p1:Guid="dddee1b7-de3c-468a-a7fb-33c5391e2a0f">
+      <column name="InvSupplierId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvItemId" type="Int32" p1:ValidateRequired="true" p1:Guid="ba1d005c-090d-473c-821e-510f13e51815">
+      <column name="InvItemId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="Remarks" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="96a8fb68-73f8-4443-be29-164f07b7d0dc">
+      <column name="Remarks" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="Price" type="Decimal" p1:ValidateRequired="true" p1:Guid="12f13371-8b0d-4c1b-95aa-43fb75954ae0">
+      <column name="Price" not-null="True" precision="10" scale="2" sql-type="decimal" p1:unicode="False" />
+    </property>
+    <property name="LastUpdate" type="DateTime" p1:ValidateRequired="true" p1:Guid="e281abf6-656b-4c22-9954-a20e30b73f80">
+      <column name="LastUpdate" not-null="True" sql-type="datetime" p1:unicode="False" />
+    </property>
+    <property name="LeadTime" type="String" p1:ValidateRequired="true" p1:Guid="ca0c2282-b60c-464f-a3dd-bb388dd6adbf">
+      <column name="LeadTime" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="UserId" type="String" p1:ValidateRequired="true" p1:Guid="9691049b-58b9-42c7-8765-844592fad11b">
+      <column name="UserId" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvSupplier" entity-set="InvSuppliers" table="InvSuppliers" schema="dbo" p1:Guid="94258960-d831-4b93-97f1-83a3f135f5c6">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="559fb26e-8c00-4710-a074-72db61877137">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Name" type="String" p1:ValidateRequired="true" p1:Guid="1b853973-836a-44d5-8216-50c4f1c52c84">
+      <column name="Name" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="Remarks" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="81663601-1ece-4f5a-907a-91588ffb9992">
+      <column name="Remarks" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvTrxDtlOperator" entity-set="InvTrxDtlOperators" table="InvTrxDtlOperators" schema="dbo" p1:Guid="5f70cb79-928c-4c53-bd5f-48b434fdaa4c">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="618600fc-c7da-47b4-be7c-31a36526db22">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Description" type="String" p1:ValidateMaxLength="80" p1:ValidateRequired="true" p1:Guid="d5698788-c0ce-42c6-8461-9df71ce1f9d4">
+      <column name="Description" not-null="True" length="80" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Operator" type="String" p1:ValidateMaxLength="5" p1:ValidateRequired="true" p1:Guid="e52f0e08-f5a8-4d93-a768-46aff5b1a8e2">
+      <column name="Operator" not-null="True" length="5" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvTrxDtl" entity-set="InvTrxDtls" table="InvTrxDtls" schema="dbo" p1:Guid="ac45fcb9-c739-41d0-8206-832f26dac1c5">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="fa1b904f-61b1-4ece-8f72-867618fa92eb">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvTrxHdrId" type="Int32" p1:ValidateRequired="true" p1:Guid="89b31f84-edaf-4176-93c5-bfb7b2e9062a">
+      <column name="InvTrxHdrId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvUomId" type="Int32" p1:ValidateRequired="true" p1:Guid="bd6434f2-f8ec-4d5c-a478-b80f95f9ec89">
+      <column name="InvUomId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="ItemQty" type="Int32" p1:ValidateRequired="true" p1:Guid="ba2c1f71-279f-4d7c-96d7-2d9eb30f7554">
+      <column name="ItemQty" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvItemId" type="Int32" p1:ValidateRequired="true" p1:Guid="6fb2acbd-3d74-42f2-ab6a-db8cccff0983">
+      <column name="InvItemId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvTrxDtlOperatorId" type="Int32" p1:ValidateRequired="true" p1:Guid="b3125264-44cd-402c-9353-8204a6255701">
+      <column name="InvTrxDtlOperatorId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="LotNo" type="Int32" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="27639ccc-0d92-44c1-82dd-51022c3d35c7">
+      <column name="LotNo" not-null="False" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="BatchNo" type="String" p1:nullable="True" p1:ValidateMaxLength="40" p1:ValidateRequired="false" p1:Guid="f2b04e2b-57b0-43b2-bf84-d4d2739f1613">
+      <column name="BatchNo" not-null="False" length="40" sql-type="varchar" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvTrxHdr" entity-set="InvTrxHdrs" table="InvTrxHdrs" schema="dbo" p1:Guid="f574b0e8-837b-49ec-832b-252a2caab134">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="cc861c2e-6a70-4fc8-a16c-f3260ef15d45">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvStoreId" type="Int32" p1:ValidateRequired="true" p1:Guid="e7721810-4e92-4e50-bfb4-f9a0834192c2">
+      <column name="InvStoreId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="DtTrx" type="DateTime" p1:ValidateRequired="true" p1:Guid="207d630f-7f56-4cfa-a29c-92d82acf3eff">
+      <column name="DtTrx" not-null="True" sql-type="datetime" p1:unicode="False" />
+    </property>
+    <property name="UserId" type="String" p1:ValidateMaxLength="80" p1:ValidateRequired="true" p1:Guid="6cb83d22-977f-4515-a3ef-5aa4075f5bec">
+      <column name="UserId" not-null="True" length="80" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Remarks" type="String" p1:nullable="True" p1:ValidateMaxLength="120" p1:ValidateRequired="false" p1:Guid="39bf5fb4-180a-4355-a2e4-5fb142941b74">
+      <column name="Remarks" not-null="False" length="120" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="InvTrxTypeId" type="Int32" p1:ValidateRequired="true" p1:Guid="de00a951-3d6c-4d43-b61b-2f67df7251a0">
+      <column name="InvTrxTypeId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvTrxHdrStatusId" type="Int32" p1:ValidateRequired="true" p1:Guid="7d23125a-e92e-4dd4-8489-83f6054f25cc">
+      <column name="InvTrxHdrStatusId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvTrxHdrStatus" entity-set="InvTrxHdrStatuses" table="InvTrxHdrStatus" schema="dbo" p1:Guid="fd16ec94-9e61-4c06-a5dd-f78d82068bb2">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="fd45bbca-a41f-4e15-9b9e-f533f736e4d2">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Status" type="String" p1:ValidateMaxLength="20" p1:ValidateRequired="true" p1:Guid="b83686a0-32c3-4e1d-82e0-78920de49383">
+      <column name="Status" not-null="True" length="20" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="OrderNo" type="Int32" p1:ValidateRequired="true" p1:Guid="7992ef08-eade-4f2d-b778-3709ab87bf37">
+      <column name="OrderNo" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvTrxType" entity-set="InvTrxTypes" table="InvTrxTypes" schema="dbo" p1:Guid="2bfdb5de-8e10-4000-b264-5d56cb1e34b5">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="f723a2f0-5920-44d3-a9f4-a6c577d9b48f">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Type" type="String" p1:ValidateMaxLength="20" p1:ValidateRequired="true" p1:Guid="63cf4677-85c4-46b2-9d2f-e4bc48475fe7">
+      <column name="Type" not-null="True" length="20" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvUomConversion" entity-set="InvUomConversions" table="InvUomConversions" schema="dbo" p1:Guid="e5c1d630-e92e-4761-822e-a7e5deb9dbd9">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="3cc8d977-6aca-47cc-b1b4-dcd6ea8279c1">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvUomId_Base" type="Int32" p1:ValidateRequired="true" p1:Guid="d51f71c6-94df-4294-9b08-04275cd3cb90">
+      <column name="InvUomId_base" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvUomId_Into" type="Int32" p1:ValidateRequired="true" p1:Guid="20985c4f-cb9c-4f8f-a712-959ee768255b">
+      <column name="InvUomId_into" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="Factor" type="Decimal" p1:ValidateRequired="true" p1:Guid="56a9b3fc-dc39-45f4-9026-638854738822">
+      <column name="Factor" not-null="True" precision="4" scale="2" sql-type="decimal" p1:unicode="False" />
+    </property>
+    <property name="Description" type="String" p1:ValidateMaxLength="80" p1:ValidateRequired="true" p1:Guid="ad50825c-5039-4a0b-9e07-6b9fcde306a0">
+      <column name="Description" not-null="True" length="80" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvUomConvItem" entity-set="InvUomConvItems" table="InvUomConvItems" schema="dbo" p1:Guid="a6a47969-0e85-416f-8f5e-39fb2a9711cb">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="21aaaa75-8137-48e3-abbf-b914ca123640">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvUomConversionId" type="Int32" p1:ValidateRequired="true" p1:Guid="713a2286-408b-43a5-85bf-24c0650b00bf">
+      <column name="InvUomConversionId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvClassificationId" type="Int32" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="42db63cc-d225-42a3-837a-3af72b192d58">
+      <column name="InvClassificationId" not-null="False" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvItemId" type="Int32" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="d2f29f92-c516-4632-a82d-fb9aa30c8bb9">
+      <column name="InvItemId" not-null="False" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvUom" entity-set="InvUoms" table="InvUoms" schema="dbo" p1:Guid="09596979-1310-45f9-8598-70c6cbe3710a">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="1cbee066-a279-4cee-b71c-f387aacb3b59">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Uom" type="String" p1:ValidateRequired="true" p1:Guid="67652dc6-5cd5-45f2-99c8-deb9f41d0cf6">
+      <column name="uom" not-null="True" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="InvWarningLevel" entity-set="InvWarningLevels" table="InvWarningLevels" schema="dbo" p1:Guid="361aeadb-aa3b-4398-b4ce-160279c33ae7">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="0d1770fc-06fc-46f5-97b4-6c9aa38d3f6f">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="InvItemId" type="Int32" p1:ValidateRequired="true" p1:Guid="07766e2f-0da9-4445-b9f8-5b61dad0b6bc">
+      <column name="InvItemId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="Level1" type="Decimal" p1:ValidateRequired="true" p1:Guid="c224b6cd-875b-4fe3-a6e8-b06e0f8d8c60">
+      <column name="Level1" not-null="True" precision="5" scale="2" sql-type="decimal" p1:unicode="False" />
+    </property>
+    <property name="Level2" type="Decimal" p1:ValidateRequired="true" p1:Guid="5bc73ecf-79d3-4ff5-8a52-d5ade36ef3fb">
+      <column name="Level2" not-null="True" precision="5" scale="2" sql-type="decimal" p1:unicode="False" />
+    </property>
+    <property name="InvWarningTypeId" type="Int32" p1:ValidateRequired="true" p1:Guid="c71b6d4b-e79d-4530-8577-1de8f8569b2a">
+      <column name="InvWarningTypeId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="InvUomId" type="Int32" p1:ValidateRequired="true" p1:Guid="6ffb614e-8389-4bdd-9a39-ad236951de63">
+      <column name="InvUomId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="InvWarningType" entity-set="InvWarningTypes" table="InvWarningTypes" schema="dbo" p1:Guid="ebd92e42-cff0-4d25-8f75-f0552ef0294b">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="d2f87d61-d6c4-4942-bb20-6d5b09d24c40">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Desc" type="String" p1:ValidateMaxLength="30" p1:ValidateRequired="true" p1:Guid="15f2b14a-2e3a-4b93-ae52-4a79f358681d">
+      <column name="`Desc`" not-null="True" length="30" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="JsonDataConnection" entity-set="JsonDataConnections" table="JsonDataConnections" schema="dbo" p1:Guid="d2c011d0-1828-41ae-9a53-9dd7ab6be167">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="1c3fedb0-06d1-4831-a5dc-189662507d3a">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Name" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="4adf1e5e-4397-4e24-961a-105605c09857">
+      <column name="Name" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="DisplayName" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="b72bdec2-de56-45e1-bc0e-e5266754a5e8">
+      <column name="DisplayName" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="ConnectionString" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="f7b3fd6a-9d55-4b3a-9d83-a17ec46a311b">
+      <column name="ConnectionString" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="Report" entity-set="Reports" table="Reports" schema="dbo" p1:Guid="7d624be7-1444-4ab9-9e7c-f8e253e41c8a">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="1ac959ce-b625-4532-9ec1-a5efc23a2b37">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Name" type="String" p1:nullable="True" p1:ValidateMaxLength="250" p1:ValidateRequired="false" p1:Guid="8a3468fc-43cf-46a4-959d-5711ff0f6b5a">
+      <column name="Name" not-null="False" length="250" sql-type="varchar" p1:unicode="False" />
+    </property>
+    <property name="DisplayName" type="String" p1:nullable="True" p1:ValidateMaxLength="250" p1:ValidateRequired="false" p1:Guid="008e69b9-8209-473a-b778-28225d144096">
+      <column name="DisplayName" not-null="False" length="250" sql-type="varchar" p1:unicode="False" />
+    </property>
+    <property name="LayoutData" type="VarBinary" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="3e89e376-54d6-4568-ab59-93d9cc69b0a4">
+      <column name="LayoutData" not-null="False" sql-type="varbinary(max)" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="RptAccessType" entity-set="RptAccessTypes" table="RptAccessTypes" schema="dbo" p1:Guid="f242c56c-928a-4b4b-806b-263d753f6a77">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="72e7f231-f5e8-4824-85db-8277964f441e">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Code" type="String" p1:ValidateMaxLength="50" p1:ValidateRequired="true" p1:Guid="9bd0bffd-f5c1-4ad2-bd1c-d29af20fe07a">
+      <column name="Code" not-null="True" length="50" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="RptCategory" entity-set="RptCategories" table="RptCategories" schema="dbo" p1:Guid="e8b82166-707a-445e-8402-d963b351e393">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="96f030bf-9b10-4d6d-80f8-f59c0438d0d3">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Code" type="String" p1:nullable="True" p1:ValidateMaxLength="50" p1:ValidateRequired="false" p1:Guid="d7bbe42f-f066-4617-99b3-2cca854a3c85">
+      <column name="Code" not-null="False" length="50" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Description" type="String" p1:ValidateMaxLength="255" p1:ValidateRequired="true" p1:Guid="81734732-14d2-4f1f-bfaf-3bce12ebcaff">
+      <column name="Description" not-null="True" length="255" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="RptReportCat" entity-set="RptReportCats" table="RptReportCats" schema="dbo" p1:Guid="d64a2207-d4dd-40cd-a1ca-ddd000c82b91">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="228717dd-3f4a-41b7-a3da-cd2670a5923b">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="RptCategoryId" type="Int32" p1:ValidateRequired="true" p1:Guid="f7f7b6ec-d4a0-4a49-99d8-913f24aadd4d">
+      <column name="RptCategoryId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="ReportId" type="Int32" p1:ValidateRequired="true" p1:Guid="3bfcddd4-10a8-4e1c-8aac-550c02cf85e3">
+      <column name="ReportId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="RptReportRole" entity-set="RptReportRoles" table="RptReportRoles" schema="dbo" p1:Guid="791afcc4-0ce0-45fc-b75f-bfb42c4f6741">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="335942f9-7471-472e-8b6d-b07f0f82281d">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="ReportId" type="Int32" p1:ValidateRequired="true" p1:Guid="2b47f6c1-a2e3-4d6f-93f8-3974ee67d1d7">
+      <column name="ReportId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="AspNetRoleId" type="Int32" p1:ValidateRequired="true" p1:Guid="bce28b0c-b6ab-41a5-8c52-6149bb43d453">
+      <column name="AspNetRoleId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="RptAccessTypeId" type="Int32" p1:ValidateRequired="true" p1:Guid="e572ccfc-7acd-440d-9a89-161b256bd392">
+      <column name="RptAccessTypeId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="RptReportUser" entity-set="RptReportUsers" table="RptReportUsers" schema="dbo" p1:Guid="05e992ae-b8bc-49ae-819f-3b9aaf5ba61c">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="d8e16b9d-86a5-4465-8fe5-5887f978738e">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="ReportId" type="Int32" p1:ValidateRequired="true" p1:Guid="7fdc7baf-faed-4263-8f8a-5cd6e94ba03d">
+      <column name="ReportId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+    <property name="AspNetUserId" type="String" p1:ValidateMaxLength="255" p1:ValidateRequired="true" p1:Guid="3e74c0dd-6a3b-481c-887b-e1050003b570">
+      <column name="AspNetUserId" not-null="True" length="255" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="RptAccessTypeId" type="Int32" p1:ValidateRequired="true" p1:Guid="46229cf9-e374-42a5-813e-ebbd35a50310">
+      <column name="RptAccessTypeId" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </property>
+  </class>
+  <class name="SqlDataConnection" entity-set="SqlDataConnections" table="SqlDataConnections" schema="dbo" p1:Guid="73247b7c-7159-4eef-94b6-1ee9b441df1c">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="c40b0b8f-1792-4e0d-b32a-c6fcadc1475f">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Name" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="6a500cea-e9be-441a-8fcb-62d8d436bbe5">
+      <column name="Name" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="DisplayName" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="dc29d009-2da7-426f-950b-7024e7da0928">
+      <column name="DisplayName" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+    <property name="ConnectionString" type="String" p1:nullable="True" p1:ValidateRequired="false" p1:Guid="08317867-6c92-4f6c-a1ab-b5c4b6e998f1">
+      <column name="ConnectionString" not-null="False" sql-type="nvarchar(max)" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="SteelBrand" entity-set="SteelBrands" table="SteelBrands" schema="dbo" p1:Guid="15821c1c-6919-4c2f-8201-f1fd64cee4c4">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="af0d251e-1f11-448e-8328-169e87a192e0">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Name" type="String" p1:ValidateMaxLength="80" p1:ValidateRequired="true" p1:Guid="668ad9b7-ac0a-46fd-a47f-c39d690a1add">
+      <column name="Name" not-null="True" length="80" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Code" type="String" p1:nullable="True" p1:ValidateMaxLength="20" p1:ValidateRequired="false" p1:Guid="14ef6991-de7a-42d2-a149-75c8b116b82b">
+      <column name="Code" not-null="False" length="20" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="SteelMainCat" entity-set="SteelMainCats" table="SteelMainCats" schema="dbo" p1:Guid="cf539aba-4927-4f16-a0a0-528aba25776b">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="01c42dfb-4759-4a91-854c-91693659094c">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Name" type="String" p1:ValidateMaxLength="40" p1:ValidateRequired="true" p1:Guid="d0bf1ea1-b623-48c5-9488-7c0f5e1ae6dc">
+      <column name="Name" not-null="True" length="40" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Code" type="String" p1:nullable="True" p1:ValidateMaxLength="20" p1:ValidateRequired="false" p1:Guid="931ada28-2383-457b-ac35-7e66445462d7">
+      <column name="Code" not-null="False" length="20" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="SteelMaterialGrade" entity-set="SteelMaterialGrades" table="SteelMaterialGrades" schema="dbo" p1:Guid="ee4d6b2c-5bbd-484f-b034-54f612646861">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="ec91ce5a-4f91-42d4-9fb8-b354db229af6">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Name" type="String" p1:ValidateMaxLength="60" p1:ValidateRequired="true" p1:Guid="34566e86-cb1f-4dce-a657-e132c36f639d">
+      <column name="Name" not-null="True" length="60" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Code" type="String" p1:nullable="True" p1:ValidateMaxLength="20" p1:ValidateRequired="false" p1:Guid="99e678b6-6994-4ef5-adbf-5583ac7486c6">
+      <column name="Code" not-null="False" length="20" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="SteelMaterial" entity-set="SteelMaterials" table="SteelMaterials" schema="dbo" p1:Guid="bb702fd4-7b7d-47b4-b9ca-c36578303d7d">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="7098627e-50a8-4202-8e96-71d20768660f">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Name" type="String" p1:ValidateMaxLength="80" p1:ValidateRequired="true" p1:Guid="74bd12b5-c497-4a2e-8a18-889fc3dc05f0">
+      <column name="Name" not-null="True" length="80" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Code" type="String" p1:nullable="True" p1:ValidateMaxLength="20" p1:ValidateRequired="false" p1:Guid="32ce893b-cec3-47f0-ae61-4e2651699061">
+      <column name="Code" not-null="False" length="20" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="SteelOrigin" entity-set="SteelOrigins" table="SteelOrigins" schema="dbo" p1:Guid="8cebe9b1-e56c-4af1-8ca4-f4c9405983c0">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="36e118ed-5167-4c0a-8bd4-dd24553eb965">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Name" type="String" p1:ValidateMaxLength="40" p1:ValidateRequired="true" p1:Guid="5676affd-0798-4fd6-a0e7-861bae66066f">
+      <column name="Name" not-null="True" length="40" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Code" type="String" p1:nullable="True" p1:ValidateMaxLength="20" p1:ValidateRequired="false" p1:Guid="f9ba280d-5938-4f67-b3e0-fb305c8ce6f9">
+      <column name="Code" not-null="False" length="20" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="SteelSubCat" entity-set="SteelSubCats" table="SteelSubCats" schema="dbo" p1:Guid="f740d472-3ff9-445a-8a97-5c033b7b468c">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="7ea841b5-783a-46b2-a78d-eb6fce4b965f">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Name" type="String" p1:ValidateMaxLength="40" p1:ValidateRequired="true" p1:Guid="59f578c0-9af3-4193-9d20-8e31fd60f289">
+      <column name="Name" not-null="True" length="40" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="Code" type="String" p1:nullable="True" p1:ValidateMaxLength="20" p1:ValidateRequired="false" p1:Guid="42d239fa-767f-430b-b394-0afa91e19789">
+      <column name="Code" not-null="False" length="20" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="SysLabel" entity-set="SysLabels" table="SysLabels" schema="dbo" p1:Guid="b8f7cf6c-7c5b-46a3-a42d-f7a3deb99f4e">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="1af7e82d-f755-49fb-92a5-9f2d4cbddc4d">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Code" type="String" p1:ValidateMaxLength="50" p1:ValidateRequired="true" p1:Guid="ffb3e894-cd35-4eab-929b-cccda5738342">
+      <column name="Code" not-null="True" length="50" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="DisplayText" type="String" p1:ValidateMaxLength="50" p1:ValidateRequired="true" p1:Guid="f82ab47d-6e5f-4f71-bab5-794b35aea0ce">
+      <column name="DisplayText" not-null="True" length="50" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="DisplayLang" type="String" p1:ValidateMaxLength="2" p1:ValidateRequired="true" p1:Guid="4d6011ca-c38c-4f9f-8c8a-1b0e4da846d5">
+      <column name="DisplayLang" not-null="True" length="2" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <class name="SysSetting" entity-set="SysSettings" table="SysSettings" schema="dbo" p1:Guid="fe287ee6-08fa-44bb-bd23-5989ce565433">
+    <id name="Id" type="Int32" value-generated="OnAdd" p1:ValidateRequired="true" p1:Guid="acb6f36a-fcea-4a3b-877b-dbc4840a1f6e">
+      <column name="Id" not-null="True" precision="10" scale="0" sql-type="int" p1:unicode="False" />
+    </id>
+    <property name="Code" type="String" p1:ValidateMaxLength="10" p1:ValidateRequired="true" p1:Guid="e94d7d2c-574c-4d63-b00e-fa2b820da90c">
+      <column name="Code" not-null="True" length="10" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+    <property name="SysValue" type="String" p1:ValidateMaxLength="255" p1:ValidateRequired="true" p1:Guid="6d95d11e-e818-44e9-b4da-e5f971b3701a">
+      <column name="SysValue" not-null="True" length="255" sql-type="nvarchar" p1:unicode="True" />
+    </property>
+  </class>
+  <associations>
+    <association name="AspNetUser_AspNetUserClaim" cardinality="OneToMany" on-delete="Cascade" p1:Guid="66a6d9c2-3e29-488e-85eb-2afaefa18021">
+      <end1 multiplicity="One" name="AspNetUser" class="AspNetUserClaim" relation-class="AspNetUser" constrained="True" lazy="False" p1:Guid="f1a87370-5d33-496e-9784-2a9f1f0a315a">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="AspNetUserClaim" class="AspNetUser" relation-class="AspNetUserClaim" lazy="False" p1:Guid="65fbd6ed-8039-47e2-b996-5f2e4d006e6d">
+        <property name="UserId" />
+      </end2>
+    </association>
+    <association name="AspNetUser_AspNetUserLogin" cardinality="OneToMany" on-delete="Cascade" p1:Guid="06750889-d645-4aa9-b975-243669fdabd1">
+      <end1 multiplicity="One" name="AspNetUser" class="AspNetUserLogin" relation-class="AspNetUser" constrained="True" lazy="False" p1:Guid="891b61b9-f005-4011-a9b1-a0afe1372ee5">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="AspNetUserLogin" class="AspNetUser" relation-class="AspNetUserLogin" lazy="False" p1:Guid="e1e64713-76fe-4a6b-acd8-81915132baae">
+        <property name="UserId" />
+      </end2>
+    </association>
+    <association name="AspNetRole_AspNetUserRole" cardinality="OneToMany" on-delete="Cascade" p1:Guid="a19705a2-b7c7-4053-a961-60e0c322c4c0">
+      <end1 multiplicity="One" name="AspNetRole" class="AspNetUserRole" relation-class="AspNetRole" constrained="True" lazy="False" p1:Guid="9e8e0d3f-b321-45a1-9eb6-769f2778ae36">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="AspNetUserRole" class="AspNetRole" relation-class="AspNetUserRole" lazy="False" p1:Guid="f10e063e-45e5-4bb4-8c28-f681e88f0925">
+        <property name="RoleId" />
+      </end2>
+    </association>
+    <association name="AspNetUser_AspNetUserRole" cardinality="OneToMany" on-delete="Cascade" p1:Guid="3de6b8a7-083d-4d6b-b63f-3e31703b5093">
+      <end1 multiplicity="One" name="AspNetUser" class="AspNetUserRole" relation-class="AspNetUser" constrained="True" lazy="False" p1:Guid="55fdc44e-005d-4559-8ee3-d7c8d5903f7c">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="AspNetUserRole" class="AspNetUser" relation-class="AspNetUserRole" lazy="False" p1:Guid="6443ca22-5ab7-4642-8d35-3a26e5eef6db">
+        <property name="UserId" />
+      </end2>
+    </association>
+    <association name="InvStore_InvAdjHdr" cardinality="OneToMany" p1:Guid="44a3d118-40bd-48a2-a3c5-05a909b287dd">
+      <end1 multiplicity="One" name="InvStore" class="InvAdjHdr" relation-class="InvStore" constrained="True" lazy="False" p1:Guid="13c699c1-3aa9-461e-9999-cf965a80334f">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvAdjHdr" class="InvStore" relation-class="InvAdjHdr" lazy="False" p1:Guid="b2ddaf7d-09bd-4437-8487-c5404feeb8e3">
+        <property name="InvStoreId" />
+      </end2>
+    </association>
+    <association name="InvAdjHdr_InvAdjItem" cardinality="OneToMany" p1:Guid="edbd1517-8e71-4d82-a96c-ccf45d90816f">
+      <end1 multiplicity="One" name="InvAdjHdr" class="InvAdjItem" relation-class="InvAdjHdr" constrained="True" lazy="False" p1:Guid="853bfda9-4de9-4b8f-b658-ca3cfe07e394">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvAdjItem" class="InvAdjHdr" relation-class="InvAdjItem" lazy="False" p1:Guid="8dc9e861-d887-453f-81d3-4508a9c74e84">
+        <property name="InvAdjHdrId" />
+      </end2>
+    </association>
+    <association name="InvItem_InvAdjItem" cardinality="OneToMany" p1:Guid="bf9a6bdf-8e86-415f-8fb0-fe581a191050">
+      <end1 multiplicity="One" name="InvItem" class="InvAdjItem" relation-class="InvItem" constrained="True" lazy="False" p1:Guid="72e1f751-25ff-4910-b8a0-16e88ed37579">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvAdjItem" class="InvItem" relation-class="InvAdjItem" lazy="False" p1:Guid="f7c03cb7-ae51-4980-a7b4-80ba10525e07">
+        <property name="InvItemId" />
+      </end2>
+    </association>
+    <association name="InvUom_InvAdjItem" cardinality="OneToMany" p1:Guid="43afb96f-f645-4ede-a479-1b8c3cb589ac">
+      <end1 multiplicity="One" name="InvUom" class="InvAdjItem" relation-class="InvUom" constrained="True" lazy="False" p1:Guid="0c6c725f-05f7-496e-9ac7-b8dde0be821b">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvAdjItem" class="InvUom" relation-class="InvAdjItem" lazy="False" p1:Guid="096a20ff-8074-49d2-9056-a6062d4a5c4d">
+        <property name="InvUomId" />
+      </end2>
+    </association>
+    <association name="InvCategory_InvCatCustomSpec" cardinality="OneToMany" p1:Guid="f4290edc-90a5-4163-8aa4-5b21ea766e6a">
+      <end1 multiplicity="One" name="InvCategory" class="InvCatCustomSpec" relation-class="InvCategory" constrained="True" lazy="False" p1:Guid="6ca1760f-5c0a-41ae-a92d-b93b8950c0fa">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvCatCustomSpec" class="InvCategory" relation-class="InvCatCustomSpec" lazy="False" p1:Guid="5e9ac169-da2c-4c9b-9960-b1a6659a65a8">
+        <property name="InvCategoryId" />
+      </end2>
+    </association>
+    <association name="InvCustomSpec_InvCatCustomSpec" cardinality="OneToMany" p1:Guid="cedbd273-0a0b-4aef-92ac-f61e4b2de1f7">
+      <end1 multiplicity="One" name="InvCustomSpec" class="InvCatCustomSpec" relation-class="InvCustomSpec" constrained="True" lazy="False" p1:Guid="aa82f176-3781-454d-aae5-c4f13bf29ff9">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvCatCustomSpec" class="InvCustomSpec" relation-class="InvCatCustomSpec" lazy="False" p1:Guid="f119da7a-5b20-4283-ab0c-d74786ccb56f">
+        <property name="InvCustomSpecId" />
+      </end2>
+    </association>
+    <association name="InvItemSysDefinedSpec_InvCategorySpecDef" cardinality="OneToMany" p1:Guid="2b75d45a-ab9f-455d-af4a-b8d170de03b7">
+      <end1 multiplicity="One" name="InvItemSysDefinedSpec" class="InvCategorySpecDef" relation-class="InvItemSysDefinedSpec" constrained="True" lazy="False" p1:Guid="660a1e86-4dc6-43ef-aa7b-95ce1f7dd7d5">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvCategorySpecDef" class="InvItemSysDefinedSpec" relation-class="InvCategorySpecDef" lazy="False" p1:Guid="8923fff4-862f-4dc7-b9a4-15249caf46cd">
+        <property name="InvItemSysDefinedSpecsId" />
+      </end2>
+    </association>
+    <association name="InvCustomSpecType_InvCustomSpec" cardinality="OneToMany" p1:Guid="975f0537-2363-4465-831c-cc84651f0abd">
+      <end1 multiplicity="One" name="InvCustomSpecType" class="InvCustomSpec" relation-class="InvCustomSpecType" constrained="True" lazy="False" p1:Guid="c6207953-d589-458e-b625-891e2124e759">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvCustomSpec" class="InvCustomSpecType" relation-class="InvCustomSpec" lazy="False" p1:Guid="97cfd443-01f0-4c01-837d-d2676d757f53">
+        <property name="InvCustomSpecTypeId" />
+      </end2>
+    </association>
+    <association name="InvItem_InvItemClass" cardinality="OneToMany" p1:Guid="806cc131-a8ee-4785-8e0e-73322add774e">
+      <end1 multiplicity="One" name="InvItem" class="InvItemClass" relation-class="InvItem" constrained="True" lazy="False" p1:Guid="da4680d6-5713-4c8b-9545-1b14999bcee2">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItemClass" class="InvItem" relation-class="InvItemClass" lazy="False" p1:Guid="2bc70fc8-2181-47db-9f3a-a16f3e7d7bd0">
+        <property name="InvItemId" />
+      </end2>
+    </association>
+    <association name="InvClassification_InvItemClass" cardinality="OneToMany" p1:Guid="b57198e2-2e31-4da2-a7a1-f6ced1700324">
+      <end1 multiplicity="One" name="InvClassification" class="InvItemClass" relation-class="InvClassification" constrained="True" lazy="False" p1:Guid="49e04630-31d7-4322-aa2a-122d9245606e">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItemClass" class="InvClassification" relation-class="InvItemClass" lazy="False" p1:Guid="06cdf94e-c062-4a36-a694-b0755876d1e2">
+        <property name="InvClassificationId" />
+      </end2>
+    </association>
+    <association name="InvItem_InvItemCustomSpec" cardinality="OneToMany" p1:Guid="7477eb99-46fc-467a-a387-a60e77b28546">
+      <end1 multiplicity="One" name="InvItem" class="InvItemCustomSpec" relation-class="InvItem" constrained="True" lazy="False" p1:Guid="3b1b5105-c2e4-433a-aba8-4b0102de9ad7">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItemCustomSpec" class="InvItem" relation-class="InvItemCustomSpec" lazy="False" p1:Guid="4b5490ae-b47b-4dc5-8036-0179c3571e40">
+        <property name="InvItemId" />
+      </end2>
+    </association>
+    <association name="InvCustomSpec_InvItemCustomSpec" cardinality="OneToMany" p1:Guid="143a6777-7cc9-4dd2-9191-b3b75f205e45">
+      <end1 multiplicity="One" name="InvCustomSpec" class="InvItemCustomSpec" relation-class="InvCustomSpec" constrained="True" lazy="False" p1:Guid="6b76fec6-a644-4de6-a55c-4ef10dc0c759">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItemCustomSpec" class="InvCustomSpec" relation-class="InvItemCustomSpec" lazy="False" p1:Guid="151177e1-a123-4818-b0cc-31a346c49794">
+        <property name="InvCustomSpecId" />
+      </end2>
+    </association>
+    <association name="InvUom_InvItem" cardinality="OneToMany" p1:Guid="a115aaaf-559a-4588-a0dd-94af057578db">
+      <end1 multiplicity="One" name="InvUom" class="InvItem" relation-class="InvUom" constrained="True" lazy="False" p1:Guid="ca9e0805-0741-4fc3-b688-930844efb450">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItem" class="InvUom" relation-class="InvItem" lazy="False" p1:Guid="004aee43-a8c0-43cd-b0b0-bdd73ee49c9d">
+        <property name="InvUomId" />
+      </end2>
+    </association>
+    <association name="InvCategory_InvItem" cardinality="OneToMany" p1:Guid="87bc9b21-31aa-4865-92ad-3e68a12287ca">
+      <end1 multiplicity="One" name="InvCategory" class="InvItem" relation-class="InvCategory" constrained="True" lazy="False" p1:Guid="fb7fb2c6-7c2d-4382-b302-0f421ff1b9dd">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItem" class="InvCategory" relation-class="InvItem" lazy="False" p1:Guid="eac0dbee-d3c1-449a-b76e-29674b8e4c8f">
+        <property name="InvCategoryId" />
+      </end2>
+    </association>
+    <association name="InvItem_InvItemSpec_Steel" cardinality="OneToMany" p1:Guid="b690552c-db26-4da0-a700-5c17d00cc12f">
+      <end1 multiplicity="One" name="InvItem" class="InvItemSpec_Steel" relation-class="InvItem" constrained="True" lazy="False" p1:Guid="2ccc7ffd-5aab-4bea-8bce-35eef9c80c0a">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItemSpec_Steel" class="InvItem" relation-class="InvItemSpec_Steel" lazy="False" p1:Guid="3ba5db11-ee0f-40ce-87a5-6a89d47ca206">
+        <property name="InvItemId" />
+      </end2>
+    </association>
+    <association name="SteelMainCat_InvItemSpec_Steel" cardinality="OneToMany" p1:Guid="0fbd88c7-b877-431a-8e5c-f153f42a27a1">
+      <end1 multiplicity="ZeroOrOne" name="SteelMainCat" class="InvItemSpec_Steel" relation-class="SteelMainCat" constrained="True" lazy="False" p1:Guid="969e7417-a389-4849-9d11-95f999c4a023">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItemSpec_Steel" class="SteelMainCat" relation-class="InvItemSpec_Steel" lazy="False" p1:Guid="b6f3a9f9-fc92-4b9d-8cfb-06dbaefd1d06">
+        <property name="SteelMainCatId" />
+      </end2>
+    </association>
+    <association name="SteelSubCat_InvItemSpec_Steel" cardinality="OneToMany" p1:Guid="42939565-b2ae-4d5b-b2f9-07c97ba9adda">
+      <end1 multiplicity="ZeroOrOne" name="SteelSubCat" class="InvItemSpec_Steel" relation-class="SteelSubCat" constrained="True" lazy="False" p1:Guid="5767552e-fcbb-4246-9c18-ec44dd26ce2e">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItemSpec_Steel" class="SteelSubCat" relation-class="InvItemSpec_Steel" lazy="False" p1:Guid="8065ad42-0e19-4f1b-9215-97a485a4215b">
+        <property name="SteelSubCatId" />
+      </end2>
+    </association>
+    <association name="SteelBrand_InvItemSpec_Steel" cardinality="OneToMany" p1:Guid="612f08b4-9b7e-4383-b9c8-7ea9162bd381">
+      <end1 multiplicity="ZeroOrOne" name="SteelBrand" class="InvItemSpec_Steel" relation-class="SteelBrand" constrained="True" lazy="False" p1:Guid="39178bbb-f1d0-4f13-839b-d6732267f200">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItemSpec_Steel" class="SteelBrand" relation-class="InvItemSpec_Steel" lazy="False" p1:Guid="12cee053-d7f1-4355-9f76-7106f78592f8">
+        <property name="SteelBrandId" />
+      </end2>
+    </association>
+    <association name="SteelMaterial_InvItemSpec_Steel" cardinality="OneToMany" p1:Guid="1ca24add-13cf-4777-a7d8-424dcf372eb3">
+      <end1 multiplicity="ZeroOrOne" name="SteelMaterial" class="InvItemSpec_Steel" relation-class="SteelMaterial" constrained="True" lazy="False" p1:Guid="70411fb5-4b8b-40c3-b66b-580837f72b99">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItemSpec_Steel" class="SteelMaterial" relation-class="InvItemSpec_Steel" lazy="False" p1:Guid="94cb7add-9466-46cc-af07-910358b197b4">
+        <property name="SteelMaterialId" />
+      </end2>
+    </association>
+    <association name="SteelOrigin_InvItemSpec_Steel" cardinality="OneToMany" p1:Guid="7f60cffe-fa6e-4c87-9911-f0735e9c9190">
+      <end1 multiplicity="ZeroOrOne" name="SteelOrigin" class="InvItemSpec_Steel" relation-class="SteelOrigin" constrained="True" lazy="False" p1:Guid="b305a47d-2a8c-4cf5-8a88-da61ecbe55d1">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItemSpec_Steel" class="SteelOrigin" relation-class="InvItemSpec_Steel" lazy="False" p1:Guid="d7825c18-d70b-4b13-8101-5da495813b5b">
+        <property name="SteelOriginId" />
+      </end2>
+    </association>
+    <association name="SteelMaterialGrade_InvItemSpec_Steel" cardinality="OneToMany" p1:Guid="555f0a2d-a9c5-4667-a49c-90320cb060a7">
+      <end1 multiplicity="ZeroOrOne" name="SteelMaterialGrade" class="InvItemSpec_Steel" relation-class="SteelMaterialGrade" constrained="True" lazy="False" p1:Guid="b86f5486-d23d-4395-a9ae-2c72f59e097b">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvItemSpec_Steel" class="SteelMaterialGrade" relation-class="InvItemSpec_Steel" lazy="False" p1:Guid="1c3ec45f-6a32-4dd9-a0f6-d57ae4bd73b0">
+        <property name="SteelMaterialGradeId" />
+      </end2>
+    </association>
+    <association name="InvSupplier_InvPoHdr" cardinality="OneToMany" p1:Guid="08da42e9-5941-409a-8314-c2bd9a226f86">
+      <end1 multiplicity="One" name="InvSupplier" class="InvPoHdr" relation-class="InvSupplier" constrained="True" lazy="False" p1:Guid="bb779704-e842-479c-a13b-5f87713a98c1">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvPoHdr" class="InvSupplier" relation-class="InvPoHdr" lazy="False" p1:Guid="ceafb503-b189-4278-9252-b593ebf09d5f">
+        <property name="InvSupplierId" />
+      </end2>
+    </association>
+    <association name="InvStore_InvPoHdr" cardinality="OneToMany" p1:Guid="5384419e-bd42-4138-806e-11ae7928dcba">
+      <end1 multiplicity="One" name="InvStore" class="InvPoHdr" relation-class="InvStore" constrained="True" lazy="False" p1:Guid="2f0f5d74-bc5a-4851-99cf-9036c8bf0224">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvPoHdr" class="InvStore" relation-class="InvPoHdr" lazy="False" p1:Guid="92206224-9941-4e6a-ab1a-af616062f86c">
+        <property name="InvStoreId" />
+      </end2>
+    </association>
+    <association name="InvPoHdrStatus_InvPoHdr" cardinality="OneToMany" p1:Guid="359a3f1f-d113-443b-857c-92745c644424">
+      <end1 multiplicity="One" name="InvPoHdrStatus" class="InvPoHdr" relation-class="InvPoHdrStatus" constrained="True" lazy="False" p1:Guid="81baa0ee-b0a4-40d8-b18b-fdec160070c1">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvPoHdr" class="InvPoHdrStatus" relation-class="InvPoHdr" lazy="False" p1:Guid="85e20477-6858-4ed9-b465-9b4f14f15a59">
+        <property name="InvPoHdrStatusId" />
+      </end2>
+    </association>
+    <association name="InvPoHdr_InvPoItem" cardinality="OneToMany" p1:Guid="5cad3e41-16e6-4d9e-b8a0-c8e3d8cd1e16">
+      <end1 multiplicity="One" name="InvPoHdr" class="InvPoItem" relation-class="InvPoHdr" constrained="True" lazy="False" p1:Guid="0d4e73f4-0787-4fa0-ab0b-4eaaa56e857f">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvPoItem" class="InvPoHdr" relation-class="InvPoItem" lazy="False" p1:Guid="d36ecd27-314b-4acc-9a8f-3e4cd86b4dd2">
+        <property name="InvPoHdrId" />
+      </end2>
+    </association>
+    <association name="InvItem_InvPoItem" cardinality="OneToMany" p1:Guid="1b9f7c17-e970-4e46-b5ca-47282f9587e6">
+      <end1 multiplicity="One" name="InvItem" class="InvPoItem" relation-class="InvItem" constrained="True" lazy="False" p1:Guid="7beee0d3-6d8a-4ea6-8312-229b6590a244">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvPoItem" class="InvItem" relation-class="InvPoItem" lazy="False" p1:Guid="5144cb76-6244-4b1b-b388-aab0603de74d">
+        <property name="InvItemId" />
+      </end2>
+    </association>
+    <association name="InvUom_InvPoItem" cardinality="OneToMany" p1:Guid="d9afeadf-43f6-4bdb-9328-feac8ff79b2a">
+      <end1 multiplicity="One" name="InvUom" class="InvPoItem" relation-class="InvUom" constrained="True" lazy="False" p1:Guid="2d989a35-8a9c-4d08-88d2-feee1aef7e22">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvPoItem" class="InvUom" relation-class="InvPoItem" lazy="False" p1:Guid="d74da84f-eb03-470d-bcb6-e39a2a1cc7b1">
+        <property name="InvUomId" />
+      </end2>
+    </association>
+    <association name="InvStore_InvRecHdr" cardinality="OneToMany" p1:Guid="eb4172bc-5a8d-4817-b25e-1bfde6da7387">
+      <end1 multiplicity="One" name="InvStore" class="InvRecHdr" relation-class="InvStore" constrained="True" lazy="False" p1:Guid="c5c375f7-53bf-4681-b478-e7d5d2acb88c">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvRecHdr" class="InvStore" relation-class="InvRecHdr" lazy="False" p1:Guid="d5fedd5d-5360-4ff9-847c-1e19254a17eb">
+        <property name="InvStoreId" />
+      </end2>
+    </association>
+    <association name="InvSupplier_InvRecHdr" cardinality="OneToMany" p1:Guid="96984ec6-6a32-4464-9872-7ef19034c66a">
+      <end1 multiplicity="One" name="InvSupplier" class="InvRecHdr" relation-class="InvSupplier" constrained="True" lazy="False" p1:Guid="8cb8cab1-89be-4044-920f-8e0beb68dc46">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvRecHdr" class="InvSupplier" relation-class="InvRecHdr" lazy="False" p1:Guid="670b4f18-cb11-48de-9f4d-f3a975776a93">
+        <property name="InvSupplierId" />
+      </end2>
+    </association>
+    <association name="InvItem_InvRecItem" cardinality="OneToMany" p1:Guid="cb797fd9-e6a0-4eb9-9d46-b38e03c28602">
+      <end1 multiplicity="One" name="InvItem" class="InvRecItem" relation-class="InvItem" constrained="True" lazy="False" p1:Guid="285478f4-544b-461b-94f9-f6fa6ed38c73">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvRecItem" class="InvItem" relation-class="InvRecItem" lazy="False" p1:Guid="d234a5d7-ccab-4ed8-aa0e-ecc4a80c8b87">
+        <property name="InvItemId" />
+      </end2>
+    </association>
+    <association name="InvRecHdr_InvRecItem" cardinality="OneToMany" p1:Guid="b6c319f4-7d49-4852-b478-f6105adfe633">
+      <end1 multiplicity="One" name="InvRecHdr" class="InvRecItem" relation-class="InvRecHdr" constrained="True" lazy="False" p1:Guid="00ac79bb-4467-49b1-9743-c7369c9bc0f9">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvRecItem" class="InvRecHdr" relation-class="InvRecItem" lazy="False" p1:Guid="16475ee4-3287-4a9a-8acd-806fecde5352">
+        <property name="InvRecHdrId" />
+      </end2>
+    </association>
+    <association name="InvUom_InvRecItem" cardinality="OneToMany" p1:Guid="c4e30118-6473-4879-b728-8715d9f4bb46">
+      <end1 multiplicity="One" name="InvUom" class="InvRecItem" relation-class="InvUom" constrained="True" lazy="False" p1:Guid="24f9f3ad-b462-4677-acc5-97ba92a1429f">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvRecItem" class="InvUom" relation-class="InvRecItem" lazy="False" p1:Guid="038006c1-ae1f-4493-b6df-85af4009a967">
+        <property name="InvUomId" />
+      </end2>
+    </association>
+    <association name="InvStore_InvRequestHdr" cardinality="OneToMany" p1:Guid="ded108e6-20bd-4238-9834-130c7fa9d3c4">
+      <end1 multiplicity="One" name="InvStore" class="InvRequestHdr" relation-class="InvStore" constrained="True" lazy="False" p1:Guid="6f6b9db8-6a9d-4500-9d20-f521723df8bd">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvRequestHdr" class="InvStore" relation-class="InvRequestHdr" lazy="False" p1:Guid="93609c69-e5d1-4919-aded-5062023e7e08">
+        <property name="InvStoreId" />
+      </end2>
+    </association>
+    <association name="InvItem_InvRequestItem" cardinality="OneToMany" p1:Guid="28ce3b92-ea10-4b5c-b52a-534b574323f9">
+      <end1 multiplicity="One" name="InvItem" class="InvRequestItem" relation-class="InvItem" constrained="True" lazy="False" p1:Guid="292f994f-b90a-499e-afe8-96183a3ad0fa">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvRequestItem" class="InvItem" relation-class="InvRequestItem" lazy="False" p1:Guid="3fb7e1a4-2091-4030-9baa-44a50bf47d83">
+        <property name="InvItemId" />
+      </end2>
+    </association>
+    <association name="InvRequestHdr_InvRequestItem" cardinality="OneToMany" p1:Guid="3fce2860-44b5-4ae3-9835-bd84a6779508">
+      <end1 multiplicity="One" name="InvRequestHdr" class="InvRequestItem" relation-class="InvRequestHdr" constrained="True" lazy="False" p1:Guid="1b989ba4-c778-4e64-b7d3-37c71abf9185">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvRequestItem" class="InvRequestHdr" relation-class="InvRequestItem" lazy="False" p1:Guid="5bffc6e6-06a0-4bef-8902-6619f0652f1c">
+        <property name="InvRequestHdrId" />
+      </end2>
+    </association>
+    <association name="InvUom_InvRequestItem" cardinality="OneToMany" p1:Guid="2193d251-fc26-4410-9494-b9ea10537cc1">
+      <end1 multiplicity="One" name="InvUom" class="InvRequestItem" relation-class="InvUom" constrained="True" lazy="False" p1:Guid="bb072b6e-cc69-4b29-b5e0-2a6a997c217d">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvRequestItem" class="InvUom" relation-class="InvRequestItem" lazy="False" p1:Guid="1db89d79-54d5-4193-bae5-1ef5ffef3849">
+        <property name="InvUomId" />
+      </end2>
+    </association>
+    <association name="InvRecItem_InvRequestItem" cardinality="OneToMany" p1:Guid="b477fe34-acf4-450b-a036-21aac1de6881">
+      <end1 multiplicity="One" name="InvRecItem" class="InvRequestItem" relation-class="InvRecItem" constrained="True" lazy="False" p1:Guid="cf4f218b-707b-4eeb-aa88-cf1c6b0e9c0a">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvRequestItem" class="InvRecItem" relation-class="InvRequestItem" lazy="False" p1:Guid="79aad9a7-f8d8-4fb0-86d6-cc8d33ba5a56">
+        <property name="InvRecItemId" />
+      </end2>
+    </association>
+    <association name="InvStore_InvStoreUser" cardinality="OneToMany" p1:Guid="fb23aace-1d6b-47c6-9d7b-97ebf6f45338">
+      <end1 multiplicity="One" name="InvStore" class="InvStoreUser" relation-class="InvStore" constrained="True" lazy="False" p1:Guid="4493620c-efca-4285-8230-b7f62e93b946">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvStoreUser" class="InvStore" relation-class="InvStoreUser" lazy="False" p1:Guid="b02a1929-8f76-4741-aa99-de27cff9609f">
+        <property name="InvStoreId" />
+      </end2>
+    </association>
+    <association name="InvSupplier_InvSupplierItem" cardinality="OneToMany" p1:Guid="d1f5ceb8-a808-4375-9595-87bf3bbc27e6">
+      <end1 multiplicity="One" name="InvSupplier" class="InvSupplierItem" relation-class="InvSupplier" constrained="True" lazy="False" p1:Guid="af5e0ae3-ffb8-42b7-81d3-b088c9ef522e">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvSupplierItem" class="InvSupplier" relation-class="InvSupplierItem" lazy="False" p1:Guid="c139facd-9840-4af8-bf8f-a3083f1ecc35">
+        <property name="InvSupplierId" />
+      </end2>
+    </association>
+    <association name="InvItem_InvSupplierItem" cardinality="OneToMany" p1:Guid="087b735b-1832-4fd5-ba99-f4e2544f45f2">
+      <end1 multiplicity="One" name="InvItem" class="InvSupplierItem" relation-class="InvItem" constrained="True" lazy="False" p1:Guid="473ec4a1-5a97-4f13-b0f6-e89f204d43de">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvSupplierItem" class="InvItem" relation-class="InvSupplierItem" lazy="False" p1:Guid="8634016e-b106-44f3-9231-a14671244a00">
+        <property name="InvItemId" />
+      </end2>
+    </association>
+    <association name="InvTrxHdr_InvTrxDtl" cardinality="OneToMany" p1:Guid="696190ff-17bf-4eb6-bb7b-2feadeea4b61">
+      <end1 multiplicity="One" name="InvTrxHdr" class="InvTrxDtl" relation-class="InvTrxHdr" constrained="True" lazy="False" p1:Guid="39d9a0f8-e711-463e-af64-49abba6a56ce">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvTrxDtl" class="InvTrxHdr" relation-class="InvTrxDtl" lazy="False" p1:Guid="060de436-d67e-4ae0-b5ff-161090edcdd5">
+        <property name="InvTrxHdrId" />
+      </end2>
+    </association>
+    <association name="InvUom_InvTrxDtl" cardinality="OneToMany" p1:Guid="c8d833ba-fbb0-4d40-82b2-fdf6ea5a470c">
+      <end1 multiplicity="One" name="InvUom" class="InvTrxDtl" relation-class="InvUom" constrained="True" lazy="False" p1:Guid="a2635cb8-b1cd-4bfa-804e-db7e1efb4031">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvTrxDtl" class="InvUom" relation-class="InvTrxDtl" lazy="False" p1:Guid="b7294a32-fab0-49a7-9215-dd17c999d17b">
+        <property name="InvUomId" />
+      </end2>
+    </association>
+    <association name="InvItem_InvTrxDtl" cardinality="OneToMany" p1:Guid="c9897ddd-f436-46e9-989e-42132aacc959">
+      <end1 multiplicity="One" name="InvItem" class="InvTrxDtl" relation-class="InvItem" constrained="True" lazy="False" p1:Guid="d2f84fd2-7ac3-4e31-b688-a785d3ee9301">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvTrxDtl" class="InvItem" relation-class="InvTrxDtl" lazy="False" p1:Guid="3ce5b441-c152-4085-8f0d-e66270e9efba">
+        <property name="InvItemId" />
+      </end2>
+    </association>
+    <association name="InvTrxDtlOperator_InvTrxDtl" cardinality="OneToMany" p1:Guid="0e1503f6-8efa-4940-9e62-6c429ea8d115">
+      <end1 multiplicity="One" name="InvTrxDtlOperator" class="InvTrxDtl" relation-class="InvTrxDtlOperator" constrained="True" lazy="False" p1:Guid="f24eafa5-4a4f-4500-9f43-b4fe9afabeee">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvTrxDtl" class="InvTrxDtlOperator" relation-class="InvTrxDtl" lazy="False" p1:Guid="7bf2a6a3-588e-44cd-ae1b-58afe9484a03">
+        <property name="InvTrxDtlOperatorId" />
+      </end2>
+    </association>
+    <association name="InvStore_InvTrxHdr" cardinality="OneToMany" p1:Guid="6e7b9dd1-3866-4bd1-8357-e8a1382fe1aa">
+      <end1 multiplicity="One" name="InvStore" class="InvTrxHdr" relation-class="InvStore" constrained="True" lazy="False" p1:Guid="09460f67-40c3-4c84-8b62-6903accf4db7">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvTrxHdr" class="InvStore" relation-class="InvTrxHdr" lazy="False" p1:Guid="365c4c8f-6c78-435f-b4b9-2c3fa8deae22">
+        <property name="InvStoreId" />
+      </end2>
+    </association>
+    <association name="InvTrxType_InvTrxHdr" cardinality="OneToMany" p1:Guid="b838d23b-9f84-4af6-b100-734905a1c650">
+      <end1 multiplicity="One" name="InvTrxType" class="InvTrxHdr" relation-class="InvTrxType" constrained="True" lazy="False" p1:Guid="d80ef2c3-8aad-4c87-847c-62e43c7d19a9">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvTrxHdr" class="InvTrxType" relation-class="InvTrxHdr" lazy="False" p1:Guid="7a441239-be5c-4f21-8159-ce124697c203">
+        <property name="InvTrxTypeId" />
+      </end2>
+    </association>
+    <association name="InvTrxHdrStatus_InvTrxHdr" cardinality="OneToMany" p1:Guid="f5a2cd3f-31dd-4348-a899-a47fea902c88">
+      <end1 multiplicity="One" name="InvTrxHdrStatus" class="InvTrxHdr" relation-class="InvTrxHdrStatus" constrained="True" lazy="False" p1:Guid="7c3ea589-791d-44e5-86f2-47dac236ce3e">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvTrxHdr" class="InvTrxHdrStatus" relation-class="InvTrxHdr" lazy="False" p1:Guid="5a1a6d4a-a0f6-48eb-a554-439a5b74a4a7">
+        <property name="InvTrxHdrStatusId" />
+      </end2>
+    </association>
+    <association name="InvUomConversion_InvUomConvItem" cardinality="OneToMany" p1:Guid="3a93e583-8cbb-4f9b-9fd0-ed7b19f9f050">
+      <end1 multiplicity="One" name="InvUomConversion" class="InvUomConvItem" relation-class="InvUomConversion" constrained="True" lazy="False" p1:Guid="e58bf5da-f36a-4350-b9f5-c0e034629dc6">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvUomConvItem" class="InvUomConversion" relation-class="InvUomConvItem" lazy="False" p1:Guid="723a7546-39ae-482e-ac3a-22a2d23339e9">
+        <property name="InvUomConversionId" />
+      </end2>
+    </association>
+    <association name="InvClassification_InvUomConvItem" cardinality="OneToMany" p1:Guid="2dfcb7fd-e038-4aba-a2a3-f31c76363630">
+      <end1 multiplicity="ZeroOrOne" name="InvClassification" class="InvUomConvItem" relation-class="InvClassification" constrained="True" lazy="False" p1:Guid="d4152963-5f87-43c8-9ecb-ca47810d6a39">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvUomConvItem" class="InvClassification" relation-class="InvUomConvItem" lazy="False" p1:Guid="7cca4948-37cf-456d-9205-39b1acffaddb">
+        <property name="InvClassificationId" />
+      </end2>
+    </association>
+    <association name="InvItem_InvUomConvItem" cardinality="OneToMany" p1:Guid="d3a8c383-900b-4da5-88fc-11e0db3e7592">
+      <end1 multiplicity="ZeroOrOne" name="InvItem" class="InvUomConvItem" relation-class="InvItem" constrained="True" lazy="False" p1:Guid="acd7f783-9301-47d8-9f11-b287944e1a85">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvUomConvItem" class="InvItem" relation-class="InvUomConvItem" lazy="False" p1:Guid="7019ebd5-316f-45d4-92c5-192aebac1969">
+        <property name="InvItemId" />
+      </end2>
+    </association>
+    <association name="InvItem_InvWarningLevel" cardinality="OneToMany" p1:Guid="9be55c79-3c68-47ec-a66f-677fe5f147ac">
+      <end1 multiplicity="One" name="InvItem" class="InvWarningLevel" relation-class="InvItem" constrained="True" lazy="False" p1:Guid="4cfb4e39-9177-4472-a2f0-1daea70de3ad">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvWarningLevel" class="InvItem" relation-class="InvWarningLevel" lazy="False" p1:Guid="31b20f2f-c18e-4ba7-90bf-1c9aa3cc0bfc">
+        <property name="InvItemId" />
+      </end2>
+    </association>
+    <association name="InvWarningType_InvWarningLevel" cardinality="OneToMany" p1:Guid="2b2ce6db-d53a-401d-af0d-ff632d203437">
+      <end1 multiplicity="One" name="InvWarningType" class="InvWarningLevel" relation-class="InvWarningType" constrained="True" lazy="False" p1:Guid="323cb998-c8e8-46b9-98c0-b194ff47521c">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvWarningLevel" class="InvWarningType" relation-class="InvWarningLevel" lazy="False" p1:Guid="f1fb66ca-5b5b-405d-a2d8-45990c6ddda2">
+        <property name="InvWarningTypeId" />
+      </end2>
+    </association>
+    <association name="InvUom_InvWarningLevel" cardinality="OneToMany" p1:Guid="40dcc526-6cba-4e4e-9909-a51005b2c9b7">
+      <end1 multiplicity="One" name="InvUom" class="InvWarningLevel" relation-class="InvUom" constrained="True" lazy="False" p1:Guid="085f0d21-db0a-4ff2-83cf-e04c3fe94276">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="InvWarningLevel" class="InvUom" relation-class="InvWarningLevel" lazy="False" p1:Guid="ec8bc9e3-4b04-47e7-9769-c63e46bf3294">
+        <property name="InvUomId" />
+      </end2>
+    </association>
+    <association name="RptCategory_RptReportCat" cardinality="OneToMany" p1:Guid="6ee0121a-7486-4ca6-b7fd-4a5554d003cd">
+      <end1 multiplicity="One" name="RptCategory" class="RptReportCat" relation-class="RptCategory" constrained="True" lazy="False" p1:Guid="e425a129-9f73-4cc5-9831-d09aa23efd34">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="RptReportCat" class="RptCategory" relation-class="RptReportCat" lazy="False" p1:Guid="8cc596e9-1546-4c82-9298-c576c583db6c">
+        <property name="RptCategoryId" />
+      </end2>
+    </association>
+    <association name="Report_RptReportCat" cardinality="OneToMany" p1:Guid="ae3a6984-99ce-4ef2-b0e6-b8e0043a03ed">
+      <end1 multiplicity="One" name="Report" class="RptReportCat" relation-class="Report" constrained="True" lazy="False" p1:Guid="7881b0c0-fb5a-4c57-9be8-c9926e78b7c4">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="RptReportCat" class="Report" relation-class="RptReportCat" lazy="False" p1:Guid="e4bd6e48-3048-467a-bae1-68b651619930">
+        <property name="ReportId" />
+      </end2>
+    </association>
+    <association name="RptAccessType_RptReportRole" cardinality="OneToMany" p1:Guid="fc0605e8-c308-4b10-991f-5cd4e3f2eac6">
+      <end1 multiplicity="One" name="RptAccessType" class="RptReportRole" relation-class="RptAccessType" constrained="True" lazy="False" p1:Guid="370ad757-54d1-403d-95bb-23d4f457238c">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="RptReportRole" class="RptAccessType" relation-class="RptReportRole" lazy="False" p1:Guid="c37c0dce-2e48-47d5-96a4-cceb3fb92e78">
+        <property name="RptAccessTypeId" />
+      </end2>
+    </association>
+    <association name="RptAccessType_RptReportUser" cardinality="OneToMany" p1:Guid="a6b0916f-f0ca-4f50-81a9-3816b3b648a0">
+      <end1 multiplicity="One" name="RptAccessType" class="RptReportUser" relation-class="RptAccessType" constrained="True" lazy="False" p1:Guid="428cc93c-748d-41dc-a950-773ef6ebb14c">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="RptReportUser" class="RptAccessType" relation-class="RptReportUser" lazy="False" p1:Guid="14df2daa-5906-40a7-90b6-57f21148ef10">
+        <property name="RptAccessTypeId" />
+      </end2>
+    </association>
+    <association name="Report_RptReportUser" cardinality="OneToMany" p1:Guid="e52eac30-c1a6-4550-9413-2447e0677290">
+      <end1 multiplicity="One" name="Report" class="RptReportUser" relation-class="Report" constrained="True" lazy="False" p1:Guid="3f64d3e3-7269-4761-b05f-8334c75e2645">
+        <property name="Id" />
+      </end1>
+      <end2 multiplicity="Many" name="RptReportUser" class="Report" relation-class="RptReportUser" lazy="False" p1:Guid="872603b3-e787-48ab-965a-0b5af8ffe6db">
+        <property name="ReportId" />
+      </end2>
+    </association>
+  </associations>
+</efcore>
