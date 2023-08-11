@@ -1,0 +1,145 @@
+﻿using CoreLib.Interfaces;
+using CoreLib.Interfaces.DBAccess;
+using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
+using Inventory.DBAccess;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Inventory
+{
+    public class InvApprovalServices : IInvApprovalServices
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger _logger;
+        private readonly DBMasterService dbMaster;
+
+        public InvApprovalServices(ApplicationDbContext context, ILogger logger)
+        {
+            _context = context;
+            _logger = logger;
+
+            dbMaster = new DBMasterService(_context, _logger);
+        }
+        public void CreatePoApproval(InvPOApproval invPOApproval)
+        {
+            try
+            {
+                dbMaster.InvPOApprovalDb.Create(invPOApproval);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvApprovalServices: Unable to CreatePoApproval :" + ex.Message);
+                throw new Exception("InvApprovalServices: Unable to CreatePoApproval :" + ex.Message);
+
+            }
+        }
+
+        public void CreateTrxApproval(InvTrxApproval invTrxApproval)
+        {
+            try
+            {
+                dbMaster.InvTrxApprovalDb.Create(invTrxApproval);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvApprovalServices: Unable to CreateTrxApproval :" + ex.Message);
+                throw new Exception("InvApprovalServices: Unable to CreateTrxApproval :" + ex.Message);
+
+            }
+        }
+
+        public void DeletePoApproval(InvPOApproval invPOApproval)
+        {
+            try
+            {
+                dbMaster.InvPOApprovalDb.Delete(invPOApproval);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvApprovalServices: Unable to DeletePoApproval :" + ex.Message);
+                throw new Exception("InvApprovalServices: Unable to DeletePoApproval :" + ex.Message);
+
+            }
+        }
+
+        public void DeleteTrxApproval(InvTrxApproval invTrxApproval)
+        {
+            try
+            {
+                dbMaster.InvTrxApprovalDb.Delete(invTrxApproval);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvApprovalServices: Unable to DeleteTrxApproval :" + ex.Message);
+                throw new Exception("InvApprovalServices: Unable to DeleteTrxApproval :" + ex.Message);
+
+            }
+        }
+
+        public void EditPoApproval(InvPOApproval invPOApproval)
+        {
+            try
+            {
+                dbMaster.InvPOApprovalDb.Edit(invPOApproval);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvApprovalServices: Unable to EditPoApproval :" + ex.Message);
+                throw new Exception("InvApprovalServices: Unable to EditPoApproval :" + ex.Message);
+
+            }
+        }
+
+        public void EditTrxApproval(InvTrxApproval invTrxApproval)
+        {
+            try
+            {
+                dbMaster.InvTrxApprovalDb.Edit(invTrxApproval);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvApprovalServices: Unable to EditTrxApproval :" + ex.Message);
+                throw new Exception("InvApprovalServices: Unable to EditTrxApproval :" + ex.Message);
+
+            }
+        }
+
+        public bool InvPoApprovalExists(int id)
+        {
+            try
+            {
+                return dbMaster.InvPOApprovalDb.CheckExists(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvApprovalServices: Unable to InvPoApprovalExists :" + ex.Message);
+                throw new Exception("InvApprovalServices: Unable to InvPoApprovalExists :" + ex.Message);
+
+            }
+        }
+
+        public bool InvTrxApprovalExists(int id)
+        {
+            try
+            {
+                return dbMaster.InvTrxApprovalDb.CheckExists(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvApprovalServices: Unable to InvPoApprovalExists :" + ex.Message);
+                throw new Exception("InvApprovalServices: Unable to InvPoApprovalExists :" + ex.Message);
+
+            }
+        }
+
+        public async Task SaveChangesAsync()
+        {
+             await _context.SaveChangesAsync();
+        }
+    }
+}

@@ -16,5 +16,6 @@ namespace CoreLib.Interfaces.DBAccess
         public void Create(InvPOApproval invPoApproval);
         public void Edit(InvPOApproval invPoApproval);
         public void Delete(InvPOApproval invPoApproval);
+        public bool CheckExists(int id);
     }
 }

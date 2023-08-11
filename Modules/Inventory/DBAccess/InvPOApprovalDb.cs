@@ -56,5 +56,10 @@ namespace Inventory.DBAccess
             return (IQueryable<InvPOApproval>)await _context.InvPoApprovals
                 .ToListAsync();
         }
+
+        public bool CheckExists(int id)
+        {
+            return _context.InvPoApprovals.Any(e => e.Id == id);
+        }
     }
 }

@@ -16,5 +16,6 @@ namespace CoreLib.Interfaces.DBAccess
         public void Create(InvTrxApproval invTrxApproval);
         public void Edit(InvTrxApproval invTrxApproval);
         public void Delete(InvTrxApproval invTrxApproval);
+        public bool CheckExists(int id);
     }
 }
