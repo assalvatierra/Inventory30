@@ -7,8 +7,21 @@ CREATE TABLE [dbo].[SysLabels] (
 );
 
 
+-- Creating table 'SysSettings'
+CREATE TABLE [dbo].[SysSettings] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Code] nvarchar(10)  NOT NULL,
+    [SysValue] nvarchar(255)  NOT NULL
+);
+
+    
 -- Creating primary key on [Id] in table 'SysLabels'
 ALTER TABLE [dbo].[SysLabels]
 ADD CONSTRAINT [PK_SysLabels]
     PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
+
+
+-- Creating primary key on [Id] in table 'SysSettings'
+ALTER TABLE [dbo].[SysSettings]
+ADD CONSTRAINT [PK_SysSettings]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
