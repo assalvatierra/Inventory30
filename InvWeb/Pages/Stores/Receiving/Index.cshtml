@@ -135,6 +135,10 @@
                     </div>
                 </td>
                 <td>
+
+                    <button class="btn btn-primary" onclick="ApprovedTrxHdr('@item.Id')"> Approve </button>
+                    <button class="btn btn-primary" onclick="VerifiedTrxHdr('@item.Id')"> Verified </button>
+
                     @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
                     {
                         <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Accept </button> 
@@ -178,6 +182,5 @@
             StatusFilter("@Model.ReceivingIndexModel.Status");
             OrderFilter("@Model.ReceivingIndexModel.Order");
         });
-
     </script>
 } 

@@ -152,7 +152,20 @@ namespace Inventory
 
         public InvTrxApproval GetExistingApproval(int TrxId)
         {
-            return _context.InvTrxApprovals.FirstOrDefault(c => c.InvTrxHdrId == TrxId);
+            try
+            {
+                int approvalId = _context.InvTrxApprovals.Where(c => c.InvTrxHdrId == TrxId).Select(c=>c.Id).First();
+
+                var approval = _context.InvTrxApprovals.Find(approvalId);
+
+                return approval;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvApprovalServices: Unable to InvPoApprovalExists :" + ex.Message);
+                throw new Exception("InvApprovalServices: Unable to InvPoApprovalExists :" + ex.Message);
+
+            }
         }
 
         public async Task SaveChangesAsync()

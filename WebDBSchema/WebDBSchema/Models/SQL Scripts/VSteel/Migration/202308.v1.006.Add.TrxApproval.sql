@@ -1,24 +1,38 @@
 ﻿
 
+--IF OBJECT_ID(N'[dbo].[FK_InvTrxHdrInvTrxApproval]', 'F') IS NOT NULL
+--    ALTER TABLE [dbo].[InvTrxApprovals] DROP CONSTRAINT [FK_InvTrxHdrInvTrxApproval];
+
+--IF OBJECT_ID(N'[dbo].[FK_InvPoHdrInvPoApproval]', 'F') IS NOT NULL
+--    ALTER TABLE [dbo].[InvPoApprovals] DROP CONSTRAINT [FK_InvPoHdrInvPoApproval];
+
+--IF OBJECT_ID(N'[dbo].[InvTrxApprovals]', 'U') IS NOT NULL
+--    DROP TABLE [dbo].[InvTrxApprovals];
+
+--IF OBJECT_ID(N'[dbo].[InvPoApprovals]', 'U') IS NOT NULL
+--    DROP TABLE [dbo].[InvPoApprovals];
+
+
 -- Creating table 'InvTrxApprovals'
 CREATE TABLE [dbo].[InvTrxApprovals] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [ApprovedBy] nvarchar(max)  NOT NULL,
-    [ApprovedDate] nvarchar(max)  NOT NULL,
-    [VerifiedBy] nvarchar(max)  NOT NULL,
-    [VerifiedDate] nvarchar(max)  NOT NULL,
-    [EncodedBy] nvarchar(max)  NOT NULL,
-    [EncodedDate] nvarchar(max)  NOT NULL,
+    [ApprovedBy] nvarchar(40)  NULL,
+    [ApprovedDate] datetime  NULL,
+    [VerifiedBy] nvarchar(40)  NULL,
+    [VerifiedDate] datetime  NULL,
+    [EncodedBy] nvarchar(40)  NOT NULL,
+    [EncodedDate] datetime  NOT NULL,
     [InvTrxHdrId] int  NOT NULL
 );
 
--- Creating table 'InvPOApprovals'
+
+-- Creating table 'InvPoApprovals'
 CREATE TABLE [dbo].[InvPoApprovals] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [ApprovedBy] nvarchar(40)  NOT NULL,
-    [ApprovedDate] datetime  NOT NULL,
-    [VerifiedBy] nvarchar(40)  NOT NULL,
-    [VerifiedDate] datetime  NOT NULL,
+    [ApprovedBy] nvarchar(40)  NULL,
+    [ApprovedDate] datetime  NULL,
+    [VerifiedBy] nvarchar(40)  NULL,
+    [VerifiedDate] datetime  NULL,
     [EncodedBy] nvarchar(40)  NOT NULL,
     [EncodedDate] datetime  NOT NULL,
     [InvPoHdrId] int  NOT NULL

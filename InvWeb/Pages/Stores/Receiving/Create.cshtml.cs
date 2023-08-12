@@ -13,6 +13,8 @@ using CoreLib.Inventory.Interfaces;
 using Microsoft.Extensions.Logging;
 using Modules.Inventory;
 using CoreLib.DTO.Receiving;
+using Inventory;
+using CoreLib.Interfaces;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
@@ -21,12 +23,16 @@ namespace InvWeb.Pages.Stores.Receiving
         private readonly ApplicationDbContext _context;
         private readonly ILogger<CreateModel> _logger;
         private readonly IItemTrxServices itemTrxServices;
+        private readonly IInvApprovalServices invApprovalServices;
+        private readonly DateServices dateServices;
 
         public CreateModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
             _logger = logger;
             itemTrxServices = new ItemTrxServices(_context, _logger);
+            invApprovalServices = new InvApprovalServices(_context, _logger);
+            dateServices = new DateServices();
         }
 
         [BindProperty]
@@ -59,8 +65,13 @@ namespace InvWeb.Pages.Stores.Receiving
             }
 
             //_context.InvTrxHdrs.Add(ReceivingCreateModel.InvTrxHdr);
+            ReceivingCreateModel.InvTrxHdr.DtTrx = dateServices.GetCurrentDateTime();
 
             itemTrxServices.CreateInvTrxHdrs(ReceivingCreateModel.InvTrxHdr);
+            await _context.SaveChangesAsync();
+
+            CreateTrxHdrApproval(ReceivingCreateModel.InvTrxHdr.Id);
+
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Details", new { id = ReceivingCreateModel.InvTrxHdr.Id });
@@ -75,6 +86,25 @@ namespace InvWeb.Pages.Stores.Receiving
         private void UpdateStoreId(int storeId)
         {
             StoreId = storeId;
+        }
+
+
+        private void CreateTrxHdrApproval(int invHdrId)
+        {
+            try
+            {
+                var newTrxHdrApproval = new InvTrxApproval();
+                newTrxHdrApproval.EncodedBy = GetUser();
+                newTrxHdrApproval.EncodedDate = dateServices.GetCurrentDateTime();
+                newTrxHdrApproval.InvTrxHdrId = invHdrId;
+
+                invApprovalServices.CreateTrxApproval(newTrxHdrApproval);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex.InnerException;
+            }
         }
 
     }

@@ -754,10 +754,10 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ApprovedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="ApprovedDate" Type="datetime" Nullable="false" />
-    <Property Name="VerifiedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="VerifiedDate" Type="datetime" Nullable="false" />
+    <Property Name="ApprovedBy" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="ApprovedDate" Type="datetime" Nullable="true" />
+    <Property Name="VerifiedBy" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="VerifiedDate" Type="datetime" Nullable="true" />
     <Property Name="EncodedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
     <Property Name="EncodedDate" Type="datetime" Nullable="false" />
     <Property Name="InvTrxHdrId" Type="int" Nullable="false" />
@@ -767,10 +767,10 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ApprovedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="ApprovedDate" Type="datetime" Nullable="false" />
-    <Property Name="VerifiedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
-    <Property Name="VerifiedDate" Type="datetime" Nullable="false" />
+    <Property Name="ApprovedBy" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="ApprovedDate" Type="datetime" Nullable="true" />
+    <Property Name="VerifiedBy" Type="nvarchar" Nullable="true" MaxLength="40" />
+    <Property Name="VerifiedDate" Type="datetime" Nullable="true" />
     <Property Name="EncodedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
     <Property Name="EncodedDate" Type="datetime" Nullable="false" />
     <Property Name="InvPoHdrId" Type="int" Nullable="false" />
@@ -3114,10 +3114,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ApprovedBy" Type="String" Nullable="false" MaxLength="40" />
-          <Property Name="ApprovedDate" Type="DateTime" Nullable="false" />
-          <Property Name="VerifiedBy" Type="String" Nullable="false" MaxLength="40" />
-          <Property Name="VerifiedDate" Type="DateTime" Nullable="false" />
+          <Property Name="ApprovedBy" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="ApprovedDate" Type="DateTime" Nullable="true" />
+          <Property Name="VerifiedBy" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="VerifiedDate" Type="DateTime" Nullable="true" />
           <Property Name="EncodedBy" Type="String" Nullable="false" MaxLength="40" />
           <Property Name="EncodedDate" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="InvTrxHdr" Relationship="InvDB.InvTrxHdrInvTrxApproval" FromRole="InvTrxApproval" ToRole="InvTrxHdr" />
@@ -3140,10 +3140,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ApprovedBy" Type="String" Nullable="false" MaxLength="40" />
-          <Property Name="ApprovedDate" Type="DateTime" Nullable="false" />
-          <Property Name="VerifiedBy" Type="String" Nullable="false" MaxLength="40" />
-          <Property Name="VerifiedDate" Type="DateTime" Nullable="false" />
+          <Property Name="ApprovedBy" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="ApprovedDate" Type="DateTime" Nullable="true" />
+          <Property Name="VerifiedBy" Type="String" Nullable="true" MaxLength="40" />
+          <Property Name="VerifiedDate" Type="DateTime" Nullable="true" />
           <Property Name="EncodedBy" Type="String" Nullable="false" MaxLength="40" />
           <Property Name="EncodedDate" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="InvPoHdr" Relationship="InvDB.InvPoHdrInvPoApproval" FromRole="InvPoApproval" ToRole="InvPoHdr" />

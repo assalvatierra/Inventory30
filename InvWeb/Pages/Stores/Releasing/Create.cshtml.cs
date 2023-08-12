@@ -66,7 +66,7 @@ namespace InvWeb.Pages.Stores.Releasing
             itemTrxServices.CreateInvTrxHdrs(ReleasingCreateModel.InvTrxHdr);
             await itemTrxServices.SaveChanges();
 
-            CreateTrxHdrApproval();
+            await CreateTrxHdrApproval(ReleasingCreateModel.InvTrxHdr.Id);
 
             return RedirectToPage("./Details", new { id = ReleasingCreateModel.InvTrxHdr.Id});
         }
@@ -87,15 +87,16 @@ namespace InvWeb.Pages.Stores.Releasing
         }
 
 
-        private void CreateTrxHdrApproval()
+        private async Task CreateTrxHdrApproval(int invTrxHdrId)
         {
             var newTrxHdrApproval = new InvTrxApproval();
             newTrxHdrApproval.EncodedBy = GetUser();
             newTrxHdrApproval.EncodedDate = DateTime.UtcNow;
+            newTrxHdrApproval.InvTrxHdrId = invTrxHdrId;
 
             invApprovalServices.CreateTrxApproval(newTrxHdrApproval);
 
-            invApprovalServices.SaveChangesAsync();
+            await invApprovalServices.SaveChangesAsync();
         }
 
     }

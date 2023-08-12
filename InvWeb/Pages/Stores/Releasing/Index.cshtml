@@ -164,20 +164,5 @@
         });
 
 
-        function ApprovedTrxHdr(trxId){
-            $.post('/api/ApiTrxHdrs/UpdateTrxHdrApproved?id=' + id, { id: id }, (res) => {
-                console.log(res);
-            }).done(() => {
-                window.location.reload(false);
-            });
-        }
-
-        function VerifiedTrxHdr(trxId) {
-            $.post('/api/ApiTrxHdrs/UpdateTrxHdrVerified?id=' + id, { id: id }, (res) => {
-                console.log(res);
-            }).done(() => {
-                window.location.reload(false);
-            });
-        }
     </script>
 } 

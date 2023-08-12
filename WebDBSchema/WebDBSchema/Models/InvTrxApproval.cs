@@ -16,9 +16,9 @@ namespace WebDBSchema.Models
     {
         public int Id { get; set; }
         public string ApprovedBy { get; set; }
-        public System.DateTime ApprovedDate { get; set; }
+        public Nullable<System.DateTime> ApprovedDate { get; set; }
         public string VerifiedBy { get; set; }
-        public System.DateTime VerifiedDate { get; set; }
+        public Nullable<System.DateTime> VerifiedDate { get; set; }
         public string EncodedBy { get; set; }
         public System.DateTime EncodedDate { get; set; }
         public int InvTrxHdrId { get; set; }

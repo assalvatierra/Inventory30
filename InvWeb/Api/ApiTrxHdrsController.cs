@@ -263,16 +263,19 @@ namespace InvWeb.Api
                     throw;
                 }
             }
-
+            var checkExists = invApprovalServices.InvTrxCheckHaveApprovalExist((int)id);
             // Create or Update Approval Trx
-            if (invApprovalServices.InvTrxCheckHaveApprovalExist((int)id))
+            if (checkExists)
             {
                 var existingApproval = invApprovalServices.GetExistingApproval((int)id);
 
                 if (existingApproval != null)
                 {
                     existingApproval.ApprovedBy = GetUser();
-                    existingApproval.ApprovedDate = dateServices.GetCurrentDate();
+                    existingApproval.ApprovedDate = dateServices.GetCurrentDateTime();
+
+                    invApprovalServices.EditTrxApproval(existingApproval);
+                    await invApprovalServices.SaveChangesAsync();
                 }
             }
 
@@ -322,7 +325,10 @@ namespace InvWeb.Api
                 if (existingApproval != null)
                 {
                     existingApproval.VerifiedBy = GetUser();
-                    existingApproval.VerifiedDate = dateServices.GetCurrentDate();
+                    existingApproval.VerifiedDate = dateServices.GetCurrentDateTime();
+
+                    invApprovalServices.EditTrxApproval(existingApproval);
+                    await invApprovalServices.SaveChangesAsync();
                 }
             }
 

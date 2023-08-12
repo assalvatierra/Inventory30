@@ -23,6 +23,23 @@ function CancelHdr(id) {
 }
 
 
+function ApprovedTrxHdr(id) {
+    $.post('/api/ApiTrxHdrs/UpdateTrxHdrApproved?id=' + id, { id: id }, (res) => {
+        console.log(res);
+    }).done(() => {
+        window.location.reload(false);
+    });
+}
+
+function VerifiedTrxHdr(id) {
+    $.post('/api/ApiTrxHdrs/UpdateTrxHdrVerified?id=' + id, { id: id }, (res) => {
+        console.log(res);
+    }).done(() => {
+        window.location.reload(false);
+    });
+}
+
+
 function StatusFilter(status) {
     switch (status) {
         case "PENDING":

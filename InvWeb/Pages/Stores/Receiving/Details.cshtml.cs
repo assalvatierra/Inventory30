@@ -11,6 +11,8 @@ using CoreLib.Inventory.Interfaces;
 using Microsoft.Extensions.Logging;
 using Modules.Inventory;
 using CoreLib.DTO.Releasing;
+using CoreLib.Interfaces;
+using Inventory;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
@@ -19,12 +21,14 @@ namespace InvWeb.Pages.Stores.Receiving
         private readonly ApplicationDbContext _context;
         private readonly ILogger<DetailsModel> _logger;
         private readonly IItemTrxServices itemTrxServices;
+        private readonly IInvApprovalServices invApprovalServices;
 
         public DetailsModel(ILogger<DetailsModel> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
             itemTrxServices = new ItemTrxServices(_context, _logger);
+            invApprovalServices = new InvApprovalServices(_context, _logger);
             ReceivingDetailsModel = new ReceivingDetailsModel();
 
         }
@@ -49,7 +53,8 @@ namespace InvWeb.Pages.Stores.Receiving
             }
 
             ReceivingDetailsModel.InvTrxDtls = itemTrxServices.GetInvTrxDtlsById((int)id);
-
+            
+            //ReceivingDetailsModel.InvTrxApproval = invApprovalServices.GetExistingApproval((int)id);
 
             return Page();
         }
