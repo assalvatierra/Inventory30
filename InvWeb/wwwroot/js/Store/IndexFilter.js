@@ -6,19 +6,19 @@
  * @param {any} id
  */
 
-function ApproveHdr(id) {
+function ApproveHdr(e, id) {
     $.post('/api/ApiTrxHdrs/PostHdrsApprove?id=' + id, { id: id }, (res) => {
         console.log(res);
     }).done(() => {
-        window.location.reload(false);
+        $(e).attr('disabled', 'disabled');
     });
 }
 
-function CancelHdr(id) {
+function CancelHdr(e, id) {
     $.post('/api/ApiTrxHdrs/PostHdrsCancel?id=' + id, { id: id }, (res) => {
         console.log(res);
     }).done(() => {
-        window.location.reload(false);
+        $(e).attr('disabled', 'disabled');
     });
 }
 
@@ -48,6 +48,12 @@ function StatusFilter(status) {
     switch (status) {
         case "PENDING":
             $("#status-pending").addClass("active");
+            break;
+        case "APPROVED":
+            $("#status-approved").addClass("active");
+            break;
+        case "VERIFIED":
+            $("#status-verified").addClass("active");
             break;
         case "ACCEPTED":
             $("#status-accepted").addClass("active");

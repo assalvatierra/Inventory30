@@ -45,6 +45,12 @@
         <label class="btn btn-outline-primary" id="status-pending">
             <input type="radio" asp-for="Status" class="button" autocomplete="off" value="PENDING" checked> Requested
         </label>
+        <label class="btn btn-outline-primary" id="status-approved">
+            <input type="radio" asp-for="Status" autocomplete="off" value="APPROVED"> Approved
+        </label>
+        <label class="btn btn-outline-primary" id="status-verified">
+            <input type="radio" asp-for="Status" autocomplete="off" value="VERIFIED"> Verified
+        </label>
         <label class="btn btn-outline-primary" id="status-accepted">
             <input type="radio" asp-for="Status" class="button" autocomplete="off" value="ACCEPTED"> Relased
         </label>
@@ -131,7 +137,7 @@
 
                     @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
                     {
-                        <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Release </button>
+                        <button class="btn btn-primary" onclick="ApproveHdr(this,'@item.Id')"> Release </button>
                     } 
                 </td>
                  <td>
