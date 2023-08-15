@@ -23,19 +23,23 @@ function CancelHdr(id) {
 }
 
 
-function ApprovedTrxHdr(id) {
+function ApprovedTrxHdr(e, id) {
     $.post('/api/ApiTrxHdrs/UpdateTrxHdrApproved?id=' + id, { id: id }, (res) => {
         console.log(res);
     }).done(() => {
-        window.location.reload(false);
+        $(e).attr('disabled', 'disabled');
+    }).fail(() => {
+        alert("Unable to approve transaction");
     });
 }
 
-function VerifiedTrxHdr(id) {
+function VerifiedTrxHdr(e,id) {
     $.post('/api/ApiTrxHdrs/UpdateTrxHdrVerified?id=' + id, { id: id }, (res) => {
         console.log(res);
     }).done(() => {
-        window.location.reload(false);
+        $(e).attr('disabled', 'disabled');
+    }).fail(() => {
+        alert("Unable to verify transaction");
     });
 }
 

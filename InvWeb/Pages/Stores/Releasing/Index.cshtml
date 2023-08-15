@@ -125,9 +125,9 @@
                     </div>
                 </td>
                 <td>
-                    
-                    <button class="btn btn-primary" onclick="ApprovedTrxHdr('@item.Id')"> Approve </button>
-                    <button class="btn btn-primary" onclick="VerifiedTrxHdr('@item.Id')"> Verified </button>
+
+                    <button class="btn btn-primary" onclick="ApprovedTrxHdr(this,'@item.Id')"> Approve </button>
+                    <button class="btn btn-primary" onclick="VerifiedTrxHdr(this,'@item.Id')"> Verified </button>
 
                     @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
                     {
