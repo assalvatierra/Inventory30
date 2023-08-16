@@ -775,6 +775,7 @@
     <Property Name="EncodedDate" Type="datetime" Nullable="false" />
     <Property Name="InvPoHdrId" Type="int" Nullable="false" />
   </EntityType>
+
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
     <End Role="InvItemClass" Type="InvDB.Store.InvItemClasses" Multiplicity="*" />

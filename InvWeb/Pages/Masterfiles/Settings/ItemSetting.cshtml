@@ -1,0 +1,60 @@
+﻿@page
+@model ItemSettingModel
+@{
+}
+
+<h4> Item Settings </h4>
+<div class="list-group">
+    <a asp-page="/Masterfiles/ItemWarnings/Index" class="list-group-item list-group-item-action">
+        Item Level Warnings
+    </a>
+    <a asp-page="/Masterfiles/ItemCategories/Index" class="list-group-item list-group-item-action">
+        Inventory Categories
+    </a>
+    <a asp-page="/Masterfiles/ItemClassification/Index" class="list-group-item list-group-item-action">
+        Inventory Classification
+    </a>
+    <a asp-page="/Masterfiles/ItemUoms/Index" class="list-group-item list-group-item-action">
+        Unit of Measurement
+    </a>
+    <a asp-page="/Masterfiles/ItemUomsConversion/Index" class="list-group-item list-group-item-action">
+        Item Conversions
+    </a>
+
+    <!--
+    <a asp-page="/Masterfiles/ItemCustomSpec/Index" class="list-group-item list-group-item-action">
+        Custom Specs
+    </a>
+    <a asp-page="/Masterfiles/ItemCustomSpecType/Index" class="list-group-item list-group-item-action">
+        Custom Spec types
+    </a>
+    -->
+</div>
+<br />
+<h4> Product Settings </h4>
+<div class="list-group">
+    <!--
+    <a asp-page="/Masterfiles/ItemSpecifications/Index" class="list-group-item list-group-item-action">
+        Steel Specifications
+    </a>
+    -->
+    <a asp-page="/Masterfiles/ItemSpecSteel/SteelMainCats/Index" class="list-group-item list-group-item-action">
+        Steel Main Category
+    </a>
+    <a asp-page="/Masterfiles/ItemSpecSteel/SteelSubCats/Index" class="list-group-item list-group-item-action">
+        Steel Sub Category
+    </a>
+    <a asp-page="/Masterfiles/ItemSpecSteel/SteelMaterials/Index" class="list-group-item list-group-item-action">
+        Steel Materials
+    </a>
+    <a asp-page="/Masterfiles/ItemSpecSteel/SteelMaterialGrades/Index" class="list-group-item list-group-item-action">
+        Steel Material Grade
+    </a>
+    <a asp-page="/Masterfiles/ItemSpecSteel/SteelBrands/Index" class="list-group-item list-group-item-action">
+        Steel Brands
+    </a>
+    <a asp-page="/Masterfiles/ItemSpecSteel/SteelOrigins/Index" class="list-group-item list-group-item-action">
+        Steel Origin
+    </a>
+</div>
+
