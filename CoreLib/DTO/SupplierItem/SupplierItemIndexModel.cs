@@ -10,6 +10,6 @@ namespace CoreLib.DTO.SupplierItem
     public class SupplierItemIndexModel
     {
         public int SupplierId { get; set; }
-        public IList<InvSupplierItem> InvSupplierItem { get; set; }
+        public IList<InvSupplierItem>? InvSupplierItem { get; set; }
     }
 }

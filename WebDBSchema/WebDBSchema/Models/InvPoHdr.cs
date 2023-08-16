@@ -18,6 +18,7 @@ namespace WebDBSchema.Models
         public InvPoHdr()
         {
             this.InvPoItems = new HashSet<InvPoItem>();
+            this.InvPoApprovals = new HashSet<InvPoApproval>();
         }
     
         public int Id { get; set; }
@@ -32,5 +33,7 @@ namespace WebDBSchema.Models
         public virtual ICollection<InvPoItem> InvPoItems { get; set; }
         public virtual InvStore InvStore { get; set; }
         public virtual InvPoHdrStatus InvPoHdrStatu { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvPoApproval> InvPoApprovals { get; set; }
     }
 }

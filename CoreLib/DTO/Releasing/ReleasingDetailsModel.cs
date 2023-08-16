@@ -1,4 +1,5 @@
 ﻿using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace CoreLib.DTO.Releasing
     {
         public InvTrxHdr? InvTrxHdr { get; set; }
         public IEnumerable<InvTrxDtl>? InvTrxDtls { get; set; }
+        public InvTrxApproval? InvTrxApproval { get;set; }
     }
 }

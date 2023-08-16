@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Items;
 using CoreLib.Models.Inventory;
+using CoreLib.Interfaces;
+using Inventory;
+using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace InvWeb.Api
 {
@@ -17,9 +21,15 @@ namespace InvWeb.Api
 
         private readonly ApplicationDbContext _context;
 
-        public ApiTrxHdrsController(ApplicationDbContext context)
+        private IInvApprovalServices invApprovalServices;
+
+        private readonly DateServices dateServices;
+
+        public ApiTrxHdrsController(ApplicationDbContext context, ILogger<Controller> logger)
         {
             _context = context;
+            invApprovalServices = new InvApprovalServices(context, logger);
+            dateServices = new DateServices();
         }
 
         // GET: api/ApiTrxHdrs
@@ -216,6 +226,118 @@ namespace InvWeb.Api
 
             }
             return lotNoSelects;
+        }
+
+
+
+        // PUT: api/ApiTrxHdrs/UpdateTrxHdrApproved/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<IActionResult> UpdateTrxHdrApproved(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var trxHdr = await _context.InvTrxHdrs.FindAsync(id);
+
+            // Update Status of Transactions
+            // APPROVED = 2
+            trxHdr.InvTrxHdrStatusId = 2;
+            _context.Entry(trxHdr).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!InvHdrExists((int)id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return StatusCode(400, "Exception error");
+                    throw;
+                }
+            }
+            var checkExists = invApprovalServices.InvTrxCheckHaveApprovalExist((int)id);
+            // Create or Update Approval Trx
+            if (checkExists)
+            {
+                var existingApproval = invApprovalServices.GetExistingApproval((int)id);
+
+                if (existingApproval != null)
+                {
+                    existingApproval.ApprovedBy = GetUser();
+                    existingApproval.ApprovedDate = dateServices.GetCurrentDateTime();
+
+                    invApprovalServices.EditTrxApproval(existingApproval);
+                    await invApprovalServices.SaveChangesAsync();
+                }
+            }
+
+            return StatusCode(200, "Status Update Successfull");
+        }
+
+
+        // PUT: api/ApiTrxHdrs/UpdateTrxHdrVerified/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<IActionResult> UpdateTrxHdrVerified(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var trxHdr = await _context.InvTrxHdrs.FindAsync(id);
+
+            // Update Status of Transactions
+            // APPROVED = 2
+            trxHdr.InvTrxHdrStatusId = 2;
+            _context.Entry(trxHdr).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!InvHdrExists((int)id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return StatusCode(400, "Exception error");
+                    throw;
+                }
+            }
+
+            // Create or Update Approval Trx
+            if (invApprovalServices.InvTrxCheckHaveApprovalExist((int)id))
+            {
+                var existingApproval = invApprovalServices.GetExistingApproval((int)id);
+
+                if (existingApproval != null)
+                {
+                    existingApproval.VerifiedBy = GetUser();
+                    existingApproval.VerifiedDate = dateServices.GetCurrentDateTime();
+
+                    invApprovalServices.EditTrxApproval(existingApproval);
+                    await invApprovalServices.SaveChangesAsync();
+                }
+            }
+
+            return StatusCode(200, "Status Update Successfull");
+        }
+
+        private string GetUser()
+        {
+            return User.FindFirstValue(ClaimTypes.Name);
         }
     }
 }

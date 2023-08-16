@@ -5,7 +5,9 @@
     ViewData["Title"] = "Releasing";
 
     bool IsAdmin = Model.ReleasingIndexModel.IsAdmin;
+
     int STATUS_PENDING = 1;
+    int STATUS_APPROVED = 2;
     
 }
 
@@ -43,10 +45,10 @@
     </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-outline-primary" id="status-pending">
-            <input type="radio" asp-for="Status" class="button" autocomplete="off" value="PENDING" checked> Requested
+            <input type="radio" asp-for="Status" autocomplete="off" value="PENDING" checked> Requested
         </label>
-        <label class="btn btn-outline-primary" id="status-accepted">
-            <input type="radio" asp-for="Status" class="button" autocomplete="off" value="ACCEPTED"> Relased
+        <label class="btn btn-outline-primary" id="status-approved">
+            <input type="radio" asp-for="Status" autocomplete="off" value="APPROVED"> Approved
         </label>
     </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -93,25 +95,25 @@
                     @Html.DisplayFor(modelItem => item.Remarks)
                 </td>
                 <td>
-                    <div>
+                    <div style="width:1rem;">
                         <table class="table table-borderless">
 
                             @foreach (var dlts in item.InvTrxDtls)
                             {
 
                                 <tr>
-                                    <td>
+                                    <td style="width:25rem;">
                                         ( @dlts.InvItem.Code )
                                         @dlts.InvItem.Description
                                         @dlts.InvItem.Remarks
                                     </td>
-                                    <td>
+                                    <td style="width:5rem;">
                                         @dlts.InvItem.Material
                                     </td>
-                                    <td>
+                                    <td style="width:5rem;">
                                          @dlts.BatchNo
                                     </td>
-                                    <td>
+                                    <td style="width:5rem;">
                                         @dlts.ItemQty
 
                                         @if (dlts.InvUom != null)
@@ -125,19 +127,26 @@
                     </div>
                 </td>
                 <td>
+
                     @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
                     {
-                        <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Release </button>
+                        <button class="btn btn-primary" onclick="ApprovedTrxHdr(this,'@item.Id')"> Approve </button>
+                        <button class="btn btn-primary" onclick="VerifiedTrxHdr(this,'@item.Id')"> Verified </button>
+                        @*<button class="btn btn-primary" onclick="ApproveHdr(this,'@item.Id')"> Release </button>*@
                     } 
                 </td>
                  <td>
                     <!-- Actions -->
                     @if(item.InvTrxHdrStatusId == STATUS_PENDING){
-                        <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a> <span> | </span>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a><span> | </span>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                        <span> | </span>
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
                      }
 
-                     <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                    @if (item.InvTrxHdrStatusId == STATUS_PENDING)
+                    {
+                        <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a> <span> | </span>
+                    }
                     
                      @if(item.InvTrxHdrStatusId == STATUS_PENDING){
                         <span> | </span><a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
@@ -158,5 +167,7 @@
             StatusFilter("@Model.Status");
             OrderFilter("@Model.Orderby");
         });
+
+
     </script>
 } 

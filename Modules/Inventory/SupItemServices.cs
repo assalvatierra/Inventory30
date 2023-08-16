@@ -3,6 +3,7 @@ using CoreLib.DTO.SupplierItem;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
 using Inventory.DBAccess;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -66,9 +67,27 @@ namespace Inventory
             throw new NotImplementedException();
         }
 
-        public Task<SupplierItemIndexModel> GetSupplierItemIndexModel_OnIndexGet(SupplierItemIndexModel supplierIndex)
+        public async Task<SupplierItemIndexModel> GetSupplierItemIndexModel_OnIndexGet(SupplierItemIndexModel supplierIndex)
         {
-            throw new NotImplementedException();
+
+            if (_context.InvSupplierItems.Where(s => s.InvSupplierId == supplierIndex.SupplierId).Count() > 0)
+            {
+
+                var supItems = await _context.InvSupplierItems.Where(s => s.InvSupplierId == supplierIndex.SupplierId).ToListAsync();
+
+                return new SupplierItemIndexModel
+                {
+                    SupplierId = supplierIndex.SupplierId,
+                    InvSupplierItem = supItems
+                };
+
+            } 
+
+            return new SupplierItemIndexModel
+            {
+                SupplierId = supplierIndex.SupplierId,
+                InvSupplierItem = new List<InvSupplierItem> { } 
+            };
         }
 
         public bool InvSupplierExists(int id)
