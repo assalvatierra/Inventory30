@@ -103,25 +103,25 @@
                     @Html.DisplayFor(modelItem => item.Remarks)
                 </td>
                 <td>
-                    <div>
+                    <div style="width:1rem;">
                         <table class="table table-borderless">
 
                             @foreach (var dlts in item.InvTrxDtls)
                             {
 
                                 <tr>
-                                    <td>
+                                    <td style="width:25rem;">
                                         ( @dlts.InvItem.Code )
                                         @dlts.InvItem.Description
                                         @dlts.InvItem.Remarks
                                     </td>
-                                    <td>
+                                    <td style="width:5rem;">
                                         @dlts.InvItem.Material
                                     </td>
-                                    <td>
+                                    <td style="width:5rem;">
                                          @dlts.BatchNo
                                     </td>
-                                    <td>
+                                    <td style="width:5rem;">
                                         @dlts.ItemQty
 
                                         @if (dlts.InvUom != null)
