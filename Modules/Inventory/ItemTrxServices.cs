@@ -204,7 +204,7 @@ namespace Modules.Inventory
                     invTrxHdrs = status switch
                     {
                         "PENDING" => invTrxHdrs.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
-                        "ACCEPTED" => invTrxHdrs.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
+                        "APPROVED" => invTrxHdrs.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
                         "ALL" => invTrxHdrs.ToList(),
                         _ => invTrxHdrs.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
                     };

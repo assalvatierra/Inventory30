@@ -7,9 +7,8 @@
     bool IsAdmin = Model.ReceivingIndexModel.IsAdmin;
 
     int STATUS_PENDING = 1;
-    int STATUS_ACCEPTED = 2;
-    int STATUS_APPROVED = 5;
-    int STATUS_VERIFIED = 6;
+    int STATUS_APPROVED = 2;
+    int STOREID = 1;
 }
 
 <h1>
@@ -54,17 +53,11 @@
         <input type="text" value="@Model.ReceivingIndexModel.StoreId" name="storeId" id="storeId" />
     </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-outline-primary" id="status-pending">
-            <input type="radio" asp-for="Status" autocomplete="off" value="PENDING" checked> Request
+        <label class="btn btn-outline-primary" id="status-pending" onclick="UpdatePagefilter( @STOREID ,'PENDING')">
+            <input type="radio" asp-for="Status" autocomplete="off" value="PENDING"  checked> Request
         </label>
-        <label class="btn btn-outline-primary" id="status-approved">
-            <input type="radio" asp-for="Status" autocomplete="off" value="APPROVED"> Approved
-        </label>
-        <label class="btn btn-outline-primary" id="status-verified">
-            <input type="radio" asp-for="Status" autocomplete="off" value="VERIFIED"> Verified
-        </label>
-        <label class="btn btn-outline-primary" id="status-accepted">
-            <input type="radio" asp-for="Status" autocomplete="off" value="ACCEPTED"> Accepted
+        <label class="btn btn-outline-primary" id="status-approved" onclick="UpdatePagefilter( @STOREID ,'APPROVED')">
+            <input type="radio" asp-for="Status" autocomplete="off" value="APPROVED" >  Approved
         </label>
     </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -144,38 +137,32 @@
                     </div>
                 </td>
                 <td>
+                    <span class="badge badge-info" style="padding:10px;">
+                        @item.InvTrxHdrStatu.Status
+                    </span>
+                </td>
+                <td>
 
                     @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
                     {
                         <button class="btn btn-primary" onclick="ApprovedTrxHdr(this, '@item.Id')"> Approve </button>
-                    }
-
-                    @if (item.InvTrxHdrStatusId == STATUS_APPROVED && IsAdmin)
-                    {
                         <button class="btn btn-primary" onclick="VerifiedTrxHdr(this,'@item.Id')"> Verified </button>
                     }
 
-                    @if (item.InvTrxHdrStatusId == STATUS_VERIFIED && IsAdmin)
-                    {
-                        <button class="btn btn-primary" onclick="ApproveHdr(this,'@item.Id')"> Accept </button>
-                    }
-
-                    </td>
-                    <td>
+                </td>
+                <td>
 
                     @if(item.InvTrxHdrStatusId == STATUS_PENDING){
-                       
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> <span> | </span> 
+
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> <span> | </span>
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
                     }
 
-                    @if (item.InvTrxHdrStatusId == STATUS_ACCEPTED)
+                    @if (item.InvTrxHdrStatusId == STATUS_APPROVED)
                     {
                         <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a>
-                        <span> | </span>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> <span> | </span>
                     }
                  
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> 
                     
                     @if (item.InvTrxHdrStatusId == STATUS_PENDING)
                     {
@@ -205,5 +192,10 @@
             StatusFilter("@Model.ReceivingIndexModel.Status");
             OrderFilter("@Model.ReceivingIndexModel.Order");
         });
+
+        function UpdatePagefilter(storeId, filter){
+            console.log("UpdatePagefilter");
+            window.location.href = "?storeId="+ storeId + "&status=" + filter;
+        }
     </script>
 } 
