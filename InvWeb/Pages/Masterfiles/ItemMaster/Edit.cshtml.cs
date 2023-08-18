@@ -96,7 +96,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            //ModelState.Remove("InvItemSpec_Steel.Id");
+            ModelState.Remove("InvItemSpec_Steel.Id");
 
             if (!ModelState.IsValid)
             {
@@ -132,7 +132,14 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 }
             }
 
-            await UpdateSteelSpecs();
+            if (await _itemSpecServices.CheckItemHasAnyInvSpec(InvItem.Id)) {
+                //update exisiting Steel Specs
+                await UpdateSteelSpecs();
+            }
+            else
+            {
+                await AddInvItemSteel();
+            }
 
             return RedirectToPage("./Index");
         }
@@ -158,6 +165,16 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 _logger.LogError("UpdateSteelSpecs Edit: Unable to update at OnPostAsync InvItemSpec_SteelId:" + InvItem.Id);
                 throw;
             }
+        }
+
+
+        public async Task AddInvItemSteel()
+        {
+            InvItemSpec_Steel.InvItemId = InvItem.Id;
+
+            _context.InvItemSpec_Steel.Add(InvItemSpec_Steel);
+
+            await _context.SaveChangesAsync();
         }
 
     }

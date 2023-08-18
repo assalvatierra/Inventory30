@@ -278,6 +278,20 @@ namespace InvWeb.Api
                     await invApprovalServices.SaveChangesAsync();
                 }
             }
+            else
+            {
+                //Create
+                InvTrxApproval newApproval = new InvTrxApproval();
+                newApproval.EncodedBy = GetUser();
+                newApproval.EncodedDate = dateServices.GetCurrentDateTime();
+                newApproval.ApprovedBy = GetUser();
+                newApproval.ApprovedDate = dateServices.GetCurrentDateTime();
+                newApproval.InvTrxHdrId = (int)id;
+
+                invApprovalServices.CreateTrxApproval(newApproval);
+                await invApprovalServices.SaveChangesAsync();
+
+            }
 
             return StatusCode(200, "Status Update Successfull");
         }
@@ -330,6 +344,20 @@ namespace InvWeb.Api
                     invApprovalServices.EditTrxApproval(existingApproval);
                     await invApprovalServices.SaveChangesAsync();
                 }
+            }
+            else
+            {
+                //Create
+                InvTrxApproval newApproval = new InvTrxApproval();
+                newApproval.EncodedBy = GetUser();
+                newApproval.EncodedDate = dateServices.GetCurrentDateTime();
+                newApproval.VerifiedBy = GetUser();
+                newApproval.VerifiedDate = dateServices.GetCurrentDateTime();
+                newApproval.InvTrxHdrId = (int)id;
+
+                invApprovalServices.CreateTrxApproval(newApproval);
+                await invApprovalServices.SaveChangesAsync();
+
             }
 
             return StatusCode(200, "Status Update Successfull");
