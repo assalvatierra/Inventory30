@@ -28,5 +28,6 @@ namespace CoreLib.Inventory.Interfaces
         public List<InvItemCustomSpec> GetItemCustomSpecification_ByInvItemId(int invItemId);
 
         public InvCustomSpec GetCustomSpecification(int id);
+
     }
 }

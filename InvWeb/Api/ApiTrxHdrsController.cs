@@ -11,6 +11,7 @@ using CoreLib.Interfaces;
 using Inventory;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using ReportViewModel.InvStore;
 
 namespace InvWeb.Api
 {
@@ -240,29 +241,6 @@ namespace InvWeb.Api
                 return BadRequest();
             }
 
-            var trxHdr = await _context.InvTrxHdrs.FindAsync(id);
-
-            // Update Status of Transactions
-            // APPROVED = 2
-            trxHdr.InvTrxHdrStatusId = 2;
-            _context.Entry(trxHdr).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!InvHdrExists((int)id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return StatusCode(400, "Exception error");
-                    throw;
-                }
-            }
             var checkExists = invApprovalServices.InvTrxCheckHaveApprovalExist((int)id);
             // Create or Update Approval Trx
             if (checkExists)
@@ -293,6 +271,32 @@ namespace InvWeb.Api
 
             }
 
+            //Update Transaction Status
+            if (invApprovalServices.CheckForApprovalStatus((int)id))
+            {
+                var trxHdr = await _context.InvTrxHdrs.FindAsync(id);
+
+                trxHdr.InvTrxHdrStatusId = 2;
+                _context.Entry(trxHdr).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!InvHdrExists((int)id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        return StatusCode(400, "Exception error");
+                        throw;
+                    }
+                }
+            }
+
             return StatusCode(200, "Status Update Successfull");
         }
 
@@ -305,30 +309,6 @@ namespace InvWeb.Api
             if (id == null)
             {
                 return BadRequest();
-            }
-
-            var trxHdr = await _context.InvTrxHdrs.FindAsync(id);
-
-            // Update Status of Transactions
-            // APPROVED = 2
-            trxHdr.InvTrxHdrStatusId = 2;
-            _context.Entry(trxHdr).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!InvHdrExists((int)id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return StatusCode(400, "Exception error");
-                    throw;
-                }
             }
 
             // Create or Update Approval Trx
@@ -360,6 +340,32 @@ namespace InvWeb.Api
 
             }
 
+            //Update Transaction Status
+            if (invApprovalServices.CheckForApprovalStatus((int)id))
+            {
+                var trxHdr = await _context.InvTrxHdrs.FindAsync(id);
+
+                trxHdr.InvTrxHdrStatusId = 2;
+                _context.Entry(trxHdr).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!InvHdrExists((int)id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        return StatusCode(400, "Exception error");
+                        throw;
+                    }
+                }
+            }
+
             return StatusCode(200, "Status Update Successfull");
         }
 
@@ -368,4 +374,5 @@ namespace InvWeb.Api
             return User.FindFirstValue(ClaimTypes.Name);
         }
     }
+
 }

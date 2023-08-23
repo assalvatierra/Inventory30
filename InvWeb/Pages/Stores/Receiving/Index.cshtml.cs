@@ -71,5 +71,32 @@ namespace InvWeb.Pages.Stores.Receiving
         {
             return User.IsInRole("ADMIN");
         }
+
+        public bool IsTransactionHaveApprovedRecord(int trxHdrId, string recordType)
+        {
+            if (_context.InvTrxApprovals.Where(t => t.InvTrxHdrId == trxHdrId).Count() > 0)
+            {
+                var trxApprovalRecord = _context.InvTrxApprovals.Where(t => t.InvTrxHdrId == trxHdrId).First();
+
+                if (recordType == "Approved")
+                {
+                    if (!String.IsNullOrEmpty(trxApprovalRecord.ApprovedBy))
+                    {
+                        return true;
+                    }
+                }
+
+                if (recordType == "Verified")
+                {
+                    if (!String.IsNullOrEmpty(trxApprovalRecord.VerifiedBy))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+        
     }
 }
