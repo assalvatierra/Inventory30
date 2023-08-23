@@ -130,10 +130,27 @@
 
                     @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
                     {
-                        <button class="btn btn-primary" onclick="ApprovedTrxHdr(this,'@item.Id')"> Approve </button>
-                        <button class="btn btn-primary" onclick="VerifiedTrxHdr(this,'@item.Id')"> Verified </button>
-                        @*<button class="btn btn-primary" onclick="ApproveHdr(this,'@item.Id')"> Release </button>*@
-                    } 
+                        if (Model.IsTransactionHaveApprovedRecord(item.Id, "Approved"))
+                        {
+                            <button class="btn btn-primary" onclick="ApprovedTrxHdr(this, '@item.Id')" disabled> Approve </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-primary" onclick="ApprovedTrxHdr(this, '@item.Id')"> Approve </button>
+
+                        }
+
+                        if (Model.IsTransactionHaveApprovedRecord(item.Id, "Verified"))
+                        {
+                            <button class="btn btn-primary" onclick="VerifiedTrxHdr(this,'@item.Id')" disabled>  Verified </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-primary" onclick="VerifiedTrxHdr(this,'@item.Id')"> Verified </button>
+
+                        }
+                    }
+
                 </td>
                  <td>
                     <!-- Actions -->

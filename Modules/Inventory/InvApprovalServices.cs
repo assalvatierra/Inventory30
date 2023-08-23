@@ -168,6 +168,30 @@ namespace Inventory
             }
         }
 
+        public bool CheckForApprovalStatus(int id)
+        {
+            try
+            {
+
+                var trxApproval = _context.InvTrxApprovals.Where(t=>t.InvTrxHdrId == id).First();
+
+                if (trxApproval!= null)
+                {
+                    if (!string.IsNullOrEmpty(trxApproval.ApprovedBy) && !string.IsNullOrEmpty(trxApproval.VerifiedBy))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+
+            }catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+
         public async Task SaveChangesAsync()
         {
              await _context.SaveChangesAsync();

@@ -21,5 +21,7 @@ namespace CoreLib.Interfaces
         public bool InvTrxCheckHaveApprovalExist(int TrxId);
         public InvTrxApproval GetExistingApproval(int TrxId);
         public Task SaveChangesAsync();
+
+        public bool CheckForApprovalStatus(int id);
     }
 }
