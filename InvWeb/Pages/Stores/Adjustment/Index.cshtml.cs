@@ -72,7 +72,7 @@ namespace InvWeb.Pages.Stores.Adjustment
 
         private bool IsUserAdmin()
         {
-            return User.IsInRole("ADMIN");
+            return User.IsInRole("Admin");
         }
     }
 }

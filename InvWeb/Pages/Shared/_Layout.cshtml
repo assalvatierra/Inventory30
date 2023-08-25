@@ -19,15 +19,15 @@
         <nav id="sidebar">
             <div class="sidebar-header">
                 <h3>  Inventory </h3>
-                @if (User.IsInRole("ADMIN"))
+                @if (User.IsInRole("Admin"))
                 {
                     <span> Admin </span>
                 }
-                else if (User.IsInRole("STORE"))
+                else if (User.IsInRole("Store"))
                 {
                     <span> Store User </span>
                 }
-                else if (User.IsInRole("PURCHASER"))
+                else if (User.IsInRole("Purchaser"))
                 {
                     <span> Purchaser User </span>
                 }
@@ -37,16 +37,16 @@
                 }
             </div>
            
-            @if (User.IsInRole("ADMIN"))
+            @if (User.IsInRole("Admin"))
             {
 
                 <partial name="./NavLayouts/_AdminNav" />
             }
-            else if (User.IsInRole("STORE"))
+            else if (User.IsInRole("Store"))
             {
                 <partial name="./NavLayouts/_StoreNav" />
             }
-            else if (User.IsInRole("PURCHASER"))
+            else if (User.IsInRole("Purchaser"))
             {
                 <partial name="./NavLayouts/_PurchaserNav" />
             }

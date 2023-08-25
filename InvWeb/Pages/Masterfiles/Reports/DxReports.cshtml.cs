@@ -30,7 +30,8 @@ namespace InvWeb.Pages.Reports
         {
             this.userRptLevel = "USER";
             //this.userRptLevel = "CREATOR";
-            //this.userRptLevel = "ADMIN";
+            //this.userRptLevel = "
+            //";
 
             this.rptCategories = this._reportSvc.GetAvailableCategories();
             this.invReports = this._reportSvc.GetAvailableReports(this.HttpContext.User.Identity.Name);

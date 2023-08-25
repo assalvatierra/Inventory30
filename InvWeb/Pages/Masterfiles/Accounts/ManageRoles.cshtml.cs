@@ -12,7 +12,7 @@ using InvWeb.Data;
 
 namespace InvWeb.Pages.Masterfiles.Accounts
 {
-    [Authorize(Roles = "ADMIN")]
+    [Authorize(Roles = "Admin")]
     public class ManageRolesModel : PageModel
     {
         private readonly SecurityDbContext _context;

@@ -69,7 +69,7 @@ namespace InvWeb.Pages.Stores.Releasing
 
         private bool IsUserRoleAdmin()
         {
-            return User.IsInRole("ADMIN");
+            return User.IsInRole("Admin");
         }
 
 

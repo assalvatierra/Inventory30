@@ -51,7 +51,7 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
         }
         private bool IsUserAdminRole()
         {
-            return User.IsInRole("ADMIN");
+            return User.IsInRole("Admin");
         }
     }
 }

@@ -1,3 +1,3 @@
 ﻿-- User Roles --
 insert into AspNetRoles([Id],[Name],[NormalizedName],[ConcurrencyStamp]) values 
-(1,'ADMIN', null, null),(2,'STORE', null, null),(3,'PURCHASER', null, null);
+(1,'Admin', null, null),(2,'Store', null, null),(3,'Purchaser', null, null);

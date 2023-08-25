@@ -20,7 +20,7 @@ using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Main
 {
-    [Authorize(Roles = "ADMIN,STORE")]
+    [Authorize(Roles = "Admin,Store")]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -81,7 +81,7 @@ namespace InvWeb.Pages.Stores.Main
 
                 _logger.LogInformation("Showing Store Main Page - StoreID : " + id);
 
-                ViewData["IsAdmin"] = User.IsInRole("ADMIN"); // TOOD: check if user is admin
+                ViewData["IsAdmin"] = User.IsInRole("Admin"); // TOOD: check if user is admin
                 return Page();
 
             }

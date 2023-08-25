@@ -69,7 +69,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
         private bool IsUserRoleAdmin()
         {
-            return User.IsInRole("ADMIN");
+            return User.IsInRole("Admin");
         }
 
         public bool IsTransactionHaveApprovedRecord(int trxHdrId, string recordType)

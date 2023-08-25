@@ -11,7 +11,7 @@ using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.ItemClassification
 {
-    [Authorize(Roles = "ADMIN")]
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;

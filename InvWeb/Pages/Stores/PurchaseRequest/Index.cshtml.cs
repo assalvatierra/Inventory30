@@ -50,13 +50,13 @@ namespace InvWeb.Pages.Stores.PurchaseRequest
 
             ViewData["StoreId"] = storeId;
             ViewData["Status"] = status;
-            ViewData["IsAdmin"] = User.IsInRole("ADMIN");
+            ViewData["IsAdmin"] = User.IsInRole("Admin");
             return Page();
         }
 
         private bool IsUserAdminRole()
         {
-            return User.IsInRole("ADMIN");
+            return User.IsInRole("Admin");
         }
     }
 }
