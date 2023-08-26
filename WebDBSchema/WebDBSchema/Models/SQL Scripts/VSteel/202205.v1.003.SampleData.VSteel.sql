@@ -4,7 +4,7 @@ SET @Today = GetDate()
 --Sample Items --
 IF NOT EXISTS (SELECT 1 FROM InvItems)
 BEGIN
-	insert into InvItems([Code],[Description],[Remarks],[InvUomId],[InvCategoryId]) values
+	insert into InvItems([ItemCode],[Description],[Remarks],[InvUomId],[InvCategoryId]) values
 	('001','Steel', '', 1, 1),
 	('002','Pipe' , '', 1, 1),
 	('003','Plate', '', 1, 1)
@@ -81,4 +81,76 @@ BEGIN
 	insert into InvItemSysDefinedSpecs([SpecName],[SpecCode],[SpecGroup]) values
 	('Length', 'LGT', 'Size'),
 	('Width' , 'WDT', 'Size');
+END
+
+
+-- Inv Steel Specs
+
+IF NOT EXISTS (SELECT 1 FROM SteelBrands)
+BEGIN
+	insert into SteelBrands([Name],[Code]) values
+	('Kasugai', 'KASUGAI'),
+	('Energy Steel' , 'ENERGY STEEL')
+END
+
+
+IF NOT EXISTS (SELECT 1 FROM SteelMainCats)
+BEGIN
+	insert into SteelMainCats([Name],[Code]) values
+	('Pipe', 'PIPE'),
+	('Fittings' , 'FITTINGS'),
+	('Flange', 'FLANGE'),
+	('Plate', 'PLATE'),
+	('Beams', 'BEAMS')
+END
+
+
+
+
+IF NOT EXISTS (SELECT 1 FROM SteelMaterialGrades)
+BEGIN
+	insert into SteelMaterialGrades([Name],[Code]) values
+	('ASTM A53B / A106B', ''),
+	('ASTM A234 WPB' , 'FITTINGS'),
+	('ASTM A105', 'FLANGE'),
+	('ASTM A36', 'PLATE'),
+	('ASTM A516-70', 'BEAMS')
+END
+
+
+
+IF NOT EXISTS (SELECT 1 FROM SteelMaterials)
+BEGIN
+	insert into SteelMaterials([Name],[Code]) values
+	('Stainless Steel', ''),
+	('Carbon' , ''),
+	('Alloy', '')
+END
+
+
+IF NOT EXISTS (SELECT 1 FROM SteelOrigins)
+BEGIN
+	insert into SteelOrigins([Name],[Code]) values
+	('Philippines', 'PH'),
+	('Japan' , 'JPM'),
+	('China', 'CHN'),
+	('Korea', 'KRN'),
+	('India', 'IND')
+END
+
+
+
+IF NOT EXISTS (SELECT 1 FROM SteelSubCats)
+BEGIN
+	insert into SteelSubCats([Name],[Code]) values
+	('CS SMLS PIPE', ''),
+	('CS ELBOW', ''),
+	('CS TEE', ''),
+	('CS RED TEE', ''),
+	('CS CON RED', ''),
+	('S.O. FLANGE', ''),
+	('BLIND FLANGE', ''),
+	('MS PLATE', ''),
+	('BOILER PLATE', ''),
+	('WBEAMS', '')
 END
