@@ -3,11 +3,11 @@
 @{
 
     ViewData["Title"] = "Inventory - Beta";
-    InvWeb.Shared.SystemSetting label = new InvWeb.Shared.SystemSetting();
-    string sStore = label.GetValue("Store");
-    string sAppName = label.GetValue("AppName");
-    string sAppVer = label.GetValue("AppVersion");
-    string sClient = label.GetValue("Tenant");
+    //InvWeb.Shared.SystemSetting label = new InvWeb.Shared.SystemSetting();
+    string sStore = Model.syssetting.GetValue("Store");
+    string sAppName = Model.syssetting.GetValue("AppName");
+    string sAppVer = Model.syssetting.GetValue("AppVersion");
+    string sClient = Model.syssetting.GetValue("Tenant");
 
 }
 

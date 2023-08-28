@@ -27,7 +27,17 @@ namespace InvWeb.Pages
         {
             _logger = logger;
             _storeSvc = new StoreServices(context);
+
+            this.syssetting = new InvWeb.Shared.SystemSetting();
+            string sStore = this.syssetting.GetValue("Store");
+            //string sAppName = label.GetValue("AppName");
+            //string sAppVer = label.GetValue("AppVersion");
+            //string sClient = label.GetValue("Tenant");
+
         }
+
+        [BindProperty]
+        public InvWeb.Shared.SystemSetting syssetting { get; set; }
 
         [BindProperty]
         public List<InvStore> UsersStores { get; set; }   //this is the key bit

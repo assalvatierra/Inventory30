@@ -2,6 +2,7 @@
 {
     public class SystemSetting
     {
+        public SystemSetting() { }
         public string GetValue(string sCode)
         {
             string sLabel = sCode;
