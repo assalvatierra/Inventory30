@@ -2,10 +2,12 @@
 @model InvWeb.Pages.Stores.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    InvWeb.Shared.SystemSetting syssetting = new InvWeb.Shared.SystemSetting();
+    ViewData["Title"] = syssetting.GetValue("Store");
+    string sStore = syssetting.GetValue("Store");
 }
 
-<h1>Stores</h1>
+<h1>@sStore</h1>
 
 <p>
     @*<a asp-page="Create">Create New</a>*@
@@ -14,7 +16,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.InvStore[0].StoreName)
+                @sStore
             </th>
             <th></th>
         </tr>
@@ -30,7 +32,7 @@
                 @*<a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |*@
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
 
-                <a asp-page="../../Stores/Main/Index" asp-route-id="@item.Id">Go to Store Page</a>
+                    <a asp-page="../../Stores/Main/Index" asp-route-id="@item.Id">Go to @sStore Page</a>
             </td>
         </tr>
 }
