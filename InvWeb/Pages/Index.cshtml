@@ -13,14 +13,25 @@
 
 @if (Model.UsersStores != null)
 {
-    @foreach (var store in Model.UsersStores)
+    <h2> @sAppName @sAppVer </h2>
+    @if (Model.UsersStores.Count == 0)
     {
         <div class="jumbotron">
-            <h2> @sAppName @sAppVer </h2>
-            <h4> (@store.StoreName) </h4>
-            <p> @sStore Id : @store.Id </p>
-            <a asp-page="./Stores/Main/Index" asp-route-id="@store.Id"> Go to Mainpage </a>
+            No Specific @sStore is assigned to this user.
         </div>
+
+    }
+    else
+    {
+        @foreach (var store in Model.UsersStores)
+        {
+            <div class="jumbotron">
+                <h4> (@store.StoreName) </h4>
+                <p> @sStore Id : @store.Id </p>
+                <a asp-page="./Stores/Main/Index" asp-route-id="@store.Id"> Go to Mainpage </a>
+            </div>
+        }
+
     }
 
 }
