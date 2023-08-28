@@ -75,7 +75,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
     public class InvItemIndexModel
     {
         public InvItem InvItem { get; set; }
-        public InvItemSpec_Steel? InvItemSpec_Steel { get; set; }
+        public InvItemSpec_Steel InvItemSpec_Steel { get; set; }
         public IEnumerable<InvItemClass> InvItemClasses { get;set; }
     }
 }

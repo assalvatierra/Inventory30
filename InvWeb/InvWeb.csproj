@@ -1,10 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>aspnet-InvWeb-6AB3500D-5C7D-42EB-B876-A652F155A7CF</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Areas\Items\**" />
     <Compile Remove="Pages\InvAccounts\**" />
@@ -18,13 +16,17 @@
     <None Remove="Areas\Items\**" />
     <None Remove="Pages\InvAccounts\**" />
     <None Remove="Pages\Stores\Reports\**" />
-  </ItemGroup>
+	  
+	  <Compile Remove="node_modules\**" />
+	  <Content Remove="node_modules\**" />
+	  <EmbeddedResource Remove="node_modules\**" />
+	  <None Remove="node_modules\**" />
 
+  </ItemGroup>
   <ItemGroup>
     <Compile Remove="Data\ApplicationDbContext.cs" />
     <Compile Remove="Data\Services\SearchServices.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
     <PackageReference Include="DevExpress.AspNetCore.Reporting" Version="22.2.4" />
@@ -46,11 +48,9 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Utils" Version="6.0.10" />
-    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.117" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
     <ProjectReference Include="..\Modules\Client\Inventory20\Inventory20.csproj" />
@@ -61,9 +61,9 @@
     <ProjectReference Include="..\PageSettings\PageModels\ReportViewModel\ReportViewModel.csproj" />
     <ProjectReference Include="..\PageSettings\PageViews\ReportBasicViews\ReportBasicViews.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Data\Services\" />
+    <PackageReference Include="DevExtreme.AspNet.Core" Version="23.1.4" />
+    <PackageReference Include="DevExtreme.AspNet.Data" Version="2.9.2" />
   </ItemGroup>
-
 </Project>

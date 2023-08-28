@@ -46,7 +46,7 @@ namespace InvWeb
             services.AddScoped<ReportStorageWebExtension, CustomReportStorageWebExtension>();
 
             services
-                .AddMvc()
+                .AddMvc().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
                 .AddNewtonsoftJson();
 
             //services.AddDbContext<ReportDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("ReportsDataConnectionString")));
