@@ -3,24 +3,34 @@
 @{
 
     ViewData["Title"] = "Inventory - Beta";
-    InvWeb.Shared.SystemSetting label = new InvWeb.Shared.SystemSetting();
-    string sStore = label.GetValue("Store");
-    string sAppName = label.GetValue("AppName");
-    string sAppVer = label.GetValue("AppVersion");
-    string sClient = label.GetValue("Tenant");
+    //InvWeb.Shared.SystemSetting label = new InvWeb.Shared.SystemSetting();
+    string sStore = Model.syssetting.GetValue("Store");
+    string sAppName = Model.syssetting.GetValue("AppName");
+    string sAppVer = Model.syssetting.GetValue("AppVersion");
+    string sClient = Model.syssetting.GetValue("Tenant");
 
 }
 
 @if (Model.UsersStores != null)
 {
-    @foreach (var store in Model.UsersStores)
+    <h2> @sAppName @sAppVer </h2>
+    @if (Model.UsersStores.Count == 0)
     {
         <div class="jumbotron">
-            <h2> @sAppName @sAppVer </h2>
-            <h4> (@store.StoreName) </h4>
-            <p> @sStore Id : @store.Id </p>
-            <a asp-page="./Stores/Main/Index" asp-route-id="@store.Id"> Go to Mainpage </a>
+            No Specific @sStore is assigned to this user.
         </div>
+
+    }
+    else
+    {
+        @foreach (var store in Model.UsersStores)
+        {
+            <div class="jumbotron">
+                <h4> (@store.StoreName) </h4>
+                <a asp-page="./Stores/Main/Index" asp-route-id="@store.Id"> Go to @sStore Mainpage </a>
+            </div>
+        }
+
     }
 
 }

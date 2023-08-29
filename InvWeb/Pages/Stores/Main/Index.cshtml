@@ -3,6 +3,11 @@
 
 @{
     ViewData["Title"] = "Main";
+
+    InvWeb.Shared.SystemSetting syssetting = new InvWeb.Shared.SystemSetting();
+    ViewData["Title"] = syssetting.GetValue("Store");
+    string sStore = syssetting.GetValue("Store");
+
     IEnumerable<CoreLib.Inventory.Models.Stores.StoreInvCount> storeInvs = ViewBag.StoreInv;
     IEnumerable<CoreLib.Inventory.Models.InvTrxHdr> RecentTrxHdrs = ViewBag.RecentTrxHdrs;
     IEnumerable<CoreLib.Inventory.Models.InvCategory> Categories = ViewBag.Categories;
@@ -31,7 +36,7 @@
 </h1>
 
 <div>
-    <h4>Store</h4> 
+    <h4>@sStore</h4> 
     <hr />
 </div>
 
@@ -142,7 +147,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h4>Store Items</h4>
+                <h4>@sStore Items</h4>
                 <p class="text-muted" style="font-size:0.7em"> Click the headers to sort </p>
                 <partial name="_PartialSummary" model="storeInvs" />
             </div>

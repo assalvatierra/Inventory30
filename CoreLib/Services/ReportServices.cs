@@ -20,10 +20,10 @@ namespace RealSys.CoreLib.Services
         {
             var rptByUser = this._reportsRepo.GetUserReportsByUsername(userName);
             //var rptByRole = this._reportsRepo.GetUserReportsByRoleIds(userRoleIds);
-
+            
             IList<int> rptIDs = (IList<int>)rptByUser;
 
-            return this._reportsRepo.GetAvailableReportsByIds(rptIDs);
+            return this._reportsRepo.GetAvailableReportsByIds( rptIDs);
         }
 
         public IList<RptCategory> GetAvailableCategories()
