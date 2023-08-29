@@ -1,5 +1,5 @@
 ﻿-- User Roles --
-insert into SysSettings([Code],[SysValue]) values 
+insert into SysSettings([SysKey],[SysValue]) values 
 ('Store', 'Warehouse'),
 ('AppName', 'Inventory'),
 ('AppVersion', 'Beta 1.1'),
