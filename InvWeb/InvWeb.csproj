@@ -61,9 +61,4 @@
     <ProjectReference Include="..\PageSettings\PageModels\ReportViewModel\ReportViewModel.csproj" />
     <ProjectReference Include="..\PageSettings\PageViews\ReportBasicViews\ReportBasicViews.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Services\" />
-    <PackageReference Include="DevExtreme.AspNet.Core" Version="23.1.4" />
-    <PackageReference Include="DevExtreme.AspNet.Data" Version="2.9.2" />
-  </ItemGroup>
 </Project>
