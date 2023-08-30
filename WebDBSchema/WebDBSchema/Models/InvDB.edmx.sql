@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/12/2023 10:51:12
+-- Date Created: 08/30/2023 11:44:56
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -629,8 +629,8 @@ CREATE TABLE [dbo].[InvItemSpec_Steel] (
     [SteelMaterialId] int  NOT NULL,
     [SteelOriginId] int  NOT NULL,
     [SteelMaterialGradeId] int  NOT NULL,
-    [WtKgm] decimal(18,0)  NOT NULL,
-    [WtKgpc] decimal(18,0)  NOT NULL
+    [WtKgm] decimal(18,2)  NULL,
+    [WtKgpc] decimal(18,2)  NULL
 );
 GO
 

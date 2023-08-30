@@ -17,8 +17,8 @@ ALTER TABLE [dbo].[InvItemSpec_Steel]
     [SteelMaterialId] int,
     [SteelOriginId] int  ,
     [SteelMaterialGradeId] int,
-    [WtKgm] decimal(18,0) ,
-    [WtKgpc] decimal(18,0) ;
+    [WtKgm] decimal(18,2) NULL,
+    [WtKgpc] decimal(18,2) NULL;
 
 
 -- Creating table 'SteelMainCats'
