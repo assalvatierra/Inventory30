@@ -24,8 +24,8 @@ namespace WebDBSchema.Models
         public int SteelMaterialId { get; set; }
         public int SteelOriginId { get; set; }
         public int SteelMaterialGradeId { get; set; }
-        public decimal WtKgm { get; set; }
-        public decimal WtKgpc { get; set; }
+        public Nullable<decimal> WtKgm { get; set; }
+        public Nullable<decimal> WtKgpc { get; set; }
     
         public virtual InvItem InvItem { get; set; }
         public virtual SteelMainCat SteelMainCat { get; set; }
