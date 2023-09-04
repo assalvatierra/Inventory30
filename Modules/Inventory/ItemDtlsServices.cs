@@ -218,7 +218,6 @@ namespace Modules.Inventory
                 var receivingItemDtls = new ReceivingItemDtlsCreateEditModel();
                 
                 receivingItemDtls.InvTrxDtl = new InvTrxDtl();
-                //receivingItemDtls.InvTrxDtl.InvItemId = 2; // default
                 receivingItemDtls.InvTrxDtl.InvTrxHdrId = hdrId;
                 receivingItemDtls.InvTrxDtl.InvTrxDtlOperatorId = OPERATION_ADD;
 
@@ -230,8 +229,7 @@ namespace Modules.Inventory
                                             Value = x.Id
                                         }), "Value", "Name");
 
-                //receivingItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(receivingItemDtls.InvTrxDtl.InvItemId), "Id", "uom");
-                receivingItemDtls.InvUoms = new SelectList(_context.InvUoms, "Id", "uom");
+                receivingItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(receivingItemDtls.InvTrxDtl.InvItemId), "Id", "uom");
                 receivingItemDtls.InvTrxHdrs = new SelectList(dbMaster.InvTrxHdrDb.GetInvTrxHdrs(), "Id", "Id", hdrId);
                 receivingItemDtls.InvTrxDtlOperators = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", OPERATION_ADD);
                 receivingItemDtls.HrdId = hdrId;
