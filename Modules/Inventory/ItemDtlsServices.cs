@@ -29,6 +29,8 @@ namespace Modules.Inventory
         private readonly IItemTrxServices itemTrxServices;
 
         private readonly int TYPE_RELEASING = 2;
+        private readonly int OPERATION_ADD = 1;
+        private readonly int OPERATION_SUBTRACT = 2;
 
         public ItemDtlsServices(ApplicationDbContext context, ILogger logger)
         {
@@ -185,7 +187,7 @@ namespace Modules.Inventory
 
                 ItemDtlsCreateEditModel.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom");
                 ItemDtlsCreateEditModel.InvTrxHdrs = new SelectList(itemTrxServices.GetInvTrxHdrs(), "Id", "Id", hdrId);
-                ItemDtlsCreateEditModel.InvTrxDtlOperators = new SelectList(this.GetInvTrxDtlOperators(), "Id", "Description", 2);
+                ItemDtlsCreateEditModel.InvTrxDtlOperators = new SelectList(this.GetInvTrxDtlOperators(), "Id", "Description", OPERATION_SUBTRACT);
                 ItemDtlsCreateEditModel.HrdId = (int)hdrId;
                 ItemDtlsCreateEditModel.LotNoItems = lotNoList;
                 ItemDtlsCreateEditModel.StoreId = storeId;
@@ -216,9 +218,9 @@ namespace Modules.Inventory
                 var receivingItemDtls = new ReceivingItemDtlsCreateEditModel();
                 
                 receivingItemDtls.InvTrxDtl = new InvTrxDtl();
-                receivingItemDtls.InvTrxDtl.InvItemId = 2; // default
+                //receivingItemDtls.InvTrxDtl.InvItemId = 2; // default
                 receivingItemDtls.InvTrxDtl.InvTrxHdrId = hdrId;
-                receivingItemDtls.InvTrxDtl.InvTrxDtlOperatorId = 1;
+                receivingItemDtls.InvTrxDtl.InvTrxDtlOperatorId = OPERATION_ADD;
 
                 receivingItemDtls.InvItems = new SelectList(itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
                                         .Select(x => new
@@ -228,9 +230,10 @@ namespace Modules.Inventory
                                             Value = x.Id
                                         }), "Value", "Name");
 
-                receivingItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(receivingItemDtls.InvTrxDtl.InvItemId), "Id", "uom");
+                //receivingItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(receivingItemDtls.InvTrxDtl.InvItemId), "Id", "uom");
+                receivingItemDtls.InvUoms = new SelectList(_context.InvUoms, "Id", "uom");
                 receivingItemDtls.InvTrxHdrs = new SelectList(dbMaster.InvTrxHdrDb.GetInvTrxHdrs(), "Id", "Id", hdrId);
-                receivingItemDtls.InvTrxDtlOperators = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 1);
+                receivingItemDtls.InvTrxDtlOperators = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", OPERATION_ADD);
                 receivingItemDtls.HrdId = hdrId;
                 receivingItemDtls.StoreId = invTrxHeader.InvStoreId;
 

@@ -52,7 +52,7 @@ namespace InvWeb
             //services.AddDbContext<ReportDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("ReportsDataConnectionString")));
             services.AddDbContext<ReportDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("ProdConnectionVSteelClient")));
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.ConfigureReportingServices(configurator => {
                 configurator.ConfigureReportDesigner(designerConfigurator => {
@@ -79,12 +79,12 @@ namespace InvWeb
             //localdb
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("ProdConnectionVSteelClient")));
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             //identity db
             services.AddDbContext<SecurityDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("ProdConnectionVSteelClient")));
+                    Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddDatabaseDeveloperPageExceptionFilter();
 
