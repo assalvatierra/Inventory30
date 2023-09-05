@@ -19,6 +19,18 @@ function GetItemOums() {
     )
 }
 
+
+function GetItemOumsWithId(itemId) {
+
+    $.get('/api/uoms/GetUom/' + itemId, null,
+        (data, status, xhr) => {
+            Empty_UomDropdown();
+            Update_UomDropdown(data);
+            GetDefaultUom(itemId);
+        }
+    )
+}
+
 function Update_UomDropdown(data) {
 
     for (var i = 0; i < data.length; i++) {
