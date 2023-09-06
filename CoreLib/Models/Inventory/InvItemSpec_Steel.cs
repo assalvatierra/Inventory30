@@ -11,7 +11,7 @@ namespace CoreLib.Inventory.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class InvItemSpec_Steel
     {
         public int Id { get; set; }
@@ -24,6 +24,7 @@ namespace CoreLib.Inventory.Models
         public int SteelMaterialId { get; set; }
         public int SteelOriginId { get; set; }
         public int SteelMaterialGradeId { get; set; }
+        public int SteelSizeId { get; set; }
         public decimal WtKgm { get; set; }
         public decimal WtKgpc { get; set; }
 
@@ -34,5 +35,6 @@ namespace CoreLib.Inventory.Models
         public virtual SteelMaterial SteelMaterial { get; set; }
         public virtual SteelOrigin SteelOrigin { get; set; }
         public virtual SteelMaterialGrade SteelMaterialGrade { get; set; }
+        public virtual SteelSize SteelSize { get; set; }
     }
 }
