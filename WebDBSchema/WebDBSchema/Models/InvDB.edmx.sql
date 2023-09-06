@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/06/2023 14:01:33
+-- Date Created: 09/06/2023 16:46:44
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -201,6 +201,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvPoHdrInvPoApproval]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvPoApprovals] DROP CONSTRAINT [FK_InvPoHdrInvPoApproval];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SteelSizeInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelSizeInvItemSpec_Steel];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -355,6 +358,9 @@ IF OBJECT_ID(N'[dbo].[InvTrxApprovals]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvPoApprovals]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvPoApprovals];
+GO
+IF OBJECT_ID(N'[dbo].[SteelSizes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SteelSizes];
 GO
 
 -- --------------------------------------------------

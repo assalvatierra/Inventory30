@@ -154,3 +154,73 @@ BEGIN
 	('BOILER PLATE', ''),
 	('WBEAMS', '')
 END
+
+
+IF NOT EXISTS (SELECT 1 FROM Steelsizes)
+BEGIN
+	insert into Steelsizes([Name],[Code]) values
+	('DN200 x SCH40 (8.18mm thk) x 6ML', ''),
+	('DN150 x SCH40 (7.11mm thk) x 6ML', ''),
+	('DN150 x SCH40 (6.02mm thk) x 6ML', ''),
+	('DN150 x SCH40 (5.49mm thk) x 6ML', ''),
+	('DN150 x SCH40 (5.14mm thk) x 6ML', ''),
+	('DN150 x SCH40 (3.91mm thk) x 6ML', ''),
+	('DN150 x SCH40 (3.68mm thk) x 6ML', ''),
+	('DN150 x SCH40 (3.56mm thk) x 6ML', ''),
+	('DN150 x SCH40 (3.38mm thk) x 6ML', ''),
+	('DN150 x SCH40 (2.87mm thk) x 6ML', ''),
+
+	('DN200 x SCH40  90 DEG', ''),
+	('DN150 x SCH40  90 DEG', ''),
+	('DN100 x SCH40  90 DEG', ''),
+	('DN80 x SCH40  90 DEG', ''),
+	('DN65 x SCH40  90 DEG', ''),
+	('DN40 SCH40, 90 deg', ''),
+	('DN32 SCH40, 90 deg', ''),
+	('DN25 SCH40, 90 deg', ''),
+	('DN20 SCH40, 90 deg', ''),
+
+	('DN200 x SCH40 ', ''),
+	('DN150 x SCH40 ', ''),
+	('DN100 x SCH40 ', ''),
+	('DN80 x SCH40 ', ''),
+	('DN65 x SCH40 ', ''),
+	('DN50 x SCH40 ', ''),
+	('DN40 x SCH40 ', ''),
+	('DN25 x SCH40 ', ''),
+	('DN20 x SCH40 ', ''),
+
+	('DN200 x 150 x SCH40 ', ''),
+	('DN150 x 100 x SCH40 ', ''),
+	('DN100 x 80 x SCH40 ', ''),
+	('DN80 x 65 x SCH40 ', ''),
+	('DN65 x 50 x SCH40 ', ''),
+	('DN50 x 40 x SCH40 ', ''),
+	('DN40 x 32 x SCH40 ', ''),
+	('DN32 x 25 x SCH40 ', ''),
+
+	
+	('DN200 CL150, RF', ''),
+	('DN150 CL150, RF', ''),
+	('DN100 CL150, RF', ''),
+	('DN80 CL150, RF', ''),
+	('DN65 CL150, RF', ''),
+	('DN50 CL150, RF', ''),
+	('DN40 CL150, RF', ''),
+	('DN32 CL150, RF', ''),
+	('DN25 CL150, RF', ''),
+	('DN30 CL150, RF', ''),
+	
+	('3mm x 4FT X 8FT', ''),
+	('6mm x 4FT X 8FT', ''),
+	('10mm x 4FT X 8FT', ''),
+	('12mm x 4FT X 8FT', ''),
+	('12.7mm x 4FT X 8FT', ''),
+
+	('W4 x 13lbs/ft x 6ML', ''),
+	('W5 x 16lbs/ft x 6ML', ''),
+	('W6 x 20lbs/ft x 6ML', ''),
+	('W8 x 31lbs/ft x 6ML', '')
+
+
+END

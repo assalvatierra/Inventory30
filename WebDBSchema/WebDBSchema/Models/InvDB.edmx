@@ -56,6 +56,7 @@
     <EntitySet Name="SysSettings" EntityType="InvDB.Store.SysSettings" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvTrxApprovals" EntityType="InvDB.Store.InvTrxApprovals" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvPoApprovals" EntityType="InvDB.Store.InvPoApprovals" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SteelSizes" EntityType="InvDB.Store.SteelSizes" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -303,6 +304,10 @@
     <AssociationSet Name="InvPoHdrInvPoApproval" Association="InvDB.Store.InvPoHdrInvPoApproval">
       <End Role="InvPoHdr" EntitySet="InvPoHdrs" />
       <End Role="InvPoApproval" EntitySet="InvPoApprovals" />
+    </AssociationSet>
+    <AssociationSet Name="SteelSizeInvItemSpec_Steel" Association="InvDB.Store.SteelSizeInvItemSpec_Steel">
+      <End Role="SteelSize" EntitySet="SteelSizes" />
+      <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="InvItems">
@@ -577,6 +582,7 @@
     <Property Name="SteelMaterialGradeId" Type="int" Nullable="false" />
     <Property Name="WtKgm" Type="decimal" Nullable="true" Precision="18" Scale="2" />
     <Property Name="WtKgpc" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="SteelSizeId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="InvItemSysDefinedSpecs">
     <Key>
@@ -774,6 +780,14 @@
     <Property Name="EncodedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
     <Property Name="EncodedDate" Type="datetime" Nullable="false" />
     <Property Name="InvPoHdrId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SteelSizes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="60" />
+    <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="10" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -1519,6 +1533,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="SteelSizeInvItemSpec_Steel">
+    <End Role="SteelSize" Type="InvDB.Store.SteelSizes" Multiplicity="1" />
+    <End Role="InvItemSpec_Steel" Type="InvDB.Store.InvItemSpec_Steel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SteelSize">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvItemSpec_Steel">
+        <PropertyRef Name="SteelSizeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -1821,6 +1847,11 @@
           <AssociationSet Name="InvPoHdrInvPoApproval" Association="InvDB.InvPoHdrInvPoApproval">
             <End Role="InvPoHdr" EntitySet="InvPoHdrs" />
             <End Role="InvPoApproval" EntitySet="InvPoApprovals" />
+          </AssociationSet>
+          <EntitySet Name="SteelSizes" EntityType="InvDB.SteelSize" />
+          <AssociationSet Name="SteelSizeInvItemSpec_Steel" Association="InvDB.SteelSizeInvItemSpec_Steel">
+            <End Role="SteelSize" EntitySet="SteelSizes" />
+            <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
@@ -2668,6 +2699,8 @@
           <Property Name="WtKgm" Type="Decimal" Nullable="true" Scale="2" Precision="18" />
           <Property Name="WtKgpc" Type="Decimal" Nullable="true" Scale="2" Precision="18" />
           <NavigationProperty Name="SteelMaterialGrade" Relationship="InvDB.SteelMaterialGradeInvItemSpec_Steel" FromRole="InvItemSpec_Steel" ToRole="SteelMaterialGrade" />
+          <NavigationProperty Name="SteelSize" Relationship="InvDB.SteelSizeInvItemSpec_Steel" FromRole="InvItemSpec_Steel" ToRole="SteelSize" />
+          <Property Name="SteelSizeId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="InvItemSysDefinedSpecs">
           <Key>
@@ -3161,6 +3194,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SteelSize">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="60" />
+          <Property Name="Code" Type="String" Nullable="true" MaxLength="10" />
+          <NavigationProperty Name="InvItemSpec_Steel" Relationship="InvDB.SteelSizeInvItemSpec_Steel" FromRole="SteelSize" ToRole="InvItemSpec_Steel" />
+        </EntityType>
+        <Association Name="SteelSizeInvItemSpec_Steel">
+          <End Type="InvDB.SteelSize" Role="SteelSize" Multiplicity="1" />
+          <End Type="InvDB.InvItemSpec_Steel" Role="InvItemSpec_Steel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SteelSize">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvItemSpec_Steel">
+              <PropertyRef Name="SteelSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3465,6 +3519,7 @@
           <ScalarProperty Name="SteelMaterialGradeId" ColumnName="SteelMaterialGradeId" />
           <ScalarProperty Name="WtKgm" ColumnName="WtKgm" />
           <ScalarProperty Name="WtKgpc" ColumnName="WtKgpc" />
+          <ScalarProperty Name="SteelSizeId" ColumnName="SteelSizeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -3684,6 +3739,15 @@
           <ScalarProperty Name="EncodedBy" ColumnName="EncodedBy" />
           <ScalarProperty Name="EncodedDate" ColumnName="EncodedDate" />
           <ScalarProperty Name="InvPoHdrId" ColumnName="InvPoHdrId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SteelSizes">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.SteelSize)">
+        <MappingFragment StoreEntitySet="SteelSizes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
