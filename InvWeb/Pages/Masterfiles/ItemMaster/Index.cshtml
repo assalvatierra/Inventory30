@@ -20,6 +20,9 @@
                 @Html.DisplayNameFor(model => model.InvItemIndex[0].InvItem.Description)
             </th>
             <th>
+                Sizes
+            </th>
+            <th>
                 Category
             </th>
             <th>
@@ -79,6 +82,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.InvCategory.Description)
+                </td>
+                <td>
+                    @if (item.InvItemSpec_Steel != null)
+                    {
+                        @item.InvItemSpec_Steel.SteelSize.Name
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
