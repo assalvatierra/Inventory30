@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/30/2023 11:44:56
+-- Date Created: 09/06/2023 16:46:44
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -201,6 +201,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvPoHdrInvPoApproval]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvPoApprovals] DROP CONSTRAINT [FK_InvPoHdrInvPoApproval];
 GO
+IF OBJECT_ID(N'[dbo].[FK_SteelSizeInvItemSpec_Steel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelSizeInvItemSpec_Steel];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -355,6 +358,9 @@ IF OBJECT_ID(N'[dbo].[InvTrxApprovals]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvPoApprovals]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvPoApprovals];
+GO
+IF OBJECT_ID(N'[dbo].[SteelSizes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SteelSizes];
 GO
 
 -- --------------------------------------------------
@@ -630,7 +636,8 @@ CREATE TABLE [dbo].[InvItemSpec_Steel] (
     [SteelOriginId] int  NOT NULL,
     [SteelMaterialGradeId] int  NOT NULL,
     [WtKgm] decimal(18,2)  NULL,
-    [WtKgpc] decimal(18,2)  NULL
+    [WtKgpc] decimal(18,2)  NULL,
+    [SteelSizeId] int  NOT NULL
 );
 GO
 
@@ -828,6 +835,14 @@ CREATE TABLE [dbo].[InvPoApprovals] (
     [EncodedBy] nvarchar(40)  NOT NULL,
     [EncodedDate] datetime  NOT NULL,
     [InvPoHdrId] int  NOT NULL
+);
+GO
+
+-- Creating table 'SteelSizes'
+CREATE TABLE [dbo].[SteelSizes] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(60)  NOT NULL,
+    [Code] nvarchar(10)  NULL
 );
 GO
 
@@ -1132,6 +1147,12 @@ GO
 -- Creating primary key on [Id] in table 'InvPoApprovals'
 ALTER TABLE [dbo].[InvPoApprovals]
 ADD CONSTRAINT [PK_InvPoApprovals]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SteelSizes'
+ALTER TABLE [dbo].[SteelSizes]
+ADD CONSTRAINT [PK_SteelSizes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -2067,6 +2088,21 @@ GO
 CREATE INDEX [IX_FK_InvPoHdrInvPoApproval]
 ON [dbo].[InvPoApprovals]
     ([InvPoHdrId]);
+GO
+
+-- Creating foreign key on [SteelSizeId] in table 'InvItemSpec_Steel'
+ALTER TABLE [dbo].[InvItemSpec_Steel]
+ADD CONSTRAINT [FK_SteelSizeInvItemSpec_Steel]
+    FOREIGN KEY ([SteelSizeId])
+    REFERENCES [dbo].[SteelSizes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SteelSizeInvItemSpec_Steel'
+CREATE INDEX [IX_FK_SteelSizeInvItemSpec_Steel]
+ON [dbo].[InvItemSpec_Steel]
+    ([SteelSizeId]);
 GO
 
 -- --------------------------------------------------

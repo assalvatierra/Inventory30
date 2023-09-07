@@ -43,6 +43,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                     .ThenInclude(i => i.SteelOrigin)
                 .Include(i => i.InvItemSpec_Steel)
                     .ThenInclude(i => i.SteelBrand)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelSize)
                 .Include(i => i.InvUom)
                 .Include(i => i.InvItemCustomSpecs)
                     .ThenInclude(i=>i.InvCustomSpec)

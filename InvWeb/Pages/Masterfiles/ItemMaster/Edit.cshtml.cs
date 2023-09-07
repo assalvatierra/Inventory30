@@ -62,6 +62,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                     .ThenInclude(i => i.SteelOrigin)
                 .Include(i => i.InvItemSpec_Steel)
                     .ThenInclude(i => i.SteelBrand)
+                .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelSize)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvItem == null)
@@ -89,6 +91,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins, "Id", "Name");
             ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials, "Id", "Name");
             ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades, "Id", "Name");
+            ViewData["SteelSizes"] = new SelectList(_context.SteelSizes, "Id", "Name");
             return Page();
         }
 

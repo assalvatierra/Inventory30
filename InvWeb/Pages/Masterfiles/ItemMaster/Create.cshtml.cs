@@ -65,6 +65,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             ViewData["SteelOrigins"]  = new SelectList(_context.SteelOrigins, "Id", "Name");
             ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials, "Id", "Name");
             ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades, "Id", "Name");
+            ViewData["SteelSizes"] = new SelectList(_context.SteelSizes, "Id", "Name");
             return Page();
         }
 

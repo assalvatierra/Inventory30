@@ -117,6 +117,8 @@
         <AssociationConnector Association="InvDB.InvTrxHdrInvTrxApproval" />
         <EntityTypeShape EntityType="InvDB.InvPoApproval" Width="1.5" PointX="7.5" PointY="11.25" />
         <AssociationConnector Association="InvDB.InvPoHdrInvPoApproval" />
+        <EntityTypeShape EntityType="InvDB.SteelSize" Width="1.5" PointX="17.5" PointY="9.5" />
+        <AssociationConnector Association="InvDB.SteelSizeInvItemSpec_Steel" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
