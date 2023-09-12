@@ -13,44 +13,6 @@
             <h4>InvItem</h4>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="InvItem.Description" class="control-label"></label>
-                <input asp-for="InvItem.Description" id="InvItemDesc" class="form-control" maxlength="120" required />
-                <span asp-validation-for="InvItem.Description" class="text-danger"></span>
-            </div>
-             <div class="form-group">
-                 <label asp-for="InvItem.Code" class="control-label"></label>
-                 <input asp-for="InvItem.Code" id="InvItemCode" class="form-control" maxlength="40" required />
-                 <span asp-validation-for="InvItem.Code" class="text-danger"></span>
-             </div>
-             <div class="form-group">
-                 <label asp-for="InvItem.InvCategoryId" class="control-label"> Category </label>
-                 <select asp-for="InvItem.InvCategoryId" id="InvCategoryId" class ="form-control" asp-items="ViewBag.InvCategoryId"
-                        onchange="CheckCategory_DefinedSpecCount()"></select>
-             </div>
-            @*<div class="form-group">
-                 <label asp-for="InvItem.Weight" class="control-label"></label>
-                 <input asp-for="InvItem.Weight" id="InvItemRemarks" class="form-control" maxlength="6" />
-                 <span asp-validation-for="InvItem.Weight" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                 <label asp-for="InvItem.Material" class="control-label"></label>
-                 <input asp-for="InvItem.Material" id="InvItemRemarks" class="form-control" maxlength="80" />
-                 <span asp-validation-for="InvItem.Material" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="InvItem.InvUomId" class="control-label"> UOM </label>
-                <select asp-for="InvItem.InvUomId" id="InvItemUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="InvItem.Remarks" class="control-label"></label>
-                <input asp-for="InvItem.Remarks" id="InvItemRemarks" class="form-control" maxlength="120" />
-                <span asp-validation-for="InvItem.Remarks" class="text-danger"></span>
-            </div>
-
-            <hr />
-
-            <h4> Steel Specifications </h4>
 
             <div class="form-group">
                 <label class="control-label"> Main Category </label>
@@ -90,6 +52,36 @@
             </div>
 
             <div class="form-group">
+                <label asp-for="InvItem.InvUomId" class="control-label"> UOM </label>
+                <select asp-for="InvItem.InvUomId" id="InvItemUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="InvItem.Description" class="control-label"></label>
+                <input asp-for="InvItem.Description" id="InvItemDesc" class="form-control" maxlength="120" required />
+                <span asp-validation-for="InvItem.Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="InvItem.Code" class="control-label"></label>
+                <input asp-for="InvItem.Code" id="InvItemCode" class="form-control" maxlength="40" required />
+                <span asp-validation-for="InvItem.Code" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="InvItem.InvCategoryId" class="control-label"> Category </label>
+                <select asp-for="InvItem.InvCategoryId" id="InvCategoryId" class="form-control" asp-items="ViewBag.InvCategoryId"
+                        onchange="CheckCategory_DefinedSpecCount()"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="InvItem.Remarks" class="control-label"></label>
+                <input asp-for="InvItem.Remarks" id="InvItemRemarks" class="form-control" maxlength="120" />
+                <span asp-validation-for="InvItem.Remarks" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </div>
@@ -103,5 +95,42 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function GenerateDescription(){
+
+            var itemDesc = $("#SteelMainCatId").find('option:selected').text() + " " + $("#SteelSubCatId").find('option:selected').text() + " " + $("#SteelSizeId").find('option:selected').text() + " " + $("#SteelBrandId").find('option:selected').text();
+
+            $("#InvItemDesc").val(itemDesc);
+        }
+
+        function GenerateItemCode() {
+
+            var itemDesc = $("#SteelMainCatId").find('option:selected').val() + "" + $("#SteelSubCatId").find('option:selected').val() + "" + $("#SteelSizeId").find('option:selected').val() + "" + $("#SteelBrandId").find('option:selected').val();
+
+            $("#InvItemCode").val(itemDesc);
+        }
+
+
+        $('#SteelMainCatId').on('change', function () {
+            GenerateDescription();
+            GenerateItemCode();
+        }).change();
+
+        $('#SteelSubCatId').on('change', function () {
+            GenerateDescription();
+            GenerateItemCode();
+        }).change();
+
+        $('#SteelSizeId').on('change', function () {
+            GenerateDescription();
+            GenerateItemCode();
+        }).change();
+
+        $('#SteelBrandId').on('change', function () {
+            GenerateDescription();
+            GenerateItemCode();
+        }).change();
+    </script>
 
 }
