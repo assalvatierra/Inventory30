@@ -62,6 +62,15 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 
             return RedirectToPage("../Details", new { id = ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId });
         }
+        public IActionResult SearchItem()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            return RedirectToPage("../SearchItem", new { id = ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId });
+        }
 
     }
 }

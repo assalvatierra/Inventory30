@@ -18,6 +18,10 @@
                 <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvTrxHdrs"></select>
             </div>
             <div class="form-group">
+                <div class="btn btn-primary" id="Searchbtn" onclick="SearchItem(); @Model.SearchItem()"> Search </div>
+                <a asp-page="./SearchItem" asp-route-id="@Model.ItemDtlsCreateModel.HrdId"> Search </a>
+            </div>
+            <div class="form-group">
                 <label class="control-label"> Item </label>
                 <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize  select2" asp-items="Model.ItemDtlsCreateModel.InvItems" id='itemDropdown'></select>
             </div>
@@ -58,5 +62,16 @@
     <script>
         var defaultItem =  $("#itemDropdown option:first").val();
         GetItemOumsWithId(defaultItem);
+
+            $('.Searchbtn').on('click', function (event) {
+               
+                alert("Form Submission stopped.");
+
+            });
+
+
+        function SearchItem() {
+            alert("Item Search.");
+            }
     </script>
 }
