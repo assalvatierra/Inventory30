@@ -18,8 +18,7 @@
                 <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvTrxHdrs"></select>
             </div>
             <div class="form-group">
-                <div class="btn btn-primary" id="Searchbtn" onclick="SearchItem(); @Model.SearchItem()"> Search </div>
-                <a asp-page="./SearchItem" asp-route-id="@Model.ItemDtlsCreateModel.HrdId"> Search </a>
+                <a asp-page="./SearchItem" asp-route-id="@Model.ItemDtlsCreateModel.HrdId" asp-route-actionType="Create" class="btn btn-primary"> Search <img src="/img/icons/icons-search.png" width="15" height="15" alt="search" /> </a>
             </div>
             <div class="form-group">
                 <label class="control-label"> Item </label>
@@ -60,18 +59,23 @@
     <script src="~/js/Store/ItemUomDropdown.js"></script>
 
     <script>
-        var defaultItem =  $("#itemDropdown option:first").val();
-        GetItemOumsWithId(defaultItem);
 
-            $('.Searchbtn').on('click', function (event) {
-               
-                alert("Form Submission stopped.");
-
-            });
-
+        $(document).ready(function () {
+            var defaultItem = $("#itemDropdown option:first").val();
+            GetItemOumsWithId(defaultItem);
+            
+            SearchItem();
+        });
 
         function SearchItem() {
-            alert("Item Search.");
+
+            if (@ViewBag.SelectedItemId != 0) {
+
+                $('#itemDropdown').val(@ViewBag.SelectedItemId).change();
+                GetItemOumsWithId(@ViewBag.SelectedItemId);
             }
+        }
+
+      
     </script>
 }

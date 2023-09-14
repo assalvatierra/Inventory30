@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 @model InvWeb.Pages.Stores.Receiving.ItemDetails.SearchItemModel
 
 @{
@@ -6,6 +6,10 @@
 }
 
 <h1>Search Item</h1>
+
+<div>
+    <a asp-page="Create" asp-route-hdrid="@Model.HdrId">Back to Add Item</a>
+</div>
 
 <form method="post">
     <div class="row ">
@@ -43,6 +47,17 @@
                 <select asp-for="InvItemSpec_Steel.SteelMaterialGradeId" id="SteelMaterialGradeId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelMaterialGrades"></select>
             </div>
 
+            <div class="form-group" hidden> 
+                <label class="control-label">HDRID </label>
+                <input asp-for="HdrId" id="HdrId" class="form-control" value="@ViewBag.HdrId">
+            </div>
+
+
+            <div class="form-group" >
+                <label class="control-label">Action Type </label>
+                <input asp-for="ActionType" id="ActionType" class="form-control" value="@ViewBag.ActionType">
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Search" class="btn btn-primary" />
             </div>
@@ -55,23 +70,20 @@
 <h3> Item List Search Result </h3>
 
 
-@if (Model.ItemList.Count() == 0)
-{
-    <h4> No Items Found </h4>
-}
-else
-{
+@if (Model.ItemList != null)
+    {
+    @if (Model.ItemList.Count() == 0)
+    {
+        <h4> No Items Found </h4>
+    }
+    else
+    {
 
-    <ul class="list-group">
-        @foreach (var item in Model.ItemList)
-        {
-            <li class="list-group-item">
-                (@item.Code)  -  @item.Description
-            </li>
-        }
-    </ul>
+        <div class="list-group">
+            @foreach (var item in Model.ItemList)
+            {
+                <a asp-page="./@ViewBag.ActionType" class="list-group-item list-group-item-action" asp-route-itemId="@item.Id" asp-route-hdrId="@Model.HdrId">  (@item.Code)  -  @item.Description </a>
+            }
+        </div>
+    }
 }
-
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>

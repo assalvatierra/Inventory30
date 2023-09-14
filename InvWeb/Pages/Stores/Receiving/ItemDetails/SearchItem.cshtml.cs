@@ -30,7 +30,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             _itemSpecServices = new ItemSpecServices(context, logger);
         }
 
-        public IActionResult OnGet(string desc, string code, int? categoryId, string remarks, int? uomId)
+        public IActionResult OnGet(int id, string actionType)
         {
 
             //Steel Specifications
@@ -44,6 +44,10 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 
             ItemList = new List<InvItem>();
 
+            HdrId = id;
+            ViewData["HdrId"] = id;
+            ViewData["ActionType"] = actionType;
+
             return Page();
         }
 
@@ -51,6 +55,12 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
         public InvItemSpec_Steel InvItemSpec_Steel { get; set; }
 
         public List<InvItem> ItemList { get; set; }
+
+        [BindProperty]
+        public int HdrId { get; set; }
+
+        [BindProperty]
+        public string ActionType { get; set; }
 
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
@@ -83,6 +93,9 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 .Select(c=>c.InvItem).ToListAsync();
 
             ItemList = ItemListResult;
+
+            ViewData["HdrId"] = HdrId;
+            ViewData["ActionType"] = ActionType;
 
             return Page();
         }

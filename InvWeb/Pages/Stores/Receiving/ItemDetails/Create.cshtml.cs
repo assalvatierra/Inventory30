@@ -34,16 +34,23 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
         public ReceivingItemDtlsCreateEditModel ItemDtlsCreateModel { get; set; }
         public InvTrxDtl InvTrxDtl { get; set; }
 
-        public IActionResult OnGet(int? hdrId)
+        public IActionResult OnGet(int? hdrId, int? itemId)
         {
             if (hdrId == null) 
             {
                 hdrId ??= 0;
             }
 
-          
-            ItemDtlsCreateModel = _itemDtlsServices.GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl, (int)hdrId);
 
+            if (itemId == null)
+            {
+                itemId ??= 0;
+            }
+
+
+            ItemDtlsCreateModel = _itemDtlsServices.GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl, (int)hdrId, (int)itemId);
+
+            ViewData["SelectedItemId"] = itemId;
 
             return Page();
         }

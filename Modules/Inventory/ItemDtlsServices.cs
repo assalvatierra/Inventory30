@@ -204,7 +204,7 @@ namespace Modules.Inventory
             }
         }
 
-        public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId)
+        public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId, int id)
         {
             try
             {
@@ -227,7 +227,7 @@ namespace Modules.Inventory
                                             Name = String.Format("{0} - {1} - {2} {3}",
                                             x.Code, x.InvCategory.Description, x.Description, x.Remarks),
                                             Value = x.Id
-                                        }), "Value", "Name");
+                                        }), "Value", "Name", id);
 
                 receivingItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(receivingItemDtls.InvTrxDtl.InvItemId), "Id", "uom");
                 receivingItemDtls.InvTrxHdrs = new SelectList(dbMaster.InvTrxHdrDb.GetInvTrxHdrs(), "Id", "Id", hdrId);
