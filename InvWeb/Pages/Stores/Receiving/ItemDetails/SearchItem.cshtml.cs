@@ -33,6 +33,11 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
         public IActionResult OnGet(int id, string actionType)
         {
 
+            if (string.IsNullOrEmpty(actionType))
+            {
+                actionType = "Create";
+            }
+
             //Steel Specifications
             ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats, "Id", "Name");
             ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats, "Id", "Name");
@@ -91,6 +96,11 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                          && c.SteelMaterialGradeId == InvItemSpec_Steel.SteelMaterialGradeId
                          && c.SteelSizeId == InvItemSpec_Steel.SteelSizeId)
                 .Select(c=>c.InvItem).ToListAsync();
+
+            if (ItemListResult == null)
+            {
+                return RedirectToAction("Create");
+            }
 
             ItemList = ItemListResult;
 

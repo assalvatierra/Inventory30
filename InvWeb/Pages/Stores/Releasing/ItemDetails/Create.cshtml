@@ -100,5 +100,23 @@
             $("#SearchLotNoModal").modal("hide");
         }
 
+
+        $(document).ready(function () {
+            var defaultItem = $("#itemDropdown option:first").val();
+            GetItemOumsWithId(defaultItem);
+
+            SearchItem();
+        });
+
+        function SearchItem() {
+
+            if (@ViewBag.SelectedItemId != 0) {
+
+                $('#itemDropdown').val(@ViewBag.SelectedItemId).change();
+                GetItemOumsWithId(@ViewBag.SelectedItemId);
+            }
+        }
+
+
     </script>
 }

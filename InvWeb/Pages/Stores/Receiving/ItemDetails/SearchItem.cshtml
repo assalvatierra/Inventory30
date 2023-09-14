@@ -8,7 +8,14 @@
 <h1>Search Item</h1>
 
 <div>
-    <a asp-page="Create" asp-route-hdrid="@Model.HdrId">Back to Add Item</a>
+    @if (ViewBag.ActionType == "Create")
+    {
+        <a asp-page="@ViewBag.ActionType" asp-route-hdrid="@Model.HdrId">Back to Add Item</a>
+    }
+    @if (ViewBag.ActionType == "Edit")
+    {
+        <a asp-page="@ViewBag.ActionType" asp-route-id="@Model.HdrId">Back to Edit Item</a>
+    }
 </div>
 
 <form method="post">
@@ -82,7 +89,15 @@
         <div class="list-group">
             @foreach (var item in Model.ItemList)
             {
-                <a asp-page="./@ViewBag.ActionType" class="list-group-item list-group-item-action" asp-route-itemId="@item.Id" asp-route-hdrId="@Model.HdrId">  (@item.Code)  -  @item.Description </a>
+                @if (ViewBag.ActionType == "Create")
+                {
+                    <a asp-page="./@ViewBag.ActionType" class="list-group-item list-group-item-action" asp-route-itemId="@item.Id" asp-route-hdrId="@Model.HdrId">  (@item.Code)  -  @item.Description </a>
+                }
+
+                @if (ViewBag.ActionType == "Edit")
+                {
+                    <a asp-page="./@ViewBag.ActionType" class="list-group-item list-group-item-action" asp-route-itemId="@item.Id" asp-route-id="@Model.HdrId">  (@item.Code)  -  @item.Description </a>
+                }
             }
         </div>
     }

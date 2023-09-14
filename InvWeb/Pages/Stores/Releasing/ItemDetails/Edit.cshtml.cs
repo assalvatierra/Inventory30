@@ -80,7 +80,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                                         Value = x.Id
                                     }), "Value", "Name", itemId);
 
-            ItemDtlsCreateEditModel.InvUoms = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom", InvTrxDtl.InvUomId);
+            ItemDtlsCreateEditModel.InvUoms = new SelectList(_uomServices.GetUomSelectListByItemId((int)invItemId), "Id", "uom", InvTrxDtl.InvUomId);
             ItemDtlsCreateEditModel.InvTrxHdrs = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id", InvTrxDtl.InvTrxHdrId);
             ItemDtlsCreateEditModel.InvTrxDtlOperators = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description", 2);
             ItemDtlsCreateEditModel.HrdId = (int)InvTrxDtl.InvTrxHdrId;
