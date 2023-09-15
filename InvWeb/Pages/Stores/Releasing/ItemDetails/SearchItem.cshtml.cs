@@ -15,7 +15,7 @@ using CoreLib.DTO.Receiving;
 using Microsoft.Extensions.Logging;
 using CoreLib.DTO.Releasing;
 
-namespace InvWeb.Pages.Stores.Receiving.ItemDetails
+namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 {
     public class SearchItemModel : PageModel
     {

@@ -89,26 +89,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             ItemDtlsCreateEditModel.SelectedItem = " (" + InvTrxDtl.InvItem.Code + ") " + InvTrxDtl.InvItem.Description
                                + " " + InvTrxDtl.InvItem.Remarks;
 
-            //ViewData["LotNo"] = new SelectList(lotNoList.Select(x => new {
-            //        Name = String.Format("{0} ", x.LotNo),
-            //        Value = x.LotNo
-            //    }), "Value", "Name");
-
-            //ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availableItems)
-            //                        .Include(i => i.InvCategory)
-            //                       .Select(x => new
-            //                       {
-            //                           Name = String.Format("{0} - {1} - {2} {3}",
-            //                           x.Code, x.InvCategory.Description, x.Description, x.Remarks),
-            //                           Value = x.Id
-            //                       }), "Value", "Name", invItemId);
-
-            //ViewData["InvTrxHdrId"] = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id");
-            //ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom", InvTrxDtl.InvItem.InvUomId);
-            //ViewData["InvTrxDtlOperatorId"] = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description");
-            //ViewData["LotNoItems"]  =lotNoList;
-            //ViewData["StoreId"]     = storeId;
-            //ViewData["SelectedItem"] = selectedItem;
+            ViewData["SelectedItemId"] = itemId;
 
             return Page();
         }

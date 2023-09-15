@@ -21,6 +21,9 @@
                 <span asp-validation-for="ItemDtlsCreateEditModel.InvTrxDtl.InvTrxHdrId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <a asp-page="./SearchItem" asp-route-id="@Model.ItemDtlsCreateEditModel.InvTrxDtl.InvTrxHdrId" asp-route-itemDetailsId="@Model.ItemDtlsCreateEditModel.InvTrxDtl.Id" asp-route-actionType="Edit" class="btn btn-primary"> Search <img src="/img/icons/icons-search.png" width="15" height="15" alt="search" /> </a>
+            </div>
+            <div class="form-group">
                 <label class="control-label">Item</label>
                 <select asp-for="ItemDtlsCreateEditModel.InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize select2" asp-items="Model.ItemDtlsCreateEditModel.InvItems" id='itemDropdown'></select>
                 <span asp-validation-for="ItemDtlsCreateEditModel.InvTrxDtl.InvItemId" class="text-danger"></span>
@@ -103,5 +106,21 @@
             $("#SearchLotNoModal").modal("hide");
         }
 
+
+        $(document).ready(function () {
+            var defaultItem = $("#itemDropdown option:first").val();
+            GetItemOumsWithId(defaultItem);
+
+            SearchItem();
+        });
+
+        function SearchItem() {
+
+            if (@ViewBag.SelectedItemId != 0) {
+
+                $('#itemDropdown').val(@ViewBag.SelectedItemId).change();
+                GetItemOumsWithId(@ViewBag.SelectedItemId);
+            }
+        }
     </script>
 }
