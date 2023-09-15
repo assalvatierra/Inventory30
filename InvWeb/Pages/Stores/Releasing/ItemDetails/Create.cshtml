@@ -79,6 +79,8 @@
 
         $('#itemDropdown').on('change', () => {
 
+            console.log('Update dropdown');
+
             //get selected item id
             var itemId = $('#itemDropdown').val();
 
@@ -95,6 +97,8 @@
         });
 
         function SelectLotNo(id) {
+            console.log('SelectLotNo');
+
             $('#LotNo').val(id);
 
             $("#SearchLotNoModal").modal("hide");
@@ -102,7 +106,9 @@
 
 
         $(document).ready(function () {
-            var defaultItem = $("#itemDropdown option:first").val();
+            console.log('On Ready');
+
+            var defaultItem = $("#itemDropdown option:selected").val(@ViewBag.SelectedItemId);
             GetItemOumsWithId(defaultItem);
 
             SearchItem();
@@ -110,9 +116,10 @@
 
         function SearchItem() {
 
+            console.log('SearchItem');
             if (@ViewBag.SelectedItemId != 0) {
 
-                $('#itemDropdown').val(@ViewBag.SelectedItemId).change();
+                //$('#itemDropdown').val(@ViewBag.SelectedItemId).change();
                 GetItemOumsWithId(@ViewBag.SelectedItemId);
             }
         }

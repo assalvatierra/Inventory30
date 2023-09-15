@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Item</label>
-                <select asp-for="ItemDtlsCreateEditModel.InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize select2" asp-items="Model.ItemDtlsCreateEditModel.InvItems" id='itemDropdown'></select>
+                <select asp-for="ItemDtlsCreateEditModel.InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize select2" asp-items="Model.ItemDtlsCreateEditModel.InvItems" id='itemDropdown' value="Viewbag.SelectedItemId"></select>
                 <span asp-validation-for="ItemDtlsCreateEditModel.InvTrxDtl.InvItemId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -108,7 +108,7 @@
 
 
         $(document).ready(function () {
-            var defaultItem = $("#itemDropdown option:first").val();
+            var defaultItem = $("#itemDropdown option:selected").val();
             GetItemOumsWithId(defaultItem);
 
             SearchItem();
@@ -118,7 +118,7 @@
 
             if (@ViewBag.SelectedItemId != 0) {
 
-                $('#itemDropdown').val(@ViewBag.SelectedItemId).change();
+                //$('#itemDropdown').val(@ViewBag.SelectedItemId).change();
                 GetItemOumsWithId(@ViewBag.SelectedItemId);
             }
         }

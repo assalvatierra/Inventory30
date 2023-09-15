@@ -62,8 +62,10 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
 
             ItemDtlsCreateEditModel = _itemDtlsServices.GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl, (int)hdrId, (int)itemId);
 
+            ItemDtlsCreateEditModel.InvTrxDtl.InvItemId = itemId;
 
             ViewData["SelectedItemId"] = invItemId;
+            ViewData["HdrId"] = hdrId;
 
             return Page();
         }

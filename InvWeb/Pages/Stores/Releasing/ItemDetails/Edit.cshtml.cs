@@ -57,12 +57,13 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return NotFound();
             }
 
+            invItemId = InvTrxDtl.InvItemId;
+
             int storeId = InvTrxDtl.InvTrxHdr.InvStoreId;
             int itemId = GetDefaultInvitemId(invItemId);
             var lotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
             var availableItems = _storeServices.GetAvailableItemsIdsByStore(storeId);
 
-            InvTrxDtl.InvItemId = itemId;
 
             ItemDtlsCreateEditModel = new ReleasingItemDtlsCreateEditModel();
             ItemDtlsCreateEditModel.InvTrxDtl = InvTrxDtl;
@@ -80,7 +81,9 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                                         Value = x.Id
                                     }), "Value", "Name", itemId);
 
-            ItemDtlsCreateEditModel.InvUoms = new SelectList(_uomServices.GetUomSelectListByItemId((int)invItemId), "Id", "uom", InvTrxDtl.InvUomId);
+            ItemDtlsCreateEditModel.InvTrxDtl.InvItemId = itemId;
+
+            ItemDtlsCreateEditModel.InvUoms = new SelectList(_uomServices.GetUomSelectListByItemId(null), "Id", "uom", InvTrxDtl.InvUomId);
             ItemDtlsCreateEditModel.InvTrxHdrs = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id", InvTrxDtl.InvTrxHdrId);
             ItemDtlsCreateEditModel.InvTrxDtlOperators = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description", 2);
             ItemDtlsCreateEditModel.HrdId = (int)InvTrxDtl.InvTrxHdrId;
@@ -90,6 +93,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                                + " " + InvTrxDtl.InvItem.Remarks;
 
             ViewData["SelectedItemId"] = itemId;
+            ViewData["HdrId"] = InvTrxDtl.InvTrxHdrId;
 
             return Page();
         }
