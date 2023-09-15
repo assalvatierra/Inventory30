@@ -30,22 +30,53 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             _itemSpecServices = new ItemSpecServices(context, logger);
         }
 
-        public IActionResult OnGet(int id, string actionType)
+        public IActionResult OnGet(int id, string actionType, int? itemDetailsId)
         {
+            int SteelMainCatId = 0;
+            int SteelSubCatId = 0;
+            int SteelBrandId = 0;
+            int SteelOriginId = 0;
+            int SteelMaterialId = 0;
+            int SteelMaterialGradeId = 0;
+            int SteelSizeId = 0;
 
             if (string.IsNullOrEmpty(actionType))
             {
                 actionType = "Create";
             }
 
+
+            if (actionType == "Edit" && itemDetailsId != null)
+            {
+                var selectedItem = _context.InvTrxDtls
+                    .Include(i=>i.InvItem)
+                    .ThenInclude(i=>i.InvItemSpec_Steel)
+                    .Where(i=>i.Id == itemDetailsId).FirstOrDefault();
+
+                if (selectedItem.InvItem.InvItemSpec_Steel != null)
+                {
+                    var itemSpecs = selectedItem.InvItem.InvItemSpec_Steel.First();
+
+                    SteelMainCatId = itemSpecs.SteelMainCatId;
+                    SteelSubCatId = itemSpecs.SteelSubCatId;
+                    SteelBrandId = itemSpecs.SteelBrandId;
+                    SteelOriginId = itemSpecs.SteelOriginId;
+                    SteelMaterialId = itemSpecs.SteelMaterialId;
+                    SteelMaterialGradeId = itemSpecs.SteelMaterialGradeId;
+                    SteelSizeId = itemSpecs.SteelSizeId;
+
+                }
+            }
+
+
             //Steel Specifications
-            ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats, "Id", "Name");
-            ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats, "Id", "Name");
-            ViewData["SteelBrands"] = new SelectList(_context.SteelBrands, "Id", "Name");
-            ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins, "Id", "Name");
-            ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials, "Id", "Name");
-            ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades, "Id", "Name");
-            ViewData["SteelSizes"] = new SelectList(_context.SteelSizes, "Id", "Name");
+            ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats, "Id", "Name", SteelMainCatId);
+            ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats, "Id", "Name", SteelSubCatId);
+            ViewData["SteelBrands"] = new SelectList(_context.SteelBrands, "Id", "Name", SteelBrandId);
+            ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins, "Id", "Name", SteelOriginId);
+            ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials, "Id", "Name", SteelMaterialId);
+            ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades, "Id", "Name", SteelMaterialGradeId);
+            ViewData["SteelSizes"] = new SelectList(_context.SteelSizes, "Id", "Name", SteelSizeId);
 
             ItemList = new List<InvItem>();
 
