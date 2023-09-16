@@ -105,6 +105,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return Page();
             }
 
+            InvItem.Id = 0;
+
             _context.InvItems.Add(InvItem);
 
             await _context.SaveChangesAsync();
@@ -116,6 +118,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
         public async Task AddInvItemSteel()
         {
+            InvItemSpec_Steel.Id = 0;
             InvItemSpec_Steel.InvItemId = InvItem.Id;
 
             _context.InvItemSpec_Steel.Add(InvItemSpec_Steel);

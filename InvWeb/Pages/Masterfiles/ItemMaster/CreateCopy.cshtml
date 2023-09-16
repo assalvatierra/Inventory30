@@ -13,10 +13,7 @@
             <h4>Item</h4>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="InvItem.Id" id="InvItemId" />
-           
 
-            <input type="hidden" asp-for="InvItemSpec_Steel.Id" id="InvItemSpec_SteelId" />
             <div class="form-group">
                 <label class="control-label"> Main Category </label>
                 <select asp-for="InvItemSpec_Steel.SteelMainCatId" id="SteelMainCatId" class="form-contro search-dropdown-initialize select2l" asp-items="ViewBag.SteelMainCats"></select>
