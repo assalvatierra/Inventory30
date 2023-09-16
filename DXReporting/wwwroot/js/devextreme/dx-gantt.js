@@ -1,9 +1,9 @@
 /*!
  * DevExpress Gantt (dx-gantt)
- * Version: 4.1.39
- * Build date: Fri Dec 23 2022
+ * Version: 4.1.47
+ * Build date: Thu Jun 15 2023
  * 
- * Copyright (c) 2012 - 2022 Developer Express Inc. ALL RIGHTS RESERVED
+ * Copyright (c) 2012 - 2023 Developer Express Inc. ALL RIGHTS RESERVED
  * Read about DevExpress licensing here: https://www.devexpress.com/Support/EULAs
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -5122,7 +5122,8 @@ var TaskEditController = (function () {
                 getTaskTimeTooltipContentTemplate: this.ganttSettings.taskTimeTooltipContentTemplate,
                 getTaskTooltipContentTemplate: this.ganttSettings.taskTooltipContentTemplate,
                 destroyTemplate: function (container) { _this.settings.destroyTemplate(container); },
-                formatDate: function (date) { return _this.settings.formatDate(date); }
+                formatDate: function (date) { return _this.settings.formatDate(date); },
+                getTaskAreaContainer: function () { return _this.settings.getRenderHelper().taskAreaContainer; }
             });
             return tooltipSettings;
         },
@@ -5794,6 +5795,8 @@ var GanttView = (function () {
     };
     GanttView.prototype.getAllVisibleTaskIndices = function (start, end) { return this.viewModel.getAllVisibleTaskIndices(start, end); };
     GanttView.prototype.getVisibleDependencyKeysByTaskRange = function (indices) {
+        if (!this.settings.showDependencies)
+            return [];
         var model = this.viewModel;
         var taskKeys = indices.map(function (i) { return model.tasks.items[i].internalId; });
         var dependencies = model.dependencies.items;
@@ -6145,12 +6148,16 @@ var GanttView = (function () {
         var activeDialog = DialogBase_1.DialogBase.activeInstance;
         if (activeDialog && activeDialog.canRefresh && activeDialog.getDialogName() === "TaskEdit")
             activeDialog.refresh();
+        this.dispatcher.notifyGanttViewUpdated();
     };
     GanttView.prototype.onBrowserWindowResize = function () {
         if (this.fullScreenModeHelper.isInFullScreenMode)
             this.fullScreenModeHelper.adjustControlInFullScreenMode();
         else
             this.adjustOwnerControl();
+    };
+    GanttView.prototype.getTaskTreeLine = function (taskKey) {
+        return this.viewModel.getTaskTreeLine(taskKey).reverse();
     };
     GanttView.prototype.setTaskValue = function (id, fieldName, newValue) {
         var command = this.commandManager.updateTaskCommand;
@@ -6178,6 +6185,8 @@ var GanttView = (function () {
     };
     GanttView.prototype.getPrevTask = function (taskId) {
         var item = this.viewModel.findItem(taskId);
+        if (!item)
+            return null;
         var parent = item.parent || this.viewModel.root;
         var index = parent.children.indexOf(item) - 1;
         return index > -1 ? item.parent.children[index].task : item.parent.task;
@@ -7099,6 +7108,8 @@ var TooltipSettings = (function () {
                 result.destroyTemplate = settings.destroyTemplate;
             if ((0, common_1.isDefined)(settings.formatDate))
                 result.formatDate = settings.formatDate;
+            if ((0, common_1.isDefined)(settings.getTaskAreaContainer))
+                result.getTaskAreaContainer = settings.getTaskAreaContainer;
         }
         return result;
     };
@@ -11327,10 +11338,12 @@ var GanttExportCalculator = (function () {
             var resources = wrapper.getElementsByClassName(GridLayoutCalculator_1.GridLayoutCalculator.taskResourceClassName);
             for (var i = 0; i < resources.length; i++) {
                 var resource = resources[i];
-                var style = getComputedStyle(resource);
-                left += this.getMargin(style).left;
-                result.push(new TaskResourcesInfo_1.PdfTaskResourcesInfo(resource.textContent, new StyleDef_1.StyleDef(style), left, top_1));
-                left += dom_1.DomUtils.pxToInt(style.width);
+                if (this.taskAreaHelper.isElementVisible(resource)) {
+                    var style = getComputedStyle(resource);
+                    left += this.getMargin(style).left;
+                    result.push(new TaskResourcesInfo_1.PdfTaskResourcesInfo(resource.textContent, new StyleDef_1.StyleDef(style), left, top_1));
+                    left += dom_1.DomUtils.pxToInt(style.width);
+                }
             }
         }
         return result;
@@ -12044,6 +12057,9 @@ var TaskAreaExportHelper = (function () {
         var taskWrapper = this.getTaskWrapper(taskIndex);
         return this.getElementStyle(taskWrapper.getElementsByClassName(className)[0]);
     };
+    TaskAreaExportHelper.prototype.isElementVisible = function (element) {
+        return element && getComputedStyle(element).display !== "none";
+    };
     Object.defineProperty(TaskAreaExportHelper.prototype, "hasTasks", {
         get: function () {
             return this.visibleTaskIndices.length > 0;
@@ -12243,7 +12259,7 @@ var TaskAreaExportHelper = (function () {
         get: function () {
             var _this = this;
             var _a;
-            (_a = this._resourcesElements) !== null && _a !== void 0 ? _a : (this._resourcesElements = this.visibleTaskIndices.map(function (tIndex) { return _this._owner.renderHelper.resourcesElements[tIndex]; }).filter(function (r) { return r && r.parentElement; }));
+            (_a = this._resourcesElements) !== null && _a !== void 0 ? _a : (this._resourcesElements = this.visibleTaskIndices.map(function (tIndex) { return _this._owner.renderHelper.resourcesElements[tIndex]; }).filter(function (r) { return _this.isElementVisible(r) && r.parentElement; }));
             return this._resourcesElements;
         },
         enumerable: false,
@@ -13738,6 +13754,9 @@ var ModelChangesDispatcher = (function () {
     };
     ModelChangesDispatcher.prototype.notifyScaleCellPrepared = function (data) {
         this.onModelChanged.raise("NotifyScaleCellPrepared", data);
+    };
+    ModelChangesDispatcher.prototype.notifyGanttViewUpdated = function () {
+        this.onModelChanged.raise("NotifyGanttViewUpdated");
     };
     ModelChangesDispatcher.prototype.fireResourceUnassigning = function (assignment) {
         var args = new ResourceUnassigningArguments_1.ResourceUnassigningArguments(assignment);
@@ -16884,6 +16903,13 @@ var TaskEditTooltip = (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(TaskEditTooltip.prototype, "taskAreaContainer", {
+        get: function () {
+            return this.tooltipSettings.getTaskAreaContainer();
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(TaskEditTooltip.prototype, "taskTooltipContentTemplate", {
         get: function () {
             return this.tooltipSettings.getTaskTooltipContentTemplate;
@@ -17002,25 +17028,16 @@ var TaskEditTooltip = (function () {
     };
     TaskEditTooltip.prototype.show = function (posX, autoHide) {
         var _this = this;
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         if (autoHide === void 0) { autoHide = true; }
-        var arrowHeight = 5;
-        var heightOffset = 15;
         (_a = this.defaultTooltip) === null || _a === void 0 ? void 0 : _a.classList.remove(TaskEditTooltip.CLASSNAMES.TASK_EDIT_TOOLTIP_ARROW_AFTER);
         (_b = this.defaultTooltip) === null || _b === void 0 ? void 0 : _b.classList.remove(TaskEditTooltip.CLASSNAMES.TASK_EDIT_TOOLTIP_ARROW_BEFORE);
         this.baseElement.style.display = "block";
-        var absolutePositionY = dom_1.DomUtils.getAbsolutePositionY(this.parentElement);
-        var absoluteX = dom_1.DomUtils.getAbsolutePositionX(this.parentElement);
-        var leftPosition = posX - absoluteX - 2 * arrowHeight;
-        var absoluteDistance = absolutePositionY - this.headerHeight - dom_1.DomUtils.getDocumentScrollTop() - heightOffset;
-        var isShowingDown = this.baseElement.clientHeight > absoluteDistance || this.baseElement.clientHeight > this.parentElement.offsetTop;
-        var topPosition = -this.baseElement.clientHeight - arrowHeight;
-        if (isShowingDown) {
-            topPosition = this.parentElement.clientHeight + arrowHeight;
-            (_c = this.defaultTooltip) === null || _c === void 0 ? void 0 : _c.classList.add(TaskEditTooltip.CLASSNAMES.TASK_EDIT_TOOLTIP_ARROW_AFTER);
-        }
-        else
-            (_d = this.defaultTooltip) === null || _d === void 0 ? void 0 : _d.classList.add(TaskEditTooltip.CLASSNAMES.TASK_EDIT_TOOLTIP_ARROW_BEFORE);
+        var leftPosition = this.getLeftPosition(posX);
+        var isShowingUnder = this.needToShowUnderParent();
+        var topPosition = this.getTopPosition(isShowingUnder);
+        var arrowClassName = isShowingUnder ? TaskEditTooltip.CLASSNAMES.TASK_EDIT_TOOLTIP_ARROW_AFTER : TaskEditTooltip.CLASSNAMES.TASK_EDIT_TOOLTIP_ARROW_BEFORE;
+        (_c = this.defaultTooltip) === null || _c === void 0 ? void 0 : _c.classList.add(arrowClassName);
         this.baseElement.style.left = leftPosition + "px";
         this.baseElement.style.top = topPosition + "px";
         if (autoHide) {
@@ -17059,6 +17076,28 @@ var TaskEditTooltip = (function () {
         endValue.innerText = this.formatDate(end);
         return timeElement;
     };
+    TaskEditTooltip.prototype.getLeftPosition = function (absolutePosition) {
+        var parentAbsoluteX = dom_1.DomUtils.getAbsolutePositionX(this.parentElement);
+        var leftPosition = absolutePosition - parentAbsoluteX - 2 * TaskEditTooltip.defaultArrowHeight;
+        if (this.taskAreaContainer) {
+            var rightBorder = dom_1.DomUtils.getAbsolutePositionX(this.taskAreaContainer.getElement()) + this.taskAreaContainer.getWidth();
+            var rightOverflow = absolutePosition + this.baseElement.clientWidth - rightBorder;
+            if (rightOverflow > 0)
+                leftPosition -= rightOverflow;
+        }
+        return leftPosition;
+    };
+    TaskEditTooltip.prototype.getTopPosition = function (isShowingUnder) {
+        return isShowingUnder ? this.parentElement.clientHeight + TaskEditTooltip.defaultArrowHeight : -this.baseElement.clientHeight - TaskEditTooltip.defaultArrowHeight;
+    };
+    TaskEditTooltip.prototype.needToShowUnderParent = function () {
+        var _a;
+        var absolutePositionY = dom_1.DomUtils.getAbsolutePositionY(this.parentElement);
+        var distanceToScreenTop = absolutePositionY - this.headerHeight - dom_1.DomUtils.getDocumentScrollTop() - TaskEditTooltip.defaultHeightOffset;
+        var taskAreaContScrollTop = ((_a = this.taskAreaContainer) === null || _a === void 0 ? void 0 : _a.scrollTop) || 0;
+        var distanceToTaskAreaTop = this.parentElement.offsetTop - taskAreaContScrollTop;
+        return this.baseElement.clientHeight > distanceToScreenTop || this.baseElement.clientHeight > distanceToTaskAreaTop;
+    };
     TaskEditTooltip.CLASSNAMES = {
         TASK_EDIT_PROGRESS_STATUS: "dx-gantt-task-edit-tooltip",
         TASK_EDIT_TOOLTIP_DEFAULT: "dx-gantt-task-edit-tooltip-default",
@@ -17067,6 +17106,8 @@ var TaskEditTooltip = (function () {
         TASK_EDIT_TOOLTIP_ARROW_BEFORE: "dx-gantt-task-edit-tooltip-before",
         TASK_EDIT_TOOLTIP_ARROW_AFTER: "dx-gantt-task-edit-tooltip-after"
     };
+    TaskEditTooltip.defaultArrowHeight = 5;
+    TaskEditTooltip.defaultHeightOffset = 15;
     return TaskEditTooltip;
 }());
 exports.TaskEditTooltip = TaskEditTooltip;
@@ -19058,14 +19099,14 @@ var ValidationController = (function () {
         });
         return result;
     };
-    ValidationController.prototype.moveEndDependTasks = function (predecessorTaskId, predecessorPreviousEndDate, isAfterCorrectParents) {
+    ValidationController.prototype.moveEndDependTasks = function (predecessorTaskId, predecessorPreviousEndDate, moveInitiatorId) {
         var _this = this;
-        if (isAfterCorrectParents === void 0) { isAfterCorrectParents = false; }
+        if (moveInitiatorId === void 0) { moveInitiatorId = null; }
         var dependencies = this.viewModel.dependencies.items.filter(function (d) { return d.predecessorId === predecessorTaskId && !d.isStartDependency; });
         var predecessorTask = this.viewModel.tasks.getItemById(predecessorTaskId);
         dependencies.forEach(function (dependency) {
             var successorTask = _this.viewModel.tasks.getItemById(dependency.successorId);
-            var isMoveNotRequired = !successorTask || (isAfterCorrectParents && predecessorTask.parentId === successorTask.parentId) || (successorTask.parentId == predecessorTask.id);
+            var isMoveNotRequired = !successorTask || (moveInitiatorId && _this.viewModel.checkParent(successorTask.internalId, moveInitiatorId)) || (successorTask.parentId === predecessorTask.id);
             if (isMoveNotRequired)
                 return;
             var successorRangeBeforeMove = new DateRange_1.DateRange(new Date(successorTask.start.getTime()), new Date(successorTask.end.getTime()));
@@ -19097,14 +19138,14 @@ var ValidationController = (function () {
             }
         });
     };
-    ValidationController.prototype.moveStartDependTasks = function (predecessorTaskId, predecessorPreviousStartDate, isAfterCorrectParents) {
+    ValidationController.prototype.moveStartDependTasks = function (predecessorTaskId, predecessorPreviousStartDate, moveInitiatorId) {
         var _this = this;
-        if (isAfterCorrectParents === void 0) { isAfterCorrectParents = false; }
+        if (moveInitiatorId === void 0) { moveInitiatorId = null; }
         var dependencies = this.viewModel.dependencies.items.filter(function (d) { return d.predecessorId === predecessorTaskId && d.isStartDependency; });
         var predecessorTask = this.viewModel.tasks.getItemById(predecessorTaskId);
         dependencies.forEach(function (dependency) {
             var successorTask = _this.viewModel.tasks.getItemById(dependency.successorId);
-            var isMoveNotRequired = !successorTask || (isAfterCorrectParents && predecessorTask.parentId === successorTask.parentId) || (successorTask.parentId == predecessorTask.id);
+            var isMoveNotRequired = !successorTask || (moveInitiatorId && _this.viewModel.checkParent(successorTask.internalId, moveInitiatorId)) || (successorTask.parentId === predecessorTask.id);
             if (isMoveNotRequired)
                 return;
             var successorRangeBeforeMove = new DateRange_1.DateRange(new Date(successorTask.start.getTime()), new Date(successorTask.end.getTime()));
@@ -19276,8 +19317,8 @@ var ValidationController = (function () {
             this.updateChildRangeByParent(taskId, delta, changedTasks);
             if (this.isValidateDependenciesRequired)
                 changedTasks.forEach(function (i) {
-                    _this.moveStartDependTasks(i.id, i.start, true);
-                    _this.moveEndDependTasks(i.id, i.end, true);
+                    _this.moveStartDependTasks(i.id, i.start, taskId);
+                    _this.moveEndDependTasks(i.id, i.end, taskId);
                 });
             this.updateOwnerInAutoParentMode();
         }
@@ -19638,6 +19679,14 @@ var ViewVisualModel = (function () {
             while (item === null || item === void 0 ? void 0 : item.task) {
                 result.push(item === null || item === void 0 ? void 0 : item.task.internalId);
                 item = item.parent;
+            }
+        }
+        else {
+            var task = this.tasks.getItemById(taskId);
+            var parent_1 = this.tasks.getItemById(task === null || task === void 0 ? void 0 : task.parentId);
+            while (parent_1) {
+                result.push(parent_1.id);
+                parent_1 = this.tasks.getItemById(parent_1.parentId);
             }
         }
         return result;
@@ -20802,8 +20851,8 @@ var GanttViewApi = (function () {
             this.resetAndUpdate();
             if (autoPositioning)
                 this.scrollLeftByViewType();
-            if (this.ganttOwner.UpdateGanttViewType)
-                this.ganttOwner.UpdateGanttViewType(viewType);
+            if (this.ganttOwner.updateGanttViewType)
+                this.ganttOwner.updateGanttViewType(viewType);
         }
     };
     GanttViewApi.prototype.setViewTypeRange = function (min, max) {

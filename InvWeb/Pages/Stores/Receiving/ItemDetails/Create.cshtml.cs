@@ -34,16 +34,23 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
         public ReceivingItemDtlsCreateEditModel ItemDtlsCreateModel { get; set; }
         public InvTrxDtl InvTrxDtl { get; set; }
 
-        public IActionResult OnGet(int? hdrId)
+        public IActionResult OnGet(int? hdrId, int? itemId)
         {
             if (hdrId == null) 
             {
                 hdrId ??= 0;
             }
 
-          
-            ItemDtlsCreateModel = _itemDtlsServices.GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl, (int)hdrId);
 
+            if (itemId == null)
+            {
+                itemId ??= 0;
+            }
+
+
+            ItemDtlsCreateModel = _itemDtlsServices.GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl, (int)hdrId, (int)itemId);
+
+            ViewData["SelectedItemId"] = itemId;
 
             return Page();
         }
@@ -61,6 +68,15 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             await _itemDtlsServices.SaveChangesAsync();
 
             return RedirectToPage("../Details", new { id = ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId });
+        }
+        public IActionResult SearchItem()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            return RedirectToPage("../SearchItem", new { id = ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId });
         }
 
     }

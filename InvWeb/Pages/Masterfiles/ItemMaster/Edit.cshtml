@@ -19,31 +19,31 @@
             <input type="hidden" asp-for="InvItemSpec_Steel.Id" id="InvItemSpec_SteelId" />
             <div class="form-group">
                 <label class="control-label"> Main Category </label>
-                <select asp-for="InvItemSpec_Steel.SteelMainCatId" id="SteelMainCatId" class="form-control" asp-items="ViewBag.SteelMainCats"></select>
+                <select asp-for="InvItemSpec_Steel.SteelMainCatId" id="SteelMainCatId" class="form-contro search-dropdown-initialize select2l" asp-items="ViewBag.SteelMainCats"></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> Sub Category </label>
-                <select asp-for="InvItemSpec_Steel.SteelSubCatId" id="SteelSubCatId" class="form-control" asp-items="ViewBag.SteelSubCats"></select>
+                <select asp-for="InvItemSpec_Steel.SteelSubCatId" id="SteelSubCatId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelSubCats"></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> Steel Size </label>
-                <select asp-for="InvItemSpec_Steel.SteelSizeId" id="SteelSizeId" class="form-control" asp-items="ViewBag.SteelSizes"></select>
+                <select asp-for="InvItemSpec_Steel.SteelSizeId" id="SteelSizeId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelSizes"></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> Steel Brand </label>
-                <select asp-for="InvItemSpec_Steel.SteelBrandId" id="SteelBrandId" class="form-control" asp-items="ViewBag.SteelBrands"></select>
+                <select asp-for="InvItemSpec_Steel.SteelBrandId" id="SteelBrandId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelBrands"></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> Steel Origin </label>
-                <select asp-for="InvItemSpec_Steel.SteelOriginId" id="SteelOriginId" class="form-control" asp-items="ViewBag.SteelOrigins"></select>
+                <select asp-for="InvItemSpec_Steel.SteelOriginId" id="SteelOriginId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelOrigins"></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> Steel Material </label>
-                <select asp-for="InvItemSpec_Steel.SteelMaterialId" id="SteelMaterialId" class="form-control" asp-items="ViewBag.SteelMaterials"></select>
+                <select asp-for="InvItemSpec_Steel.SteelMaterialId" id="SteelMaterialId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelMaterials"></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> Steel Material Grade </label>
-                <select asp-for="InvItemSpec_Steel.SteelMaterialGradeId" id="SteelMaterialGradeId" class="form-control" asp-items="ViewBag.SteelMaterialGrades"></select>
+                <select asp-for="InvItemSpec_Steel.SteelMaterialGradeId" id="SteelMaterialGradeId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelMaterialGrades"></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> Weight Kgm  </label>
@@ -73,7 +73,7 @@
 
             <div class="form-group">
                 <label asp-for="InvItem.InvCategoryId" class="control-label"> Category </label>
-                <select asp-for="InvItem.InvCategoryId" id="InvCategoryId" class="form-control" asp-items="ViewBag.InvCategoryId"
+                <select asp-for="InvItem.InvCategoryId" id="InvCategoryId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.InvCategoryId"
                         onchange="CheckCategory_DefinedSpecCount()"></select>
                 <span asp-validation-for="InvItem.InvCategoryId" class="text-danger"></span>
             </div>

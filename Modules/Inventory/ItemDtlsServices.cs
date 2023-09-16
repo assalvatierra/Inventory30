@@ -162,14 +162,22 @@ namespace Modules.Inventory
 
         public virtual ReleasingItemDtlsCreateEditModel GetReleasingItemTrxDtlsModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId, int invItemId)
         {
-            try
-            {
+            //try
+            //{
 
                 int storeId = itemTrxServices.GetInvTrxStoreId((int)hdrId);
                 var lotNoList = itemServices.GetLotNotItemList(invItemId, storeId);
                 var availableItems = storeServices.GetAvailableItemsIdsByStore(storeId);
 
                 var ItemDtlsCreateEditModel = new ReleasingItemDtlsCreateEditModel();
+
+                if (invTrxDtl == null)
+                {
+                    invTrxDtl = new InvTrxDtl();
+                    invTrxDtl.InvTrxHdrId = hdrId;
+                    invTrxDtl.InvTrxDtlOperatorId = OPERATION_SUBTRACT;
+                }
+
                 ItemDtlsCreateEditModel.InvTrxDtl = invTrxDtl;
 
                 ItemDtlsCreateEditModel.LotNo = new SelectList(lotNoList.Select(x => new {
@@ -185,7 +193,7 @@ namespace Modules.Inventory
                                             Value = x.Id
                                         }), "Value", "Name", invItemId);
 
-                ItemDtlsCreateEditModel.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom");
+                ItemDtlsCreateEditModel.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(null), "Id", "uom");
                 ItemDtlsCreateEditModel.InvTrxHdrs = new SelectList(itemTrxServices.GetInvTrxHdrs(), "Id", "Id", hdrId);
                 ItemDtlsCreateEditModel.InvTrxDtlOperators = new SelectList(this.GetInvTrxDtlOperators(), "Id", "Description", OPERATION_SUBTRACT);
                 ItemDtlsCreateEditModel.HrdId = (int)hdrId;
@@ -194,17 +202,17 @@ namespace Modules.Inventory
                 ItemDtlsCreateEditModel.SelectedItem = " ";
 
                 return ItemDtlsCreateEditModel; // return null
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("ItemDtlsServices: Error on GetReleasingItemTrxDtlsModel_OnCreateOnGet :" + ex.Message);
-                throw new Exception("ItemDtlsServices: Error on  GetReleasingItemTrxDtlsModel_OnCreateOnGet :" + ex.Message);
-                // return new ReleasingCreateEditModel(); // return null
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError("ItemDtlsServices: Error on GetReleasingItemTrxDtlsModel_OnCreateOnGet :" + ex.Message);
+            //    throw new Exception("ItemDtlsServices: Error on  GetReleasingItemTrxDtlsModel_OnCreateOnGet :" + ex.Message);
+            //    // return new ReleasingCreateEditModel(); // return null
 
-            }
+            //}
         }
 
-        public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId)
+        public ReceivingItemDtlsCreateEditModel GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId, int id)
         {
             try
             {
@@ -227,7 +235,7 @@ namespace Modules.Inventory
                                             Name = String.Format("{0} - {1} - {2} {3}",
                                             x.Code, x.InvCategory.Description, x.Description, x.Remarks),
                                             Value = x.Id
-                                        }), "Value", "Name");
+                                        }), "Value", "Name", id);
 
                 receivingItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(receivingItemDtls.InvTrxDtl.InvItemId), "Id", "uom");
                 receivingItemDtls.InvTrxHdrs = new SelectList(dbMaster.InvTrxHdrDb.GetInvTrxHdrs(), "Id", "Id", hdrId);

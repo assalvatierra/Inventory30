@@ -162,7 +162,7 @@
 
                     @if (item.InvTrxHdrStatusId == STATUS_PENDING)
                     {
-                        <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a> <span> | </span>
+                        <span> | </span>  <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a>
                     }
                     
                      @if(item.InvTrxHdrStatusId == STATUS_PENDING){

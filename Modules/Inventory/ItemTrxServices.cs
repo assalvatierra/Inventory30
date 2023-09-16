@@ -283,6 +283,18 @@ namespace Modules.Inventory
                             .Include(i => i.InvUom)
                             .Include(i => i.InvItem)
                             .Include(i => i.InvTrxHdr)
+                            .Include(i => i.InvItem)
+                                .ThenInclude(i => i.InvItemSpec_Steel)
+                                .ThenInclude(i => i.SteelBrand)
+                            .Include(i => i.InvItem)
+                                .ThenInclude(i => i.InvItemSpec_Steel)
+                                .ThenInclude(i => i.SteelMaterial)
+                            .Include(i => i.InvItem)
+                                .ThenInclude(i => i.InvItemSpec_Steel)
+                                .ThenInclude(i => i.SteelMaterialGrade)
+                            .Include(i => i.InvItem)
+                                .ThenInclude(i => i.InvItemSpec_Steel)
+                                .ThenInclude(i => i.SteelOrigin)
                             .Where(i => i.InvTrxHdrId == Id)
                             .ToList();
 

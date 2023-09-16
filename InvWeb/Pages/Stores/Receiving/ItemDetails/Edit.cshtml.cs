@@ -34,7 +34,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
         //[BindProperty]
         public InvTrxDtl InvTrxDtl { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, int? itemId)
         {
             if (id == null)
             {
@@ -50,7 +50,8 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 
             //refactored
             ItemDtlsEditModel = _itemDtlsServices.GeReceivingItemDtlsEditModel_OnEditOnGet(InvTrxDtl);
-
+            
+            ViewData["SelectedItemId"] = itemId;
             return Page();
         }
 

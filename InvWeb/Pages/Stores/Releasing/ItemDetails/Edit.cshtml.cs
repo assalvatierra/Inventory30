@@ -57,12 +57,13 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return NotFound();
             }
 
+            invItemId = InvTrxDtl.InvItemId;
+
             int storeId = InvTrxDtl.InvTrxHdr.InvStoreId;
             int itemId = GetDefaultInvitemId(invItemId);
             var lotNoList = _itemServices.GetLotNotItemList(itemId, storeId);
             var availableItems = _storeServices.GetAvailableItemsIdsByStore(storeId);
 
-            InvTrxDtl.InvItemId = itemId;
 
             ItemDtlsCreateEditModel = new ReleasingItemDtlsCreateEditModel();
             ItemDtlsCreateEditModel.InvTrxDtl = InvTrxDtl;
@@ -80,7 +81,9 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                                         Value = x.Id
                                     }), "Value", "Name", itemId);
 
-            ItemDtlsCreateEditModel.InvUoms = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom", InvTrxDtl.InvUomId);
+            ItemDtlsCreateEditModel.InvTrxDtl.InvItemId = itemId;
+
+            ItemDtlsCreateEditModel.InvUoms = new SelectList(_uomServices.GetUomSelectListByItemId(null), "Id", "uom", InvTrxDtl.InvUomId);
             ItemDtlsCreateEditModel.InvTrxHdrs = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id", InvTrxDtl.InvTrxHdrId);
             ItemDtlsCreateEditModel.InvTrxDtlOperators = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description", 2);
             ItemDtlsCreateEditModel.HrdId = (int)InvTrxDtl.InvTrxHdrId;
@@ -89,26 +92,8 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
             ItemDtlsCreateEditModel.SelectedItem = " (" + InvTrxDtl.InvItem.Code + ") " + InvTrxDtl.InvItem.Description
                                + " " + InvTrxDtl.InvItem.Remarks;
 
-            //ViewData["LotNo"] = new SelectList(lotNoList.Select(x => new {
-            //        Name = String.Format("{0} ", x.LotNo),
-            //        Value = x.LotNo
-            //    }), "Value", "Name");
-
-            //ViewData["InvItemId"] = new SelectList(_itemServices.GetInStockedInvItemsSelectList(itemId, availableItems)
-            //                        .Include(i => i.InvCategory)
-            //                       .Select(x => new
-            //                       {
-            //                           Name = String.Format("{0} - {1} - {2} {3}",
-            //                           x.Code, x.InvCategory.Description, x.Description, x.Remarks),
-            //                           Value = x.Id
-            //                       }), "Value", "Name", invItemId);
-
-            //ViewData["InvTrxHdrId"] = new SelectList(_itemTrxServices.GetInvTrxHdrs(), "Id", "Id");
-            //ViewData["InvUomId"] = new SelectList(_uomServices.GetUomSelectListByItemId(invItemId), "Id", "uom", InvTrxDtl.InvItem.InvUomId);
-            //ViewData["InvTrxDtlOperatorId"] = new SelectList(_itemDtlsServices.GetInvTrxDtlOperators(), "Id", "Description");
-            //ViewData["LotNoItems"]  =lotNoList;
-            //ViewData["StoreId"]     = storeId;
-            //ViewData["SelectedItem"] = selectedItem;
+            ViewData["SelectedItemId"] = itemId;
+            ViewData["HdrId"] = InvTrxDtl.InvTrxHdrId;
 
             return Page();
         }
