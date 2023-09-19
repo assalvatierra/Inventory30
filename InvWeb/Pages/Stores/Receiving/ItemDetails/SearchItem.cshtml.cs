@@ -79,7 +79,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                                  && c.SteelMaterialId == SteelMaterialId
                                  && c.SteelMaterialGradeId == SteelMaterialGradeId
                                  && c.SteelSizeId == SteelSizeId)
-                        .Select(c => c.InvItem).ToList();
+                        .ToList();
 
                     if (ItemListResult == null)
                     {
@@ -92,7 +92,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 
             if (ItemList == null)
             {
-                ItemList = new List<InvItem>();
+                ItemList = new List<InvItemSpec_Steel>();
             }
 
             //Steel Specifications
@@ -116,7 +116,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
         [BindProperty]
         public InvItemSpec_Steel InvItemSpec_Steel { get; set; }
 
-        public List<InvItem> ItemList { get; set; }
+        public List<InvItemSpec_Steel> ItemList { get; set; }
 
         [BindProperty]
         public int HdrId { get; set; }
@@ -137,31 +137,45 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             }
 
             //Steel Specifications
-            ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats, "Id", "Name");
-            ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats, "Id", "Name");
+            //ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats, "Id", "Name");
+            //ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats, "Id", "Name");
             ViewData["SteelBrands"] = new SelectList(_context.SteelBrands, "Id", "Name");
             ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins, "Id", "Name");
-            ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials, "Id", "Name");
-            ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades, "Id", "Name");
-            ViewData["SteelSizes"] = new SelectList(_context.SteelSizes, "Id", "Name");
+            //ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials, "Id", "Name");
+            //ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades, "Id", "Name");
+            //ViewData["SteelSizes"] = new SelectList(_context.SteelSizes, "Id", "Name");
+
+
+            //var ItemListResult = await _context.InvItemSpec_Steel
+            //    .Include(c=>c.InvItem)
+            //    .Where(c => c.SteelMainCatId == InvItemSpec_Steel.SteelMainCatId 
+            //             && c.SteelSubCatId == InvItemSpec_Steel.SteelSubCatId
+            //             && c.SteelBrandId == InvItemSpec_Steel.SteelBrandId
+            //             && c.SteelOriginId == InvItemSpec_Steel.SteelOriginId
+            //             && c.SteelMaterialId == InvItemSpec_Steel.SteelMaterialId
+            //             && c.SteelMaterialGradeId == InvItemSpec_Steel.SteelMaterialGradeId
+            //             && c.SteelSizeId == InvItemSpec_Steel.SteelSizeId)
+            //    .Select(c=>c.InvItem).ToListAsync();
+
 
 
             var ItemListResult = await _context.InvItemSpec_Steel
-                .Include(c=>c.InvItem)
-                .Where(c => c.SteelMainCatId == InvItemSpec_Steel.SteelMainCatId 
-                         && c.SteelSubCatId == InvItemSpec_Steel.SteelSubCatId
-                         && c.SteelBrandId == InvItemSpec_Steel.SteelBrandId
-                         && c.SteelOriginId == InvItemSpec_Steel.SteelOriginId
-                         && c.SteelMaterialId == InvItemSpec_Steel.SteelMaterialId
-                         && c.SteelMaterialGradeId == InvItemSpec_Steel.SteelMaterialGradeId
-                         && c.SteelSizeId == InvItemSpec_Steel.SteelSizeId)
-                .Select(c=>c.InvItem).ToListAsync();
+                .Include(c => c.InvItem)
+                .Include(c => c.SteelBrand)
+                .Include(c => c.SteelOrigin)
+                .Include(c => c.SteelMainCat)
+                .Include(c => c.SteelSubCat)
+                .Include(c => c.SteelMaterial)
+                .Include(c => c.SteelMaterialGrade)
+                .Where(c => c.SteelBrandId == InvItemSpec_Steel.SteelBrandId
+                         && c.SteelOriginId == InvItemSpec_Steel.SteelOriginId)
+                
+                .ToListAsync();
 
             if (ItemListResult == null)
             {
                 return RedirectToAction("Create");
             }
-
             ItemList = ItemListResult;
 
             ViewData["HdrId"] = HdrId;

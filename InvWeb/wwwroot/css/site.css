@@ -36,14 +36,14 @@ a {
         display: flex;
         width: 30rem !important;
     }
-
+     
     .control-label {
         width: 8rem !important;
         margin-right: 1rem !important;
     }
 
     .select2-container {
-        width: 23rem !important;
+        width: 21.5rem !important;
     }
 
     .form-control {
