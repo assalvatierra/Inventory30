@@ -72,6 +72,12 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 
                     var ItemListResult = _context.InvItemSpec_Steel
                         .Include(c => c.InvItem)
+                        .Include(c => c.SteelBrand)
+                        .Include(c => c.SteelOrigin)
+                        .Include(c => c.SteelMainCat)
+                        .Include(c => c.SteelSubCat)
+                        .Include(c => c.SteelMaterial)
+                        .Include(c => c.SteelMaterialGrade)
                         .Where(c => c.SteelMainCatId == SteelMainCatId
                                  && c.SteelSubCatId == SteelSubCatId
                                  && c.SteelBrandId == SteelBrandId
@@ -137,8 +143,26 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             }
 
             //Steel Specifications
+            ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats, "Id", "Name");
+            ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats, "Id", "Name");
             ViewData["SteelBrands"] = new SelectList(_context.SteelBrands, "Id", "Name");
             ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins, "Id", "Name");
+            ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials, "Id", "Name");
+            ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades, "Id", "Name");
+            ViewData["SteelSizes"] = new SelectList(_context.SteelSizes, "Id", "Name");
+
+
+            //var ItemListResult = await _context.InvItemSpec_Steel
+            //    .Include(c=>c.InvItem)
+            //    .Where(c => c.SteelMainCatId == InvItemSpec_Steel.SteelMainCatId 
+            //             && c.SteelSubCatId == InvItemSpec_Steel.SteelSubCatId
+            //             && c.SteelBrandId == InvItemSpec_Steel.SteelBrandId
+            //             && c.SteelOriginId == InvItemSpec_Steel.SteelOriginId
+            //             && c.SteelMaterialId == InvItemSpec_Steel.SteelMaterialId
+            //             && c.SteelMaterialGradeId == InvItemSpec_Steel.SteelMaterialGradeId
+            //             && c.SteelSizeId == InvItemSpec_Steel.SteelSizeId)
+            //    .Select(c=>c.InvItem).ToListAsync();
+
 
 
             var ItemListResult = await _context.InvItemSpec_Steel
@@ -149,9 +173,13 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 .Include(c => c.SteelSubCat)
                 .Include(c => c.SteelMaterial)
                 .Include(c => c.SteelMaterialGrade)
-                .Where(c => c.SteelBrandId == InvItemSpec_Steel.SteelBrandId
-                         && c.SteelOriginId == InvItemSpec_Steel.SteelOriginId)
-                
+                .Where(c => c.SteelMainCatId == InvItemSpec_Steel.SteelMainCatId
+                             && c.SteelSubCatId == InvItemSpec_Steel.SteelSubCatId
+                             && c.SteelBrandId == InvItemSpec_Steel.SteelBrandId
+                             && c.SteelOriginId == InvItemSpec_Steel.SteelOriginId
+                             && c.SteelMaterialId == InvItemSpec_Steel.SteelMaterialId
+                             && c.SteelMaterialGradeId == InvItemSpec_Steel.SteelMaterialGradeId
+                             && c.SteelSizeId == InvItemSpec_Steel.SteelSizeId)
                 .ToListAsync();
 
             if (ItemListResult == null)
