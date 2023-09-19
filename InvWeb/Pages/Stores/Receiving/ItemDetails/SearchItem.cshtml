@@ -25,18 +25,6 @@
         <div class="col-md-5">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group" hidden>
-                <label class="control-label"> Main Category </label>
-                <select asp-for="InvItemSpec_Steel.SteelMainCatId" id="SteelMainCatId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelMainCats"></select>
-            </div>
-            <div class="form-group" hidden>
-                <label class="control-label"> Sub Category </label>
-                <select asp-for="InvItemSpec_Steel.SteelSubCatId" id="SteelSubCatId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelSubCats"></select>
-            </div>
-            <div class="form-group" hidden>
-                <label class="control-label"> Steel Size </label>
-                <select asp-for="InvItemSpec_Steel.SteelSizeId" id="SteelSizeId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelSizes"></select>
-            </div>
             <div class="form-group">
                 <label class="control-label"> Steel Brand </label>
                 <select asp-for="InvItemSpec_Steel.SteelBrandId" id="SteelBrandId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelBrands"></select>
@@ -44,14 +32,6 @@
             <div class="form-group">
                 <label class="control-label"> Steel Origin </label>
                 <select asp-for="InvItemSpec_Steel.SteelOriginId" id="SteelOriginId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelOrigins"></select>
-            </div>
-            <div class="form-group" hidden>
-                <label class="control-label"> Steel Material </label>
-                <select asp-for="InvItemSpec_Steel.SteelMaterialId" id="SteelMaterialId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelMaterials"></select>
-            </div>
-            <div class="form-group" hidden>
-                <label class="control-label"> Steel Material Grade </label>
-                <select asp-for="InvItemSpec_Steel.SteelMaterialGradeId" id="SteelMaterialGradeId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelMaterialGrades"></select>
             </div>
 
             <div class="form-group" hidden> 
@@ -99,7 +79,7 @@
                         (@item.InvItem.Code)  -  @item.InvItem.Description @item.SteelMainCat.Name @item.SteelSubCat.Name @item.SteelBrand.Name @item.SteelOrigin.Name  @item.SteelMaterial.Name @item.SteelMaterialGrade.Name
                     </a>
                 }
-
+                 
                 @if (ViewBag.ActionType == "Edit")
                 {
                     <a asp-page="./@ViewBag.ActionType" class="list-group-item list-group-item-action" asp-route-itemId="@item.Id" asp-route-id="@Model.ItemDetailsId">
