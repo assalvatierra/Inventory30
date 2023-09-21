@@ -59,8 +59,8 @@
                 <input asp-for="HdrId" id="HdrId" class="form-control" value="@ViewBag.HdrId">
             </div>
 
-            <div class="form-group" hidden>
-                <label class="control-label">HDRID </label>
+            <div class="form-group">
+                <label class="control-label">ItemDetailsId </label>
                 <input asp-for="ItemDetailsId" id="ItemDetailsId" class="form-control" value="@ViewBag.ItemDetailsId">
             </div>
 
@@ -70,7 +70,7 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Search" class="btn btn-primary" />
+                <input type="submit" value="Update brand/origin" class="btn btn-primary" />
             </div>
         </div>
         
@@ -95,14 +95,14 @@
             {
                 @if (ViewBag.ActionType == "Create")
                 {
-                    <a asp-page="./@ViewBag.ActionType" class="list-group-item list-group-item-action" asp-route-itemId="@item.Id" asp-route-hdrId="@Model.HdrId">
+                    <a asp-page="./@ViewBag.ActionType" class="list-group-item list-group-item-action" asp-route-itemId="@item.InvItemId" asp-route-hdrId="@ViewBag.HdrId">
                         (@item.InvItem.Code)  -  @item.InvItem.Description @item.SteelMainCat.Name @item.SteelSubCat.Name @item.SteelBrand.Name @item.SteelOrigin.Name  @item.SteelMaterial.Name @item.SteelMaterialGrade.Name
                     </a>
                 }
                  
                 @if (ViewBag.ActionType == "Edit")
                 {
-                    <a asp-page="./@ViewBag.ActionType" class="list-group-item list-group-item-action" asp-route-itemId="@item.Id" asp-route-id="@Model.ItemDetailsId">
+                    <a asp-page="./@ViewBag.ActionType" class="list-group-item list-group-item-action" asp-route-itemId="@item.InvItemId" asp-route-id="@ViewBag.ItemDetailsId">
                         (@item.InvItem.Code)  -  @item.InvItem.Description @item.SteelMainCat.Name @item.SteelSubCat.Name @item.SteelBrand.Name @item.SteelOrigin.Name @item.SteelMaterial.Name @item.SteelMaterialGrade.Name
                      </a>
                 }
