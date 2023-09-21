@@ -24,10 +24,38 @@ a {
   border-color: #1861ac;
 }
 
+
+
+/* Override Forms Styles 
+--------------------------------------------------
+*/
+
+@media (min-width: 1080px) {
+
+    .form-group {
+        display: flex;
+        width: 30rem !important;
+    }
+     
+    .control-label {
+        width: 8rem !important;
+        margin-right: 1rem !important;
+    }
+
+    .select2-container {
+        width: 21.5rem !important;
+    }
+
+    .form-control {
+        width: 23rem !important;
+    }
+}
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 768px) {
   html {

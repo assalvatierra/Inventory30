@@ -1,8 +1,8 @@
 ﻿@page
-@model InvWeb.Pages.Masterfiles.ItemMaster.EditModel
+@model InvWeb.Pages.Masterfiles.ItemMaster.CreateCopyModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create Copy";
 }
 
 <h1>Edit</h1>
@@ -13,10 +13,7 @@
             <h4>Item</h4>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="InvItem.Id" id="InvItemId" />
-           
 
-            <input type="hidden" asp-for="InvItemSpec_Steel.Id" id="InvItemSpec_SteelId" />
             <div class="form-group">
                 <label class="control-label"> Main Category </label>
                 <select asp-for="InvItemSpec_Steel.SteelMainCatId" id="SteelMainCatId" class="form-contro search-dropdown-initialize select2l" asp-items="ViewBag.SteelMainCats"></select>
@@ -53,19 +50,17 @@
                 <label class="control-label"> Weight Kgpc </label>
                 <input asp-for="InvItemSpec_Steel.WtKgpc" id="WtKgpc" class="form-control" maxlength="10" />
             </div>
-
-            <div class="form-group">
-                <label asp-for="InvItem.InvUomId" class="control-label"> UOM </label>
-                <select asp-for="InvItem.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
-                <span asp-validation-for="InvItem.InvUomId" class="text-danger"></span>
-            </div>
-
             <div class="form-group">
                 <label asp-for="InvItem.Description" class="control-label" required></label>
                 <input asp-for="InvItem.Description" class="form-control" maxlength="120" />
                 <span asp-validation-for="InvItem.Description" class="text-danger"></span>
             </div>
 
+            <div class="form-group">
+                <label asp-for="InvItem.InvUomId" class="control-label"> UOM </label>
+                <select asp-for="InvItem.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+                <span asp-validation-for="InvItem.InvUomId" class="text-danger"></span>
+            </div>
 
             <div class="form-group">
                 <label asp-for="InvItem.Code" class="control-label" required></label>
