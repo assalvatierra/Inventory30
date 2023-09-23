@@ -18,7 +18,6 @@
     }
 </div>
 
-<hr />
 
 <form method="post">
     <div class="row ">
@@ -37,14 +36,7 @@
                 <label class="control-label"> Steel Size </label>
                 <select asp-for="InvItemSpec_Steel.SteelSizeId" id="SteelSizeId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelSizes"></select>
             </div>
-            <div class="form-group">
-                <label class="control-label"> Steel Brand </label>
-                <select asp-for="InvItemSpec_Steel.SteelBrandId" id="SteelBrandId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelBrands"></select>
-            </div>
-            <div class="form-group">
-                <label class="control-label"> Steel Origin </label>
-                <select asp-for="InvItemSpec_Steel.SteelOriginId" id="SteelOriginId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelOrigins"></select>
-            </div>
+          
             <div class="form-group" hidden>
                 <label class="control-label"> Steel Material </label>
                 <select asp-for="InvItemSpec_Steel.SteelMaterialId" id="SteelMaterialId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelMaterials"></select>
@@ -59,7 +51,7 @@
                 <input asp-for="HdrId" id="HdrId" class="form-control" value="@ViewBag.HdrId">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label class="control-label">ItemDetailsId </label>
                 <input asp-for="ItemDetailsId" id="ItemDetailsId" class="form-control" value="@ViewBag.ItemDetailsId">
             </div>
@@ -69,7 +61,7 @@
                 <input asp-for="ActionType" id="ActionType" class="form-control" value="@ViewBag.ActionType">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <input type="submit" value="Find Matching Items" class="btn btn-primary" />
             </div>
         </div>
@@ -79,7 +71,7 @@
 
 <hr />
 <h3> Matching Items </h3>
-
+<h5> Select from the matching items to update your transaction </h5>
 
 @if (Model.ItemList != null)
     {
@@ -89,24 +81,87 @@
     }
     else
     {
+        
+        <table class="table">
 
-        <div class="list-group">
+            <tr>
+                <th>
+                    Code
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Main Category
+                </th>
+                <th>
+                    Sub Category
+                </th>
+                <th>
+                    Brand
+                </th>
+                <th>
+                    Origin
+                </th>
+                <th>
+                    Material
+                </th>
+                <th> Grade </th>
+                <th>
+                    Size
+                </th>
+                <th></th>
+            </tr>
+
             @foreach (var item in Model.ItemList)
             {
-                @if (ViewBag.ActionType == "Create")
-                {
-                    <a asp-page="./@ViewBag.ActionType" class="list-group-item list-group-item-action" asp-route-itemId="@item.InvItemId" asp-route-hdrId="@ViewBag.HdrId">
-                        (@item.InvItem.Code)  -  @item.InvItem.Description @item.SteelMainCat.Name @item.SteelSubCat.Name @item.SteelBrand.Name @item.SteelOrigin.Name  @item.SteelMaterial.Name @item.SteelMaterialGrade.Name
-                    </a>
-                }
+
+                <tr>
+                    <td>
+                        @item.InvItem.Code
+                    </td>
+                    <td>
+                        @item.InvItem.Description
+                    </td>
+                    <td>
+                        @item.SteelMainCat.Name
+                    </td>
+                    <td>
+                        @item.SteelSubCat.Name
+                    </td>
+                    <td>
+                        @item.SteelBrand.Name
+                    </td>
+                    <td>
+                        @item.SteelOrigin.Name
+                    </td>
+                    <td>
+                        @item.SteelMaterial.Name
+                    </td>
+                    <td>
+                        @item.SteelMaterialGrade.Name
+                    </td>
+                    <td>
+                        @item.SteelSize.Name
+                    </td>
+                    <td>
+
+                        @if (ViewBag.ActionType == "Create")
+                        {
+                            <a asp-page="./@ViewBag.ActionType" class="btn btn-primary" asp-route-itemId="@item.InvItemId" asp-route-hdrId="@ViewBag.HdrId">
+                                Select
+                            </a>
+                        }
                  
-                @if (ViewBag.ActionType == "Edit")
-                {
-                    <a asp-page="./@ViewBag.ActionType" class="list-group-item list-group-item-action" asp-route-itemId="@item.InvItemId" asp-route-id="@ViewBag.ItemDetailsId">
-                        (@item.InvItem.Code)  -  @item.InvItem.Description @item.SteelMainCat.Name @item.SteelSubCat.Name @item.SteelBrand.Name @item.SteelOrigin.Name @item.SteelMaterial.Name @item.SteelMaterialGrade.Name
-                     </a>
-                }
+                        @if (ViewBag.ActionType == "Edit")
+                        {
+                            <a asp-page="./@ViewBag.ActionType" class="btn btn-primary" asp-route-itemId="@item.InvItemId" asp-route-id="@ViewBag.ItemDetailsId">
+                                    Select
+                             </a>
+                        }
+                    </td>
+                </tr>
             }
-        </div>
+        </table>
     }
 }

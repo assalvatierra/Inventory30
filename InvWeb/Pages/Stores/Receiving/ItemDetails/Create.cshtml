@@ -7,7 +7,7 @@
 
 <h1>Create</h1>
 
-<h4>Transaction Items</h4>
+<h4>Transaction Items @Model.ItemDtlsCreateModel.InvTrxDtl.InvItemId </h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,7 +18,7 @@
                 <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvTrxHdrs"></select>
             </div>
             <div class="form-group">
-                <a asp-page="./SearchItem" asp-route-id="@Model.ItemDtlsCreateModel.HrdId" asp-route-actionType="Create" class="btn btn-primary">   Update brand/origin <img src="/img/icons/icons-search.png" width="15" height="15" alt="search" /> </a>
+                <a asp-page="./SearchItem" id="SearchItem-link" asp-route-id="@Model.ItemDtlsCreateModel.HrdId" asp-route-itemId="@Model.ItemDtlsCreateModel.InvTrxDtl.InvItemId" asp-route-actionType="Create" class="btn btn-primary">   Update brand/origin <img src="/img/icons/icons-search.png" width="15" height="15" alt="search" /> </a>
             </div>
             <div class="form-group">
                 <label class="control-label"> Item </label>
@@ -63,7 +63,11 @@
         $(document).ready(function () {
             var defaultItem = $("#itemDropdown option:first").val();
             GetItemOumsWithId(defaultItem);
-            
+
+            var itemid = $('#itemDropdown').val();
+            var hdrId = @Model.ItemDtlsCreateModel.HrdId;
+            UpdateLink(hdrId, itemid);
+
             SearchItem();
         });
 
@@ -74,6 +78,19 @@
                 $('#itemDropdown').val(@ViewBag.SelectedItemId).change();
                 GetItemOumsWithId(@ViewBag.SelectedItemId);
             }
+        }
+
+        $("#itemDropdown").on('change',()=>{
+
+            var itemid = $('#itemDropdown').val();
+            var hdrId = @Model.ItemDtlsCreateModel.HrdId;
+
+            UpdateLink(hdrId, itemid);
+
+        });
+
+        function UpdateLink(hrId, itemId){
+            $("#SearchItem-link").attr("href", "/Stores/Receiving/ItemDetails/SearchItem/" + hrId +"?itemId="+ itemId +"&actionType=Create")
         }
 
       

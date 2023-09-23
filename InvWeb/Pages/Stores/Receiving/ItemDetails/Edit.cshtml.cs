@@ -51,7 +51,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             //refactored
             ItemDtlsEditModel = _itemDtlsServices.GeReceivingItemDtlsEditModel_OnEditOnGet(InvTrxDtl);
             
-            ViewData["SelectedItemId"] = itemId;
+            ViewData["SelectedItemId"] = itemId ?? InvTrxDtl.InvItemId;
             return Page();
         }
 
