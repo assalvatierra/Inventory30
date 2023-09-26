@@ -5,8 +5,7 @@
     ViewData["Title"] = "Search Item";
 }
 
-<h1>Search Item</h1>
-<h4>Item Specifications</h4>
+<h1>Update Item Brand and Origin</h1>
 <div>
     @if (ViewBag.ActionType == "Create")
     {
@@ -86,16 +85,7 @@
 
             <tr>
                 <th>
-                    Code
-                </th>
-                <th>
-                    Description
-                </th>
-                <th>
-                    Main Category
-                </th>
-                <th>
-                    Sub Category
+
                 </th>
                 <th>
                     Brand
@@ -104,46 +94,22 @@
                     Origin
                 </th>
                 <th>
-                    Material
+                    Code
                 </th>
-                <th> Grade </th>
                 <th>
                     Size
                 </th>
-                <th></th>
+                <th>
+                    Material
+                </th>
+                <th> Grade </th>
             </tr>
 
             @foreach (var item in Model.ItemList)
             {
 
                 <tr>
-                    <td>
-                        @item.InvItem.Code
-                    </td>
-                    <td>
-                        @item.InvItem.Description
-                    </td>
-                    <td>
-                        @item.SteelMainCat.Name
-                    </td>
-                    <td>
-                        @item.SteelSubCat.Name
-                    </td>
-                    <td>
-                        @item.SteelBrand.Name
-                    </td>
-                    <td>
-                        @item.SteelOrigin.Name
-                    </td>
-                    <td>
-                        @item.SteelMaterial.Name
-                    </td>
-                    <td>
-                        @item.SteelMaterialGrade.Name
-                    </td>
-                    <td>
-                        @item.SteelSize.Name
-                    </td>
+
                     <td>
 
                         @if (ViewBag.ActionType == "Create")
@@ -152,14 +118,34 @@
                                 Select
                             </a>
                         }
-                 
+
                         @if (ViewBag.ActionType == "Edit")
                         {
                             <a asp-page="./@ViewBag.ActionType" class="btn btn-primary" asp-route-itemId="@item.InvItemId" asp-route-id="@ViewBag.ItemDetailsId">
-                                    Select
-                             </a>
+                                Select
+                            </a>
                         }
                     </td>
+                    <td>
+                        @item.SteelBrand.Name
+                    </td>
+                    <td>
+                        @item.SteelOrigin.Name
+                    </td>
+                    <td>
+                        @item.InvItem.Code
+                    </td>
+                    <td>
+                        @item.SteelSize.Name
+                    </td>
+                    <td>
+                        @item.SteelMaterial.Name
+                    </td>
+                    <td>
+                        @item.SteelMaterialGrade.Name
+                    </td>
+
+
                 </tr>
             }
         </table>
