@@ -11,6 +11,54 @@
     int STOREID = 1;
 }
 
+<style>
+
+    .custom-table-list tbody tr td {
+            font-size: 13px;
+            padding: 5px;
+    }
+
+    .custom-table-list tbody tr td table tr td {
+        color:gray;
+        padding:0px 8px;
+    }
+
+    td {
+        white-space: nowrap;
+    }
+
+    .custom-table-list tbody tr td button {
+        font-size:10px;
+    }
+    
+    .td-bold  {
+        font-weight:bold;
+    }
+
+    .action-btns {
+        font-size: 10px;
+        padding:5px
+    }
+
+    .action-input input {
+        font-size: 10px;
+    }
+
+    .hidden-actions{
+        display:none;
+    }
+
+
+    .hidden-actions {
+        display: none;
+    }
+
+    .table-borderless {  
+        margin-bottom: 0.1rem;
+    }
+
+</style>
+
 <h1>
     Receiving
 
@@ -29,7 +77,7 @@
 
 </h1>
 
-<p>
+<div style="margin:10px 0px;">
     <a asp-page="../Main/Index" asp-route-id="@Model.ReceivingIndexModel.StoreId">Go back to MyStore</a> |
     @if (Model.ReceivingIndexModel.Status == "ACCEPTED")
     {
@@ -43,50 +91,46 @@
     {
         <a asp-page="./Index" asp-route-storeId="@Model.ReceivingIndexModel.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
     }
-</p>
-<p>
+</div>
+<div style="margin:10px 0px;">
     <a asp-page="Create" asp-route-storeId="@Model.ReceivingIndexModel.StoreId" class="btn btn-primary">Create New</a>
-</p>
+</div>
+<div style="margin:10px 0px;">
 
-<form method="post" >
-    <div hidden>
-        <input type="text" value="@Model.ReceivingIndexModel.StoreId" name="storeId" id="storeId" />
-    </div>
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-outline-primary" id="status-pending" onclick="UpdatePagefilter( @STOREID ,'PENDING')">
-            <input type="radio" asp-for="Status" autocomplete="off" value="PENDING"  checked> Request
-        </label>
-        <label class="btn btn-outline-primary" id="status-approved" onclick="UpdatePagefilter( @STOREID ,'APPROVED')">
-            <input type="radio" asp-for="Status" autocomplete="off" value="APPROVED" >  Approved
-        </label>
-    </div>
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-outline-primary" id="orderby-asc">
-            <input type="radio" asp-for="Orderby" autocomplete="off" value="ASC" checked> ASC
-        </label>
-        <label class="btn btn-outline-primary" id="orderby-desc">
-            <input type="radio" asp-for="Orderby" autocomplete="off" value="DESC"> DESC
-        </label>
-    </div>
-    <button class="btn btn-primary" type="submit"> Filter </button>
-</form>
+    <form method="post" >
+        <div hidden>
+            <input type="text" value="@Model.ReceivingIndexModel.StoreId" name="storeId" id="storeId" />
+        </div>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-primary" id="status-pending" onclick="UpdatePagefilter( @STOREID ,'PENDING')">
+                <input type="radio" asp-for="Status" autocomplete="off" value="PENDING"  checked> Request
+            </label>
+            <label class="btn btn-outline-primary" id="status-approved" onclick="UpdatePagefilter( @STOREID ,'APPROVED')">
+                <input type="radio" asp-for="Status" autocomplete="off" value="APPROVED" >  Approved
+            </label>
+        </div>
+        <div class="btn-group btn-group-toggle action-input" data-toggle="buttons">
+            <label class="btn btn-outline-primary" id="orderby-asc">
+                <input type="radio" asp-for="Orderby" autocomplete="off" value="ASC" checked> ASC
+            </label>
+            <label class="btn btn-outline-primary" id="orderby-desc">
+                <input type="radio" asp-for="Orderby" autocomplete="off" value="DESC"> DESC
+            </label>
+        </div>
+        <button class="btn btn-primary" type="submit"> Filter </button>
+    </form>
 
-<table class="table">
+</div>
+<table class="table custom-table-list">
     <thead>
         <tr>
-            <th>
-                LotNo
-            </th>
-            <th>
-                Date
-            </th>
-            <th>
-                Remarks
-            </th>
-            <th>
+            <th></th>
+            <th colspan="2">
                 Details
             </th>
-            <th></th>
+            <th>
+               
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -94,48 +138,6 @@
         @foreach (var item in Model.ReceivingIndexModel.InvTrxHdrs)
         {
             <tr>
-                <td>
-                    
-                    @item.Id
-                </td>
-                <td>
-                    @item.DtTrx.ToString("MMM dd yyyy")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Remarks)
-                </td>
-                <td>
-                    <div >
-                        <table class="table table-borderless">
-                            
-                            @foreach (var dlts in item.InvTrxDtls)
-                            {
-                                
-                                <tr>
-                                    <td style="width:25rem;">
-                                        ( @dlts.InvItem.Code )
-                                        @dlts.InvItem.Description
-                                        @dlts.InvItem.Remarks
-                                    </td>
-                                    <td style="width:5rem;">
-                                        @dlts.InvItem.Material
-                                    </td>
-                                    <td style="width:5rem;">
-                                        @dlts.BatchNo
-                                    </td>
-                                    <td style="width:5rem;">
-                                        @dlts.ItemQty
-
-                                        @if (dlts.InvUom != null)
-                                        {
-                                            @dlts.InvUom.uom
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                         </table>
-                    </div>
-                </td>
                 <td>
 
                     @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
@@ -147,7 +149,7 @@
                         else
                         {
                             <button class="btn btn-primary" onclick="ApprovedTrxHdr(this, '@item.Id')"> Approve </button>
-                            
+
                         }
 
                         if (Model.IsTransactionHaveApprovedRecord(item.Id, "Verified"))
@@ -162,11 +164,58 @@
                     }
 
                 </td>
+                <td class="td-bold">
+                    @item.Id - 
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                        <table class="table table-borderless">
+                            
+                            @foreach (var dlts in item.InvTrxDtls)
+                            {
+                                <tr >
+                                    <td style="width:15rem;">
+                                        ( @dlts.InvItem.Code )
+                                        @dlts.InvItem.Description
+                                        @dlts.InvItem.Remarks
+                                        -
+                                        @if (dlts.InvItem.InvItemSpec_Steel != null)
+                                        {
+                                            <span>
+                                            (@dlts.InvItem.InvItemSpec_Steel.First().SteelBrand.Name)
+
+                                            @dlts.InvItem.InvItemSpec_Steel.First().SteelMaterial.Name
+
+                                            @dlts.InvItem.InvItemSpec_Steel.First().SteelMaterialGrade.Name -
+
+                                            @dlts.InvItem.InvItemSpec_Steel.First().SteelOrigin.Name
+                                            </span>
+                                        }
+                                    </td>
+                                    <td style="width:5rem;">
+                                       @dlts.BatchNo
+                                    </td>
+                                    <td style="width:5rem;">
+                                        @dlts.ItemQty
+
+                                        @if (dlts.InvUom != null)
+                                        {
+                                            @dlts.InvUom.uom
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                         </table>
+                </td>
+                <td class="td-bold">
+                    @item.DtTrx.ToString("MMM dd yyyy")
+                </td>
                 <td>
 
-                    @if(item.InvTrxHdrStatusId == STATUS_PENDING){
+                    @if (item.InvTrxHdrStatusId == STATUS_PENDING)
+                    {
 
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> <span> | </span>
+                        @*<a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> <span> | </span>*@
                         <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
                     }
 
@@ -174,11 +223,11 @@
                     {
                         <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a>
                     }
-                 
-                    
+
+
                     @if (item.InvTrxHdrStatusId == STATUS_PENDING)
                     {
-                        <span> | </span> <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                        @*<span> | </span> <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
                     }
                 </td>
             </tr>
