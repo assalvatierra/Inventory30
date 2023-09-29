@@ -14,18 +14,24 @@
 <style>
 
     .custom-table-list tbody tr td {
-            font-size: 13px;
-            padding: 5px;
+        font-size: 13px;
+        padding: 5px;
     }
 
     .custom-table-list thead tr th {
         background-color:grey;
+        color: white;
     }
 
 
     .custom-table-list tbody tr td table tr td {
         color:gray;
         padding:0px 8px;
+        border:none;
+    }
+
+    .custom-table-list tbody tr td table tr {
+        border: none;
     }
 
     td {
@@ -33,7 +39,8 @@
     }
 
     .custom-table-list tbody tr td button {
-        font-size:10px;
+        font-size: 10px;
+        margin-top: 5px;
     }
     
     .td-bold  {
@@ -42,8 +49,9 @@
 
     .action-btns {
         font-size: 10px;
-        padding:5px
+        padding:5px;
     }
+
 
     .action-input input {
         font-size: 10px;
@@ -60,6 +68,10 @@
 
     .table-borderless {  
         margin-bottom: 0.1rem;
+    }
+
+    .card-round-border {
+        border-radius:15px;
     }
 
 </style>
@@ -126,7 +138,9 @@
     </form>
 
 </div>
-<table class="table custom-table-list">
+<div class="table-responsive card rounded-3 card-round-border">
+
+<table class="table custom-table-list rounded-3 overflow-hidden">
     <thead>
         <tr>
             <th></th>
@@ -247,7 +261,8 @@
             </tr>
         }
     </tbody>
-</table>
+    </table>
+</div>
 
 @section Scripts{
     <script type="text/javascript" src="~/js/Store/IndexFilter.js"> </script>
