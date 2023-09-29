@@ -33,28 +33,33 @@
         <div class="col-lg-8 col-sm-12">
             <div class="row">
                 <div class="col-lg-4">
-                    Type: @Model.ReceivingDetailsModel.InvTrxHdr.InvTrxType.Type
+                    <div class="col-4">
+                        Type:
+                    </div>
+                    <div class="col-8">
+                        <b> @Model.ReceivingDetailsModel.InvTrxHdr.InvTrxType.Type </b>
+                   </div>
                 </div>
                 <div class="col-lg-4">
-                    Date: @Model.ReceivingDetailsModel.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")
+                    Date: <b>@Model.ReceivingDetailsModel.InvTrxHdr.DtTrx.ToString("MMM dd yyyy")</b>
                 </div>
                 <div class="col-lg-4">
-                    Store: @Model.ReceivingDetailsModel.InvTrxHdr.InvStore.StoreName
+                    Store: <b>@Model.ReceivingDetailsModel.InvTrxHdr.InvStore.StoreName</b>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div style="border:0px solid black;margin:0px 0px;padding:0px;">
-                        Remarks: @Model.ReceivingDetailsModel.InvTrxHdr.Remarks
+                        Remarks: <b> @Model.ReceivingDetailsModel.InvTrxHdr.Remarks </b>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-8">
-                    Status: @Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status
+                    Status: <b> @Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status</b>
                 </div>
                 <div class="col-lg-4">
-                    Request By: @Model.ReceivingDetailsModel.InvTrxHdr.UserId
+                    Request By: <b> @Model.ReceivingDetailsModel.InvTrxHdr.UserId </b>
                 </div>
             </div>
         </div>

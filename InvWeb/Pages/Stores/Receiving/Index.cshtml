@@ -52,6 +52,10 @@
         padding:5px;
     }
 
+    .action-btns-group {
+        margin: 10px 0px;
+    }
+
 
     .action-input input {
         font-size: 10px;
@@ -74,6 +78,13 @@
         border-radius:15px;
     }
 
+    .no-padding{
+        padding:0px;
+    }
+
+    .action-icons{
+        margin:10px;
+    }
 </style>
 
 <h1>
@@ -94,7 +105,7 @@
 
 </h1>
 
-<div style="margin:10px 0px;">
+<div class="action-btns-group">
     <a asp-page="../Main/Index" asp-route-id="@Model.ReceivingIndexModel.StoreId">Go back to MyStore</a> |
     @if (Model.ReceivingIndexModel.Status == "ACCEPTED")
     {
@@ -109,10 +120,10 @@
         <a asp-page="./Index" asp-route-storeId="@Model.ReceivingIndexModel.StoreId" asp-route-Status="PENDING">Go recent Pendings</a>
     }
 </div>
-<div style="margin:10px 0px;">
+<div class="action-btns-group">
     <a asp-page="Create" asp-route-storeId="@Model.ReceivingIndexModel.StoreId" class="btn btn-primary">Create New</a>
 </div>
-<div style="margin:10px 0px;">
+<div class="action-btns-group">
 
     <form method="post" >
         <div hidden>
@@ -142,22 +153,48 @@
 
 <table class="table custom-table-list rounded-3 overflow-hidden">
     <thead>
-        <tr>
+            <tr>
+                <th></th>
             <th></th>
-            <th colspan="2">
-                Details
-            </th>
-            <th>
+                <th colspan="2">
+                    <span> Details </span>
                
             </th>
-            <th></th>
+            <th>
+                Date
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.ReceivingIndexModel.InvTrxHdrs)
         {
-            <tr>
-                <td>
+                <tr>
+                    <td>
+
+                        @if (item.InvTrxHdrStatusId == STATUS_PENDING)
+                        {
+
+                            <a asp-page="./Edit" asp-route-id="@item.Id">
+                                <img src="~/img/icons/icons-edit-blue.png" class="action-icons" width="20" height="20" alt="Edit" data-toggle="tooltip" data-placement="top" title="Edit">
+                            </a>
+
+                            <a asp-page="./Details" asp-route-id="@item.Id">
+                                <img src="~/img/icons/icons-details-blue.png" width="20" height="20" alt="Details" data-toggle="tooltip" data-placement="top" title="Details">
+                            </a>
+                        }
+
+                        @if (item.InvTrxHdrStatusId == STATUS_APPROVED)
+                        {
+                            <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a>
+                        }
+
+
+                        @if (item.InvTrxHdrStatusId == STATUS_PENDING)
+                        {
+                            @*<span> | </span> <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
+                        }
+                    </td>
+                <td style="padding-left:20px;">
 
                     @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
                     {
@@ -189,7 +226,11 @@
                 </td>
                 <td>
                         <table class="table table-borderless">
-                            
+                            <tr>
+                                <th class="no-padding"> Items </th>
+                                <th class="no-padding"> Heat No</th>
+                                <th class="no-padding"> Qty </th>
+                            </tr>
                             @foreach (var dlts in item.InvTrxDtls)
                             {
                                 <tr >
@@ -229,26 +270,6 @@
                 <td class="td-bold">
                     @item.DtTrx.ToString("MMM dd yyyy")
                 </td>
-                <td>
-
-                    @if (item.InvTrxHdrStatusId == STATUS_PENDING)
-                    {
-
-                        @*<a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> <span> | </span>*@
-                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
-                    }
-
-                    @if (item.InvTrxHdrStatusId == STATUS_APPROVED)
-                    {
-                        <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a>
-                    }
-
-
-                    @if (item.InvTrxHdrStatusId == STATUS_PENDING)
-                    {
-                        @*<span> | </span> <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
-                    }
-                </td>
             </tr>
         }
 
@@ -273,6 +294,10 @@
             StatusFilter("@Model.ReceivingIndexModel.Status");
             OrderFilter("@Model.ReceivingIndexModel.Order");
         });
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+        $('#example1').tooltip();
 
         function UpdatePagefilter(storeId, filter){
             console.log("UpdatePagefilter");
