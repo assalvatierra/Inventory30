@@ -220,9 +220,9 @@
                     }
 
                 </td>
-                <td class="td-bold">
-                    @item.Id - 
-                    @Html.DisplayFor(modelItem => item.Remarks)
+                <td class="td-bold" style="padding-top:18px;">
+                      @item.Id -
+                      @Html.DisplayFor(modelItem => item.Remarks)
                 </td>
                 <td>
                         <table class="table table-borderless">
@@ -267,8 +267,8 @@
                             }
                          </table>
                 </td>
-                <td class="td-bold">
-                    @item.DtTrx.ToString("MMM dd yyyy")
+                <td class="td-bold" style="padding-top:18px;">
+                        @item.DtTrx.ToString("MMM dd yyyy")
                 </td>
             </tr>
         }
