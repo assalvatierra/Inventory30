@@ -64,58 +64,91 @@
     </div>
     <button class="btn btn-primary" type="submit"> Filter </button>
 </form>
-<table class="table">
+
+<div class="table-responsive card rounded-3 card-round-border">
+
+    <table class="table custom-table-list rounded-3 overflow-hidden">
     <thead>
         <tr>
             <th>
-                LotNo
+              
             </th>
             <th>
-              Date
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvTrxHdr[0].Remarks)
+               
             </th>
             <th>
                 Details
             </th>
-            <th></th>
-            <th></th>
+            <th>
+
+            </th>
+             <th> Date</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.AdjustmentIndexModel.InvTrxHdrs)
         {
-            <tr>
-                <td>
-                    @item.Id
-                </td>
-                <td>
-                    @item.DtTrx.ToString("MMM dd yyyy")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Remarks)
-                </td>
-                <td>
-                    <div>
-                        <table class="table table-borderless">
 
+                <tr>
+                    <td class="td-actions">
+                        <!-- Actions -->
+                        @if (item.InvTrxHdrStatusId == STATUS_PENDING)
+                        {
+                            <a asp-page="./Edit" asp-route-id="@item.Id">
+                                <img src="~/img/icons/icons-edit-blue.png" class="action-icons" width="20" height="20" alt="Edit" data-toggle="tooltip" data-placement="top" title="Edit">
+                            </a>
+
+                            <a asp-page="./Details" asp-route-id="@item.Id">
+                                <img src="~/img/icons/icons-details-blue.png" class="action-icons" width="20" height="20" alt="Details" data-toggle="tooltip" data-placement="top" title="Details">
+                            </a>
+                        }
+
+                        @if (item.InvTrxHdrStatusId == STATUS_PENDING)
+                        {
+                            <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">
+                                <img src="~/img/icons/icons-print.png" class="action-icons" width="20" height="20" alt="Print" data-toggle="tooltip" data-placement="top" title="Details">
+                            </a>
+                        }
+
+                        @if (item.InvTrxHdrStatusId == STATUS_PENDING)
+                        {
+                            @*<a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
+                        }
+
+
+                    </td>
+                    <td class="td-actions">
+                        @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
+                        {
+                            <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Accept </button>
+                        }
+
+                    </td>
+
+                    <td class="td-bold">
+                        @item.Id -
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+                    <td>
+                        <table class="table table-borderless">
+                            <tr>
+                                <th> Items</th>
+                                <th> Batch No </th>
+                                <th> Qty</th>
+                            </tr>
                             @foreach (var dlts in item.InvTrxDtls)
                             {
 
                                 <tr>
-                                    <td>
-                                        @dlts.BatchNo
-                                    </td>
-                                    <td>
+                                    <td style="width:25rem;">
                                         ( @dlts.InvItem.Code )
                                         @dlts.InvItem.Description
                                         @dlts.InvItem.Remarks
                                     </td>
-                                    <td>
+                                    <td style="width:5rem;">
                                         @dlts.BatchNo
                                     </td>
-                                    <td>
+                                    <td style="width:5rem;">
                                         @dlts.ItemQty
 
                                         @if (dlts.InvUom != null)
@@ -123,37 +156,19 @@
                                             @dlts.InvUom.uom
                                         }
                                     </td>
-                                  
                                 </tr>
                             }
                         </table>
-                    </div>
-                </td>
-                <td>
-                    @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
-                    {
-                        <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Accept </button>
-                    }
-
+                    </td>
+                    <td class="td-bold">
+                        @item.DtTrx.ToString("MMM dd yyyy")
                     </td>
 
-                    <td>
-                        @if(item.InvTrxHdrStatusId == STATUS_PENDING){
-                              <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">Print</a><span> | </span> 
-                              <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a><span> | </span> 
-                        }
-                  
-                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a> <span> | </span> 
-                        @if(item.InvTrxHdrStatusId == STATUS_PENDING){
-                               <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                        }
-                   
-                </td>
-            </tr>
+                </tr>
         }
     </tbody>
 </table>
-
+</div>
 @section Scripts{
     <script type="text/javascript" src="~/js/Store/IndexFilter.js"></script>
     <script>

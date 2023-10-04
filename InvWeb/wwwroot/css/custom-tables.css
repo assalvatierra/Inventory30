@@ -1,0 +1,76 @@
+﻿
+
+
+.custom-table-list tbody tr td {
+    font-size: 13px;
+    padding: 5px;
+    white-space: nowrap;
+}
+
+.custom-table-list thead tr th {
+    background-color: grey;
+    color: white;
+}
+
+
+.custom-table-list tbody tr td table tr td {
+    color: gray;
+    padding: 0px 8px;
+    border: none;
+    white-space: nowrap;
+}
+
+.custom-table-list tbody tr td table tr {
+    border: none;
+}
+
+
+.custom-table-list tbody tr td button {
+    font-size: 10px;
+    margin-top: 5px;
+    margin-left: 10px;
+    padding-left: 10px;
+}
+
+.td-bold {
+    font-weight: bold;
+}
+
+.td-actions{
+    width:200px;
+}
+
+
+.table-borderless {
+    margin-bottom: 0.1rem;
+}
+
+.card-round-border {
+    border-radius: 15px;
+}
+
+.no-padding {
+    padding: 0px;
+}
+
+.action-icons {
+    margin: 10px;
+}
+
+.action-btns {
+    font-size: 10px;
+    padding: 5px;
+}
+
+.action-btns-group {
+    margin: 10px 0px;
+}
+
+
+.action-input input {
+    font-size: 10px;
+}
+
+.hidden-actions {
+    display: none;
+}
