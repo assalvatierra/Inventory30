@@ -382,8 +382,8 @@ namespace Modules.Inventory
 
         public TrxItemsCreateEditModel GeItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl invTrxDtl, int hdrId)
         {
-            try
-            {
+            //try
+            //{
                 var invTrxHeader = itemTrxServices.GetInvTrxHdrsById(hdrId).FirstOrDefault();
 
                 if (invTrxHeader == null)
@@ -406,19 +406,19 @@ namespace Modules.Inventory
                                             Value = x.Id
                                         }), "Value", "Name");
 
-                trxItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectListByItemId(trxItemDtls.InvTrxDtl.InvItemId), "Id", "uom");
+                trxItemDtls.InvUoms = new SelectList(uomServices.GetUomSelectList(), "Id", "uom");
                 trxItemDtls.InvTrxHdrs = new SelectList(dbMaster.InvTrxHdrDb.GetInvTrxHdrs(), "Id", "Id", hdrId);
                 trxItemDtls.InvTrxDtlOperators = new SelectList(_context.InvTrxDtlOperators, "Id", "Description", 1);
                 trxItemDtls.HrdId = hdrId;
                 trxItemDtls.StoreId = invTrxHeader.InvStoreId;
 
                 return trxItemDtls;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("ItemDtlsServices: Error on GeItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
-                throw new Exception("ItemDtlsServices: Error on GeItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError("ItemDtlsServices: Error on GeItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
+            //    throw new Exception("ItemDtlsServices: Error on GeItemDtlsCreateModel_OnCreateOnGet :" + ex.Message);
+            //}
         }
 
         public TrxItemsCreateEditModel GeItemDtlsEditModel_OnEditOnGet(InvTrxDtl invTrxDtl)
