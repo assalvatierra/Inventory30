@@ -64,5 +64,19 @@ namespace InvWeb.Pages.Stores.Receiving
 
             return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId, status = "PENDING" });
         }
+
+
+        private bool DeleteSteeItems(InvTrxHdr invTrxHdr)
+        {
+            if (invTrxHdr.InvTrxDtls != null)
+            {
+                var invitems = _context.InvTrxDtls.Where(c => c.InvTrxHdrId == invTrxHdr.Id).ToList();
+
+                _context.InvTrxDtls.RemoveRange(invitems);
+
+                return true;
+            }
+            return false;
+        }
     }
 }

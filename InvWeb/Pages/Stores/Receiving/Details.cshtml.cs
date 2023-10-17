@@ -58,5 +58,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             return Page();
         }
+
+
     }
 }

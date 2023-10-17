@@ -8,11 +8,14 @@
 <h1>Item Masters</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
+<div class="table-responsive card rounded-3 card-round-border" style="width:fit-content;">
+
+<table class="table custom-table-list rounded-3 overflow-hidden">
     <thead>
         <tr>
+            <th> </th>
             <th>
                 Code
             </th>
@@ -52,30 +55,34 @@
             <th>
                 KG/PC
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.InvItemIndex)
         {
             <tr>
+                <td style="white-space:nowrap">
+                    <a asp-page="./Edit" asp-route-id="@item.InvItem.Id">Edit</a> |
+                    <a asp-page="./CreateCopy" asp-route-id="@item.InvItem.Id">Copy</a> |
+                    <a asp-page="./Details" asp-route-id="@item.InvItem.Id">Details</a> 
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.InvItem.Code)
                 </td>
-                <td>
+                <td style="white-space:nowrap">
                     @Html.DisplayFor(modelItem => item.InvItem.Description)
 
                     @if(String.IsNullOrEmpty(item.InvItem.Remarks)){
                         <span> @item.InvItem.Remarks </span>
                     }
                 </td>
-                <td>
+                <td style="white-space:nowrap">
                     @if (item.InvItemSpec_Steel != null)
                     {
                         @item.InvItemSpec_Steel.SteelSize.Name
                     }
                 </td>
-                <td>
+                <td style="white-space:nowrap">
                     @Html.DisplayFor(modelItem => item.InvItem.InvCategory.Description)
                 </td>
                 <td>
@@ -129,19 +136,14 @@
                         @item.InvItemSpec_Steel.WtKgpc.ToString("#,##0.00")
                     }
                 </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.InvItem.Id">Edit</a> |
-                    <a asp-page="./CreateCopy" asp-route-id="@item.InvItem.Id">Copy</a> |
-                    <a asp-page="./Details" asp-route-id="@item.InvItem.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.InvItem.Id">Delete</a>
-                </td>
             </tr>
 
 
            
         }
     </tbody>
-</table>
+    </table>
+</div>
 
 
 <!-- Modal : Classifications -->

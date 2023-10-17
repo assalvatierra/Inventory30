@@ -39,12 +39,28 @@ namespace InvWeb.Pages.Stores.Adjustment.ItemDetails
                 return NotFound();
             }
 
-            ItemDetailsDeleteModel = await _itemDtlsServices.GetTrxDetailsModel_OnDeleteAsync((int)id);
+            //ItemDetailsDeleteModel = await _itemDtlsServices.GetTrxDetailsModel_OnDeleteAsync((int)id);
+
+            
+            var trxDeleteModel = new TrxDetailsItemDeleteModel();
+
+            var trxDetails = await _context.InvTrxDtls.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (trxDetails == null)
+            {
+                    return NotFound();
+            }
+
+            trxDeleteModel.InvTrxDtl = trxDetails;
+            trxDeleteModel.HrdId = trxDeleteModel.InvTrxDtl.InvTrxHdrId;
 
             if (ItemDetailsDeleteModel.InvTrxDtl == null)
             {
                 return NotFound();
             }
+
+            ItemDetailsDeleteModel = trxDeleteModel;
+
             return Page();
         }
 
