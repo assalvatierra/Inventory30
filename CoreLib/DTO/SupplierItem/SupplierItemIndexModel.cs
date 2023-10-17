@@ -11,5 +11,6 @@ namespace CoreLib.DTO.SupplierItem
     {
         public int SupplierId { get; set; }
         public IList<InvSupplierItem>? InvSupplierItem { get; set; }
+        public IList<InvItemSpec_Steel>? InvItemSpec_Steels { get; set; }
     }
 }

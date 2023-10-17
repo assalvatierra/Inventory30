@@ -17,7 +17,7 @@
     <table class="table">
         <thead>
             <tr>
-            @*    <th>
+              @*  <th>
                     @Html.DisplayNameFor(model => model.InvSupplierItem[0].InvItem.Description)
                 </th>
                 <th>
@@ -41,7 +41,7 @@
         <tbody>
 
 
-          @*  @foreach (var item in Model.InvSupplierItem)
+            @foreach (var item in Model.SupplierItemIndex.InvSupplierItem)
             {
                 <tr>
                     <td>
@@ -68,7 +68,41 @@
                         <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
-            }*@
+            }
+
+
+            @foreach (var item in Model.SupplierItemIndex.InvItemSpec_Steels)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvItem.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvItem.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SteelBrand.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SteelSubCat.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SteelMainCat.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SteelMaterial.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SteelOrigin.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SteelSize.Name)
+                    </td>
+                    <td>
+                     
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 

@@ -15,7 +15,7 @@ using CoreLib.DTO.Supplier;
 
 namespace InvWeb.Suppliers.Supplier
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Store")]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;

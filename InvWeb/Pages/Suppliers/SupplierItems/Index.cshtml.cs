@@ -27,6 +27,7 @@ namespace InvWeb.Suppliers.SupplierItems
             supItemServices = new SupItemServices(_context, _logger);
         }
 
+        [BindProperty]
         public SupplierItemIndexModel SupplierItemIndex { get; set; }
         //public IList<InvSupplierItem> InvSupplierItem { get;set; }
 
