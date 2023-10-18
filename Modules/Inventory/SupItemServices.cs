@@ -70,15 +70,31 @@ namespace Inventory
         public async Task<SupplierItemIndexModel> GetSupplierItemIndexModel_OnIndexGet(SupplierItemIndexModel supplierIndex)
         {
 
-            if (_context.InvSupplierItems.Where(s => s.InvSupplierId == supplierIndex.SupplierId).Count() > 0)
+            if (_context.InvSuppliers.Find(supplierIndex.SupplierId) != null)
             {
 
+                var supplier = _context.InvSuppliers.Find(supplierIndex.SupplierId);
+
                 var supItems = await _context.InvSupplierItems.Where(s => s.InvSupplierId == supplierIndex.SupplierId).ToListAsync();
+
+
+                var supItems_steel = await _context.InvItemSpec_Steel
+                    .Include(s=>s.SteelBrand)
+                    .Include(s => s.SteelMaterial)
+                    .Include(s => s.SteelMainCat)
+                    .Include(s => s.SteelMaterialGrade)
+                    .Include(s => s.SteelOrigin)
+                    .Include(s => s.SteelSubCat)
+                    .Include(s => s.SteelSize)
+                    .Include(s => s.InvItem)
+                    .Where(s => s.SteelBrand.Name == supplier.Name).ToListAsync();
+
 
                 return new SupplierItemIndexModel
                 {
                     SupplierId = supplierIndex.SupplierId,
-                    InvSupplierItem = supItems
+                    InvSupplierItem = supItems,
+                    InvItemSpec_Steels = supItems_steel
                 };
 
             } 
@@ -86,7 +102,8 @@ namespace Inventory
             return new SupplierItemIndexModel
             {
                 SupplierId = supplierIndex.SupplierId,
-                InvSupplierItem = new List<InvSupplierItem> { } 
+                InvSupplierItem = new List<InvSupplierItem> { },
+                InvItemSpec_Steels = new List<InvItemSpec_Steel> { }
             };
         }
 

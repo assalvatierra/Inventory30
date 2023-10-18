@@ -8,12 +8,11 @@
 <h1>SteelMainCats</h1>
 
 <p>
-    <a asp-page="../../ItemSpecSteel/Index">Back to Steel Specs</a>
+    <a asp-page="Create" class="btn btn-primary">Create New</a>
 </p>
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
+<div class="table-responsive card rounded-3 card-round-border">
+
+<table class="table custom-table-list rounded-3 overflow-hidden">
     <thead>
         <tr>
             <th>
@@ -26,7 +25,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.SteelMainCat) {
+    @foreach (var item in Model.SteelMainCat) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -40,6 +39,7 @@
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+</div>

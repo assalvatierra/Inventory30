@@ -30,7 +30,9 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             }
 
             InvItem = await _context.InvItems
-                .Include(i => i.InvUom).FirstOrDefaultAsync(m => m.Id == id);
+                .Include(i => i.InvUom)
+                .Include(i => i.InvItemSpec_Steel)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvItem == null)
             {
@@ -48,6 +50,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
             InvItem = await _context.InvItems.FindAsync(id);
 
+            DeleteSteelSpecs(InvItem);
+
             if (InvItem != null)
             {
                 _context.InvItems.Remove(InvItem);
@@ -55,6 +59,19 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             }
 
             return RedirectToPage("./Index");
+        }
+
+        private bool DeleteSteelSpecs(InvItem invItem)
+        {
+            if (invItem.InvItemSpec_Steel != null)
+            {
+                var steelspec = _context.InvItemSpec_Steel.Where(c => c.InvItemId == invItem.Id).FirstOrDefault();
+
+                _context.InvItemSpec_Steel.Remove(steelspec);
+
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -343,6 +343,21 @@ namespace Modules.Inventory
         }
 
 
+        public virtual async Task RemoveTrxApprovals(int invHdrId)
+        {
+            try
+            {
+                var approvalList = await _context.InvTrxApprovals.Where(i => i.InvTrxHdrId == invHdrId).ToListAsync();
+                _context.InvTrxApprovals.RemoveRange(approvalList);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ItemTrxServices: Unable to RemoveTrxDtlsList :" + ex.Message);
+                throw new Exception("ItemTrxServices: Unable to RemoveTrxDtlsList :" + ex.Message);
+            }
+        }
+
+
         public virtual int GetInvTrxStoreId(int hdrId)
         {
             try
@@ -476,6 +491,8 @@ namespace Modules.Inventory
             {
                 //remove transactions detail items
                 await this.RemoveTrxDtlsList(invTrxHdr.Id);
+
+                await this.RemoveTrxApprovals(invTrxHdr.Id);
 
                 //remove header
                 this.DeleteInvTrxHdrs(invTrxHdr);

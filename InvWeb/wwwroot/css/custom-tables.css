@@ -2,8 +2,8 @@
 
 
 .custom-table-list tbody tr td {
-    font-size: 13px;
-    padding: 5px;
+    font-size: 14px;
+    padding: 12px;
     white-space: nowrap;
 }
 
@@ -46,7 +46,9 @@
 }
 
 .card-round-border {
-    border-radius: 15px;
+    border-radius: 12px;
+    table-layout: fixed;
+    width: auto;
 }
 
 .no-padding {

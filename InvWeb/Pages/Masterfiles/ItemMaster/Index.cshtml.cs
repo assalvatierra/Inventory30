@@ -12,7 +12,7 @@ using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.ItemMaster
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Store")]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
