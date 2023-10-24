@@ -17,9 +17,18 @@
         {
             <a asp-page="./Edit" asp-route-id="@Model.HeaderDetailsModel.InvTrxHdr.Id">Edit</a> <span> | </span>
             <a asp-page="./Index" asp-route-storeId="@Model.HeaderDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="PENDING">Back to List</a>
+
+
+            <div style="float:right;">
+                <a asp-page="./Delete" asp-route-id="@Model.HeaderDetailsModel.InvTrxHdr.Id" class="btn btn-danger" style="float:right;">Delete</a>
+            </div>
+
+
             <div class="pull-left">
                 <a asp-page="../Printables/RequestForm" asp-route-id="@Model.HeaderDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.HeaderDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
             </div>
+
+
         }
         else
         {

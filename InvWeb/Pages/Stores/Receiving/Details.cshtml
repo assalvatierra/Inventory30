@@ -113,7 +113,7 @@
                     @Html.DisplayFor(modelItem => item.BatchNo)
                 </td>
                 <td>
-                    @if(item.InvItem.InvItemSpec_Steel != null){
+                    @if(item.InvItem.InvItemSpec_Steel.Count() != 0){
                         <span>
                             (@item.InvItem.InvItemSpec_Steel.First().SteelBrand.Name)
                             

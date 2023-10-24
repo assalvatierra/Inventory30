@@ -165,7 +165,7 @@
                                         @dlts.InvItem.Description
                                         @dlts.InvItem.Remarks
                                         -
-                                        @if (dlts.InvItem.InvItemSpec_Steel != null)
+                                        @if (dlts.InvItem.InvItemSpec_Steel.Count() != 0)
                                         {
                                             <span>
                                             (@dlts.InvItem.InvItemSpec_Steel.First().SteelBrand.Name)
