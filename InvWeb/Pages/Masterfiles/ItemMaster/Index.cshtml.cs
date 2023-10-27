@@ -26,7 +26,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
         public IList<InvItemIndexModel> InvItemIndex { get;set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string groupBy)
         {
             InvItemIndex = new List<InvItemIndexModel>();
             var InvItem = await _context.InvItems
@@ -71,6 +71,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
                 InvItemIndex.Add(invItemClass);
             }
+
+            ViewData["groupBy"] = groupBy;
         }
     }
 
