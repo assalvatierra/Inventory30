@@ -37,7 +37,7 @@ namespace InvWeb.Pages.Stores.Main
         public InvStore InvStore { get; set; }
         public int SelectedFilterCategory { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id, int? categoryId, string sort)
+        public async Task<IActionResult> OnGetAsync(int? id, int? categoryId, string sort, string search)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace InvWeb.Pages.Stores.Main
                 var storeId = (int)id;
 
                 ViewData["StoreId"] = id;
-                ViewData["StoreInv"] = await _storeSvc.GetStoreItemsSummary(storeId, (int)categoryId, sort);
+                ViewData["StoreInv"] = await _storeSvc.GetStoreItemsSummary(storeId, (int)categoryId, sort, search);
                 ViewData["PendingReceiving"] = await _storeSvc.GetReceivingPendingAsync(storeId);
                 ViewData["PendingReleasing"] = await _storeSvc.GetReleasingPendingAsync(storeId);
                 ViewData["PendingAdjustment"] = await _storeSvc.GetAdjustmentPendingAsync(storeId);

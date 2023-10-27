@@ -48,7 +48,7 @@ namespace Modules.Inventory
                 throw new Exception("StoreServices: Unable to GetInvStores.");
             }
         }
-        public virtual async Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId, int _categoryId, string sort)
+        public virtual async Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId, int _categoryId, string sort, string search)
         {
             try
             {
@@ -63,6 +63,11 @@ namespace Modules.Inventory
                 List<InvTrxDtl> Adjustment;
 
                 var invItems = await GetItemsAsync();
+
+                if (!String.IsNullOrEmpty(search))
+                {
+                    invItems = await GetItemsAsync(search);
+                }
 
                 //Todo: add filter to add only trx with approved status (statusId = 1) 
                 if (_categoryId > 0)
@@ -83,6 +88,9 @@ namespace Modules.Inventory
                 foreach (var item in invItems)
                 {
                     var itemDetails = invItems.Where(i => i.Id == item.Id).FirstOrDefault();
+
+
+
                     decimal itemReceived = ConvertItemsListUoms(Received.Where(h => h.InvItemId == item.Id).ToList());
                     decimal itemReleased = ConvertItemsListUoms(Released.Where(h => h.InvItemId == item.Id).ToList());
 
@@ -163,7 +171,7 @@ namespace Modules.Inventory
 
             StoreInvCount storeInv = new StoreInvCount();
             storeInv.Id = id;
-            storeInv.Description = "(" + itemDetails.Code + ") " + itemDetails.Description + " " + itemDetails.Remarks;
+            storeInv.Description = "(" + itemDetails.Code + ") " + itemDetails.Description;
             storeInv.Available = (itemReceived - itemReleased) + (itemAdjustment);
             storeInv.OnHand = (accepted - released) + (itemAdjustment);
             storeInv.ReceivePending = pending;
@@ -238,7 +246,7 @@ namespace Modules.Inventory
         {
             try
             {
-                var storeItems = this.GetStoreItemsSummary(storeId, 0, "");
+                var storeItems = this.GetStoreItemsSummary(storeId, 0, "", null);
                 var availbaleStoreItemsIds = storeItems.Result.Where(i => i.Available > 0).Select(i => i.Id).ToList();
 
                 return availbaleStoreItemsIds;
@@ -455,6 +463,21 @@ namespace Modules.Inventory
         }
 
 
+        public virtual async Task<List<InvItem>> GetItemsAsync(string search)
+        {
+            return await _context.InvItems
+                .Include(i => i.InvWarningLevels)
+                    .ThenInclude(i => i.InvWarningType)
+                .Include(i => i.InvUom)
+                .Include(i => i.InvItemCustomSpecs)
+                    .ThenInclude(i => i.InvCustomSpec)
+                .Where(i => i.Description.Contains(search) || search.Contains(i.Code) || search.Contains(i.InvCategory.Description))
+                
+                .ToListAsync();
+        }
+
+
+
         public virtual async Task<InvCategory> GetCategoryById(int categoryId)
         {
             return await _context.InvCategories.FindAsync(categoryId);
@@ -549,8 +572,7 @@ namespace Modules.Inventory
                 foreach (var spec in itemSpecResult)
                 {
                     _itemSpec += spec.InvCustomSpec.SpecName + " : "
-                        + spec.SpecValue + " " + spec.InvCustomSpec.Measurement + " "
-                        + spec.Remarks + ", ";
+                        + spec.SpecValue + " " + spec.InvCustomSpec.Measurement + " ";
                 }
             }
 
