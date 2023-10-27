@@ -12,7 +12,7 @@ namespace CoreLib.Inventory.Interfaces
     {
 
         public IQueryable<InvStore> GetInvStores();
-        public Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId, int categoryId, string sort);
+        public Task<IEnumerable<StoreInvCount>> GetStoreItemsSummary(int storeId, int categoryId, string sort, string search);
         public Task<List<InvTrxDtl>> GetReceivedItemsAsync(int storeId);
         public Task<List<InvTrxDtl>> GetReleasedItemsAsync(int storeId);
         public Task<List<InvTrxDtl>> GetAdjustmentItemsAsync(int storeId);
