@@ -10,9 +10,16 @@
 <p>
     <a asp-page="Create" class="btn btn-primary">Create New</a>
 </p>
+
+<div class="btn-group">
+    <button id="Group-Code" type="button" class="btn btn-secondary" onclick="UpdateGroupFilter('Code')"> Group by Code </button>
+    <button id="Group-SubCategory" type="button" class="btn btn-secondary" onclick="UpdateGroupFilter('SubCategory')"> Group by SubCategory </button>
+    <button id="Group-SubCategory" type="button" class="btn btn-secondary" onclick="ClearGroupFilter('')"> Clear </button>
+</div>
+
 <div class="table-responsive card rounded-3 card-round-border" style="width:fit-content;">
 
-<table class="table custom-table-list rounded-3 overflow-hidden">
+<table class="table custom-table-list rounded-3 overflow-hidden sortable-theme-bootstrap" data-sortable>
     <thead>
         <tr>
             <th> </th>
@@ -58,89 +65,44 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.InvItemIndex)
-        {
-            <tr>
-                <td style="white-space:nowrap">
-                    <a asp-page="./Edit" asp-route-id="@item.InvItem.Id">Edit</a> |
-                    <a asp-page="./CreateCopy" asp-route-id="@item.InvItem.Id">Copy</a> |
-                    <a asp-page="./Details" asp-route-id="@item.InvItem.Id">Details</a> 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Code)
-                </td>
-                <td style="white-space:nowrap">
-                    @Html.DisplayFor(modelItem => item.InvItem.Description)
-
-                    @if(String.IsNullOrEmpty(item.InvItem.Remarks)){
-                        <span> @item.InvItem.Remarks </span>
-                    }
-                </td>
-                <td style="white-space:nowrap">
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelSize.Name
-                    }
-                </td>
-                <td style="white-space:nowrap">
-                    @Html.DisplayFor(modelItem => item.InvItem.InvCategory.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelMainCat.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelSubCat.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelBrand.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelOrigin.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelMaterial.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.SteelMaterialGrade.Name
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.WtKgm.ToString("#,##0.00")
-                    }
-                </td>
-                <td>
-                    @if (item.InvItemSpec_Steel != null)
-                    {
-                        @item.InvItemSpec_Steel.WtKgpc.ToString("#,##0.00")
-                    }
-                </td>
-            </tr>
+       
 
 
-           
-        }
+            @if (!String.IsNullOrEmpty(ViewBag.groupBy))
+            {
+                IEnumerable<IGrouping<string,InvItemIndexModel>> itemGroupResult;
+                switch (ViewBag.groupBy)
+                {
+                    case "Code":
+                        itemGroupResult = Model.InvItemIndex.GroupBy(c => c.InvItem.Code);
+                        break;
+                    case "SubCategory":
+                        itemGroupResult = Model.InvItemIndex.GroupBy(c => c.InvItem.InvItemSpec_Steel.FirstOrDefault() == null ? "No Specifications" :  c.InvItem.InvItemSpec_Steel.FirstOrDefault().SteelSubCat.Name );
+                        break;
+                    default:
+                        itemGroupResult = Model.InvItemIndex.GroupBy(c => c.InvItem.InvItemSpec_Steel.FirstOrDefault() == null ? "No Specifications" : c.InvItem.InvItemSpec_Steel.FirstOrDefault().SteelMainCat.Name);
+                        break ;
+                }
+
+                @foreach (var itemGroup in itemGroupResult)
+                {
+
+                    <tr>
+                        <td colspan="14" style="background-color:lightgray;font-weight:bold;">
+                            @itemGroup.Key
+                        </td>
+                    </tr>
+
+
+                    @Html.Partial("_PartialitemsGroup", itemGroup)
+                }
+            }
+            else
+            {
+                <!-- Default Table -->
+                @Html.Partial("_Partialitems", Model.InvItemIndex)
+            }
+
     </tbody>
     </table>
 </div>
@@ -165,3 +127,22 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        function UpdateGroupFilter(key) {
+            window.location = '?groupby=' + key;
+
+        }
+
+        function ClearGroupFilter(){
+            window.location = '?';
+        }
+    </script>
+}

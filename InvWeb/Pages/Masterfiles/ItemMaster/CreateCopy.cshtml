@@ -5,7 +5,7 @@
     ViewData["Title"] = "Create Copy";
 }
 
-<h1>Edit</h1>
+<h1>Create Copy</h1>
 
 <form method="post">
     <div class="row">
@@ -14,18 +14,95 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            <div class="form-group" >
+                <label asp-for="InvItem.Description" class="control-label" required></label>
+                <input asp-for="InvItem.Description" id="InvItemDesc" class="form-control" maxlength="120" readonly="readonly" />
+                <span asp-validation-for="InvItem.Description" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
-                <label class="control-label"> Main Category </label>
-                <select asp-for="InvItemSpec_Steel.SteelMainCatId" id="SteelMainCatId" class="form-contro search-dropdown-initialize select2l" asp-items="ViewBag.SteelMainCats"></select>
+                <label class="control-label" dis> Main Category </label>
+                <div hidden>
+                    <select asp-for="InvItemSpec_Steel.SteelMainCatId" id="SteelMainCatId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelMainCats"></select>
+                </div>
+                <select value="InvItemSpec_Steel.SteelMainCatId" class="form-control search-dropdown-initialize select2l" asp-items="ViewBag.SteelMainCats" disabled></select>
+
             </div>
             <div class="form-group">
                 <label class="control-label"> Sub Category </label>
+                <div hidden>
                 <select asp-for="InvItemSpec_Steel.SteelSubCatId" id="SteelSubCatId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelSubCats"></select>
+                </div>
+                <select value="InvItemSpec_Steel.SteelSubCatId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelSubCats" disabled></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> Steel Size </label>
-                <select asp-for="InvItemSpec_Steel.SteelSizeId" id="SteelSizeId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelSizes"></select>
+                <div hidden>
+                <select asp-for="InvItemSpec_Steel.SteelSizeId" id="SteelSizeId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelSizes " hidden></select>
+                </div>
+                <select value="InvItemSpec_Steel.SteelSizeId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelSizes " disabled></select>
             </div>
+            <div class="form-group">
+                <label class="control-label"> Steel Material </label>
+                <div hidden>
+                <select asp-for="InvItemSpec_Steel.SteelMaterialId" id="SteelMaterialId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelMaterials"></select>
+                </div>
+
+                <select value="InvItemSpec_Steel.SteelMaterialId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelMaterials" disabled></select>
+
+
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Steel Material Grade </label>
+                <div hidden>
+                <select asp-for="InvItemSpec_Steel.SteelMaterialGradeId" id="SteelMaterialGradeId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelMaterialGrades"></select>
+                </div>
+                
+                <select value="InvItemSpec_Steel.SteelMaterialGradeId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelMaterialGrades" disabled></select>
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="InvItem.InvCategoryId" class="control-label"> Category </label>
+                <div hidden>
+                <select asp-for="InvItem.InvCategoryId" id="InvCategoryId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.InvCategoryId"
+                        onchange="CheckCategory_DefinedSpecCount()" hidden></select>
+                </div>
+
+                <select value="InvItem.InvCategoryId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.InvCategoryId" disabled></select>
+                <span asp-validation-for="InvItem.InvCategoryId" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group" hidden>
+                <label class="control-label"> Weight Kgm  </label>
+                <input asp-for="InvItemSpec_Steel.WtKgm" id="WtKgm" class="form-control" maxlength="10" />
+            </div>
+            <div class="form-group" hidden>
+                <label class="control-label"> Weight Kgpc </label>
+                <input asp-for="InvItemSpec_Steel.WtKgpc" id="WtKgpc" class="form-control" maxlength="10" />
+            </div>
+
+            <div class="form-group" hidden>
+                <label asp-for="InvItem.InvUomId" class="control-label"> UOM </label>
+                <select asp-for="InvItem.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+                <span asp-validation-for="InvItem.InvUomId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" hidden>
+                <label asp-for="InvItem.Code" class="control-label" required></label>
+                <input asp-for="InvItem.Code" id="InvItemCode" class="form-control" maxlength="40" />
+                <span asp-validation-for="InvItem.Code" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" hidden>
+                <label asp-for="InvItem.Remarks" class="control-label"></label>
+                <input asp-for="InvItem.Remarks" class="form-control" maxlength="120" />
+                <span asp-validation-for="InvItem.Remarks" class="text-danger"></span>
+            </div>
+
+            <hr />
+            <h2> Copy To </h2>
             <div class="form-group">
                 <label class="control-label"> Steel Brand </label>
                 <select asp-for="InvItemSpec_Steel.SteelBrandId" id="SteelBrandId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelBrands"></select>
@@ -34,55 +111,9 @@
                 <label class="control-label"> Steel Origin </label>
                 <select asp-for="InvItemSpec_Steel.SteelOriginId" id="SteelOriginId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelOrigins"></select>
             </div>
-            <div class="form-group">
-                <label class="control-label"> Steel Material </label>
-                <select asp-for="InvItemSpec_Steel.SteelMaterialId" id="SteelMaterialId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelMaterials"></select>
-            </div>
-            <div class="form-group">
-                <label class="control-label"> Steel Material Grade </label>
-                <select asp-for="InvItemSpec_Steel.SteelMaterialGradeId" id="SteelMaterialGradeId" class="form-control search-dropdown-initialize select2" asp-items="ViewBag.SteelMaterialGrades"></select>
-            </div>
-            <div class="form-group">
-                <label class="control-label"> Weight Kgm  </label>
-                <input asp-for="InvItemSpec_Steel.WtKgm" id="WtKgm" class="form-control" maxlength="10" />
-            </div>
-            <div class="form-group">
-                <label class="control-label"> Weight Kgpc </label>
-                <input asp-for="InvItemSpec_Steel.WtKgpc" id="WtKgpc" class="form-control" maxlength="10" />
-            </div>
-            <div class="form-group">
-                <label asp-for="InvItem.Description" class="control-label" required></label>
-                <input asp-for="InvItem.Description" class="form-control" maxlength="120" />
-                <span asp-validation-for="InvItem.Description" class="text-danger"></span>
-            </div>
 
             <div class="form-group">
-                <label asp-for="InvItem.InvUomId" class="control-label"> UOM </label>
-                <select asp-for="InvItem.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
-                <span asp-validation-for="InvItem.InvUomId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="InvItem.Code" class="control-label" required></label>
-                <input asp-for="InvItem.Code" class="form-control" maxlength="40" />
-                <span asp-validation-for="InvItem.Code" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="InvItem.InvCategoryId" class="control-label"> Category </label>
-                <select asp-for="InvItem.InvCategoryId" id="InvCategoryId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.InvCategoryId"
-                        onchange="CheckCategory_DefinedSpecCount()"></select>
-                <span asp-validation-for="InvItem.InvCategoryId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="InvItem.Remarks" class="control-label"></label>
-                <input asp-for="InvItem.Remarks" class="form-control" maxlength="120" />
-                <span asp-validation-for="InvItem.Remarks" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" id="OnSubmit()"/>
             </div>
         </div>
 
@@ -96,4 +127,45 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
+    <script>
+        function GenerateDescription() {
+
+            var itemDesc = $("#SteelMainCatId").find('option:selected').text() + " " + $("#SteelSubCatId").find('option:selected').text() + " " + $("#SteelSizeId").find('option:selected').text() + " " + $("#SteelBrandId").find('option:selected').text();
+
+            $("#InvItemDesc").val(itemDesc);
+        }
+
+        function GenerateItemCode() {
+
+            var itemDesc = $("#SteelMainCatId").find('option:selected').val() + "" + $("#SteelSubCatId").find('option:selected').val() + "" + $("#SteelSizeId").find('option:selected').val() + "" + $("#SteelBrandId").find('option:selected').val();
+
+            $("#InvItemCode").val(itemDesc);
+        }
+
+
+        $('#SteelMainCatId').on('change', function () {
+            GenerateDescription();
+            GenerateItemCode();
+        }).change();
+
+        $('#SteelSubCatId').on('change', function () {
+            GenerateDescription();
+            GenerateItemCode();
+        }).change();
+
+        $('#SteelSizeId').on('change', function () {
+            GenerateDescription();
+            GenerateItemCode();
+        }).change();
+
+        $('#SteelBrandId').on('change', function () {
+            GenerateDescription();
+            GenerateItemCode();
+        }).change();
+
+        function OnSubmit() {
+            //$('select').removeAttr('disabled');
+            $("select").prop("disabled", false);
+        }
+    </script>
 }

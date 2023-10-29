@@ -1,0 +1,91 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IList<InvItemIndexModel>
+
+
+<!-- Default Table -->
+@foreach (var item in Model)
+{
+    <tr>
+        <td style="white-space:nowrap">
+            <a asp-page="./Edit" asp-route-id="@item.InvItem.Id">Edit</a> |
+            <a asp-page="./CreateCopy" asp-route-id="@item.InvItem.Id">Copy</a> |
+            <a asp-page="./Details" asp-route-id="@item.InvItem.Id">Details</a>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvItem.Code)
+        </td>
+        <td style="white-space:nowrap">
+            @Html.DisplayFor(modelItem => item.InvItem.Description)
+
+        </td>
+        <td style="white-space:nowrap">
+            @if (item.InvItemSpec_Steel != null)
+            {
+                @item.InvItemSpec_Steel.SteelSize.Name
+            }
+        </td>
+        <td style="white-space:nowrap">
+            @Html.DisplayFor(modelItem => item.InvItem.InvCategory.Description)
+
+            @if (String.IsNullOrEmpty(item.InvItem.Remarks))
+            {
+                <br /> <span> @item.InvItem.Remarks </span>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvItem.InvUom.uom)
+        </td>
+        <td>
+            @if (item.InvItemSpec_Steel != null)
+            {
+                @item.InvItemSpec_Steel.SteelMainCat.Name
+            }
+        </td>
+        <td>
+            @if (item.InvItemSpec_Steel != null)
+            {
+                @item.InvItemSpec_Steel.SteelSubCat.Name
+            }
+        </td>
+        <td>
+            @if (item.InvItemSpec_Steel != null)
+            {
+                @item.InvItemSpec_Steel.SteelBrand.Name
+            }
+        </td>
+        <td>
+            @if (item.InvItemSpec_Steel != null)
+            {
+                @item.InvItemSpec_Steel.SteelOrigin.Name
+            }
+        </td>
+        <td>
+            @if (item.InvItemSpec_Steel != null)
+            {
+                @item.InvItemSpec_Steel.SteelMaterial.Name
+            }
+        </td>
+        <td>
+            @if (item.InvItemSpec_Steel != null)
+            {
+                @item.InvItemSpec_Steel.SteelMaterialGrade.Name
+            }
+        </td>
+        <td>
+            @if (item.InvItemSpec_Steel != null)
+            {
+                @item.InvItemSpec_Steel.WtKgm.ToString("#,##0.00")
+            }
+        </td>
+        <td>
+            @if (item.InvItemSpec_Steel != null)
+            {
+                @item.InvItemSpec_Steel.WtKgpc.ToString("#,##0.00")
+            }
+        </td>
+    </tr>
+}

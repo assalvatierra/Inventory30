@@ -155,6 +155,19 @@
                                         ( @dlts.InvItem.Code )
                                         @dlts.InvItem.Description
                                         @dlts.InvItem.Remarks
+                                         -
+                                        @if (dlts.InvItem.InvItemSpec_Steel.Count() != 0)
+                                        {
+                                            <span>
+                                            (@dlts.InvItem.InvItemSpec_Steel.First().SteelBrand.Name)
+
+                                            @dlts.InvItem.InvItemSpec_Steel.First().SteelMaterial.Name
+
+                                            @dlts.InvItem.InvItemSpec_Steel.First().SteelMaterialGrade.Name -
+
+                                            @dlts.InvItem.InvItemSpec_Steel.First().SteelOrigin.Name
+                                            </span>
+                                        }
                                     </td>
                                     <td style="width:5rem;">
                                          @dlts.BatchNo

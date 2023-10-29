@@ -186,12 +186,15 @@
                 $("#inputSelect-Sort").val('@sort');
             }
 
+
+
         }
 
         function UpdateFilter(){
             var categoryVal = $('#inputSelect-Category :selected').val();
             var sortVal = $('#inputSelect-Sort :selected').val();
-            window.location = '?categoryId=' + categoryVal + '&sort=' + sortVal;
+            var searchVal = $('#inputSelect-Search').val();
+            window.location = '?categoryId=' + categoryVal + '&sort=' + sortVal + '&search=' + searchVal;
 
         }
     </script>
