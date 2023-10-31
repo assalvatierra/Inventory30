@@ -13,6 +13,9 @@
             <h4>InvItem</h4>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div >
+                <p style="color:red;">@Html.ValidationMessage("ErrorDuplicateItem")</p>
+            </div>
 
             <div class="form-group">
                 <label class="control-label"> Main Category </label>

@@ -83,6 +83,30 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 return Page();
             }
 
+
+            if (CheckIfItemExists(InvItemSpec_Steel))
+            {
+                ModelState.AddModelError("ErrorDuplicateItem", "Brand/Origin already exist in the system");
+
+                InvItem = InvItem;
+                InvItemSpec_Steel = InvItemSpec_Steel;
+
+
+                ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description", InvItem.InvCategoryId);
+                ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom", InvItem.InvUomId);
+
+                //Steel Specifications
+                ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelMainCatId);
+                ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelSubCatId);
+                ViewData["SteelBrands"] = new SelectList(_context.SteelBrands.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelBrandId);
+                ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelOriginId);
+                ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelMaterialId);
+                ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelMaterialGradeId);
+                ViewData["SteelSizes"] = new SelectList(_context.SteelSizes.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelSizeId);
+
+                return Page();
+            }
+
             _context.InvItems.Add(InvItem);
 
             await _context.SaveChangesAsync();
@@ -100,6 +124,29 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
             await _context.SaveChangesAsync();
         }
+
+
+        private bool CheckIfItemExists(InvItemSpec_Steel itemSpec)
+        {
+
+            var resultExists = _context.InvItemSpec_Steel.Where(i =>
+                i.SteelBrandId == itemSpec.SteelBrandId
+                && i.SteelOriginId == itemSpec.SteelOriginId
+                && i.SteelMaterialId == itemSpec.SteelMaterialId
+                && i.SteelMaterialGradeId == itemSpec.SteelMaterialGradeId
+                && i.SteelSizeId == itemSpec.SteelSizeId
+                && i.SteelMainCatId == itemSpec.SteelMainCatId
+                && i.SteelSubCatId == itemSpec.SteelSubCatId).Any();
+
+            if (resultExists)
+            {
+                return true;
+            }
+
+            return false;
+
+        }
+
 
     }
 
