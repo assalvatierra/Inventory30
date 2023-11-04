@@ -2,9 +2,17 @@
 ###############################################
 	TODO ITEMS for Version 1.0
 ###############################################
-  - Masterfile form
-  - Browse/lookup dialog box
-  - DevExpress Reporting Tool or similar
+  - Masterfile form: simple list, treeview mode
+  - Browse/lookup dialog box: simple list, treeview mode
+
+  - Standard System Reports
+
+
+###############################################
+	Client Specific (V-pro)
+###############################################
+  - HeatNo dropdown in transaction details - make a better way instead of dropdown
+
 
 ###############################################
 	GENERAL PRACTICES
@@ -26,7 +34,14 @@
 
 - separate scripts needed per client
 
-*** CODING ***
+
+
+###############################################
+	CODING PRACTICES
+###############################################
+- create reusable lookup
+- create reusable masterlist
+
 - Error Messaging/logging for easy debugging
   -- need to create reusable error logging component
 
