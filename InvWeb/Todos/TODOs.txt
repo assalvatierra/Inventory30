@@ -1,36 +1,10 @@
-﻿###############################
-
-  V10.0 - TODOs
-
+﻿
 ###############################################
-	TODO ITEMS
+	TODO ITEMS for Version 1.0
 ###############################################
-
-CURRENT
-- Show Category Code - Description in dropdowns
-   format: (CategoryCode)ItemCode-(CategoryDescription) Item Description
-   sort: Catgory Code
-
-- Add category in Store Items ( Store Main Page)
-  include formating similar to dropdown
-  include sorting similar too dropdown
-  
-- DevExpress Reporting Tool or similar
-
-- Add Search in Transaction Details Add Item in Item Dropdown field
-  use js search library 
-
-- Add Sorting in Store Main Page List of items
-
-UPCOMING
-- Item Details Quantity - to accept decimals - convert to float/decimal type
-
-- proper labelling of category maintainance page
-
-DONE
-
-- Transaction request printout (DONE)
-
+  - Masterfile form
+  - Browse/lookup dialog box
+  - DevExpress Reporting Tool or similar
 
 ###############################################
 	GENERAL PRACTICES
