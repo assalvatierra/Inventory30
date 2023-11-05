@@ -10,7 +10,6 @@
 
   -warehouse bin locations
 
-
 ###############################################
 	Client Specific (V-pro)
 ###############################################
@@ -52,3 +51,26 @@
 *** ARCHITECTURE ***
 COMPONENT DEVELOPMENT - for assessment
 API DEVELOPMENT - for assessment
+
+
+###############################################
+	ERP 
+###############################################
+
+*** MODULES***
+- Customer Information Management
+- Human Capital Management
+- Supply Chain Management
+- Projects/Jobs Management
+- Financial Management
+- Inventory Management
+- Business Intelligence 
+
+*** FEATURES ***
+- Maximum Security, A Single Sign-on Authentication
+- Workflow
+- Customization
+- Integration
+- Scalability
+
+
