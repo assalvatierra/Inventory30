@@ -6,6 +6,9 @@
   - Browse/lookup dialog box: simple list, treeview mode
 
   - Standard System Reports
+  - main page - tasks focus
+
+  -warehouse bin locations
 
 
 ###############################################
