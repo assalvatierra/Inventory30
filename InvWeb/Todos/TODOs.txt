@@ -4,6 +4,7 @@
 ###############################################
   - Masterfile form: simple list, treeview mode
   - Browse/lookup dialog box: simple list, treeview mode
+  - Raw sql
 
   - Standard System Reports
   - main page - tasks focus
@@ -66,9 +67,12 @@ API DEVELOPMENT - for assessment
 - Inventory Management
 - Business Intelligence 
 
-*** FEATURES ***
+*** COMMON/SHARED COMPONENTS
 - Maximum Security, A Single Sign-on Authentication
+- Menu System
 - Workflow
+
+*** FEATURES ***
 - Customization
 - Integration
 - Scalability
