@@ -21,9 +21,15 @@ namespace InvWeb.Pages.xTestPages.Edit01
 
         public IList<InvCategory> InvCategory { get;set; }
 
-        public async Task OnGetAsync()
+        //public async Task OnGetAsync()
+        //{
+        //    InvCategory = await _context.InvCategories.ToListAsync();
+        //}
+
+        public void OnGet()
         {
-            InvCategory = await _context.InvCategories.ToListAsync();
+            InvCategory = _context.InvCategories.FromSqlRaw<InvCategory>("select * from dbo.InvCategories;").ToList();
+
         }
     }
 }
