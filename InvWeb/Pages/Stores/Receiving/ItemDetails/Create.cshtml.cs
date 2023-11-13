@@ -14,6 +14,8 @@ using CoreLib.Inventory.Interfaces;
 using CoreLib.DTO.Receiving;
 using Microsoft.Extensions.Logging;
 using CoreLib.DTO.Releasing;
+using InvWeb.Pages.Shared.Components.Dialog;
+using CoreLib.DTO.Common.Dialog;
 
 namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 {
@@ -22,12 +24,14 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
         private readonly ApplicationDbContext _context;
         private readonly ILogger<CreateModel> _logger;
         private readonly IItemDtlsServices _itemDtlsServices;
+        private readonly IItemServices _itemServices;
 
         public CreateModel(ApplicationDbContext context, ILogger<CreateModel> logger)
         {
             _context = context;
             _logger = logger;
             _itemDtlsServices = new ItemDtlsServices(_context, _logger);
+            _itemServices = new ItemServices(context);
         }
 
         [BindProperty]
@@ -51,6 +55,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             ItemDtlsCreateModel = _itemDtlsServices.GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl, (int)hdrId, (int)itemId);
 
             ViewData["SelectedItemId"] = itemId;
+            ViewData["DialogItems"] = ConvertItemsToDialogItems(_itemServices.GetInvItemsSelectList().ToList());
 
             return Page();
         }
@@ -79,5 +84,20 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             return RedirectToPage("../SearchItem", new { id = ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId });
         }
 
+        public IEnumerable<DialogItems> ConvertItemsToDialogItems(List<InvItem> invItems)
+        {
+            List<DialogItems> dialogItems = new List<DialogItems>();
+
+            foreach (InvItem item in invItems)
+            {
+                dialogItems.Add(new DialogItems { 
+                    Id = item.Id,
+                    Name = item.Description,
+                    Description = item.Remarks
+                });
+            }
+
+            return dialogItems;
+        }
     }
 }

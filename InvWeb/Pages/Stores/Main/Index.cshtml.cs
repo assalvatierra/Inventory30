@@ -78,6 +78,7 @@ namespace InvWeb.Pages.Stores.Main
                 ViewData["Categories"] = await _storeSvc.GetCategoriesList();
                 ViewData["Category"] = categoryId;
                 ViewData["Sort"] = sort;
+                ViewData["SearchStr"] = search;
 
                 _logger.LogInformation("Showing Store Main Page - StoreID : " + id);
 

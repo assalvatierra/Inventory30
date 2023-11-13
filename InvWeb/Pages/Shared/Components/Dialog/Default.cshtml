@@ -1,0 +1,93 @@
+﻿
+@model IEnumerable<CoreLib.DTO.Common.Dialog.DialogItems>
+@{
+
+}
+
+
+<h2> Dialog </h2>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Search
+    <img src="/img/icons/icons-search.png" width="20" />
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:150%;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Search Item </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" >
+                <div>
+                    <input type="text" class="form-control" id="SearchBar" />
+                </div>
+
+                <table class="table" id="SearchList">
+                   
+                   <tr>
+                        <th> ID </th>
+                        <th> Name </th>
+                        <th> Description </th>
+                   </tr>
+               
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                                <button class="btn btn-primary" onclick="SelectItemFromDialog('@ViewBag.Selector', @item.Id)">
+                                    Select @item.Id
+                                </button>
+                        </td>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                    </tr>
+                }
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+       
+
+
+        function SearchCompany() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("SearchBar");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("SearchList");
+            tr = ul.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                a = tr[i].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+
+        //$('#SearchBar').keyup(function () {
+        //    Console.log(this.val());
+        //}
+    </script>
+
+}

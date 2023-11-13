@@ -50,6 +50,9 @@
     </div>
 </div>
 
+@await Component.InvokeAsync("Dialog",
+                     new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
+
 <div>
     <a asp-page="../Details" asp-route-id="@Model.ItemDtlsCreateModel.HrdId">Back to List</a>
 </div>
@@ -94,6 +97,11 @@
             $("#SearchItem-link").attr("href", "/Stores/Receiving/ItemDetails/SearchItem/" + hrId +"?itemId="+ itemId +"&actionType=Create")
         }
 
-      
+        function SelectItemFromDialog(selector, id) {
+            //update selected in dropdown
+            $("#" + selector).val(id).change();
+
+        }
+
     </script>
 }
