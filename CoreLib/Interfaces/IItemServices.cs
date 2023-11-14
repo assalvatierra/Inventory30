@@ -12,5 +12,6 @@ namespace CoreLib.Inventory.Interfaces
         public IOrderedQueryable<InvItem> GetInStockedInvItemsSelectList(List<int> storeItems);
         public IOrderedQueryable<InvItem> GetInStockedInvItemsSelectList(int selected, List<int> storeItems);
         public IQueryable<InvUom> GetConvertableUomSelectList();
+        public IList<InvItem> GetInvItemsWithSteelSpecs();
     }
 }

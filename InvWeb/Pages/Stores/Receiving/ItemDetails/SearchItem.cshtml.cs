@@ -75,7 +75,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                         .Where(i => i.Id == itemId).FirstOrDefault();
                 }
 
-                if (selectedItem.InvItemSpec_Steel != null)
+                if (selectedItem.InvItemSpec_Steel.Count > 0)
                 {
                     var itemSpecs = selectedItem.InvItemSpec_Steel.First();
 

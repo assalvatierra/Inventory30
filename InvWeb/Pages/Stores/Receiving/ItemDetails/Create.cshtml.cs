@@ -55,7 +55,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             ItemDtlsCreateModel = _itemDtlsServices.GeReceivingItemDtlsCreateModel_OnCreateOnGet(InvTrxDtl, (int)hdrId, (int)itemId);
 
             ViewData["SelectedItemId"] = itemId;
-            ViewData["DialogItems"] = ConvertItemsToDialogItems(_itemServices.GetInvItemsSelectList().ToList());
+            ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
 
             return Page();
         }
@@ -90,10 +90,18 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 
             foreach (InvItem item in invItems)
             {
+                var itemspecs = "";
+                if (item.InvItemSpec_Steel.Count > 0)
+                {
+                    var spec = item.InvItemSpec_Steel.First();
+
+                    itemspecs = spec.SteelMainCat.Name +" " + spec.SteelMaterial.Name + " - " + spec.SteelBrand.Name + " " + spec.SteelOrigin.Name;
+                }
+
                 dialogItems.Add(new DialogItems { 
                     Id = item.Id,
-                    Name = item.Description,
-                    Description = item.Remarks
+                    Name = item.InvCategory.Description + " " +item.Description,
+                    Description = itemspecs + " - " +  item.Remarks
                 });
             }
 

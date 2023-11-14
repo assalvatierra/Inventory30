@@ -170,5 +170,26 @@ namespace Modules.Inventory
                 throw new Exception("ItemServices: Unable to Get Uom list");
             }
         }
+
+        public virtual IList<InvItem> GetInvItemsWithSteelSpecs()
+        {
+            return _context.InvItems.OrderBy(i => i.InvCategoryId)
+                 .Include(i => i.InvCategory)
+                 .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i=>i.SteelMainCat)
+                 .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelBrand)
+                 .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelOrigin)
+                 .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelSubCat)
+                 .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelMaterialGrade)
+                 .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelMaterial)
+                 .Include(i => i.InvItemSpec_Steel)
+                    .ThenInclude(i => i.SteelSize)
+                 .ToList();
+        }
     }
 }

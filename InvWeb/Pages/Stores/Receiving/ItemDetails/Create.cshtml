@@ -23,11 +23,11 @@
             </div>
             <div class="form-group">
                 <label class="control-label"> Item </label>
-                <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize  select2" asp-items="Model.ItemDtlsCreateModel.InvItems" id='itemDropdown'></select>
+                <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvItemId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvItems" id='itemDropdown'></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> HeatNo </label>
-                <input asp-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" class="form-control" maxlength="20" />
+                <input asp-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" class="form-control" maxlength="20" id="heatno" />
                 <span asp-validation-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -97,9 +97,60 @@
             $("#SearchItem-link").attr("href", "/Stores/Receiving/ItemDetails/SearchItem/" + hrId +"?itemId="+ itemId +"&actionType=Create")
         }
 
+        // --- Dialog Js --- //
+
+
+        $("#itemDropdown").focus(function () {
+            $("#itemDropdown > option").css("display", "none");
+
+            ShowItemModal();
+        });
+
+        function ShowItemModal() {
+            $("#itemSearchModal").modal("show");
+
+        }
+
+
+        function HideItemModal() {
+            $("#itemSearchModal").modal("hide");
+
+        }
+        
         function SelectItemFromDialog(selector, id) {
             //update selected in dropdown
             $("#" + selector).val(id).change();
+            HideItemModal();
+
+        }
+
+
+        function SearchCompany() {
+            var input, filter, ul, li, a, i;
+            input = $("#SearchBar").val();
+            filter = input;
+            ul = document.getElementById("SearchList");
+            tr = ul.getElementsByTagName("tr");
+
+
+            console.log(" JQUERY ");
+
+            $("#SearchList tr").each(function () {
+                var itemText = $(this).find("td").eq(1).text();
+
+                //console.log(itemText);
+                console.log(itemText + " contains in " + filter + " : " + itemText.toLowerCase().indexOf(filter));
+                if (itemText != undefined) {
+                    if (itemText.toLowerCase().indexOf(filter) >= 0) {
+                        console.log(itemText + " contains in " + filter);
+                        $(this).show();
+                    }else{
+                        $(this).hide();
+                    }
+
+                }
+               
+            });
 
         }
 
