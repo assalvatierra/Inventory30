@@ -44,9 +44,11 @@ function SearchCompany() {
 
     $("#SearchList tr").each(function () {
         var itemText = $(this).find("td").eq(1).text();
+        var itemDesc = $(this).find("td").eq(2).text();
 
-        if (itemText != undefined) {
-            if (itemText.toLowerCase().indexOf(filter) >= 0) {
+        if (itemText != undefined && itemDesc != undefined) {
+            if (itemText.toLowerCase().indexOf(filter) >= 0 || 
+                itemDesc.toLowerCase().indexOf(filter) >= 0) {
                
                 $(this).show();
             } else {

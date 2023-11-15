@@ -112,6 +112,10 @@ body {
     padding-left: 10px;
 }
 
+.dialog-search-form{
+    width:150%;
+}
+
 @media (min-width: 480px) {
     .mobile-only {
         display: none;
@@ -121,4 +125,11 @@ body {
         display: block;
     }
 
+}
+
+
+@media (max-width: 480px) {
+    .dialog-search-form {
+        width: 100%;
+    }
 }

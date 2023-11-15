@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using CoreLib.DTO.Releasing;
 using InvWeb.Pages.Shared.Components.Dialog;
 using CoreLib.DTO.Common.Dialog;
+using System.Text;
 
 namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 {
@@ -98,10 +99,17 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                     itemspecs = spec.SteelMainCat.Name +" " + spec.SteelMaterial.Name + " - " + spec.SteelBrand.Name + " " + spec.SteelOrigin.Name;
                 }
 
+                string remarkString = "";
+                if (item.Remarks != "")
+                {
+                    remarkString = " - " + item.Remarks;
+                }
+
+
                 dialogItems.Add(new DialogItems { 
                     Id = item.Id,
-                    Name = item.InvCategory.Description + " " +item.Description,
-                    Description = itemspecs + " - " +  item.Remarks
+                    Name = item.InvCategory.Description + " - " +item.Description,
+                    Description = itemspecs + remarkString
                 });
             }
 
