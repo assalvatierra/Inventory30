@@ -4,15 +4,6 @@
 
 }
 
-
-<h2> Dialog </h2>
-
-<!-- Button trigger modal -->
-@*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#itemSearchModal">
-    Search
-    <img src="/img/icons/icons-search.png" width="20" />
-</button>*@
-
 <!-- Modal -->
 <div class="modal fade" id="itemSearchModal" tabindex="-1" role="dialog" aria-labelledby="itemSearchModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -25,7 +16,7 @@
             </div>
             <div class="modal-body" >
                 <div>
-                    <input type="text" class="form-control" id="SearchBar" onkeyup="SearchCompany()" />
+                    <input type="text" class="form-control" id="SearchBar" onkeyup="SearchCompany()" style="width:100% !important; margin-bottom:5px;" />
                 </div>
 
                 <table class="table" id="SearchList">
