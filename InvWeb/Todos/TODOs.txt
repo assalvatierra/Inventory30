@@ -21,6 +21,9 @@
 	GENERAL PRACTICES
 ###############################################
 
+-Component Naming convention: CS,html, JS -> make identical filename and folder for better code navigation
+-environments : Dev, Test, UA, Prod
+
 *** ENVIRONMENT SETUP/CONFIGURATION ***
 - organize initialization SQL scripts
 - organize update scripts 
