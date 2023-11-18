@@ -23,6 +23,7 @@
 
 -Component Naming convention: CS,html, JS -> make identical filename and folder for better code navigation
 -environments : Dev, Test, UA, Prod
+-Deployment process
 
 *** ENVIRONMENT SETUP/CONFIGURATION ***
 - organize initialization SQL scripts
