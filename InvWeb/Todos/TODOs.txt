@@ -1,6 +1,6 @@
 ﻿
 ###############################################
-	TODO ITEMS for Version 1.0
+	TODO ITEMS for Version 1.2
 ###############################################
   - Masterfile form: simple list, treeview mode
   - Browse/lookup dialog box: simple list, treeview mode
