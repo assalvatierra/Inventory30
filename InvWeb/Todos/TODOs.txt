@@ -2,14 +2,18 @@
 ###############################################
 	TODO ITEMS for Version 1.2
 ###############################################
-  - Masterfile form: simple list, treeview mode
-  - Browse/lookup dialog box: simple list, treeview mode
-  - Raw sql
+  - Masterfile form: simple list
+  - Masterfile form: treeview mode
+  - Browse/lookup dialog box: treeview mode
 
   - Standard System Reports
   - main page - tasks focus
 
   -warehouse bin locations
+
+  * Browse/lookup dialog box: simple list
+  * Run Raw sql 
+
 
 ###############################################
 	Client Specific (V-pro)
@@ -21,11 +25,13 @@
 	GENERAL PRACTICES
 ###############################################
 
--Component Naming convention: CS,html, JS -> make identical filename and folder for better code navigation
--environments : Dev, Test, UA, Prod
--Deployment process
+-Deployment process (DB)
+-Deployment process (.net)
 
-*** ENVIRONMENT SETUP/CONFIGURATION ***
+* Component Naming convention: CS,html, JS -> make identical filename and folder for better code navigation
+* environments : Dev, Test, UA, Prod
+
+* ENVIRONMENT SETUP/CONFIGURATION ***
 - organize initialization SQL scripts
 - organize update scripts 
 
