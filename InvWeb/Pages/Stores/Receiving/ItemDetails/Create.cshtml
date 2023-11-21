@@ -24,7 +24,9 @@
             </div>
             <div class="form-group">
                 <label class="control-label"> Item </label>
-                <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvItemId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvItems" id='itemDropdown' style="width: 21.5rem !important;"></select>
+                <input type="text" id="ItemTextfield" class="form-control" readonly />
+                <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="37" alt="search" style="background-color:#1b6ec2; padding:5px;cursor:pointer">
+                <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvItemId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvItems" id='itemDropdown' style="width: 21.5rem !important;" hidden></select>
             </div>
             <div class="form-group">
                 <label class="control-label"> HeatNo </label>
@@ -51,8 +53,7 @@
     </div>
 </div>
 
-@await Component.InvokeAsync("Dialog",
-                     new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
+@await Component.InvokeAsync("Dialog", new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
 
 <div>
     <a asp-page="../Details" asp-route-id="@Model.ItemDtlsCreateModel.HrdId">Back to List</a>
@@ -61,8 +62,9 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script src="~/js/Store/ItemUomDropdown.js"></script>
-    <script src="~/js/Shared/DialogItem.js"></script>
+    <script src="~/js/Pages/Stores/Shared/ItemDetails/ItemUomDropdown.js"></script>
+    <script src="~/js/Shared/Components/Dialog/DialogItem.js"></script>
+    <script src="~/js/Pages/Stores/Receiving/ItemDetails/Create.js"></script>
 
     <script>
 
@@ -71,34 +73,27 @@
             GetItemOumsWithId(defaultItem);
 
             var itemid = $('#itemDropdown').val();
+            var itemDesc = $('#itemDropdown option:selected').text();
             var hdrId = @Model.ItemDtlsCreateModel.HrdId;
 
             UpdateLink(hdrId, itemid);
 
-            SearchItem();
+            UpdateItemInputText(itemDesc);
+
+            SearchItem(@ViewBag.SelectedItemId);
         });
-
-        function SearchItem() {
-
-            if (@ViewBag.SelectedItemId != 0) {
-
-                $('#itemDropdown').val(@ViewBag.SelectedItemId).change();
-                GetItemOumsWithId(@ViewBag.SelectedItemId);
-            }
-        }
 
         $("#itemDropdown").on('change',()=>{
 
             var itemid = $('#itemDropdown').val();
+            var itemDesc = $('#itemDropdown option:selected').text();
             var hdrId = @Model.ItemDtlsCreateModel.HrdId;
 
             UpdateLink(hdrId, itemid);
 
-        });
+            UpdateItemInputText(itemDesc);
 
-        function UpdateLink(hrId, itemId){
-            $("#SearchItem-link").attr("href", "/Stores/Receiving/ItemDetails/SearchItem/" + hrId +"?itemId="+ itemId +"&actionType=Create")
-        }
+        });
 
     </script>
 }

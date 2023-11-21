@@ -1,4 +1,6 @@
 ﻿/**
+ *  Store/Receiving 
+ *  Search Item 
  * 
  * @param {any} selectedId
  */
@@ -15,3 +17,12 @@ function SearchItem(selectedId) {
 function UpdateLink(hrId, itemId) {
     $("#SearchItem-link").attr("href", "/Stores/Receiving/ItemDetails/SearchItem/" + hrId + "?itemId=" + itemId + "&actionType=Create")
 }
+
+
+function UpdateItemInputText(itemdesc) {
+    $("#ItemTextfield").val(itemdesc);
+}
+
+$("#ItemTextfieldBtn").on("click", () => {
+    ShowItemModal();
+});

@@ -112,8 +112,9 @@ body {
     padding-left: 10px;
 }
 
-.dialog-search-form{
-    width:150%;
+.dialog-search-form {
+    /*width:150%;*/
+    width: max-content;
 }
 
 @media (min-width: 480px) {
