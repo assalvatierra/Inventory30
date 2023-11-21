@@ -29,7 +29,7 @@
 - organize initialization SQL scripts
 - organize update scripts 
 - Deployment process (DB) - SSIS
-*Deployment process (.net) - IDE Publish
+* Deployment process (.net) - IDE Publish/webDeploy
 
 * Component Naming convention: CS,html, JS -> make identical filename and folder for better code navigation
 * environments : Dev, Test, UA, Prod
