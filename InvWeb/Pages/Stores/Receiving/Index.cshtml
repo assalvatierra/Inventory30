@@ -212,22 +212,16 @@
 </div>
 
 @section Scripts{
-    <script type="text/javascript" src="~/js/Store/IndexFilter.js"> </script>
+    <script type="text/javascript" src="~/js/Pages/Stores/Shared/Index.js"> </script>
+    <script type="text/javascript" src="~/js/Pages/Stores/Receiving/Index.js"> </script>
     <script>
 
         $(() => {
             //on init status
             StatusFilter("@Model.ReceivingIndexModel.Status");
             OrderFilter("@Model.ReceivingIndexModel.Order");
-        });
-        $(function () {
             $('[data-toggle="tooltip"]').tooltip()
-        })
-        $('#example1').tooltip();
+        });
 
-        function UpdatePagefilter(storeId, filter){
-            console.log("UpdatePagefilter");
-            window.location.href = "?storeId="+ storeId + "&status=" + filter;
-        }
     </script>
 } 
