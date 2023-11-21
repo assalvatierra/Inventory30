@@ -25,15 +25,14 @@
 	GENERAL PRACTICES
 ###############################################
 
--Deployment process (DB)
--Deployment process (.net)
+### ENVIRONMENT SETUP/CONFIGURATION ###
+- organize initialization SQL scripts
+- organize update scripts 
+- Deployment process (DB) - SSIS
+*Deployment process (.net) - IDE Publish
 
 * Component Naming convention: CS,html, JS -> make identical filename and folder for better code navigation
 * environments : Dev, Test, UA, Prod
-
-* ENVIRONMENT SETUP/CONFIGURATION ***
-- organize initialization SQL scripts
-- organize update scripts 
 
 - folder for one time running scripts - must be separate by version folder
   --initial db create
