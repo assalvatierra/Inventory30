@@ -26,7 +26,7 @@
                 <table class="table" id="SearchList">
                    
                    <tr>
-                        <th> ID </th>
+                        <th> Action </th>
                         <th> Name </th>
                         <th> Description </th>
                    </tr>
@@ -36,15 +36,13 @@
                     <tr>
                         <td>
                                 <button class="btn btn-primary" onclick="SelectItemFromDialog('@ViewBag.Selector', @item.Id)">
-                                    Select @item.Id
+                                    Select 
                                 </button>
                         </td>
-                        <td class="item-name">
-                          @*  @item.Name*@
-
-                                @Html.DisplayFor(modelItem => item.Name)
+                        <td class="item-name" style="white-space:nowrap;">
+                            @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                        <td class="item-desc">
+                        <td class="item-desc" style="white-space:nowrap;">
                             @item.Description
                         </td>
                     </tr>
