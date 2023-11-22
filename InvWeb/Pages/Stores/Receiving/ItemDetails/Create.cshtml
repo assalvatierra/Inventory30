@@ -24,8 +24,8 @@
             </div>
             <div class="form-group">
                 <label class="control-label"> Item </label>
-                <input type="text" id="ItemTextfield" class="form-control" readonly />
-                <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="37" alt="search" style="background-color:#1b6ec2; padding:5px;cursor:pointer">
+                <input type="text" id="ItemTextfield" class="form-control" style="width: 20.5rem !important;" readonly />
+                <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="35" alt="search" class="item-search-icon">
                 <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvItemId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvItems" id='itemDropdown' style="width: 21.5rem !important;" hidden></select>
             </div>
             <div class="form-group">

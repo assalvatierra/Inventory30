@@ -117,6 +117,21 @@ body {
     width: max-content;
 }
 
+.no-wrap {
+    white-space: nowrap;
+}
+
+.subtext-gray {
+    color: darkgray;
+    font-size: 12px;
+}
+
+.item-search-icon {
+    background-color: #1b6ec2;
+    padding: 8px;
+    cursor: pointer
+}
+
 @media (min-width: 480px) {
     .mobile-only {
         display: none;
@@ -132,5 +147,9 @@ body {
 @media (max-width: 480px) {
     .dialog-search-form {
         width: 100%;
+    }
+
+    .no-wrap {
+        white-space: normal;
     }
 }

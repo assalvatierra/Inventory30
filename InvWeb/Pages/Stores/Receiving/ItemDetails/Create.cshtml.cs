@@ -100,7 +100,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 }
 
                 string remarkString = "";
-                if (item.Remarks != "")
+                if (!String.IsNullOrEmpty(item.Remarks))
                 {
                     remarkString = " - " + item.Remarks;
                 }

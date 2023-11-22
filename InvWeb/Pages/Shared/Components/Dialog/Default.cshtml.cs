@@ -20,27 +20,6 @@ namespace InvWeb.Pages.Shared.Components.Dialog
 
             DialogItemList = new List<DialogItems>();
 
-            DialogItemList.Add(new DialogItems()
-            {
-                Id = 1,
-                Name = "Item 1",
-                Description = "Item Description"
-            });
-
-            DialogItemList.Add(new DialogItems()
-            {
-                Id = 2,
-                Name = "Item 2",
-                Description = "Item Description 2"
-            });
-
-            DialogItemList.Add(new DialogItems()
-            {
-                Id = 3,
-                Name = "Item 3",
-                Description = "Item Description 3"
-            });
-
             DialogItemList = items;
 
             ViewBag.Selector = selector;

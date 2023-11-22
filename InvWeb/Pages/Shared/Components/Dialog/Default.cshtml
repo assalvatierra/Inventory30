@@ -10,7 +10,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="itemSearchModal" tabindex="-1" role="dialog" aria-labelledby="itemSearchModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="max-width:max-content">
         <div class="modal-content dialog-search-form">
             <div class="modal-header">
                 <h5 class="modal-title" id="itemSearchModal"> Search Item </h5>
@@ -28,23 +28,26 @@
                    <tr>
                         <th> Action </th>
                         <th> Name </th>
-                        <th> Description </th>
+                        @*<th> Description </th>*@
                    </tr>
                
                 @foreach (var item in Model)
                 {
                     <tr>
                         <td>
-                                <button class="btn btn-primary" onclick="SelectItemFromDialog('@ViewBag.Selector', @item.Id)">
-                                    Select 
-                                </button>
+                            <button class="btn btn-primary" onclick="SelectItemFromDialog('@ViewBag.Selector', @item.Id)">
+                                 Select 
+                            </button>
                         </td>
-                        <td class="item-name" style="white-space:nowrap;">
-                            @Html.DisplayFor(modelItem => item.Name)
+                        <td class="item-name no-wrap">
+                            @Html.DisplayFor(modelItem => item.Name) <br>
+                            <span class="item-desc subtext-gray">
+                               @item.Description
+                            </span>
                         </td>
-                        <td class="item-desc" style="white-space:nowrap;">
-                            @item.Description
-                        </td>
+                       @*<td class="item-desc" style="white-space:nowrap;">
+                            
+                        </td>*@
                     </tr>
                 }
                 </table>
