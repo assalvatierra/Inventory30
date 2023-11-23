@@ -76,5 +76,9 @@ namespace WebDBSchema.Models
         public virtual DbSet<InvTrxApproval> InvTrxApprovals { get; set; }
         public virtual DbSet<InvPoApproval> InvPoApprovals { get; set; }
         public virtual DbSet<SteelSize> SteelSizes { get; set; }
+        public virtual DbSet<InvItemMaster> InvItemMasters { get; set; }
+        public virtual DbSet<InvTrxDtlxItemMaster> InvTrxDtlxItemMasters { get; set; }
+        public virtual DbSet<InvItemBrand> InvItemBrands { get; set; }
+        public virtual DbSet<InvItemOrigin> InvItemOrigins { get; set; }
     }
 }

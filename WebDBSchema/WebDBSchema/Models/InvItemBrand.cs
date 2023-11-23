@@ -12,28 +12,19 @@ namespace WebDBSchema.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class InvTrxDtl
+    public partial class InvItemBrand
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public InvTrxDtl()
+        public InvItemBrand()
         {
-            this.InvTrxDtlxItemMasters = new HashSet<InvTrxDtlxItemMaster>();
+            this.InvItemMasters = new HashSet<InvItemMaster>();
         }
     
         public int Id { get; set; }
-        public int InvTrxHdrId { get; set; }
-        public int InvUomId { get; set; }
-        public int ItemQty { get; set; }
-        public int InvItemId { get; set; }
-        public int InvTrxDtlOperatorId { get; set; }
-        public Nullable<int> LotNo { get; set; }
-        public string BatchNo { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
     
-        public virtual InvTrxHdr InvTrxHdr { get; set; }
-        public virtual InvUom InvUom { get; set; }
-        public virtual InvItem InvItem { get; set; }
-        public virtual InvTrxDtlOperator InvTrxDtlOperator { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvTrxDtlxItemMaster> InvTrxDtlxItemMasters { get; set; }
+        public virtual ICollection<InvItemMaster> InvItemMasters { get; set; }
     }
 }

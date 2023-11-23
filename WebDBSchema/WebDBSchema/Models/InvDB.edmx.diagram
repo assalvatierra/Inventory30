@@ -119,6 +119,16 @@
         <AssociationConnector Association="InvDB.InvPoHdrInvPoApproval" />
         <EntityTypeShape EntityType="InvDB.SteelSize" Width="1.5" PointX="17.5" PointY="9.5" />
         <AssociationConnector Association="InvDB.SteelSizeInvItemSpec_Steel" />
+        <EntityTypeShape EntityType="InvDB.InvItemMaster" Width="1.5" PointX="7.625" PointY="20.625" />
+        <AssociationConnector Association="InvDB.InvItemInvItemMaster" />
+        <AssociationConnector Association="InvDB.InvUomInvItemMaster" />
+        <EntityTypeShape EntityType="InvDB.InvTrxDtlxItemMaster" Width="1.5" PointX="8.125" PointY="23.75" />
+        <AssociationConnector Association="InvDB.InvTrxDtlInvTrxDtlxItemMaster" />
+        <AssociationConnector Association="InvDB.InvItemMasterInvTrxDtlxItemMaster" />
+        <EntityTypeShape EntityType="InvDB.InvItemBrand" Width="1.5" PointX="9.875" PointY="21.5" />
+        <AssociationConnector Association="InvDB.InvItemBrandInvItemMaster" />
+        <EntityTypeShape EntityType="InvDB.InvItemOrigin" Width="1.5" PointX="10" PointY="20.375" />
+        <AssociationConnector Association="InvDB.InvItemOriginInvItemMaster" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

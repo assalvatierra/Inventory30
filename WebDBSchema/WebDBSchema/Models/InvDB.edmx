@@ -1853,6 +1853,34 @@
             <End Role="SteelSize" EntitySet="SteelSizes" />
             <End Role="InvItemSpec_Steel" EntitySet="InvItemSpec_Steel" />
           </AssociationSet>
+          <EntitySet Name="InvItemMasters" EntityType="InvDB.InvItemMaster" />
+          <AssociationSet Name="InvItemInvItemMaster" Association="InvDB.InvItemInvItemMaster">
+            <End Role="InvItem" EntitySet="InvItems" />
+            <End Role="InvItemMaster" EntitySet="InvItemMasters" />
+          </AssociationSet>
+          <AssociationSet Name="InvUomInvItemMaster" Association="InvDB.InvUomInvItemMaster">
+            <End Role="InvUom" EntitySet="InvUoms" />
+            <End Role="InvItemMaster" EntitySet="InvItemMasters" />
+          </AssociationSet>
+          <EntitySet Name="InvTrxDtlxItemMasters" EntityType="InvDB.InvTrxDtlxItemMaster" />
+          <AssociationSet Name="InvTrxDtlInvTrxDtlxItemMaster" Association="InvDB.InvTrxDtlInvTrxDtlxItemMaster">
+            <End Role="InvTrxDtl" EntitySet="InvTrxDtls" />
+            <End Role="InvTrxDtlxItemMaster" EntitySet="InvTrxDtlxItemMasters" />
+          </AssociationSet>
+          <AssociationSet Name="InvItemMasterInvTrxDtlxItemMaster" Association="InvDB.InvItemMasterInvTrxDtlxItemMaster">
+            <End Role="InvItemMaster" EntitySet="InvItemMasters" />
+            <End Role="InvTrxDtlxItemMaster" EntitySet="InvTrxDtlxItemMasters" />
+          </AssociationSet>
+          <EntitySet Name="InvItemBrands" EntityType="InvDB.InvItemBrand" />
+          <AssociationSet Name="InvItemBrandInvItemMaster" Association="InvDB.InvItemBrandInvItemMaster">
+            <End Role="InvItemBrand" EntitySet="InvItemBrands" />
+            <End Role="InvItemMaster" EntitySet="InvItemMasters" />
+          </AssociationSet>
+          <EntitySet Name="InvItemOrigins" EntityType="InvDB.InvItemOrigin" />
+          <AssociationSet Name="InvItemOriginInvItemMaster" Association="InvDB.InvItemOriginInvItemMaster">
+            <End Role="InvItemOrigin" EntitySet="InvItemOrigins" />
+            <End Role="InvItemMaster" EntitySet="InvItemMasters" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
           <Key>
@@ -1877,6 +1905,7 @@
           <Property Name="InvCategoryId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvItemSpec_Steel" Relationship="InvDB.InvItemInvItemSpec_Steel" FromRole="InvItem" ToRole="InvItemSpec_Steel" />
           <NavigationProperty Name="InvItemCustomSpecs" Relationship="InvDB.InvItemInvItemCustomSpec" FromRole="InvItem" ToRole="InvItemCustomSpec" />
+          <NavigationProperty Name="InvItemMasters" Relationship="InvDB.InvItemInvItemMaster" FromRole="InvItem" ToRole="InvItemMaster" />
         </EntityType>
         <EntityType Name="InvItemClass">
           <Key>
@@ -2276,6 +2305,7 @@
           <NavigationProperty Name="InvAdjItems" Relationship="InvDB.InvUomInvAdjItem" FromRole="InvUom" ToRole="InvAdjItem" />
           <NavigationProperty Name="InvTrxDtls" Relationship="InvDB.InvUomInvTrxDtl" FromRole="InvUom" ToRole="InvTrxDtl" />
           <NavigationProperty Name="InvWarningLevels" Relationship="InvDB.InvUomInvWarningLevel" FromRole="InvUom" ToRole="InvWarningLevel" />
+          <NavigationProperty Name="InvItemMasters" Relationship="InvDB.InvUomInvItemMaster" FromRole="InvUom" ToRole="InvItemMaster" />
         </EntityType>
         <Association Name="InvUomInvItem">
           <End Type="InvDB.InvUom" Role="InvUom" Multiplicity="1" />
@@ -2394,6 +2424,7 @@
           <Property Name="InvTrxDtlOperatorId" Type="Int32" Nullable="false" />
           <Property Name="LotNo" Type="Int32" Nullable="true" />
           <Property Name="BatchNo" Type="String" Nullable="true" MaxLength="20" />
+          <NavigationProperty Name="InvTrxDtlxItemMasters" Relationship="InvDB.InvTrxDtlInvTrxDtlxItemMaster" FromRole="InvTrxDtl" ToRole="InvTrxDtlxItemMaster" />
         </EntityType>
         <Association Name="InvTrxHdrInvTrxDtl">
           <End Type="InvDB.InvTrxHdr" Role="InvTrxHdr" Multiplicity="1" />
@@ -3212,6 +3243,125 @@
             </Principal>
             <Dependent Role="InvItemSpec_Steel">
               <PropertyRef Name="SteelSizeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvItemMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="InvItem" Relationship="InvDB.InvItemInvItemMaster" FromRole="InvItemMaster" ToRole="InvItem" />
+          <Property Name="InvItemId" Type="Int32" Nullable="false" />
+          <Property Name="LotNo" Type="String" Nullable="true" MaxLength="20" />
+          <Property Name="BatchNo" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="ItemQty" Type="String" Nullable="false" />
+          <NavigationProperty Name="InvUom" Relationship="InvDB.InvUomInvItemMaster" FromRole="InvItemMaster" ToRole="InvUom" />
+          <Property Name="InvUomId" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
+          <NavigationProperty Name="InvTrxDtlxItemMasters" Relationship="InvDB.InvItemMasterInvTrxDtlxItemMaster" FromRole="InvItemMaster" ToRole="InvTrxDtlxItemMaster" />
+          <NavigationProperty Name="InvItemBrand" Relationship="InvDB.InvItemBrandInvItemMaster" FromRole="InvItemMaster" ToRole="InvItemBrand" />
+          <Property Name="InvItemBrandId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvItemOrigin" Relationship="InvDB.InvItemOriginInvItemMaster" FromRole="InvItemMaster" ToRole="InvItemOrigin" />
+          <Property Name="InvItemOriginId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvItemInvItemMaster">
+          <End Type="InvDB.InvItem" Role="InvItem" Multiplicity="1" />
+          <End Type="InvDB.InvItemMaster" Role="InvItemMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvItemMaster">
+              <PropertyRef Name="InvItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvUomInvItemMaster">
+          <End Type="InvDB.InvUom" Role="InvUom" Multiplicity="1" />
+          <End Type="InvDB.InvItemMaster" Role="InvItemMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvUom">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvItemMaster">
+              <PropertyRef Name="InvUomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvTrxDtlxItemMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="InvTrxDtl" Relationship="InvDB.InvTrxDtlInvTrxDtlxItemMaster" FromRole="InvTrxDtlxItemMaster" ToRole="InvTrxDtl" />
+          <Property Name="InvTrxDtlId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvItemMaster" Relationship="InvDB.InvItemMasterInvTrxDtlxItemMaster" FromRole="InvTrxDtlxItemMaster" ToRole="InvItemMaster" />
+          <Property Name="InvItemMasterId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvTrxDtlInvTrxDtlxItemMaster">
+          <End Type="InvDB.InvTrxDtl" Role="InvTrxDtl" Multiplicity="1" />
+          <End Type="InvDB.InvTrxDtlxItemMaster" Role="InvTrxDtlxItemMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvTrxDtl">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvTrxDtlxItemMaster">
+              <PropertyRef Name="InvTrxDtlId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvItemMasterInvTrxDtlxItemMaster">
+          <End Type="InvDB.InvItemMaster" Role="InvItemMaster" Multiplicity="1" />
+          <End Type="InvDB.InvTrxDtlxItemMaster" Role="InvTrxDtlxItemMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvItemMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvTrxDtlxItemMaster">
+              <PropertyRef Name="InvItemMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvItemBrand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
+          <NavigationProperty Name="InvItemMasters" Relationship="InvDB.InvItemBrandInvItemMaster" FromRole="InvItemBrand" ToRole="InvItemMaster" />
+        </EntityType>
+        <Association Name="InvItemBrandInvItemMaster">
+          <End Type="InvDB.InvItemBrand" Role="InvItemBrand" Multiplicity="1" />
+          <End Type="InvDB.InvItemMaster" Role="InvItemMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvItemBrand">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvItemMaster">
+              <PropertyRef Name="InvItemBrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvItemOrigin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Code" Type="String" Nullable="true" MaxLength="20" />
+          <NavigationProperty Name="InvItemMasters" Relationship="InvDB.InvItemOriginInvItemMaster" FromRole="InvItemOrigin" ToRole="InvItemMaster" />
+        </EntityType>
+        <Association Name="InvItemOriginInvItemMaster">
+          <End Type="InvDB.InvItemOrigin" Role="InvItemOrigin" Multiplicity="1" />
+          <End Type="InvDB.InvItemMaster" Role="InvItemMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvItemOrigin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvItemMaster">
+              <PropertyRef Name="InvItemOriginId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
