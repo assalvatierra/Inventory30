@@ -243,10 +243,19 @@
     <Compile Include="Models\InvItem.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvItemBrand.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvItemClass.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvItemCustomSpec.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvItemMaster.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvItemOrigin.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvItemSpec_Steel.cs">
@@ -298,6 +307,9 @@
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvTrxDtlOperator.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvTrxDtlxItemMaster.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InvTrxHdr.cs">
