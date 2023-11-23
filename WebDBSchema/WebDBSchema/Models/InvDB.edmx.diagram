@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="de232ff8a3f9488aa81b1797db2da041" Name="Diagram1" ZoomLevel="88" >
+      <Diagram DiagramId="de232ff8a3f9488aa81b1797db2da041" Name="Diagram1" ZoomLevel="86" >
         <EntityTypeShape EntityType="InvDB.InvItem" Width="1.5" PointX="6" PointY="3.75" />
         <EntityTypeShape EntityType="InvDB.InvItemClass" Width="1.5" PointX="6" PointY="0.875" />
         <EntityTypeShape EntityType="InvDB.InvClassification" Width="1.5" PointX="3.5" PointY="0.75" />
@@ -56,7 +56,7 @@
         <EntityTypeShape EntityType="InvDB.InvTrxHdrStatus" Width="1.5" PointX="17.875" PointY="23" />
         <AssociationConnector Association="InvDB.InvTrxHdrStatusInvTrxHdr" />
         <AssociationConnector Association="InvDB.InvItemInvTrxDtl" />
-        <EntityTypeShape EntityType="InvDB.InvTrxDtlOperator" Width="1.5" PointX="5.5" PointY="26" />
+        <EntityTypeShape EntityType="InvDB.InvTrxDtlOperator" Width="1.5" PointX="2.875" PointY="25.25" />
         <AssociationConnector Association="InvDB.InvTrxDtlOperatorInvTrxDtl" />
         <EntityTypeShape EntityType="InvDB.InvStoreUser" Width="1.5" PointX="19.5" PointY="11.75" />
         <AssociationConnector Association="InvDB.InvStoreInvStoreUser" />
@@ -119,15 +119,15 @@
         <AssociationConnector Association="InvDB.InvPoHdrInvPoApproval" />
         <EntityTypeShape EntityType="InvDB.SteelSize" Width="1.5" PointX="17.5" PointY="9.5" />
         <AssociationConnector Association="InvDB.SteelSizeInvItemSpec_Steel" />
-        <EntityTypeShape EntityType="InvDB.InvItemMaster" Width="1.5" PointX="7.625" PointY="20.625" />
+        <EntityTypeShape EntityType="InvDB.InvItemMaster" Width="1.5" PointX="5.375" PointY="28.75" />
         <AssociationConnector Association="InvDB.InvItemInvItemMaster" />
         <AssociationConnector Association="InvDB.InvUomInvItemMaster" />
-        <EntityTypeShape EntityType="InvDB.InvTrxDtlxItemMaster" Width="1.5" PointX="8.125" PointY="23.75" />
+        <EntityTypeShape EntityType="InvDB.InvTrxDtlxItemMaster" Width="1.5" PointX="5.625" PointY="26.375" />
         <AssociationConnector Association="InvDB.InvTrxDtlInvTrxDtlxItemMaster" />
         <AssociationConnector Association="InvDB.InvItemMasterInvTrxDtlxItemMaster" />
-        <EntityTypeShape EntityType="InvDB.InvItemBrand" Width="1.5" PointX="9.875" PointY="21.5" />
+        <EntityTypeShape EntityType="InvDB.InvItemBrand" Width="1.5" PointX="8.25" PointY="31.125" />
         <AssociationConnector Association="InvDB.InvItemBrandInvItemMaster" />
-        <EntityTypeShape EntityType="InvDB.InvItemOrigin" Width="1.5" PointX="10" PointY="20.375" />
+        <EntityTypeShape EntityType="InvDB.InvItemOrigin" Width="1.5" PointX="8.25" PointY="29.125" />
         <AssociationConnector Association="InvDB.InvItemOriginInvItemMaster" />
       </Diagram>
     </edmx:Diagrams>
