@@ -100,7 +100,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 }
 
                 string remarkString = "";
-                if (item.Remarks != "")
+                if (!String.IsNullOrEmpty(item.Remarks))
                 {
                     remarkString = " - " + item.Remarks;
                 }
@@ -108,7 +108,7 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
 
                 dialogItems.Add(new DialogItems { 
                     Id = item.Id,
-                    Name = item.InvCategory.Description + " - " +item.Description,
+                    Name =  item.InvCategory.Description + " - " +item.Description,
                     Description = itemspecs + remarkString
                 });
             }

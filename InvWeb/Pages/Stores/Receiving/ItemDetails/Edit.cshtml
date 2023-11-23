@@ -60,23 +60,18 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/Store/ItemUomDropdown.js"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/Pages/Stores/Shared/ItemDetails/ItemUomDropdown.js"></script>
+    <script src="~/js/Pages/Stores/Receiving/ItemDetails/Create.js"></script>
 
     <script>
-
+         
         $(document).ready(function () {
-          
-            SearchItem();
+
+            SearchItem(@ViewBag.SelectedItemId);
         });
-
-        function SearchItem() {
-            if (@ViewBag.SelectedItemId != null) {
-
-                $('#itemDropdown').val(@ViewBag.SelectedItemId).change();
-                GetItemOumsWithId(@ViewBag.SelectedItemId);
-            }
-        }
 
 
         $("#itemDropdown").on('change', () => {
@@ -88,11 +83,6 @@
             UpdateLink(hdrId, itemDetailsId, itemid);
 
         });
-
-        function UpdateLink(hrId, itemDetailsId, itemId) {
-            $("#SearchItem-link").attr("href", "/Stores/Receiving/ItemDetails/SearchItem/" + hrId + "?&itemDetailsId=" + itemDetailsId + "&itemId=" + itemId + "&actionType=Edit")
-        }
-
 
     </script>
 }

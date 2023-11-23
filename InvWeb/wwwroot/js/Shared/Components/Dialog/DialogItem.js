@@ -64,9 +64,6 @@ function SearchCompany() {
 
 
         if (matchCount == filterArr.length) {
-            //console.log("Match count for : " + filter);
-            //console.log("Match desc : " + itemDesc);
-            //console.log(matchCount + " : " + filterArr.length);
             $(this).show();
         } else {
             $(this).hide();
