@@ -1,0 +1,82 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.InvItemMasters.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>InvItemMasters</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New</a>
+</p>
+<div class="table-responsive card rounded-3 card-round-border">
+
+<table class="table custom-table-list">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemMaster[0].InvItem.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemMaster[0].LotNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemMaster[0].BatchNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemMaster[0].ItemQty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemMaster[0].InvUom.uom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemMaster[0].InvItemBrand.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemMaster[0].InvItemOrigin.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvItemMaster[0].Remarks)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model.InvItemMaster)
+            {
+        <tr>
+            <td>
+                        @Html.DisplayFor(modelItem => item.InvItem.Description)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => item.LotNo)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => item.BatchNo)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => item.ItemQty)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => item.InvUom)
+            </td>
+            <td>
+                        @Html.DisplayFor(modelItem => item.InvItemBrand.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvItemOrigin.Name)
+                    </td>
+            <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+</div>

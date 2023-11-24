@@ -1,0 +1,67 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.InvItemMasters.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>InvItemMaster</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemMaster.InvItem)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemMaster.InvItem.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemMaster.LotNo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemMaster.LotNo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemMaster.BatchNo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemMaster.BatchNo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemMaster.ItemQty)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemMaster.ItemQty)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemMaster.InvUom.uom)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemMaster.InvUom.uom)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemMaster.InvItemOrigin.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemMaster.InvItemOrigin.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemMaster.InvItemBrand.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemMaster.InvItemBrand.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvItemMaster.Remarks)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvItemMaster.Remarks)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.InvItemMaster.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
