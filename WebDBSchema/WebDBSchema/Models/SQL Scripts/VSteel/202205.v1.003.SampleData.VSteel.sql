@@ -224,3 +224,24 @@ BEGIN
 
 
 END
+
+
+
+-- Inv Steel Specs
+
+IF NOT EXISTS (SELECT 1 FROM InvItemBrands)
+BEGIN
+	insert into InvItemBrands([Name],[Code]) values
+	('Kasugai', 'KASUGAI'),
+	('Energy Steel' , 'ENERGY STEEL')
+END
+
+IF NOT EXISTS (SELECT 1 FROM InvItemOrigins)
+BEGIN
+	insert into InvItemOrigins([Name],[Code]) values
+	('Philippines', 'PH'),
+	('Japan' , 'JPM'),
+	('China', 'CHN'),
+	('Korea', 'KRN'),
+	('India', 'IND')
+END

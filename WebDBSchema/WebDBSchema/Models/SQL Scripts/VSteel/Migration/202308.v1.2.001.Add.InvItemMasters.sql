@@ -76,13 +76,13 @@ ADD CONSTRAINT [FK_InvItemInvItemMaster]
     REFERENCES [dbo].[InvItems]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
+
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_InvItemInvItemMaster'
 CREATE INDEX [IX_FK_InvItemInvItemMaster]
 ON [dbo].[InvItemMasters]
     ([InvItemId]);
-GO
+
 
 -- Creating foreign key on [InvUomId] in table 'InvItemMasters'
 ALTER TABLE [dbo].[InvItemMasters]
@@ -91,13 +91,13 @@ ADD CONSTRAINT [FK_InvUomInvItemMaster]
     REFERENCES [dbo].[InvUoms]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
+
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_InvUomInvItemMaster'
 CREATE INDEX [IX_FK_InvUomInvItemMaster]
 ON [dbo].[InvItemMasters]
     ([InvUomId]);
-GO
+
 
 -- Creating foreign key on [InvTrxDtlId] in table 'InvTrxDtlxItemMasters'
 ALTER TABLE [dbo].[InvTrxDtlxItemMasters]
@@ -106,13 +106,13 @@ ADD CONSTRAINT [FK_InvTrxDtlInvTrxDtlxItemMaster]
     REFERENCES [dbo].[InvTrxDtls]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
+
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_InvTrxDtlInvTrxDtlxItemMaster'
 CREATE INDEX [IX_FK_InvTrxDtlInvTrxDtlxItemMaster]
 ON [dbo].[InvTrxDtlxItemMasters]
     ([InvTrxDtlId]);
-GO
+
 
 -- Creating foreign key on [InvItemMasterId] in table 'InvTrxDtlxItemMasters'
 ALTER TABLE [dbo].[InvTrxDtlxItemMasters]
@@ -121,13 +121,13 @@ ADD CONSTRAINT [FK_InvItemMasterInvTrxDtlxItemMaster]
     REFERENCES [dbo].[InvItemMasters]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
+
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_InvItemMasterInvTrxDtlxItemMaster'
 CREATE INDEX [IX_FK_InvItemMasterInvTrxDtlxItemMaster]
 ON [dbo].[InvTrxDtlxItemMasters]
     ([InvItemMasterId]);
-GO
+
 
 -- Creating foreign key on [InvItemBrandId] in table 'InvItemMasters'
 ALTER TABLE [dbo].[InvItemMasters]
@@ -136,13 +136,13 @@ ADD CONSTRAINT [FK_InvItemBrandInvItemMaster]
     REFERENCES [dbo].[InvItemBrands]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
+
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_InvItemBrandInvItemMaster'
 CREATE INDEX [IX_FK_InvItemBrandInvItemMaster]
 ON [dbo].[InvItemMasters]
     ([InvItemBrandId]);
-GO
+
 
 -- Creating foreign key on [InvItemOriginId] in table 'InvItemMasters'
 ALTER TABLE [dbo].[InvItemMasters]
@@ -151,10 +151,10 @@ ADD CONSTRAINT [FK_InvItemOriginInvItemMaster]
     REFERENCES [dbo].[InvItemOrigins]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
+
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_InvItemOriginInvItemMaster'
 CREATE INDEX [IX_FK_InvItemOriginInvItemMaster]
 ON [dbo].[InvItemMasters]
     ([InvItemOriginId]);
-GO
+
