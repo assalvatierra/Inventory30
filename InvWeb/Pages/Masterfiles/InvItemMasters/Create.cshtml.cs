@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using CoreLib.Inventory.Models;
-using CoreLib.Models.Inventory;
-using CoreLib.DTO.Common.TrxDetails;
-using Modules.Inventory;
+
 
 namespace InvWeb.Pages.Masterfiles.InvItemMasters
 {
@@ -23,22 +22,21 @@ namespace InvWeb.Pages.Masterfiles.InvItemMasters
 
         public IActionResult OnGet()
         {
-
-            ViewData["InvItems"] = new SelectList(_context.Set<InvItem>(), "Id", "Description");
-            ViewData["InvItemBrands"] = new SelectList(_context.Set<InvItemBrand>(), "Id", "Name");
-            ViewData["InvItemOrigins"] = new SelectList(_context.Set<InvItemOrigin>(), "Id", "Name");
-            ViewData["InvUoms"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
-
+        ViewData["InvItemId"] = new SelectList(_context.Set<InvItem>(), "Id", "Description");
+        ViewData["InvItemBrandId"] = new SelectList(_context.Set<InvItemBrand>(), "Id", "Name");
+        ViewData["InvItemOriginId"] = new SelectList(_context.Set<InvItemOrigin>(), "Id", "Name");
+        ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
             return Page();
         }
 
         [BindProperty]
-        public InvItemMaster InvItemMaster { get; set; }
+        public InvItemMaster InvItemMaster { get; set; } = default!;
+        
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+          if (!ModelState.IsValid || _context.InvItemMasters == null || InvItemMaster == null)
             {
                 return Page();
             }

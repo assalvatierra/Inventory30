@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CoreLib.Inventory.Models;
-using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.InvItemMasters
 {
@@ -21,27 +21,27 @@ namespace InvWeb.Pages.Masterfiles.InvItemMasters
         }
 
         [BindProperty]
-        public InvItemMaster InvItemMaster { get; set; }
+        public InvItemMaster InvItemMaster { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.InvItemMasters == null)
             {
                 return NotFound();
             }
 
-            InvItemMaster = await _context.InvItemMasters.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (InvItemMaster == null)
+            var invitemmaster =  await _context.InvItemMasters.FirstOrDefaultAsync(m => m.Id == id);
+            if (invitemmaster == null)
             {
                 return NotFound();
             }
 
-            ViewData["InvItemId"] = new SelectList(_context.Set<InvItem>(), "Id", "Description", InvItemMaster.InvItemId);
-            ViewData["InvItemBrandId"] = new SelectList(_context.Set<InvItemBrand>(), "Id", "Name", InvItemMaster.InvItemBrandId);
-            ViewData["InvItemOriginId"] = new SelectList(_context.Set<InvItemOrigin>(), "Id", "Name", InvItemMaster.InvItemOriginId);
-            ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom", InvItemMaster.InvUomId);
+            InvItemMaster = invitemmaster;
 
+           ViewData["InvItemId"] = new SelectList(_context.Set<InvItem>(), "Id", "Description");
+           ViewData["InvItemBrandId"] = new SelectList(_context.Set<InvItemBrand>(), "Id", "Name");
+           ViewData["InvItemOriginId"] = new SelectList(_context.Set<InvItemOrigin>(), "Id", "Name");
+           ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
             return Page();
         }
 
@@ -62,7 +62,7 @@ namespace InvWeb.Pages.Masterfiles.InvItemMasters
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvClassificationExists(InvItemMaster.Id))
+                if (!InvItemMasterExists(InvItemMaster.Id))
                 {
                     return NotFound();
                 }
@@ -75,9 +75,9 @@ namespace InvWeb.Pages.Masterfiles.InvItemMasters
             return RedirectToPage("./Index");
         }
 
-        private bool InvClassificationExists(int id)
+        private bool InvItemMasterExists(int id)
         {
-            return _context.InvItemMasters.Any(e => e.Id == id);
+          return (_context.InvItemMasters?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

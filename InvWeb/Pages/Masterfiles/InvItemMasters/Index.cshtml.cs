@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreLib.Models.Inventory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using CoreLib.Inventory.Models;
-using Microsoft.AspNetCore.Authorization;
-using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.InvItemMasters
 {
-    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -21,16 +18,18 @@ namespace InvWeb.Pages.Masterfiles.InvItemMasters
             _context = context;
         }
 
-        public IList<InvItemMaster> InvItemMaster { get;set; }
+        public IList<InvItemMaster> InvItemMaster { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            InvItemMaster = await _context.InvItemMasters
-                .Include(i=> i.InvItem)
-                .Include(i => i.InvUom)
+            if (_context.InvItemMasters != null)
+            {
+                InvItemMaster = await _context.InvItemMasters
+                .Include(i => i.InvItem)
                 .Include(i => i.InvItemBrand)
                 .Include(i => i.InvItemOrigin)
-                .ToListAsync();
+                .Include(i => i.InvUom).ToListAsync();
+            }
         }
     }
 }

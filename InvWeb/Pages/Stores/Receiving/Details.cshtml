@@ -135,7 +135,12 @@
                 <td>
                     @if (Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)
                     {
-                        <a asp-page="./ItemDetails/Edit" asp-route-id="@item.Id">Edit</a><span> | </span> 
+                        <a asp-page="./ItemDetails/Edit" asp-route-id="@item.Id">Edit</a>
+
+                        <span> | </span>
+                        <a asp-page="./InvItemMasters/Create" asp-route-itemId="@item.InvItemId"> Add Item Master </a>
+
+                        <span> | </span><br />
                         <a asp-page="./ItemDetails/Delete" asp-route-id="@item.Id">Delete</a>
                     }
                 </td>

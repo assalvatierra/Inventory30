@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreLib.Models.Inventory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using CoreLib.Inventory.Models;
-using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Masterfiles.InvItemMasters
 {
@@ -19,25 +18,23 @@ namespace InvWeb.Pages.Masterfiles.InvItemMasters
             _context = context;
         }
 
-        public InvItemMaster InvItemMaster { get; set; }
+      public InvItemMaster InvItemMaster { get; set; } = default!; 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (id == null || _context.InvItemMasters == null)
             {
                 return NotFound();
             }
 
-            InvItemMaster = await _context.InvItemMasters
-                .Include(i => i.InvItem)
-                .Include(i => i.InvUom)
-                .Include(i => i.InvItemBrand)
-                .Include(i => i.InvItemOrigin)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (InvItemMaster == null)
+            var invitemmaster = await _context.InvItemMasters.FirstOrDefaultAsync(m => m.Id == id);
+            if (invitemmaster == null)
             {
                 return NotFound();
+            }
+            else 
+            {
+                InvItemMaster = invitemmaster;
             }
             return Page();
         }
