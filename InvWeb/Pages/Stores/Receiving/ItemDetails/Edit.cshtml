@@ -3,11 +3,13 @@
 
 @{
     ViewData["Title"] = "Edit";
+
+    var itemMaster = ViewBag.InvItemMaster as CoreLib.Models.Inventory.InvItemMaster;
 }
 
 <h1>Edit</h1>
 
-<h4>InvTrxDtl</h4>
+<h4>Transaction Details</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -28,7 +30,7 @@
                 <select asp-for="ItemDtlsEditModel.InvTrxDtl.InvItemId" class="form-control search-dropdown-initialize select2" asp-items="Model.ItemDtlsEditModel.InvItems" id='itemDropdown'></select>
                 <span asp-validation-for="ItemDtlsEditModel.InvTrxDtl.InvItemId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label class="control-label"> HeatNo </label>
                 <input asp-for="ItemDtlsEditModel.InvTrxDtl.BatchNo" class="form-control" maxlength="20" />
                 <span asp-validation-for="ItemDtlsEditModel.InvTrxDtl.BatchNo" class="text-danger"></span>
@@ -48,15 +50,38 @@
                 <select asp-for="ItemDtlsEditModel.InvTrxDtl.InvTrxDtlOperatorId" class="form-control" asp-items="Model.ItemDtlsEditModel.InvTrxDtlOperators"></select>
                 <span asp-validation-for="ItemDtlsEditModel.InvTrxDtl.InvTrxDtlOperatorId" class="text-danger"></span>
             </div>
+
+            @if (itemMaster != null)
+            {
+                <div class="form-group"> 
+                    <label class="control-label"> Item Masters </label>
+                <div>
+                    <span style="margin-right:12px;">
+                        @itemMaster.ItemQty @itemMaster.InvUom.uom
+                    </span>
+                    <span style="margin-right:10px;">  @itemMaster.InvItemBrand.Name </span>
+                    <span style="margin-right:12px;">  @itemMaster.InvItemOrigin.Name </span>
+                    <span>
+                            <a asp-page="../InvItemMasters/Edit" asp-route-id="@itemMaster.Id" asp-route-invTrxDtlId="@Model.ItemDtlsEditModel.InvTrxDtl.Id"> Edit </a>
+                    </span>
+                </div>
+            </div>
+            }
+
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
+
         </form>
     </div>
 </div>
 
+
 <div>
-    <a asp-page="../Details" asp-route-id="@Model.ItemDtlsEditModel.InvTrxDtl.InvTrxHdrId">Back to List</a>
+    <p>
+        <a asp-page="../Details" asp-route-id="@Model.ItemDtlsEditModel.InvTrxDtl.InvTrxHdrId">Back to List</a>
+    </p>
 </div>
 
 @section Scripts {

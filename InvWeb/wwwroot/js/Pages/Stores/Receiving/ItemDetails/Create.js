@@ -22,7 +22,3 @@ function UpdateLink(hrId, itemId) {
 function UpdateItemInputText(itemdesc) {
     $("#ItemTextfield").val(itemdesc);
 }
-
-$("#ItemTextfieldBtn").on("click", () => {
-    ShowItemModal();
-});

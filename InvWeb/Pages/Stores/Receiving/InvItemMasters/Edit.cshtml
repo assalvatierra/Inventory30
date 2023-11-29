@@ -1,18 +1,19 @@
 ﻿@page
-@model InvWeb.Pages.Stores.Receiving.InvItemMasters.CreateModel
+@model InvWeb.Pages.Stores.Receiving.InvItemMasters.EditModel
 
 @{
-    ViewData["Title"] = "Create InvItemMaster";
+    ViewData["Title"] = "Edit InvItemMasters";
 }
 
-<h1>Create</h1>
+<h1>Edit</h1>
 
-<h4> Store > Receiving > Create Item Master</h4>
+<h4> Store > Receiving > Edit Item Master</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InvItemMaster.Id" />
             <div class="form-group">
                 <label asp-for="InvItemMaster.InvItemId" class="control-label"></label>
                 <select asp-for="InvItemMaster.InvItemId" class="form-control" id='itemDropdown' asp-items="ViewBag.InvItemId" hidden></select>
@@ -37,7 +38,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="InvItemMaster.InvUomId" class="control-label"></label>
-                <select asp-for="InvItemMaster.InvUomId" class="form-control" id="UomDropdown" asp-items="ViewBag.InvUomId"></select>
+                <select asp-for="InvItemMaster.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+                <span asp-validation-for="InvItemMaster.InvUomId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="InvItemMaster.Remarks" class="control-label"></label>
@@ -46,21 +48,23 @@
             </div>
             <div class="form-group">
                 <label asp-for="InvItemMaster.InvItemBrandId" class="control-label"></label>
-                <select asp-for="InvItemMaster.InvItemBrandId" class ="form-control" asp-items="ViewBag.InvItemBrandId"></select>
+                <select asp-for="InvItemMaster.InvItemBrandId" class="form-control" asp-items="ViewBag.InvItemBrandId"></select>
+                <span asp-validation-for="InvItemMaster.InvItemBrandId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="InvItemMaster.InvItemOriginId" class="control-label"></label>
-                <select asp-for="InvItemMaster.InvItemOriginId" class ="form-control" asp-items="ViewBag.InvItemOriginId"></select>
+                <select asp-for="InvItemMaster.InvItemOriginId" class="form-control" asp-items="ViewBag.InvItemOriginId"></select>
+                <span asp-validation-for="InvItemMaster.InvItemOriginId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="../Details" sp-route-id="@Model.InvTrxDtlId">Back to Item Details</a>
+    <a asp-page="../Edit" sp-route-id="@Model.InvTrxDtlId">Back to List</a>
 </div>
 
 

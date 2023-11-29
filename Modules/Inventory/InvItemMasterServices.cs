@@ -46,6 +46,23 @@ namespace Inventory
             }
         }
 
+        public async Task CreateItemMasterInvDtlsLink(int invItemMasterId, int invDtlsId)
+        {
+           
+                if (invDtlsId != 0 && invItemMasterId != 0)
+                {
+                    InvTrxDtlxItemMaster invTrxDtlxItemMasters = new InvTrxDtlxItemMaster();
+                    invTrxDtlxItemMasters.InvTrxDtlId = invDtlsId;
+                    invTrxDtlxItemMasters.InvItemMasterId = invItemMasterId;
+
+                    _context.InvTrxDtlxItemMasters.Add(invTrxDtlxItemMasters);
+                    await _context.SaveChangesAsync();
+
+                }
+            
+        }
+
+
         public async Task DeleteInvItemMaster(int id)
         {
             try

@@ -8,6 +8,10 @@
 
 
 
+$("#ItemTextfieldBtn").on("click", () => {
+    ShowItemModal();
+});
+
 $("#itemDropdown").focus(function () {
     $("#itemDropdown > option").css("display", "none");
 
@@ -19,6 +23,11 @@ function ShowItemModal() {
 
 }
 
+
+function ShowItemModal() {
+    $("#itemSearchModal").modal("show");
+
+}
 
 function HideItemModal() {
     $("#itemSearchModal").modal("hide");
