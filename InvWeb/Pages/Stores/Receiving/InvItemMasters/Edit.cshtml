@@ -64,7 +64,7 @@
 </div>
 
 <div>
-    <a asp-page="../Edit" sp-route-id="@Model.InvTrxDtlId">Back to List</a>
+    <a asp-page="../ItemDetails/Edit" asp-route-id="@Model.InvTrxDtlId">Back to List</a>
 </div>
 
 
@@ -82,29 +82,21 @@
     <script>
 
         $(document).ready(function () {
-            var defaultItem = $("#itemDropdown option:first").val();
-            GetItemOumsWithId(defaultItem);
-
-            var itemid = $('#itemDropdown').val();
-            var itemDesc = $('#itemDropdown option:selected').text();
-            var hdrId = @Model.InvTrxDtlId;
-
-            //UpdateLink(hdrId, itemid);
+            if (@ViewBag.SelectedItemId != NaN) {
+                $('#itemDropdown').val("@ViewBag.SelectedItemId").change();
+            }
 
             UpdateItemInputText(itemDesc);
 
-            SearchItem(@ViewBag.SelectedItemId);
         });
 
         $("#itemDropdown").on('change', () => {
 
             var itemid = $('#itemDropdown').val();
             var itemDesc = $('#itemDropdown option:selected').text();
-            var hdrId = @Model.InvTrxDtlId;
-
-            //UpdateLink(hdrId, itemid);
 
             UpdateItemInputText(itemDesc);
+            GetItemOumsWithId(itemid);
 
         });
 

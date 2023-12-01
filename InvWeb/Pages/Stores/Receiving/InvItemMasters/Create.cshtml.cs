@@ -30,7 +30,10 @@ namespace InvWeb.Pages.Stores.Receiving.InvItemMasters
             var item = _context.InvItems.Find(itemId);
 
             InvTrxDtlId = id;
+            var DialogItems = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
 
+            ViewData["SelectedInvItemId"] = itemId;
+            ViewData["InvTrxDtlId"] = id;
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
 
 

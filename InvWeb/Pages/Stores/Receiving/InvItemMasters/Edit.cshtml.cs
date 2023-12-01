@@ -46,6 +46,8 @@ namespace InvWeb.Pages.Stores.Receiving.InvItemMasters
             InvItemMaster = invitemmaster;
             InvTrxDtlId = invTrxDtlId;
 
+            ViewData["SelectedItemId"] = invitemmaster.InvItemId;
+
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
             ViewData["InvItemId"] = new SelectList(_context.Set<InvItem>(), "Id", "Description");
             ViewData["InvItemBrandId"] = new SelectList(_context.Set<InvItemBrand>(), "Id", "Name");

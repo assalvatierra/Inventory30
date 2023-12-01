@@ -13,16 +13,10 @@ $("#ItemTextfieldBtn").on("click", () => {
 });
 
 $("#itemDropdown").focus(function () {
-    $("#itemDropdown > option").css("display", "none");
+    //$("#itemDropdown > option").css("display", "none");
 
-    ShowItemModal();
+    //ShowItemModal();
 });
-
-function ShowItemModal() {
-    $("#itemSearchModal").modal("show");
-
-}
-
 
 function ShowItemModal() {
     $("#itemSearchModal").modal("show");
