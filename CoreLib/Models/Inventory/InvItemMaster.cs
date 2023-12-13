@@ -15,7 +15,7 @@ namespace CoreLib.Models.Inventory
 
         public int Id { get; set; }
         public int InvItemId { get; set; }
-        public string LotNo { get; set; }
+        public string? LotNo { get; set; }
         public string BatchNo { get; set; }
         public string ItemQty { get; set; }
         public int InvUomId { get; set; }

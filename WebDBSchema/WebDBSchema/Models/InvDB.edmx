@@ -827,7 +827,7 @@
     <Property Name="BatchNo" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="ItemQty" Type="nvarchar(max)" Nullable="false" />
     <Property Name="InvUomId" Type="int" Nullable="false" />
-    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="80" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="InvItemBrandId" Type="int" Nullable="false" />
     <Property Name="InvItemOriginId" Type="int" Nullable="false" />
   </EntityType>
@@ -3396,7 +3396,7 @@
           <Property Name="ItemQty" Type="String" Nullable="false" />
           <NavigationProperty Name="InvUom" Relationship="InvDB.InvUomInvItemMaster" FromRole="InvItemMaster" ToRole="InvUom" />
           <Property Name="InvUomId" Type="Int32" Nullable="false" />
-          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="80" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
           <NavigationProperty Name="InvTrxDtlxItemMasters" Relationship="InvDB.InvItemMasterInvTrxDtlxItemMaster" FromRole="InvItemMaster" ToRole="InvTrxDtlxItemMaster" />
           <NavigationProperty Name="InvItemBrand" Relationship="InvDB.InvItemBrandInvItemMaster" FromRole="InvItemMaster" ToRole="InvItemBrand" />
           <Property Name="InvItemBrandId" Type="Int32" Nullable="false" />

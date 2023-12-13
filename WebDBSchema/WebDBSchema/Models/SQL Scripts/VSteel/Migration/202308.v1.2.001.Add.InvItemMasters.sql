@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[InvItemMasters] (
     [BatchNo] nvarchar(20)  NOT NULL,
     [ItemQty] nvarchar(max)  NOT NULL,
     [InvUomId] int  NOT NULL,
-    [Remarks] nvarchar(80)  NOT NULL,
+    [Remarks] nvarchar(80)  NULL,
     [InvItemBrandId] int  NOT NULL,
     [InvItemOriginId] int  NOT NULL
 );
