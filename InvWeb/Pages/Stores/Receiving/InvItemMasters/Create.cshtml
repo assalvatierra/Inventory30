@@ -13,6 +13,7 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InvTrxDtlId" value="@ViewBag.InvTrxDtlId" />
             <div class="form-group">
                 <label asp-for="InvItemMaster.InvItemId" class="control-label"></label>
                 <select asp-for="InvItemMaster.InvItemId" class="form-control" id='itemDropdown' asp-items="ViewBag.InvItemId" hidden></select>

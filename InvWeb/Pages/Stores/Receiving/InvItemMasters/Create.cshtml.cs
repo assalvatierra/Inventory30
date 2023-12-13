@@ -65,13 +65,21 @@ namespace InvWeb.Pages.Stores.Receiving.InvItemMasters
         {
           if (!ModelState.IsValid || _context.InvItemMasters == null || InvItemMaster == null)
             {
+                ViewData["SelectedInvItemId"] = InvItemMaster.InvItemId;
+                ViewData["InvTrxDtlId"] = InvTrxDtlId;
+                ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
+                ViewData["InvItemId"] = new SelectList(_context.Set<InvItem>(), "Id", "Description", InvItemMaster.InvItemId);
+                ViewData["InvItemBrandId"] = new SelectList(_context.Set<InvItemBrand>(), "Id", "Name", InvItemMaster.InvItemBrandId);
+                ViewData["InvItemOriginId"] = new SelectList(_context.Set<InvItemOrigin>(), "Id", "Name", InvItemMaster.InvItemOriginId);
+                ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom", InvItemMaster.InvUomId);
+
                 return Page();
             }
 
             _context.InvItemMasters.Add(InvItemMaster);
             await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            
+            return RedirectToPage("/Stores/Receiving/ItemDetails/Edit", new { id = InvTrxDtlId , itemId = InvItemMaster.InvItemId });
         }
 
 

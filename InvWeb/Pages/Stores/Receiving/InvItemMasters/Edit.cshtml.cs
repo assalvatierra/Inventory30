@@ -28,6 +28,7 @@ namespace InvWeb.Pages.Stores.Receiving.InvItemMasters
         [BindProperty]
         public InvItemMaster InvItemMaster { get; set; } = default!;
 
+        [BindProperty]
         public int InvTrxDtlId { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id, int invTrxDtlId)
@@ -47,6 +48,7 @@ namespace InvWeb.Pages.Stores.Receiving.InvItemMasters
             InvTrxDtlId = invTrxDtlId;
 
             ViewData["SelectedItemId"] = invitemmaster.InvItemId;
+            ViewData["InvTrxDtlId"] = invTrxDtlId;
 
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
             ViewData["InvItemId"] = new SelectList(_context.Set<InvItem>(), "Id", "Description");
@@ -63,6 +65,12 @@ namespace InvWeb.Pages.Stores.Receiving.InvItemMasters
         {
             if (!ModelState.IsValid)
             {
+                ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
+                ViewData["InvItemId"] = new SelectList(_context.Set<InvItem>(), "Id", "Description", InvItemMaster.InvItemId);
+                ViewData["InvItemBrandId"] = new SelectList(_context.Set<InvItemBrand>(), "Id", "Name", InvItemMaster.InvItemBrandId);
+                ViewData["InvItemOriginId"] = new SelectList(_context.Set<InvItemOrigin>(), "Id", "Name", InvItemMaster.InvItemOriginId);
+                ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom", InvItemMaster.InvUomId);
+
                 return Page();
             }
 
@@ -84,7 +92,7 @@ namespace InvWeb.Pages.Stores.Receiving.InvItemMasters
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Stores/Receiving/ItemDetails/Edit", new { id = InvTrxDtlId , itemId = InvItemMaster.InvItemId });
         }
 
         private bool InvItemMasterExists(int id)
