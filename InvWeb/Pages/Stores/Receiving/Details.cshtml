@@ -138,7 +138,7 @@
                         <a asp-page="./ItemDetails/Edit" asp-route-itemId="@item.InvItemId" asp-route-id="@item.Id">Edit</a>
 
                         <span> | </span>
-                        <a asp-page="./InvItemMasters/Create" asp-route-itemId="@item.InvItemId" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id"> Create Item Master </a>
+                        <a asp-page="./InvItemMasters/Create" asp-route-itemId="@item.InvItemId" asp-route-id="@item.Id"> Create Item Master </a>
 
                         <span> | </span><br />
                         <a asp-page="./ItemDetails/Delete" asp-route-id="@item.Id">Delete</a>

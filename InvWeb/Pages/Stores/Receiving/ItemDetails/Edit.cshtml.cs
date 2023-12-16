@@ -64,7 +64,8 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
             
             ViewData["InvItemMaster"] = invItemMaster;
             ViewData["SelectedItemId"] = SelectedItemId;
-            
+            ViewData["InvTrxHdrId"] = InvTrxDtl.InvTrxHdrId;
+
             return Page();
         }
 
