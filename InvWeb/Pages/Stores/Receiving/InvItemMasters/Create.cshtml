@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="InvItemMaster.ItemQty" class="control-label"></label>
-                <input asp-for="InvItemMaster.ItemQty" class="form-control" />
+                <input asp-for="InvItemMaster.ItemQty" class="form-control" value="@ViewBag.InvTrxDtlQty" />
                 <span asp-validation-for="InvItemMaster.ItemQty" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -44,9 +44,12 @@ namespace InvWeb.Pages.Stores.Receiving.InvItemMasters
                 return NotFound();
             }
 
+            var invTrxDtl_qty = _context.InvTrxDtls.Find(invTrxDtlId).ItemQty;
+
             InvItemMaster = invitemmaster;
             InvTrxDtlId = invTrxDtlId;
 
+            ViewData["InvTrxDtlQty"] = invTrxDtl_qty;
             ViewData["SelectedItemId"] = invitemmaster.InvItemId;
             ViewData["InvTrxDtlId"] = invTrxDtlId;
 

@@ -28,12 +28,13 @@ namespace InvWeb.Pages.Stores.Receiving.InvItemMasters
         {
             var itemSpecs = _context.InvItemSpec_Steel.Where(i => i.InvItemId == itemId).FirstOrDefault();
             var item = _context.InvItems.Find(itemId);
+            var invTrxDtl_qty = _context.InvTrxDtls.Find(id).ItemQty;
 
             InvTrxDtlId = id;
-            var DialogItems = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
 
             ViewData["SelectedInvItemId"] = itemId;
             ViewData["InvTrxDtlId"] = id;
+            ViewData["InvTrxDtlQty"] = invTrxDtl_qty;
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
 
 
@@ -43,6 +44,7 @@ namespace InvWeb.Pages.Stores.Receiving.InvItemMasters
                 ViewData["InvItemBrandId"] = new SelectList(_context.Set<InvItemBrand>(), "Id", "Name");
                 ViewData["InvItemOriginId"] = new SelectList(_context.Set<InvItemOrigin>(), "Id", "Name");
                 ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom", item.InvUomId);
+                ViewData["InvTrxDtlQty"] = invTrxDtl_qty;
                 return Page();
             }
 
