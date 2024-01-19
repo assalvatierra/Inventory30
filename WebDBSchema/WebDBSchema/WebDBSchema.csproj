@@ -424,6 +424,7 @@
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.001.Initial.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.006.SysSettings.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.002.InitialRoles.sql" />
+    <Content Include="Models\SQL Scripts\VSteel\202307.v1.001.Modify.SteelSpecs.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202307.v1.005.AddReports.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202307.v1.004.UpdateSpecSteel.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.003.SampleData.VSteel.sql" />
@@ -437,6 +438,7 @@
     <Content Include="Models\SQL Scripts\VSteel\Migration\202308.v1.008.Modify.SteelSpecs.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202308.v1.006.Add.TrxApproval.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202308.v1.006.Add.SysLabel.sql" />
+    <Content Include="Models\SQL Scripts\VSteel\Migration\202308.v1.2.001.Add.InvItemMasters.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\InvDB.edmx">

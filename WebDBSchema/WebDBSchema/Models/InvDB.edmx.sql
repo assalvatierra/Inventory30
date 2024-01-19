@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/23/2023 14:55:51
+-- Date Created: 12/13/2023 13:13:57
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -204,6 +204,24 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SteelSizeInvItemSpec_Steel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvItemSpec_Steel] DROP CONSTRAINT [FK_SteelSizeInvItemSpec_Steel];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemInvItemMaster]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemMasters] DROP CONSTRAINT [FK_InvItemInvItemMaster];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvUomInvItemMaster]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemMasters] DROP CONSTRAINT [FK_InvUomInvItemMaster];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvTrxDtlInvTrxDtlxItemMaster]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxDtlxItemMasters] DROP CONSTRAINT [FK_InvTrxDtlInvTrxDtlxItemMaster];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemMasterInvTrxDtlxItemMaster]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvTrxDtlxItemMasters] DROP CONSTRAINT [FK_InvItemMasterInvTrxDtlxItemMaster];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemBrandInvItemMaster]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemMasters] DROP CONSTRAINT [FK_InvItemBrandInvItemMaster];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvItemOriginInvItemMaster]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemMasters] DROP CONSTRAINT [FK_InvItemOriginInvItemMaster];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -361,6 +379,18 @@ IF OBJECT_ID(N'[dbo].[InvPoApprovals]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[SteelSizes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[SteelSizes];
+GO
+IF OBJECT_ID(N'[dbo].[InvItemMasters]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemMasters];
+GO
+IF OBJECT_ID(N'[dbo].[InvTrxDtlxItemMasters]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvTrxDtlxItemMasters];
+GO
+IF OBJECT_ID(N'[dbo].[InvItemBrands]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemBrands];
+GO
+IF OBJECT_ID(N'[dbo].[InvItemOrigins]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvItemOrigins];
 GO
 
 -- --------------------------------------------------
@@ -854,7 +884,7 @@ CREATE TABLE [dbo].[InvItemMasters] (
     [BatchNo] nvarchar(20)  NOT NULL,
     [ItemQty] nvarchar(max)  NOT NULL,
     [InvUomId] int  NOT NULL,
-    [Remarks] nvarchar(80)  NOT NULL,
+    [Remarks] nvarchar(80)  NULL,
     [InvItemBrandId] int  NOT NULL,
     [InvItemOriginId] int  NOT NULL
 );

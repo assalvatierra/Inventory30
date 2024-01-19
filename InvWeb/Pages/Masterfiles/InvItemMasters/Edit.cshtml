@@ -1,0 +1,70 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.InvItemMasters.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>InvItemMaster</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InvItemMaster.Id" />
+            <div class="form-group">
+                <label asp-for="InvItemMaster.InvItemId" class="control-label"></label>
+                <select asp-for="InvItemMaster.InvItemId" class="form-control" asp-items="ViewBag.InvItemId"></select>
+                <span asp-validation-for="InvItemMaster.InvItemId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.LotNo" class="control-label"></label>
+                <input asp-for="InvItemMaster.LotNo" class="form-control" />
+                <span asp-validation-for="InvItemMaster.LotNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.BatchNo" class="control-label"></label>
+                <input asp-for="InvItemMaster.BatchNo" class="form-control" />
+                <span asp-validation-for="InvItemMaster.BatchNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.ItemQty" class="control-label"></label>
+                <input asp-for="InvItemMaster.ItemQty" class="form-control" />
+                <span asp-validation-for="InvItemMaster.ItemQty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.InvUomId" class="control-label"></label>
+                <select asp-for="InvItemMaster.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+                <span asp-validation-for="InvItemMaster.InvUomId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.Remarks" class="control-label"></label>
+                <input asp-for="InvItemMaster.Remarks" class="form-control" />
+                <span asp-validation-for="InvItemMaster.Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.InvItemBrandId" class="control-label"></label>
+                <select asp-for="InvItemMaster.InvItemBrandId" class="form-control" asp-items="ViewBag.InvItemBrandId"></select>
+                <span asp-validation-for="InvItemMaster.InvItemBrandId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.InvItemOriginId" class="control-label"></label>
+                <select asp-for="InvItemMaster.InvItemOriginId" class="form-control" asp-items="ViewBag.InvItemOriginId"></select>
+                <span asp-validation-for="InvItemMaster.InvItemOriginId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

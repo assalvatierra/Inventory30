@@ -56,6 +56,7 @@ namespace InvWeb.Pages.Stores.Receiving
             
             //ReceivingDetailsModel.InvTrxApproval = invApprovalServices.GetExistingApproval((int)id);
 
+
             return Page();
         }
 

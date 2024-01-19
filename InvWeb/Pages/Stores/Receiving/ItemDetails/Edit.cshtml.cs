@@ -48,10 +48,24 @@ namespace InvWeb.Pages.Stores.Receiving.ItemDetails
                 return NotFound();
             }
 
+            var SelectedItemId = itemId ?? InvTrxDtl.InvItemId;
+
             //refactored
             ItemDtlsEditModel = _itemDtlsServices.GeReceivingItemDtlsEditModel_OnEditOnGet(InvTrxDtl);
+
+            var invItemMaster = _context.InvItemMasters
+                .Include(i => i.InvItemOrigin)
+                .Include(i => i.InvItemBrand)
+                .Include(i => i.InvItem)
+                .ThenInclude(i=>i.InvCategory)
+                .Include(i => i.InvUom)
+                .Where(i => i.InvItemId == SelectedItemId)
+                .FirstOrDefault();
             
-            ViewData["SelectedItemId"] = itemId ?? InvTrxDtl.InvItemId;
+            ViewData["InvItemMaster"] = invItemMaster;
+            ViewData["SelectedItemId"] = SelectedItemId;
+            ViewData["InvTrxHdrId"] = InvTrxDtl.InvTrxHdrId;
+
             return Page();
         }
 

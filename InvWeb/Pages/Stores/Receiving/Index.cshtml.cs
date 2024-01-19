@@ -12,6 +12,8 @@ using Modules.Inventory;
 using Microsoft.Extensions.Logging;
 using CoreLib.DTO.Releasing;
 using CoreLib.DTO.Receiving;
+using CoreLib.Interfaces;
+using Inventory;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
@@ -19,6 +21,7 @@ namespace InvWeb.Pages.Stores.Receiving
     {
         private readonly ApplicationDbContext _context;
         private readonly IItemTrxServices itemTrxServices;
+        private readonly IInvItemMasterServices invItemMasterServices;
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(ApplicationDbContext context, ILogger<IndexModel> logger)
@@ -26,6 +29,7 @@ namespace InvWeb.Pages.Stores.Receiving
             _logger = logger;
             _context = context;
             itemTrxServices = new ItemTrxServices(_context, _logger);
+            invItemMasterServices = new InvItemMasterServices(_context, _logger);
         }
 
         public IList<InvTrxHdr> InvTrxHdr { get;set; }
@@ -90,12 +94,43 @@ namespace InvWeb.Pages.Stores.Receiving
                 {
                     if (!String.IsNullOrEmpty(trxApprovalRecord.VerifiedBy))
                     {
+                        //Link TrxDtls and InvItemMasters
+                        LinkItemMasterInvDtlsByHeaderId(trxHdrId);
                         return true;
                     }
                 }
             }
 
             return false;
+        }
+
+        public void LinkItemMasterInvDtlsByHeaderId(int id)
+        {
+
+            var DtlItems = _context.InvTrxDtls.Where(i=>i.InvTrxHdrId == id).ToList();
+
+            if (DtlItems.Count()  > 0)
+            {
+                foreach (var dtls in DtlItems)
+                {
+                    var invItemMaster = GetInvItemMasterByInvItemId(dtls.InvItemId);
+                    if (invItemMaster != null)
+                    {
+                        invItemMasterServices.CreateItemMasterInvDtlsLink(invItemMaster.Id, dtls.InvItemId);
+                    }
+                }
+
+            }
+        }
+
+        public InvItemMaster GetInvItemMasterByInvItemId(int id)
+        {
+            if (_context.InvItemMasters.Where(i => i.InvItemId == id).Count() > 0)
+            {
+                return _context.InvItemMasters.Where(i => i.InvItemId == id).FirstOrDefault();
+            }
+
+            return null;
         }
         
     }

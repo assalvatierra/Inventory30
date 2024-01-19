@@ -28,7 +28,7 @@
                 <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="35" alt="search" class="item-search-icon">
                 <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvItemId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvItems" id='itemDropdown' style="width: 21.5rem !important;" hidden></select>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label class="control-label"> HeatNo </label>
                 <input asp-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" class="form-control" maxlength="20" id="heatno" />
                 <span asp-validation-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" class="text-danger"></span>

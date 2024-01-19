@@ -1,0 +1,101 @@
+﻿@page
+@model InvWeb.Pages.Stores.Receiving.InvItemMasters.CreateModel
+
+@{
+    ViewData["Title"] = "Create InvItemMaster";
+}
+
+<h1>Create</h1>
+
+<h4> Store > Receiving > Create Item Master</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InvTrxDtlId" value="@ViewBag.InvTrxDtlId" />
+            <div class="form-group">
+                <label asp-for="InvItemMaster.InvItemId" class="control-label"></label>
+                <select asp-for="InvItemMaster.InvItemId" class="form-control" id='itemDropdown' asp-items="ViewBag.InvItemId" hidden></select>
+
+                <input type="text" id="ItemTextfield" class="form-control" style="width: 20.5rem !important;" readonly />
+                <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="35" alt="search" class="item-search-icon">
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.LotNo" class="control-label"></label>
+                <input asp-for="InvItemMaster.LotNo" class="form-control" />
+                <span asp-validation-for="InvItemMaster.LotNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.BatchNo" class="control-label"></label>
+                <input asp-for="InvItemMaster.BatchNo" class="form-control" />
+                <span asp-validation-for="InvItemMaster.BatchNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.ItemQty" class="control-label"></label>
+                <input asp-for="InvItemMaster.ItemQty" class="form-control" value="@ViewBag.InvTrxDtlQty" />
+                <span asp-validation-for="InvItemMaster.ItemQty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.InvUomId" class="control-label"></label>
+                <select asp-for="InvItemMaster.InvUomId" class="form-control" id="UomDropdown" asp-items="ViewBag.InvUomId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.Remarks" class="control-label"></label>
+                <input asp-for="InvItemMaster.Remarks" class="form-control" />
+                <span asp-validation-for="InvItemMaster.Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.InvItemBrandId" class="control-label"></label>
+                <select asp-for="InvItemMaster.InvItemBrandId" class ="form-control" asp-items="ViewBag.InvItemBrandId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvItemMaster.InvItemOriginId" class="control-label"></label>
+                <select asp-for="InvItemMaster.InvItemOriginId" class ="form-control" asp-items="ViewBag.InvItemOriginId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="../Details" asp-route-id="@Model.InvTrxDtlId">Back to Item Details</a>
+</div>
+
+
+@await Component.InvokeAsync("Dialog", new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/js/Pages/Stores/Shared/ItemDetails/ItemUomDropdown.js"></script>
+    <script src="~/js/Shared/Components/Dialog/DialogItem.js"></script>
+    <script src="~/js/Pages/Stores/Receiving/ItemDetails/Create.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            if (@ViewBag.SelectedInvItemId != NaN) {
+                $('#itemDropdown').val("@ViewBag.SelectedInvItemId").change();
+            } else {
+                var defaultItem = $("#itemDropdown option:first").val();
+                GetItemOumsWithId(defaultItem);
+            }
+        });
+
+        $("#itemDropdown").on('change', () => {
+
+            var itemid = $('#itemDropdown').val();
+            var itemDesc = $('#itemDropdown option:selected').text();
+
+            UpdateItemInputText(itemDesc);
+            GetItemOumsWithId(itemid);
+
+        });
+
+    </script>
+}

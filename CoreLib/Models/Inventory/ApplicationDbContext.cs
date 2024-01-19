@@ -54,19 +54,25 @@ namespace CoreLib.Models.Inventory
         public virtual DbSet<SteelMaterial>? SteelMaterials { get; set; }
         public virtual DbSet<SteelOrigin>? SteelOrigins { get; set; }
         public virtual DbSet<SteelMaterialGrade>? SteelMaterialGrades { get; set; }
-        public virtual DbSet<SysLabel> SysLabels { get; set; }
-        public virtual DbSet<SysSetting> SysSettings { get; set; }
-        public virtual DbSet<SteelSize> SteelSizes { get; set; }
+        public virtual DbSet<SysLabel>? SysLabels { get; set; }
+        public virtual DbSet<SysSetting>? SysSettings { get; set; }
+        public virtual DbSet<SteelSize>? SteelSizes { get; set; }
 
         public virtual DbSet<InvTrxApproval>? InvTrxApprovals { get; set; }
         public virtual DbSet<InvPOApproval>? InvPoApprovals { get; set; }
 
-        public DbSet<Report>? Reports { get; set; }
-        public DbSet<RptCategory>? rptCategories { get; set; }
-        public DbSet<RptReportCat>? rptReportCats { get; set; }
-        public DbSet<RptReportUser>? rptReportUsers { get; set; }
-        public DbSet<RptReportRole>? rptReportRoles { get; set; }
-        public DbSet<RptAccessType>? rptAccessTypes { get; set; }
+        public virtual DbSet<Report>? Reports { get; set; }
+        public virtual DbSet<RptCategory>? rptCategories { get; set; }
+        public  DbSet<RptReportCat>? rptReportCats { get; set; }
+        public virtual DbSet<RptReportUser>? rptReportUsers { get; set; }
+        public virtual DbSet<RptReportRole>? rptReportRoles { get; set; }
+        public virtual DbSet<RptAccessType>? rptAccessTypes { get; set; }
+
+
+        public virtual DbSet<InvItemMaster> InvItemMasters { get; set; }
+        public virtual DbSet<InvTrxDtlxItemMaster>? InvTrxDtlxItemMasters { get; set; }
+        public virtual DbSet<InvItemBrand>? InvItemBrands { get; set; }
+        public virtual DbSet<InvItemOrigin>? InvItemOrigins { get; set; }
 
     }
 }
