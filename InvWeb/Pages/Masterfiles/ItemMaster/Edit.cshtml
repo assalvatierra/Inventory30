@@ -16,8 +16,8 @@
             <input type="hidden" asp-for="InvItem.Id" id="InvItemId" />
            
 
-            <input type="hidden" asp-for="InvItemSpec_Steel.Id" id="InvItemSpec_SteelId" />
-            <div class="form-group">
+            @*<input type="hidden" asp-for="InvItemSpec_Steel.Id" id="InvItemSpec_SteelId" />*@
+            @*<div class="form-group">
                 <label class="control-label"> Main Category </label>
                 <select asp-for="InvItemSpec_Steel.SteelMainCatId" id="SteelMainCatId" class="form-contro search-dropdown-initialize select2l" asp-items="ViewBag.SteelMainCats"></select>
             </div>
@@ -53,13 +53,7 @@
                 <label class="control-label"> Weight Kgpc </label>
                 <input asp-for="InvItemSpec_Steel.WtKgpc" id="WtKgpc" class="form-control" maxlength="10" />
             </div>
-
-            <div class="form-group">
-                <label asp-for="InvItem.InvUomId" class="control-label"> UOM </label>
-                <select asp-for="InvItem.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
-                <span asp-validation-for="InvItem.InvUomId" class="text-danger"></span>
-            </div>
-
+*@
             <div class="form-group">
                 <label asp-for="InvItem.Description" class="control-label" required></label>
                 <input asp-for="InvItem.Description" class="form-control" maxlength="120" />
@@ -72,6 +66,13 @@
                 <input asp-for="InvItem.Code" class="form-control" maxlength="40" />
                 <span asp-validation-for="InvItem.Code" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="InvItem.InvUomId" class="control-label"> UOM </label>
+                <select asp-for="InvItem.InvUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
+                <span asp-validation-for="InvItem.InvUomId" class="text-danger"></span>
+            </div>
+
 
             <div class="form-group">
                 <label asp-for="InvItem.InvCategoryId" class="control-label"> Category </label>

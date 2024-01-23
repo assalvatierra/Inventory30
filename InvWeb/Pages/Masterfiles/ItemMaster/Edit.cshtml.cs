@@ -48,22 +48,7 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
             InvItem = await _context.InvItems
                 .Include(i => i.InvCategory)
-                .Include(i => i.InvItemSpec_Steel)
                 .Include(i => i.InvUom)
-                .Include(i => i.InvItemSpec_Steel)
-                    .ThenInclude(i => i.SteelMainCat)
-                .Include(i => i.InvItemSpec_Steel)
-                    .ThenInclude(i => i.SteelSubCat)
-                .Include(i => i.InvItemSpec_Steel)
-                    .ThenInclude(i => i.SteelMaterial)
-                .Include(i => i.InvItemSpec_Steel)
-                    .ThenInclude(i => i.SteelMaterialGrade)
-                .Include(i => i.InvItemSpec_Steel)
-                    .ThenInclude(i => i.SteelOrigin)
-                .Include(i => i.InvItemSpec_Steel)
-                    .ThenInclude(i => i.SteelBrand)
-                .Include(i => i.InvItemSpec_Steel)
-                    .ThenInclude(i => i.SteelSize)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (InvItem == null)
@@ -76,22 +61,22 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 InvItem.InvCategoryId = (int)categoryId;
             }
 
-            if (InvItem.InvItemSpec_Steel != null)
-            {
-                InvItemSpec_Steel = InvItem.InvItemSpec_Steel.FirstOrDefault();
-            }
+            //if (InvItem.InvItemSpec_Steel != null)
+            //{
+            //    InvItemSpec_Steel = InvItem.InvItemSpec_Steel.FirstOrDefault();
+            //}
             
 
             ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description");
             ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
             //Steel Specifications
-            ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel);
-            ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats.OrderBy(s => s.Name), "Id", "Name");
-            ViewData["SteelBrands"] = new SelectList(_context.SteelBrands.OrderBy(s => s.Name), "Id", "Name");
-            ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins.OrderBy(s => s.Name), "Id", "Name");
-            ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials.OrderBy(s => s.Name), "Id", "Name");
-            ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades.OrderBy(s => s.Name), "Id", "Name");
-            ViewData["SteelSizes"] = new SelectList(_context.SteelSizes.OrderBy(s => s.Name), "Id", "Name");
+            //ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel);
+            //ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats.OrderBy(s => s.Name), "Id", "Name");
+            //ViewData["SteelBrands"] = new SelectList(_context.SteelBrands.OrderBy(s => s.Name), "Id", "Name");
+            //ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins.OrderBy(s => s.Name), "Id", "Name");
+            //ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials.OrderBy(s => s.Name), "Id", "Name");
+            //ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades.OrderBy(s => s.Name), "Id", "Name");
+            //ViewData["SteelSizes"] = new SelectList(_context.SteelSizes.OrderBy(s => s.Name), "Id", "Name");
             return Page();
         }
 
@@ -99,19 +84,19 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            ModelState.Remove("InvItemSpec_Steel.Id");
+            //ModelState.Remove("InvItemSpec_Steel.Id");
 
             if (!ModelState.IsValid)
             {
                 ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description");
                 ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
                 //Steel Specifications
-                ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats, "Id", "Name");
-                ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats, "Id", "Name");
-                ViewData["SteelBrands"] = new SelectList(_context.SteelBrands, "Id", "Name");
-                ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins, "Id", "Name");
-                ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials, "Id", "Name");
-                ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades, "Id", "Name");
+                //ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats, "Id", "Name");
+                //ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats, "Id", "Name");
+                //ViewData["SteelBrands"] = new SelectList(_context.SteelBrands, "Id", "Name");
+                //ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins, "Id", "Name");
+                //ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials, "Id", "Name");
+                //ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades, "Id", "Name");
                 return Page();
             }
 
@@ -135,14 +120,14 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 }
             }
 
-            if (await _itemSpecServices.CheckItemHasAnyInvSpec(InvItem.Id)) {
-                //update exisiting Steel Specs
-                await UpdateSteelSpecs();
-            }
-            else
-            {
-                await AddInvItemSteel();
-            }
+            //if (await _itemSpecServices.CheckItemHasAnyInvSpec(InvItem.Id)) {
+            //    //update exisiting Steel Specs
+            //    await UpdateSteelSpecs();
+            //}
+            //else
+            //{
+            //    await AddInvItemSteel();
+            //}
 
             return RedirectToPage("./Index");
         }

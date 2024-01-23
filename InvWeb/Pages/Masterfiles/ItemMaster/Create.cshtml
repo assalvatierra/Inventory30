@@ -16,7 +16,7 @@
             <div >
                 <p style="color:red;">@Html.ValidationMessage("ErrorDuplicateItem")</p>
             </div>
-
+            @*
             <div class="form-group">
                 <label class="control-label"> Main Category </label>
                 <select asp-for="InvItemSpec_Steel.SteelMainCatId" id="SteelMainCatId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelMainCats"></select>
@@ -52,12 +52,7 @@
             <div class="form-group">
                 <label class="control-label"> Weight Kgpc </label>
                 <input asp-for="InvItemSpec_Steel.WtKgpc" id="WtKgpc" class="form-control" maxlength="10" />
-            </div>
-
-            <div class="form-group">
-                <label asp-for="InvItem.InvUomId" class="control-label"> UOM </label>
-                <select asp-for="InvItem.InvUomId" id="InvItemUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
-            </div>
+            </div>*@
 
             <div class="form-group">
                 <label asp-for="InvItem.Description" class="control-label"></label>
@@ -69,6 +64,11 @@
                 <label asp-for="InvItem.Code" class="control-label"></label>
                 <input asp-for="InvItem.Code" id="InvItemCode" class="form-control" maxlength="40" required />
                 <span asp-validation-for="InvItem.Code" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="InvItem.InvUomId" class="control-label"> UOM </label>
+                <select asp-for="InvItem.InvUomId" id="InvItemUomId" class="form-control" asp-items="ViewBag.InvUomId"></select>
             </div>
 
             <div class="form-group">
