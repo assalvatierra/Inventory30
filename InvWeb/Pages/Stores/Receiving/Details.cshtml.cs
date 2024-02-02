@@ -13,6 +13,7 @@ using Modules.Inventory;
 using CoreLib.DTO.Releasing;
 using CoreLib.Interfaces;
 using Inventory;
+using CoreLib.DTO.Receiving;
 
 namespace InvWeb.Pages.Stores.Receiving
 {

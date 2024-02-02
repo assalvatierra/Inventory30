@@ -34,7 +34,7 @@ a {
 
     .form-group {
         display: flex;
-        width: 30rem !important;
+        /*width: 30rem !important;*/
     }
      
     .control-label {
@@ -47,7 +47,7 @@ a {
     }
 
     .form-control {
-        width: 23rem !important;
+        /*width: 23rem !important;*/
     }
 }
 

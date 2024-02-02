@@ -1,0 +1,184 @@
+﻿@page
+@model InvWeb.Pages.Stores.Receiving.FormModel
+@{
+}
+<style>
+    .td-bordered {
+       border:1px solid lightgray;
+    }
+</style>
+
+<div style="margin:5px;">
+
+<a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="PENDING" class="btn btn-default" >Back to List</a>
+<a asp-page="../Printables/RequestForm" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
+
+</div>
+<div class="card" style="width:95%;">
+
+<div style="display: flex;flex-direction: column;align-content: center;">
+    <div style=" display:flex;justify-content:center;margin-top:30px;">
+        <h2> Company - Warehouse - Mecuayan </h2>
+    </div>
+    <div style=" display:flex;justify-content:center;margin-bottom:40px;">
+         <h3> Receiving Form </h3>
+    </div>
+        <table class="table">
+            <tr>
+                <td>
+                    <b>  Status : @Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status </b>
+                </td>
+                <td>
+                    
+                     Requested by:
+                     @Model.ReceivingDetailsModel.InvTrxHdr.UserId 
+                   
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> Party: </label>
+                        
+                        <input id="textinput-Party" type="text"  class="form-control" style="width:40rem;" />
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group row" >
+                        <label class="col-sm-3 col-form-label">   RefNo: </label>
+                        <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" />
+                    </div>
+                  
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> Remarks </label>
+                        <input id="textinput-Remarks" type="text" class="form-control" style="width:40rem;" />
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">  Date: </label>
+                        
+                        <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+</div>
+
+    <div style="margin:15px;">
+
+    <table class="table" style="border:1px solid lightgray;">
+        <tr>
+            <th>
+                PARTICULARS
+            </th>
+                <th class="td-bordered">
+                QTY
+            </th>
+            <th class="td-bordered">
+                UOM
+            </th>
+             <th class="td-bordered">
+                REMARKS
+            </th>
+            <th>
+
+            </th>
+
+
+        </tr>
+
+        <!-- ITEMS -->
+            @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)
+        {
+        <tr>
+            <td style="min-width:50rem;">
+                ( @item.InvItem.Code )
+                @item.InvItem.Description
+            </td>
+            <td style="min-width:2rem;">
+                @item.ItemQty
+            </td>
+            <td style="min-width:5rem;">
+                @item.InvUom.uom
+            </td>
+            <td>
+                @item.InvItem.Remarks
+            </td>
+                    <td>
+                        <div class="row" style="width:10rem;">
+                            <button class="btn btn-outline-primary btn-sm"> Edit </button>
+                            <button class="btn btn-outline-danger btn-sm"> X </button>
+                        </div>
+                    </td>
+        </tr>
+        }
+        <tr>
+                <td>
+                    Item
+                    <div style="display:flex;">
+                        <input id="textinput-Date" type="text" class="form-control" style="width:90%;" />
+                        <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="37" alt="search" class="item-search-icon">
+                    </div>
+                </td>
+                <td>
+                    Qty 
+                    <input id="textinput-Date" type="text"  class="form-control" />
+                </td>
+                <td>
+                    Uom
+                    <input id="textinput-Date" type="text"  class="form-control" />
+                </td>
+                <td>
+                    Remarks
+                    <input id="textinput-Date" type="text"  class="form-control" />
+                </td>
+                <td>
+                    Actions
+                    <div class="row" style="width:10rem;">
+                        <button class="btn btn-outline-primary btn-sm"> Add </button>
+                        <button class="btn btn-outline-danger btn-sm"> Cancel </button>
+                    </div>
+                </td>
+        </tr>
+        
+        <tr>
+            <td colspan="5">
+                TOTAL 
+            </td>
+        </tr>
+
+        </table>
+    </div>
+</div>
+
+<div class="col-lg-6" style="margin-top:10px;"> 
+     <button class="btn btn-primary">  Request for Approval </button>
+</div>
+
+@await Component.InvokeAsync("Dialog", new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/js/Pages/Stores/Shared/ItemDetails/ItemUomDropdown.js"></script>
+    <script src="~/js/Shared/Components/Dialog/DialogItem.js"></script>
+    <script src="~/js/Pages/Stores/Receiving/ItemDetails/Create.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+           
+            SearchItem(@ViewBag.SelectedItemId);
+        });
+
+
+    </script>
+}

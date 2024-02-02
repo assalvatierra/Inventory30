@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CoreLib.DTO.Releasing
 {
-    public class ReceivingDetailsModel
+    public class ReleasingDetailsModel
     {
         public InvTrxHdr? InvTrxHdr { get; set; }
         public IEnumerable<InvTrxDtl>? InvTrxDtls { get; set; }
