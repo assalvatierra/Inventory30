@@ -46,7 +46,7 @@
                 <td>
                     <div class="form-group row" >
                         <label class="col-sm-3 col-form-label">   RefNo: </label>
-                        <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" />
+                        <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Id" />
                     </div>
                   
                 </td>
@@ -55,7 +55,7 @@
                 <td>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label"> Remarks </label>
-                        <input id="textinput-Remarks" type="text" class="form-control" style="width:40rem;" />
+                        <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" />
                     </div>
                 </td>
                 <td>
@@ -71,7 +71,7 @@
 
     <div style="margin:15px;">
 
-    <table class="table" style="border:1px solid lightgray;">
+        <table class="table" style="border:1px solid lightgray;" id="ItemsTable">
         <tr>
             <th>
                 PARTICULARS
@@ -96,14 +96,14 @@
             @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)
         {
         <tr>
-            <td style="min-width:50rem;">
+            <td style="min-width:40rem;">
                 ( @item.InvItem.Code )
                 @item.InvItem.Description
             </td>
             <td style="min-width:2rem;">
                 @item.ItemQty
             </td>
-            <td style="min-width:5rem;">
+            <td style="min-width:8rem;">
                 @item.InvUom.uom
             </td>
             <td>
@@ -115,32 +115,32 @@
                             <button class="btn btn-outline-danger btn-sm"> X </button>
                         </div>
                     </td>
-        </tr>
+            </tr>
         }
-        <tr>
+            <tr id="AddItemsField">
                 <td>
                     Item
                     <div style="display:flex;">
-                        <input id="textinput-Date" type="text" class="form-control" style="width:90%;" />
+                        <select id="itemDropdown" class="form-control" asp-items="ViewBag.InvItems"></select>
                         <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="37" alt="search" class="item-search-icon">
                     </div>
                 </td>
                 <td>
                     Qty 
-                    <input id="textinput-Date" type="text"  class="form-control" />
+                    <input id="textinput-Qty" type="text"  class="form-control" />
                 </td>
                 <td>
                     Uom
-                    <input id="textinput-Date" type="text"  class="form-control" />
+                    <select id="UomDropdown" class="form-control" asp-items="ViewBag.UomsList"></select>
                 </td>
                 <td>
                     Remarks
-                    <input id="textinput-Date" type="text"  class="form-control" />
+                    <input id="textinput-Remarks" type="text"  class="form-control" />
                 </td>
                 <td>
                     Actions
                     <div class="row" style="width:10rem;">
-                        <button class="btn btn-outline-primary btn-sm"> Add </button>
+                        <button class="btn btn-outline-primary btn-sm" onclick="AddNewItemOnTableRow()"> Add </button>
                         <button class="btn btn-outline-danger btn-sm"> Cancel </button>
                     </div>
                 </td>
@@ -175,10 +175,73 @@
     <script>
 
         $(document).ready(function () {
-           
-            SearchItem(@ViewBag.SelectedItemId);
+
+            $("#itemDropdown").val($("#itemDropdown option:first").val());
+            //SearchItem(@ViewBag.SelectedItemId); 
+            
+            var defaultItem = $("#itemDropdown option:first").val();
+            GetItemOumsWithId(defaultItem);
         });
 
 
+        $("#itemDropdown").on('change', () => {
+
+            var itemid = $('#itemDropdown').val();
+            var itemDesc = $('#itemDropdown option:selected').text();
+
+            GetItemOumsWithId(itemid);
+
+            UpdateItemInputText(itemDesc);
+
+        });
+
+        function AddNewItemOnTableRow(){
+
+            var invHdrId = $('#textinput-RefNo').val();
+            var itemDesc = $('#itemDropdown option:selected').text();
+            var itemId = $('#itemDropdown').val();
+            var itemQty = $('#textinput-Qty').val();
+            var itemUom = $('#UomDropdown option:selected').text();
+            var itemRemarks = $('#textinput-Remarks').val();
+
+            $('#ItemsTable tr:last').prev().before('<tr> <td> ' + itemDesc + '</td> <td> ' + itemQty + ' </td> <td> ' + itemUom + ' </td> <td> ' + itemRemarks + ' </td> <td>  </td> </tr>');
+
+            Post_addInvItem(invHdrId, itemId, itemQty, itemUom);
+        
+        }
+
+        function Post_addInvItem(invHdrId, itemId, itemQty, itemUom) {
+
+            var data = {
+                InvTrxHdrId: invHdrId,
+                InvItemId: itemId,
+                ItemQty: itemQty,
+                InvUomId: itemUom
+            };
+
+            console.log(data)
+
+            var uriString = '?InvTrxHdrId=' + invHdrId + '&InvItemId=' + itemId + '&ItemQty=' + itemQty + '&InvUomId=' + itemUom;
+
+            $.post('/api/ApiInvTrxDtls/AddTrxDtlItem' + uriString,
+            data,
+            (res)=>{
+                console.log('Request.');
+                console.log(res);
+            }).done((res)=>{
+                console.log('Done.');
+                console.log(res);
+            });
+
+        }
+
+
+        function Put_ApiTxDtls_Item(e, id) {
+            $.post('/api/ApiTrxDtls/AddTrxDtlItem', { id: id }, (res) => {
+                console.log(res);
+            }).done(() => {
+                $(e).attr('disabled', 'disabled');
+            });
+        }
     </script>
 }

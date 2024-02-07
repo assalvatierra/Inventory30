@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using CoreLib.DTO.Common.Dialog;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
@@ -25,6 +26,7 @@ namespace InvWeb.Pages.Stores.Receiving
         private readonly IItemTrxServices itemTrxServices;
         private readonly IInvApprovalServices invApprovalServices;
         private readonly IItemServices _itemServices;
+        private readonly IUomServices uomServices;
 
         public FormModel(ILogger<DetailsModel> logger, ApplicationDbContext context)
         {
@@ -33,6 +35,7 @@ namespace InvWeb.Pages.Stores.Receiving
             itemTrxServices = new ItemTrxServices(_context, _logger);
             invApprovalServices = new InvApprovalServices(_context, _logger);
             _itemServices = new ItemServices(context);
+            uomServices = new UomServices(_context);
 
             ReceivingDetailsModel = new ReceivingDetailsModel();
         }
@@ -60,6 +63,15 @@ namespace InvWeb.Pages.Stores.Receiving
 
             //ReceivingDetailsModel.InvTrxApproval = invApprovalServices.GetExistingApproval((int)id);
 
+            ViewData["InvItems"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
+                                    .Select(x => new
+                                    {
+                                        Name = String.Format("({0}) {1} - {2} {3}",
+                                        x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+                                        Value = x.Id
+                                    }), "Value", "Name", id);
+
+            ViewData["UomsList"] = new SelectList(uomServices.GetUomSelectList(), "Id", "uom");
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
 
             return Page();
