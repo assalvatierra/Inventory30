@@ -66,8 +66,8 @@ namespace InvWeb.Pages.Stores.Receiving
             ViewData["InvItems"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
                                     .Select(x => new
                                     {
-                                        Name = String.Format("({0}) {1} - {2} {3}",
-                                        x.Code, x.InvCategory.Description, x.Description, x.Remarks),
+                                        Name = String.Format("({0}) {1} - {2} ",
+                                        x.Code, x.InvCategory.Description, x.Description),
                                         Value = x.Id
                                     }), "Value", "Name", id);
 

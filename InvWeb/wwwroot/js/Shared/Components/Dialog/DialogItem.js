@@ -23,8 +23,13 @@ function ShowItemModal() {
 
 }
 
+function ShowItemEditModal() {
+    $("#itemEditSearchModal").modal("show");
+
+}
 function HideItemModal() {
     $("#itemSearchModal").modal("hide");
+    $("#itemEditSearchModal").modal("hide");
 
 }
 

@@ -6,7 +6,7 @@
 @model InvWeb.Pages.Stores.Receiving.FormModel
 
 <!-- Modal -->
-<div class="modal fade" id="itemSearchModal" tabindex="-1" role="dialog" aria-labelledby="itemSearchModal" aria-hidden="true">
+<div class="modal fade" id="itemCreateSearchModal" tabindex="-1" role="dialog" aria-labelledby="itemSearchModal" aria-hidden="true">
     <div class="modal-dialog" role="document" style="max-width:max-content">
         <div class="modal-content dialog-search-form">
             <div class="modal-header">
@@ -18,12 +18,12 @@
             <div class="modal-body">
                 <div>
                     <div class="form-group" hidden>
-                        <label asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId" class="control-label"></label>
-                        @*<select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvTrxHdrs"></select>*@
+                        @*<label asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId" class="control-label"></label>*@@*
+                        <select id="itemEditDropdown" class="form-control" asp-items="ViewBag.InvItems"></select>*@
                     </div>
                     <div class="form-group">
                         <label class="control-label">   </label>
-                        <a asp-page="./SearchItem" id="SearchItem-link" asp-route-id="@Model.ItemDtlsCreateModel.HrdId" asp-route-itemId="@Model.ItemDtlsCreateModel.InvTrxDtl.InvItemId" asp-route-actionType="Create" class="btn btn-primary" style="width:80%;">   Update brand/origin <img src="/img/icons/icons-search.png" width="15" height="15" alt="search" /> </a>
+                        @*<a asp-page="./SearchItem" id="SearchItem-link" asp-route-id="@Model.ItemDtlsCreateModel.HrdId" asp-route-itemId="@Model.ItemDtlsCreateModel.InvTrxDtl.InvItemId" asp-route-actionType="Create" class="btn btn-primary" style="width:80%;">   Update brand/origin <img src="/img/icons/icons-search.png" width="15" height="15" alt="search" /> </a>*@
                     </div>
                     <div class="form-group">
                         <label class="control-label"> Item </label>
@@ -33,20 +33,20 @@
                     </div>
                     <div class="form-group" hidden>
                         <label class="control-label"> HeatNo </label>
-                        <input asp-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" class="form-control" maxlength="20" id="heatno" />
+                        @*<input asp-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" class="form-control" maxlength="20" id="heatno" />*@
                         @*<span asp-validation-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" class="text-danger"></span>*@
                     </div>
                     <div class="form-group">
                         <label class="control-label"> Qty </label>
-                        <input asp-for="ItemDtlsCreateModel.InvTrxDtl.ItemQty" class="form-control" value="1" />
+                        @*<input asp-for="ItemDtlsCreateModel.InvTrxDtl.ItemQty" class="form-control" value="1" />*@
                         @*<span asp-validation-for="ItemDtlsCreateModel.InvTrxDtl.ItemQty" class="text-danger"></span>*@
                     </div>
                     <div class="form-group">
                         <label class="control-label"> Uom </label>
-                        <select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvUomId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvUoms" id="UomDropdown"></select>
+                        @*<select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvUomId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvUoms" id="UomDropdown"></select>*@
                     </div>
                     <div class="form-group" hidden>
-                        <label asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxDtlOperatorId" class="control-label"></label>
+                        @*<label asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxDtlOperatorId" class="control-label"></label>*@
                         @*<select asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxDtlOperatorId" class="form-control" asp-items="Model.ItemDtlsCreateModel.InvTrxDtlOperators"></select>*@
                     </div>
                     <div class="form-group">
@@ -62,3 +62,44 @@
         </div>
     </div>
 </div>
+
+
+
+
+<!-- Modal Edit -->
+<div class="modal fade" id="ItemEditModal" tabindex="-1" role="dialog" aria-labelledby="itemEditModal" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width:max-content">
+        <div class="modal-content dialog-search-form">
+            <div class="modal-header">
+                <h5 class="modal-title"> Edit Item </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-group" hidden>
+                        <label asp-for="ItemDtlsCreateModel.InvTrxDtl.InvTrxHdrId" class="control-label"></label>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"> Item </label>
+                        <select class="form-control" asp-items="ViewBag.InvItems" id='itemEditDropdown' style="width: 25rem !important;" readonly></select>
+                        <img src="~/img/icons/icons-search.png" width="40" alt="search" class="item-search-icon" onclick="ShowItemEditModal()">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"> Qty </label>
+                        <input asp-for="ItemDtlsCreateModel.InvTrxDtl.ItemQty" id="itemQty" class="form-control" value="1" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"> Uom </label>
+                        <select class="form-control" asp-items="ViewBag.UomsList" id="UomEditDropdown"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</div>
+

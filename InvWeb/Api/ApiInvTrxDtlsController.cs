@@ -6,7 +6,10 @@ using Inventory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Modules.Inventory;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -66,7 +69,7 @@ namespace InvWeb.Api
 
         [ActionName("AddTrxDtlItem")]
         [HttpPost]
-        public ObjectResult AddTrxDtlItem(int hdrId,  int invId, int qty, int uomId, string remarks)
+        public ObjectResult AddTrxDtlItem(int hdrId,  int invId, int qty, int uomId)
         {
             try
             {
@@ -78,16 +81,71 @@ namespace InvWeb.Api
                 invTrxDtl.ItemQty = qty;
                 invTrxDtl.InvTrxDtlOperatorId = 1;
 
-                //invTrxDtl.remarks = qty;
-
-                itemDtlsServices.CreateInvDtls(invTrxDtl);
-                itemDtlsServices.SaveChangesAsync();
+                _context.InvTrxDtls.Add(invTrxDtl);
+                _context.SaveChanges();
 
                 return StatusCode(201, "Add Successfull");
             }
-            catch
+            catch (Exception ex)
             {
                 return StatusCode(500, "Add not Successfull");
+            }
+        }
+
+
+        [ActionName("DeleteTrxDtlItem")]
+        [HttpDelete]
+        public ObjectResult DeleteTrxDtlItem(int id)
+        {
+            try
+            {
+
+                InvTrxDtl invTrxDtl = itemDtlsServices.GetInvDtlsById(id).First();
+
+                if (invTrxDtl == null)
+                {
+                    return StatusCode(500, "Unable to find item details");
+                }
+
+                _context.InvTrxDtls.Remove(invTrxDtl);
+                _context.SaveChanges();
+
+                return StatusCode(201, "Remove Successfull");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Add not Successfull");
+            }
+        }
+
+
+        [ActionName("GetItemDetails")]
+        [HttpGet]
+        public string GetItemDetails(int id)
+        {
+            try
+            {
+
+                InvTrxDtl invTrxDtl = itemDtlsServices.GetInvDtlsById(id).First();
+
+                if (invTrxDtl == null)
+                {
+                    return "Unable to find item details";
+                }
+
+
+
+                return JsonConvert.SerializeObject(new {
+                     invTrxDtl.Id,
+                     invTrxDtl.InvItemId,
+                     invTrxDtl.InvUomId,
+                     invTrxDtl.ItemQty
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return "Add not Successfull";
             }
         }
     }

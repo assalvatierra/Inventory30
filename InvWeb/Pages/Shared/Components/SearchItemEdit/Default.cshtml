@@ -1,0 +1,60 @@
+﻿
+@model IEnumerable<CoreLib.DTO.Common.Dialog.DialogItems>
+@{
+
+}
+
+<style>
+
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="itemEditSearchModal" tabindex="-1" role="dialog" aria-labelledby="itemSearchModal" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width:max-content">
+        <div class="modal-content dialog-search-form">
+            <div class="modal-header"> 
+                <h5 class="modal-title" id="itemSearchModal"> Search Item </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" >
+                <div>
+                    <input type="text" class="form-control" id="SearchBar" onkeyup="SearchCompany()" style="width:100% !important; margin-bottom:5px;" />
+                </div>
+
+                <table class="table" id="SearchList">
+                   
+                   <tr>
+                        <th> Action </th>
+                        <th> Name </th>
+                        @*<th> Description </th>*@
+                   </tr>
+               
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <button class="btn btn-primary" onclick="SelectItemFromDialog('@ViewBag.Selector', @item.Id)">
+                                 Select 
+                            </button>
+                        </td>
+                        <td class="item-name no-wrap">
+                            @Html.DisplayFor(modelItem => item.Name) <br>
+                            <span class="item-desc subtext-gray">
+                               @item.Description
+                            </span>
+                        </td>
+                       @*<td class="item-desc" style="white-space:nowrap;">
+                            
+                        </td>*@
+                    </tr>
+                }
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

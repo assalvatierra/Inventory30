@@ -88,31 +88,29 @@
             <th>
 
             </th>
-
-
         </tr>
 
         <!-- ITEMS -->
-            @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)
+        @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)
         {
         <tr>
-            <td style="min-width:40rem;">
+            <td style="min-width:40rem;" id="itemDescEdit-@item.Id">
                 ( @item.InvItem.Code )
                 @item.InvItem.Description
             </td>
-            <td style="min-width:2rem;">
+            <td  style="min-width:2rem;">
                 @item.ItemQty
             </td>
-            <td style="min-width:8rem;">
+            <td  style="min-width:8rem;">
                 @item.InvUom.uom
             </td>
             <td>
                 @item.InvItem.Remarks
             </td>
                     <td>
-                        <div class="row" style="width:10rem;">
-                            <button class="btn btn-outline-primary btn-sm"> Edit </button>
-                            <button class="btn btn-outline-danger btn-sm"> X </button>
+                        <div class="row" style="width:5rem;">
+                            <button class="btn btn-outline-primary btn-sm" onclick="EditExisitingItemRow(this, @item.Id)"> Edit </button>
+                            <button class="btn btn-outline-danger btn-sm" onclick="RemoveItemFromTable(this, @item.Id)"> X </button>
                         </div>
                     </td>
             </tr>
@@ -127,7 +125,7 @@
                 </td>
                 <td>
                     Qty 
-                    <input id="textinput-Qty" type="text"  class="form-control" />
+                    <input id="textinput-Qty" type="text"  class="form-control" value="1" />
                 </td>
                 <td>
                     Uom
@@ -139,9 +137,8 @@
                 </td>
                 <td>
                     Actions
-                    <div class="row" style="width:10rem;">
+                    <div class="row" style="width:5rem;">
                         <button class="btn btn-outline-primary btn-sm" onclick="AddNewItemOnTableRow()"> Add </button>
-                        <button class="btn btn-outline-danger btn-sm"> Cancel </button>
                     </div>
                 </td>
         </tr>
@@ -161,7 +158,11 @@
 </div>
 
 @await Component.InvokeAsync("Dialog", new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
+@await Component.InvokeAsync("SearchItemEdit", new { items =  ViewData["DialogItems"] , selector = "itemEditDropdown"  })
 
+@{
+    Html.RenderPartial("ModalAddItem");
+}
 
 @section Scripts {
     @{
@@ -202,46 +203,106 @@
             var itemId = $('#itemDropdown').val();
             var itemQty = $('#textinput-Qty').val();
             var itemUom = $('#UomDropdown option:selected').text();
+            var itemUomId = $('#UomDropdown').val();
             var itemRemarks = $('#textinput-Remarks').val();
 
             $('#ItemsTable tr:last').prev().before('<tr> <td> ' + itemDesc + '</td> <td> ' + itemQty + ' </td> <td> ' + itemUom + ' </td> <td> ' + itemRemarks + ' </td> <td>  </td> </tr>');
 
-            Post_addInvItem(invHdrId, itemId, itemQty, itemUom);
+            Post_addInvItem(invHdrId, itemId, itemQty, itemUomId);
         
         }
 
-        function Post_addInvItem(invHdrId, itemId, itemQty, itemUom) {
+        function Post_addInvItem(invHdrId, itemId, itemQty, itemUomId) {
 
             var data = {
-                InvTrxHdrId: invHdrId,
-                InvItemId: itemId,
-                ItemQty: itemQty,
-                InvUomId: itemUom
+                hdrId: invHdrId,
+                invId: itemId,
+                qty: itemQty,
+                uomId: itemUomId
             };
-
+            const myData = JSON.stringify(data);
             console.log(data)
 
-            var uriString = '?InvTrxHdrId=' + invHdrId + '&InvItemId=' + itemId + '&ItemQty=' + itemQty + '&InvUomId=' + itemUom;
+            var uriString = '?hdrId=' + invHdrId + '&invId=' + itemId + '&qty=' + itemQty + '&uomId=' + itemUomId;
 
-            $.post('/api/ApiInvTrxDtls/AddTrxDtlItem' + uriString,
-            data,
-            (res)=>{
-                console.log('Request.');
-                console.log(res);
-            }).done((res)=>{
-                console.log('Done.');
-                console.log(res);
+            $.ajax({
+                type: 'POST',
+                url: '/api/ApiInvTrxDtls/AddTrxDtlItem' + uriString,
+                data: myData,
+                error: function (e) {
+                    console.log(e);
+                    //alert("Unable to Add Item.")
+                },
+                success: function (res){
+                    console.log("success");
+                    console.log(res);
+                },
+                dataType: "json",
+                contentType: "application/json"
             });
-
         }
 
+        function RemoveItemFromTable(e, invDtlsId){
+            
+            //remove table row
+            $(e).parent().parent().parent().remove();
 
-        function Put_ApiTxDtls_Item(e, id) {
-            $.post('/api/ApiTrxDtls/AddTrxDtlItem', { id: id }, (res) => {
-                console.log(res);
-            }).done(() => {
-                $(e).attr('disabled', 'disabled');
+            //remove from table db
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/ApiInvTrxDtls/DeleteTrxDtlItem?id=' + invDtlsId,
+                data: { id: invDtlsId },
+                error: function (e) {
+                    console.log(e);
+                    //alert("Unable to Add Item.")
+                },
+                success: function (res) {
+                    console.log("success");
+                    console.log(res);
+                },
+                dataType: "json",
+                contentType: "application/json"
             });
+        }
+
+        function EditExisitingItemRow(e,id){
+            //$("#itemDescEdit-" + id).append('<div style="display:flex;">'+
+            //    '<select id="itemDropdown" class="form-control" asp-items="@ViewBag.InvItems"> </select>' +
+            //    '<img id="ItemTextfieldBtn" src="/img/icons/icons-search.png" width="37" alt="search" class="item-search-icon">' +
+            //    '</div>"')
+
+            $("#ItemEditModal").modal('show');
+            $("#itemEditSearchModal").css("z-index", 2050);
+
+            RetrieveItemDetails(id);
+        }
+
+        function GetItemDetails(id){
+            return $.ajax({
+                type: 'GET',
+                url: '/api/ApiInvTrxDtls/GetItemDetails?id=' + id,
+                data: { id: id },
+                error: function (e) {
+                    console.log(e);
+                    //alert("Unable to Add Item.")
+                },
+                success: function (res) {
+                    console.log("success");
+                    console.log(res);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
+        }
+
+        async function RetrieveItemDetails(id){
+            const result = await GetItemDetails(id);
+            console.log(result);
+
+            //populate fields
+            $("#itemEditDropdown").val(result["InvItemId"]);
+            $("#itemQty").val(result["ItemQty"]);
+            $("#UomEditDropdown").val(result["InvUomId"]);
         }
     </script>
 }

@@ -54,3 +54,4 @@ function GetDefaultUom(itemId) {
 function SetItemUom(uomId) {
     $("#UomDropdown").val(uomId);
 }
+
