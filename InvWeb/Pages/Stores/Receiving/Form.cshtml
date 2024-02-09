@@ -6,6 +6,11 @@
     .td-bordered {
        border:1px solid lightgray;
     }
+
+    .control-label{
+        width: 5rem !important;
+        margin-left: 1rem;
+    }
 </style>
 
 <div style="margin:5px;">
@@ -46,7 +51,7 @@
                 <td>
                     <div class="form-group row" >
                         <label class="col-sm-3 col-form-label">   RefNo: </label>
-                        <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Id" />
+                        <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Id" readonly/>
                     </div>
                   
                 </td>
@@ -55,7 +60,7 @@
                 <td>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label"> Remarks </label>
-                        <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" />
+                        <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Remarks" />
                     </div>
                 </td>
                 <td>
@@ -93,7 +98,7 @@
         <!-- ITEMS -->
         @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)
         {
-        <tr>
+        <tr id="itemDetails-@item.Id">
             <td style="min-width:40rem;" id="itemDescEdit-@item.Id">
                 ( @item.InvItem.Code )
                 @item.InvItem.Description
@@ -132,8 +137,8 @@
                     <select id="UomDropdown" class="form-control" asp-items="ViewBag.UomsList"></select>
                 </td>
                 <td>
-                    Remarks
-                    <input id="textinput-Remarks" type="text"  class="form-control" />
+                   @* Remarks
+                    <input id="textinput-Remarks" type="text"  class="form-control" />*@
                 </td>
                 <td>
                     Actions
@@ -265,7 +270,7 @@
             });
         }
 
-        function EditExisitingItemRow(e,id){
+        function EditExisitingItemRow(e, id){
             //$("#itemDescEdit-" + id).append('<div style="display:flex;">'+
             //    '<select id="itemDropdown" class="form-control" asp-items="@ViewBag.InvItems"> </select>' +
             //    '<img id="ItemTextfieldBtn" src="/img/icons/icons-search.png" width="37" alt="search" class="item-search-icon">' +
@@ -300,9 +305,110 @@
             console.log(result);
 
             //populate fields
+            $("#trxDtlsId").val(id);
             $("#itemEditDropdown").val(result["InvItemId"]);
-            $("#itemQty").val(result["ItemQty"]);
+            $("#itemEditQty").val(result["ItemQty"]);
             $("#UomEditDropdown").val(result["InvUomId"]);
         }
+
+        function EditItemDetailsSaveChanges(){
+            var trxDtlsId = $("#trxDtlsId").val();
+            var itemId = $("#itemEditDropdown").val();
+            var itemQty = $("#itemEditQty").val();
+            var itemUomId = $("#UomEditDropdown").val();
+
+
+            var data = {
+                invDtlsId: trxDtlsId,
+                invId: itemId,
+                qty: itemQty,
+                uomId: itemUomId
+            };
+            const myData = JSON.stringify(data);
+            console.log(data);
+
+            var uriString = '?invDtlsId=' + trxDtlsId + '&invId=' + itemId + '&qty=' + itemQty + '&uomId=' + itemUomId;
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/ApiInvTrxDtls/EditTrxDtlItem' + uriString,
+                data: myData,
+                error: function (e) {
+                    console.log(e);
+                    //alert("Unable to Add Item.")
+                },
+                success: function (res) {
+                    console.log("success");
+                    console.log(res);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
+
+
+            $("#ItemEditModal").modal('hide');
+
+            $("#itemDetails-" + trxDtlsId).hide();
+
+            //update item row
+            $("#itemDetails-" + trxDtlsId).after('<tr id="#itemDetails-' + trxDtlsId + '">' +
+                '<td>' + $("#itemEditDropdown option:selected()").text() + ' </td>' +
+                '<td>' + $("#itemEditQty").val() + ' </td>' +
+                '<td>' + $("#UomEditDropdown option:selected()").text() + ' </td>' +
+                '<td> </td>' +
+                '<td> <div class="row" style="width:5rem;">' +
+                '<button class="btn btn-outline-primary btn-sm" onclick = "EditExisitingItemRow(this, ' + trxDtlsId + ')" > Edit </button>' +
+                '<button class="btn btn-outline-danger btn-sm" onclick = "RemoveItemFromTable(this, ' + trxDtlsId + ')" > X </button>'+
+                '     </div> </td > ' +
+            '</tr>')
+
+            if ($("#itemDetails-" + trxDtlsId).css('display') == 'none') {
+                // true
+                $("#itemDetails-" + trxDtlsId).first().remove();
+            }
+        }
+
+        $("#textinput-HdrRemarks").blur(function(){
+
+            UpdateHeaderRemarks();
+
+            $(this).css("border-color", "green");
+
+            setTimeout(
+                function () {
+                    $(this).css("border-color", "black");
+                }, 2000);
+        });
+
+        function UpdateHeaderRemarks(){
+
+            var data = {
+                hdrId: $("#textinput-RefNo").val(),
+                remarks: $("#textinput-HdrRemarks").val()
+            }
+
+            const myData = JSON.stringify(data);
+            console.log(myData);
+
+            var uriString = '?hdrId=' + $("#textinput-RefNo").val() + '&remarks=' + $("#textinput-HdrRemarks").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/ApiInvTrxDtls/EditHdrRemarks' + uriString,
+                data: myData,
+                error: function (e) {
+                    console.log(e);
+                    //alert("Unable to Add Item.")
+                },
+                success: function (res) {
+                    console.log("success");
+                    console.log(res);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
+
+        }
+
     </script>
 }

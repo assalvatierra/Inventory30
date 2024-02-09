@@ -38,12 +38,12 @@ a {
     }
      
     .control-label {
-        width: 8rem !important;
-        margin-right: 1rem !important;
+        width: 8rem ;
+        margin-right: 1rem ;
     }
 
     .select2-container {
-        width: 21.5rem !important;
+        width: 21.5rem;
     }
 
     .form-control {

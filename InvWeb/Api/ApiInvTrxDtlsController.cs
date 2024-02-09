@@ -4,6 +4,7 @@ using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
 using Inventory;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Modules.Inventory;
 using Newtonsoft.Json;
@@ -148,5 +149,74 @@ namespace InvWeb.Api
                 return "Add not Successfull";
             }
         }
+
+
+        [ActionName("EditTrxDtlItem")]
+        [HttpPost]
+        public ObjectResult EditTrxDtlItem(int invDtlsId, int invId, int qty, int uomId)
+        {
+            try
+            {
+
+                InvTrxDtl invTrxDtl = itemDtlsServices.GetInvDtlsById(invDtlsId).FirstOrDefault();
+
+                if (invTrxDtl == null)
+                {
+                    return StatusCode(500, "Edit not Successfull. Item not found.");
+                }
+
+                invTrxDtl.InvItemId = invId;
+                invTrxDtl.InvUomId = uomId;
+                invTrxDtl.ItemQty = qty;
+
+                //itemDtlsServices.EditInvDtls(invTrxDtl);
+                //itemDtlsServices.SaveChangesAsync();
+
+                _context.Attach(invTrxDtl).State = EntityState.Modified;
+
+                _context.SaveChanges();
+
+                return StatusCode(201, "Edit Successfull");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Edit not Successfull");
+            }
+        }
+
+
+
+        [ActionName("EditHdrRemarks")]
+        [HttpPost]
+        public ObjectResult EditHdrRemarks(int hdrId, string remarks)
+        {
+            try
+            {
+
+                InvTrxHdr invTrxHdr = itemTrxServices.GetInvTrxHdrsById(hdrId).FirstOrDefault();
+
+                if (invTrxHdr == null)
+                {
+                    return StatusCode(500, "Edit not Successfull. Header Details not found.");
+                }
+
+                invTrxHdr.Remarks = remarks;
+
+                //itemDtlsServices.EditInvDtls(invTrxDtl);
+                //itemDtlsServices.SaveChangesAsync();
+
+                _context.Attach(invTrxHdr).State = EntityState.Modified;
+
+                _context.SaveChanges();
+
+                return StatusCode(201, "Edit Successfull");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Edit not Successfull");
+            }
+        }
+
+
     }
 }
