@@ -74,7 +74,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Details", new { id = ReceivingCreateModel.InvTrxHdr.Id });
+            return RedirectToPage("./Form", new { id = ReceivingCreateModel.InvTrxHdr.Id });
         }
 
         private string GetUser()
