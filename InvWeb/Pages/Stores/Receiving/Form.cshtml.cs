@@ -27,6 +27,7 @@ namespace InvWeb.Pages.Stores.Receiving
         private readonly IInvApprovalServices invApprovalServices;
         private readonly IItemServices _itemServices;
         private readonly IUomServices uomServices;
+        private readonly DateServices dateServices;
 
         public FormModel(ILogger<DetailsModel> logger, ApplicationDbContext context)
         {
@@ -36,6 +37,7 @@ namespace InvWeb.Pages.Stores.Receiving
             invApprovalServices = new InvApprovalServices(_context, _logger);
             _itemServices = new ItemServices(context);
             uomServices = new UomServices(_context);
+            dateServices = new DateServices();
 
             ReceivingDetailsModel = new ReceivingDetailsModel();
         }
@@ -73,7 +75,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             ViewData["UomsList"] = new SelectList(uomServices.GetUomSelectList(), "Id", "uom");
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
-
+            ViewData["DateToday"] = dateServices.GetCurrentDate();
             return Page();
         }
 

@@ -14,6 +14,7 @@ using CoreLib.DTO.Releasing;
 using CoreLib.DTO.Receiving;
 using CoreLib.Interfaces;
 using Inventory;
+using Microsoft.CodeAnalysis;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
@@ -46,10 +47,48 @@ namespace InvWeb.Pages.Stores.Receiving
 
             if (string.IsNullOrEmpty(status))
             {
-                status = "PENDING";
+                status = "ALL";
             }
 
-            ReceivingIndexModel = await itemTrxServices.GetReceivingIndexModel_OnIndexOnGetAsync(InvTrxHdr, (int)storeId, TYPE_RECEIVING, status, IsUserRoleAdmin());
+            //ReceivingIndexModel = await itemTrxServices.GetReceivingIndexModel_OnIndexOnGetAsync(InvTrxHdr, (int)storeId, TYPE_RECEIVING, status, IsUserRoleAdmin());
+
+            ReceivingIndexModel receivingIndexModel = new ReceivingIndexModel();
+
+            InvTrxHdr = await _context.InvTrxHdrs
+            .Include(i => i.InvStore)
+            .Include(i => i.InvTrxHdrStatu)
+            .Include(i => i.InvTrxType)
+            .Include(i => i.InvTrxDtls)
+                .ThenInclude(i => i.InvItem)
+                .ThenInclude(i => i.InvUom)
+            .Include(i => i.InvTrxDtls)
+                .ThenInclude(i => i.InvItem)
+                .ThenInclude(i => i.InvItemSpec_Steel)
+                .ThenInclude(i => i.SteelMaterial)
+            .Include(i => i.InvTrxDtls)
+                .ThenInclude(i => i.InvItem)
+                .ThenInclude(i => i.InvItemSpec_Steel)
+                .ThenInclude(i => i.SteelMaterialGrade)
+            .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
+                          i.InvStoreId == storeId)
+            .ToListAsync();
+
+            InvTrxHdr = itemTrxServices.FilterByStatus(InvTrxHdr, status);
+
+            receivingIndexModel.InvTrxHdrs = InvTrxHdr;
+            receivingIndexModel.StoreId = (int)storeId;
+            receivingIndexModel.Status = status;
+            receivingIndexModel.IsAdmin = IsUserRoleAdmin();
+
+            ReceivingIndexModel = receivingIndexModel;
+
+            var trxCount = await _context.InvTrxHdrs
+                .Where(i => i.InvTrxTypeId == TYPE_RECEIVING && i.InvStoreId == storeId)
+                .ToListAsync();
+
+            ViewData["StatusCountRequest"] = itemTrxServices.FilterByStatus(trxCount, "PENDING").Count();
+            ViewData["StatusCountApproved"] = itemTrxServices.FilterByStatus(trxCount, "APPROVED").Count();
+            ViewData["StatusCountClosed"] = itemTrxServices.FilterByStatus(trxCount, "CLOSED").Count();
 
             return Page();
         }

@@ -24,7 +24,15 @@ a {
   border-color: #1861ac;
 }
 
+html {
+    font-size: 13px;
+}
 
+@media (min-width: 768px) {
+    html {
+        font-size: 13px;
+    }
+}
 
 /* Override Forms Styles 
 --------------------------------------------------
@@ -54,14 +62,7 @@ a {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-    font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
+
 
 .border-top {
   border-top: 1px solid #e5e5e5;
@@ -130,6 +131,16 @@ body {
     background-color: #1b6ec2;
     padding: 8px;
     cursor: pointer
+}
+
+.trx-td-padding {
+    width: 5rem;
+    padding-top: 8px !important;
+    padding-bottom: 5px !important;
+}
+
+.trx-tr-border-bottom {
+    border-bottom: 1px solid lightgray !important;
 }
 
 @media (min-width: 480px) {

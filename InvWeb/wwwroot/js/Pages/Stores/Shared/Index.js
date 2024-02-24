@@ -63,6 +63,12 @@ function StatusFilter(status) {
         case "ACCEPTED":
             $("#status-accepted").addClass("active");
             break;
+        case "CLOSED":
+            $("#status-closed").addClass("active");
+            break;
+        case "ALL":
+            $("#status-all").addClass("active");
+            break;
         default:
             $("#status-pending").addClass("active");
             break;

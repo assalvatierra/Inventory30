@@ -1,6 +1,7 @@
 ﻿@page
 @model InvWeb.Pages.Stores.Receiving.FormModel
 @{
+    string trxStatus = Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status.ToUpper();
 }
 <style>
     .td-bordered {
@@ -13,10 +14,31 @@
     }
 </style>
 
+<div style="height:100px;">
+    <h2> Transaction Status : @trxStatus </h2>
+    <div class="row">
+        <div class="col-3">
+           1. Encoding Request
+        </div>
+        <div class="col-3">
+           2. Approved
+        </div>
+        <div class="col-3">
+           3. Receive Items
+        </div>
+        <div class="col-3">
+           4. Closed
+        </div>
+    </div>
+    <div class="progress" style="width:95%;">
+        <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+</div>
+
 <div style="margin:5px;">
 
-<a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="PENDING" class="btn btn-default" >Back to List</a>
-<a asp-page="../Printables/RequestForm" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
+    <a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" class="btn btn-primary">  Back to Transaction List</a>
+    @*<a asp-page="../Printables/RequestForm" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>*@
 
 </div>
 <div class="card" style="width:95%;">
@@ -67,7 +89,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">  Date: </label>
                         
-                        <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" />
+                        <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" val="Viewbag.DateToday" />
                     </div>
                 </td>
             </tr>
@@ -98,7 +120,7 @@
         <!-- ITEMS -->
         @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)
         {
-        <tr id="itemDetails-@item.Id">
+        <tr id="itemDetails-@item.Id" cite="">
             <td style="min-width:40rem;" id="itemDescEdit-@item.Id">
                 ( @item.InvItem.Code )
                 @item.InvItem.Description
@@ -113,16 +135,24 @@
                 @item.InvItem.Remarks
             </td>
                     <td>
-                        <div class="row" style="width:5rem;">
+                        @if (trxStatus == "APPROVED")
+                        {
+                            <div style="width:7rem;">
+                                <button class="btn btn-outline-primary btn-sm" onclick="ReceiveItemRow(this, @item.Id)"> Receive Item </button>
+                            </div>
+                        }
+                        <div class="trx-items-actions" style="min-width:5rem;display:flex;" >
                             <button class="btn btn-outline-primary btn-sm" onclick="EditExisitingItemRow(this, @item.Id)"> Edit </button>
                             <button class="btn btn-outline-danger btn-sm" onclick="RemoveItemFromTable(this, @item.Id)"> X </button>
                         </div>
                     </td>
             </tr>
         }
+
+
             <tr id="AddItemsField">
                 <td>
-                    Item
+                   Add New Item
                     <div style="display:flex;">
                         <select id="itemDropdown" class="form-control" asp-items="ViewBag.InvItems"></select>
                         <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="37" alt="search" class="item-search-icon">
@@ -141,7 +171,7 @@
                     <input id="textinput-Remarks" type="text"  class="form-control" />*@
                 </td>
                 <td>
-                    Actions
+                    
                     <div class="row" style="width:5rem;">
                         <button class="btn btn-outline-primary btn-sm" onclick="AddNewItemOnTableRow()"> Add </button>
                     </div>
@@ -157,9 +187,14 @@
         </table>
     </div>
 </div>
+<div class="col-lg-6" style="margin-top:10px;">
 
-<div class="col-lg-6" style="margin-top:10px;"> 
-     <button class="btn btn-primary">  Request for Approval </button>
+    @if (trxStatus == "REQUEST")
+    {
+        <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReceivingDetailsModel.StoreId" asp-route-Status="PENDING">Request for Approval</a>
+
+    }
+    
 </div>
 
 @await Component.InvokeAsync("Dialog", new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
@@ -187,6 +222,11 @@
             
             var defaultItem = $("#itemDropdown option:first").val();
             GetItemOumsWithId(defaultItem);
+
+            if ("@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status" == "APPROVED") {
+                $("#AddItemsField").hide();
+                $(".trx-items-actions").hide();
+            }
         });
 
 
@@ -209,7 +249,7 @@
             var itemQty = $('#textinput-Qty').val();
             var itemUom = $('#UomDropdown option:selected').text();
             var itemUomId = $('#UomDropdown').val();
-            var itemRemarks = $('#textinput-Remarks').val();
+            var itemRemarks = "";
 
             $('#ItemsTable tr:last').prev().before('<tr> <td> ' + itemDesc + '</td> <td> ' + itemQty + ' </td> <td> ' + itemUom + ' </td> <td> ' + itemRemarks + ' </td> <td>  </td> </tr>');
 
@@ -271,11 +311,7 @@
         }
 
         function EditExisitingItemRow(e, id){
-            //$("#itemDescEdit-" + id).append('<div style="display:flex;">'+
-            //    '<select id="itemDropdown" class="form-control" asp-items="@ViewBag.InvItems"> </select>' +
-            //    '<img id="ItemTextfieldBtn" src="/img/icons/icons-search.png" width="37" alt="search" class="item-search-icon">' +
-            //    '</div>"')
-
+         
             $("#ItemEditModal").modal('show');
             $("#itemEditSearchModal").css("z-index", 2050);
 

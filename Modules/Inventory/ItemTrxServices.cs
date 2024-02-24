@@ -205,6 +205,8 @@ namespace Modules.Inventory
                     {
                         "PENDING" => invTrxHdrs.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
                         "APPROVED" => invTrxHdrs.Where(i => i.InvTrxHdrStatusId == 2).ToList(),
+                        "CLOSED" => invTrxHdrs.Where(i => i.InvTrxHdrStatusId == 3).ToList(),
+                        "CANCELLED" => invTrxHdrs.Where(i => i.InvTrxHdrStatusId == 4).ToList(),
                         "ALL" => invTrxHdrs.ToList(),
                         _ => invTrxHdrs.Where(i => i.InvTrxHdrStatusId == 1).ToList(),
                     };
