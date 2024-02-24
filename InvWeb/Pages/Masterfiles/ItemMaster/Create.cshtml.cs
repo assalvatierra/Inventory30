@@ -59,13 +59,13 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
 
             //Steel Specifications
-            //ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats.OrderBy(s=>s.Name), "Id", "Name");
-            //ViewData["SteelSubCats"]  = new SelectList(_context.SteelSubCats.OrderBy(s => s.Name), "Id", "Name");
-            //ViewData["SteelBrands"]   = new SelectList(_context.SteelBrands.OrderBy(s => s.Name), "Id", "Name");
-            //ViewData["SteelOrigins"]  = new SelectList(_context.SteelOrigins.OrderBy(s => s.Name), "Id", "Name");
-            //ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials.OrderBy(s => s.Name), "Id", "Name");
-            //ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades.OrderBy(s => s.Name), "Id", "Name");
-            //ViewData["SteelSizes"] = new SelectList(_context.SteelSizes.OrderBy(s => s.Name), "Id", "Name");
+            ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats.OrderBy(s => s.Name), "Id", "Name");
+            ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats.OrderBy(s => s.Name), "Id", "Name");
+            ViewData["SteelBrands"] = new SelectList(_context.SteelBrands.OrderBy(s => s.Name), "Id", "Name");
+            ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins.OrderBy(s => s.Name), "Id", "Name");
+            ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials.OrderBy(s => s.Name), "Id", "Name");
+            ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades.OrderBy(s => s.Name), "Id", "Name");
+            ViewData["SteelSizes"] = new SelectList(_context.SteelSizes.OrderBy(s => s.Name), "Id", "Name");
             return Page();
         }
 
@@ -90,35 +90,35 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
             ViewData["InvCategoryId"] = new SelectList(_context.Set<InvCategory>(), "Id", "Description", InvItem.InvCategoryId);
             ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom", InvItem.InvUomId);
 
-                //Steel Specifications
-                //ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelMainCatId);
-                //ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelSubCatId);
-                //ViewData["SteelBrands"] = new SelectList(_context.SteelBrands.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelBrandId);
-                //ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelOriginId);
-                //ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelMaterialId);
-                //ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelMaterialGradeId);
-                //ViewData["SteelSizes"] = new SelectList(_context.SteelSizes.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelSizeId);
+            //Steel Specifications
+            ViewData["SteelMainCats"] = new SelectList(_context.SteelMainCats.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelMainCatId);
+            ViewData["SteelSubCats"] = new SelectList(_context.SteelSubCats.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelSubCatId);
+            ViewData["SteelBrands"] = new SelectList(_context.SteelBrands.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelBrandId);
+            ViewData["SteelOrigins"] = new SelectList(_context.SteelOrigins.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelOriginId);
+            ViewData["SteelMaterials"] = new SelectList(_context.SteelMaterials.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelMaterialId);
+            ViewData["SteelMaterialGrades"] = new SelectList(_context.SteelMaterialGrades.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelMaterialGradeId);
+            ViewData["SteelSizes"] = new SelectList(_context.SteelSizes.OrderBy(s => s.Name), "Id", "Name", InvItemSpec_Steel.SteelSizeId);
 
-                //return Page();
-            
+            //return Page();
+
 
             _context.InvItems.Add(InvItem);
 
             await _context.SaveChangesAsync();
 
-            //await AddInvItemSteel();
+            await AddInvItemSteel();
 
             return RedirectToPage("./Index");
         }
 
-        //public async Task AddInvItemSteel()
-        //{
-        //    InvItemSpec_Steel.InvItemId = InvItem.Id;
+        public async Task AddInvItemSteel()
+        {
+            InvItemSpec_Steel.InvItemId = InvItem.Id;
+            InvItemSpec_Steel.Description = InvItem.Description;
+            _context.InvItemSpec_Steel.Add(InvItemSpec_Steel);
 
-        //    _context.InvItemSpec_Steel.Add(InvItemSpec_Steel);
-
-        //    await _context.SaveChangesAsync();
-        //}
+            await _context.SaveChangesAsync();
+        }
 
 
         private bool CheckIfItemExists(InvItemSpec_Steel itemSpec)

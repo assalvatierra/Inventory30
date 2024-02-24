@@ -25,10 +25,12 @@
     {
         @foreach (var store in Model.UsersStores)
         {
-            <div class="jumbotron">
-                <h4> (@store.StoreName) </h4>
-                <a asp-page="./Stores/Main/Index" asp-route-id="@store.Id"> Go to @sStore Mainpage </a>
-            </div>
+             <a asp-page="./Stores/Main/Index" asp-route-id="@store.Id">
+                <div class="jumbotron">
+                    <h2> (@store.StoreName) </h2>
+                    <p> Go to @sStore Mainpage </p>
+                </div>
+            </a>
         }
 
     }

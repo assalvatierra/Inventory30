@@ -44,6 +44,7 @@ namespace InvWeb.Pages
 
         public void OnGet()
         {
+            var userRole = User.IsInRole("Admin");
             try
             {
                 var user = User.FindFirstValue(ClaimTypes.Name);

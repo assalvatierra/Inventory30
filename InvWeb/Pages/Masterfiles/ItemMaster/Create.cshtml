@@ -16,7 +16,7 @@
             <div >
                 <p style="color:red;">@Html.ValidationMessage("ErrorDuplicateItem")</p>
             </div>
-            @*
+            
             <div class="form-group">
                 <label class="control-label"> Main Category </label>
                 <select asp-for="InvItemSpec_Steel.SteelMainCatId" id="SteelMainCatId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelMainCats"></select>
@@ -29,11 +29,11 @@
                 <label class="control-label"> Steel Size </label>
                 <select asp-for="InvItemSpec_Steel.SteelSizeId" id="SteelSizeId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelSizes"></select>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label class="control-label"> Steel Brand </label>
                 <select asp-for="InvItemSpec_Steel.SteelBrandId" id="SteelBrandId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelBrands"></select>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label class="control-label"> Steel Origin </label>
                 <select asp-for="InvItemSpec_Steel.SteelOriginId" id="SteelOriginId" class="form-control search-dropdown-initialize  select2" asp-items="ViewBag.SteelOrigins"></select>
             </div>
@@ -52,7 +52,7 @@
             <div class="form-group">
                 <label class="control-label"> Weight Kgpc </label>
                 <input asp-for="InvItemSpec_Steel.WtKgpc" id="WtKgpc" class="form-control" maxlength="10" />
-            </div>*@
+            </div>
 
             <div class="form-group">
                 <label asp-for="InvItem.Description" class="control-label"></label>
@@ -102,14 +102,14 @@
     <script>
         function GenerateDescription(){
 
-            var itemDesc = $("#SteelMainCatId").find('option:selected').text() + " " + $("#SteelSubCatId").find('option:selected').text() + " " + $("#SteelSizeId").find('option:selected').text() + " " + $("#SteelBrandId").find('option:selected').text();
+            var itemDesc = $("#SteelMainCatId").find('option:selected').text() + " " + $("#SteelSubCatId").find('option:selected').text() + " " + $("#SteelSizeId").find('option:selected').text();
 
             $("#InvItemDesc").val(itemDesc);
         }
 
         function GenerateItemCode() {
 
-            var itemDesc = $("#SteelMainCatId").find('option:selected').val() + "" + $("#SteelSubCatId").find('option:selected').val() + "" + $("#SteelSizeId").find('option:selected').val() + "" + $("#SteelBrandId").find('option:selected').val();
+            var itemDesc = $("#SteelMainCatId").find('option:selected').val() + "" + $("#SteelSubCatId").find('option:selected').val() + "" + $("#SteelSizeId").find('option:selected').val() ;
 
             $("#InvItemCode").val(itemDesc);
         }
