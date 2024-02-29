@@ -149,7 +149,6 @@
                         else
                         {
                             <button class="btn btn-primary" onclick="ApprovedTrxHdr(this, '@item.Id')"> Approve </button>
-
                         }
 
                         if (Model.IsTransactionHaveApprovedRecord(item.Id, "Verified"))
@@ -162,6 +161,11 @@
 
                         }
                     }
+
+                   @if (item.InvTrxHdrStatusId == STATUS_APPROVED && IsAdmin)
+                   {
+                        <button class="btn btn-primary" onclick="CloseTrxHdr(this, '@item.Id')" disabled> Close this Transaction </button>
+                   }
 
                 </td>
                 <td class="td-bold" style="padding-top:18px;">
@@ -267,6 +271,11 @@
             OrderFilter("@Model.ReceivingIndexModel.Order");
             $('[data-toggle="tooltip"]').tooltip()
         });
+
+
+        function CloseTrxHdr(){
+            alert("This feature not yet implemented.");
+        }
 
     </script>
 } 

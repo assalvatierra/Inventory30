@@ -31,7 +31,7 @@
         </div>
     </div>
     <div class="progress" style="width:95%;">
-        <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar" id="progressbar-status" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 </div>
 
@@ -223,9 +223,18 @@
             var defaultItem = $("#itemDropdown option:first").val();
             GetItemOumsWithId(defaultItem);
 
-            if ("@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status" == "APPROVED") {
+            if ("@trxStatus" == "APPROVED") {
                 $("#AddItemsField").hide();
                 $(".trx-items-actions").hide();
+                $("#progressbar-status").css('width', '30%');
+            }
+
+            if("@trxStatus" == "REQUEST"){
+                $("#progressbar-status").css('width','10%');
+            }
+
+            if ("@trxStatus" == "CLOSED") {
+                $("#progressbar-status").css('width', '100%');
             }
         });
 
