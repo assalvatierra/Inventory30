@@ -17,7 +17,7 @@ using System.Linq;
 using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace InvWeb.Pages.Stores.Receiving
+namespace InvWeb.Pages.Stores.Releasing
 {
     public class FormModel : PageModel
     {
@@ -39,11 +39,11 @@ namespace InvWeb.Pages.Stores.Receiving
             uomServices = new UomServices(_context);
             dateServices = new DateServices();
 
-            ReceivingDetailsModel = new ReceivingDetailsModel();
+            ReleasingDetails = new ReleasingDetailsModel();
         }
         //public InvTrxHdr InvTrxHdr { get; set; }
-        public ReceivingDetailsModel ReceivingDetailsModel { get; set; }
-        public ReceivingItemDtlsCreateEditModel ItemDtlsCreateModel { get; set; }
+        public ReleasingDetailsModel ReleasingDetails { get; set; }
+        public ReleasingItemDtlsCreateEditModel ItemDtlsCreateModel { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -53,15 +53,15 @@ namespace InvWeb.Pages.Stores.Receiving
             }
 
 
-            ReceivingDetailsModel.InvTrxHdr = await itemTrxServices.GetInvTrxHdrsById((int)id)
+            ReleasingDetails.InvTrxHdr = await itemTrxServices.GetInvTrxHdrsById((int)id)
                                          .FirstOrDefaultAsync();
 
-            if (ReceivingDetailsModel.InvTrxHdr == null)
+            if (ReleasingDetails.InvTrxHdr == null)
             {
                 return NotFound();
             }
 
-            ReceivingDetailsModel.InvTrxDtls = itemTrxServices.GetInvTrxDtlsById((int)id);
+            ReleasingDetails.InvTrxDtls = itemTrxServices.GetInvTrxDtlsById((int)id);
 
             //ReceivingDetailsModel.InvTrxApproval = invApprovalServices.GetExistingApproval((int)id);
 
@@ -75,7 +75,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             ViewData["UomsList"] = new SelectList(uomServices.GetUomSelectList(), "Id", "uom");
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
-            ViewData["DateToday"] = dateServices.GetCurrentDate().ToString("dd/mm/yyyy");
+            ViewData["DateToday"] = dateServices.GetCurrentDate();
             return Page();
         }
 
@@ -90,7 +90,7 @@ namespace InvWeb.Pages.Stores.Receiving
                 {
                     var spec = item.InvItemSpec_Steel.First();
 
-                    itemspecs = spec.SteelMainCat.Name + " " + spec.SteelMaterial.Name;
+                    itemspecs = spec.SteelMainCat.Name + " " + spec.SteelMaterial.Name + " - " + spec.SteelBrand.Name + " " + spec.SteelOrigin.Name;
                 }
 
                 string remarkString = "";

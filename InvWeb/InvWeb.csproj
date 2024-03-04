@@ -64,4 +64,10 @@
   <ItemGroup>
     <Folder Include="wwwroot\js\Store\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="Pages\Stores\Releasing\Form.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

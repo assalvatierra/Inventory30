@@ -1,7 +1,7 @@
 ﻿@page
-@model InvWeb.Pages.Stores.Receiving.FormModel
+@model InvWeb.Pages.Stores.Releasing.FormModel
 @{
-    string trxStatus = Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status.ToUpper();
+    string trxStatus = Model.ReleasingDetails.InvTrxHdr.InvTrxHdrStatu.Status.ToUpper();
 }
 <style>
     .td-bordered {
@@ -14,17 +14,12 @@
     }
 </style>
 
-<div style="margin:5px;margin-bottom:10px;display:flex;justify-content:space-between;">
-    <div>
-        <a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" class="btn btn-primary">  Back to Transaction List</a>
-        <a asp-page="../Printables/RequestForm" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
-    </div>
-    <div>
-        <a asp-page="../CancelRequest" asp-route-Id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" class="btn btn-primary">  Cancel Request</a>
-    </div>
-</div>
+<div style="margin:5px;margin-bottom:10px;">
 
-<hr />
+    <a asp-page="./Index" asp-route-storeId="@Model.ReleasingDetails.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" class="btn btn-primary">  Back to Transaction List</a>
+    <a asp-page="../Printables/RequestForm" asp-route-id="@Model.ReleasingDetails.InvTrxHdr.Id" asp-route-type="@Model.ReleasingDetails.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
+
+</div>
 
 <div style="height:100px;">
     <h2> Transaction Status : @trxStatus </h2>
@@ -47,7 +42,7 @@
     </div>
 </div>
 
-<div class="card" style="width:100%;">
+<div class="card" style="width:95%;">
 
 <div style="display: flex;flex-direction: column;align-content: center;">
     <div style=" display:flex;justify-content:center;margin-top:30px;">
@@ -59,13 +54,13 @@
         <table class="table">
             <tr>
                 <td>
-                    <b>  Status : @Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status </b>
+                    <b>  Status : @Model.ReleasingDetails.InvTrxHdr.InvTrxHdrStatu.Status </b>
                 </td>
                 <td>
                     
                      Requested by:
-                     @Model.ReceivingDetailsModel.InvTrxHdr.UserId 
-                   
+                    @Model.ReleasingDetails.InvTrxHdr.UserId
+
                 </td>
             </tr>
             <tr>
@@ -78,8 +73,8 @@
                 </td>
                 <td>
                     <div class="form-group row" >
-                        <label class="col-sm-4 col-form-label">  RefNo </label>
-                        <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Id" readonly/>
+                        <label class="col-sm-3 col-form-label">   RefNo </label>
+                        <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" value="@Model.ReleasingDetails.InvTrxHdr.Id" readonly />
                     </div>
                   
                 </td>
@@ -88,14 +83,14 @@
                 <td>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label"> Remarks </label>
-                        <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Remarks" />
+                        <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" value="@Model.ReleasingDetails.InvTrxHdr.Remarks" />
                     </div>
                 </td>
                 <td>
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">  Date: </label>
+                        <label class="col-sm-3 col-form-label">  Date: </label>
                         
-                        <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" val="@ViewBag.DateToday" />
+                        <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" val="Viewbag.DateToday" />
                     </div>
                 </td>
             </tr>
@@ -109,10 +104,10 @@
             <th>
                 PARTICULARS
             </th>
-                <th class="td-bordered" style="width:5rem;">
+                <th class="td-bordered">
                 QTY
             </th>
-             <th class="td-bordered" style="width:8rem;">
+            <th class="td-bordered">
                 UOM
             </th>
              <th class="td-bordered">
@@ -124,17 +119,17 @@
         </tr>
 
         <!-- ITEMS -->
-        @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)
+            @foreach (var item in Model.ReleasingDetails.InvTrxDtls)
         {
         <tr id="itemDetails-@item.Id" cite="">
-            <td id="itemDescEdit-@item.Id">
+            <td style="min-width:40rem;" id="itemDescEdit-@item.Id">
                 ( @item.InvItem.Code )
                 @item.InvItem.Description
             </td>
-            <td >
+            <td  style="min-width:2rem;">
                 @item.ItemQty
             </td>
-            <td >
+            <td  style="min-width:8rem;">
                 @item.InvUom.uom
             </td>
             <td>
@@ -161,7 +156,7 @@
                    Add New Item
                     <div style="display:flex;">
                         <select id="itemDropdown" class="form-control" asp-items="ViewBag.InvItems"></select>
-                        <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="32" alt="search" class="item-search-icon">
+                        <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="37" alt="search" class="item-search-icon">
                     </div>
                 </td>
                 <td>
@@ -178,8 +173,8 @@
                 </td>
                 <td>
                     
-                    <div class="row" style="width:8rem;margin-left: 1px;">
-                        <button class="btn btn-outline-primary btn-sm" onclick="AddNewItemOnTableRow()" style="padding:10px;"> Add Item </button>
+                    <div class="row" style="width:5rem;">
+                        <button class="btn btn-outline-primary btn-sm" onclick="AddNewItemOnTableRow()"> Add </button>
                     </div>
                 </td>
         </tr>
@@ -197,7 +192,7 @@
 
     @if (trxStatus == "REQUEST")
     {
-        <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReceivingDetailsModel.StoreId" asp-route-Status="PENDING">Request for Approval</a>
+        <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReleasingDetails.InvTrxHdr.InvStoreId" asp-route-Status="PENDING">Request for Approval</a>
 
     }
     
@@ -232,7 +227,7 @@
             if ("@trxStatus" == "APPROVED") {
                 $("#AddItemsField").hide();
                 $(".trx-items-actions").hide();
-                $("#progressbar-status").css('width', '35%');
+                $("#progressbar-status").css('width', '30%');
             }
 
             if("@trxStatus" == "REQUEST"){
@@ -303,28 +298,26 @@
         }
 
         function RemoveItemFromTable(e, invDtlsId){
-            if(confirm("Do you want to remove this item from the table? " )){
+            
+            //remove table row
+            $(e).parent().parent().parent().remove();
 
-                //remove table row
-                $(e).parent().parent().parent().remove();
-
-                //remove from table db
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/api/ApiInvTrxDtls/DeleteTrxDtlItem?id=' + invDtlsId,
-                    data: { id: invDtlsId },
-                    error: function (e) {
-                        console.log(e);
-                        //alert("Unable to Add Item.")
-                    },
-                    success: function (res) {
-                        console.log("success");
-                        console.log(res);
-                    },
-                    dataType: "json",
-                    contentType: "application/json"
-                    });
-            }
+            //remove from table db
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/ApiInvTrxDtls/DeleteTrxDtlItem?id=' + invDtlsId,
+                data: { id: invDtlsId },
+                error: function (e) {
+                    console.log(e);
+                    //alert("Unable to Add Item.")
+                },
+                success: function (res) {
+                    console.log("success");
+                    console.log(res);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
         }
 
         function EditExisitingItemRow(e, id){

@@ -119,3 +119,15 @@ ON DELETE CASCADE
  
 ALTER TABLE [dbo].[AspNetUserRoles] CHECK CONSTRAINT [FK_dbo.AspNetUserRoles_dbo.AspNetUsers_UserId]
  
+
+ CREATE TABLE [dbo].[AspNetUserRoles] (
+    [RoleId] NVARCHAR (128) NOT NULL,
+    [UserId] NVARCHAR (128) NOT NULL,
+    CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY CLUSTERED ([RoleId] ASC, [UserId] ASC)
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_AspNetUserRoles_AspNetUser]
+    ON [dbo].[AspNetUserRoles]([UserId] ASC);
+

@@ -4,7 +4,7 @@ SET @Today = GetDate()
 --Sample Items --
 IF NOT EXISTS (SELECT 1 FROM InvItems)
 BEGIN
-	insert into InvItems([ItemCode],[Description],[Remarks],[InvUomId],[InvCategoryId]) values
+	insert into InvItems([Code],[Description],[Remarks],[InvUomId],[InvCategoryId]) values
 	('001','Steel', '', 1, 1),
 	('002','Pipe' , '', 1, 1),
 	('003','Plate', '', 1, 1)
