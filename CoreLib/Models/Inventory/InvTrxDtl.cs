@@ -9,6 +9,7 @@
 
 namespace CoreLib.Inventory.Models
 {
+    using CoreLib.Models.Inventory;
     using System;
     using System.Collections.Generic;
     
@@ -27,5 +28,6 @@ namespace CoreLib.Inventory.Models
         public virtual InvUom InvUom { get; set; }
         public virtual InvItem InvItem { get; set; }
         public virtual InvTrxDtlOperator InvTrxDtlOperator { get; set; }
+        public virtual ICollection<InvTrxDtlxItemMaster> InvTrxDtlxItemMasters { get; set; }
     }
 }

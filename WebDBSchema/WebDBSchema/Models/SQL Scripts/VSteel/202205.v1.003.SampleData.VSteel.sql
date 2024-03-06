@@ -245,3 +245,12 @@ BEGIN
 	('Korea', 'KRN'),
 	('India', 'IND')
 END
+
+--Store Areas
+IF NOT EXISTS (SELECT 1 FROM InvStoreAreas)
+BEGIN
+	insert into InvStoreAreas([Name],[Remarks],[InvStoreId]) values
+	('A1', 'Rack A1',1),
+	('A2', 'Rack A2',1),
+	('A3', 'Rack A3',1)
+END

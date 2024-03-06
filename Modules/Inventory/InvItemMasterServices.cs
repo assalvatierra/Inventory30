@@ -32,7 +32,7 @@ namespace Inventory
             uomServices = new UomServices(_context);
         }
 
-        public void CreateInvItemMaster(InvItemMaster InvItemMaster)
+        public async Task CreateInvItemMaster(InvItemMaster InvItemMaster)
         {
             try
             {

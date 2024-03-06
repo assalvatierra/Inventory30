@@ -73,6 +73,7 @@ namespace CoreLib.Models.Inventory
         public virtual DbSet<InvTrxDtlxItemMaster>? InvTrxDtlxItemMasters { get; set; }
         public virtual DbSet<InvItemBrand>? InvItemBrands { get; set; }
         public virtual DbSet<InvItemOrigin>? InvItemOrigins { get; set; }
+        public virtual DbSet<InvStoreArea>? InvStoreAreas { get; set; }
 
     }
 }

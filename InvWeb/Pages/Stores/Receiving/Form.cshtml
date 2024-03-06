@@ -2,6 +2,7 @@
 @model InvWeb.Pages.Stores.Receiving.FormModel
 @{
     string trxStatus = Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status.ToUpper();
+    int count = 0;
 }
 <style>
     .td-bordered {
@@ -95,7 +96,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label">  Date: </label>
                         
-                        <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" val="@ViewBag.DateToday" />
+                        <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" disabled/>
                     </div>
                 </td>
             </tr>
@@ -126,34 +127,51 @@
         <!-- ITEMS -->
         @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)
         {
-        <tr id="itemDetails-@item.Id" cite="">
-            <td id="itemDescEdit-@item.Id">
-                ( @item.InvItem.Code )
-                @item.InvItem.Description
-            </td>
-            <td >
-                @item.ItemQty
-            </td>
-            <td >
-                @item.InvUom.uom
-            </td>
-            <td>
-                @item.InvItem.Remarks
-            </td>
-                    <td>
-                        @if (trxStatus == "APPROVED")
-                        {
-                            <div style="width:7rem;">
-                                <button class="btn btn-outline-primary btn-sm" onclick="ReceiveItemRow(this, @item.Id)"> Receive Item </button>
-                            </div>
+          { count += 1; }
+            <tr id="itemDetails-@item.Id" cite="">
+                <td id="itemDescEdit-@item.Id">
+                    @count .)
+                    ( @item.InvItem.Code )
+                    @item.InvItem.Description
+                    <br>@if(item.InvTrxDtlxItemMasters != null){
+                            foreach (var itemMaster in item.InvTrxDtlxItemMasters)
+                            {
+                                <span style="color:gray;margin-left:15px;"> 
+                                @itemMaster.InvItemMaster.LotNo /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name 
+                                 &#x2192; 
+                                 Area: @itemMaster.InvItemMaster.InvStoreArea.Name
+                                </span>
+                            }
                         }
-                        <div class="trx-items-actions" style="min-width:5rem;display:flex;" >
-                            <button class="btn btn-outline-primary btn-sm" onclick="EditExisitingItemRow(this, @item.Id)"> Edit </button>
-                            <button class="btn btn-outline-danger btn-sm" onclick="RemoveItemFromTable(this, @item.Id)"> X </button>
-                        </div>
-                    </td>
-            </tr>
-        }
+                </td>
+                <td >
+                    @item.ItemQty
+                </td>
+                <td >
+                    @item.InvUom.uom
+                </td>
+                <td>
+                    @item.InvItem.Remarks
+                </td>
+                        <td>
+                            @if (trxStatus == "APPROVED")
+                            {
+                                <div style="width:7rem;">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="ReceiveItemRow( @item.Id)"> Receive Item </button>
+                                </div>
+                            }
+
+                            @if (trxStatus == "REQUEST")
+                            {
+                            <div class="trx-items-actions" style="min-width:5rem;display:flex;" >
+                                <button class="btn btn-outline-primary btn-sm" onclick="EditExisitingItemRow(this, @item.Id)" style="padding:3px 12px;margin-right:5px"> Edit </button>
+                                <button class="btn btn-outline-danger btn-sm" onclick="RemoveItemFromTable(this, @item.Id)" style="padding:3px 10px;"> X </button>
+                            </div>
+                            }
+                        </td>
+                </tr>
+
+            }
 
 
             <tr id="AddItemsField">
@@ -178,7 +196,7 @@
                 </td>
                 <td>
                     
-                    <div class="row" style="width:8rem;margin-left: 1px;">
+                    <div class="row" style="width:7rem;margin-left: 1px;margin-top:5px;">
                         <button class="btn btn-outline-primary btn-sm" onclick="AddNewItemOnTableRow()" style="padding:10px;"> Add Item </button>
                     </div>
                 </td>
@@ -200,7 +218,13 @@
         <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReceivingDetailsModel.StoreId" asp-route-Status="PENDING">Request for Approval</a>
 
     }
-    
+
+    @if (trxStatus == "APPROVED")
+    {
+        <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReceivingDetailsModel.StoreId" asp-route-Status="PENDING">ALL ITEMS RECEIVED and CLOSE </a>
+
+    }
+
 </div>
 
 @await Component.InvokeAsync("Dialog", new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
@@ -208,6 +232,7 @@
 
 @{
     Html.RenderPartial("ModalAddItem");
+    Html.RenderPartial("ModalReceiveItem");
 }
 
 @section Scripts {
@@ -242,6 +267,9 @@
             if ("@trxStatus" == "CLOSED") {
                 $("#progressbar-status").css('width', '100%');
             }
+
+            $("#textinput-Date").val('@ViewBag.DateToday');
+            //$("#DateTransaction").datepicker("setDate", '@ViewBag.DateToday');
         });
 
 
@@ -460,7 +488,107 @@
                 dataType: "json",
                 contentType: "application/json"
             });
+        }
 
+        function ShowReceivingModal(){
+            $("#ItemReceiveModal").modal('show');
+        }
+
+
+        function ReceiveItemRow(rowId){
+            ShowReceivingModal();
+
+            $("#ReceiveItem-TrxId").val(rowId);
+
+            //get item details
+            GetTrxDetails(rowId);
+
+            //sample data
+
+             $("#ReceiveItem-LotNo").val("101");
+             $("#ReceiveItem-Brand").val(1);
+             $("#ReceiveItem-Origin").val(1);
+             $("#ReceiveItem-ActualQty").val(15);
+             $("#ReceiveItem-Area").val(1);
+             $("#ReceiveItem-Remarks").val("Sample");
+
+
+        }
+
+         function GetTrxDetails(id) {
+
+            console.log("GetTrxDetails");
+
+            return $.get('/api/ApiInvTrxDtls/GetTrxDtlItem?id=' + id, function(result, status){
+                console.log(result);
+
+                var obj = JSON.parse(result);
+
+                console.log(obj['Description']);
+                console.log(obj['InvItemId']);
+
+                //display item details to form
+                $("#ReceiveItem-RcvdItemId").val(obj["InvItemId"]);
+                $("#ReceiveItem-UomId").val(obj["InvItemId"]);
+                $("#ReceiveItem-ItemName").text(obj["Description"]);
+                $("#ReceiveItem-Uom").text(obj["uom"]);
+                $("#ReceiveItem-ActualUom").text(obj["uom"]);
+                $("#ReceiveItem-UomId").val(obj["InvUomId"]);
+                $("#ReceiveItem-ExpectedQty").text(obj["ItemQty"]);
+            })
+        }
+
+        function SubmitReceivingForm() {
+            var Id        = $("#ReceiveItem-TrxId").val();
+            var ItemId    = $("#ReceiveItem-RcvdItemId").val();
+            var LotNo     = $("#ReceiveItem-LotNo").val();
+            var BatchNo   = $("#ReceiveItem-BatchNo").val();
+            var BrandId   = $("#ReceiveItem-Brand option:selected").val();
+            var OriginId  = $("#ReceiveItem-Origin option:selected").val();
+            var ActualQty = $("#ReceiveItem-ActualQty").val();
+            var AreaId    = $("#ReceiveItem-Area option:selected").val();
+            var Remarks   = $("#ReceiveItem-Remarks").val();
+            var UomId     = $("#ReceiveItem-UomId").val();
+
+            var data = {
+                Id      : Id,
+                ItemId  : ItemId,
+                LotNo   : LotNo,
+                BatchNo : BatchNo,
+                BrandId : BrandId,
+                OriginId: OriginId,
+                Qty     : ActualQty,
+                UomId   : UomId,
+                AreaId  : AreaId,
+                Remarks : Remarks
+
+            }
+            console.log("Submit receiving data");
+            console.log(data);
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/ApiInvTrxDtls/PostReceivingItem',
+                data: JSON.stringify(data),
+                error: function (e) {
+                    console.log(e);
+
+                    if(e.status == 201){
+
+                        $("#ItemReceiveModal").modal('hide');
+                        console.log("success : add item to master");
+                    } else {
+                        alert("Unable to Add Item.")
+                    }
+                },
+                success: function (res) {
+                    console.log("success");
+                    console.log(res);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
         }
 
     </script>

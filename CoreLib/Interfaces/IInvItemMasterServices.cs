@@ -12,7 +12,7 @@ namespace CoreLib.Interfaces
     public interface IInvItemMasterServices
     {
 
-        public void CreateInvItemMaster(InvItemMaster invItemMaster);
+        public Task CreateInvItemMaster(InvItemMaster invItemMaster);
         public void EditInvItemMaster(InvItemMaster invItemMaster);
         public Task DeleteInvItemMaster(int id);
         public Task SaveChangesAsync();

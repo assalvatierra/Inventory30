@@ -129,6 +129,9 @@
         <AssociationConnector Association="InvDB.InvItemBrandInvItemMaster" />
         <EntityTypeShape EntityType="InvDB.InvItemOrigin" Width="1.5" PointX="8.25" PointY="29.125" />
         <AssociationConnector Association="InvDB.InvItemOriginInvItemMaster" />
+        <EntityTypeShape EntityType="InvDB.InvStoreArea" Width="1.5" PointX="19.875" PointY="28.625" />
+        <AssociationConnector Association="InvDB.InvStoreAreaInvItemMaster" />
+        <AssociationConnector Association="InvDB.InvStoreInvStoreArea" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

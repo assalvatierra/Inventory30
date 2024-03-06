@@ -23,6 +23,7 @@ namespace CoreLib.Inventory.Models
             this.InvAdjHdrs = new HashSet<InvAdjHdr>();
             this.InvTrxHdrs = new HashSet<InvTrxHdr>();
             this.InvStoreUsers = new HashSet<InvStoreUser>();
+            this.InvStoreAreas = new HashSet<InvStoreArea>();
         }
     
         public int Id { get; set; }
@@ -40,5 +41,8 @@ namespace CoreLib.Inventory.Models
         public virtual ICollection<InvTrxHdr> InvTrxHdrs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvStoreUser> InvStoreUsers { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvStoreArea> InvStoreAreas { get; set; }
     }
 }

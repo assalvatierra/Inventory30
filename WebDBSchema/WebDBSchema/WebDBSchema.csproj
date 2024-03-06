@@ -291,6 +291,9 @@
     <Compile Include="Models\InvStore.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvStoreArea.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\InvStoreUser.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
@@ -438,6 +441,7 @@
     <Content Include="Models\SQL Scripts\VSteel\Migration\202308.v1.008.Modify.SteelSpecs.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202308.v1.006.Add.TrxApproval.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202308.v1.006.Add.SysLabel.sql" />
+    <Content Include="Models\SQL Scripts\VSteel\Migration\202403.v1.2.002.Add.StoreArea.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202308.v1.2.001.Add.InvItemMasters.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

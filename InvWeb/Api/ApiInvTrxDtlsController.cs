@@ -1,7 +1,9 @@
-﻿using CoreLib.Interfaces;
+﻿using CoreLib.DTO.Receiving;
+using CoreLib.Interfaces;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
+using DevExpress.CodeParser;
 using Inventory;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +28,7 @@ namespace InvWeb.Api
         private readonly IItemTrxServices itemTrxServices;
         private readonly IInvApprovalServices invApprovalServices;
         private readonly IItemDtlsServices itemDtlsServices;
+        private readonly IInvItemMasterServices invItemMasterServices;
         private readonly DateServices dateServices;
 
         public ApiInvTrxDtlsController(ApplicationDbContext context, ILogger<Controller> logger)
@@ -34,6 +38,7 @@ namespace InvWeb.Api
             invApprovalServices = new InvApprovalServices(context, logger);
             itemDtlsServices = new ItemDtlsServices(context, logger);
             itemTrxServices = new ItemTrxServices(context, logger);
+            invItemMasterServices = new InvItemMasterServices(context, logger);
         }
 
         // GET: api/<ApiInvTrxDtlsController>
@@ -120,6 +125,42 @@ namespace InvWeb.Api
         }
 
 
+        [ActionName("GetTrxDtlItem")]
+        [HttpGet]
+        public string GetTrxDtlItem(int id)
+        {
+            try
+            {
+
+                InvTrxDtl invTrxDtl = itemDtlsServices.GetInvDtlsById(id)
+                    .Include(i=>i.InvItem)
+                    .Include(i=>i.InvUom)
+                    .First();
+
+                if (invTrxDtl == null)
+                {
+                    return "Unable to find item details";
+                }
+
+
+
+                return JsonConvert.SerializeObject(new
+                {
+                    invTrxDtl.Id,
+                    invTrxDtl.InvItemId,
+                    invTrxDtl.InvUomId,
+                    invTrxDtl.ItemQty,
+                    invTrxDtl.InvItem.Description,
+                    invTrxDtl.InvUom.uom
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return "Add not Successfull";
+            }
+        }
+
         [ActionName("GetItemDetails")]
         [HttpGet]
         public string GetItemDetails(int id)
@@ -139,8 +180,8 @@ namespace InvWeb.Api
                 return JsonConvert.SerializeObject(new {
                      invTrxDtl.Id,
                      invTrxDtl.InvItemId,
-                     invTrxDtl.InvUomId,
-                     invTrxDtl.ItemQty
+                    invTrxDtl.InvUomId,
+                    invTrxDtl.ItemQty
                 });
 
             }
@@ -218,5 +259,54 @@ namespace InvWeb.Api
         }
 
 
+        [ActionName("PostReceivingItem")]
+        [HttpPost]
+        public async Task<ObjectResult> PostReceivingItem(ReceivingTrxItemApiModel item)
+        {
+            if (item == null)
+            {
+                return StatusCode(500, "Post Error. Header Details not found.");
+            }
+
+            //create itemMasters
+            InvItemMaster invItemMaster = new InvItemMaster();
+            invItemMaster.InvItemId = item.ItemId;
+            invItemMaster.InvItemOriginId = item.OriginId;
+            invItemMaster.InvItemBrandId = item.BrandId;
+            invItemMaster.LotNo = item.LotNo;
+            invItemMaster.BatchNo = item.BatchNo;
+            invItemMaster.ItemQty = item.Qty;
+            invItemMaster.InvUomId = item.UomId;
+            invItemMaster.InvStoreAreaId = item.AreaId;
+            invItemMaster.Remarks = item.Remarks;
+
+            //save changes
+            try
+            {
+                await invItemMasterServices.CreateInvItemMaster(invItemMaster);
+                await invItemMasterServices.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, "APIInvTrxDtls: Post Error. Unable to Create invItem Masters.");
+            }
+
+            //link to trxDtls and itemMasters
+            try
+            {
+                await invItemMasterServices.CreateItemMasterInvDtlsLink(invItemMaster.Id, item.Id);
+                await invItemMasterServices.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "APIInvTrxDtls: Post Error. Unable to Create ItemMaster and InvDtls Link.");
+            }
+
+            return StatusCode(201, "Update Successfull");
+        }
+
     }
+
 }
+
+
