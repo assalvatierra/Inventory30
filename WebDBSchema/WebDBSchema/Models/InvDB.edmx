@@ -61,6 +61,7 @@
     <EntitySet Name="InvTrxDtlxItemMasters" EntityType="InvDB.Store.InvTrxDtlxItemMasters" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvItemBrands" EntityType="InvDB.Store.InvItemBrands" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvItemOrigins" EntityType="InvDB.Store.InvItemOrigins" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="InvStoreAreas" EntityType="InvDB.Store.InvStoreAreas" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -336,6 +337,14 @@
     <AssociationSet Name="InvItemOriginInvItemMaster" Association="InvDB.Store.InvItemOriginInvItemMaster">
       <End Role="InvItemOrigin" EntitySet="InvItemOrigins" />
       <End Role="InvItemMaster" EntitySet="InvItemMasters" />
+    </AssociationSet>
+    <AssociationSet Name="InvStoreAreaInvItemMaster" Association="InvDB.Store.InvStoreAreaInvItemMaster">
+      <End Role="InvStoreArea" EntitySet="InvStoreAreas" />
+      <End Role="InvItemMaster" EntitySet="InvItemMasters" />
+    </AssociationSet>
+    <AssociationSet Name="InvStoreInvStoreArea" Association="InvDB.Store.InvStoreInvStoreArea">
+      <End Role="InvStore" EntitySet="InvStores" />
+      <End Role="InvStoreArea" EntitySet="InvStoreAreas" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="InvItems">
@@ -825,11 +834,12 @@
     <Property Name="InvItemId" Type="int" Nullable="false" />
     <Property Name="LotNo" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="BatchNo" Type="nvarchar" Nullable="false" MaxLength="20" />
-    <Property Name="ItemQty" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ItemQty" Type="int" Nullable="false" />
     <Property Name="InvUomId" Type="int" Nullable="false" />
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
     <Property Name="InvItemBrandId" Type="int" Nullable="false" />
     <Property Name="InvItemOriginId" Type="int" Nullable="false" />
+    <Property Name="InvStoreAreaId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="InvTrxDtlxItemMasters">
     <Key>
@@ -854,6 +864,15 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="80" />
     <Property Name="Code" Type="nvarchar" Nullable="true" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="InvStoreAreas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="InvStoreId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -1683,6 +1702,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="InvStoreAreaInvItemMaster">
+    <End Role="InvStoreArea" Type="InvDB.Store.InvStoreAreas" Multiplicity="1" />
+    <End Role="InvItemMaster" Type="InvDB.Store.InvItemMasters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvStoreArea">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvItemMaster">
+        <PropertyRef Name="InvStoreAreaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="InvStoreInvStoreArea">
+    <End Role="InvStore" Type="InvDB.Store.InvStores" Multiplicity="1" />
+    <End Role="InvStoreArea" Type="InvDB.Store.InvStoreAreas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="InvStore">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="InvStoreArea">
+        <PropertyRef Name="InvStoreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -2019,6 +2062,15 @@
             <End Role="InvItemOrigin" EntitySet="InvItemOrigins" />
             <End Role="InvItemMaster" EntitySet="InvItemMasters" />
           </AssociationSet>
+          <EntitySet Name="InvStoreAreas" EntityType="InvDB.InvStoreArea" />
+          <AssociationSet Name="InvStoreAreaInvItemMaster" Association="InvDB.InvStoreAreaInvItemMaster">
+            <End Role="InvStoreArea" EntitySet="InvStoreAreas" />
+            <End Role="InvItemMaster" EntitySet="InvItemMasters" />
+          </AssociationSet>
+          <AssociationSet Name="InvStoreInvStoreArea" Association="InvDB.InvStoreInvStoreArea">
+            <End Role="InvStore" EntitySet="InvStores" />
+            <End Role="InvStoreArea" EntitySet="InvStoreAreas" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvItem">
           <Key>
@@ -2150,6 +2202,7 @@
           <Property Name="StoreName" Type="String" Nullable="false" />
           <NavigationProperty Name="InvTrxHdrs" Relationship="InvDB.InvStoreInvTrxHdr" FromRole="InvStore" ToRole="InvTrxHdr" />
           <NavigationProperty Name="InvStoreUsers" Relationship="InvDB.InvStoreInvStoreUser" FromRole="InvStore" ToRole="InvStoreUser" />
+          <NavigationProperty Name="InvStoreAreas" Relationship="InvDB.InvStoreInvStoreArea" FromRole="InvStore" ToRole="InvStoreArea" />
         </EntityType>
         <EntityType Name="InvPoHdr">
           <Key>
@@ -3393,7 +3446,7 @@
           <Property Name="InvItemId" Type="Int32" Nullable="false" />
           <Property Name="LotNo" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="BatchNo" Type="String" Nullable="false" MaxLength="20" />
-          <Property Name="ItemQty" Type="String" Nullable="false" />
+          <Property Name="ItemQty" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvUom" Relationship="InvDB.InvUomInvItemMaster" FromRole="InvItemMaster" ToRole="InvUom" />
           <Property Name="InvUomId" Type="Int32" Nullable="false" />
           <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
@@ -3402,6 +3455,8 @@
           <Property Name="InvItemBrandId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvItemOrigin" Relationship="InvDB.InvItemOriginInvItemMaster" FromRole="InvItemMaster" ToRole="InvItemOrigin" />
           <Property Name="InvItemOriginId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InvStoreArea" Relationship="InvDB.InvStoreAreaInvItemMaster" FromRole="InvItemMaster" ToRole="InvStoreArea" />
+          <Property Name="InvStoreAreaId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="InvItemInvItemMaster">
           <End Type="InvDB.InvItem" Role="InvItem" Multiplicity="1" />
@@ -3500,6 +3555,41 @@
             </Principal>
             <Dependent Role="InvItemMaster">
               <PropertyRef Name="InvItemOriginId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvStoreArea">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
+          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="40" />
+          <NavigationProperty Name="InvItemMasters" Relationship="InvDB.InvStoreAreaInvItemMaster" FromRole="InvStoreArea" ToRole="InvItemMaster" />
+          <NavigationProperty Name="InvStore" Relationship="InvDB.InvStoreInvStoreArea" FromRole="InvStoreArea" ToRole="InvStore" />
+          <Property Name="InvStoreId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="InvStoreAreaInvItemMaster">
+          <End Type="InvDB.InvStoreArea" Role="InvStoreArea" Multiplicity="1" />
+          <End Type="InvDB.InvItemMaster" Role="InvItemMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvStoreArea">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvItemMaster">
+              <PropertyRef Name="InvStoreAreaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="InvStoreInvStoreArea">
+          <End Type="InvDB.InvStore" Role="InvStore" Multiplicity="1" />
+          <End Type="InvDB.InvStoreArea" Role="InvStoreArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="InvStore">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvStoreArea">
+              <PropertyRef Name="InvStoreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4051,6 +4141,7 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="InvItemBrandId" ColumnName="InvItemBrandId" />
           <ScalarProperty Name="InvItemOriginId" ColumnName="InvItemOriginId" />
+          <ScalarProperty Name="InvStoreAreaId" ColumnName="InvStoreAreaId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -4078,6 +4169,16 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvStoreAreas">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.InvStoreArea)">
+        <MappingFragment StoreEntitySet="InvStoreAreas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="InvStoreId" ColumnName="InvStoreId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

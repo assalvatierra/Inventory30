@@ -65,6 +65,8 @@ namespace InvWeb.Pages.Stores.Receiving
 
             //ReceivingDetailsModel.InvTrxApproval = invApprovalServices.GetExistingApproval((int)id);
 
+            var storeAreas = _context.InvStoreAreas.Where(a => a.InvStoreId == ReceivingDetailsModel.InvTrxHdr.InvStoreId).ToList();
+
             ViewData["InvItems"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
                                     .Select(x => new
                                     {
@@ -75,11 +77,16 @@ namespace InvWeb.Pages.Stores.Receiving
 
             ViewData["UomsList"] = new SelectList(uomServices.GetUomSelectList(), "Id", "uom");
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
-            ViewData["DateToday"] = dateServices.GetCurrentDate().ToString("dd/mm/yyyy");
+            ViewData["DateToday"] = dateServices.GetCurrentDate().ToString("yyy-MM-dd");
+            ViewData["Origins"] = new SelectList(_context.InvItemBrands, "Id", "Name");
+            ViewData["Brands"]  = new SelectList(_context.InvItemOrigins, "Id", "Name");
+            ViewData["StoreAreas"] = new SelectList(storeAreas, "Id", "Name");
+            
+
             return Page();
         }
 
-        public IEnumerable<DialogItems> ConvertItemsToDialogItems(List<InvItem> invItems)
+        public IEnumerable<DialogItems> ConvertItemsToDialogItems(List<InvItem> invItems )
         {
             List<DialogItems> dialogItems = new List<DialogItems>();
 

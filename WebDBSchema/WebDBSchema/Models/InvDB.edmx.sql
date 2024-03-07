@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/22/2024 15:11:33
+-- Date Created: 03/06/2024 17:49:14
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -222,6 +222,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_InvItemOriginInvItemMaster]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[InvItemMasters] DROP CONSTRAINT [FK_InvItemOriginInvItemMaster];
 GO
+IF OBJECT_ID(N'[dbo].[FK_InvStoreAreaInvItemMaster]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvItemMasters] DROP CONSTRAINT [FK_InvStoreAreaInvItemMaster];
+GO
+IF OBJECT_ID(N'[dbo].[FK_InvStoreInvStoreArea]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[InvStoreAreas] DROP CONSTRAINT [FK_InvStoreInvStoreArea];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -391,6 +397,9 @@ IF OBJECT_ID(N'[dbo].[InvItemBrands]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvItemOrigins]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvItemOrigins];
+GO
+IF OBJECT_ID(N'[dbo].[InvStoreAreas]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[InvStoreAreas];
 GO
 
 -- --------------------------------------------------
@@ -882,11 +891,12 @@ CREATE TABLE [dbo].[InvItemMasters] (
     [InvItemId] int  NOT NULL,
     [LotNo] nvarchar(20)  NULL,
     [BatchNo] nvarchar(20)  NOT NULL,
-    [ItemQty] nvarchar(max)  NOT NULL,
+    [ItemQty] int  NOT NULL,
     [InvUomId] int  NOT NULL,
     [Remarks] nvarchar(80)  NULL,
     [InvItemBrandId] int  NOT NULL,
-    [InvItemOriginId] int  NOT NULL
+    [InvItemOriginId] int  NOT NULL,
+    [InvStoreAreaId] int  NOT NULL
 );
 GO
 
@@ -911,6 +921,15 @@ CREATE TABLE [dbo].[InvItemOrigins] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(80)  NOT NULL,
     [Code] nvarchar(20)  NULL
+);
+GO
+
+-- Creating table 'InvStoreAreas'
+CREATE TABLE [dbo].[InvStoreAreas] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(20)  NOT NULL,
+    [Remarks] nvarchar(40)  NOT NULL,
+    [InvStoreId] int  NOT NULL
 );
 GO
 
@@ -1245,6 +1264,12 @@ GO
 -- Creating primary key on [Id] in table 'InvItemOrigins'
 ALTER TABLE [dbo].[InvItemOrigins]
 ADD CONSTRAINT [PK_InvItemOrigins]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'InvStoreAreas'
+ALTER TABLE [dbo].[InvStoreAreas]
+ADD CONSTRAINT [PK_InvStoreAreas]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -2285,6 +2310,36 @@ GO
 CREATE INDEX [IX_FK_InvItemOriginInvItemMaster]
 ON [dbo].[InvItemMasters]
     ([InvItemOriginId]);
+GO
+
+-- Creating foreign key on [InvStoreAreaId] in table 'InvItemMasters'
+ALTER TABLE [dbo].[InvItemMasters]
+ADD CONSTRAINT [FK_InvStoreAreaInvItemMaster]
+    FOREIGN KEY ([InvStoreAreaId])
+    REFERENCES [dbo].[InvStoreAreas]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvStoreAreaInvItemMaster'
+CREATE INDEX [IX_FK_InvStoreAreaInvItemMaster]
+ON [dbo].[InvItemMasters]
+    ([InvStoreAreaId]);
+GO
+
+-- Creating foreign key on [InvStoreId] in table 'InvStoreAreas'
+ALTER TABLE [dbo].[InvStoreAreas]
+ADD CONSTRAINT [FK_InvStoreInvStoreArea]
+    FOREIGN KEY ([InvStoreId])
+    REFERENCES [dbo].[InvStores]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_InvStoreInvStoreArea'
+CREATE INDEX [IX_FK_InvStoreInvStoreArea]
+ON [dbo].[InvStoreAreas]
+    ([InvStoreId]);
 GO
 
 -- --------------------------------------------------

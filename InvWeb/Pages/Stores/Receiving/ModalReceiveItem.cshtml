@@ -1,0 +1,92 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model InvWeb.Pages.Stores.Receiving.FormModel
+
+
+
+<!-- Modal Edit -->
+<div class="modal fade" id="ItemReceiveModal" tabindex="-1" role="dialog" aria-labelledby="itemEditModal" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:50rem">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Receive Item </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding:20px;">
+                <div>
+
+                    <input class="form-control" type="text" id="ReceiveItem-TrxId"  hidden>
+                    <input class="form-control" type="text" id="ReceiveItem-RcvdItemId" hidden>
+                    <input class="form-control" type="text" id="ReceiveItem-UomId" hidden>
+
+                    <div class="row">
+                        <div class="col-8">
+                            <label class="control-label"> Item </label><br />
+                            <span style="font-weight:bold;font-size:15px;margin-left:12px;" id="ReceiveItem-ItemName"> </span>
+                        </div>
+                        <div class="col-4">
+                            <label class="control-label" style="white-space:nowrap"> Expected Qty </label><br />
+                            <span style="font-weight:bold;font-size:15px;margin-left:12px;" id="ReceiveItem-ExpectedQty"> </span>
+                            <span style="font-weight:bold;font-size:15px;" id="ReceiveItem-Uom"> </span>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="control-label" style="white-space:nowrap"> Heat/LotNo </label>
+                            <input class="form-control" type="text" id="ReceiveItem-LotNo">
+                        </div>
+                        <div class="col-4">
+                            <label class="control-label"> Brand </label>
+                            @*<input class="form-control" type="text" id="ReceiveItem-Brand">*@
+                            <select class="form-control" asp-items="ViewBag.Brands" id="ReceiveItem-Brand"></select>
+                        </div>
+
+                        <div class="col-4">
+                            <label class="control-label"> Origin </label>
+                            @*<input class="form-control" type="text" id="ReceiveItem-Origin">*@
+                            <select class="form-control" asp-items="ViewBag.Origins" id="ReceiveItem-Origin"></select>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-3">
+                            <label class="control-label" style="white-space:nowrap"> Batch </label>
+                            <input class="form-control" type="text" id="ReceiveItem-BatchNo">
+                        </div>
+
+                        <div class="col-4">
+                            <label class="control-label" style="white-space:nowrap"> Received&nbsp;Qty </label>
+                            <div style="display:flex;">
+                                <input id="ReceiveItem-ActualQty" type="number" class="form-control" value="0" />
+                                <span id="ReceiveItem-ActualUom" style="margin-top:5px;margin-left:10px;">  QTY </span>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <label class="control-label" > Area </label>
+                            <select class="form-control" asp-items="ViewBag.StoreAreas" id="ReceiveItem-Area"></select>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-12">
+                            <label class="control-label"> Remarks </label>
+                            <input class="form-control" type="text" id="ReceiveItem-Remarks">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="Update" class="btn btn-primary" onclick="SubmitReceivingForm()" />
+            </div>
+        </div>
+    </div>
+</div>
+
