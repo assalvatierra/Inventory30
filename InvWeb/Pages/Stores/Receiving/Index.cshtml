@@ -11,6 +11,7 @@
     int STOREID = 1;
 }
 
+
 <h1>
     Receiving
 
@@ -70,6 +71,9 @@
             </label>
             <label class="btn btn-outline-primary" id="status-closed" onclick="UpdatePagefilter( @STOREID ,'CLOSED')">
                 <input type="radio" asp-for="Status" autocomplete="off" value="CLOSED">  Closed
+            </label>
+            <label class="btn btn-outline-primary" id="status-closed" onclick="UpdatePagefilter( @STOREID ,'CANCELLED')">
+                <input type="radio" asp-for="Status" autocomplete="off" value="CANCELLED">  Cancelled
             </label>
         </div>
         <div class="btn-group btn-group-toggle action-input" data-toggle="buttons">
@@ -173,7 +177,18 @@
                      <div class="td-bold" style="padding-left:10px;">
                             <span> Id:   @item.Id </span> <br>
                             @Html.DisplayFor(modelItem => item.Remarks)
+
+                            <span id="showtext-button-@item.Id" style="color:blue;cursor:pointer;margin-left:10px;" onclick="ToggleItemList(@item.Id)">
+                                 Show Items
+                            </span>
+                            <span class="">
+                                @(item.InvTrxDtls.Count())
+                            </span>
                     </div>
+
+                    <div id="card-hidden-@item.Id" class="card-hidden" style="display:none">
+
+
                         <a href="./Receiving/Form?id=@item.Id">
                         <table class="table table-borderless table-receiving-items" style="margin-top: 7px">
                             <tr>
@@ -216,7 +231,8 @@
                             }
 
                             </table>
-                        </a>
+                            </a>
+                        </div>
                 </td>
                 <td class="td-bold" style="padding-top:18px;">
                         @item.DtTrx.ToString("MMM dd yyyy")
@@ -280,6 +296,20 @@
 
         function CloseTrxHdr(){
             alert("This feature not yet implemented.");
+        }
+
+        function ToggleItemList(itemId) {
+            $("#card-hidden-" + itemId).toggle();
+
+            var textval = $("#showtext-button-" + itemId).text().trim();
+            // console.log("textval: " + textval);
+
+            if (textval == "Show Items") {
+                $("#showtext-button-" + itemId).text("Hide Items");
+            }
+            if (textval == "Hide Items") {
+                $("#showtext-button-" + itemId).text("Show Items");
+            }
         }
 
     </script>

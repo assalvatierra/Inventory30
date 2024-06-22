@@ -1,0 +1,46 @@
+﻿/* Receiving form */
+.td-bordered {
+    border: 1px solid lightgray;
+}
+
+.control-label {
+    width: 5rem !important;
+    margin-left: 1rem;
+}
+
+.Receiving-Form-Header-Fields {
+    background-color: lightgray;
+    padding: 1.5rem;
+    margin: 1.2rem;
+}
+
+.Receiving-Form-Header-Fields-Container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.Receiving-Form-Add-Item {
+    background-color: lightgray;
+    display: none;
+}
+
+.Receiving-Form-H4 {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.Receiving-Form-H5 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.card-full-width {
+    width: 100%;
+}
+
+.Receiving-status-div {
+    height: 100px;
+}

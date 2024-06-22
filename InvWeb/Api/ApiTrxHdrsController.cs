@@ -80,6 +80,7 @@ namespace InvWeb.Api
 
         // PUT: api/ApiTrxHdrs/PutHdrCancel/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [ActionName("PostHdrsCancelAsync")]
         [HttpPost]
         public async Task<IActionResult> PostHdrsCancelAsync(int? id)
         {
@@ -103,7 +104,8 @@ namespace InvWeb.Api
             {
                 if (!InvHdrExists((int)id))
                 {
-                    return NotFound();
+                    return StatusCode(400, "Not Found");
+                    //return NotFound();
                 }
                 else
                 {

@@ -4,43 +4,33 @@
     string trxStatus = Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status.ToUpper();
     int count = 0;
 }
-<style>
-    .td-bordered {
-       border:1px solid lightgray;
-    }
-
-    .control-label{
-        width: 5rem !important;
-        margin-left: 1rem;
-    }
-</style>
 
 <div style="margin:5px;margin-bottom:10px;display:flex;justify-content:space-between;">
     <div>
-        <a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" class="btn btn-primary">  Back to Transaction List</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" class="">  Back to Transaction List</a>
         <a asp-page="../Printables/RequestForm" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
     </div>
     <div>
-        <a asp-page="../CancelRequest" asp-route-Id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" class="btn btn-primary">  Cancel Request</a>
+        <a class="btn btn-primary" style="color:white;cursor:pointer;"  onclick="CancelRequest(@Model.ReceivingDetailsModel.InvTrxHdr.Id)">  Cancel Request</a>
     </div>
 </div>
 
 <hr />
 
-<div style="height:100px;">
+<div style="Receiving-status-div">
     <h2> Transaction Status : @trxStatus </h2>
     <div class="row" style="margin-left:20px;">
         <div class="col-3">
-           1. Encoding Request
+            1. Encoding Request
         </div>
         <div class="col-3">
-           2. Approved
+            2. Approved
         </div>
         <div class="col-3">
-           3. Receive Items
+            3. Receive Items
         </div>
         <div class="col-3">
-           4. Closed
+            4. Closed
         </div>
     </div>
     <div class="progress" style="width:95%;">
@@ -48,61 +38,66 @@
     </div>
 </div>
 
-<div class="card" style="width:100%;">
-
-<div style="display: flex;flex-direction: column;align-content: center;">
-    <div style=" display:flex;justify-content:center;margin-top:30px;">
-        <h2> Company - Warehouse - Mecuayan </h2>
+<div class="card card-full-width">
+    <div class="Receiving-Form-H4">
+        <h4> Company - Warehouse - Mecuayan </h4>
     </div>
-    <div style=" display:flex;justify-content:center;margin-bottom:40px;">
-         <h3> Receiving Form </h3>
+    <div class="Receiving-Form-H5">
+        <h5> Receiving Form </h5>
     </div>
-        <table class="table">
-            <tr>
-                <td>
-                    <b>  Status : @Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status </b>
-                </td>
-                <td>
-                    
-                     Requested by:
-                     @Model.ReceivingDetailsModel.InvTrxHdr.UserId 
-                   
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"> Party: </label>
-                        
-                        <input id="textinput-Party" type="text"  class="form-control" style="width:40rem;" />
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group row" >
-                        <label class="col-sm-4 col-form-label">  RefNo </label>
-                        <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Id" readonly/>
-                    </div>
-                  
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"> Remarks </label>
-                        <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Remarks" />
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">  Date: </label>
-                        
-                        <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" disabled/>
-                    </div>
-                </td>
-            </tr>
-        </table>
-</div>
 
+    <div class="Receiving-Form-Header-Fields">
+
+        <div class="Receiving-Form-Header-Fields-Container">
+          
+            <table class="table">
+                <tr>
+                    <td>
+                        <b>  Status : @Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status </b>
+                    </td>
+                    <td>
+
+                        Requested by:
+                        @Model.ReceivingDetailsModel.InvTrxHdr.UserId
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"> Party: </label>
+
+                            <input id="textinput-Party" type="text" class="form-control" style="width:40rem;" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">  RefNo </label>
+                            <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Id" readonly />
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"> Remarks </label>
+                            <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Remarks" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">  Date: </label>
+
+                            <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" disabled />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+<div class="Form-Display-Items-Table">
     <div style="margin:15px;">
 
         <table class="table" style="border:1px solid lightgray;" id="ItemsTable">
@@ -170,15 +165,22 @@
                             }
                         </td>
                 </tr>
-
             }
 
+            <tr>
+                <td colspan="5">
+                    <button class="btn btn-outline-primary btn-sm" onclick="ShowAddItem()" style="padding:10px;"> 
+                        Add Item 
+                    </button>
+                </td>
+            </tr>
 
-            <tr id="AddItemsField">
+
+            <tr id="AddItemsField" class="Receiving-Form-Add-Item">
                 <td>
                    Add New Item
                     <div style="display:flex;">
-                        <select id="itemDropdown" class="form-control" asp-items="ViewBag.InvItems"></select>
+                            <select id="itemDropdown" class="form-control" asp-items="ViewBag.InvItems"></select>
                         <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="32" alt="search" class="item-search-icon">
                     </div>
                 </td>
@@ -200,15 +202,16 @@
                         <button class="btn btn-outline-primary btn-sm" onclick="AddNewItemOnTableRow()" style="padding:10px;"> Add Item </button>
                     </div>
                 </td>
-        </tr>
+            </tr>
         
-        <tr>
+      @*   <tr>
             <td colspan="5">
                 TOTAL 
             </td>
-        </tr>
+        </tr> *@
 
         </table>
+    </div>
     </div>
 </div>
 <div class="col-lg-6" style="margin-top:10px;">
@@ -243,6 +246,7 @@
     <script src="~/js/Pages/Stores/Shared/ItemDetails/ItemUomDropdown.js"></script>
     <script src="~/js/Shared/Components/Dialog/DialogItem.js"></script>
     <script src="~/js/Pages/Stores/Receiving/ItemDetails/Create.js"></script>
+    <script src="~/js/Pages/Stores/Receiving/Form.js"></script>
 
     <script>
 
@@ -273,323 +277,7 @@
         });
 
 
-        $("#itemDropdown").on('change', () => {
 
-            var itemid = $('#itemDropdown').val();
-            var itemDesc = $('#itemDropdown option:selected').text();
-
-            GetItemOumsWithId(itemid);
-
-            UpdateItemInputText(itemDesc);
-
-        });
-
-        function AddNewItemOnTableRow(){
-
-            var invHdrId = $('#textinput-RefNo').val();
-            var itemDesc = $('#itemDropdown option:selected').text();
-            var itemId = $('#itemDropdown').val();
-            var itemQty = $('#textinput-Qty').val();
-            var itemUom = $('#UomDropdown option:selected').text();
-            var itemUomId = $('#UomDropdown').val();
-            var itemRemarks = "";
-
-            $('#ItemsTable tr:last').prev().before('<tr> <td> ' + itemDesc + '</td> <td> ' + itemQty + ' </td> <td> ' + itemUom + ' </td> <td> ' + itemRemarks + ' </td> <td>  </td> </tr>');
-
-            Post_addInvItem(invHdrId, itemId, itemQty, itemUomId);
-        
-        }
-
-        function Post_addInvItem(invHdrId, itemId, itemQty, itemUomId) {
-
-            var data = {
-                hdrId: invHdrId,
-                invId: itemId,
-                qty: itemQty,
-                uomId: itemUomId
-            };
-            const myData = JSON.stringify(data);
-            console.log(data)
-
-            var uriString = '?hdrId=' + invHdrId + '&invId=' + itemId + '&qty=' + itemQty + '&uomId=' + itemUomId;
-
-            $.ajax({
-                type: 'POST',
-                url: '/api/ApiInvTrxDtls/AddTrxDtlItem' + uriString,
-                data: myData,
-                error: function (e) {
-                    console.log(e);
-                    //alert("Unable to Add Item.")
-                },
-                success: function (res){
-                    console.log("success");
-                    console.log(res);
-                },
-                dataType: "json",
-                contentType: "application/json"
-            });
-        }
-
-        function RemoveItemFromTable(e, invDtlsId){
-            if(confirm("Do you want to remove this item from the table? " )){
-
-                //remove table row
-                $(e).parent().parent().parent().remove();
-
-                //remove from table db
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/api/ApiInvTrxDtls/DeleteTrxDtlItem?id=' + invDtlsId,
-                    data: { id: invDtlsId },
-                    error: function (e) {
-                        console.log(e);
-                        //alert("Unable to Add Item.")
-                    },
-                    success: function (res) {
-                        console.log("success");
-                        console.log(res);
-                    },
-                    dataType: "json",
-                    contentType: "application/json"
-                    });
-            }
-        }
-
-        function EditExisitingItemRow(e, id){
-         
-            $("#ItemEditModal").modal('show');
-            $("#itemEditSearchModal").css("z-index", 2050);
-
-            RetrieveItemDetails(id);
-        }
-
-        function GetItemDetails(id){
-            return $.ajax({
-                type: 'GET',
-                url: '/api/ApiInvTrxDtls/GetItemDetails?id=' + id,
-                data: { id: id },
-                error: function (e) {
-                    console.log(e);
-                    //alert("Unable to Add Item.")
-                },
-                success: function (res) {
-                    console.log("success");
-                    console.log(res);
-                },
-                dataType: "json",
-                contentType: "application/json"
-            });
-        }
-
-        async function RetrieveItemDetails(id){
-            const result = await GetItemDetails(id);
-            console.log(result);
-
-            //populate fields
-            $("#trxDtlsId").val(id);
-            $("#itemEditDropdown").val(result["InvItemId"]);
-            $("#itemEditQty").val(result["ItemQty"]);
-            $("#UomEditDropdown").val(result["InvUomId"]);
-        }
-
-        function EditItemDetailsSaveChanges(){
-            var trxDtlsId = $("#trxDtlsId").val();
-            var itemId = $("#itemEditDropdown").val();
-            var itemQty = $("#itemEditQty").val();
-            var itemUomId = $("#UomEditDropdown").val();
-
-
-            var data = {
-                invDtlsId: trxDtlsId,
-                invId: itemId,
-                qty: itemQty,
-                uomId: itemUomId
-            };
-            const myData = JSON.stringify(data);
-            console.log(data);
-
-            var uriString = '?invDtlsId=' + trxDtlsId + '&invId=' + itemId + '&qty=' + itemQty + '&uomId=' + itemUomId;
-
-            $.ajax({
-                type: 'POST',
-                url: '/api/ApiInvTrxDtls/EditTrxDtlItem' + uriString,
-                data: myData,
-                error: function (e) {
-                    console.log(e);
-                    //alert("Unable to Add Item.")
-                },
-                success: function (res) {
-                    console.log("success");
-                    console.log(res);
-                },
-                dataType: "json",
-                contentType: "application/json"
-            });
-
-
-            $("#ItemEditModal").modal('hide');
-
-            $("#itemDetails-" + trxDtlsId).hide();
-
-            //update item row
-            $("#itemDetails-" + trxDtlsId).after('<tr id="#itemDetails-' + trxDtlsId + '">' +
-                '<td>' + $("#itemEditDropdown option:selected()").text() + ' </td>' +
-                '<td>' + $("#itemEditQty").val() + ' </td>' +
-                '<td>' + $("#UomEditDropdown option:selected()").text() + ' </td>' +
-                '<td> </td>' +
-                '<td> <div class="row" style="width:5rem;">' +
-                '<button class="btn btn-outline-primary btn-sm" onclick = "EditExisitingItemRow(this, ' + trxDtlsId + ')" > Edit </button>' +
-                '<button class="btn btn-outline-danger btn-sm" onclick = "RemoveItemFromTable(this, ' + trxDtlsId + ')" > X </button>'+
-                '     </div> </td > ' +
-            '</tr>')
-
-            if ($("#itemDetails-" + trxDtlsId).css('display') == 'none') {
-                // true
-                $("#itemDetails-" + trxDtlsId).first().remove();
-            }
-        }
-
-        $("#textinput-HdrRemarks").blur(function(){
-
-            UpdateHeaderRemarks();
-
-            $(this).css("border-color", "green");
-
-            setTimeout(
-                function () {
-                    $(this).css("border-color", "black");
-                }, 2000);
-        });
-
-        function UpdateHeaderRemarks(){
-
-            var data = {
-                hdrId: $("#textinput-RefNo").val(),
-                remarks: $("#textinput-HdrRemarks").val()
-            }
-
-            const myData = JSON.stringify(data);
-            console.log(myData);
-
-            var uriString = '?hdrId=' + $("#textinput-RefNo").val() + '&remarks=' + $("#textinput-HdrRemarks").val();
-
-            $.ajax({
-                type: 'POST',
-                url: '/api/ApiInvTrxDtls/EditHdrRemarks' + uriString,
-                data: myData,
-                error: function (e) {
-                    console.log(e);
-                    //alert("Unable to Add Item.")
-                },
-                success: function (res) {
-                    console.log("success");
-                    console.log(res);
-                },
-                dataType: "json",
-                contentType: "application/json"
-            });
-        }
-
-        function ShowReceivingModal(){
-            $("#ItemReceiveModal").modal('show');
-        }
-
-
-        function ReceiveItemRow(rowId){
-            ShowReceivingModal();
-
-            $("#ReceiveItem-TrxId").val(rowId);
-
-            //get item details
-            GetTrxDetails(rowId);
-
-            //sample data
-
-             $("#ReceiveItem-LotNo").val("101");
-             $("#ReceiveItem-Brand").val(1);
-             $("#ReceiveItem-Origin").val(1);
-             $("#ReceiveItem-ActualQty").val(15);
-             $("#ReceiveItem-Area").val(1);
-             $("#ReceiveItem-Remarks").val("Sample");
-
-
-        }
-
-         function GetTrxDetails(id) {
-
-            console.log("GetTrxDetails");
-
-            return $.get('/api/ApiInvTrxDtls/GetTrxDtlItem?id=' + id, function(result, status){
-                console.log(result);
-
-                var obj = JSON.parse(result);
-
-                console.log(obj['Description']);
-                console.log(obj['InvItemId']);
-
-                //display item details to form
-                $("#ReceiveItem-RcvdItemId").val(obj["InvItemId"]);
-                $("#ReceiveItem-UomId").val(obj["InvItemId"]);
-                $("#ReceiveItem-ItemName").text(obj["Description"]);
-                $("#ReceiveItem-Uom").text(obj["uom"]);
-                $("#ReceiveItem-ActualUom").text(obj["uom"]);
-                $("#ReceiveItem-UomId").val(obj["InvUomId"]);
-                $("#ReceiveItem-ExpectedQty").text(obj["ItemQty"]);
-            })
-        }
-
-        function SubmitReceivingForm() {
-            var Id        = $("#ReceiveItem-TrxId").val();
-            var ItemId    = $("#ReceiveItem-RcvdItemId").val();
-            var LotNo     = $("#ReceiveItem-LotNo").val();
-            var BatchNo   = $("#ReceiveItem-BatchNo").val();
-            var BrandId   = $("#ReceiveItem-Brand option:selected").val();
-            var OriginId  = $("#ReceiveItem-Origin option:selected").val();
-            var ActualQty = $("#ReceiveItem-ActualQty").val();
-            var AreaId    = $("#ReceiveItem-Area option:selected").val();
-            var Remarks   = $("#ReceiveItem-Remarks").val();
-            var UomId     = $("#ReceiveItem-UomId").val();
-
-            var data = {
-                Id      : Id,
-                ItemId  : ItemId,
-                LotNo   : LotNo,
-                BatchNo : BatchNo,
-                BrandId : BrandId,
-                OriginId: OriginId,
-                Qty     : ActualQty,
-                UomId   : UomId,
-                AreaId  : AreaId,
-                Remarks : Remarks
-
-            }
-            console.log("Submit receiving data");
-            console.log(data);
-
-
-            $.ajax({
-                type: 'POST',
-                url: '/api/ApiInvTrxDtls/PostReceivingItem',
-                data: JSON.stringify(data),
-                error: function (e) {
-                    console.log(e);
-
-                    if(e.status == 201){
-
-                        $("#ItemReceiveModal").modal('hide');
-                        console.log("success : add item to master");
-                    } else {
-                        alert("Unable to Add Item.")
-                    }
-                },
-                success: function (res) {
-                    console.log("success");
-                    console.log(res);
-                },
-                dataType: "json",
-                contentType: "application/json"
-            });
-        }
 
     </script>
 }
