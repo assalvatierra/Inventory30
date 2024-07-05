@@ -75,3 +75,35 @@ BEGIN
 	('Numeric'),
 	('Text');
 END
+
+IF NOT EXISTS (SELECT 1 FROM InvItemOrigins)
+BEGIN
+	insert into InvItemOrigins([Name],[Code]) values
+	('JAPAN','JP'),
+	('CHINA','CN'),
+	('VIETNAM','VN'),
+	('INDONESIA','IND'),
+	('MALAYSIA','MLY'),
+	('PHILIPPINES','PH'),
+	('EUROPE','UK'),
+	('SINGAPORE','SG'),
+	('KOREA','KR'),
+	('TAIWAN','TW'),
+	('INDIA','IND'),
+	('THAILAND','TH');
+END
+
+
+
+IF NOT EXISTS (SELECT 1 FROM InvItemBrands)
+BEGIN
+	insert into InvItemBrands([Name],[Code]) values
+	('Energy Steel','ENC'),
+	('Threeway Steel','TSC'),
+	('VSTEEL','VSP'),
+	('KASUGAI','KSJ'),
+	('MEISHIE','MS'),
+	('KITZ','KZ'),
+	('BENKAN','BK');
+END
+

@@ -1,0 +1,59 @@
+﻿@page
+@model InvWeb.Pages.Masterfiles.ItemStoreArea.IndexModel
+
+@{
+    ViewData["Title"] = "Store Areas";
+}
+
+<h1>Store Areas </h1>
+
+<p>
+    <a asp-page="Create">Create New</a> |
+    <a asp-page="../ItemCustomSpecType/Index"> Specification Types</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvStoreArea[0].InvStore.StoreName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvStoreArea[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvStoreArea[0].Remarks)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var storeAreagroup in Model.InvStoreArea.GroupBy(c=>c.InvStore.StoreName))
+        {
+            <tr>
+                <td colspan="4">
+                    @storeAreagroup.Key
+                </td>
+            </tr>
+            @foreach (var area in storeAreagroup)
+            {
+                <tr>
+                    <td>
+                        @* @Html.DisplayFor(modelItem => area.InvStore.StoreName) *@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => area.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => area.Remarks)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@area.Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@area.Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@area.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+           
+    }
+    </tbody>
+</table>
