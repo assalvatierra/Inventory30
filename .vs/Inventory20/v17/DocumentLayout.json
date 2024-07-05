@@ -1,29 +1,29 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Abel\\Inventory30\\",
+  "WorkspaceRootPath": "C:\\Github\\Inventory30\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|c:\\abel\\inventory30\\dxreporting\\libman.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|c:\\github\\inventory30\\dxreporting\\libman.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|solutionrelative:dxreporting\\libman.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|c:\\abel\\inventory30\\dxreporting\\dxreporting.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "AbsoluteMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|c:\\github\\inventory30\\dxreporting\\dxreporting.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|solutionrelative:dxreporting\\dxreporting.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40404643-BC60-48E6-84D8-8605AEE7D2BA}|CoreLib\\CoreLib.csproj|c:\\abel\\inventory30\\corelib\\corelib.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "AbsoluteMoniker": "D:0:0:{40404643-BC60-48E6-84D8-8605AEE7D2BA}|CoreLib\\CoreLib.csproj|c:\\github\\inventory30\\corelib\\corelib.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{40404643-BC60-48E6-84D8-8605AEE7D2BA}|CoreLib\\CoreLib.csproj|solutionrelative:corelib\\corelib.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|c:\\abel\\inventory30\\dxreporting\\nuget.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "AbsoluteMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|c:\\github\\inventory30\\dxreporting\\nuget.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
       "RelativeMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|solutionrelative:dxreporting\\nuget.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|c:\\abel\\inventory30\\dxreporting\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|c:\\github\\inventory30\\dxreporting\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|solutionrelative:dxreporting\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|c:\\abel\\inventory30\\dxreporting\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|c:\\github\\inventory30\\dxreporting\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{63B15427-ED2D-4D38-BFCC-24ED836F0D99}|DXReporting\\DXReporting.csproj|solutionrelative:dxreporting\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
@@ -40,11 +40,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "libman.json",
-              "DocumentMoniker": "C:\\Abel\\Inventory30\\DXReporting\\libman.json",
+              "DocumentMoniker": "C:\\Github\\Inventory30\\DXReporting\\libman.json",
               "RelativeDocumentMoniker": "DXReporting\\libman.json",
-              "ToolTip": "C:\\Abel\\Inventory30\\DXReporting\\libman.json",
+              "ToolTip": "C:\\Github\\Inventory30\\DXReporting\\libman.json",
               "RelativeToolTip": "DXReporting\\libman.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAeAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-07-05T17:21:39.432Z",
               "EditorCaption": ""
@@ -53,9 +53,9 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "DXReporting.csproj",
-              "DocumentMoniker": "C:\\Abel\\Inventory30\\DXReporting\\DXReporting.csproj",
+              "DocumentMoniker": "C:\\Github\\Inventory30\\DXReporting\\DXReporting.csproj",
               "RelativeDocumentMoniker": "DXReporting\\DXReporting.csproj",
-              "ToolTip": "C:\\Abel\\Inventory30\\DXReporting\\DXReporting.csproj",
+              "ToolTip": "C:\\Github\\Inventory30\\DXReporting\\DXReporting.csproj",
               "RelativeToolTip": "DXReporting\\DXReporting.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
@@ -65,9 +65,9 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "CoreLib.csproj",
-              "DocumentMoniker": "C:\\Abel\\Inventory30\\CoreLib\\CoreLib.csproj",
+              "DocumentMoniker": "C:\\Github\\Inventory30\\CoreLib\\CoreLib.csproj",
               "RelativeDocumentMoniker": "CoreLib\\CoreLib.csproj",
-              "ToolTip": "C:\\Abel\\Inventory30\\CoreLib\\CoreLib.csproj",
+              "ToolTip": "C:\\Github\\Inventory30\\CoreLib\\CoreLib.csproj",
               "RelativeToolTip": "CoreLib\\CoreLib.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
@@ -77,9 +77,9 @@
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "NuGet.config",
-              "DocumentMoniker": "C:\\Abel\\Inventory30\\DXReporting\\NuGet.config",
+              "DocumentMoniker": "C:\\Github\\Inventory30\\DXReporting\\NuGet.config",
               "RelativeDocumentMoniker": "DXReporting\\NuGet.config",
-              "ToolTip": "C:\\Abel\\Inventory30\\DXReporting\\NuGet.config",
+              "ToolTip": "C:\\Github\\Inventory30\\DXReporting\\NuGet.config",
               "RelativeToolTip": "DXReporting\\NuGet.config",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
@@ -89,9 +89,9 @@
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "package.json",
-              "DocumentMoniker": "C:\\Abel\\Inventory30\\DXReporting\\package.json",
+              "DocumentMoniker": "C:\\Github\\Inventory30\\DXReporting\\package.json",
               "RelativeDocumentMoniker": "DXReporting\\package.json",
-              "ToolTip": "C:\\Abel\\Inventory30\\DXReporting\\package.json",
+              "ToolTip": "C:\\Github\\Inventory30\\DXReporting\\package.json",
               "RelativeToolTip": "DXReporting\\package.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
@@ -101,9 +101,9 @@
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Abel\\Inventory30\\DXReporting\\appsettings.json",
+              "DocumentMoniker": "C:\\Github\\Inventory30\\DXReporting\\appsettings.json",
               "RelativeDocumentMoniker": "DXReporting\\appsettings.json",
-              "ToolTip": "C:\\Abel\\Inventory30\\DXReporting\\appsettings.json",
+              "ToolTip": "C:\\Github\\Inventory30\\DXReporting\\appsettings.json",
               "RelativeToolTip": "DXReporting\\appsettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
