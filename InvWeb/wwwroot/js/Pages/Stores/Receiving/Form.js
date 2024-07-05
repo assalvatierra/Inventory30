@@ -123,7 +123,7 @@ function CancelRequest(id) {
             console.log(e);
             console.log("Request Cancelled");
             alert("Request Cancelled")
-            ocation.reload();
+            location.reload();
         },
         success: function (res) {
             console.log("success");
@@ -261,7 +261,7 @@ function ReceiveItemRow(rowId) {
     $("#ReceiveItem-LotNo").val("101");
     $("#ReceiveItem-Brand").val(1);
     $("#ReceiveItem-Origin").val(1);
-    $("#ReceiveItem-ActualQty").val(15);
+    $("#ReceiveItem-ActualQty").val(0);
     $("#ReceiveItem-Area").val(1);
     $("#ReceiveItem-Remarks").val("Sample");
 
@@ -331,6 +331,9 @@ function SubmitReceivingForm() {
 
                 $("#ItemReceiveModal").modal('hide');
                 console.log("success : add item to master");
+                location.reload();
+                //add qty text
+                $("itemDetails-Qty-" + Id).append("<span> / " + ActualQty + "</span>");
             } else {
                 alert("Unable to Add Item.")
             }

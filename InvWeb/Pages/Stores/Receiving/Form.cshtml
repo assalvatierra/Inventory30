@@ -130,19 +130,36 @@
                     @count .)
                     ( @item.InvItem.Code )
                     @item.InvItem.Description
-                    <br>@if(item.InvTrxDtlxItemMasters != null){
+                    
+                    @if(item.InvTrxDtlxItemMasters != null){
                             foreach (var itemMaster in item.InvTrxDtlxItemMasters)
                             {
+                                <br>
                                 <span style="color:gray;margin-left:15px;"> 
-                                @itemMaster.InvItemMaster.LotNo /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name 
+                                 Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name 
                                  &#x2192; 
                                  Area: @itemMaster.InvItemMaster.InvStoreArea.Name
-                                </span>
+                                 &nbsp;
+                                 Qty: @itemMaster.InvItemMaster.ItemQty
+                                
+                                 @if(!string.IsNullOrEmpty(@itemMaster.InvItemMaster.Remarks)){
+                                      <br /> <span style="margin-left:15px;"> Remarks: @itemMaster.InvItemMaster.Remarks</span>
+                                 }
+                                </span> 
                             }
                         }
                 </td>
-                <td >
+                <td id="itemDetails-Qty-@item.Id">
                     @item.ItemQty
+
+                    @if( item.InvTrxDtlxItemMasters.Count() > 0 ){
+                           int totalReceivedCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
+
+                           <span style="color:green;">
+                               / @totalReceivedCount
+                           </span>
+                     }
+
                 </td>
                 <td >
                     @item.InvUom.uom
@@ -189,6 +206,7 @@
                 <td>
                     Qty 
                     <input id="textinput-Qty" type="text"  class="form-control" value="1" />
+                   
                 </td>
                 <td>
                     Uom
