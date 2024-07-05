@@ -1,10 +1,10 @@
 @charset "UTF-8";
 /**
 * DevExtreme (dx.light.css)
-* Version: 22.2.4
-* Build date: Thu Jan 19 2023
+* Version: 22.2.12
+* Build date: Mon Apr 29 2024
 *
-* Copyright (c) 2012 - 2023 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2024 Developer Express Inc. ALL RIGHTS RESERVED
 * Read about DevExtreme licensing here: https://js.devexpress.com/Licensing/
 */
 .dx-validationsummary-item {
@@ -2342,6 +2342,7 @@
   -ms-flex-pack: center;
   justify-content: center;
   vertical-align: middle;
+  background-size: contain;
   width: 18px;
   height: 18px;
   font-size: 18px;
@@ -4053,7 +4054,11 @@
   background-color: rgba(88,88,88,.2);
   color: #333;
 }
-.dx-tab.dx-state-focused::after {
+.dx-tab.dx-tab-selected {
+  background-color: #fff;
+  color: #333;
+}
+.dx-tabs.dx-state-focused .dx-tab.dx-state-focused::after {
   content: "";
   pointer-events: none;
   position: absolute;
@@ -4066,10 +4071,6 @@
   border-top: 1px solid #337ab7;
   border-bottom: 1px solid #337ab7;
   z-index: 1;
-}
-.dx-tab.dx-tab-selected {
-  background-color: #fff;
-  color: #333;
 }
 .dx-tab-selected::after {
   content: "";
@@ -6365,11 +6366,21 @@
 .dx-validation-pending .dx-texteditor-input {
   padding-right: 26px;
 }
+.dx-invalid .dx-timeview .dx-texteditor-input,
+.dx-valid .dx-timeview .dx-texteditor-input,
+.dx-validation-pending .dx-timeview .dx-texteditor-input {
+  padding-right: 9px;
+}
 .dx-invalid.dx-rtl .dx-texteditor-input,
 .dx-valid.dx-rtl .dx-texteditor-input,
 .dx-validation-pending.dx-rtl .dx-texteditor-input {
   padding-right: 9px;
   padding-left: 26px;
+}
+.dx-invalid.dx-rtl .dx-timeview .dx-texteditor-input,
+.dx-valid.dx-rtl .dx-timeview .dx-texteditor-input,
+.dx-validation-pending.dx-rtl .dx-timeview .dx-texteditor-input {
+  padding-left: 9px;
 }
 .dx-dropdowneditor.dx-state-active .dx-dropdowneditor-icon,
 .dx-dropdowneditor.dx-state-hover:not(.dx-custom-button-hovered) .dx-dropdowneditor-icon {
@@ -6744,15 +6755,15 @@
   height: calc(100% - 41px);
 }
 .dx-list.dx-list-select-decorator-enabled .dx-list-item.dx-state-hover .dx-checkbox-icon,
-.dx-list.dx-list-select-decorator-enabled .dx-list-item.dx-state-hover .dx-radiobutton-icon::before,
+.dx-list.dx-list-select-decorator-enabled .dx-list-item.dx-state-hover .dx-radiobutton-icon,
 .dx-list.dx-list-select-decorator-enabled .dx-list-select-all.dx-state-hover .dx-checkbox-icon,
-.dx-list.dx-list-select-decorator-enabled .dx-list-select-all.dx-state-hover .dx-radiobutton-icon::before {
+.dx-list.dx-list-select-decorator-enabled .dx-list-select-all.dx-state-hover .dx-radiobutton-icon {
   border-color: #265a87;
 }
 .dx-list.dx-list-select-decorator-enabled .dx-list-item.dx-state-focused .dx-checkbox-icon,
-.dx-list.dx-list-select-decorator-enabled .dx-list-item.dx-state-focused .dx-radiobutton-icon::before,
+.dx-list.dx-list-select-decorator-enabled .dx-list-item.dx-state-focused .dx-radiobutton-icon,
 .dx-list.dx-list-select-decorator-enabled .dx-list-select-all.dx-state-focused .dx-checkbox-icon,
-.dx-list.dx-list-select-decorator-enabled .dx-list-select-all.dx-state-focused .dx-radiobutton-icon::before {
+.dx-list.dx-list-select-decorator-enabled .dx-list-select-all.dx-state-focused .dx-radiobutton-icon {
   border: 1px solid #337ab7;
 }
 .dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item.dx-state-hover {
@@ -7775,10 +7786,18 @@
 .dx-datebox:not(.dx-datebox-native):not(.dx-texteditor-empty).dx-auto-width .dx-texteditor-input {
   padding-right: 26px;
 }
+.dx-datebox:not(.dx-datebox-native).dx-auto-width .dx-timeview .dx-texteditor-input,
+.dx-datebox:not(.dx-datebox-native):not(.dx-texteditor-empty).dx-auto-width .dx-timeview .dx-texteditor-input {
+  padding-right: 9px;
+}
 .dx-datebox:not(.dx-datebox-native).dx-auto-width.dx-rtl .dx-texteditor-input,
 .dx-datebox:not(.dx-datebox-native):not(.dx-texteditor-empty).dx-auto-width.dx-rtl .dx-texteditor-input {
   padding-right: 9px;
   padding-left: 26px;
+}
+.dx-datebox:not(.dx-datebox-native).dx-auto-width.dx-rtl .dx-timeview .dx-texteditor-input,
+.dx-datebox:not(.dx-datebox-native):not(.dx-texteditor-empty).dx-auto-width.dx-rtl .dx-timeview .dx-texteditor-input {
+  padding-left: 9px;
 }
 .dx-device-ios .dx-datebox.dx-texteditor-empty .dx-texteditor-input {
   min-height: 33px;
@@ -8440,7 +8459,7 @@
   display: none;
   z-index: 2000;
   cursor: pointer;
-  background-color: #fff;
+  border: 1px solid transparent;
 }
 .dx-menu-adaptive-mode .dx-treeview-toggle-item-visibility {
   left: auto;
@@ -8488,6 +8507,13 @@
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+}
+.dx-context-menu-content-delimiter::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
 }
 .dx-menu .dx-menu-item-expanded {
   background-color: #fff;
@@ -11072,64 +11098,54 @@
 .dx-radiobutton-icon {
   width: 22px;
   height: 22px;
-}
-.dx-radiobutton-icon::before {
-  display: block;
-  width: 20px;
-  height: 20px;
   border: 1px solid #ddd;
   background-color: #fff;
-  content: "";
   border-radius: 11px;
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
+}
+.dx-radiobutton-icon-dot {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 0 solid #fff;
 }
 .dx-radiobutton-icon-checked .dx-radiobutton-icon-dot {
-  display: block;
-  margin-top: -16px;
-  margin-left: 6px;
-  width: 10px;
-  height: 10px;
-  background: #337ab7;
-  content: "";
-  border-radius: 5px;
+  background-color: #337ab7;
+  border-width: 5px;
 }
-.dx-radiobutton.dx-state-readonly .dx-radiobutton-icon::before {
+.dx-radiobutton.dx-state-readonly .dx-radiobutton-icon {
   border-color: #f4f4f4;
   background-color: #fff;
 }
-.dx-radiobutton.dx-state-hover .dx-radiobutton-icon::before {
+.dx-radiobutton.dx-state-hover .dx-radiobutton-icon {
   border-color: rgba(51,122,183,.4);
 }
-.dx-radiobutton.dx-state-active .dx-radiobutton-icon::before {
+.dx-radiobutton.dx-state-active .dx-radiobutton-icon {
   background-color: rgba(96,96,96,.2);
 }
-.dx-radiobutton.dx-state-focused:not(.dx-state-active) .dx-radiobutton-icon::before {
-  border: 1px solid #337ab7;
+.dx-radiobutton.dx-state-active .dx-radiobutton-icon-dot {
+  border-color: #ddd;
+}
+.dx-radiobutton.dx-state-focused .dx-radiobutton-icon {
+  border-color: #337ab7;
 }
 .dx-radiobutton.dx-state-disabled {
   opacity: .5;
 }
-.dx-invalid .dx-radiobutton-icon::before {
+.dx-invalid .dx-radiobutton-icon {
   border-color: rgba(217,83,79,.4);
 }
-.dx-invalid .dx-state-focused.dx-radiobutton .dx-radiobutton-icon::before,
-.dx-invalid .dx-state-hover.dx-radiobutton .dx-radiobutton-icon::before {
+.dx-invalid .dx-state-focused.dx-radiobutton .dx-radiobutton-icon,
+.dx-invalid .dx-state-hover.dx-radiobutton .dx-radiobutton-icon {
   border-color: #d9534f;
 }
 .dx-state-disabled .dx-radiobutton.dx-state-disabled {
   opacity: 1;
 }
-.dx-rtl .dx-radiobutton.dx-radiobutton-checked .dx-radiobutton-icon-dot,
-.dx-rtl.dx-radiobutton.dx-radiobutton-checked .dx-radiobutton-icon-dot {
-  margin-right: 6px;
-  margin-left: 0;
-}
 .dx-radiogroup .dx-radiobutton,
 .dx-radiogroup .dx-radiobutton-icon {
   margin: 1px 0;
 }
-.dx-radiogroup.dx-state-readonly .dx-radiobutton-icon::before {
+.dx-radiogroup.dx-state-readonly .dx-radiobutton-icon {
   border-color: #f4f4f4;
   background-color: #fff;
 }
@@ -12972,11 +12988,13 @@
   background-color: #fff;
   line-height: inherit;
 }
+.dx-datagrid .dx-row-alt {
+  border-top: 1px solid #f5f5f5;
+  border-bottom: 1px solid #f5f5f5;
+}
 .dx-datagrid .dx-row-alt > td,
 .dx-datagrid .dx-row-alt > tr > td {
   background-color: #f5f5f5;
-  border-top: 1px solid #f5f5f5;
-  border-bottom: 1px solid #f5f5f5;
 }
 .dx-datagrid .dx-row-alt.dx-row:not(.dx-row-removed) {
   border-bottom-color: transparent;
@@ -13182,10 +13200,10 @@
   width: 85px;
   min-width: 85px;
 }
-.dx-datagrid-table .dx-row .dx-command-edit .dx-link.dx-state-disabled {
+.dx-datagrid-table .dx-row .dx-command-edit .dx-state-disabled.dx-link {
   opacity: .5;
 }
-.dx-datagrid-table .dx-row .dx-command-edit .dx-link.dx-state-disabled.dx-link-icon {
+.dx-datagrid-table .dx-row .dx-command-edit .dx-state-disabled.dx-link-icon {
   opacity: .6;
 }
 .dx-datagrid-table .dx-row .dx-command-expand {
@@ -15028,11 +15046,13 @@ input.dx-hidden {
 .dx-treelist {
   line-height: inherit;
 }
+.dx-treelist .dx-row-alt {
+  border-top: 1px solid #f5f5f5;
+  border-bottom: 1px solid #f5f5f5;
+}
 .dx-treelist .dx-row-alt > td,
 .dx-treelist .dx-row-alt > tr > td {
   background-color: #f5f5f5;
-  border-top: 1px solid #f5f5f5;
-  border-bottom: 1px solid #f5f5f5;
 }
 .dx-treelist .dx-row-alt.dx-row:not(.dx-row-removed) {
   border-bottom-color: transparent;
@@ -15256,10 +15276,10 @@ input.dx-hidden {
   width: 85px;
   min-width: 85px;
 }
-.dx-treelist-table .dx-row .dx-command-edit .dx-link.dx-state-disabled {
+.dx-treelist-table .dx-row .dx-command-edit .dx-state-disabled.dx-link {
   opacity: .5;
 }
-.dx-treelist-table .dx-row .dx-command-edit .dx-link.dx-state-disabled.dx-link-icon {
+.dx-treelist-table .dx-row .dx-command-edit .dx-state-disabled.dx-link-icon {
   opacity: .6;
 }
 .dx-treelist-table .dx-row .dx-command-expand {
@@ -16105,6 +16125,13 @@ input.dx-hidden {
 .dx-pivotgrid-drag-action {
   -ms-touch-action: pinch-zoom;
   touch-action: pinch-zoom;
+}
+.dx-pivotgrid-scrollbar-measure-element {
+  position: absolute;
+  top: -9999px;
+  width: 100px;
+  height: 100px;
+  overflow: scroll;
 }
 .dx-pivotgrid-fields-container .dx-position-indicator.dx-position-indicator-vertical {
   margin-top: -4px;
@@ -17599,9 +17626,6 @@ input.dx-hidden {
 .dx-scheduler-work-space-month .dx-scheduler-header-panel-cell {
   border-right: none;
 }
-.dx-scheduler-work-space-month .dx-scheduler-date-table-scrollable .dx-scrollable-content {
-  min-height: 300px;
-}
 .dx-scheduler-work-space-month:not(.dx-scheduler-work-space-count):not(.dx-scheduler-work-space-vertical-grouped) .dx-scheduler-date-table-scrollable-content,
 .dx-scheduler-work-space-month:not(.dx-scheduler-work-space-count):not(.dx-scheduler-work-space-vertical-grouped) .dx-scrollable-content {
   height: 100%;
@@ -18926,12 +18950,17 @@ input.dx-hidden {
   background-color: rgba(51,51,51,.04);
 }
 .dx-scheduler-timeline .dx-scheduler-header-panel-cell.dx-scheduler-header-panel-current-time-cell {
-  border-bottom: 2px solid #63a0d4;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-.dx-scheduler-timeline .dx-scheduler-header-panel-cell.dx-scheduler-header-panel-current-time-cell::before {
-  content: none;
+.dx-scheduler-timeline .dx-scheduler-header-panel-cell.dx-scheduler-header-panel-current-time-cell::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background-color: #63a0d4;
 }
 .dx-scheduler-timeline .dx-scheduler-appointment-reduced .dx-scheduler-appointment-recurrence-icon {
   top: 0;
@@ -19215,6 +19244,9 @@ input.dx-hidden {
 .dx-scheduler-work-space-month .dx-scheduler-date-table-first-of-month {
   border-left: 1px solid #aaa;
   border-top: 1px solid #aaa;
+}
+.dx-scheduler-work-space-month .dx-scheduler-date-table-scrollable .dx-scrollable-content {
+  min-height: 300px;
 }
 .dx-scheduler-header {
   height: 56px;
@@ -20379,6 +20411,10 @@ input.dx-hidden {
   -webkit-box-sizing: content-box;
   box-sizing: content-box;
   border: 1px dashed #778899;
+  pointer-events: none;
+}
+.dx-resize-frame .dx-resizable-handle {
+  pointer-events: auto;
 }
 .dx-resize-frame .dx-resizable-handle-corner-bottom-left,
 .dx-resize-frame .dx-resizable-handle-corner-bottom-right,
