@@ -7,7 +7,7 @@
 
 <div style="margin:5px;margin-bottom:10px;display:flex;justify-content:space-between;">
     <div>
-        <a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" class="">  Back to Transaction List</a>
+        <a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" style="margin-right:15px;">  Back to Transaction List</a>
         <a asp-page="../Printables/RequestForm" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
     </div>
     <div>
@@ -17,7 +17,7 @@
 
 <hr />
 
-<div style="Receiving-status-div">
+<div class="Receiving-status-div">
     <h2> Transaction Status : @trxStatus </h2>
     <div class="row" style="margin-left:20px;">
         <div class="col-3">
@@ -50,27 +50,26 @@
 
         <div class="Receiving-Form-Header-Fields-Container">
           
-            <table class="table">
+            <table class="table" style="margin-bottom:0px;">
                 <tr>
-                    <td>
+                    <td style="padding-left:0px;border:none;">
                         <b>  Status : @Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status </b>
                     </td>
-                    <td>
-
+                    <td style="padding-left:0px;border:none;">
                         Requested by:
                         @Model.ReceivingDetailsModel.InvTrxHdr.UserId
 
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style="padding:0px;border:none;">
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label"> Party: </label>
 
                             <input id="textinput-Party" type="text" class="form-control" style="width:40rem;" />
                         </div>
                     </td>
-                    <td>
+                    <td style="padding:0px;border:none;">
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">  RefNo </label>
                             <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Id" readonly />
@@ -79,13 +78,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style="padding:0px;border:none;">
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label"> Remarks </label>
                             <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Remarks" />
                         </div>
                     </td>
-                    <td>
+                    <td style="padding:0px;border:none;">
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">  Date: </label>
 
@@ -101,23 +100,26 @@
     <div style="margin:15px;">
 
         <table class="table" style="border:1px solid lightgray;" id="ItemsTable">
-        <tr>
-            <th>
-                PARTICULARS
-            </th>
-                <th class="td-bordered" style="width:5rem;">
-                QTY
-            </th>
-             <th class="td-bordered" style="width:8rem;">
-                UOM
-            </th>
-             <th class="td-bordered">
-                REMARKS
-            </th>
-            <th>
 
-            </th>
-        </tr>
+         <thead class="thead-dark">
+            <tr>
+                <th >
+                    PARTICULARS
+                </th>
+                    <th class="td-bordered" style="width:5rem;">
+                    QTY
+                </th>
+                 <th class="td-bordered" style="width:8rem;">
+                    UOM
+                </th>
+                 <th class="td-bordered">
+                    REMARKS
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
 
         <!-- ITEMS -->
         @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)

@@ -11,7 +11,8 @@
 .Receiving-Form-Header-Fields {
     background-color: lightgray;
     padding: 1.5rem;
-    margin: 1.2rem;
+    margin-left: 1.2rem;
+    margin-right: 1.2rem;
 }
 
 .Receiving-Form-Header-Fields-Container {
@@ -28,13 +29,13 @@
 .Receiving-Form-H4 {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .Receiving-Form-H5 {
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
+    margin-bottom: 0px;
 }
 
 .card-full-width {
@@ -43,4 +44,10 @@
 
 .Receiving-status-div {
     height: 100px;
+    margin-bottom:0px;
+}
+
+.th-header{
+    background-color:gray;
+    color:white;
 }
