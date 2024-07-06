@@ -243,6 +243,8 @@ function UpdateHeaderRemarks() {
     });
 }
 
+
+// ------- Receive Item --------- //
 function ShowReceivingModal() {
     $("#ItemReceiveModal").modal('show');
 }
@@ -264,8 +266,6 @@ function ReceiveItemRow(rowId) {
     $("#ReceiveItem-ActualQty").val(0);
     $("#ReceiveItem-Area").val(1);
     $("#ReceiveItem-Remarks").val("Sample");
-
-
 }
 
 function GetTrxDetails(id) {
@@ -351,3 +351,113 @@ function ShowAddItem() {
     $("#AddItemsField").toggle();
 
 }
+
+
+
+// ------- Receive Item Edit --------- //
+function ShowReceivingEditModal() {
+    $("#ItemReceiveEditModal").modal('show');
+}
+
+
+function ReceiveItemEditRow(rowId, itemMasterId) {
+    ShowReceivingEditModal();
+
+    $("#ReceiveItemEdit-TrxId").val(itemMasterId);
+
+    //get item details
+    GetTrxItemMasterDetails(itemMasterId);
+}
+
+
+function GetTrxItemMasterDetails(id) {
+
+    console.log("Get ItemMaster Details");
+
+    return $.get('/api/ApiInvTrxDtls/GetItemMaster?id=' + id, function (result, status) {
+        console.log(result);
+
+        var obj = JSON.parse(result);
+
+        console.log(obj['Description']);
+        console.log(obj['InvItemId']);
+
+        //display item details to form
+        $("#ReceiveItemEdit-ItemMasterId").val(obj["InvItemId"]); // InvItemId
+        $("#ReceiveItemEdit-UomId").val(obj["InvUomId"]);
+        $("#ReceiveItemEdit-Uom").text(obj["uom"]);
+        $("#ReceiveItemEdit-ExpectedQty").text(obj["ItemQty"]);
+
+        $("#ReceiveItemEdit-ItemName").text(obj["Description"]);
+        $("#ReceiveItemEdit-LotNo").val(obj["LotNo"]);
+        $("#ReceiveItemEdit-BatchNo").val(obj["BatchNo"]);
+        $("#ReceiveItemEdit-Brand").val(obj["InvItemBrandId"]);
+        $("#ReceiveItemEdit-Origin").val(obj["InvItemOriginId"]);
+        $("#ReceiveItemEdit-InvStoreAreaId").val(obj["InvStoreAreaId"]);
+
+        $("#ReceiveItemEdit-ActualQty").val(obj["ItemQty"]);
+        $("#ReceiveItemEdit-ActualUom").text(obj["uom"]);
+        $("#ReceiveItemEdit-Remarks").val(obj["Remarks"]);
+    })
+}
+
+
+
+function SubmitReceivingEditForm() {
+
+    var Id = $("#ReceiveItemEdit-TrxId").val();
+    var ItemId = $("#ReceiveItemEdit-ItemMasterId").val();
+    var LotNo =  $("#ReceiveItemEdit-LotNo").val();
+    var BatchNo = $("#ReceiveItemEdit-BatchNo").val();
+    var BrandId = $("#ReceiveItemEdit-Brand option:selected").val();
+    var OriginId = $("#ReceiveItemEdit-Origin option:selected").val();
+    var ActualQty = $("#ReceiveItemEdit-ActualQty").val();
+    var AreaId = $("#ReceiveItemEdit-Area option:selected").val();
+    var Remarks = $("#ReceiveItemEdit-Remarks").val();
+    var UomId = $("#ReceiveItemEdit-UomId").val();
+
+    var data = {
+        Id: Id,
+        ItemId: ItemId,
+        LotNo: LotNo,
+        BatchNo: BatchNo,
+        BrandId: BrandId,
+        OriginId: OriginId,
+        Qty: ActualQty,
+        UomId: UomId,
+        AreaId: AreaId,
+        Remarks: Remarks
+
+    }
+
+    console.log("Submit receiving data");
+    console.log(data);
+
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/ApiInvTrxDtls/PostReceivingItemEdit',
+        data: JSON.stringify(data),
+        error: function (e) {
+            console.log(e);
+
+            if (e.status == 201) {
+
+                $("#ItemReceiveEditModal").modal('hide');
+                console.log("success : add item to master");
+                location.reload();
+                //add qty text
+                //$("itemDetails-Qty-" + Id).append("<span> / " + ActualQty + "</span>");
+            } else {
+                alert("Unable to Update Edit Item .")
+            }
+        },
+        success: function (res) {
+            console.log("success");
+            console.log(res);
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
+}
+

@@ -305,6 +305,101 @@ namespace InvWeb.Api
             return StatusCode(201, "Update Successfull");
         }
 
+
+        //GetItemMaster
+
+        [ActionName("GetItemMaster")]
+        [HttpGet]
+        public string GetItemMaster(int id)
+        {
+            try
+            {
+
+                InvItemMaster invItemMaster = _context.InvItemMasters
+                    .Where(i=>i.Id == id)
+                    .Include(i=>i.InvUom)
+                    .Include(i=>i.InvItem)
+                    .FirstOrDefault();
+
+                if (invItemMaster == null)
+                {
+                    return "Unable to find item details";
+                }
+
+
+                return JsonConvert.SerializeObject(new
+                {
+                    invItemMaster.Id,
+                    invItemMaster.InvUomId,
+                    invItemMaster.InvUom.uom,
+                    invItemMaster.InvItemId,
+                    invItemMaster.InvItem.Description,
+                    invItemMaster.LotNo,
+                    invItemMaster.BatchNo,
+                    invItemMaster.InvItemBrandId,
+                    invItemMaster.InvItemOriginId,
+                    invItemMaster.ItemQty,
+                    invItemMaster.InvStoreAreaId,
+                    invItemMaster.Remarks
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return "Get Item Details not Successfull";
+            }
+        }
+
+
+
+        [ActionName("PostReceivingItemEdit")]
+        [HttpPost]
+        public async Task<ObjectResult> PostReceivingItemEdit(ReceivingTrxItemApiModel item)
+        {
+            if (item == null)
+            {
+                return StatusCode(500, "Post Error. Header Details not found.");
+            }
+
+
+            //create itemMasters
+            InvItemMaster invItemMaster = _context.InvItemMasters.Find(item.Id);
+           
+            if (invItemMaster == null)
+            {
+                return StatusCode(500, "Post Error. invItemMaster Details not found.");
+          
+            }
+
+            invItemMaster.InvItemId = item.ItemId;
+            invItemMaster.InvItemOriginId = item.OriginId;
+            invItemMaster.InvItemBrandId = item.BrandId;
+            invItemMaster.LotNo = item.LotNo;
+            invItemMaster.BatchNo = item.BatchNo;
+            invItemMaster.ItemQty = item.Qty;
+            invItemMaster.InvUomId = item.UomId;
+            invItemMaster.InvStoreAreaId = item.AreaId;
+            invItemMaster.Remarks = item.Remarks;
+
+            //save changes
+            try
+            {
+                //invItemMasterServices.EditInvItemMaster(invItemMaster);
+                //invItemMasterServices.SaveChangesAsync();
+
+                _context.Attach(invItemMaster).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "PostReceivingItemEdit: Post Error. Unable to Edit invItem Masters.");
+            }
+
+
+            return StatusCode(201, "Update Successfull");
+        }
+
     }
 
 }

@@ -135,7 +135,7 @@
                             foreach (var itemMaster in item.InvTrxDtlxItemMasters)
                             {
                                 <br>
-                                <span style="color:gray;margin-left:15px;"> 
+                                 <span style="color:gray;margin-left:15px;cursor:pointer;" onclick="ReceiveItemEditRow(@itemMaster.Id, @itemMaster.InvItemMasterId)">
                                  Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name 
                                  &#x2192; 
                                  Area: @itemMaster.InvItemMaster.InvStoreArea.Name
@@ -256,6 +256,7 @@
 @{
     Html.RenderPartial("ModalAddItem");
     Html.RenderPartial("ModalReceiveItem");
+    Html.RenderPartial("ModalReceiveItemEdit");
 }
 
 @section Scripts {
