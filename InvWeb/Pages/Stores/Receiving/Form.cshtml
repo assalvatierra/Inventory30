@@ -124,7 +124,13 @@
         <!-- ITEMS -->
         @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)
         {
-          { count += 1; }
+         int ItemCountExpectedBalance = 0;
+           { 
+              count += 1;
+               int totalReceivedItemCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
+
+               ItemCountExpectedBalance = item.ItemQty - totalReceivedItemCount;
+          }
             <tr id="itemDetails-@item.Id" cite="">
                 <td id="itemDescEdit-@item.Id">
                     @count .)
@@ -135,7 +141,7 @@
                             foreach (var itemMaster in item.InvTrxDtlxItemMasters)
                             {
                                 <br>
-                                 <span style="color:gray;margin-left:15px;cursor:pointer;" onclick="ReceiveItemEditRow(@itemMaster.Id, @itemMaster.InvItemMasterId)">
+                                    <span style="color:gray;margin-left:15px;cursor:pointer;" onclick="ReceiveItemEditRow(@itemMaster.Id, @itemMaster.InvItemMasterId, @ItemCountExpectedBalance)">
                                  Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name 
                                  &#x2192; 
                                  Area: @itemMaster.InvItemMaster.InvStoreArea.Name
@@ -170,9 +176,12 @@
                         <td>
                             @if (trxStatus == "APPROVED")
                             {
-                                <div style="width:7rem;">
-                                    <button class="btn btn-outline-primary btn-sm" onclick="ReceiveItemRow( @item.Id)"> Receive Item </button>
-                                </div>
+                                @if(ItemCountExpectedBalance > 0){
+
+                                    <div style="width:7rem;">
+                                        <button class="btn btn-outline-primary btn-sm" onclick="ReceiveItemRow( @item.Id, @ItemCountExpectedBalance)"> Receive Item </button>
+                                    </div>
+                                }
                             }
 
                             @if (trxStatus == "REQUEST")
@@ -188,7 +197,7 @@
 
             <tr>
                 <td colspan="5">
-                    <button class="btn btn-outline-primary btn-sm" onclick="ShowAddItem()" style="padding:10px;"> 
+                    <button id="ÄddItem-btn" class="btn btn-outline-primary btn-sm" onclick="ShowAddItem()" style="padding:10px;"> 
                         Add Item 
                     </button>
                 </td>
@@ -283,6 +292,8 @@
                 $("#AddItemsField").hide();
                 $(".trx-items-actions").hide();
                 $("#progressbar-status").css('width', '35%');
+
+                DisableEditOnApproved();
             }
 
             if("@trxStatus" == "REQUEST"){
@@ -297,6 +308,12 @@
             //$("#DateTransaction").datepicker("setDate", '@ViewBag.DateToday');
         });
 
+
+        function DisableEditOnApproved() {
+            $("#textinput-Party").prop('disabled', true);
+            $("#textinput-HdrRemarks").prop('disabled', true);
+            $("#ÄddItem-btn").hide();
+        }
 
 
 

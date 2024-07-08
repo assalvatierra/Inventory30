@@ -78,11 +78,10 @@ namespace InvWeb.Pages.Stores.Receiving
             ViewData["UomsList"] = new SelectList(uomServices.GetUomSelectList(), "Id", "uom");
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
             ViewData["DateToday"] = dateServices.GetCurrentDate().ToString("yyy-MM-dd");
-            ViewData["Origins"] = new SelectList(_context.InvItemBrands, "Id", "Name");
-            ViewData["Brands"]  = new SelectList(_context.InvItemOrigins, "Id", "Name");
+            ViewData["Brands"] = new SelectList(_context.InvItemBrands, "Id", "Name");
+            ViewData["Origins"]  = new SelectList(_context.InvItemOrigins, "Id", "Name");
             ViewData["StoreAreas"] = new SelectList(storeAreas, "Id", "Name");
             
-
             return Page();
         }
 
@@ -110,7 +109,7 @@ namespace InvWeb.Pages.Stores.Receiving
                 dialogItems.Add(new DialogItems
                 {
                     Id = item.Id,
-                    Name = item.InvCategory.Description + " - " + item.Description,
+                    Name = item.Code + " - " + item.InvCategory.Description + " - " + item.Description,
                     Description = itemspecs + remarkString
                 });
             }

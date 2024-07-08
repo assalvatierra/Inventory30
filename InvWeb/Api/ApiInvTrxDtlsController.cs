@@ -142,8 +142,6 @@ namespace InvWeb.Api
                     return "Unable to find item details";
                 }
 
-
-
                 return JsonConvert.SerializeObject(new
                 {
                     invTrxDtl.Id,
@@ -160,6 +158,56 @@ namespace InvWeb.Api
                 return "Add not Successfull";
             }
         }
+
+
+        [ActionName("GetInvItemLotHeatNo")]
+        [HttpGet]
+        public string GetInvItemLotHeatNo(int id)
+        {
+            try
+            {
+
+                List<InvTrxDtlxItemMaster> invTrxDtlxItemMasters = _context.InvTrxDtlxItemMasters
+                    .Where(c => c.InvTrxDtlId == id)
+                    .Include(c=>c.InvItemMaster)
+                    .ToList();
+
+                if (invTrxDtlxItemMasters.Count() == 0)
+                {
+                    return JsonConvert.SerializeObject(new
+                    {
+                        LotNo = "",
+                        BatchNo = "",
+                        InvItemOriginId = 1,
+                        InvItemBrandId = 1
+                    });
+                }
+
+                var similarItemMaster = invTrxDtlxItemMasters.LastOrDefault();
+
+                InvItemMaster invTrxDtl = similarItemMaster.InvItemMaster;
+
+                if (invTrxDtl == null)
+                {
+                    return "Unable to find item details";
+                }
+
+                return JsonConvert.SerializeObject(new
+                {
+                    invTrxDtl.Id,
+                    invTrxDtl.LotNo,
+                    invTrxDtl.BatchNo,
+                    invTrxDtl.InvItemOriginId,
+                    invTrxDtl.InvItemBrandId,
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return "Add not Successfull";
+            }
+        }
+
 
         [ActionName("GetItemDetails")]
         [HttpGet]

@@ -250,7 +250,7 @@ function ShowReceivingModal() {
 }
 
 
-function ReceiveItemRow(rowId) {
+function ReceiveItemRow(rowId, expectedQty) {
     ShowReceivingModal();
 
     $("#ReceiveItem-TrxId").val(rowId);
@@ -260,12 +260,12 @@ function ReceiveItemRow(rowId) {
 
     //sample data
 
-    $("#ReceiveItem-LotNo").val("101");
+    $("#ReceiveItem-LotNo").val("");
     $("#ReceiveItem-Brand").val(1);
     $("#ReceiveItem-Origin").val(1);
-    $("#ReceiveItem-ActualQty").val(0);
+    $("#ReceiveItem-ActualQty").val(expectedQty);
     $("#ReceiveItem-Area").val(1);
-    $("#ReceiveItem-Remarks").val("Sample");
+    $("#ReceiveItem-Remarks").val("");
 }
 
 function GetTrxDetails(id) {
@@ -276,7 +276,7 @@ function GetTrxDetails(id) {
         console.log(result);
 
         var obj = JSON.parse(result);
-
+        console.log(obj)
         console.log(obj['Description']);
         console.log(obj['InvItemId']);
 
@@ -288,8 +288,33 @@ function GetTrxDetails(id) {
         $("#ReceiveItem-ActualUom").text(obj["uom"]);
         $("#ReceiveItem-UomId").val(obj["InvUomId"]);
         $("#ReceiveItem-ExpectedQty").text(obj["ItemQty"]);
+        //$("#ReceiveItem-ActualQty").val(obj["ItemQty"]);
+
+        //
+        GetInvItemLotHeatNo(id);
     })
 }
+
+
+// api/ApiInvTrxDtls/GetInvItemLotHeatNo
+
+function GetInvItemLotHeatNo(id) {
+
+    console.log("GetInvItemLotHeatNo");
+
+    return $.get('/api/ApiInvTrxDtls/GetInvItemLotHeatNo?id=' + id, function (result, status) {
+
+        var obj = JSON.parse(result);
+
+        console.log(obj);
+        //
+        $("#ReceiveItem-LotNo").val(obj["LotNo"]);
+        $("#ReceiveItem-BatchNo").val(obj["BatchNo"]);
+        $("#ReceiveItem-Brand").val(obj["InvItemOriginId"]);
+        $("#ReceiveItem-Origin").val(obj["InvItemBrandId"]);
+    })
+}
+
 
 function SubmitReceivingForm() {
     var Id = $("#ReceiveItem-TrxId").val();
@@ -312,39 +337,43 @@ function SubmitReceivingForm() {
         OriginId: OriginId,
         Qty: ActualQty,
         UomId: UomId,
-        AreaId: AreaId,
-        Remarks: Remarks
+        AreaId: AreaId
 
     }
-    console.log("Submit receiving data");
-    console.log(data);
+    //console.log("Submit receiving data");
+    //console.log(data);
+    
+    //check amount
+    if (CheckRecieving_QtyInput()) {
 
+        $.ajax({
+            type: 'POST',
+            url: '/api/ApiInvTrxDtls/PostReceivingItem',
+            data: JSON.stringify(data),
+            error: function (e) {
+                console.log(e);
 
-    $.ajax({
-        type: 'POST',
-        url: '/api/ApiInvTrxDtls/PostReceivingItem',
-        data: JSON.stringify(data),
-        error: function (e) {
-            console.log(e);
+                if (e.status == 201) {
 
-            if (e.status == 201) {
+                    $("#ItemReceiveModal").modal('hide');
+                    console.log("success : add item to master");
+                    location.reload();
+                    //add qty text
+                    $("itemDetails-Qty-" + Id).append("<span> / " + ActualQty + "</span>");
+                } else {
+                    alert("Unable to Add Item.")
+                }
+            },
+            success: function (res) {
+                console.log("success");
+                console.log(res);
+            },
+            dataType: "json",
+            contentType: "application/json"
+        });
+        //alert("Item Recieved");
+    }
 
-                $("#ItemReceiveModal").modal('hide');
-                console.log("success : add item to master");
-                location.reload();
-                //add qty text
-                $("itemDetails-Qty-" + Id).append("<span> / " + ActualQty + "</span>");
-            } else {
-                alert("Unable to Add Item.")
-            }
-        },
-        success: function (res) {
-            console.log("success");
-            console.log(res);
-        },
-        dataType: "json",
-        contentType: "application/json"
-    });
 }
 
 function ShowAddItem() {
@@ -360,10 +389,11 @@ function ShowReceivingEditModal() {
 }
 
 
-function ReceiveItemEditRow(rowId, itemMasterId) {
+function ReceiveItemEditRow(rowId, itemMasterId, expectedQty) {
     ShowReceivingEditModal();
 
     $("#ReceiveItemEdit-TrxId").val(itemMasterId);
+    $("#ReceiveItemEdit-ExpectedQty").text(expectedQty);
 
     //get item details
     GetTrxItemMasterDetails(itemMasterId);
@@ -386,7 +416,6 @@ function GetTrxItemMasterDetails(id) {
         $("#ReceiveItemEdit-ItemMasterId").val(obj["InvItemId"]); // InvItemId
         $("#ReceiveItemEdit-UomId").val(obj["InvUomId"]);
         $("#ReceiveItemEdit-Uom").text(obj["uom"]);
-        $("#ReceiveItemEdit-ExpectedQty").text(obj["ItemQty"]);
 
         $("#ReceiveItemEdit-ItemName").text(obj["Description"]);
         $("#ReceiveItemEdit-LotNo").val(obj["LotNo"]);
@@ -425,39 +454,85 @@ function SubmitReceivingEditForm() {
         OriginId: OriginId,
         Qty: ActualQty,
         UomId: UomId,
-        AreaId: AreaId,
-        Remarks: Remarks
+        AreaId: AreaId
 
     }
 
     console.log("Submit receiving data");
     console.log(data);
 
+    if (CheckRecievingEdit_QtyInput()) {
 
-    $.ajax({
-        type: 'POST',
-        url: '/api/ApiInvTrxDtls/PostReceivingItemEdit',
-        data: JSON.stringify(data),
-        error: function (e) {
-            console.log(e);
+        $.ajax({
+            type: 'POST',
+            url: '/api/ApiInvTrxDtls/PostReceivingItemEdit',
+            data: JSON.stringify(data),
+            error: function (e) {
+                console.log(e);
 
-            if (e.status == 201) {
+                if (e.status == 201) {
 
-                $("#ItemReceiveEditModal").modal('hide');
-                console.log("success : add item to master");
-                location.reload();
-                //add qty text
-                //$("itemDetails-Qty-" + Id).append("<span> / " + ActualQty + "</span>");
-            } else {
-                alert("Unable to Update Edit Item .")
-            }
-        },
-        success: function (res) {
-            console.log("success");
-            console.log(res);
-        },
-        dataType: "json",
-        contentType: "application/json"
-    });
+                    $("#ItemReceiveEditModal").modal('hide');
+                    console.log("success : add item to master");
+                    location.reload();
+                    //add qty text
+                    //$("itemDetails-Qty-" + Id).append("<span> / " + ActualQty + "</span>");
+                } else {
+                    alert("Unable to Update Edit Item .")
+                }
+            },
+            success: function (res) {
+                console.log("success");
+                console.log(res);
+            },
+            dataType: "json",
+            contentType: "application/json"
+        });
+    }
+
 }
+
+function CheckRecieving_QtyInput() {
+    var ActualQty = $("#ReceiveItem-ActualQty").val();
+    var ExpectedQty = $("#ReceiveItem-ExpectedQty").text();
+
+    if (ActualQty > ExpectedQty) {
+        //show
+        $("#Received-Form-Feedback-Qty").show();
+        $("#ReceiveItem-ActualQty").addClass("is-invalid");
+        $("#Received-Form-Feedback-Qty").text("Recevied Qunatity is greater than Expected Quantiy.");
+        console.log("Actual Amount is greater than Expected Amount.");
+        return false;
+    }
+    console.log("Actual Amount is less than Expected Amount.");
+    return true;
+}
+
+$("#ReceiveItem-ActualQty").on("change", () => {
+    $("#ReceiveItem-ActualQty").removeClass("is-invalid");
+    $("#Received-Form-Feedback-Qty").hide();
+});
+
+
+function CheckRecievingEdit_QtyInput() {
+    var ActualQty = $("#ReceiveItemEdit-ActualQty").val();
+    var ExpectedQty = $("#ReceiveItemEdit-ExpectedQty").text();
+
+    if (ActualQty > ExpectedQty) {
+        //show
+        $("#Received-Edit-Form-Feedback-Qty").show();
+        $("#ReceiveItemEdit-ActualQty").addClass("is-invalid");
+        $("#Received-Edit-Form-Feedback-Qty").text("Recevied Qunatity is greater than Expected Quantiy.");
+        console.log("Actual Amount is greater than Expected Amount.");
+        return false;
+    }
+    console.log("Actual Amount is less than Expected Amount.");
+    return true;
+}
+
+$("#ReceiveItemEdit-ActualQty").on("change", () => {
+    $("#ReceiveItemEdit-ActualQty").removeClass("is-invalid");
+    $("#Received-Edit-Form-Feedback-Qty").hide();
+});
+
 

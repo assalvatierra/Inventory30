@@ -64,8 +64,11 @@
                         <div class="col-4">
                             <label class="control-label" style="white-space:nowrap"> Received&nbsp;Qty </label>
                             <div style="display:flex;">
-                                <input id="ReceiveItem-ActualQty" type="number" class="form-control" value="0" />
+                                <input id="ReceiveItem-ActualQty" type="number" class="form-control" value="0" min="0" />
                                 <span id="ReceiveItem-ActualUom" style="margin-top:5px;margin-left:10px;">  QTY </span>
+                            </div>
+                            <div id="Received-Form-Feedback-Qty" class="invalid-feedback">
+                                
                             </div>
                         </div>
 
@@ -75,7 +78,7 @@
                         </div>
                     </div>
 
-                    <div class="row" style="margin-top:10px;">
+                    <div class="row" style="margin-top:10px;" hidden>
                         <div class="col-12">
                             <label class="control-label"> Remarks </label>
                             <input class="form-control" type="text" id="ReceiveItem-Remarks">

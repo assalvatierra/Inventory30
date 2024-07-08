@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+
 }
 @model InvWeb.Pages.Stores.Receiving.FormModel
 
@@ -17,7 +18,6 @@
             </div>
             <div class="modal-body" style="padding:20px;">
                 <div>
-
                     <input class="form-control" type="text" id="ReceiveItemEdit-TrxId" hidden>
                     <input class="form-control" type="text" id="ReceiveItemEdit-ItemMasterId" hidden>
                     <input class="form-control" type="text" id="ReceiveItemEdit-UomId" hidden>
@@ -62,8 +62,10 @@
                         <div class="col-4">
                             <label class="control-label" style="white-space:nowrap"> Received&nbsp;Qty </label>
                             <div style="display:flex;">
-                                <input id="ReceiveItemEdit-ActualQty" type="number" class="form-control" value="0" />
+                                <input id="ReceiveItemEdit-ActualQty" type="number" class="form-control" value="0" min="0" />
                                 <span id="ReceiveItemEdit-ActualUom" style="margin-top:5px;margin-left:10px;">  QTY </span>
+                            </div> 
+                            <div id="Received-Edit-Form-Feedback-Qty" class="invalid-feedback">
                             </div>
                         </div>
 
@@ -73,7 +75,7 @@
                         </div>
                     </div>
 
-                    <div class="row" style="margin-top:10px;">
+                    <div class="row" style="margin-top:10px;" hidden>
                         <div class="col-12">
                             <label class="control-label"> Remarks </label>
                             <input class="form-control" type="text" id="ReceiveItemEdit-Remarks">
