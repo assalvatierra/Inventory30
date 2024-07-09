@@ -521,22 +521,26 @@ namespace Modules.Inventory
                 //get convertion
                 if (item.InvUomId != invTrxDtl.InvUomId)
                 {
-                    //check conversion table
-                    var conversion = _context.InvUomConversions.Where(c => c.InvUomId_base == invTrxDtl.InvUomId
-                                            && c.InvUomId_into == item.InvUomId);
-
-                    if (conversion != null)
+                    if (item.InvUomConvItems.Count() > 0)
                     {
-                        //convert 
-                        var check_Conversion = conversion.First();
-                        var conversion_result = check_Conversion.Factor * itemCount;
-                        return conversion_result;
+
+                        //check conversion table
+                        var conversion = _context.InvUomConversions.Where(c => c.InvUomId_base == invTrxDtl.InvUomId
+                                                && c.InvUomId_into == item.InvUomId);
+
+                        if (conversion != null)
+                        {
+                            //convert 
+                            var check_Conversion = conversion.First();
+                            var conversion_result = check_Conversion.Factor * itemCount;
+                            return conversion_result;
+                        }
                     }
                 }
 
-                return -1;
+                return invTrxDtl.ItemQty;
             }
-            catch
+            catch (Exception ex)
             {
                 return -1;
             }
