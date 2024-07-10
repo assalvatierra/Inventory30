@@ -196,8 +196,8 @@
             }
 
             <tr>
-                <td colspan="5">
-                    <button id="ÄddItem-btn" class="btn btn-outline-primary btn-sm" onclick="ShowAddItem()" style="padding:10px;"> 
+                    <td colspan="5" id="AddItem-btn-td">
+                    <button id="AddItem-btn" class="btn btn-outline-primary btn-sm" onclick="ShowAddItem()" style="padding:10px;"> 
                         Add Item 
                     </button>
                 </td>
@@ -227,8 +227,9 @@
                 </td>
                 <td>
                     
-                    <div class="row" style="width:7rem;margin-left: 1px;margin-top:5px;">
-                        <button class="btn btn-outline-primary btn-sm" onclick="AddNewItemOnTableRow()" style="padding:10px;"> Add Item </button>
+                    <div class="row" style="width:10rem;margin-left: 1px;margin-top:5px;">
+                            <button class="btn btn-outline-success btn-sm" onclick="AddNewItemOnTableRow()" style="padding:5px;margin-right:5px;"> <i class="bi bi-check-lg" style="font-size:1rem; color:green;"> </i> Save </button>
+                         <button class="btn btn-outline-danger btn-sm" onclick="Cancel_AddNewItemOnTableRow()" style="padding:5px;"> <i class="bi bi-x-lg" style="font-size:1rem; color:red;"> </i> Cancel </button>
                     </div>
                 </td>
             </tr>
@@ -314,7 +315,6 @@
             $("#textinput-HdrRemarks").prop('disabled', true);
             $("#ÄddItem-btn").hide();
         }
-
 
 
     </script>

@@ -30,6 +30,8 @@ function AddNewItemOnTableRow() {
 
     Post_addInvItem(invHdrId, itemId, itemQty, itemUomId);
 
+    $("#AddItemsField").hide();
+
 }
 
 function Post_addInvItem(invHdrId, itemId, itemQty, itemUomId) {
@@ -378,10 +380,15 @@ function SubmitReceivingForm() {
 }
 
 function ShowAddItem() {
-    $("#AddItemsField").toggle();
+    $("#AddItemsField").show();
+    $("#AddItem-btn-td").hide();
 
 }
 
+function Cancel_AddNewItemOnTableRow() {
+    $("#AddItemsField").hide();
+    $("#AddItem-btn-td").show();
+}
 
 
 // ------- Receive Item Edit --------- //
