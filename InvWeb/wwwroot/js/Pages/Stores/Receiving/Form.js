@@ -152,13 +152,15 @@ function EditItemDetailsSaveChanges() {
     var itemId = $("#itemEditDropdown").val();
     var itemQty = $("#itemEditQty").val();
     var itemUomId = $("#UomEditDropdown").val();
+    var itemRemarks = $("#trxdtls-Item-Edit-Remarks").val();
 
 
     var data = {
         invDtlsId: trxDtlsId,
         invId: itemId,
         qty: itemQty,
-        uomId: itemUomId
+        uomId: itemUomId,
+        remarks: itemRemarks
     };
     const myData = JSON.stringify(data);
     console.log(data);
@@ -266,6 +268,7 @@ function ReceiveItemRow(rowId, expectedQty) {
     $("#ReceiveItem-Brand").val(1);
     $("#ReceiveItem-Origin").val(1);
     $("#ReceiveItem-ActualQty").val(expectedQty);
+    $("#ReceiveItem-ExpectedQty-Input").val(expectedQty);
     $("#ReceiveItem-Area").val(1);
     $("#ReceiveItem-Remarks").val("");
 }
@@ -402,6 +405,7 @@ function ReceiveItemEditRow(rowId, itemMasterId, expectedQty) {
 
     $("#ReceiveItemEdit-TrxId").val(itemMasterId);
     $("#ReceiveItemEdit-ExpectedQty").text(expectedQty);
+    $("#ReceiveItemEdit-ExpectedQty-Input").text(expectedQty);
 
     //get item details
     GetTrxItemMasterDetails(itemMasterId);
@@ -502,15 +506,22 @@ function SubmitReceivingEditForm() {
 }
 
 function CheckRecieving_QtyInput() {
-    var ActualQty = $("#ReceiveItem-ActualQty").val();
-    var ExpectedQty = $("#ReceiveItem-ExpectedQty").text();
+    var ActualQty = parseInt($("#ReceiveItem-ActualQty").val());
+    var ExpectedQty = parseInt($("#ReceiveItem-ExpectedQty-Input").val());
+
+    var obj = {
+        ActualQty: ActualQty,
+        ExpectedQty: ExpectedQty,
+    }
+
+    console.log(obj);
 
     if (ActualQty > ExpectedQty) {
         //show
         $("#Received-Form-Feedback-Qty").show();
         $("#ReceiveItem-ActualQty").addClass("is-invalid");
         $("#Received-Form-Feedback-Qty").text("Recevied Qunatity is greater than Expected Quantiy.");
-        console.log("Actual Amount is greater than Expected Amount.");
+        console.log("Actual Amount is greater than Expected Amount." + ActualQty + " > " + ExpectedQty);
         return false;
     }
     console.log("Actual Amount is less than Expected Amount.");
@@ -524,8 +535,8 @@ $("#ReceiveItem-ActualQty").on("change", () => {
 
 
 function CheckRecievingEdit_QtyInput() {
-    var ActualQty = $("#ReceiveItemEdit-ActualQty").val();
-    var ExpectedQty = $("#ReceiveItemEdit-ExpectedQty").text();
+    var ActualQty = parseInt($("#ReceiveItemEdit-ActualQty").val());
+    var ExpectedQty = parseInt($("#ReceiveItemEdit-ExpectedQty-Input").val());
 
     if (ActualQty > ExpectedQty) {
         //show

@@ -124,12 +124,12 @@
         <!-- ITEMS -->
         @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)
         {
-         int ItemCountExpectedBalance = 0;
-           { 
+          int ItemCountExpectedBalance = 0;
+          { 
               count += 1;
                int totalReceivedItemCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
 
-               ItemCountExpectedBalance = item.ItemQty - totalReceivedItemCount;
+                ItemCountExpectedBalance = item.ItemQty - totalReceivedItemCount;
           }
             <tr id="itemDetails-@item.Id" cite="">
                 <td id="itemDescEdit-@item.Id">
@@ -226,11 +226,12 @@
                     <input id="textinput-Remarks" type="text"  class="form-control" />*@
                 </td>
                 <td>
-                    
-                    <div class="row" style="width:10rem;margin-left: 1px;margin-top:5px;">
-                            <button class="btn btn-outline-success btn-sm" onclick="AddNewItemOnTableRow()" style="padding:5px;margin-right:5px;"> <i class="bi bi-check-lg" style="font-size:1rem; color:green;"> </i> Save </button>
-                         <button class="btn btn-outline-danger btn-sm" onclick="Cancel_AddNewItemOnTableRow()" style="padding:5px;"> <i class="bi bi-x-lg" style="font-size:1rem; color:red;"> </i> Cancel </button>
-                    </div>
+                   
+                        <div class="row" style="width:10rem;margin-left: 1px;margin-top:5px;">
+                                <button class="btn btn-outline-success btn-sm" onclick="AddNewItemOnTableRow()" style="padding:5px;margin-right:5px;"> <i class="bi bi-check-lg" style="font-size:1rem; color:green;"> </i> Save </button>
+                             <button class="btn btn-outline-danger btn-sm" onclick="Cancel_AddNewItemOnTableRow()" style="padding:5px;"> <i class="bi bi-x-lg" style="font-size:1rem; color:red;"> </i> Cancel </button>
+                        </div>
+                       
                 </td>
             </tr>
         
@@ -248,8 +249,13 @@
 
     @if (trxStatus == "REQUEST")
     {
+        if(Model.ReceivingDetailsModel.InvTrxDtls.Count() > 0)
+    
+        {
+           
         <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReceivingDetailsModel.StoreId" asp-route-Status="PENDING">Request for Approval</a>
 
+        }
     }
 
     @if (trxStatus == "APPROVED")
