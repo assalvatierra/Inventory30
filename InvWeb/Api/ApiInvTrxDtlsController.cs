@@ -326,7 +326,7 @@ namespace InvWeb.Api
             invItemMaster.ItemQty = item.Qty;
             invItemMaster.InvUomId = item.UomId;
             invItemMaster.InvStoreAreaId = item.AreaId;
-            invItemMaster.Remarks = item.Remarks;
+            //invItemMaster.Remarks = item.Remarks;
 
             //save changes
             try

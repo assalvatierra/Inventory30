@@ -337,7 +337,8 @@ function SubmitReceivingForm() {
         OriginId: OriginId,
         Qty: ActualQty,
         UomId: UomId,
-        AreaId: AreaId
+        AreaId: AreaId,
+        Remarks: Remarks
 
     }
     //console.log("Submit receiving data");
@@ -454,7 +455,8 @@ function SubmitReceivingEditForm() {
         OriginId: OriginId,
         Qty: ActualQty,
         UomId: UomId,
-        AreaId: AreaId
+        AreaId: AreaId,
+        Remarks: Remarks
 
     }
 
