@@ -28,6 +28,7 @@ namespace WebDBSchema.Models
         public string Remarks { get; set; }
         public int InvTrxTypeId { get; set; }
         public int InvTrxHdrStatusId { get; set; }
+        public string Party { get; set; }
     
         public virtual InvStore InvStore { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 03/06/2024 17:49:14
+-- Date Created: 07/12/2024 11:20:17
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -560,7 +560,8 @@ CREATE TABLE [dbo].[InvTrxHdrs] (
     [UserId] nvarchar(80)  NOT NULL,
     [Remarks] nvarchar(120)  NULL,
     [InvTrxTypeId] int  NOT NULL,
-    [InvTrxHdrStatusId] int  NOT NULL
+    [InvTrxHdrStatusId] int  NOT NULL,
+    [Party] nvarchar(80)  NULL
 );
 GO
 

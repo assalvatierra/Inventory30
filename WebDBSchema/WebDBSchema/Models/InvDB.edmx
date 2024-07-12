@@ -504,6 +504,7 @@
     <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="120" />
     <Property Name="InvTrxTypeId" Type="int" Nullable="false" />
     <Property Name="InvTrxHdrStatusId" Type="int" Nullable="false" />
+    <Property Name="Party" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="InvTrxDtls">
     <Key>
@@ -2586,6 +2587,7 @@
           <NavigationProperty Name="InvTrxHdrStatu" Relationship="InvDB.InvTrxHdrStatusInvTrxHdr" FromRole="InvTrxHdr" ToRole="InvTrxHdrStatus" />
           <Property Name="InvTrxHdrStatusId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvTrxApprovals" Relationship="InvDB.InvTrxHdrInvTrxApproval" FromRole="InvTrxHdr" ToRole="InvTrxApproval" />
+          <Property Name="Party" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <Association Name="InvStoreInvTrxHdr">
           <End Type="InvDB.InvStore" Role="InvStore" Multiplicity="1" />
@@ -3770,6 +3772,7 @@
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="InvTrxTypeId" ColumnName="InvTrxTypeId" />
           <ScalarProperty Name="InvTrxHdrStatusId" ColumnName="InvTrxHdrStatusId" />
+          <ScalarProperty Name="Party" ColumnName="Party" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

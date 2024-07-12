@@ -427,6 +427,7 @@
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.001.Initial.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.006.SysSettings.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202205.v1.002.InitialRoles.sql" />
+    <Content Include="Models\SQL Scripts\VSteel\202407.v1.001.Add.Party.InvTrxHeader.sql" />
     <Content Include="Models\SQL Scripts\VSteel\202307.v1.001.Modify.SteelSpecs.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202307.v1.005.AddReports.sql" />
     <Content Include="Models\SQL Scripts\VSteel\Migration\202307.v1.004.UpdateSpecSteel.sql" />
