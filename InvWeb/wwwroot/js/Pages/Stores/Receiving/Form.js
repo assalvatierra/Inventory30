@@ -311,14 +311,16 @@ function GetInvItemLotHeatNo(id) {
 
     return $.get('/api/ApiInvTrxDtls/GetInvItemLotHeatNo?id=' + id, function (result, status) {
 
+        console.log(result);
+
         var obj = JSON.parse(result);
 
         console.log(obj);
         //
         $("#ReceiveItem-LotNo").val(obj["LotNo"]);
         $("#ReceiveItem-BatchNo").val(obj["BatchNo"]);
-        $("#ReceiveItem-Brand").val(obj["InvItemOriginId"]);
-        $("#ReceiveItem-Origin").val(obj["InvItemBrandId"]);
+        $("#ReceiveItem-Brand").val(obj["InvItemBrandId"]);
+        $("#ReceiveItem-Origin").val(obj["InvItemOriginId"]); 
     })
 }
 

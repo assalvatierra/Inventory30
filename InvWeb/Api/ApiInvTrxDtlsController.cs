@@ -166,13 +166,17 @@ namespace InvWeb.Api
         {
             try
             {
+                var trxDtls = _context.InvTrxDtls.Where(c => c.Id == id).Include(c=>c.InvTrxHdr).FirstOrDefault();
 
-                List<InvTrxDtlxItemMaster> invTrxDtlxItemMasters = _context.InvTrxDtlxItemMasters
-                    .Where(c => c.InvTrxDtlId == id)
-                    .Include(c=>c.InvItemMaster)
-                    .ToList();
+                var trxHdr = _context.InvTrxHdrs.Where(c=>c.Id == trxDtls.InvTrxHdrId)
+                    .Include(c=>c.InvTrxDtls)
+                    .ThenInclude(c => c.InvTrxDtlxItemMasters)
+                    .ThenInclude(c => c.InvItemMaster)
+                    .FirstOrDefault();
 
-                if (invTrxDtlxItemMasters.Count() == 0)
+                var trxDtlsCount = trxHdr.InvTrxDtls.Where(c => c.InvTrxDtlxItemMasters.Count() > 0).ToList().Count();
+
+                if (trxDtlsCount == 0)
                 {
                     return JsonConvert.SerializeObject(new
                     {
@@ -183,7 +187,27 @@ namespace InvWeb.Api
                     });
                 }
 
-                var similarItemMaster = invTrxDtlxItemMasters.LastOrDefault();
+
+                var similarTrxDetails = trxHdr.InvTrxDtls.Where(c => c.InvTrxDtlxItemMasters.Count() > 0).Last();
+
+                //List<InvTrxDtlxItemMaster> invTrxDtlxItemMasters = _context.InvTrxDtlxItemMasters
+                //    .Where(c => c.InvTrxDtlId == id)
+                //    .Include(c=>c.InvItemMaster)
+                //    .ToList();
+
+                if (similarTrxDetails == null)
+                {
+             
+                    return JsonConvert.SerializeObject(new
+                    {
+                        LotNo = "",
+                        BatchNo = "",
+                        InvItemOriginId = 1,
+                        InvItemBrandId = 1
+                    });
+                }
+
+                var similarItemMaster = similarTrxDetails.InvTrxDtlxItemMasters.LastOrDefault();
 
                 InvItemMaster invTrxDtl = similarItemMaster.InvItemMaster;
 
@@ -204,7 +228,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
-                return "Add not Successfull";
+                return "Err: unable to find HeatLotNo and batchNo.";
             }
         }
 
