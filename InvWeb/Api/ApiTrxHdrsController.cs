@@ -12,6 +12,7 @@ using Inventory;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using ReportViewModel.InvStore;
+using CoreLib.DTO.Receiving;
 
 namespace InvWeb.Api
 {
@@ -374,6 +375,49 @@ namespace InvWeb.Api
         private string GetUser()
         {
             return User.FindFirstValue(ClaimTypes.Name);
+        }
+
+
+        [ActionName("UpdateTrxHeaderDetails")]
+        [HttpPost]
+        //public async Task<ObjectResult> PostReceivingItemEdit(ReceivingTrxItemApiModel item)
+        public async Task<ObjectResult> UpdateTrxHeaderDetails(ReceivingTrxHeaderApiModel trxHeaderUpdate)
+        {
+            if(trxHeaderUpdate == null)
+            {
+                return StatusCode(500, "Post Error. Header Details not found.");
+            }
+
+
+            //create itemMasters
+            InvTrxHdr TrxHeader = _context.InvTrxHdrs.Find(trxHeaderUpdate.Id);
+
+            if (TrxHeader == null)
+            {
+                return StatusCode(500, "Post Error. TrxHeader Details not found.");
+
+            }
+
+            TrxHeader.Party = trxHeaderUpdate.Party;
+            TrxHeader.Remarks = trxHeaderUpdate.Remarks;
+
+            //save changes
+            try
+            {
+                //invItemMasterServices.EditInvItemMaster(invItemMaster);
+                //invItemMasterServices.SaveChangesAsync();
+
+                _context.Attach(TrxHeader).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "UpdateTrxHeaderDetails: Post Error. Unable to update invItem Header Details.");
+            }
+
+
+            return StatusCode(201, "Update Successfull");
         }
     }
 

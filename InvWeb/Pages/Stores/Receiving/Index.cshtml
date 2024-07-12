@@ -142,7 +142,7 @@
                     </td>
                     <td >
 
-                    @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
+                    @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin && item.InvTrxDtls.Count() > 0)
                     {
                         if (Model.IsTransactionHaveApprovedRecord(item.Id, "Approved"))
                         {

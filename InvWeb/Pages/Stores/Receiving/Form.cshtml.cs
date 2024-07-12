@@ -74,7 +74,7 @@ namespace InvWeb.Pages.Stores.Receiving
                                         x.Code, x.InvCategory.Description, x.Description),
                                         Value = x.Id
                                     }), "Value", "Name", id);
-
+            ViewData["HdrId"] = ReceivingDetailsModel.InvTrxHdr.Id;
             ViewData["UomsList"] = new SelectList(uomServices.GetUomSelectList(), "Id", "uom");
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
             ViewData["DateToday"] = dateServices.GetCurrentDate().ToString("yyy-MM-dd");

@@ -32,6 +32,8 @@ function AddNewItemOnTableRow() {
 
     $("#AddItemsField").hide();
 
+    $("#AddItem-btn-td").show();
+
 }
 
 function Post_addInvItem(invHdrId, itemId, itemQty, itemUomId) {
@@ -208,14 +210,14 @@ function EditItemDetailsSaveChanges() {
 
 $("#textinput-HdrRemarks").blur(function () {
 
-    UpdateHeaderRemarks();
+    //UpdateHeaderRemarks();
 
-    $(this).css("border-color", "green");
+    //$(this).css("border-color", "green");
 
-    setTimeout(
-        function () {
-            $(this).css("border-color", "black");
-        }, 2000);
+    //setTimeout(
+    //    function () {
+    //        $(this).css("border-color", "black");
+    //    }, 2000);
 });
 
 function UpdateHeaderRemarks() {

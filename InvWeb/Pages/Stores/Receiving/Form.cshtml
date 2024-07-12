@@ -49,7 +49,9 @@
     <div class="Receiving-Form-Header-Fields">
 
         <div class="Receiving-Form-Header-Fields-Container">
-          
+
+            <input id="textinput-hdrId" type="text" class="form-control" style="width:40rem;" value="@ViewBag.HdrId" hidden />
+
             <table class="table" style="margin-bottom:0px;">
                 <tr>
                     <td style="padding-left:0px;border:none;">
@@ -66,7 +68,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label"> Party: </label>
 
-                            <input id="textinput-Party" type="text" class="form-control" style="width:40rem;" />
+                            <input id="textinput-Party" type="text" class="form-control" style="width:40rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Party" disabled />
                         </div>
                     </td>
                     <td style="padding:0px;border:none;">
@@ -81,7 +83,7 @@
                     <td style="padding:0px;border:none;">
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label"> Remarks </label>
-                            <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Remarks" />
+                            <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" value="@Model.ReceivingDetailsModel.InvTrxHdr.Remarks" disabled />
                         </div>
                     </td>
                     <td style="padding:0px;border:none;">
@@ -93,6 +95,10 @@
                     </td>
                 </tr>
             </table>
+        </div>
+        <div>
+            <button id="Edit-header-btn" class="btn btn-primary" onclick="ShowEditHeader()"> <i class="bi bi-pen"> </i> Edit </button>
+            <button id="Save-header-btn" class="btn btn-success" onclick="SaveHeaderDetails_Changes()" style="display:none;"> <i class="bi bi-check-lg"> </i> Save </button>
         </div>
     </div>
 
@@ -135,6 +141,8 @@
                 <td id="itemDescEdit-@item.Id">
                     @count .)
                     ( @item.InvItem.Code )
+                    
+                    @item.InvItem.InvCategory.Description - 
                     @item.InvItem.Description
                     
                     @if(item.InvTrxDtlxItemMasters != null){
@@ -196,7 +204,7 @@
             }
 
             <tr>
-                    <td colspan="5" id="AddItem-btn-td">
+               <td colspan="5" id="AddItem-btn-td">
                     <button id="AddItem-btn" class="btn btn-outline-primary btn-sm" onclick="ShowAddItem()" style="padding:10px;"> 
                         Add Item 
                     </button>
@@ -319,7 +327,62 @@
         function DisableEditOnApproved() {
             $("#textinput-Party").prop('disabled', true);
             $("#textinput-HdrRemarks").prop('disabled', true);
-            $("#ÄddItem-btn").hide();
+            $("#AddItem-btn").hide();
+        }
+
+        function ShowEditHeader(){
+            $("#textinput-Party").prop('disabled', false);
+            $("#textinput-HdrRemarks").prop('disabled', false);
+            $("#Edit-header-btn").hide();
+            $("#Save-header-btn").show();
+        }
+
+        function SaveHeaderDetails_Changes(){
+            var hdrId = parseInt($("#textinput-hdrId").val());
+            var hdrParty = $("#textinput-Party").val();
+            var hdrRemarks = $("#textinput-HdrRemarks").val();
+
+            var data = {
+                Id: hdrId,
+                Party: hdrParty,
+                Remarks: hdrRemarks
+            }
+
+            console.log("Sending header data for update");
+            console.log(data);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/ApiTrxHdrs/UpdateTrxHeaderDetails',
+                    data: JSON.stringify(data),
+                    error: function (e) {
+                        console.log(e);
+
+                        if (e.status == 201) {
+
+                            // $("#ItemReceiveEditModal").modal('hide');
+                            console.log("success : Update Edit Header ");
+                            // location.reload();
+                            //add qty text
+                            //$("itemDetails-Qty-" + Id).append("<span> / " + ActualQty + "</span>");
+                            $("#Save-header-btn").hide();
+                            $("#Edit-header-btn").show();
+                            $("#textinput-Party").prop('disabled', true);
+                        $("#textinput-HdrRemarks").prop('disabled', true);
+
+                        } else {
+                            console.log("Unable to Update Edit Header .")
+                        }
+                    },
+                    success: function (res) {
+                        console.log("success");
+                        console.log(res);
+                    },
+                    dataType: "json",
+                    contentType: "application/json"
+                });
+            
+
         }
 
 
