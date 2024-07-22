@@ -3,15 +3,18 @@
 @{
     string trxStatus = Model.ReceivingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status.ToUpper();
     int count = 0;
+    int ActualInvCount = 0;
+    int ExpectedCount = 0;
+    int InvBalanceCount = 0;
 }
 
 <div style="margin:5px;margin-bottom:10px;display:flex;justify-content:space-between;">
     <div>
         <a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" style="margin-right:15px;">  Back to Transaction List</a>
-        <a asp-page="../Printables/RequestForm" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
+        <a asp-page="../Printables/RequestForm" id="PrintVoucher-btn" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
     </div>
     <div>
-        <a class="btn btn-primary" style="color:white;cursor:pointer;"  onclick="CancelRequest(@Model.ReceivingDetailsModel.InvTrxHdr.Id)">  Cancel Request</a>
+        <a class="btn btn-primary" id="CancelTrx-btn" style="color:white;cursor:pointer;"  onclick="CancelRequest(@Model.ReceivingDetailsModel.InvTrxHdr.Id)">  Cancel Request</a>
     </div>
 </div>
 
@@ -97,8 +100,13 @@
             </table>
         </div>
         <div>
-            <button id="Edit-header-btn" class="btn btn-primary" onclick="ShowEditHeader()"> <i class="bi bi-pen"> </i> Edit </button>
-            <button id="Save-header-btn" class="btn btn-success" onclick="SaveHeaderDetails_Changes()" style="display:none;"> <i class="bi bi-check-lg"> </i> Save </button>
+
+            @if (trxStatus == "REQUEST")
+            {
+                <button id="Edit-header-btn" class="btn btn-primary" onclick="ShowEditHeader()"> <i class="bi bi-pen"> </i> Edit </button>
+                <button id="Save-header-btn" class="btn btn-success" onclick="SaveHeaderDetails_Changes()" style="display:none;"> <i class="bi bi-check-lg"> </i> Save </button>
+            }
+          
         </div>
     </div>
 
@@ -130,13 +138,17 @@
         <!-- ITEMS -->
         @foreach (var item in Model.ReceivingDetailsModel.InvTrxDtls)
         {
-          int ItemCountExpectedBalance = 0;
-          { 
-              count += 1;
-               int totalReceivedItemCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
+            int ItemCountExpectedBalance = 0;
+            { 
+                count += 1;
+                int totalReceivedItemCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
 
                 ItemCountExpectedBalance = item.ItemQty - totalReceivedItemCount;
-          }
+
+                //Overall count
+                ExpectedCount += item.ItemQty;
+                ActualInvCount += totalReceivedItemCount;
+            }
             <tr id="itemDetails-@item.Id" cite="">
                 <td id="itemDescEdit-@item.Id">
                     @count .)
@@ -258,17 +270,24 @@
     @if (trxStatus == "REQUEST")
     {
         if(Model.ReceivingDetailsModel.InvTrxDtls.Count() > 0)
-    
         {
-           
-        <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReceivingDetailsModel.StoreId" asp-route-Status="PENDING">Request for Approval</a>
-
+            <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@ViewData["StoreId"]" asp-route-Status="PENDING">Request for Approval</a>
         }
     }
 
-    @if (trxStatus == "APPROVED")
+    @if (trxStatus == "APPROVED" && ( ActualInvCount >=  ExpectedCount))
     {
-        <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReceivingDetailsModel.StoreId" asp-route-Status="PENDING">ALL ITEMS RECEIVED and CLOSE </a>
+        @* <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReceivingDetailsModel.StoreId" asp-route-Status="CLOSED">ALL ITEMS RECEIVED and CLOSE </a> *@
+
+        <button class="btn btn-primary" id="CloseTrxHeaderBtn" onclick="TransactionStatus_Close(@Model.ReceivingDetailsModel.InvTrxHdr.Id)"> ALL ITEMS RECEIVED and CLOSE </button>
+        
+        <div id="AfterClosedDivLinks" >
+            <br />
+            <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@ViewData["StoreId"]" asp-route-Status="PENDING">Go to Request</a>
+            <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@ViewData["StoreId"]" asp-route-Status="APPROVED"> Go to Approved  </a>
+            <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@ViewData["StoreId"]" asp-route-Status="CLOSED"> Go to Closed  </a>
+
+        </div>
 
     }
 
@@ -317,6 +336,10 @@
 
             if ("@trxStatus" == "CLOSED") {
                 $("#progressbar-status").css('width', '100%');
+                $("#AddItem-btn-td").hide();
+                $(".trx-items-actions").hide();
+                $("#CancelTrx-btn").hide();
+                $("#PrintVoucher-btn").hide();
             }
 
             $("#textinput-Date").val('@ViewBag.DateToday');
@@ -382,6 +405,49 @@
                     contentType: "application/json"
                 });
             
+
+        }
+
+        function TransactionStatus_Close(id) {
+
+            $("#CloseTrxHeaderBtn").text("CLOSING TRANSACTION...");
+
+            var data = {
+                Id: id,
+            }
+
+            console.log("Closing Transaction");
+            console.log(data);
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/ApiTrxHdrs/CloseTrxHeader',
+                data: JSON.stringify(data),
+                error: function (e) {
+                    console.log(e);
+
+                    if (e.status == 201) {
+                        console.log("success : Closing Transaction ");
+                        $("#CloseTrxHeaderBtn").text("TRANSACTION IS CLOSED");
+                        $("#CloseTrxHeaderBtn").removeClass("btn-primary");
+                        $("#CloseTrxHeaderBtn").addClass("btn-success");
+                        $("#CloseTrxHeaderBtn").prop('disabled', true);
+                        $("#AfterClosedDivLinks").show();
+                    } else {
+                        console.log("Error: Closing Transaction .")
+                        $("#CloseTrxHeaderBtn").text("TRANSACTION IS NOT CLOSED.");
+                        $("#CloseTrxHeaderBtn").removeClass("btn-primary");
+                        $("#CloseTrxHeaderBtn").addClass("btn-error");
+                    }
+                },
+                success: function (res) {
+                    console.log("success");
+                    console.log(res);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
+
 
         }
 

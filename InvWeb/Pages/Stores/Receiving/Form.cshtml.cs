@@ -81,7 +81,8 @@ namespace InvWeb.Pages.Stores.Receiving
             ViewData["Brands"] = new SelectList(_context.InvItemBrands, "Id", "Name");
             ViewData["Origins"]  = new SelectList(_context.InvItemOrigins, "Id", "Name");
             ViewData["StoreAreas"] = new SelectList(storeAreas, "Id", "Name");
-            
+            ViewData["StoreId"] = ReceivingDetailsModel.InvTrxHdr.InvStoreId;
+
             return Page();
         }
 

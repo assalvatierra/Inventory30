@@ -419,6 +419,46 @@ namespace InvWeb.Api
 
             return StatusCode(201, "Update Successfull");
         }
+
+        [ActionName("CloseTrxHeader")]
+        [HttpPost]
+        //public async Task<ObjectResult> PostReceivingItemEdit(ReceivingTrxItemApiModel item)
+        public async Task<ObjectResult> CloseTrxHeader(ReceivingTrxHeaderApiModel trxHeaderUpdate)
+        {
+            if (trxHeaderUpdate == null)
+            {
+                return StatusCode(500, "Post Error. Parameter Id is null.");
+            }
+
+
+            //create itemMasters
+            InvTrxHdr TrxHeader = _context.InvTrxHdrs.Where(i=>i.Id == trxHeaderUpdate.Id).Include(i=>i.InvTrxHdrStatu).First();
+
+            if (TrxHeader == null)
+            {
+                return StatusCode(500, "Post Error. TrxHeader Details not found.");
+
+            }
+
+            TrxHeader.InvTrxHdrStatusId = 3;
+
+            //save changes
+            try
+            {
+                _context.Attach(TrxHeader).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "UpdateTrxHeaderDetails: Post Error. Unable to update invItem Header statuse to CLOSED.");
+            }
+
+
+            return StatusCode(201, "Update Successfull");
+        }
+
+
     }
 
 }

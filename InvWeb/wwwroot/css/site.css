@@ -115,7 +115,7 @@ body {
 
 .dialog-search-form {
     /*width:150%;*/
-    width: max-content;
+    width: 800px;
 }
 
 .no-wrap {

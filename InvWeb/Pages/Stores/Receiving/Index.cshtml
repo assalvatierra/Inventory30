@@ -166,7 +166,15 @@
 
                    @if (item.InvTrxHdrStatusId == STATUS_APPROVED && IsAdmin)
                    {
-                        <button class="btn btn-primary" onclick="CloseTrxHdr(this, '@item.Id')" disabled> Close this Transaction </button>
+                            @* @if ()
+                            {
+                                <button class="btn btn-primary" onclick="CloseTrxHdr(this, '@item.Id')"> Close this Transaction </button>
+                            }
+                            else
+                            { 
+                                <button class="btn btn-primary" onclick="CloseTrxHdr(this, '@item.Id')" disabled> Close this Transaction </button>
+                            } *@
+
                    }
 
                 </td>
@@ -254,7 +262,7 @@
 
                     @if (item.InvTrxHdrStatu.Status == "Closed")
                     {
-                            <span class="badge badge-defualt" style="padding:8px;">
+                            <span class="badge badge-warning" style="padding:8px;">
                             @item.InvTrxHdrStatu.Status
                          </span>
                     }
