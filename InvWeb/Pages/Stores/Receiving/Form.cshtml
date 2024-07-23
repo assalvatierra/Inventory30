@@ -160,18 +160,37 @@
                     @if(item.InvTrxDtlxItemMasters != null){
                             foreach (var itemMaster in item.InvTrxDtlxItemMasters)
                             {
-                                <br>
-                                    <span style="color:gray;margin-left:15px;">
-                                     Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name 
-                                     &#x2192; 
-                                     Area: @itemMaster.InvItemMaster.InvStoreArea.Name
-                                     &nbsp;
-                                     Qty: @itemMaster.InvItemMaster.ItemQty
-                                
-                                 @if(!string.IsNullOrEmpty(@itemMaster.InvItemMaster.Remarks)){
-                                      <br /> <span style="margin-left:15px;"> Remarks: @itemMaster.InvItemMaster.Remarks</span>
-                                 }
-                                </span> 
+                                if(ItemCountExpectedBalance != 0){
+                                    <br>
+                                    <span style="color:gray;margin-left:15px;cursor:pointer;" onclick="ReceiveItemEditRow(@itemMaster.Id, @itemMaster.InvItemMasterId, @ItemCountExpectedBalance)">
+                                            Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name
+                                            &#x2192;
+                                            Area: @itemMaster.InvItemMaster.InvStoreArea.Name
+                                            &nbsp;
+                                            Qty: @itemMaster.InvItemMaster.ItemQty
+
+                                            @if (!string.IsNullOrEmpty(@itemMaster.InvItemMaster.Remarks))
+                                            {
+                                                <br /> <span style="margin-left:15px;"> Remarks: @itemMaster.InvItemMaster.Remarks</span>
+                                            }
+                                        </span>
+                                    }else{
+                                       <br>
+                                        <span style="color:gray;margin-left:15px;">
+                                            Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name
+                                            &#x2192;
+                                            Area: @itemMaster.InvItemMaster.InvStoreArea.Name
+                                            &nbsp;
+                                            Qty: @itemMaster.InvItemMaster.ItemQty
+
+                                            @if (!string.IsNullOrEmpty(@itemMaster.InvItemMaster.Remarks))
+                                            {
+                                                <br /> <span style="margin-left:15px;"> Remarks: @itemMaster.InvItemMaster.Remarks</span>
+                                            }
+                                        </span>
+                                    }
+                               
+                                   
                             }
                         }
                 </td>

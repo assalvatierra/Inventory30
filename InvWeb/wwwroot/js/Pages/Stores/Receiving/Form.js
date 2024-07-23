@@ -405,14 +405,17 @@ function ShowReceivingEditModal() {
 
 
 function ReceiveItemEditRow(rowId, itemMasterId, expectedQty) {
-    ShowReceivingEditModal();
+ 
+        ShowReceivingEditModal();
 
-    $("#ReceiveItemEdit-TrxId").val(itemMasterId);
-    $("#ReceiveItemEdit-ExpectedQty").text(expectedQty);
-    $("#ReceiveItemEdit-ExpectedQty-Input").text(expectedQty);
+        $("#ReceiveItemEdit-TrxId").val(itemMasterId);
+        $("#ReceiveItemEdit-ExpectedQty").text(expectedQty);
+        $("#ReceiveItemEdit-ExpectedQty-Input").text(expectedQty);
 
-    //get item details
-    GetTrxItemMasterDetails(itemMasterId);
+        //get item details
+        GetTrxItemMasterDetails(itemMasterId);
+    
+  
 }
 
 
