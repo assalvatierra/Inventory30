@@ -1,40 +1,39 @@
 ﻿@page
 @model InvWeb.Pages.Stores.Releasing.FormModel
 @{
-    string trxStatus = Model.ReleasingDetails.InvTrxHdr.InvTrxHdrStatu.Status.ToUpper();
+    string trxStatus = Model.ReleasingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status.ToUpper();
+    int count = 0;
+    int ActualInvCount = 0;
+    int ExpectedCount = 0;
+    int InvBalanceCount = 0;
 }
-<style>
-    .td-bordered {
-       border:1px solid lightgray;
-    }
 
-    .control-label{
-        width: 5rem !important;
-        margin-left: 1rem;
-    }
-</style>
-
-<div style="margin:5px;margin-bottom:10px;">
-
-    <a asp-page="./Index" asp-route-storeId="@Model.ReleasingDetails.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" class="btn btn-primary">  Back to Transaction List</a>
-    <a asp-page="../Printables/RequestForm" asp-route-id="@Model.ReleasingDetails.InvTrxHdr.Id" asp-route-type="@Model.ReleasingDetails.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
-
+<div style="margin:5px;margin-bottom:10px;display:flex;justify-content:space-between;">
+    <div>
+        <a asp-page="./Index" asp-route-storeId="@Model.ReleasingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" style="margin-right:15px;">  Back to Transaction List</a>
+        <a asp-page="../Printables/RequestForm" id="PrintVoucher-btn" asp-route-id="@Model.ReleasingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReleasingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
+    </div>
+    <div>
+        <a class="btn btn-primary" id="CancelTrx-btn" style="color:white;cursor:pointer;" onclick="CancelRequest(@Model.ReleasingDetailsModel.InvTrxHdr.Id)">  Cancel Request</a>
+    </div>
 </div>
 
-<div style="height:100px;">
+<hr />
+
+<div class="Receiving-status-div">
     <h2> Transaction Status : @trxStatus </h2>
     <div class="row" style="margin-left:20px;">
         <div class="col-3">
-           1. Encoding Request
+            1. Encoding Request
         </div>
         <div class="col-3">
-           2. Approved
+            2. Approved
         </div>
         <div class="col-3">
-           3. Receive Items
+            3. Receive Items
         </div>
         <div class="col-3">
-           4. Closed
+            4. Closed
         </div>
     </div>
     <div class="progress" style="width:95%;">
@@ -42,122 +41,207 @@
     </div>
 </div>
 
-<div class="card" style="width:95%;">
-
-<div style="display: flex;flex-direction: column;align-content: center;">
-    <div style=" display:flex;justify-content:center;margin-top:30px;">
-        <h2> Company - Warehouse - Mecuayan </h2>
+<div class="card card-full-width">
+    <div class="Receiving-Form-H4">
+        <h4> Company - Warehouse - Mecuayan </h4>
     </div>
-    <div style=" display:flex;justify-content:center;margin-bottom:40px;">
-         <h3> Receiving Form </h3>
+    <div class="Receiving-Form-H5">
+        <h5> Releasing Form </h5>
     </div>
-        <table class="table">
-            <tr>
-                <td>
-                    <b>  Status : @Model.ReleasingDetails.InvTrxHdr.InvTrxHdrStatu.Status </b>
-                </td>
-                <td>
-                    
-                     Requested by:
-                    @Model.ReleasingDetails.InvTrxHdr.UserId
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"> Party: </label>
-                        
-                        <input id="textinput-Party" type="text"  class="form-control" style="width:40rem;" />
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group row" >
-                        <label class="col-sm-3 col-form-label">   RefNo </label>
-                        <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" value="@Model.ReleasingDetails.InvTrxHdr.Id" readonly />
-                    </div>
-                  
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"> Remarks </label>
-                        <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" value="@Model.ReleasingDetails.InvTrxHdr.Remarks" />
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">  Date: </label>
-                        
-                        <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" val="Viewbag.DateToday" />
-                    </div>
-                </td>
-            </tr>
-        </table>
-</div>
+    <div class="Receiving-Form-Header-Fields">
 
+        <div class="Receiving-Form-Header-Fields-Container">
+
+            <input id="textinput-hdrId" type="text" class="form-control" style="width:40rem;" value="@ViewBag.HdrId" hidden />
+
+            <table class="table" style="margin-bottom:0px;">
+                <tr>
+                    <td style="padding-left:0px;border:none;">
+                        <b>  Status : @Model.ReleasingDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status </b>
+                    </td>
+                    <td style="padding-left:0px;border:none;">
+                        Requested by:
+                        @Model.ReleasingDetailsModel.InvTrxHdr.UserId
+
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:0px;border:none;">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"> Party: </label>
+
+                            <input id="textinput-Party" type="text" class="form-control" style="width:40rem;" value="@Model.ReleasingDetailsModel.InvTrxHdr.Party" disabled />
+                        </div>
+                    </td>
+                    <td style="padding:0px;border:none;">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">  RefNo </label>
+                            <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" value="@Model.ReleasingDetailsModel.InvTrxHdr.Id" readonly />
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:0px;border:none;">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"> Remarks </label>
+                            <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" value="@Model.ReleasingDetailsModel.InvTrxHdr.Remarks" disabled />
+                        </div>
+                    </td>
+                    <td style="padding:0px;border:none;">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">  Date: </label>
+
+                            <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" disabled />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+
+            @if (trxStatus == "REQUEST")
+            {
+                <button id="Edit-header-btn" class="btn btn-primary" onclick="ShowEditHeader()"> <i class="bi bi-pen"> </i> Edit </button>
+                <button id="Save-header-btn" class="btn btn-success" onclick="SaveHeaderDetails_Changes()" style="display:none;"> <i class="bi bi-check-lg"> </i> Save </button>
+            }
+          
+        </div>
+    </div>
+
+<div class="Form-Display-Items-Table">
     <div style="margin:15px;">
 
         <table class="table" style="border:1px solid lightgray;" id="ItemsTable">
-        <tr>
-            <th>
-                PARTICULARS
-            </th>
-                <th class="td-bordered">
-                QTY
-            </th>
-            <th class="td-bordered">
-                UOM
-            </th>
-             <th class="td-bordered">
-                REMARKS
-            </th>
-            <th>
 
-            </th>
-        </tr>
+         <thead class="thead-dark">
+            <tr>
+                <th >
+                    PARTICULARS
+                </th>
+                <th>
+                    LOT
+                </th>
+                 <th class="td-bordered" style="width:5rem;">
+                    QTY
+                </th>
+                 <th class="td-bordered" style="width:8rem;">
+                    UOM
+                </th>
+                 <th class="td-bordered">
+                    REMARKS
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
 
         <!-- ITEMS -->
-            @foreach (var item in Model.ReleasingDetails.InvTrxDtls)
+                @foreach (var item in Model.ReleasingDetailsModel.InvTrxDtls)
         {
-        <tr id="itemDetails-@item.Id" cite="">
-            <td style="min-width:40rem;" id="itemDescEdit-@item.Id">
-                ( @item.InvItem.Code )
-                @item.InvItem.Description
-            </td>
-            <td  style="min-width:2rem;">
-                @item.ItemQty
-            </td>
-            <td  style="min-width:8rem;">
-                @item.InvUom.uom
-            </td>
-            <td>
-                @item.InvItem.Remarks
-            </td>
-                    <td>
-                        @if (trxStatus == "APPROVED")
+            int ItemCountExpectedBalance = 0;
+            { 
+                count += 1;
+                int totalReceivedItemCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
+
+                ItemCountExpectedBalance = item.ItemQty - totalReceivedItemCount;
+
+                //Overall count
+                ExpectedCount += item.ItemQty;
+                ActualInvCount += totalReceivedItemCount;
+            }
+            <tr id="itemDetails-@item.Id" cite="">
+                <td id="itemDescEdit-@item.Id">
+                    @count .)
+                    ( @item.InvItem.Code )
+                    
+                    @item.InvItem.InvCategory.Description - 
+                    @item.InvItem.Description
+                    
+                    @if(item.InvTrxDtlxItemMasters != null){
+                        foreach (var itemMaster in item.InvTrxDtlxItemMasters)
                         {
-                            <div style="width:7rem;">
-                                <button class="btn btn-outline-primary btn-sm" onclick="ReceiveItemRow(this, @item.Id)"> Receive Item </button>
-                            </div>
+                            <br>
+                            <span style="color:gray;margin-left:15px;">
+                                Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name
+                                &#x2192;
+                                Area: @itemMaster.InvItemMaster.InvStoreArea.Name
+                                &nbsp;
+                                Qty: @itemMaster.InvItemMaster.ItemQty
+
+                                @if (!string.IsNullOrEmpty(@itemMaster.InvItemMaster.Remarks))
+                                {
+                                    <br /> <span style="margin-left:15px;"> Remarks: @itemMaster.InvItemMaster.Remarks</span>
+                                }
+                            </span>
                         }
-                        <div class="trx-items-actions" style="min-width:5rem;display:flex;" >
-                            <button class="btn btn-outline-primary btn-sm" onclick="EditExisitingItemRow(this, @item.Id)"> Edit </button>
-                            <button class="btn btn-outline-danger btn-sm" onclick="RemoveItemFromTable(this, @item.Id)"> X </button>
-                        </div>
-                    </td>
+                    }
+                </td>
+                <td>
+                    @item.LotNo / @item.BatchNo
+                </td>
+                <td id="itemDetails-Qty-@item.Id">
+                    @item.ItemQty
+
+                    @if( item.InvTrxDtlxItemMasters.Count() > 0 ){
+                           int totalReceivedCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
+
+                           <span style="color:green;">
+                               / @totalReceivedCount
+                           </span>
+                     }
+
+                </td>
+                <td >
+                    @item.InvUom.uom
+                </td>
+                <td>
+                    @item.InvItem.Remarks
+                </td>
+                        <td>
+                            @if (trxStatus == "APPROVED")
+                            {
+                                @if(ItemCountExpectedBalance > 0){
+
+                                    <div style="width:7rem;">
+                                        <button class="btn btn-outline-primary btn-sm" onclick="ReceiveItemRow( @item.Id, @ItemCountExpectedBalance)"> Receive Item </button>
+                                    </div>
+                                }
+                            }
+
+                            @if (trxStatus == "REQUEST")
+                            {
+                            <div class="trx-items-actions" style="min-width:5rem;display:flex;" >
+                                <button class="btn btn-outline-primary btn-sm" onclick="EditExisitingItemRow(this, @item.Id)" style="padding:3px 12px;margin-right:5px"> Edit </button>
+                                <button class="btn btn-outline-danger btn-sm" onclick="RemoveItemFromTable(this, @item.Id)" style="padding:3px 10px;"> X </button>
+                            </div>
+                            }
+                        </td>
+                </tr>
+            }
+
+            <tr>
+               <td colspan="5" id="AddItem-btn-td">
+                    <button id="AddItem-btn" class="btn btn-outline-primary btn-sm" onclick="ShowAddItem()" style="padding:10px;"> 
+                        Add Item 
+                    </button>
+                </td>
             </tr>
-        }
 
 
-            <tr id="AddItemsField">
+            <tr id="AddItemsField" class="Receiving-Form-Add-Item">
                 <td>
                    Add New Item
                     <div style="display:flex;">
-                        <select id="itemDropdown" class="form-control" asp-items="ViewBag.InvItems"></select>
-                        <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="37" alt="search" class="item-search-icon">
+                            <select id="itemDropdown" class="form-control" asp-items="ViewBag.InvItems"></select>
+                        <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="32" alt="search" class="item-search-icon">
                     </div>
+                </td>
+                <td style="width:150px;display:flex;padding-top:30px;">
+                    <input id="newItem-LotNo" type="text" class="form-control" style="width:100px" />
+                     <span class="btn btn-primary col-sm-4" data-toggle="modal" data-target="#SearchLotNoModal" onclick="GetInvItemReceivedTrx()"> <i class="bi bi-search"></i> </span>
                 </td>
                 <td>
                     Qty 
@@ -165,44 +249,68 @@
                 </td>
                 <td>
                     Uom
-                    <select id="UomDropdown" class="form-control" asp-items="ViewBag.UomsList"></select>
+                    <select id="UomDropdown" class="form-control" asp-items="ViewBag.UomsList" disabled></select>
                 </td>
                 <td>
-                   @* Remarks
-                    <input id="textinput-Remarks" type="text"  class="form-control" />*@
+                   @* 
+                    Remarks
+                    <input id="textinput-Remarks" type="text"  class="form-control" />
+                    *@
                 </td>
                 <td>
-                    
-                    <div class="row" style="width:5rem;">
-                        <button class="btn btn-outline-primary btn-sm" onclick="AddNewItemOnTableRow()"> Add </button>
+                    <div class="row" style="width:10rem;margin-left: 1px;margin-top:5px;">
+                            <button class="btn btn-outline-success btn-sm" onclick="AddNewItemOnTableRow()" style="padding:5px;margin-right:5px;"> <i class="bi bi-check-lg" style="font-size:1rem; color:green;"> </i> Save </button>
+                            <button class="btn btn-outline-danger btn-sm" onclick="Cancel_AddNewItemOnTableRow()" style="padding:5px;"> <i class="bi bi-x-lg" style="font-size:1rem; color:red;"> </i> Cancel </button>
                     </div>
                 </td>
-        </tr>
+            </tr>
         
-        <tr>
-            <td colspan="5">
-                TOTAL 
-            </td>
-        </tr>
+          @*<tr>
+                <td colspan="5">
+                    TOTAL 
+                </td>
+            </tr> *@
 
         </table>
+    </div>
     </div>
 </div>
 <div class="col-lg-6" style="margin-top:10px;">
 
     @if (trxStatus == "REQUEST")
     {
-        <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReleasingDetails.InvTrxHdr.InvStoreId" asp-route-Status="PENDING">Request for Approval</a>
+        if (Model.ReleasingDetailsModel.InvTrxDtls.Count() > 0)
+        {
+            <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@ViewData["StoreId"]" asp-route-Status="PENDING">Request for Approval</a>
+        }
+    }
+
+    @if (trxStatus == "APPROVED" && ( ActualInvCount >=  ExpectedCount))
+    {
+        @* <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReceivingDetailsModel.StoreId" asp-route-Status="CLOSED">ALL ITEMS RECEIVED and CLOSE </a> *@
+
+        <button class="btn btn-primary" id="CloseTrxHeaderBtn" onclick="TransactionStatus_Close(@Model.ReleasingDetailsModel.InvTrxHdr.Id)"> ALL ITEMS RECEIVED and CLOSE </button>
+        
+        <div id="AfterClosedDivLinks" >
+            <br />
+            <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@ViewData["StoreId"]" asp-route-Status="PENDING">Go to Request</a>
+            <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@ViewData["StoreId"]" asp-route-Status="APPROVED"> Go to Approved  </a>
+            <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@ViewData["StoreId"]" asp-route-Status="CLOSED"> Go to Closed  </a>
+
+        </div>
 
     }
-    
+
 </div>
 
 @await Component.InvokeAsync("Dialog", new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
 @await Component.InvokeAsync("SearchItemEdit", new { items =  ViewData["DialogItems"] , selector = "itemEditDropdown"  })
 
 @{
-    Html.RenderPartial("ModalAddItem");
+    // Html.RenderPartial("ModalAddItem");
+    // Html.RenderPartial("ModalReceiveItem");
+    // Html.RenderPartial("ModalReceiveItemEdit");
+    Html.RenderPartial("_SearchLotNoModal");
 }
 
 @section Scripts {
@@ -213,6 +321,7 @@
     <script src="~/js/Pages/Stores/Shared/ItemDetails/ItemUomDropdown.js"></script>
     <script src="~/js/Shared/Components/Dialog/DialogItem.js"></script>
     <script src="~/js/Pages/Stores/Receiving/ItemDetails/Create.js"></script>
+    <script src="~/js/Pages/Stores/Receiving/Form.js"></script>
 
     <script>
 
@@ -227,7 +336,9 @@
             if ("@trxStatus" == "APPROVED") {
                 $("#AddItemsField").hide();
                 $(".trx-items-actions").hide();
-                $("#progressbar-status").css('width', '30%');
+                $("#progressbar-status").css('width', '35%');
+
+                DisableEditOnApproved();
             }
 
             if("@trxStatus" == "REQUEST"){
@@ -236,215 +347,109 @@
 
             if ("@trxStatus" == "CLOSED") {
                 $("#progressbar-status").css('width', '100%');
+                $("#AddItem-btn-td").hide();
+                $(".trx-items-actions").hide();
+                $("#CancelTrx-btn").hide();
+                $("#PrintVoucher-btn").hide();
             }
+
+            $("#textinput-Date").val('@ViewBag.DateToday');
+            //$("#DateTransaction").datepicker("setDate", '@ViewBag.DateToday');
         });
 
 
-        $("#itemDropdown").on('change', () => {
-
-            var itemid = $('#itemDropdown').val();
-            var itemDesc = $('#itemDropdown option:selected').text();
-
-            GetItemOumsWithId(itemid);
-
-            UpdateItemInputText(itemDesc);
-
-        });
-
-        function AddNewItemOnTableRow(){
-
-            var invHdrId = $('#textinput-RefNo').val();
-            var itemDesc = $('#itemDropdown option:selected').text();
-            var itemId = $('#itemDropdown').val();
-            var itemQty = $('#textinput-Qty').val();
-            var itemUom = $('#UomDropdown option:selected').text();
-            var itemUomId = $('#UomDropdown').val();
-            var itemRemarks = "";
-
-            $('#ItemsTable tr:last').prev().before('<tr> <td> ' + itemDesc + '</td> <td> ' + itemQty + ' </td> <td> ' + itemUom + ' </td> <td> ' + itemRemarks + ' </td> <td>  </td> </tr>');
-
-            Post_addInvItem(invHdrId, itemId, itemQty, itemUomId);
-        
+        function DisableEditOnApproved() {
+            $("#textinput-Party").prop('disabled', true);
+            $("#textinput-HdrRemarks").prop('disabled', true);
+            $("#AddItem-btn").hide();
         }
 
-        function Post_addInvItem(invHdrId, itemId, itemQty, itemUomId) {
+        function ShowEditHeader(){
+            $("#textinput-Party").prop('disabled', false);
+            $("#textinput-HdrRemarks").prop('disabled', false);
+            $("#Edit-header-btn").hide();
+            $("#Save-header-btn").show();
+        }
+
+        function SaveHeaderDetails_Changes(){
+            var hdrId = parseInt($("#textinput-hdrId").val());
+            var hdrParty = $("#textinput-Party").val();
+            var hdrRemarks = $("#textinput-HdrRemarks").val();
 
             var data = {
-                hdrId: invHdrId,
-                invId: itemId,
-                qty: itemQty,
-                uomId: itemUomId
-            };
-            const myData = JSON.stringify(data);
-            console.log(data)
+                Id: hdrId,
+                Party: hdrParty,
+                Remarks: hdrRemarks
+            }
 
-            var uriString = '?hdrId=' + invHdrId + '&invId=' + itemId + '&qty=' + itemQty + '&uomId=' + itemUomId;
-
-            $.ajax({
-                type: 'POST',
-                url: '/api/ApiInvTrxDtls/AddTrxDtlItem' + uriString,
-                data: myData,
-                error: function (e) {
-                    console.log(e);
-                    //alert("Unable to Add Item.")
-                },
-                success: function (res){
-                    console.log("success");
-                    console.log(res);
-                },
-                dataType: "json",
-                contentType: "application/json"
-            });
-        }
-
-        function RemoveItemFromTable(e, invDtlsId){
-            
-            //remove table row
-            $(e).parent().parent().parent().remove();
-
-            //remove from table db
-            $.ajax({
-                type: 'DELETE',
-                url: '/api/ApiInvTrxDtls/DeleteTrxDtlItem?id=' + invDtlsId,
-                data: { id: invDtlsId },
-                error: function (e) {
-                    console.log(e);
-                    //alert("Unable to Add Item.")
-                },
-                success: function (res) {
-                    console.log("success");
-                    console.log(res);
-                },
-                dataType: "json",
-                contentType: "application/json"
-            });
-        }
-
-        function EditExisitingItemRow(e, id){
-         
-            $("#ItemEditModal").modal('show');
-            $("#itemEditSearchModal").css("z-index", 2050);
-
-            RetrieveItemDetails(id);
-        }
-
-        function GetItemDetails(id){
-            return $.ajax({
-                type: 'GET',
-                url: '/api/ApiInvTrxDtls/GetItemDetails?id=' + id,
-                data: { id: id },
-                error: function (e) {
-                    console.log(e);
-                    //alert("Unable to Add Item.")
-                },
-                success: function (res) {
-                    console.log("success");
-                    console.log(res);
-                },
-                dataType: "json",
-                contentType: "application/json"
-            });
-        }
-
-        async function RetrieveItemDetails(id){
-            const result = await GetItemDetails(id);
-            console.log(result);
-
-            //populate fields
-            $("#trxDtlsId").val(id);
-            $("#itemEditDropdown").val(result["InvItemId"]);
-            $("#itemEditQty").val(result["ItemQty"]);
-            $("#UomEditDropdown").val(result["InvUomId"]);
-        }
-
-        function EditItemDetailsSaveChanges(){
-            var trxDtlsId = $("#trxDtlsId").val();
-            var itemId = $("#itemEditDropdown").val();
-            var itemQty = $("#itemEditQty").val();
-            var itemUomId = $("#UomEditDropdown").val();
-
-
-            var data = {
-                invDtlsId: trxDtlsId,
-                invId: itemId,
-                qty: itemQty,
-                uomId: itemUomId
-            };
-            const myData = JSON.stringify(data);
+            console.log("Sending header data for update");
             console.log(data);
 
-            var uriString = '?invDtlsId=' + trxDtlsId + '&invId=' + itemId + '&qty=' + itemQty + '&uomId=' + itemUomId;
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/ApiTrxHdrs/UpdateTrxHeaderDetails',
+                    data: JSON.stringify(data),
+                    error: function (e) {
+                        console.log(e);
 
-            $.ajax({
-                type: 'POST',
-                url: '/api/ApiInvTrxDtls/EditTrxDtlItem' + uriString,
-                data: myData,
-                error: function (e) {
-                    console.log(e);
-                    //alert("Unable to Add Item.")
-                },
-                success: function (res) {
-                    console.log("success");
-                    console.log(res);
-                },
-                dataType: "json",
-                contentType: "application/json"
-            });
+                        if (e.status == 201) {
 
+                            // $("#ItemReceiveEditModal").modal('hide');
+                            console.log("success : Update Edit Header ");
+                            // location.reload();
+                            // add qty text
+                            // $("itemDetails-Qty-" + Id).append("<span> / " + ActualQty + "</span>");
+                            $("#Save-header-btn").hide();
+                            $("#Edit-header-btn").show();
+                            $("#textinput-Party").prop('disabled', true);
+                            $("#textinput-HdrRemarks").prop('disabled', true);
 
-            $("#ItemEditModal").modal('hide');
+                        } else {
+                            console.log("Unable to Update Edit Header .")
+                        }
+                    },
+                    success: function (res) {
+                        console.log("success");
+                        console.log(res);
+                    },
+                    dataType: "json",
+                    contentType: "application/json"
+                });
+            
 
-            $("#itemDetails-" + trxDtlsId).hide();
-
-            //update item row
-            $("#itemDetails-" + trxDtlsId).after('<tr id="#itemDetails-' + trxDtlsId + '">' +
-                '<td>' + $("#itemEditDropdown option:selected()").text() + ' </td>' +
-                '<td>' + $("#itemEditQty").val() + ' </td>' +
-                '<td>' + $("#UomEditDropdown option:selected()").text() + ' </td>' +
-                '<td> </td>' +
-                '<td> <div class="row" style="width:5rem;">' +
-                '<button class="btn btn-outline-primary btn-sm" onclick = "EditExisitingItemRow(this, ' + trxDtlsId + ')" > Edit </button>' +
-                '<button class="btn btn-outline-danger btn-sm" onclick = "RemoveItemFromTable(this, ' + trxDtlsId + ')" > X </button>'+
-                '     </div> </td > ' +
-            '</tr>')
-
-            if ($("#itemDetails-" + trxDtlsId).css('display') == 'none') {
-                // true
-                $("#itemDetails-" + trxDtlsId).first().remove();
-            }
         }
 
-        $("#textinput-HdrRemarks").blur(function(){
+        function TransactionStatus_Close(id) {
 
-            UpdateHeaderRemarks();
-
-            $(this).css("border-color", "green");
-
-            setTimeout(
-                function () {
-                    $(this).css("border-color", "black");
-                }, 2000);
-        });
-
-        function UpdateHeaderRemarks(){
+            $("#CloseTrxHeaderBtn").text("CLOSING TRANSACTION...");
 
             var data = {
-                hdrId: $("#textinput-RefNo").val(),
-                remarks: $("#textinput-HdrRemarks").val()
+                Id: id,
             }
 
-            const myData = JSON.stringify(data);
-            console.log(myData);
-
-            var uriString = '?hdrId=' + $("#textinput-RefNo").val() + '&remarks=' + $("#textinput-HdrRemarks").val();
+            console.log("Closing Transaction");
+            console.log(data);
 
             $.ajax({
                 type: 'POST',
-                url: '/api/ApiInvTrxDtls/EditHdrRemarks' + uriString,
-                data: myData,
+                url: '/api/ApiTrxHdrs/CloseTrxHeader',
+                data: JSON.stringify(data),
                 error: function (e) {
                     console.log(e);
-                    //alert("Unable to Add Item.")
+
+                    if (e.status == 201) {
+                        console.log("success : Closing Transaction ");
+                        $("#CloseTrxHeaderBtn").text("TRANSACTION IS CLOSED");
+                        $("#CloseTrxHeaderBtn").removeClass("btn-primary");
+                        $("#CloseTrxHeaderBtn").addClass("btn-success");
+                        $("#CloseTrxHeaderBtn").prop('disabled', true);
+                        $("#AfterClosedDivLinks").show();
+                    } else {
+                        console.log("Error: Closing Transaction .")
+                        $("#CloseTrxHeaderBtn").text("TRANSACTION IS NOT CLOSED.");
+                        $("#CloseTrxHeaderBtn").removeClass("btn-primary");
+                        $("#CloseTrxHeaderBtn").addClass("btn-error");
+                    }
                 },
                 success: function (res) {
                     console.log("success");
@@ -454,6 +459,96 @@
                 contentType: "application/json"
             });
 
+
+        }
+
+        //GetInvItemReceivedTrx
+        //param invItemId
+        function GetInvItemReceivedTrx() {
+            var invItemId = $("#itemDropdown").val();
+            var data = {
+                Id: invItemId,
+            }
+
+            console.log("Get Transactions based on item ID");
+            console.log(data);
+
+            $.ajax({
+                type: 'GET',
+                url: '/api/ApiInvTrxDtls/GetInvItemReceivedTrx?id=' + invItemId,
+                data: JSON.stringify(data),
+                error: function (result) {
+                    console.log(result);
+
+                    console.log("length: "+ result.length);
+
+                    // var trxObj = JSON.parse(result);
+                    // console.log(trxObj)
+                    // console.log(trxObj['Description']);
+
+                    // for (i = 0; i < trxObj.length; i++) {
+                    //     console.log(trxObj[i]["Id"])
+                    // }
+
+                    // add to table
+                    // $("#ReceiveItem-RcvdItemId").val(obj["InvItemId"]);
+                },
+                success: function (res) {
+                    console.log("success");
+                    console.log(res);
+
+
+                    console.log("length: " + res.length);
+
+                    CreateTableForItemsLotNos(res);
+
+                    // var trxObj = JSON.parse(result);
+                     //console.log(trxObj)
+                    //console.log(res[0]['Description']);
+
+
+                    // add to table
+                    // $("#ReceiveItem-RcvdItemId").val(obj["InvItemId"]);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
+
+        }
+
+
+        function CreateTableForItemsLotNos(res){
+
+            $("#SearchLotNo-list tr").remove();
+
+            for (i = 0; i < res.length; i++) {
+                console.log(res[i]["Id"]);
+
+                var NewItemRow = "";
+                NewItemRow += "<tr>";
+                if (res[i]['LotNo'] != "") {
+                    NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNo(\"" + res[i]['LotNo'].toString() + "\")'> Select</button> </td>";
+                } else {
+                    NewItemRow += "<td>  </td>";
+                }
+
+
+                NewItemRow += "<td>" + res[i]['LotNo'] + " / " + res[i]['BatchNo'] + "</td>";
+                NewItemRow += "<td>" + res[i]['Description'] + " <br> " + res[i]['Brand'] + " " + res[i]['Origin'] + "</td>";
+                NewItemRow += "<td>" + res[i]['Date'] + "</td>";
+                NewItemRow += "<td>" + res[i]['Qty'] + "</td>";
+                NewItemRow += "<td>" + res[i]['Uom'] + "</td>";
+                NewItemRow += "<td> " + res[i]['Status'] + " </td>";
+
+                $("#SearchLotNo-list").append(NewItemRow);
+            }
+
+        }
+
+        function SelectThisLotNo(lotNo){
+            $("#newItem-LotNo").val(lotNo);
+
+            $("#SearchLotNoModal").modal('hide');
         }
 
     </script>

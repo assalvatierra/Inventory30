@@ -15,4 +15,10 @@ namespace CoreLib.DTO.Releasing
         public InvTrxApproval? InvTrxApproval { get;set; }
 
     }
+
+    public class ReleasingDetailsModel_ID_API
+    {
+        public int Id{ get; set; }
+
+    }
 }

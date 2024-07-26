@@ -233,6 +233,117 @@ namespace InvWeb.Api
         }
 
 
+        [ActionName("GetInvItemReceivedTrx")]
+        [HttpGet]
+        public string GetInvItemOnReceivedTrx(int id)
+        {
+            try
+            {
+                var TrxDetailsLists = _context.InvTrxDtls.Where(c => c.InvItemId == id && c.InvTrxHdr.InvTrxHdrStatusId > 1)
+                    .Include(c => c.InvTrxHdr)
+                    .Include(c=>c.InvUom)
+                    .Include(c=>c.InvItem)
+                    .ThenInclude(c => c.InvCategory)
+                    .Include(c => c.InvTrxHdr)
+                    .ThenInclude(c => c.InvTrxHdrStatu)
+                    .Include(c=>c.InvTrxDtlxItemMasters)
+                    .ThenInclude(c => c.InvItemMaster)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                    .ThenInclude(c => c.InvItemMaster.InvItemOrigin)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                    .ThenInclude(c => c.InvItemMaster.InvItemBrand)
+                    .ToList();
+
+
+                if (TrxDetailsLists.Count() == 0)
+                {
+
+                    return  "List is Empty. no items founds.";
+                }
+
+                List<Temp_TrxDetails> invTrxDtls = new List<Temp_TrxDetails>();
+
+                foreach (var item in TrxDetailsLists)
+                {
+                    Temp_TrxDetails trxDetails = new Temp_TrxDetails();
+                    var BatchNo = "";
+                    var LotNo = "";
+                    var Origin = "";
+                    var Brand = "";
+
+                    if (item.InvTrxDtlxItemMasters.Count() > 0)
+                    {
+                        BatchNo = item.InvTrxDtlxItemMasters.First().InvItemMaster.BatchNo;
+                        LotNo = item.InvTrxDtlxItemMasters.First().InvItemMaster.LotNo;
+                        Origin = item.InvTrxDtlxItemMasters.First().InvItemMaster.InvItemBrand.Name;
+                        Brand = item.InvTrxDtlxItemMasters.First().InvItemMaster.InvItemOrigin.Name;
+                    }
+
+                    trxDetails.Id = item.Id;
+                    trxDetails.Description = item.InvItem.InvCategory.Description + " - " + item.InvItem.Description;
+                    trxDetails.Brand = Brand;
+                    trxDetails.BatchNo = BatchNo;
+                    trxDetails.LotNo = LotNo;
+                    trxDetails.Code = item.InvItem.Code;
+                    trxDetails.Date = item.InvTrxHdr.DtTrx.ToShortDateString();
+                    trxDetails.Origin = Origin;
+                    trxDetails.Qty = item.ItemQty;
+                    trxDetails.Uom = item.InvUom.uom;
+                    trxDetails.Status = item.InvTrxHdr.InvTrxHdrStatu.Status;
+                    
+
+                    invTrxDtls.Add(trxDetails);
+                }
+
+                if (invTrxDtls == null)
+                {
+                    return "Unable to find item details";
+                }
+
+                //return JsonConvert.SerializeObject(new
+                //{
+                //    invTrxDtl.Id,
+                //    invTrxDtl.LotNo,
+                //    invTrxDtl.BatchNo,
+                //    invTrxDtl.InvItem.Description,
+                //    invTrxDtl.InvItem.Code,
+                //    invTrxDtl.ItemQty,
+                //    invTrxDtl.InvUom.uom,
+                //    invTrxDtl.InvItemOriginId,
+                //    invTrxDtl.InvItemBrand.Name,
+                //    invTrxDtl.InvItemBrandId,
+                //});
+
+                return JsonConvert.SerializeObject(
+
+                        invTrxDtls
+
+                    );
+
+
+            }
+            catch (Exception ex)
+            {
+                return "Err: unable to find HeatLotNo and batchNo.";
+            }
+        }
+
+        private class Temp_TrxDetails
+        {
+            public int Id { get;set; }
+            public string Description { get; set; }
+            public string Code { get; set; }
+            public string Origin { get; set; }
+            public string Brand { get; set; }
+            public string Date { get; set; }
+            public string LotNo { get; set; }
+            public string BatchNo { get; set; }
+            public decimal Qty { get; set; }
+            public string Uom { get; set; }
+            public string Status { get; set; }
+        }
+
+
         [ActionName("GetItemDetails")]
         [HttpGet]
         public string GetItemDetails(int id)

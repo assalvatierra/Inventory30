@@ -414,8 +414,6 @@ function ReceiveItemEditRow(rowId, itemMasterId, expectedQty) {
 
         //get item details
         GetTrxItemMasterDetails(itemMasterId);
-    
-  
 }
 
 

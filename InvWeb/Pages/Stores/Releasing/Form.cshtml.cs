@@ -39,10 +39,10 @@ namespace InvWeb.Pages.Stores.Releasing
             uomServices = new UomServices(_context);
             dateServices = new DateServices();
 
-            ReleasingDetails = new ReleasingDetailsModel();
+            ReleasingDetailsModel = new ReleasingDetailsModel();
         }
         //public InvTrxHdr InvTrxHdr { get; set; }
-        public ReleasingDetailsModel ReleasingDetails { get; set; }
+        public ReleasingDetailsModel ReleasingDetailsModel { get; set; }
         public ReleasingItemDtlsCreateEditModel ItemDtlsCreateModel { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -53,17 +53,19 @@ namespace InvWeb.Pages.Stores.Releasing
             }
 
 
-            ReleasingDetails.InvTrxHdr = await itemTrxServices.GetInvTrxHdrsById((int)id)
+            ReleasingDetailsModel.InvTrxHdr = await itemTrxServices.GetInvTrxHdrsById((int)id)
                                          .FirstOrDefaultAsync();
 
-            if (ReleasingDetails.InvTrxHdr == null)
+            if (ReleasingDetailsModel.InvTrxHdr == null)
             {
                 return NotFound();
             }
 
-            ReleasingDetails.InvTrxDtls = itemTrxServices.GetInvTrxDtlsById((int)id);
+            ReleasingDetailsModel.InvTrxDtls = itemTrxServices.GetInvTrxDtlsById((int)id);
 
             //ReceivingDetailsModel.InvTrxApproval = invApprovalServices.GetExistingApproval((int)id);
+
+            var storeAreas = _context.InvStoreAreas.Where(a => a.InvStoreId == ReleasingDetailsModel.InvTrxHdr.InvStoreId).ToList();
 
             ViewData["InvItems"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
                                     .Select(x => new
@@ -72,14 +74,19 @@ namespace InvWeb.Pages.Stores.Releasing
                                         x.Code, x.InvCategory.Description, x.Description),
                                         Value = x.Id
                                     }), "Value", "Name", id);
-
+            ViewData["HdrId"] = ReleasingDetailsModel.InvTrxHdr.Id;
             ViewData["UomsList"] = new SelectList(uomServices.GetUomSelectList(), "Id", "uom");
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());
-            ViewData["DateToday"] = dateServices.GetCurrentDate();
+            ViewData["DateToday"] = dateServices.GetCurrentDate().ToString("yyy-MM-dd");
+            ViewData["Brands"] = new SelectList(_context.InvItemBrands, "Id", "Name");
+            ViewData["Origins"]  = new SelectList(_context.InvItemOrigins, "Id", "Name");
+            ViewData["StoreAreas"] = new SelectList(storeAreas, "Id", "Name");
+            ViewData["StoreId"] = ReleasingDetailsModel.InvTrxHdr.InvStoreId;
+
             return Page();
         }
 
-        public IEnumerable<DialogItems> ConvertItemsToDialogItems(List<InvItem> invItems)
+        public IEnumerable<DialogItems> ConvertItemsToDialogItems(List<InvItem> invItems )
         {
             List<DialogItems> dialogItems = new List<DialogItems>();
 
@@ -90,7 +97,7 @@ namespace InvWeb.Pages.Stores.Releasing
                 {
                     var spec = item.InvItemSpec_Steel.First();
 
-                    itemspecs = spec.SteelMainCat.Name + " " + spec.SteelMaterial.Name + " - " + spec.SteelBrand.Name + " " + spec.SteelOrigin.Name;
+                    itemspecs = spec.SteelMainCat.Name + " " + spec.SteelMaterial.Name;
                 }
 
                 string remarkString = "";
@@ -103,7 +110,7 @@ namespace InvWeb.Pages.Stores.Releasing
                 dialogItems.Add(new DialogItems
                 {
                     Id = item.Id,
-                    Name = item.InvCategory.Description + " - " + item.Description,
+                    Name = item.Code + " - " + item.InvCategory.Description + " - " + item.Description,
                     Description = itemspecs + remarkString
                 });
             }
