@@ -1,4 +1,5 @@
 ﻿using CoreLib.DTO.Receiving;
+using CoreLib.DTO.Releasing;
 using CoreLib.Interfaces;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
@@ -99,6 +100,34 @@ namespace InvWeb.Api
         }
 
 
+        [ActionName("AddReleaseTrxDtlItem")]
+        [HttpPost]
+        public ObjectResult AddReleaseTrxDtlItem(AddReleaseTrxDtlsDTO trxDtls)
+        {
+            try
+            {
+
+                InvTrxDtl invTrxDtl = new InvTrxDtl();
+                invTrxDtl.InvTrxHdrId = trxDtls.hdrId;
+                invTrxDtl.InvItemId = trxDtls.invId;
+                invTrxDtl.InvUomId = trxDtls.uomId;
+                invTrxDtl.ItemQty = trxDtls.qty;
+                invTrxDtl.LotNo = trxDtls.lotNo;
+                invTrxDtl.BatchNo = trxDtls.batchNo;
+                invTrxDtl.InvTrxDtlOperatorId = 2;
+
+                _context.InvTrxDtls.Add(invTrxDtl);
+                _context.SaveChanges();
+
+                return StatusCode(201, "Add Successfull");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Add not Successfull");
+            }
+        }
+
+
         [ActionName("DeleteTrxDtlItem")]
         [HttpDelete]
         public ObjectResult DeleteTrxDtlItem(int id)
@@ -149,7 +178,9 @@ namespace InvWeb.Api
                     invTrxDtl.InvUomId,
                     invTrxDtl.ItemQty,
                     invTrxDtl.InvItem.Description,
-                    invTrxDtl.InvUom.uom
+                    invTrxDtl.InvUom.uom,
+                    invTrxDtl.LotNo,
+                    invTrxDtl.BatchNo
                 });
 
             }
@@ -261,11 +292,11 @@ namespace InvWeb.Api
                     return  "List is Empty. no items founds.";
                 }
 
-                List<Temp_TrxDetails> invTrxDtls = new List<Temp_TrxDetails>();
+                List<ReceivingTempTrxDetails> invTrxDtls = new List<ReceivingTempTrxDetails>();
 
                 foreach (var item in TrxDetailsLists)
                 {
-                    Temp_TrxDetails trxDetails = new Temp_TrxDetails();
+                    ReceivingTempTrxDetails trxDetails = new ReceivingTempTrxDetails();
                     var BatchNo = "";
                     var LotNo = "";
                     var Origin = "";
@@ -300,25 +331,7 @@ namespace InvWeb.Api
                     return "Unable to find item details";
                 }
 
-                //return JsonConvert.SerializeObject(new
-                //{
-                //    invTrxDtl.Id,
-                //    invTrxDtl.LotNo,
-                //    invTrxDtl.BatchNo,
-                //    invTrxDtl.InvItem.Description,
-                //    invTrxDtl.InvItem.Code,
-                //    invTrxDtl.ItemQty,
-                //    invTrxDtl.InvUom.uom,
-                //    invTrxDtl.InvItemOriginId,
-                //    invTrxDtl.InvItemBrand.Name,
-                //    invTrxDtl.InvItemBrandId,
-                //});
-
-                return JsonConvert.SerializeObject(
-
-                        invTrxDtls
-
-                    );
+                return JsonConvert.SerializeObject( invTrxDtls );
 
 
             }
@@ -326,21 +339,6 @@ namespace InvWeb.Api
             {
                 return "Err: unable to find HeatLotNo and batchNo.";
             }
-        }
-
-        private class Temp_TrxDetails
-        {
-            public int Id { get;set; }
-            public string Description { get; set; }
-            public string Code { get; set; }
-            public string Origin { get; set; }
-            public string Brand { get; set; }
-            public string Date { get; set; }
-            public string LotNo { get; set; }
-            public string BatchNo { get; set; }
-            public decimal Qty { get; set; }
-            public string Uom { get; set; }
-            public string Status { get; set; }
         }
 
 
@@ -364,7 +362,9 @@ namespace InvWeb.Api
                      invTrxDtl.Id,
                      invTrxDtl.InvItemId,
                     invTrxDtl.InvUomId,
-                    invTrxDtl.ItemQty
+                    invTrxDtl.ItemQty,
+                    invTrxDtl.InvItem.InvUom.uom,
+                    invTrxDtl.LotNo
                 });
 
             }
@@ -395,6 +395,38 @@ namespace InvWeb.Api
 
                 //itemDtlsServices.EditInvDtls(invTrxDtl);
                 //itemDtlsServices.SaveChangesAsync();
+
+                _context.Attach(invTrxDtl).State = EntityState.Modified;
+
+                _context.SaveChanges();
+
+                return StatusCode(201, "Edit Successfull");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Edit not Successfull");
+            }
+        }
+
+
+        [ActionName("EditReleaseTrxDtlItem")]
+        [HttpPost]
+        public ObjectResult EditReleaseTrxDtlItem(int invDtlsId, int invId, int qty, int uomId, int lotNo)
+        {
+            try
+            {
+
+                InvTrxDtl invTrxDtl = itemDtlsServices.GetInvDtlsById(invDtlsId).FirstOrDefault();
+
+                if (invTrxDtl == null)
+                {
+                    return StatusCode(500, "Edit not Successfull. Item not found.");
+                }
+
+                invTrxDtl.InvItemId = invId;
+                invTrxDtl.InvUomId = uomId;
+                invTrxDtl.ItemQty = qty;
+                invTrxDtl.LotNo = lotNo;
 
                 _context.Attach(invTrxDtl).State = EntityState.Modified;
 
@@ -487,6 +519,55 @@ namespace InvWeb.Api
 
             return StatusCode(201, "Update Successfull");
         }
+
+
+        [ActionName("PostReleasingItem")]
+        [HttpPost]
+        public async Task<ObjectResult> PostReleasingItem(ReceivingTrxItemApiModel item)
+        {
+            if (item == null)
+            {
+                return StatusCode(500, "Post Error. Header Details not found.");
+            }
+
+            //create itemMasters
+            InvItemMaster invItemMaster = new InvItemMaster();
+            invItemMaster.InvItemId = item.ItemId;
+            invItemMaster.InvItemOriginId = item.OriginId;
+            invItemMaster.InvItemBrandId = item.BrandId;
+            invItemMaster.LotNo = item.LotNo;
+            invItemMaster.BatchNo = item.BatchNo;
+            invItemMaster.ItemQty = item.Qty;
+            invItemMaster.InvUomId = item.UomId;
+            invItemMaster.InvStoreAreaId = 1;
+            //invItemMaster.Remarks = item.Remarks;
+
+            //save changes
+            try
+            {
+                await invItemMasterServices.CreateInvItemMaster(invItemMaster);
+                await invItemMasterServices.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "APIInvTrxDtls/PostReleasingItem: Post Error. Unable to Create invItem Masters.");
+            }
+
+            //link to trxDtls and itemMasters
+            try
+            {
+                await invItemMasterServices.CreateItemMasterInvDtlsLink(invItemMaster.Id, item.Id);
+                await invItemMasterServices.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "APIInvTrxDtls/PostReleasingItem: Post Error. Unable to Create ItemMaster and InvDtls Link.");
+            }
+
+            return StatusCode(201, "Update Successfull");
+        }
+
+
 
 
         //GetItemMaster
@@ -582,6 +663,23 @@ namespace InvWeb.Api
 
             return StatusCode(201, "Update Successfull");
         }
+
+
+        private class ReceivingTempTrxDetails
+        {
+            public int Id { get; set; }
+            public string Description { get; set; }
+            public string Code { get; set; }
+            public string Origin { get; set; }
+            public string Brand { get; set; }
+            public string Date { get; set; }
+            public string LotNo { get; set; }
+            public string BatchNo { get; set; }
+            public decimal Qty { get; set; }
+            public string Uom { get; set; }
+            public string Status { get; set; }
+        }
+
 
     }
 

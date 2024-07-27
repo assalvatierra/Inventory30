@@ -151,7 +151,7 @@
             }
             <tr id="itemDetails-@item.Id" cite="">
                 <td id="itemDescEdit-@item.Id">
-                    @count .)
+                    @count )
                     ( @item.InvItem.Code )
                     
                     @item.InvItem.InvCategory.Description - 
@@ -262,14 +262,14 @@
                 </td>
                 <td>
                    @* Remarks
-                    <input id="textinput-Remarks" type="text"  class="form-control" />*@
+                    <input id="textinput-Remarks" type="text"  class="form-control" />
+                    *@
                 </td>
                 <td>
-                   
-                        <div class="row" style="width:10rem;margin-left: 1px;margin-top:5px;">
-                                <button class="btn btn-outline-success btn-sm" onclick="AddNewItemOnTableRow()" style="padding:5px;margin-right:5px;"> <i class="bi bi-check-lg" style="font-size:1rem; color:green;"> </i> Save </button>
-                             <button class="btn btn-outline-danger btn-sm" onclick="Cancel_AddNewItemOnTableRow()" style="padding:5px;"> <i class="bi bi-x-lg" style="font-size:1rem; color:red;"> </i> Cancel </button>
-                        </div>
+                   <div class="row" style="width:10rem;margin-left: 1px;margin-top:5px;">
+                       <button class="btn btn-outline-success btn-sm" onclick="AddNewItemOnTableRow()" style="padding:5px;margin-right:5px;"> <i class="bi bi-check-lg" style="font-size:1rem; color:green;"> </i> Save </button>
+                       <button class="btn btn-outline-danger btn-sm" onclick="Cancel_AddNewItemOnTableRow()" style="padding:5px;"> <i class="bi bi-x-lg" style="font-size:1rem; color:red;"> </i> Cancel </button>
+                   </div>
                        
                 </td>
             </tr>

@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model InvWeb.Pages.Stores.Receiving.FormModel
+@model InvWeb.Pages.Stores.Releasing.FormModel
 
 <!-- Modal -->
 <div class="modal fade" id="itemCreateSearchModal" tabindex="-1" role="dialog" aria-labelledby="itemSearchModal" aria-hidden="true">
@@ -88,12 +88,19 @@
                         <img src="~/img/icons/icons-search.png" width="32" alt="search" class="item-search-icon" onclick="ShowItemEditModal()">
                     </div>
                     <div class="form-group">
+                        <label class="control-label"> LotNo </label>
+                        <input asp-for="ItemDtlsCreateModel.InvTrxDtl.LotNo" id="itemEditLotNo" class="form-control" />
+                        <input asp-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" id="itemEditBatchNo" class="form-control" />
+                        <span class="btn btn-primary" data-toggle="modal" data-target="#SearchLotNoModal" onclick="GetInvItemReleasedTrxForEdit()"> <i class="bi bi-search"></i> </span>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label"> Qty </label>
                         <input asp-for="ItemDtlsCreateModel.InvTrxDtl.ItemQty" id="itemEditQty" class="form-control" value="1" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" >
                         <label class="control-label"> Uom </label>
-                        <select class="form-control" asp-items="ViewBag.UomsList" id="UomEditDropdown"></select>
+                        <select class="form-control" asp-items="ViewBag.UomsList" id="UomEditDropdown" hidden></select>
+                        <span id="EditItem-UomText"> </span>
                     </div>
                    @*  <div class="form-group">
                         <label class="control-label"> Remarks </label>
@@ -102,7 +109,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <input type="submit" value="Update" class="btn btn-primary" onclick="EditItemDetailsSaveChanges()" />
+                <input type="submit" value="Save Changes" class="btn btn-primary" onclick="EditItemDetailsSaveChanges()" />
             </div>
         </div>
     </div>

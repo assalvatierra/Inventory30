@@ -1,21 +1,20 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using CoreLib.Inventory.Models;
-using CoreLib.Models.Inventory;
-using CoreLib.Inventory.Interfaces;
-using Microsoft.Extensions.Logging;
-using Modules.Inventory;
+using CoreLib.DTO.Common.Dialog;
 using CoreLib.DTO.Releasing;
 using CoreLib.Interfaces;
+using CoreLib.Inventory.Interfaces;
+using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
 using Inventory;
-using System.Threading.Tasks;
-using CoreLib.DTO.Receiving;
-using System.Collections.Generic;
-using CoreLib.DTO.Common.Dialog;
-using System.Linq;
-using System;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
@@ -63,6 +62,16 @@ namespace InvWeb.Pages.Stores.Releasing
 
             ReleasingDetailsModel.InvTrxDtls = itemTrxServices.GetInvTrxDtlsById((int)id);
 
+            foreach (var trxDtl in ReleasingDetailsModel.InvTrxDtls.ToList())
+            {
+                trxDtl.InvTrxDtlxItemMasters = _context.InvTrxDtlxItemMasters.Where(t => t.InvTrxDtlId == trxDtl.Id)
+                    .Include(t=>t.InvItemMaster)
+                    .Include(t => t.InvItemMaster)
+                    .ThenInclude(t=>t.InvItemOrigin)
+                    .Include(t => t.InvItemMaster)
+                    .ThenInclude(t => t.InvItemBrand)
+                    .ToList();
+            }
             //ReceivingDetailsModel.InvTrxApproval = invApprovalServices.GetExistingApproval((int)id);
 
             var storeAreas = _context.InvStoreAreas.Where(a => a.InvStoreId == ReleasingDetailsModel.InvTrxHdr.InvStoreId).ToList();

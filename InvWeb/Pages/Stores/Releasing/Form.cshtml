@@ -30,7 +30,7 @@
             2. Approved
         </div>
         <div class="col-3">
-            3. Receive Items
+            3. Release Items
         </div>
         <div class="col-3">
             4. Closed
@@ -144,13 +144,13 @@
             int ItemCountExpectedBalance = 0;
             { 
                 count += 1;
-                int totalReceivedItemCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
+                int totalReleasedItemCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
 
-                ItemCountExpectedBalance = item.ItemQty - totalReceivedItemCount;
+                        ItemCountExpectedBalance = item.ItemQty - totalReleasedItemCount;
 
                 //Overall count
                 ExpectedCount += item.ItemQty;
-                ActualInvCount += totalReceivedItemCount;
+                        ActualInvCount += totalReleasedItemCount;
             }
             <tr id="itemDetails-@item.Id" cite="">
                 <td id="itemDescEdit-@item.Id">
@@ -161,23 +161,41 @@
                     @item.InvItem.Description
                     
                     @if(item.InvTrxDtlxItemMasters != null){
-                        foreach (var itemMaster in item.InvTrxDtlxItemMasters)
-                        {
-                            <br>
-                            <span style="color:gray;margin-left:15px;">
-                                Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name
-                                &#x2192;
-                                Area: @itemMaster.InvItemMaster.InvStoreArea.Name
-                                &nbsp;
-                                Qty: @itemMaster.InvItemMaster.ItemQty
+                            foreach (var itemMaster in item.InvTrxDtlxItemMasters)
+                            {
+                                if(ItemCountExpectedBalance != 0){
+                                    <br>
+                                    <span style="color:gray;margin-left:15px;cursor:pointer;" onclick="ReceiveItemEditRow(@itemMaster.Id, @itemMaster.InvItemMasterId, @ItemCountExpectedBalance)">
+                                            Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name
+                                            &#x2192;
+                                           
+                                            &nbsp;
+                                            Qty: @itemMaster.InvItemMaster.ItemQty
 
-                                @if (!string.IsNullOrEmpty(@itemMaster.InvItemMaster.Remarks))
-                                {
-                                    <br /> <span style="margin-left:15px;"> Remarks: @itemMaster.InvItemMaster.Remarks</span>
-                                }
-                            </span>
+                                            @if (!string.IsNullOrEmpty(@itemMaster.InvItemMaster.Remarks))
+                                            {
+                                                <br /> <span style="margin-left:15px;"> Remarks: @itemMaster.InvItemMaster.Remarks</span>
+                                            }
+                                        </span>
+                                    }else{
+                                       <br>
+                                        <span style="color:gray;margin-left:15px;">
+                                            Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name
+                                            &#x2192;
+                                           
+                                            &nbsp;
+                                            Qty: @itemMaster.InvItemMaster.ItemQty
+
+                                            @if (!string.IsNullOrEmpty(@itemMaster.InvItemMaster.Remarks))
+                                            {
+                                                <br /> <span style="margin-left:15px;"> Remarks: @itemMaster.InvItemMaster.Remarks</span>
+                                            }
+                                        </span>
+                                    }
+                               
+                                   
+                            }
                         }
-                    }
                 </td>
                 <td>
                     @item.LotNo / @item.BatchNo
@@ -186,13 +204,12 @@
                     @item.ItemQty
 
                     @if( item.InvTrxDtlxItemMasters.Count() > 0 ){
-                           int totalReceivedCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
+                           int totalReleasedCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
 
                            <span style="color:green;">
-                               / @totalReceivedCount
+                                    / @totalReleasedCount
                            </span>
                      }
-
                 </td>
                 <td >
                     @item.InvUom.uom
@@ -206,7 +223,7 @@
                                 @if(ItemCountExpectedBalance > 0){
 
                                     <div style="width:7rem;">
-                                        <button class="btn btn-outline-primary btn-sm" onclick="ReceiveItemRow( @item.Id, @ItemCountExpectedBalance)"> Receive Item </button>
+                                        <button class="btn btn-outline-primary btn-sm" onclick="ReleaseItemRow( @item.Id, @ItemCountExpectedBalance)"> Release Item </button>
                                     </div>
                                 }
                             }
@@ -223,7 +240,7 @@
             }
 
             <tr>
-               <td colspan="5" id="AddItem-btn-td">
+               <td colspan="6" id="AddItem-btn-td">
                     <button id="AddItem-btn" class="btn btn-outline-primary btn-sm" onclick="ShowAddItem()" style="padding:10px;"> 
                         Add Item 
                     </button>
@@ -239,9 +256,17 @@
                         <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="32" alt="search" class="item-search-icon">
                     </div>
                 </td>
-                <td style="width:150px;display:flex;padding-top:30px;">
-                    <input id="newItem-LotNo" type="text" class="form-control" style="width:100px" />
-                     <span class="btn btn-primary col-sm-4" data-toggle="modal" data-target="#SearchLotNoModal" onclick="GetInvItemReceivedTrx()"> <i class="bi bi-search"></i> </span>
+                    <td style="width:150px;">
+                    <div style="display:flex;padding-top:20px;">
+                        <input id="newItem-LotNo" type="text" class="form-control" style="width:70px" disabled />  
+                        <input id="newItem-BatchNo" type="text" class="form-control" style="width:50px" disabled />
+                        <span class="btn btn-primary" data-toggle="modal" data-target="#SearchLotNoModal" onclick="GetInvItemReleasedTrx()"> <i class="bi bi-search"></i> </span>
+                    </div>
+                      
+                    
+                     <span style="display:flex;">
+                         <p class="text-danger" id="newItem-Lotno-Warning">  </p>
+                     </span>
                 </td>
                 <td>
                     Qty 
@@ -258,9 +283,11 @@
                     *@
                 </td>
                 <td>
-                    <div class="row" style="width:10rem;margin-left: 1px;margin-top:5px;">
-                            <button class="btn btn-outline-success btn-sm" onclick="AddNewItemOnTableRow()" style="padding:5px;margin-right:5px;"> <i class="bi bi-check-lg" style="font-size:1rem; color:green;"> </i> Save </button>
-                            <button class="btn btn-outline-danger btn-sm" onclick="Cancel_AddNewItemOnTableRow()" style="padding:5px;"> <i class="bi bi-x-lg" style="font-size:1rem; color:red;"> </i> Cancel </button>
+                    <div class="row" style="width:10rem;margin-left: 1px;margin-top:20px;">
+                        <button class="btn btn-outline-success btn-sm" onclick="AddNewItemOnTableRow()" style="padding:5px;margin-right:5px;"> 
+                            <i class="bi bi-check-lg" style="font-size:1rem; color:green;"> </i> Save </button>
+                        <button class="btn btn-outline-danger btn-sm" onclick="Cancel_AddNewItemOnTableRow()" style="padding:5px;"> 
+                            <i class="bi bi-x-lg" style="font-size:1rem; color:red;"> </i> Cancel </button>
                     </div>
                 </td>
             </tr>
@@ -282,14 +309,14 @@
         if (Model.ReleasingDetailsModel.InvTrxDtls.Count() > 0)
         {
             <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@ViewData["StoreId"]" asp-route-Status="PENDING">Request for Approval</a>
+            @* <button class="btn btn-primary" id="CloseTrxHeaderBtn" onclick="TransactionStatus_Approval(@Model.ReleasingDetailsModel.InvTrxHdr.Id)"> Request for Approval </button> *@
         }
     }
 
     @if (trxStatus == "APPROVED" && ( ActualInvCount >=  ExpectedCount))
     {
-        @* <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReceivingDetailsModel.StoreId" asp-route-Status="CLOSED">ALL ITEMS RECEIVED and CLOSE </a> *@
 
-        <button class="btn btn-primary" id="CloseTrxHeaderBtn" onclick="TransactionStatus_Close(@Model.ReleasingDetailsModel.InvTrxHdr.Id)"> ALL ITEMS RECEIVED and CLOSE </button>
+        <button class="btn btn-primary" id="CloseTrxHeaderBtn" onclick="TransactionStatus_Close(@Model.ReleasingDetailsModel.InvTrxHdr.Id)"> ALL ITEMS RELEASED and CLOSE </button>
         
         <div id="AfterClosedDivLinks" >
             <br />
@@ -307,9 +334,9 @@
 @await Component.InvokeAsync("SearchItemEdit", new { items =  ViewData["DialogItems"] , selector = "itemEditDropdown"  })
 
 @{
-    // Html.RenderPartial("ModalAddItem");
-    // Html.RenderPartial("ModalReceiveItem");
-    // Html.RenderPartial("ModalReceiveItemEdit");
+    Html.RenderPartial("ModalAddItem");
+    Html.RenderPartial("ModalReleaseItem");
+    Html.RenderPartial("ModalReleaseItemEdit");
     Html.RenderPartial("_SearchLotNoModal");
 }
 
@@ -320,8 +347,7 @@
 
     <script src="~/js/Pages/Stores/Shared/ItemDetails/ItemUomDropdown.js"></script>
     <script src="~/js/Shared/Components/Dialog/DialogItem.js"></script>
-    <script src="~/js/Pages/Stores/Receiving/ItemDetails/Create.js"></script>
-    <script src="~/js/Pages/Stores/Receiving/Form.js"></script>
+    <script src="~/js/Pages/Stores/Releasing/Form.js"></script> 
 
     <script>
 
@@ -354,7 +380,6 @@
             }
 
             $("#textinput-Date").val('@ViewBag.DateToday');
-            //$("#DateTransaction").datepicker("setDate", '@ViewBag.DateToday');
         });
 
 
@@ -394,11 +419,8 @@
 
                         if (e.status == 201) {
 
-                            // $("#ItemReceiveEditModal").modal('hide');
                             console.log("success : Update Edit Header ");
-                            // location.reload();
-                            // add qty text
-                            // $("itemDetails-Qty-" + Id).append("<span> / " + ActualQty + "</span>");
+
                             $("#Save-header-btn").hide();
                             $("#Edit-header-btn").show();
                             $("#textinput-Party").prop('disabled', true);
@@ -464,8 +486,12 @@
 
         //GetInvItemReceivedTrx
         //param invItemId
-        function GetInvItemReceivedTrx() {
+        function GetInvItemReleasedTrx() {
+
+            $("#newItem-Lotno-Warning").text("");
+
             var invItemId = $("#itemDropdown").val();
+
             var data = {
                 Id: invItemId,
             }
@@ -479,19 +505,6 @@
                 data: JSON.stringify(data),
                 error: function (result) {
                     console.log(result);
-
-                    console.log("length: "+ result.length);
-
-                    // var trxObj = JSON.parse(result);
-                    // console.log(trxObj)
-                    // console.log(trxObj['Description']);
-
-                    // for (i = 0; i < trxObj.length; i++) {
-                    //     console.log(trxObj[i]["Id"])
-                    // }
-
-                    // add to table
-                    // $("#ReceiveItem-RcvdItemId").val(obj["InvItemId"]);
                 },
                 success: function (res) {
                     console.log("success");
@@ -502,13 +515,45 @@
 
                     CreateTableForItemsLotNos(res);
 
-                    // var trxObj = JSON.parse(result);
-                     //console.log(trxObj)
-                    //console.log(res[0]['Description']);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
+
+        }
 
 
-                    // add to table
-                    // $("#ReceiveItem-RcvdItemId").val(obj["InvItemId"]);
+        //GetInvItemReleasedTrxForEdit
+        //param invItemId
+        function GetInvItemReleasedTrxForEdit() {
+
+            $("#newItem-Lotno-Warning").text("");
+
+            var invItemId = $("#itemEditDropdown").val();
+
+            var data = {
+                Id: invItemId,
+            }
+
+            console.log("Get Transactions based on item ID");
+            console.log(data);
+
+            $.ajax({
+                type: 'GET',
+                url: '/api/ApiInvTrxDtls/GetInvItemReceivedTrx?id=' + invItemId,
+                data: JSON.stringify(data),
+                error: function (result) {
+                    console.log(result);
+                },
+                success: function (res) {
+                    console.log("success");
+                    console.log(res);
+
+
+                    console.log("length: " + res.length);
+
+                    CreateTableForItemsLotNos(res);
+
                 },
                 dataType: "json",
                 contentType: "application/json"
@@ -527,7 +572,7 @@
                 var NewItemRow = "";
                 NewItemRow += "<tr>";
                 if (res[i]['LotNo'] != "") {
-                    NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNo(\"" + res[i]['LotNo'].toString() + "\")'> Select</button> </td>";
+                    NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNo(\"" + res[i]['LotNo'].toString() + "\",\"" + res[i]['BatchNo'].toString() + "\")'> Select</button> </td>";
                 } else {
                     NewItemRow += "<td>  </td>";
                 }
@@ -545,8 +590,10 @@
 
         }
 
-        function SelectThisLotNo(lotNo){
+        function SelectThisLotNo(lotNo, batchNo){
             $("#newItem-LotNo").val(lotNo);
+            $("#newItem-BatchNo").val(batchNo);
+            $("#itemEditLotNo").val(lotNo);
 
             $("#SearchLotNoModal").modal('hide');
         }
