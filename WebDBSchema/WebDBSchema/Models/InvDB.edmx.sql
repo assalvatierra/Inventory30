@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/12/2024 11:20:17
+-- Date Created: 08/03/2024 17:58:37
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -861,7 +861,9 @@ CREATE TABLE [dbo].[InvTrxApprovals] (
     [VerifiedDate] datetime  NULL,
     [EncodedBy] nvarchar(40)  NOT NULL,
     [EncodedDate] datetime  NOT NULL,
-    [InvTrxHdrId] int  NOT NULL
+    [InvTrxHdrId] int  NOT NULL,
+    [ApprovedAccBy] nvarchar(80)  NULL,
+    [ApprovedAccDate] datetime  NULL
 );
 GO
 

@@ -9,6 +9,9 @@
     int STATUS_PENDING = 1;
     int STATUS_APPROVED = 2;
     int STOREID = 1;
+
+    bool IsAccounting = (bool)ViewData["IsAccounting"];
+    bool IsProcurementHead = (bool)ViewData["IsProcurementHead"];
 }
 
 
@@ -142,27 +145,51 @@
                     </td>
                     <td >
 
-                    @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin && item.InvTrxDtls.Count() > 0)
-                    {
-                        if (Model.IsTransactionHaveApprovedRecord(item.Id, "Approved"))
+                        @if (item.InvTrxHdrStatusId == STATUS_PENDING && (IsAdmin || IsAccounting || IsProcurementHead))
                         {
-                            <button class="btn btn-success" onclick="ApprovedTrxHdr(this, '@item.Id')" disabled> Approved </button>
-                        }
-                        else
-                        {
-                            <button class="btn btn-primary" onclick="ApprovedTrxHdr(this, '@item.Id')"> Approve </button>
-                        }
 
-                        if (Model.IsTransactionHaveApprovedRecord(item.Id, "Verified"))
-                        {
-                            <button class="btn btn-success" onclick="VerifiedTrxHdr(this,'@item.Id')" disabled>  Verified </button>
-                        }
-                        else
-                        {
-                            <button class="btn btn-primary" onclick="VerifiedTrxHdr(this,'@item.Id')"> Verify</button>
+                            if (Model.IsTransactionHaveApprovedRecord(item.Id, "Accounting"))
+                            {
+                                <button class="btn btn-primary" disabled> Accounting Approved </button>
+                            }
+                            else if (IsAccounting)
+                            {
+                                <button class="btn btn-primary" onclick="ApprovedbyAccountingTrxHdr(this, '@item.Id')"> Accounting Approval  </button>
+                            }
+                            else
+                            {
 
+                                <button class="btn btn-primary" disabled> For Accounting Approval  </button>
+
+                            }
+
+                            if (Model.IsTransactionHaveApprovedRecord(item.Id, "Approved"))
+                            {
+                                <button class="btn btn-primary" disabled> Mgt Approved </button>
+                            }
+                            else if (IsAdmin)
+                            {
+                                <button class="btn btn-primary" onclick="ApprovedTrxHdr(this, '@item.Id')"> Mgt Approve </button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary" disabled> For Mgt Approve </button>
+                            }
+
+                            if (Model.IsTransactionHaveApprovedRecord(item.Id, "Verified"))
+                            {
+                                <button class="btn btn-primary" disabled> Procurement Verified </button>
+                            }
+                            else if (IsProcurementHead)
+                            {
+                                <button class="btn btn-primary" onclick="VerifiedTrxHdr(this,'@item.Id')"> Procurement Verify </button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary" disabled> For Procurement Verify </button>
+
+                            }
                         }
-                    }
 
                    @if (item.InvTrxHdrStatusId == STATUS_APPROVED && IsAdmin)
                    {

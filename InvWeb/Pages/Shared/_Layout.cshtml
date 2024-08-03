@@ -34,15 +34,22 @@
                 {
                     <span> Purchaser User </span>
                 }
+                else if (User.IsInRole("Accounting"))
+                {
+                    <span> Accounting User </span>
+                }
+                else if (User.IsInRole("Procurement-head"))
+                {
+                    <span> Procurement User </span>
+                }
                 else
                 {
                     <span> Please Login </span>
                 }
             </div>
            
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin") || User.IsInRole("Accounting") || User.IsInRole("Procurement-head"))
             {
-
                 <partial name="./NavLayouts/_AdminNav" />
             }
             else if (User.IsInRole("Store"))

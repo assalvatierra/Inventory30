@@ -17,6 +17,8 @@ namespace CoreLib.Models.Inventory
         public string EncodedBy { get; set; }
         public System.DateTime EncodedDate { get; set; }
         public int InvTrxHdrId { get; set; }
+        public string? ApprovedAccBy { get; set; }
+        public Nullable<System.DateTime> ApprovedAccDate { get; set; }
 
         public virtual InvTrxHdr InvTrxHdr { get; set; }
     }

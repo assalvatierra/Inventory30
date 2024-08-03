@@ -26,10 +26,11 @@ function CancelHdr(e, id) {
 function ApprovedTrxHdr(e, id) {
 
     $(e).text('Approving');
+
     $.post('/api/ApiTrxHdrs/UpdateTrxHdrApproved?id=' + id, { id: id }, (res) => {
         console.log(res);
     }).done(() => {
-        $(e).text('Approved');
+        $(e).text('Mgt Approved');
         $(e).attr('disabled', 'disabled');
     }).fail(() => {
         alert("Unable to approve transaction");
@@ -38,13 +39,28 @@ function ApprovedTrxHdr(e, id) {
 
 function VerifiedTrxHdr(e, id) {
     $(e).text('Verifying');
+
     $.post('/api/ApiTrxHdrs/UpdateTrxHdrVerified?id=' + id, { id: id }, (res) => {
         console.log(res);
     }).done(() => {
-        $(e).text('Verified');
+        $(e).text('Procurement Verified');
         $(e).attr('disabled', 'disabled');
     }).fail(() => {
         alert("Unable to verify transaction");
+    });
+}
+
+
+function ApprovedbyAccountingTrxHdr(e, id) {
+
+    $(e).text('Approving');
+    $.post('/api/ApiTrxHdrs/UpdateTrxHdrAccountingApproved?id=' + id, { id: id }, (res) => {
+        console.log(res);
+    }).done(() => {
+        $(e).text('Accounting Approved');
+        $(e).attr('disabled', 'disabled');
+    }).fail(() => {
+        alert("Unable to approve transaction");
     });
 }
 
@@ -65,6 +81,9 @@ function StatusFilter(status) {
             break;
         case "CLOSED":
             $("#status-closed").addClass("active");
+            break;
+        case "CANCELLED":
+            $("#status-cancelled").addClass("active");
             break;
         case "ALL":
             $("#status-all").addClass("active");

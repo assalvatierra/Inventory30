@@ -47,6 +47,8 @@ namespace InvWeb.Pages.Stores.Releasing
             ReleasingIndexModel = await itemTrxServices.GetReleasingIndexModel_OnIndexOnGetAsync(
                                            InvTrxHdr, (int)storeId, TYPE_RELEASING, status, IsUserRoleAdmin());
             ViewData["StoreId"] = storeId;
+            ViewData["IsProcurementHead"] = User.IsInRole("Procurement-head");
+            ViewData["IsAccounting"] = User.IsInRole("Accounting");
         }
 
 
@@ -64,6 +66,10 @@ namespace InvWeb.Pages.Stores.Releasing
 
             ReleasingIndexModel = await itemTrxServices.GetReleasingIndexModel_OnIndexOnPostAsync(
                                            InvTrxHdr, (int)storeId, TYPE_RELEASING, Status, Orderby, IsUserRoleAdmin());
+
+            ViewData["StoreId"] = storeId;
+            ViewData["IsProcurementHead"] = User.IsInRole("Procurement-head");
+            ViewData["IsAccounting"] = User.IsInRole("Accounting");
             return Page();
         }
 
@@ -96,9 +102,9 @@ namespace InvWeb.Pages.Stores.Releasing
                 }
 
 
-                if (recordType == "Approved")
+                if (recordType == "Accounting")
                 {
-                    if (!String.IsNullOrEmpty(trxApprovalRecord.ApprovedBy))
+                    if (!String.IsNullOrEmpty(trxApprovalRecord.ApprovedAccBy))
                     {
                         return true;
                     }

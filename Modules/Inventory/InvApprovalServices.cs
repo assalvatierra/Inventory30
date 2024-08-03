@@ -177,7 +177,7 @@ namespace Inventory
 
                 if (trxApproval!= null)
                 {
-                    if (!string.IsNullOrEmpty(trxApproval.ApprovedBy) && !string.IsNullOrEmpty(trxApproval.VerifiedBy))
+                    if (!string.IsNullOrEmpty(trxApproval.ApprovedBy) && !string.IsNullOrEmpty(trxApproval.VerifiedBy) && !string.IsNullOrEmpty(trxApproval.ApprovedBy))
                     {
                         return true;
                     }

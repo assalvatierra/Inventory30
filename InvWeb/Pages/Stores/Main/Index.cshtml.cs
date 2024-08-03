@@ -20,7 +20,7 @@ using Modules.Inventory;
 
 namespace InvWeb.Pages.Stores.Main
 {
-    [Authorize(Roles = "Admin,Store")]
+    [Authorize(Roles = "Admin,Store,Accounting,Procurement-head")]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;

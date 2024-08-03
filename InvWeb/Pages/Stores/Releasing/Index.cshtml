@@ -5,6 +5,8 @@
     ViewData["Title"] = "Releasing";
 
     bool IsAdmin = Model.ReleasingIndexModel.IsAdmin;
+    bool IsAccounting = (bool)ViewData["IsAccounting"];
+    bool IsProcurementHead = (bool)ViewData["IsProcurementHead"];
 
     int STATUS_PENDING = 1;
     int STATUS_APPROVED = 2;
@@ -112,7 +114,7 @@
                             </a>
                         }
 
-                        @if (item.InvTrxHdrStatusId == STATUS_PENDING)
+                        @if (item.InvTrxHdrStatusId == STATUS_APPROVED)
                         {
                             <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">
                                 <img src="~/img/icons/icons-print.png" class="action-icons" width="20" height="20" alt="Print" data-toggle="tooltip" data-placement="top" title="Details">
@@ -123,41 +125,50 @@
                             <img src="~/img/icons/icons-details-blue.png" class="action-icons" width="20" height="20" alt="Details" data-toggle="tooltip" data-placement="top" title="Details">
                         </a>
 
-                      
                 </td>
                     <td class="td-actions">
 
-                        @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
+                        @if (item.InvTrxHdrStatusId == STATUS_PENDING && (IsAdmin || IsAccounting || IsProcurementHead))
                         {
 
                             if (Model.IsTransactionHaveApprovedRecord(item.Id, "Accounting"))
                             {
-                                <button class="btn btn-primary" onclick="ApprovedbyAccountingTrxHdr(this, '@item.Id')" disabled> Approve </button>
+                                <button class="btn btn-primary"  disabled> Accounting Approved </button>
                             }
-                            else
+                            else if(IsAccounting)
                             {
-                                <button class="btn btn-primary" onclick="ApprovedbyAccountingTrxHdr(this, '@item.Id')"> Approve </button>
+                                <button class="btn btn-primary" onclick="ApprovedbyAccountingTrxHdr(this, '@item.Id')"> Accounting Approval  </button>
+                            } else {
+
+                                <button class="btn btn-primary" disabled> For Accounting Approval  </button>
 
                             }
 
                             if (Model.IsTransactionHaveApprovedRecord(item.Id, "Approved"))
                             {
-                                <button class="btn btn-primary" onclick="ApprovedTrxHdr(this, '@item.Id')" disabled> Approve </button>
+                                <button class="btn btn-primary"  disabled> Mgt Approved </button>
+                            }
+                            else if (IsAdmin)
+                            {
+                                <button class="btn btn-primary" onclick="ApprovedTrxHdr(this, '@item.Id')"> Mgt Approve </button>
                             }
                             else
                             {
-                                <button class="btn btn-primary" onclick="ApprovedTrxHdr(this, '@item.Id')"> Approve </button>
-
+                                <button class="btn btn-primary" disabled> For Mgt Approve </button>
                             }
 
                             if (Model.IsTransactionHaveApprovedRecord(item.Id, "Verified"))
                             {
-                                <button class="btn btn-primary" onclick="VerifiedTrxHdr(this,'@item.Id')" disabled>  Verified </button>
+                                <button class="btn btn-primary"  disabled> Procurement Verified </button>
+                            }
+                            else if (IsProcurementHead)
+                            {
+                                <button class="btn btn-primary" onclick="VerifiedTrxHdr(this,'@item.Id')"> Procurement Verify </button>
                             }
                             else
                             {
-                                <button class="btn btn-primary" onclick="VerifiedTrxHdr(this,'@item.Id')"> Verified </button>
-
+                                <button class="btn btn-primary" disabled> For Procurement Verify </button>
+                                
                             }
                         }
 

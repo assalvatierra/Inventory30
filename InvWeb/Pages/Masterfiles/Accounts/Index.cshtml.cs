@@ -8,9 +8,11 @@ using InvWeb.Data;
 using CoreLib.Inventory.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InvWeb.Pages.Masterfiles.Accounts
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly SecurityDbContext _context;

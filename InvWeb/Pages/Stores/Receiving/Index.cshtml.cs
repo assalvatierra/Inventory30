@@ -90,6 +90,8 @@ namespace InvWeb.Pages.Stores.Receiving
             ViewData["StatusCountApproved"] = itemTrxServices.FilterByStatus(trxCount, "APPROVED").Count();
             ViewData["StatusCountClosed"] = itemTrxServices.FilterByStatus(trxCount, "CLOSED").Count();
 
+            ViewData["IsProcurementHead"] = User.IsInRole("Procurement-head");
+            ViewData["IsAccounting"] = User.IsInRole("Accounting");
             return Page();
         }
 

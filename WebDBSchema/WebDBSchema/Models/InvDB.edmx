@@ -805,6 +805,8 @@
     <Property Name="EncodedBy" Type="nvarchar" Nullable="false" MaxLength="40" />
     <Property Name="EncodedDate" Type="datetime" Nullable="false" />
     <Property Name="InvTrxHdrId" Type="int" Nullable="false" />
+    <Property Name="ApprovedAccBy" Type="nvarchar" Nullable="true" MaxLength="80" />
+    <Property Name="ApprovedAccDate" Type="datetime" Nullable="true" />
   </EntityType>
   <EntityType Name="InvPoApprovals">
     <Key>
@@ -3379,6 +3381,8 @@
           <Property Name="EncodedDate" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="InvTrxHdr" Relationship="InvDB.InvTrxHdrInvTrxApproval" FromRole="InvTrxApproval" ToRole="InvTrxHdr" />
           <Property Name="InvTrxHdrId" Type="Int32" Nullable="false" />
+          <Property Name="ApprovedAccBy" Type="String" Nullable="true" MaxLength="80" />
+          <Property Name="ApprovedAccDate" Type="DateTime" Nullable="true" />
         </EntityType>
         <Association Name="InvTrxHdrInvTrxApproval">
           <End Type="InvDB.InvTrxHdr" Role="InvTrxHdr" Multiplicity="1" />
@@ -4106,6 +4110,8 @@
           <ScalarProperty Name="EncodedBy" ColumnName="EncodedBy" />
           <ScalarProperty Name="EncodedDate" ColumnName="EncodedDate" />
           <ScalarProperty Name="InvTrxHdrId" ColumnName="InvTrxHdrId" />
+          <ScalarProperty Name="ApprovedAccBy" ColumnName="ApprovedAccBy" />
+          <ScalarProperty Name="ApprovedAccDate" ColumnName="ApprovedAccDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

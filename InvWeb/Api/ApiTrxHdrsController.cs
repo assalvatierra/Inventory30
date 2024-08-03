@@ -304,6 +304,75 @@ namespace InvWeb.Api
         }
 
 
+        // PUT: api/ApiTrxHdrs/UpdateTrxHdrApproved/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<IActionResult> UpdateTrxHdrAccountingApproved(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var checkExists = invApprovalServices.InvTrxCheckHaveApprovalExist((int)id);
+            // Create or Update Approval Trx
+            if (checkExists)
+            {
+                //update existing record 
+                var existingApproval = invApprovalServices.GetExistingApproval((int)id);
+
+                if (existingApproval != null)
+                {
+                    existingApproval.ApprovedAccBy = GetUser();
+                    existingApproval.ApprovedAccDate = dateServices.GetCurrentDateTime();
+
+                    invApprovalServices.EditTrxApproval(existingApproval);
+                    await invApprovalServices.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                //Create
+                InvTrxApproval newApproval = new InvTrxApproval();
+                newApproval.ApprovedAccBy = GetUser();
+                newApproval.ApprovedAccDate = dateServices.GetCurrentDateTime();
+                newApproval.InvTrxHdrId = (int)id;
+
+                invApprovalServices.CreateTrxApproval(newApproval);
+                await invApprovalServices.SaveChangesAsync();
+
+            }
+
+            //Update Transaction Status
+            if (invApprovalServices.CheckForApprovalStatus((int)id))
+            {
+                var trxHdr = await _context.InvTrxHdrs.FindAsync(id);
+
+                trxHdr.InvTrxHdrStatusId = 2;
+                _context.Entry(trxHdr).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!InvHdrExists((int)id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        return StatusCode(400, "Exception error");
+                        throw;
+                    }
+                }
+            }
+
+            return StatusCode(200, "Status Update Successfull");
+        }
+
+
         // PUT: api/ApiTrxHdrs/UpdateTrxHdrVerified/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
