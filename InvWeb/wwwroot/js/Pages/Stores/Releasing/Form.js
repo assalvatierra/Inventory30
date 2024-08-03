@@ -105,9 +105,47 @@ function EditExisitingItemRow(e, id) {
 
     $("#ItemEditModal").modal('show');
     $("#itemEditSearchModal").css("z-index", 2050);
+    $("#EditForm-Warning-Msg").text("");
 
     RetrieveItemDetails(id);
 }
+
+//on edit item, when selected item is changed, update get the updated item details 
+$("#itemEditDropdown").change(() => {
+
+    console.log("Item edit dropdown");
+
+    var id = $("#itemEditDropdown :selected").val();
+
+
+    $.ajax({
+        type: 'GET',
+        url: '/api/ApiInvTrxDtls/GetItemUom',
+        data: { id: id },
+        error: function (e) {
+            console.log(e);
+            //alert("Unable to Add Item.")
+            $("#EditItem-UomText").text("NA");
+        },
+        success: function (result) {
+            console.log("Get item details : success");
+            console.log(result);
+
+            //populate fields
+            $("#trxDtlsId").val(id);
+            $("#UomEditDropdown").val(result["InvUomId"]);
+            $("#EditItem-UomText").text(result["uom"]);
+            $("#itemEditLotNo").val("");
+            $("#itemEditBatchNo").val("");
+           
+            $("#EditItem-BrandText").text("");
+            $("#EditItem-OriginText").text("");
+
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
+});
 
 function GetItemDetails(id) {
     return $.ajax({
@@ -121,6 +159,50 @@ function GetItemDetails(id) {
         success: function (res) {
             console.log("success");
             console.log(res);
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
+}
+
+//$("#itemEditLotNo").change(() => {
+//    console.log("change on itemEditLotNo");
+//    var lotno = $("#itemEditLotNo").val();
+//    if (lotno != "") {
+//        GetItemBatchOriginFromLotNo(lotno);
+//    }
+
+//})
+
+function SelectThisLotNoEdit(lotNo, batchNo) {
+    $("#itemEditLotNo").val(lotNo);
+    $("#itemEditBatchNo").val(batchNo);
+
+    $("#SearchLotNoModalEdit").modal('hide');
+
+
+    console.log("change on itemEditLotNo");
+    var lotno = $("#itemEditLotNo").val();
+    if (lotno != "") {
+        GetItemBatchOriginFromLotNo(lotno);
+    }
+}
+
+function GetItemBatchOriginFromLotNo(lotno) {
+     $.ajax({
+        type: 'GET',
+        url: '/api/ApiInvTrxDtls/GetOriginBrandFromLotNo',
+        data: { lotno: lotno },
+        error: function (e) {
+            console.log(e);
+            //alert("Unable to Add Item.")
+        },
+         success: function (result) {
+             console.log("success");
+             console.log(result);
+
+             $("#EditItem-BrandText").text(result["brand"]);
+             $("#EditItem-OriginText").text(result["origin"]);
         },
         dataType: "json",
         contentType: "application/json"
@@ -159,46 +241,72 @@ async function RetrieveItemDetails(id) {
     $("#UomEditDropdown").val(result["InvUomId"]);
     $("#EditItem-UomText").text(result["uom"]);
     $("#itemEditLotNo").val(result["LotNo"]);
+    $("#itemEditBatchNo").val(result["BatchNo"]);
+
+    GetItemBatchOriginFromLotNo(result["LotNo"]);
 }
 
 function EditItemDetailsSaveChanges() {
+
     var trxDtlsId = $("#trxDtlsId").val();
     var itemId = $("#itemEditDropdown").val();
     var itemQty = $("#itemEditQty").val();
     var lotNo = $("#itemEditLotNo").val();
+    var batchNo = $("#itemEditBatchNo").val();
     var itemUomId = $("#UomEditDropdown").val();
-    var itemRemarks = $("#trxdtls-Item-Edit-Remarks").val();
+    var originId = $("#itemEditBrand").val();
+    var brandId = $("#itemEditÖrigin").val();
 
 
-    var data = {
-        invDtlsId: trxDtlsId,
-        invId: itemId,
-        qty: itemQty,
-        uomId: itemUomId,
-        remarks: itemRemarks,
-        lotNo: lotNo
-    };
-    const myData = JSON.stringify(data);
-    console.log(data);
+    if (itemQty != 0 && lotNo != "" && trxDtlsId != 0 && itemUomId != 0) {
 
-    var uriString = '?invDtlsId=' + trxDtlsId + '&invId=' + itemId + '&qty=' + itemQty + '&uomId=' + itemUomId + '&uomId=' + lotNo;
+        var data = {
+            invDtlsId: trxDtlsId,
+            invId: itemId,
+            qty: itemQty,
+            uomId: itemUomId,
+            lotNo: lotNo,
+            batchNo: batchNo
 
-    $.ajax({
-        type: 'POST',
-        url: '/api/ApiInvTrxDtls/EditReleaseTrxDtlItem' + uriString,
-        data: myData,
-        error: function (e) {
-            console.log(e);
-            //alert("Unable to Add Item.")
-        },
-        success: function (res) {
-            console.log("success");
-            console.log(res);
-        },
-        dataType: "json",
-        contentType: "application/json"
-    });
+        };
 
+        const myData = JSON.stringify(data);
+        console.log('EditReleaseTrxDtlItem');
+        console.log(data);
+
+        var uriString = '?invDtlsId=' + trxDtlsId + '&invId=' + itemId + '&qty=' + itemQty + '&uomId=' + itemUomId + '&lotNo=' + lotNo + '&batchNo=' + batchNo;
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/ApiInvTrxDtls/EditReleaseTrxDtlItem' + uriString,
+            data: myData,
+            error: function (res) {
+                console.log("error");
+                console.log(res);
+                //alert("Unable to Add Item.")
+
+                if (res.status == 201) {
+                    UpdateTableRow(trxDtlsId, lotNo, batchNo);
+                }
+            },
+            success: function (res) {
+                console.log("success");
+                //console.log(res);
+
+                if (res.status == 201) {
+                    UpdateTableRow(trxDtlsId, lotNo, batchNo);
+                }
+            },
+            dataType: "json",
+            contentType: "application/json"
+        });
+
+    } else {
+        $("#EditForm-Warning-Msg").text("Please fill out the necessary fields.");
+    }
+}
+
+function UpdateTableRow(trxDtlsId, lotNo, batchNo ) {
 
     $("#ItemEditModal").modal('hide');
 
@@ -207,6 +315,7 @@ function EditItemDetailsSaveChanges() {
     //update item row
     $("#itemDetails-" + trxDtlsId).after('<tr id="#itemDetails-' + trxDtlsId + '">' +
         '<td>' + $("#itemEditDropdown option:selected()").text() + ' </td>' +
+        '<td>' + lotNo + ' / ' + batchNo + ' </td>' +
         '<td>' + $("#itemEditQty").val() + ' </td>' +
         '<td>' + $("#UomEditDropdown option:selected()").text() + ' </td>' +
         '<td> </td>' +
@@ -221,18 +330,6 @@ function EditItemDetailsSaveChanges() {
         $("#itemDetails-" + trxDtlsId).first().remove();
     }
 }
-
-$("#textinput-HdrRemarks").blur(function () {
-
-    //UpdateHeaderRemarks();
-
-    //$(this).css("border-color", "green");
-
-    //setTimeout(
-    //    function () {
-    //        $(this).css("border-color", "black");
-    //    }, 2000);
-});
 
 function UpdateHeaderRemarks() {
 
@@ -268,10 +365,11 @@ function UpdateHeaderRemarks() {
 function ShowReceivingModal() {
     $("#ItemReleaseModal").modal('show');
 }
-
-
 function ReleaseItemRow(rowId, expectedQty) {
     ShowReceivingModal();
+
+    $("#SubmitReleasingFormBtn").prop('disabled', false);
+    $("#ReleaseItem-warning-text").text("");
 
     $("#ReleaseItem-TrxId").val(rowId);
 
@@ -292,12 +390,10 @@ function GetTrxDetails(id) {
     console.log("GetTrxDetails");
 
     return $.get('/api/ApiInvTrxDtls/GetTrxDtlItem?id=' + id, function (result, status) {
-        console.log(result);
-
+       
         var obj = JSON.parse(result);
         console.log(obj)
-        console.log(obj['Description']);
-        console.log(obj['InvItemId']);
+        
 
         //display item details to form
         $("#ReleaseItem-RcvdItemId").val(obj["InvItemId"]);
@@ -307,17 +403,21 @@ function GetTrxDetails(id) {
         $("#ReleaseItem-ActualUom").text(obj["uom"]);
         $("#ReleaseItem-UomId").val(obj["InvUomId"]);
         $("#ReleaseItem-ExpectedQty").text(obj["ItemQty"]);
-        //$("#ReceiveItem-ActualQty").val(obj["ItemQty"]);
+
         $("#ReleaseItem-LotNo").val(obj["LotNo"]);
         $("#ReleaseItem-BatchNo").val(obj["BatchNo"]);
 
+        $("#ReleaseItem-Origin").val(obj["Origin"]);
+        $("#ReleaseItem-OriginId").val(obj["OriginId"]);
+        $("#ReleaseItem-Brand").val(obj["Brand"]);
+        $("#ReleaseItem-BrandId").val(obj["BrandId"]);
+        $("#ReleaseItem-Area").val(obj["AreaId"]);
         //GetInvItemLotHeatNo(id);
     })
 }
 
 
 // api/ApiInvTrxDtls/GetInvItemLotHeatNo
-
 function GetInvItemLotHeatNo(id) {
 
     console.log("GetInvItemLotHeatNo");
@@ -339,12 +439,15 @@ function GetInvItemLotHeatNo(id) {
 
 
 function SubmitReleasingForm() {
+
+    $("#SubmitReleasingFormBtn").prop('disabled', true);
+
     var Id = $("#ReleaseItem-TrxId").val();
     var ItemId = $("#ReleaseItem-RcvdItemId").val();
     var LotNo = $("#ReleaseItem-LotNo").val();
     var BatchNo = $("#ReleaseItem-BatchNo").val();
-    var BrandId = $("#ReleaseItem-Brand option:selected").val();
-    var OriginId = $("#ReleaseItem-Origin option:selected").val();
+    var BrandId = $("#ReleaseItem-BrandId option:selected").val();
+    var OriginId = $("#ReleaseItem-OriginId option:selected").val();
     var ActualQty = $("#ReleaseItem-ActualQty").val();
     var AreaId = $("#ReleaseItem-Area option:selected").val();
     var Remarks = $("#ReleaseItem-Remarks").val();
@@ -384,7 +487,9 @@ function SubmitReleasingForm() {
                     //add qty text
                     $("itemDetails-Qty-" + Id).append("<span> / " + ActualQty + "</span>");
                 } else {
-                    alert("Unable to Add Item.")
+                    alert("Unable to Release Item.")
+
+                    $("#ReleaseItem-warning-text").text("Unable to release item.");
                 }
             },
             success: function (res) {
@@ -574,3 +679,230 @@ $("#ReceiveItemEdit-ActualQty").on("change", () => {
 });
 
 
+
+function SaveHeaderDetails_Changes() {
+    var hdrId = parseInt($("#textinput-hdrId").val());
+    var hdrParty = $("#textinput-Party").val();
+    var hdrRemarks = $("#textinput-HdrRemarks").val();
+
+    var data = {
+        Id: hdrId,
+        Party: hdrParty,
+        Remarks: hdrRemarks
+    }
+
+    console.log("Sending header data for update");
+    console.log(data);
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/ApiTrxHdrs/UpdateTrxHeaderDetails',
+        data: JSON.stringify(data),
+        error: function (e) {
+            console.log(e);
+
+            if (e.status == 201) {
+
+                console.log("success : Update Edit Header ");
+
+                $("#Save-header-btn").hide();
+                $("#Edit-header-btn").show();
+                $("#textinput-Party").prop('disabled', true);
+                $("#textinput-HdrRemarks").prop('disabled', true);
+
+            } else {
+                console.log("Unable to Update Edit Header .")
+            }
+        },
+        success: function (res) {
+            console.log("success");
+            console.log(res);
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
+
+
+}
+
+function TransactionStatus_Close(id) {
+
+    $("#CloseTrxHeaderBtn").text("CLOSING TRANSACTION...");
+
+    var data = {
+        Id: id,
+    }
+
+    console.log("Closing Transaction");
+    console.log(data);
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/ApiTrxHdrs/CloseTrxHeader',
+        data: JSON.stringify(data),
+        error: function (e) {
+            console.log(e);
+
+            if (e.status == 201) {
+                console.log("success : Closing Transaction ");
+                $("#CloseTrxHeaderBtn").text("TRANSACTION IS CLOSED");
+                $("#CloseTrxHeaderBtn").removeClass("btn-primary");
+                $("#CloseTrxHeaderBtn").addClass("btn-success");
+                $("#CloseTrxHeaderBtn").prop('disabled', true);
+                $("#AfterClosedDivLinks").show();
+            } else {
+                console.log("Error: Closing Transaction .")
+                $("#CloseTrxHeaderBtn").text("TRANSACTION IS NOT CLOSED.");
+                $("#CloseTrxHeaderBtn").removeClass("btn-primary");
+                $("#CloseTrxHeaderBtn").addClass("btn-error");
+            }
+        },
+        success: function (res) {
+            console.log("success");
+            console.log(res);
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
+
+
+}
+
+//GetInvItemReceivedTrx
+//param invItemId
+function GetInvItemReleasedTrx() {
+
+    $("#newItem-Lotno-Warning").text("");
+
+    var invItemId = $("#itemDropdown").val();
+
+    var data = {
+        Id: invItemId,
+    }
+
+    //console.log("Get Transactions based on item ID");
+    //console.log(data);
+
+    $.ajax({
+        type: 'GET',
+        url: '/api/ApiInvTrxDtls/GetInvItemReceivedTrx?id=' + invItemId,
+        data: JSON.stringify(data),
+        error: function (result) {
+            console.log(result);
+        },
+        success: function (res) {
+            console.log("success getting released lotno list");
+            //console.log(res);
+            //console.log("length: " + res.length);
+
+            CreateTableForItemsLotNos(res);
+
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
+
+}
+
+
+//GetInvItemReleasedTrxForEdit
+//param invItemId
+function GetInvItemReleasedTrxForEdit() {
+
+    $("#newItem-Lotno-Warning").text("");
+
+    var invItemId = $("#itemEditDropdown").val();
+
+    var data = {
+        Id: invItemId,
+    }
+
+    //console.log("Get Transactions based on item ID");
+    // console.log(data);
+
+    $.ajax({
+        type: 'GET',
+        url: '/api/ApiInvTrxDtls/GetInvItemReceivedTrx?id=' + invItemId,
+        data: JSON.stringify(data),
+        error: function (result) {
+            console.log(result);
+        },
+        success: function (res) {
+            console.log("success getting released lotno list");
+            //   console.log("success");
+            //   console.log(res);
+            //   console.log("length: " + res.length);
+
+            CreateTableForItemsLotNosEdit(res);
+
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
+
+}
+
+
+function CreateTableForItemsLotNos(res) {
+
+    $("#SearchLotNo-list tr").remove();
+    $("#SearchLotNo-list-Edit tr").remove();
+
+    for (i = 0; i < res.length; i++) {
+        // console.log(res[i]["Id"]);
+
+        var NewItemRow = "";
+        NewItemRow += "<tr>";
+        if (res[i]['LotNo'] != "") {
+            NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNo(\"" + res[i]['LotNo'].toString() + "\",\"" + res[i]['BatchNo'].toString() + "\")'> Select</button> </td>";
+        } else {
+            NewItemRow += "<td>  </td>";
+        }
+
+
+        NewItemRow += "<td>" + res[i]['LotNo'] + " / " + res[i]['BatchNo'] + "</td>";
+        NewItemRow += "<td>" + res[i]['Description'] + " <br> " + res[i]['Brand'] + " " + res[i]['Origin'] + "</td>";
+        NewItemRow += "<td>" + res[i]['Date'] + "</td>";
+        NewItemRow += "<td>" + res[i]['Qty'] + "</td>";
+        NewItemRow += "<td>" + res[i]['Uom'] + "</td>";
+        NewItemRow += "<td> " + res[i]['Status'] + " </td>";
+
+        $("#SearchLotNo-list").append(NewItemRow);
+        $("#SearchLotNo-list-Edit").append(NewItemRow);
+    }
+}
+
+function SelectThisLotNo(lotNo, batchNo) {
+    $("#newItem-LotNo").val(lotNo);
+    $("#newItem-BatchNo").val(batchNo);
+    $("#SearchLotNoModal").modal('hide');
+}
+
+
+
+function CreateTableForItemsLotNosEdit(res) {
+
+    $("#SearchLotNo-list-Edit tr").remove();
+
+    for (i = 0; i < res.length; i++) {
+        // console.log(res[i]["Id"]);
+
+        var NewItemRow = "";
+        NewItemRow += "<tr>";
+
+        if (res[i]['LotNo'] != "") {
+            NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNoEdit(\"" + res[i]['LotNo'].toString() + "\",\"" + res[i]['BatchNo'].toString() + "\")'> Select</button> </td>";
+        } else {
+            NewItemRow += "<td>  </td>";
+        }
+
+        NewItemRow += "<td>" + res[i]['LotNo'] + " / " + res[i]['BatchNo'] + "</td>";
+        NewItemRow += "<td>" + res[i]['Description'] + " <br> " + res[i]['Brand'] + " " + res[i]['Origin'] + "</td>";
+        NewItemRow += "<td>" + res[i]['Date'] + "</td>";
+        NewItemRow += "<td>" + res[i]['Qty'] + "</td>";
+        NewItemRow += "<td>" + res[i]['Uom'] + "</td>";
+        NewItemRow += "<td> " + res[i]['Status'] + " </td>";
+
+        $("#SearchLotNo-list-Edit").append(NewItemRow);
+    }
+}

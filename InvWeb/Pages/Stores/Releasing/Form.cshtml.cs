@@ -92,6 +92,8 @@ namespace InvWeb.Pages.Stores.Releasing
             ViewData["StoreAreas"] = new SelectList(storeAreas, "Id", "Name");
             ViewData["StoreId"] = ReleasingDetailsModel.InvTrxHdr.InvStoreId;
 
+            ViewData["IsUserAdmin"] = User.IsInRole("ADMIN");
+
             return Page();
         }
 

@@ -23,7 +23,7 @@ function ShowItemModal() {
 
 }
 
-function ShowItemEditModal() {
+function ShowItemEditSearchModal() {
     $("#itemEditSearchModal").modal("show");
 
 }
@@ -41,7 +41,7 @@ function SelectItemFromDialog(selector, id) {
 }
 
 
-function SearchCompany() {
+function SearchItem() {
     var input, filter, ul, li, a, i;
     input = $("#SearchBar").val();
     filter = input;
@@ -78,4 +78,53 @@ function SearchCompany() {
         }
     });
 
+}
+
+
+
+
+function EditSearchItem() {
+    var input, filter, ul, li, a, i;
+    input = $("#EditItemSearchBar").val();
+    filter = input;
+    ul = document.getElementById("EditItemSearchList");
+    tr = ul.getElementsByTagName("tr");
+
+
+
+    $("#EditItemSearchList tr").each(function () {
+        var itemText = $(this).find("td").eq(1).text().trim();
+        var itemDesc = $(this).find("td").eq(2).text().trim();
+
+        var filterArr = filter.split(' ');
+        var matchCount = 0;
+
+        //console.log("Array length:  "+filterArr.length);
+
+        for (var i = 0; i < filterArr.length; i++) {
+
+            if (itemText != undefined && itemDesc != undefined) {
+                if (itemText.toLowerCase().indexOf(filterArr[i]) >= 0 ||
+                    itemDesc.toLowerCase().indexOf(filterArr[i]) >= 0) {
+                    matchCount++;
+                } else {
+                }
+            }
+        }
+
+
+        if (matchCount == filterArr.length) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
+
+}
+
+function SelectEditItemFromDialog(selector, id) {
+    //update selected in dropdown
+    $("#" + selector).val(id).change();
+
+    $("#itemEditSearchModal").modal("hide");
 }

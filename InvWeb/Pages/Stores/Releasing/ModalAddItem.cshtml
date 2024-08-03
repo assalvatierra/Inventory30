@@ -69,7 +69,7 @@
 <!-- Modal Edit -->
 <div class="modal fade" id="ItemEditModal" tabindex="-1" role="dialog" aria-labelledby="itemEditModal" aria-hidden="true">
     <div class="modal-dialog" role="document" style="max-width:max-content">
-        <div class="modal-content dialog-search-form">
+        <div class="modal-content dialog-search-form" style="width:500px;">
             <div class="modal-header">
                 <h5 class="modal-title"> Edit Item </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -78,34 +78,57 @@
             </div>
             <div class="modal-body">
                 <div>
-                    <div class="form-group" hidden>
-                        <label class="control-label"> Id </label>
+                    <div class="form-group" >
+                        <label class="control-label"> Trx Id </label>
                         <input id="trxDtlsId" type="text" placeholder="Search item..." >
                     </div>
                     <div class="form-group">
                         <label class="control-label" style="width: 4rem !important;"> Item </label>
-                        <select class="form-control" asp-items="ViewBag.InvItems" id='itemEditDropdown' style="width: 25rem !important;" readonly></select>
-                        <img src="~/img/icons/icons-search.png" width="32" alt="search" class="item-search-icon" onclick="ShowItemEditModal()">
+                        <select class="form-control" asp-items="ViewBag.InvItems" id='itemEditDropdown' style="width: 26.5rem !important;" disabled></select>
+                        <img src="~/img/icons/icons-search.png" width="32" alt="search" class="item-search-icon" onclick="ShowItemEditSearchModal()">
                     </div>
                     <div class="form-group">
-                        <label class="control-label"> LotNo </label>
-                        <input asp-for="ItemDtlsCreateModel.InvTrxDtl.LotNo" id="itemEditLotNo" class="form-control" />
-                        <input asp-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" id="itemEditBatchNo" class="form-control" />
-                        <span class="btn btn-primary" data-toggle="modal" data-target="#SearchLotNoModal" onclick="GetInvItemReleasedTrxForEdit()"> <i class="bi bi-search"></i> </span>
+                        <div class="form-group" style="width:200px;margin-right:20px">
+                            <label class="control-label" style="margin-right:30px;"> LotNo </label>
+                            <input asp-for="ItemDtlsCreateModel.InvTrxDtl.LotNo" id="itemEditLotNo" class="form-control" readonly />
+                        </div>
+                        <div class="form-group" style="width:200px;">
+                            <label class="control-label" style="margin-right:20px;"> BatchNo </label>
+                            <input asp-for="ItemDtlsCreateModel.InvTrxDtl.BatchNo" id="itemEditBatchNo" class="form-control" readonly />
+                        </div> 
+                        <div style="width:50px;margin-left:10px;">
+                            <span class="btn btn-primary" data-toggle="modal" data-target="#SearchLotNoModalEdit" onclick="GetInvItemReleasedTrxForEdit()"> <i class="bi bi-search"></i> </span>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label"> Qty </label>
-                        <input asp-for="ItemDtlsCreateModel.InvTrxDtl.ItemQty" id="itemEditQty" class="form-control" value="1" />
-                    </div>
-                    <div class="form-group" >
-                        <label class="control-label"> Uom </label>
+                        <label class="control-label" style="width: 4rem !important;"> Qty </label>
+                        <input asp-for="ItemDtlsCreateModel.InvTrxDtl.ItemQty" id="itemEditQty" class="form-control" style="width:118px; value="1" />
                         <select class="form-control" asp-items="ViewBag.UomsList" id="UomEditDropdown" hidden></select>
-                        <span id="EditItem-UomText"> </span>
+                        <span id="EditItem-UomText" style="margin-left:10px;padding-top:5px;" "> </span>
                     </div>
+                   
+                    
+                    <div class="form-group" >
+                        <div class="col-lg-6" style="padding-left:0px;">
+                            <label class="control-label"> Brand </label>
+                            <span id="EditItem-BrandText"> </span>
+                            <input id="itemEditBrand" class="form-control" hidden />
+                        </div>
+                        <div class="col-lg-6" style="padding-left:0px;">
+                            <label class="control-label"> Origin </label>
+                            <span id="EditItem-OriginText"> </span>
+                            <input  id="itemEditOrigin" class="form-control" hidden />
+                        </div>
+
+                    </div>
+
                    @*  <div class="form-group">
                         <label class="control-label"> Remarks </label>
                         <input id="trxdtls-Item-Edit-Remarks" type="text" placeholder="">
                     </div> *@
+                    <div class="form-group">
+                        <p class="text-danger" id="EditForm-Warning-Msg"></p>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

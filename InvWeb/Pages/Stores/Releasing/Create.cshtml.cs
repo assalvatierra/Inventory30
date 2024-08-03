@@ -68,7 +68,7 @@ namespace InvWeb.Pages.Stores.Releasing
 
             await CreateTrxHdrApproval(ReleasingCreateModel.InvTrxHdr.Id);
 
-            return RedirectToPage("./Details", new { id = ReleasingCreateModel.InvTrxHdr.Id});
+            return RedirectToPage("./Form", new { id = ReleasingCreateModel.InvTrxHdr.Id});
         }
 
         private string GetUser()

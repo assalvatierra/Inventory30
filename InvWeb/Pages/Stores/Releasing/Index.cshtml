@@ -8,7 +8,7 @@
 
     int STATUS_PENDING = 1;
     int STATUS_APPROVED = 2;
-    int STOREID = 1;
+    int STOREID = (int)ViewData["StoreId"];
     
 }
 
@@ -65,7 +65,7 @@
         <label class="btn btn-outline-primary" id="status-closed" onclick="UpdatePagefilter( @STOREID ,'CLOSED')">
             <input type="radio" asp-for="Status" autocomplete="off" value="CLOSED">  Closed
         </label>
-        <label class="btn btn-outline-primary" id="status-closed" onclick="UpdatePagefilter( @STOREID ,'CANCELLED')">
+        <label class="btn btn-outline-primary" id="status-cancelled" onclick="UpdatePagefilter( @STOREID ,'CANCELLED')">
             <input type="radio" asp-for="Status" autocomplete="off" value="CANCELLED">  Cancelled
         </label>
     </div>
@@ -110,8 +110,6 @@
                             <a asp-page="./Edit" asp-route-id="@item.Id">
                                 <img src="~/img/icons/icons-edit-blue.png" class="action-icons" width="20" height="20" alt="Edit" data-toggle="tooltip" data-placement="top" title="Edit">
                             </a>
-                            
-
                         }
 
                         @if (item.InvTrxHdrStatusId == STATUS_PENDING)
@@ -131,6 +129,17 @@
 
                         @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
                         {
+
+                            if (Model.IsTransactionHaveApprovedRecord(item.Id, "Accounting"))
+                            {
+                                <button class="btn btn-primary" onclick="ApprovedbyAccountingTrxHdr(this, '@item.Id')" disabled> Approve </button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-primary" onclick="ApprovedbyAccountingTrxHdr(this, '@item.Id')"> Approve </button>
+
+                            }
+
                             if (Model.IsTransactionHaveApprovedRecord(item.Id, "Approved"))
                             {
                                 <button class="btn btn-primary" onclick="ApprovedTrxHdr(this, '@item.Id')" disabled> Approve </button>

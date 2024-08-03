@@ -171,6 +171,29 @@ namespace InvWeb.Api
                     return "Unable to find item details";
                 }
 
+                InvItemMaster invItemMaster = _context.InvItemMasters.Where(i => i.LotNo == invTrxDtl.LotNo.ToString())
+                 .Include(c => c.InvItemBrand)
+                 .Include(i => i.InvItemOrigin)
+                 .Include(i => i.InvStoreArea)
+                 .FirstOrDefault();
+
+                string Brand = "";
+                string Origin = "";
+                int OriginId = 0;
+                int BrandId = 0;
+                string Area = "";
+                int AreaId = 0;
+
+                if (invItemMaster != null)
+                {
+                    Brand = invItemMaster.InvItemBrand.Name;
+                    BrandId = invItemMaster.InvItemBrandId;
+                    Origin = invItemMaster.InvItemOrigin.Name;
+                    OriginId = invItemMaster.InvItemOriginId;
+                    Area = invItemMaster.InvStoreArea.Name;
+                    AreaId = invItemMaster.InvStoreAreaId;
+                }
+
                 return JsonConvert.SerializeObject(new
                 {
                     invTrxDtl.Id,
@@ -180,7 +203,14 @@ namespace InvWeb.Api
                     invTrxDtl.InvItem.Description,
                     invTrxDtl.InvUom.uom,
                     invTrxDtl.LotNo,
-                    invTrxDtl.BatchNo
+                    invTrxDtl.BatchNo,
+                    Brand,
+                    BrandId,
+                    Origin,
+                    OriginId,
+                    Area,
+                    AreaId
+
                 });
 
             }
@@ -348,31 +378,103 @@ namespace InvWeb.Api
         {
             try
             {
-
-                InvTrxDtl invTrxDtl = itemDtlsServices.GetInvDtlsById(id).First();
+                InvTrxDtl invTrxDtl = itemDtlsServices.GetInvDtlsById(id).FirstOrDefault();
 
                 if (invTrxDtl == null)
                 {
                     return "Unable to find item details";
                 }
 
-
-
+              
                 return JsonConvert.SerializeObject(new {
-                     invTrxDtl.Id,
-                     invTrxDtl.InvItemId,
+                    invTrxDtl.Id,
+                    invTrxDtl.InvItemId,
                     invTrxDtl.InvUomId,
                     invTrxDtl.ItemQty,
-                    invTrxDtl.InvItem.InvUom.uom,
-                    invTrxDtl.LotNo
+                    invTrxDtl.InvUom.uom,
+                    invTrxDtl.LotNo,
+                    invTrxDtl.BatchNo,
+                    invTrxDtl.InvItem.Description
                 });
 
             }
             catch (Exception ex)
             {
-                return "Add not Successfull";
+                return "Add not GetItemDetails";
             }
         }
+
+
+        [ActionName("GetItemUom")]
+        [HttpGet]
+        public string GetItemUom(int id)
+        {
+            try
+            {
+                InvItem invItem = _context.InvItems.Where(i=>i.Id == id)
+                    .Include(c=>c.InvUom)
+                    .Include(i=>i.InvCategory)
+                    .FirstOrDefault();
+
+
+                if (invItem == null)
+                {
+                    return "Unable to find item details";
+                }
+
+
+                return JsonConvert.SerializeObject(new
+                {
+                    invItem.Id,
+                    invItem.InvUomId,
+                    invItem.InvUom.uom,
+                    invItem.Description
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return "Add not GetItemDetails";
+            }
+        }
+
+        [ActionName("GetOriginBrandFromLotNo")]
+        [HttpGet]
+        public string GetOriginBrandFromLotNo(string lotno)
+        {
+            try
+            {
+
+                InvItemMaster invItemMaster = _context.InvItemMasters.Where(i => i.LotNo == lotno)
+                    .Include(c => c.InvItemBrand)
+                    .Include(i => i.InvItemOrigin)
+                    .FirstOrDefault();
+
+                string brand = "";
+                string origin = "";
+
+                if (invItemMaster != null)
+                {
+                    brand = invItemMaster.InvItemBrand.Name;
+                    origin = invItemMaster.InvItemOrigin.Name;
+                }
+
+                return JsonConvert.SerializeObject(new
+                {
+                    lotno,
+                    brand,
+                    origin
+                });
+            }
+            catch (Exception ex)
+            {
+                return "Unable to GetOriginBrandFromLotNo";
+            }
+
+
+        }
+
+
 
 
         [ActionName("EditTrxDtlItem")]
@@ -411,10 +513,14 @@ namespace InvWeb.Api
 
         [ActionName("EditReleaseTrxDtlItem")]
         [HttpPost]
-        public ObjectResult EditReleaseTrxDtlItem(int invDtlsId, int invId, int qty, int uomId, int lotNo)
+        public ObjectResult EditReleaseTrxDtlItem(int invDtlsId, int invId, int qty, int uomId, int lotNo, string batchNo)
         {
             try
             {
+                if (invDtlsId == 0)
+                {
+                    return StatusCode(500, "EditReleaseTrxDtlItem: InvDtlsId is empty");
+                }
 
                 InvTrxDtl invTrxDtl = itemDtlsServices.GetInvDtlsById(invDtlsId).FirstOrDefault();
 
@@ -427,6 +533,7 @@ namespace InvWeb.Api
                 invTrxDtl.InvUomId = uomId;
                 invTrxDtl.ItemQty = qty;
                 invTrxDtl.LotNo = lotNo;
+                invTrxDtl.BatchNo = batchNo;
 
                 _context.Attach(invTrxDtl).State = EntityState.Modified;
 
@@ -539,8 +646,8 @@ namespace InvWeb.Api
             invItemMaster.BatchNo = item.BatchNo;
             invItemMaster.ItemQty = item.Qty;
             invItemMaster.InvUomId = item.UomId;
-            invItemMaster.InvStoreAreaId = 1;
-            //invItemMaster.Remarks = item.Remarks;
+            invItemMaster.Remarks = item.Remarks;
+            invItemMaster.InvStoreAreaId = item.AreaId;
 
             //save changes
             try

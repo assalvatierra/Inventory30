@@ -46,7 +46,7 @@ namespace InvWeb.Pages.Stores.Releasing
 
             ReleasingIndexModel = await itemTrxServices.GetReleasingIndexModel_OnIndexOnGetAsync(
                                            InvTrxHdr, (int)storeId, TYPE_RELEASING, status, IsUserRoleAdmin());
-
+            ViewData["StoreId"] = storeId;
         }
 
 
@@ -94,6 +94,16 @@ namespace InvWeb.Pages.Stores.Releasing
                         return true;
                     }
                 }
+
+
+                if (recordType == "Approved")
+                {
+                    if (!String.IsNullOrEmpty(trxApprovalRecord.ApprovedBy))
+                    {
+                        return true;
+                    }
+                }
+
             }
 
             return false;

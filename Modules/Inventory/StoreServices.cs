@@ -396,30 +396,55 @@ namespace Modules.Inventory
 
         public virtual async Task<List<InvTrxDtl>> GetReceivedItemsAsync(int storeId)
         {
-            return await _context.InvTrxDtls
-               .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&
-                h.InvTrxHdr.InvStoreId == storeId)
-               .Include(h => h.InvTrxHdr)
-               .ToListAsync();
+            try
+            {
+                return await _context.InvTrxDtls
+                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&
+                     h.InvTrxHdr.InvStoreId == storeId)
+                    .Include(h => h.InvTrxHdr)
+                    .ToListAsync();
+            }
+            catch
+            {
+                return new List<InvTrxDtl>();
+            }
+         
         }
 
 
         public virtual async Task<List<InvTrxDtl>> GetReleasedItemsAsync(int storeId)
         {
-            return await _context.InvTrxDtls
-                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED &&
-                 h.InvTrxHdr.InvStoreId == storeId)
-                .Include(h => h.InvTrxHdr)
-                .ToListAsync();
+            try
+            {
+
+                return await _context.InvTrxDtls
+                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED &&
+                     h.InvTrxHdr.InvStoreId == storeId)
+                    .Include(h => h.InvTrxHdr)
+                    .ToListAsync();
+            } 
+            catch
+            {
+                return new List<InvTrxDtl>();
+            }
         }
 
         public virtual async Task<List<InvTrxDtl>> GetAdjustmentItemsAsync(int storeId)
         {
-            return await _context.InvTrxDtls
-                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT &&
-                 h.InvTrxHdr.InvStoreId == storeId)
-                .Include(h => h.InvTrxHdr)
-                .ToListAsync();
+            
+
+            try
+            {
+                return await _context.InvTrxDtls
+                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT &&
+                     h.InvTrxHdr.InvStoreId == storeId)
+                    .Include(h => h.InvTrxHdr)
+                    .ToListAsync();
+            }
+            catch
+            {
+                return new List<InvTrxDtl>();
+            }
         }
 
         public virtual async Task<List<InvTrxDtl>> GetReceivedItemsByCatAsync(int storeId, int categoryId)
