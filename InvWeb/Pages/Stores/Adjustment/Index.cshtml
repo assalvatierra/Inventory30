@@ -6,6 +6,7 @@
     
     int STATUS_PENDING = 1;
     bool IsAdmin = Model.AdjustmentIndexModel.IsAdmin;
+    int STOREID = (int)ViewData["StoreId"];
 }
 
 <h1>
@@ -47,11 +48,28 @@
         <input type="text" value="@ViewData["StoreId"]" name="storeId" id="storeId" />
     </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-outline-primary" id="status-pending">
+   @*      <label class="btn btn-outline-primary" id="status-pending">
             <input type="radio" asp-for="Status" autocomplete="off" value="PENDING" checked> Pending
         </label>
         <label class="btn btn-outline-primary" id="status-accepted">
             <input type="radio" asp-for="Status" autocomplete="off" value="ACCEPTED"> Accepted
+        </label> *@
+
+        <label class="btn btn-outline-primary" id="status-all" onclick="UpdatePagefilter( @STOREID ,'ALL')">
+            <input type="radio" asp-for="Status" autocomplete="off" value="ALL"> All
+        </label>
+        <label class="btn btn-outline-primary" id="status-pending" onclick="UpdatePagefilter( @STOREID ,'PENDING')">
+            <input type="radio" asp-for="Status" autocomplete="off" value="PENDING" checked> Request
+            <span class="badge badge-danger" style="color:white;">
+                @ViewBag.StatusCountRequest
+            </span>
+
+        </label>
+        <label class="btn btn-outline-primary" id="status-approved" onclick="UpdatePagefilter( @STOREID ,'APPROVED')">
+            <input type="radio" asp-for="Status" autocomplete="off" value="APPROVED">  Approved
+            <span class="badge badge-danger" style="color:white;">
+                @ViewBag.StatusCountApproved
+            </span>
         </label>
     </div>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -115,12 +133,11 @@
                             @*<a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
                         }
 
-
                     </td>
                     <td class="td-actions">
                         @if (item.InvTrxHdrStatusId == STATUS_PENDING && IsAdmin)
                         {
-                            <button class="btn btn-primary" onclick="ApproveHdr('@item.Id')"> Accept </button>
+                            <button class="btn btn-primary" onclick="ApproveHdr(this, '@item.Id')"> Accept </button>
                         }
 
                     </td>
@@ -178,6 +195,21 @@
             StatusFilter("@Model.AdjustmentIndexModel.Status");
             OrderFilter("@Model.AdjustmentIndexModel.Order");
         });
+
+
+        function ApproveHdr(e, id) {
+
+            $(e).text('Approving');
+
+            $.post('/api/ApiTrxHdrs/UpdateTrxHdrApproved?id=' + id, { id: id }, (res) => {
+                console.log(res);
+            }).done(() => {
+                $(e).text('Approved');
+                $(e).attr('disabled', 'disabled');
+            }).fail(() => {
+                alert("Unable to approve transaction");
+            });
+        }
 
     </script>
 } 

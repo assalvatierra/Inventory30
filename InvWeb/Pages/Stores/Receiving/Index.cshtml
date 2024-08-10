@@ -125,6 +125,10 @@
                             <a asp-page="./Form" asp-route-id="@item.Id">
                                 <img src="~/img/icons/icons-details-blue.png" class="action-icons" width="20" height="20" alt="Details" data-toggle="tooltip" data-placement="top" title="Details">
                             </a>
+
+                              <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">
+                                <img src="~/img/icons/icons-print.png" class="action-icons" width="20" height="20" alt="Print" data-toggle="tooltip" data-placement="top" title="Print">
+                            </a>
                         }
 
                         @if (item.InvTrxHdrStatusId == STATUS_APPROVED)
@@ -148,7 +152,7 @@
                         @if (item.InvTrxHdrStatusId == STATUS_PENDING && (IsAdmin || IsAccounting || IsProcurementHead))
                         {
 
-                            if (Model.IsTransactionHaveApprovedRecord(item.Id, "Accounting"))
+                        @*  if (Model.IsTransactionHaveApprovedRecord(item.Id, "Accounting"))
                             {
                                 <button class="btn btn-primary" disabled> Accounting Approved </button>
                             }
@@ -158,10 +162,8 @@
                             }
                             else
                             {
-
                                 <button class="btn btn-primary" disabled> For Accounting Approval  </button>
-
-                            }
+                            } *@
 
                             if (Model.IsTransactionHaveApprovedRecord(item.Id, "Approved"))
                             {

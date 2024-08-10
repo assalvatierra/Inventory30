@@ -597,7 +597,7 @@ namespace InvWeb.Api
             invItemMaster.InvItemBrandId = item.BrandId;
             invItemMaster.LotNo = item.LotNo;
             invItemMaster.BatchNo = item.BatchNo;
-            invItemMaster.ItemQty = item.Qty;
+            invItemMaster.ItemQty = item.Qty * (-1); // For Release, negative number
             invItemMaster.InvUomId = item.UomId;
             invItemMaster.InvStoreAreaId = item.AreaId;
             //invItemMaster.Remarks = item.Remarks;
@@ -747,7 +747,7 @@ namespace InvWeb.Api
             invItemMaster.InvItemBrandId = item.BrandId;
             invItemMaster.LotNo = item.LotNo;
             invItemMaster.BatchNo = item.BatchNo;
-            invItemMaster.ItemQty = item.Qty;
+            invItemMaster.ItemQty = item.Qty * (-1);
             invItemMaster.InvUomId = item.UomId;
             invItemMaster.InvStoreAreaId = item.AreaId;
             invItemMaster.Remarks = item.Remarks;

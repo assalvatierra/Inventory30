@@ -99,9 +99,6 @@
                 Heat No.
             </th>
             <th>
-                Material
-            </th>
-            <th>
                 Qty
             </th>
             <th>
@@ -132,7 +129,8 @@
                     @Html.DisplayFor(modelItem => item.InvUom.uom)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvTrxDtlOperator.Description)
+                    @item.InvTrxDtlOperator.Operator
+                    @item.InvTrxDtlOperator.Description
                 </td>
                 <td>
                     @if (Model.HeaderDetailsModel.InvTrxHdr.InvTrxHdrStatusId == STATUS_PENDING)

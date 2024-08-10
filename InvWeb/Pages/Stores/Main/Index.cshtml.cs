@@ -82,6 +82,8 @@ namespace InvWeb.Pages.Stores.Main
 
                 _logger.LogInformation("Showing Store Main Page - StoreID : " + id);
 
+                HttpContext.Session.SetString("Sample Session", "Sample");
+
                 ViewData["IsAdmin"] = User.IsInRole("Admin"); // TOOD: check if user is admin
                 return Page();
 
@@ -120,6 +122,8 @@ namespace InvWeb.Pages.Stores.Main
 
             return false;
         }
+
+      
 
     }
 }

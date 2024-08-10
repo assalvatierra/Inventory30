@@ -302,6 +302,7 @@ namespace Modules.Inventory
                             .Include(i => i.InvTrxDtlxItemMasters)
                                 .ThenInclude(i => i.InvItemMaster)
                                 .ThenInclude(i => i.InvStoreArea)
+                            .Include(i=>i.InvTrxDtlOperator)
                             .Where(i => i.InvTrxHdrId == Id)
                             .ToList();
 

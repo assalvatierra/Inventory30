@@ -42,6 +42,10 @@
                 {
                     <span> Procurement User </span>
                 }
+                else if (User.IsInRole("Sales"))
+                {
+                    <span> Sales User </span>
+                }
                 else
                 {
                     <span> Please Login </span>
@@ -59,6 +63,10 @@
             else if (User.IsInRole("Purchaser"))
             {
                 <partial name="./NavLayouts/_PurchaserNav" />
+            }
+            else if (User.IsInRole("Sales"))
+            {
+                <partial name="./NavLayouts/_SalesNav" />
             }
             else
             {

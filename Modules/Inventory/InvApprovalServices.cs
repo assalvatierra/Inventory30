@@ -3,6 +3,7 @@ using CoreLib.Interfaces.DBAccess;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
 using Inventory.DBAccess;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -172,14 +173,34 @@ namespace Inventory
         {
             try
             {
-
+                var trxHeader = _context.InvTrxHdrs.Where(t => t.Id == id).Include(i=>i.InvTrxType).First();
                 var trxApproval = _context.InvTrxApprovals.Where(t=>t.InvTrxHdrId == id).First();
 
                 if (trxApproval!= null)
                 {
-                    if (!string.IsNullOrEmpty(trxApproval.ApprovedBy) && !string.IsNullOrEmpty(trxApproval.VerifiedBy) && !string.IsNullOrEmpty(trxApproval.ApprovedBy))
+                    if (trxHeader.InvTrxType.Type == "Receive")
                     {
-                        return true;
+                        if (!string.IsNullOrEmpty(trxApproval.ApprovedBy) && !string.IsNullOrEmpty(trxApproval.VerifiedBy))
+                        {
+                            return true;
+                        }
+                    }
+
+                    if (trxHeader.InvTrxType.Type == "Release")
+                    {
+                        if (!string.IsNullOrEmpty(trxApproval.ApprovedBy) && !string.IsNullOrEmpty(trxApproval.VerifiedBy) && !string.IsNullOrEmpty(trxApproval.ApprovedAccBy))
+                        {
+                            return true;
+                        }
+                    }
+
+
+                    if (trxHeader.InvTrxType.Type == "Adjust")
+                    {
+                        if (!string.IsNullOrEmpty(trxApproval.ApprovedBy))
+                        {
+                            return true;
+                        }
                     }
                 }
 

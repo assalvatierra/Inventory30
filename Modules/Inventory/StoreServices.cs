@@ -264,7 +264,7 @@ namespace Modules.Inventory
 
         public virtual decimal GetPendingItemsCount(List<InvTrxDtl> receivedItems, int itemId)
         {
-            var pendingList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 &&
+            var pendingList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
                                             h.InvItemId == itemId).ToList();
 
             return ConvertItemsListUoms(pendingList);
@@ -273,21 +273,21 @@ namespace Modules.Inventory
 
         public virtual decimal GetAcceptedItemsCount(List<InvTrxDtl> receivedItems, int itemId)
         {
-            var acceptedList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 &&
+            var acceptedList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
                                             h.InvItemId == itemId).ToList();
             return ConvertItemsListUoms(acceptedList);
         }
 
         public virtual decimal GetRequestedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
         {
-            var requestedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 &&
+            var requestedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
                                             h.InvItemId == itemId).ToList();
             return ConvertItemsListUoms(requestedList);
         }
 
         public virtual decimal GetReleasedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
         {
-            var releasedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 &&
+            var releasedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
                                             h.InvItemId == itemId).ToList();
             return ConvertItemsListUoms(releasedList);
         }
@@ -399,7 +399,7 @@ namespace Modules.Inventory
             try
             {
                 return await _context.InvTrxDtls
-                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&
+                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
                      h.InvTrxHdr.InvStoreId == storeId)
                     .Include(h => h.InvTrxHdr)
                     .ToListAsync();
@@ -418,7 +418,7 @@ namespace Modules.Inventory
             {
 
                 return await _context.InvTrxDtls
-                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED &&
+                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
                      h.InvTrxHdr.InvStoreId == storeId)
                     .Include(h => h.InvTrxHdr)
                     .ToListAsync();
@@ -436,7 +436,7 @@ namespace Modules.Inventory
             try
             {
                 return await _context.InvTrxDtls
-                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT &&
+                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
                      h.InvTrxHdr.InvStoreId == storeId)
                     .Include(h => h.InvTrxHdr)
                     .ToListAsync();
@@ -450,7 +450,7 @@ namespace Modules.Inventory
         public virtual async Task<List<InvTrxDtl>> GetReceivedItemsByCatAsync(int storeId, int categoryId)
         {
             return await _context.InvTrxDtls
-               .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED &&
+               .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
                 h.InvTrxHdr.InvStoreId == storeId && h.InvItem.InvCategoryId == categoryId)
                .Include(h => h.InvTrxHdr)
                 .Include(h => h.InvItem)
@@ -459,7 +459,7 @@ namespace Modules.Inventory
         public virtual async Task<List<InvTrxDtl>> GetReleasedItemsByCatAsync(int storeId, int categoryId)
         {
             return await _context.InvTrxDtls
-                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED &&
+                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
                  h.InvTrxHdr.InvStoreId == storeId && h.InvItem.InvCategoryId == categoryId)
                 .Include(h => h.InvTrxHdr)
                 .Include(h => h.InvItem)
@@ -469,7 +469,7 @@ namespace Modules.Inventory
         public virtual async Task<List<InvTrxDtl>> GetAdjustmentItemsByCatAsync(int storeId, int categoryId)
         {
             return await _context.InvTrxDtls
-                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT &&
+                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
                  h.InvTrxHdr.InvStoreId == storeId && h.InvItem.InvCategoryId == categoryId)
                 .Include(h => h.InvTrxHdr)
                 .Include(h => h.InvItem)

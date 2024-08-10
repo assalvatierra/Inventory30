@@ -50,6 +50,8 @@ namespace Inventory.DBAccess
                 .Include(i => i.InvTrxDtls)
                     .ThenInclude(i => i.InvItem)
                     .ThenInclude(i => i.InvUom)
+                .Include(i=>i.InvTrxDtls)
+                    .ThenInclude(i => i.InvTrxDtlOperator)
                 .Where(i => i.InvTrxTypeId == typeId &&
                               i.InvStoreId == storeId)
                 .ToListAsync();

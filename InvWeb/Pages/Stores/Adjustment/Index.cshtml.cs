@@ -53,6 +53,7 @@ namespace InvWeb.Pages.Stores.Adjustment
 
             AdjustmentIndexModel = await itemTrxServices.GetTrxHeaderIndexModel_OnGetAsync(InvTrxHdr, (int)storeId, TYPE_ADJUSTMENT, status, IsUserAdmin());
 
+            ViewData["StoreId"] = storeId;
             return Page();
         }
 
@@ -67,6 +68,7 @@ namespace InvWeb.Pages.Stores.Adjustment
             AdjustmentIndexModel = await itemTrxServices.GetTrxHeaderIndexModel_OnPostAsync(InvTrxHdr, (int)storeId, TYPE_ADJUSTMENT, Status, Orderby,IsUserAdmin());
 
 
+            ViewData["StoreId"] = storeId;
             return Page();
         }
 
