@@ -1,6 +1,6 @@
 declare @itemdesc varchar(max)='';
 declare @brand varchar(max)='';
-declare @origin varchar(max)='CHINA';
+declare @origin varchar(max)='';
 
 --declare @maincat varchar(max)=''; --'FITTING, PLATE';
 --declare @subcat varchar(max)='';
@@ -9,10 +9,9 @@ declare @origin varchar(max)='CHINA';
 
 select top 100000
 invitem.Id 
+--,trxhdrs.Id
+
 ,invitem.Code
-
-,trxhdrs.Id
-
 ,CASE WHEN (trxdtlop.Operator='+' AND trxstat.Status='Approved') then trxdtls.ItemQty else 0 end as QtyAdded
 ,CASE WHEN (trxdtlop.Operator='+' AND trxstat.Status='Request') then trxdtls.ItemQty else 0 end as QtyIncoming
 ,CASE WHEN (trxdtlop.Operator='-' AND trxstat.Status='Approved') then trxdtls.ItemQty else 0 end as QtyReleased
@@ -20,11 +19,14 @@ invitem.Id
 ,uom.uom
 ,trxtype.Type
 ,trxstat.Status
-,trxdtlop.Operator
+,item.BatchNo
+,item.LotNo
+--,trxdtlop.Operator
 
 ,invitem.Description
 --,maincat.Name as 'Main Category'
 --,subcat.Name as 'Sub Category'
+
 ,brand.Name as 'Brand'
 --,grade.Name as 'Steel Grade'
 --,material.Name as 'Steel Material'
@@ -33,7 +35,7 @@ invitem.Id
 
 ,store.StoreName
 ,area.Name as 'Location'
-,charindex(@itemdesc,invitem.Description) as 'charIndex'
+--,charindex(@itemdesc,invitem.Description) as 'charIndex'
 
 from dbo.InvItems invitem
 
