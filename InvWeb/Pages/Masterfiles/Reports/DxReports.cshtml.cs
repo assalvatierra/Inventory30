@@ -28,10 +28,9 @@ namespace InvWeb.Pages.Reports
 
         public async Task OnGetAsync()
         {
-            this.userRptLevel = "USER";
+            //this.userRptLevel = "USER";
             //this.userRptLevel = "CREATOR";
-            //this.userRptLevel = "
-            //";
+            this.userRptLevel = "ADMIN";
 
             this.rptCategories = this._reportSvc.GetAvailableCategories();
             this.invReports = this._reportSvc.GetAvailableReports(this.HttpContext.User.Identity.Name);
