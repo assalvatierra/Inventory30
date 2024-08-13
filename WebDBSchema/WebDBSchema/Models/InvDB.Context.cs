@@ -81,5 +81,6 @@ namespace WebDBSchema.Models
         public virtual DbSet<InvItemBrand> InvItemBrands { get; set; }
         public virtual DbSet<InvItemOrigin> InvItemOrigins { get; set; }
         public virtual DbSet<InvStoreArea> InvStoreAreas { get; set; }
+        public virtual DbSet<RptUserLevel> RptUserLevels { get; set; }
     }
 }

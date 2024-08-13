@@ -31,5 +31,10 @@ namespace RealSys.CoreLib.Services
             return this._reportsRepo.rptCategories.ToList();
         }
 
+        public string GetUserAccessLevel(string userName)
+        {
+            return this._reportsRepo.GetUserAccessLevel(userName);
+        }
+
     }
 }

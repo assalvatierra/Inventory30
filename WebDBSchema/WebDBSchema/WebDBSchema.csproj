@@ -359,6 +359,9 @@
     <Compile Include="Models\RptReportUser.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RptUserLevel.cs">
+      <DependentUpon>InvDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SteelBrand.cs">
       <DependentUpon>InvDB.tt</DependentUpon>
     </Compile>
@@ -482,6 +485,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\SQL Scripts\Reports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

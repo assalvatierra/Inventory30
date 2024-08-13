@@ -12,10 +12,10 @@ namespace RealSys.CoreLib.Interfaces.Reports
     {
         public IList<Report> GetAvailableReportsByIds(IList<int> rptIds);
         public IList<int>? GetUserReportsByUsername(string userName);
+        public string GetUserAccessLevel(string userName);
         //public IList<int>? GetUserReportsByRoleIds(IList<int> roleIds);
 
         public IQueryable<RptCategory> rptCategories { get; }
-
 
     }
 }

@@ -62,6 +62,7 @@
     <EntitySet Name="InvItemBrands" EntityType="InvDB.Store.InvItemBrands" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvItemOrigins" EntityType="InvDB.Store.InvItemOrigins" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="InvStoreAreas" EntityType="InvDB.Store.InvStoreAreas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RptUserLevels" EntityType="InvDB.Store.RptUserLevels" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="InvItemInvItemClass" Association="InvDB.Store.InvItemInvItemClass">
       <End Role="InvItem" EntitySet="InvItems" />
       <End Role="InvItemClass" EntitySet="InvItemClasses" />
@@ -876,6 +877,14 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
     <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="40" />
     <Property Name="InvStoreId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RptUserLevels">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AspNetUserId" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="RptRole" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="InvItemInvItemClass">
     <End Role="InvItem" Type="InvDB.Store.InvItems" Multiplicity="1" />
@@ -2074,6 +2083,7 @@
             <End Role="InvStore" EntitySet="InvStores" />
             <End Role="InvStoreArea" EntitySet="InvStoreAreas" />
           </AssociationSet>
+          <EntitySet Name="RptUserLevels" EntityType="InvDB.RptUserLevel" />
         </EntityContainer>
         <EntityType Name="InvItem">
           <Key>
@@ -3599,6 +3609,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="RptUserLevel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AspNetUserId" Type="String" Nullable="false" FixedLength="false" MaxLength="255" Unicode="true" />
+          <Property Name="RptRole" Type="String" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4188,6 +4206,15 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Remarks" ColumnName="Remarks" />
           <ScalarProperty Name="InvStoreId" ColumnName="InvStoreId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RptUserLevels">
+      <EntityTypeMapping TypeName="IsTypeOf(InvDB.RptUserLevel)">
+        <MappingFragment StoreEntitySet="RptUserLevels">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+          <ScalarProperty Name="RptRole" ColumnName="RptRole" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

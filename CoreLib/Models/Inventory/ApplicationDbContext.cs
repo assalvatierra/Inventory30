@@ -67,6 +67,7 @@ namespace CoreLib.Models.Inventory
         public virtual DbSet<RptReportUser>? rptReportUsers { get; set; }
         public virtual DbSet<RptReportRole>? rptReportRoles { get; set; }
         public virtual DbSet<RptAccessType>? rptAccessTypes { get; set; }
+        public virtual DbSet<RptUserLevel>? RptUserLevels { get; set; }
 
 
         public virtual DbSet<InvItemMaster> InvItemMasters { get; set; }

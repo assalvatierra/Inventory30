@@ -132,6 +132,7 @@
         <EntityTypeShape EntityType="InvDB.InvStoreArea" Width="1.5" PointX="19.875" PointY="28.625" />
         <AssociationConnector Association="InvDB.InvStoreAreaInvItemMaster" />
         <AssociationConnector Association="InvDB.InvStoreInvStoreArea" />
+        <EntityTypeShape EntityType="InvDB.RptUserLevel" Width="1.5" PointX="31.375" PointY="9.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/03/2024 17:58:37
+-- Date Created: 08/12/2024 20:57:04
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -936,6 +936,14 @@ CREATE TABLE [dbo].[InvStoreAreas] (
 );
 GO
 
+-- Creating table 'RptUserLevels'
+CREATE TABLE [dbo].[RptUserLevels] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [AspNetUserId] nvarchar(255)  NOT NULL,
+    [RptRole] nvarchar(max)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -1273,6 +1281,12 @@ GO
 -- Creating primary key on [Id] in table 'InvStoreAreas'
 ALTER TABLE [dbo].[InvStoreAreas]
 ADD CONSTRAINT [PK_InvStoreAreas]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'RptUserLevels'
+ALTER TABLE [dbo].[RptUserLevels]
+ADD CONSTRAINT [PK_RptUserLevels]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
