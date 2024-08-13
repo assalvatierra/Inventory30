@@ -18,6 +18,8 @@ namespace ReportViewModel.InvStore
         public string Uom { get; set; }
         public int Count { get; set; }
         public string Operation { get; set; }
+        public string LotNo { get; set; }
+        public string BatchNo { get; set; }
 
     }
 }

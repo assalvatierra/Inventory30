@@ -19,6 +19,7 @@ namespace ReportViewModel.InvStore
         public string Remarks { get; set; }
         public IList<TrxDetail> Details { get; set; }
 
+        public string Party { get; set; }
         public string Type { get; set; }
         public string PaidTo { get; set; }
         public string Address { get; set; }

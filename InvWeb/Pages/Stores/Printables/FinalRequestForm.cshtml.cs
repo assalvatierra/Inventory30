@@ -1,31 +1,29 @@
-using InvWeb.Data.Services;
+using CoreLib.Inventory.Interfaces;
+using CoreLib.Inventory.Models;
+using CoreLib.Models.Inventory;
+using DevExpress.Data.ODataLinq.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using CoreLib.Inventory.Models;
-using System.Linq;
-using ReportViewModel.InvStore;
+using Microsoft.Extensions.Logging;
+using Modules.Inventory;
 using PageConfigShared.Interfaces;
 using PageConfigShared.Model;
-using CoreLib.Models.Inventory;
-using Modules.Inventory;
-using CoreLib.Inventory.Interfaces;
+using ReportViewModel.InvStore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using static InvWeb.Pages.Stores.Printables.RequestFormModel;
 
 namespace InvWeb.Pages.Stores.Printables
 {
-    public class RequestFormModel : PageModel
+    public class FinalRequestFormModel : PageModel
     {
         private readonly ILogger<RequestFormModel> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IStoreServices _storeSvc;
-        public IPageConfigServices _pageConfigServices;
 
         public TrxHdr _trxHdr;
-        public string rptView = "~/Areas/InvStore/TrxPrintForm.cshtml";
 
         public enum rptFormView
         {
@@ -36,14 +34,12 @@ namespace InvWeb.Pages.Stores.Printables
 
         }
 
-        public RequestFormModel(ILogger<RequestFormModel> logger, ApplicationDbContext context, IPageConfigServices pageConfigSservices)
+        public FinalRequestFormModel(ILogger<RequestFormModel> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
             _storeSvc = new StoreServices(context, logger);
-            _pageConfigServices = pageConfigSservices;
         }
-
 
         public async Task<IActionResult> OnGetAsync(int? id, int? type)
         {
@@ -71,46 +67,66 @@ namespace InvWeb.Pages.Stores.Printables
                 this._trxHdr.Details = AddDataToPRDetails(_trxHdr.Details, PRrequest);
             }
 
+            ViewData["Company"]  = "Vsteel Metal Asia";
+            ViewData["Branch"]   = request.InvStore.StoreName;
+            ViewData["SubTitle"] = GetFormSubHeaderTitle((int)type);
 
-            PageConfigInfo pInfo = GetReportFormByTrxType((int)type);
-            if (pInfo != null)
-            {
-                this.rptView = pInfo.ViewName;
+            InvTrxApproval Approvals = GetTrxInvTrxApproval((int)id);
 
-                if(pInfo.genericConfigKeys.Contains("Branch")) pInfo.genericConfigKeys["Branch"] = _storeSvc.GetStoreName(request.InvStoreId);
-                if(pInfo.genericConfigKeys.Contains("Company")) pInfo.genericConfigKeys["Company"] = "VSteel Metal Asia";
-
-                this._trxHdr.pageSetting = pInfo.genericConfigKeys;
-            }
-
-
+            ViewData["PreparedBy"] = request.UserId;
+            ViewData["ApprovedBy"] = Approvals.ApprovedAccBy;
+            ViewData["PerformedBy"] = Approvals.EncodedBy;
+            ViewData["VerifiedBy"] = Approvals.VerifiedBy;
             return Page();
+
         }
 
-        public PageConfigInfo GetReportFormByTrxType(int type)
+
+        public InvTrxApproval GetTrxInvTrxApproval(int id)
         {
-            switch (type)
+            InvTrxApproval _approvals = _context.InvTrxApprovals
+                .FirstOrDefault(i => i.Id == id);
+
+            if (_approvals == null)
+            {
+                _approvals = new InvTrxApproval
+                {
+                    EncodedBy = " ",
+                    ApprovedAccBy = " ",
+                    VerifiedBy = " ",
+                    InvTrxHdrId = id
+                };
+            }
+
+            return _approvals;
+        }
+
+
+        public string GetFormSubHeaderTitle(int typeId)
+        {
+            switch (typeId)
             {
                 case (int)rptFormView.RECEIVING:
-                    return this._pageConfigServices.getPageConfig("rpt001"); //rpt001 for Receiving
+                    return "Final Receiving Form";
                 case (int)rptFormView.RELEASING:
-                    return this._pageConfigServices.getPageConfig("rpt002"); //rpt001 for Releasing
+                    return "Final Releasing Form";
                 case (int)rptFormView.ADJUSTMENT:
-                    return this._pageConfigServices.getPageConfig("rpt003"); //rpt003 for Adjustments
-                case (int)rptFormView.PURCHASE_REQUEST:
-                    return this._pageConfigServices.getPageConfig("rpt004"); //rpt004 for PO
+                    return "Final PO Form";
                 default:
-                    return this._pageConfigServices.getPageConfig("rpt002"); //default
+                    return "Final Form";
             }
+
         }
+
 
         public async Task<InvTrxHdr> GetTrxHeaderByIdAsync(int id)
         {
             return await _context.InvTrxHdrs.Include(i => i.InvTrxDtls)
                 .ThenInclude(i => i.InvItem)
                 .Include(i => i.InvTrxType)
-                .Include(i => i.InvTrxDtls).ThenInclude(i=>i.InvTrxDtlOperator)
-                .Include(i=>i.InvTrxDtls).ThenInclude(i=>i.InvUom)
+                .Include(i => i.InvTrxDtls).ThenInclude(i => i.InvTrxDtlOperator)
+                .Include(i => i.InvTrxDtls).ThenInclude(i => i.InvUom)
+                .Include(i => i.InvStore)
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 
@@ -124,15 +140,17 @@ namespace InvWeb.Pages.Stores.Printables
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public TrxHdr InitializeTrxHeader(TrxHdr tempTrxHdr ,InvTrxHdr requestHdr)
+        public TrxHdr InitializeTrxHeader(TrxHdr tempTrxHdr, InvTrxHdr requestHdr)
         {
             if (requestHdr != null)
             {
-                tempTrxHdr.Type = requestHdr.InvTrxType.Type;
+                tempTrxHdr.Type = "Final Release Form";
                 tempTrxHdr.Date = requestHdr.DtTrx;
-                tempTrxHdr.Id   = requestHdr.Id;
+                tempTrxHdr.Id = requestHdr.Id;
                 tempTrxHdr.Address = " ";
                 tempTrxHdr.Details = new List<TrxDetail>();
+                tempTrxHdr.Party = requestHdr.Party;
+                tempTrxHdr.Remarks = requestHdr.Remarks;
 
                 return tempTrxHdr;
             }
@@ -173,9 +191,9 @@ namespace InvWeb.Pages.Stores.Printables
             int ItemCount = 0;
             foreach (var item in requestHdr.InvTrxDtls)
             {
-               ItemCount += 1;
+                ItemCount += 1;
 
-               var trxDetails = new TrxDetail
+                var trxDetails = new TrxDetail
                 {
                     Id = item.InvItemId,
                     Description = "(" + item.InvItem.Code + ") " + item.InvItem.Description,
@@ -186,11 +204,12 @@ namespace InvWeb.Pages.Stores.Printables
                     Count = ItemCount,
                     Operation = item.InvTrxDtlOperator.Description,
                     LotNo = item.LotNo
+                   
                 };
 
                 if (requestHdr.InvTrxTypeId == 3)
                 {
-                    trxDetails.Remarks = OperationActionRemarks(item.InvTrxDtlOperatorId) + item.InvItem.Remarks ;
+                    trxDetails.Remarks = OperationActionRemarks(item.InvTrxDtlOperatorId) + item.InvItem.Remarks;
                 }
 
                 tempTrxDetails.Add(trxDetails);
@@ -245,6 +264,9 @@ namespace InvWeb.Pages.Stores.Printables
             }
         }
 
+        public int GetTotalItemsCount()
+        {
+            return this._trxHdr.Details.Count;
+        }
     }
-
 }

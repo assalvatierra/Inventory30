@@ -92,6 +92,9 @@
                         PARTICULARS
                     </th>
                     <th colspan="1" class="text-center no-border border-top border-left border-bottom">
+                        HEAT NO
+                    </th>
+                    <th colspan="1" class="text-center no-border border-top border-left border-bottom">
                         QTY
                     </th>
                     <th colspan="1" class="text-center no-border border-top border-left border-bottom">
@@ -109,6 +112,9 @@
                             </td>
                             <td colspan="8" class="no-border">
                                 @item.Description
+                            </td>
+                            <td class="border-left text-center no-border">
+                                @item.LotNo
                             </td>
                             <td class="border-left text-center no-border">
                                 @item.Qty
@@ -139,7 +145,7 @@
                     }
                    
                 <tr >
-                        <td colspan="12" class="border-top border-right" >
+                        <td colspan="13" class="border-top border-right" >
                             <span class="pull-right"> TOTAL : @Model.GetTotalItemsCount() </span>
                         </td>
                 </tr>

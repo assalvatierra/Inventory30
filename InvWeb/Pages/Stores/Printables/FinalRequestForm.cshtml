@@ -1,0 +1,365 @@
+﻿@page "{id:int?}/{type:int?}"
+@model InvWeb.Pages.Stores.Printables.FinalRequestFormModel
+@{
+    Layout = "_PrintLayout";
+    string _Company = ViewBag.Company;
+    string _Branch = ViewBag.Branch;
+    string _Party = Model._trxHdr.Party;
+    string _PaidTo = "";
+    string _Docref = "Ref";
+    string _SubTitle = ViewBag.Subtitle;
+
+    string Remarks = Model._trxHdr.Remarks;
+    string Date = "";
+    string _person1 = "Prepared By:";
+    string _person2 = "Approved By:";
+    string _person3 = "Performed By:";
+
+    string _name1 = ViewBag.PreparedBy;
+    string _name2 = ViewBag.ApprovedBy;
+    string _name3 = ViewBag.PerformedBy;
+}
+
+<div class="container" style="border:1px solid gray;">
+<table class="table table-print-header">
+    <tr class="no-border">
+        <td colspan="3" class="align-content-center no-border">
+            <div>
+                <h2> @_Company - @_Branch</h2>
+                <h2> (@_SubTitle) </h2>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="no-border" width="65%">
+            <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                        Party:
+                    </td>
+                    <td class="border-bottom">
+                        @_PaidTo @_Party
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td class="no-border">
+
+            <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                       @_Docref:
+                    </td>
+                    <td class="border-bottom">
+                        @Model._trxHdr.Id
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                        &nbsp;
+                    </td>
+                    <td class="no-padding border-bottom">
+                        @Remarks
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                        Date:
+                    </td>
+                    <td class="no-padding border-bottom">
+                        @Model._trxHdr.Date.ToString("MMM dd yyyy")
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+
+    </tr>
+
+    <tr>
+        <td colspan="3">
+
+            <!-- Particulars Table -->
+
+            <Table class="table table-border-normal">
+                <tr>
+                    <th colspan="9" class="no-border border-top border-right border-bottom">
+                        PARTICULARS
+                    </th>
+                    <th colspan="1" class="text-center no-border border-top border-left border-bottom">
+                        HEAT NO.
+                    </th>
+                    <th colspan="1" class="text-center no-border border-top border-left border-bottom">
+                        QTY
+                    </th>
+                    <th colspan="1" class="text-center no-border border-top border-left border-bottom">
+                        UOM
+                    </th>
+                    <th colspan="2" class="border-left border-top border-bottom ">
+                        REMARKS
+                    </th>
+                </tr>
+                @foreach (var item in Model._trxHdr.Details)
+                {
+                    <tr>
+                        <td width="50" class="no-border">
+                            <span> @item.Count </span>
+                        </td>
+                        <td colspan="8" class="no-border">
+                            @item.Description
+                        </td>
+                        <td class="border-left text-center no-border">
+                            @item.LotNo
+                        </td>
+                        <td class="border-left text-center no-border">
+                            @item.Qty
+                        </td>
+                        <td class="border-left text-center">
+                            @item.Uom
+                        </td>
+                        <td class="border-left border-right">
+                            @item.Remarks
+                        </td>
+                    </tr>
+                }
+
+
+                @for (int i = Model._trxHdr.Details.Count; i < 6; i++)
+                {
+                    <!-- Fill out empty rows -->
+                    <tr>
+                        <!-- Particulars -->
+                        <td></td>
+                        <td colspan="8"></td>
+
+                        <!-- Amounts -->
+                        <td class="border-left"></td>
+                        <td class="border-left"></td>
+                        <td class="border-left border-right"></td>
+                    </tr>
+                }
+
+                <tr>
+                    <td colspan="13" class="border-top border-right">
+                        <span class="pull-right"> TOTAL : @Model.GetTotalItemsCount() </span>
+                    </td>
+                </tr>
+            </Table>
+
+        </td>
+
+    </tr>
+
+    <tr>
+        <td class="no-border">
+            @_person1
+        </td>
+        <td class="no-border">
+            @_person2
+        </td>
+        <td class="no-border">
+            @_person3
+        </td>
+    </tr>
+    <tr>
+        <td style="height:1rem;" colspan="3">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @_name1
+        </td>
+        <td>
+            @_name2
+        </td>
+        <td>
+            @_name3
+        </td>
+    </tr>
+</table>
+
+</div>
+
+<hr />
+
+<!-- Duplicate Copy -->
+
+<div class="container" style="border:1px solid gray;">
+<table class="table table-print-header">
+    <tr class="no-border">
+        <td colspan="3" class="align-content-center no-border">
+            <div>
+                <h2> @_Company - @_Branch</h2>
+                <h2> (@_SubTitle) </h2>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="no-border" width="65%">
+            <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                        Party:
+                    </td>
+                    <td class="border-bottom">
+                        @_PaidTo @_Party
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td class="no-border">
+
+            <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                        @_Docref:
+                    </td>
+                    <td class="border-bottom">
+                        @Model._trxHdr.Id
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                        &nbsp;
+                    </td>
+                    <td class="no-padding border-bottom">
+                        @Remarks
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table width="90%">
+                <tr>
+                    <td width="80px" class="no-padding">
+                        Date:
+                    </td>
+                    <td class="no-padding border-bottom">
+                        @Model._trxHdr.Date.ToString("MMM dd yyyy")
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+
+    </tr>
+
+    <tr>
+        <td colspan="3">
+
+            <!-- Particulars Table -->
+
+            <Table class="table table-border-normal">
+                <tr>
+                    <th colspan="9" class="no-border border-top border-right border-bottom">
+                        PARTICULARS
+                    </th> 
+                    <th colspan="1" class="text-center no-border border-top border-left border-bottom">
+                        HEAT NO
+                    </th>
+                    <th colspan="1" class="text-center no-border border-top border-left border-bottom">
+                        QTY
+                    </th>
+                    <th colspan="1" class="text-center no-border border-top border-left border-bottom">
+                        UOM
+                    </th>
+                    <th colspan="2" class="border-left border-top border-bottom ">
+                        REMARKS
+                    </th>
+                </tr>
+                @foreach (var item in Model._trxHdr.Details)
+                {
+                    <tr>
+                        <td width="50" class="no-border">
+                            <span> @item.Count </span>
+                        </td>
+                        <td colspan="8" class="no-border">
+                            @item.Description
+                        </td>
+                        <td class="border-left text-center no-border">
+                            @item.LotNo
+                        </td>
+                        <td class="border-left text-center no-border">
+                            @item.Qty
+                        </td>
+                        <td class="border-left text-center">
+                            @item.Uom
+                        </td>
+                        <td class="border-left border-right">
+                            @item.Remarks
+                        </td>
+                    </tr>
+                }
+
+
+                @for (int i = Model._trxHdr.Details.Count; i < 6; i++)
+                {
+                    <!-- Fill out empty rows -->
+                    <tr>
+                        <!-- Particulars -->
+                        <td></td>
+                        <td colspan="8"></td>
+
+                        <!-- Amounts -->
+                        <td class="border-left"></td>
+                        <td class="border-left"></td>
+                        <td class="border-left border-right"></td>
+                    </tr>
+                }
+
+                <tr>
+                    <td colspan="13" class="border-top border-right">
+                        <span class="pull-right"> TOTAL : @Model.GetTotalItemsCount() </span>
+                    </td>
+                </tr>
+            </Table>
+
+        </td>
+
+    </tr>
+
+    <tr>
+        <td class="no-border">
+            @_person1
+        </td>
+        <td class="no-border">
+            @_person2
+        </td>
+        <td class="no-border">
+            @_person3
+        </td>
+    </tr>
+    <tr>
+        <td style="height:1rem;" colspan="3">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @_name1
+        </td>
+        <td>
+            @_name2
+        </td>
+        <td>
+            @_name3
+        </td>
+    </tr>
+</table>
+
+</div>
