@@ -117,5 +117,11 @@ namespace InvWeb.Pages.Stores.Receiving
 
             return dialogItems;
         }
+
+
+        public bool CheckIfUserIsAdmin()
+        {
+            return User.IsInRole("Admin");
+        }
     }
 }

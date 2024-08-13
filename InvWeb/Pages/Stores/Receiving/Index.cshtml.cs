@@ -37,6 +37,7 @@ namespace InvWeb.Pages.Stores.Receiving
         public ReceivingIndexModel ReceivingIndexModel { get; set; }
 
         private readonly int TYPE_RECEIVING = 1;
+        private int STOREID = 0;
 
         public async Task<ActionResult> OnGetAsync(int? storeId, string status)
         {
@@ -44,6 +45,8 @@ namespace InvWeb.Pages.Stores.Receiving
             {
                 return NotFound();
             }
+
+            STOREID = (int)storeId;
 
             if (string.IsNullOrEmpty(status))
             {
@@ -54,24 +57,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             ReceivingIndexModel receivingIndexModel = new ReceivingIndexModel();
 
-            InvTrxHdr = await _context.InvTrxHdrs
-            .Include(i => i.InvStore)
-            .Include(i => i.InvTrxHdrStatu)
-            .Include(i => i.InvTrxType)
-            .Include(i => i.InvTrxDtls)
-                .ThenInclude(i => i.InvItem)
-                .ThenInclude(i => i.InvUom)
-            .Include(i => i.InvTrxDtls)
-                .ThenInclude(i => i.InvItem)
-                .ThenInclude(i => i.InvItemSpec_Steel)
-                .ThenInclude(i => i.SteelMaterial)
-            .Include(i => i.InvTrxDtls)
-                .ThenInclude(i => i.InvItem)
-                .ThenInclude(i => i.InvItemSpec_Steel)
-                .ThenInclude(i => i.SteelMaterialGrade)
-            .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
-                          i.InvStoreId == storeId)
-            .ToListAsync();
+            InvTrxHdr = await GetReceivingTransactions();
 
             InvTrxHdr = itemTrxServices.FilterByStatus(InvTrxHdr, status);
 
@@ -100,14 +86,50 @@ namespace InvWeb.Pages.Stores.Receiving
         [BindProperty]
         public string Orderby { get; set; }   //this is the key bit
 
-        public async Task<IActionResult> OnPostAsync(int? storeId)
+        public async Task<IActionResult> OnPostAsync(int? storeId, string status)
         {
             if (storeId == null)
             {
                 return NotFound();
             }
 
-            ReceivingIndexModel = await itemTrxServices.GetReceivingIndexModel_OnIndexOnPostAsync(InvTrxHdr, (int)storeId, TYPE_RECEIVING, Status, Orderby, IsUserRoleAdmin());
+            if (storeId == null)
+            {
+                return NotFound();
+            }
+
+            STOREID = (int)storeId;
+
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "ALL";
+            }
+
+            //ReceivingIndexModel = await itemTrxServices.GetReceivingIndexModel_OnIndexOnGetAsync(InvTrxHdr, (int)storeId, TYPE_RECEIVING, status, IsUserRoleAdmin());
+
+            ReceivingIndexModel receivingIndexModel = new ReceivingIndexModel();
+
+            InvTrxHdr = await GetReceivingTransactions();
+
+            InvTrxHdr = itemTrxServices.FilterByStatus(InvTrxHdr, status);
+
+            receivingIndexModel.InvTrxHdrs = InvTrxHdr;
+            receivingIndexModel.StoreId = (int)storeId;
+            receivingIndexModel.Status = status;
+            receivingIndexModel.IsAdmin = IsUserRoleAdmin();
+
+            ReceivingIndexModel = receivingIndexModel;
+
+            var trxCount = await _context.InvTrxHdrs
+                .Where(i => i.InvTrxTypeId == TYPE_RECEIVING && i.InvStoreId == storeId)
+                .ToListAsync();
+
+            ViewData["StatusCountRequest"] = itemTrxServices.FilterByStatus(trxCount, "PENDING").Count();
+            ViewData["StatusCountApproved"] = itemTrxServices.FilterByStatus(trxCount, "APPROVED").Count();
+            ViewData["StatusCountClosed"] = itemTrxServices.FilterByStatus(trxCount, "CLOSED").Count();
+
+            ViewData["IsProcurementHead"] = User.IsInRole("Procurement-head");
+            ViewData["IsAccounting"] = User.IsInRole("Accounting");
 
             return Page();
         }
@@ -115,6 +137,29 @@ namespace InvWeb.Pages.Stores.Receiving
         private bool IsUserRoleAdmin()
         {
             return User.IsInRole("Admin");
+        }
+
+        public async Task<List<InvTrxHdr>> GetReceivingTransactions()
+        {
+            return await _context.InvTrxHdrs
+           .Include(i => i.InvStore)
+           .Include(i => i.InvTrxHdrStatu)
+           .Include(i => i.InvTrxType)
+           .Include(i => i.InvTrxDtls)
+               .ThenInclude(i => i.InvItem)
+               .ThenInclude(i => i.InvUom)
+           .Include(i => i.InvTrxDtls)
+               .ThenInclude(i => i.InvItem)
+               .ThenInclude(i => i.InvItemSpec_Steel)
+               .ThenInclude(i => i.SteelMaterial)
+           .Include(i => i.InvTrxDtls)
+               .ThenInclude(i => i.InvItem)
+               .ThenInclude(i => i.InvItemSpec_Steel)
+               .ThenInclude(i => i.SteelMaterialGrade)
+           .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
+                         i.InvStoreId == STOREID)
+           .OrderByDescending(i => i.DtTrx)
+           .ToListAsync();
         }
 
         public bool IsTransactionHaveApprovedRecord(int trxHdrId, string recordType)
@@ -173,6 +218,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             return null;
         }
+
         
     }
 }

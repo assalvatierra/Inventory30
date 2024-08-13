@@ -72,7 +72,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             CreateTrxHdrApproval(ReceivingCreateModel.InvTrxHdr.Id);
 
-            await _context.SaveChangesAsync();
+            
 
             return RedirectToPage("./Form", new { id = ReceivingCreateModel.InvTrxHdr.Id });
         }
@@ -98,7 +98,9 @@ namespace InvWeb.Pages.Stores.Receiving
                 newTrxHdrApproval.EncodedDate = dateServices.GetCurrentDateTime();
                 newTrxHdrApproval.InvTrxHdrId = invHdrId;
 
-                invApprovalServices.CreateTrxApproval(newTrxHdrApproval);
+                //invApprovalServices.CreateTrxApproval(newTrxHdrApproval);
+                _context.InvTrxApprovals.Add(newTrxHdrApproval); 
+                _context.SaveChanges();
 
             }
             catch (Exception ex)

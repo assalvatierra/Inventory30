@@ -11,7 +11,16 @@
 <div style="margin:5px;margin-bottom:10px;display:flex;justify-content:space-between;">
     <div>
         <a asp-page="./Index" asp-route-storeId="@Model.ReceivingDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" style="margin-right:15px;">  Back to Transaction List</a>
-        <a asp-page="../Printables/RequestForm" id="PrintVoucher-btn" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
+        
+            @if (trxStatus == "REQUEST")
+            {
+                <a asp-page="../Printables/RequestForm" id="PrintVoucher-btn" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Receive Form</a>
+            }
+            
+            @if (trxStatus == "APPROVED")
+            {
+                <a asp-page="../Printables/FinalRequestForm" id="PrintVoucher-btn" asp-route-id="@Model.ReceivingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReceivingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Receive Form</a>
+            }
     </div>
     <div>
         <a class="btn btn-primary" id="CancelTrx-btn" style="color:white;cursor:pointer;"  onclick="CancelRequest(@Model.ReceivingDetailsModel.InvTrxHdr.Id)">  Cancel Request</a>
@@ -309,7 +318,10 @@
         </div>
 
     }
-
+    else if(trxStatus == "APPROVED" && Model.CheckIfUserIsAdmin())
+    {
+        <button class="btn btn-primary" id="CloseTrxHeaderBtn" onclick="TransactionStatus_Close(@Model.ReceivingDetailsModel.InvTrxHdr.Id)"> CLOSE TRANSACTION </button>
+    }
 </div>
 
 @await Component.InvokeAsync("Dialog", new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
@@ -354,6 +366,14 @@
             }
 
             if ("@trxStatus" == "CLOSED") {
+                $("#progressbar-status").css('width', '100%');
+                $("#AddItem-btn-td").hide();
+                $(".trx-items-actions").hide();
+                $("#CancelTrx-btn").hide();
+                $("#PrintVoucher-btn").hide();
+            }
+            
+            if ("@trxStatus" == "CANCELLED") {
                 $("#progressbar-status").css('width', '100%');
                 $("#AddItem-btn-td").hide();
                 $(".trx-items-actions").hide();
