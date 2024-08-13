@@ -74,12 +74,12 @@ namespace Modules.Inventory
             }
         }
 
-        private int GetItemBalanceById(int lotNo, int itemId)
+        private int GetItemBalanceById(int trxHdrId, int itemId)
         {
             try
             {
                 var trxReceived = _context.InvTrxDtls
-                    .Where(i => i.InvTrxHdrId == lotNo && i.InvItemId == itemId);
+                    .Where(i => i.InvTrxHdrId == trxHdrId && i.InvItemId == itemId);
 
                 if (trxReceived != null)
                 {
@@ -87,7 +87,7 @@ namespace Modules.Inventory
                     var trxReceiveQty = trxLotNo.ItemQty;
                     var trxReleasedQty = _context.InvTrxDtls
                         .Include(i => i.InvTrxHdr)
-                        .Where(i => i.LotNo == lotNo && i.InvItemId == itemId
+                        .Where(i => i.InvTrxHdrId == trxHdrId && i.InvItemId == itemId
                                 &&  i.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED
                                 && (i.InvTrxHdr.InvTrxHdrStatusId == STATUS_APPROVED 
                                 ||  i.InvTrxHdr.InvTrxHdrStatusId == STATUS_CLOSED))

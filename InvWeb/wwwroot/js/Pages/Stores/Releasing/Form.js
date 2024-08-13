@@ -34,16 +34,8 @@ function AddNewItemOnTableRow() {
 
     if (lotNo == "") {
         $("#newItem-Lotno-Warning").text("Please select a LotNo.");
-
     } else {
-
-        $('#ItemsTable tr:last').prev().before('<tr> <td> ' + itemDesc + '</td> <td> ' + lotNo + ' / ' + batchNo +' </td> <td> ' + itemQty + ' </td> <td> ' + itemUom + ' </td> <td> ' + itemRemarks + ' </td> <td>  </td> </tr>');
-
         PostRelease_addInvItem(invHdrId, itemId, itemQty, itemUomId, lotNo, batchNo);
-
-        $("#AddItemsField").hide();
-
-        $("#AddItem-btn-td").show();
     }
 
 }
@@ -63,17 +55,36 @@ function PostRelease_addInvItem(invHdrId, itemId, itemQty, itemUomId, lotNo, bat
         type: 'POST',
         url: '/api/ApiInvTrxDtls/AddReleaseTrxDtlItem',
         data: JSON.stringify(data),
-        error: function (e) {
-            console.log(e);
-            //alert("Unable to Add Item.")
+        error: function (response) {
+            console.log(response);
+            if (response.status == 201) {
+                AddItemToTableLastRow();
+            } else {
+                alert("Unable to Add Item.")
+            }
         },
-        success: function (res) {
+        success: function (response) {
             console.log("success");
-            console.log(res);
+            console.log(response);
         },
         dataType: "json",
         contentType: "application/json"
     });
+}
+
+
+function AddItemToTableLastRow() {
+
+    var itemDesc = $('#itemDropdown option:selected').text();
+    var itemQty = $('#textinput-Qty').val();
+    var itemUom = $('#UomDropdown option:selected').text();
+    var lotNo = $('#newItem-LotNo').val();
+    var batchNo = $('#newItem-BatchNo').val();
+    var itemRemarks = "";
+
+    $('#ItemsTable tr:last').prev().before('<tr> <td> ' + itemDesc + '</td> <td> ' + lotNo + ' / ' + batchNo + ' </td> <td> ' + itemQty + ' </td> <td> ' + itemUom + ' </td> <td> ' + itemRemarks + ' </td> <td>  </td> </tr>');
+    $("#AddItemsField").hide();
+    $("#AddItem-btn-td").show();
 }
 
 function RemoveItemFromTable(e, invDtlsId) {

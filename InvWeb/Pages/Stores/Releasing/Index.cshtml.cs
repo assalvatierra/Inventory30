@@ -31,9 +31,11 @@ namespace InvWeb.Pages.Stores.Releasing
         public ReleasingIndexModel ReleasingIndexModel { get; set; }
 
         private readonly int TYPE_RELEASING = 2;
+        private int STOREID;
 
         public async Task OnGetAsync(int? storeId, string status)
         {
+            STOREID = (int)storeId;
             if (storeId == null)
             {
                 //return NotFound();
@@ -44,11 +46,26 @@ namespace InvWeb.Pages.Stores.Releasing
                 Status = status;
             }
 
-            ReleasingIndexModel = await itemTrxServices.GetReleasingIndexModel_OnIndexOnGetAsync(
-                                           InvTrxHdr, (int)storeId, TYPE_RELEASING, status, IsUserRoleAdmin());
+            ReleasingIndexModel = new ReleasingIndexModel();
+
+            InvTrxHdr = itemTrxServices.GetInvTrxHdrsByStoreId((int)storeId, TYPE_RELEASING).OrderByDescending(i => i.DtTrx).ToList();
+            InvTrxHdr = itemTrxServices.FilterByStatus(InvTrxHdr, status);
+
+            ReleasingIndexModel.InvTrxHdrs = this.InvTrxHdr;
+            ReleasingIndexModel.Status = status;
+            ReleasingIndexModel.StoreId = (int)storeId;
+            ReleasingIndexModel.IsAdmin = IsUserRoleAdmin();
+
+            var trxCount = await GetReleasingStatusCount();
+
+            ViewData["StatusCountRequest"] = itemTrxServices.FilterByStatus(trxCount, "PENDING").Count();
+            ViewData["StatusCountApproved"] = itemTrxServices.FilterByStatus(trxCount, "APPROVED").Count();
+
             ViewData["StoreId"] = storeId;
             ViewData["IsProcurementHead"] = User.IsInRole("Procurement-head");
             ViewData["IsAccounting"] = User.IsInRole("Accounting");
+
+           
         }
 
 
@@ -57,19 +74,33 @@ namespace InvWeb.Pages.Stores.Releasing
         [BindProperty]
         public string Orderby { get; set; }   //this is the key bit
 
-        public async Task<IActionResult> OnPostAsync(int? storeId)
+        public async Task<IActionResult> OnPostAsync(int? storeId, string status)
         {
             if (storeId == null)
             {
                 return NotFound();
             }
 
-            ReleasingIndexModel = await itemTrxServices.GetReleasingIndexModel_OnIndexOnPostAsync(
-                                           InvTrxHdr, (int)storeId, TYPE_RELEASING, Status, Orderby, IsUserRoleAdmin());
+
+            ReleasingIndexModel = new ReleasingIndexModel();
+
+            InvTrxHdr = itemTrxServices.GetInvTrxHdrsByStoreId((int)storeId, TYPE_RELEASING).ToList();
+            InvTrxHdr = itemTrxServices.FilterByStatus(InvTrxHdr, status);
+
+            ReleasingIndexModel.InvTrxHdrs = this.InvTrxHdr;
+            ReleasingIndexModel.Status = status;
+            ReleasingIndexModel.StoreId = (int)storeId;
+            ReleasingIndexModel.IsAdmin = IsUserRoleAdmin();
+
+            var trxCount = await GetReleasingStatusCount();
+
+            ViewData["StatusCountRequest"] = itemTrxServices.FilterByStatus(trxCount, "PENDING").Count();
+            ViewData["StatusCountApproved"] = itemTrxServices.FilterByStatus(trxCount, "APPROVED").Count();
 
             ViewData["StoreId"] = storeId;
             ViewData["IsProcurementHead"] = User.IsInRole("Procurement-head");
             ViewData["IsAccounting"] = User.IsInRole("Accounting");
+
             return Page();
         }
 
@@ -113,6 +144,14 @@ namespace InvWeb.Pages.Stores.Releasing
             }
 
             return false;
+        }
+
+
+        public async Task<List<InvTrxHdr>> GetReleasingStatusCount()
+        {
+            return await _context.InvTrxHdrs
+                .Where(i => i.InvTrxTypeId == TYPE_RELEASING && i.InvStoreId == STOREID)
+                .ToListAsync();
         }
     }
 }

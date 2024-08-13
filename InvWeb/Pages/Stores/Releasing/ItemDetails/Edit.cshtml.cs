@@ -107,7 +107,7 @@ namespace InvWeb.Pages.Stores.Releasing.ItemDetails
                 return Page();
             }
 
-            if (ItemDtlsCreateEditModel.InvTrxDtl.LotNo == 0 || ItemDtlsCreateEditModel.InvTrxDtl.LotNo == null)
+            if (String.IsNullOrEmpty(ItemDtlsCreateEditModel.InvTrxDtl.LotNo) || ItemDtlsCreateEditModel.InvTrxDtl.LotNo == null)
             {
                 return RedirectToPage("../Details", new { id = ItemDtlsCreateEditModel.InvTrxDtl.InvTrxHdrId });
             }

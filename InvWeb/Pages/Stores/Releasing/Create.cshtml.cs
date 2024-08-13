@@ -94,7 +94,9 @@ namespace InvWeb.Pages.Stores.Releasing
             newTrxHdrApproval.EncodedDate = DateTime.UtcNow;
             newTrxHdrApproval.InvTrxHdrId = invTrxHdrId;
 
-            invApprovalServices.CreateTrxApproval(newTrxHdrApproval);
+            //invApprovalServices.CreateTrxApproval(newTrxHdrApproval);
+            _context.InvTrxApprovals.Add(newTrxHdrApproval);
+            _context.SaveChanges();
 
             await invApprovalServices.SaveChangesAsync();
         }

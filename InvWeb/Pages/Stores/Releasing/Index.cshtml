@@ -112,13 +112,19 @@
                             <a asp-page="./Edit" asp-route-id="@item.Id">
                                 <img src="~/img/icons/icons-edit-blue.png" class="action-icons" width="20" height="20" alt="Edit" data-toggle="tooltip" data-placement="top" title="Edit">
                             </a>
+
+                            <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">
+                                <img src="~/img/icons/icons-print.png" class="action-icons" width="20" height="20" alt="Print" data-toggle="tooltip" data-placement="top" title="Details">
+                            </a>
                         }
 
                         @if (item.InvTrxHdrStatusId == STATUS_APPROVED)
                         {
-                            <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">
-                                <img src="~/img/icons/icons-print.png" class="action-icons" width="20" height="20" alt="Print" data-toggle="tooltip" data-placement="top" title="Details">
+
+                            <a asp-page="../Printables/FinalRequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">
+                                <img src="~/img/icons/icons-print.png" class="action-icons" width="20" height="20" alt="Print" data-toggle="tooltip" data-placement="top" title="Print">
                             </a>
+
                         }
 
                         <a asp-page="./Form" asp-route-id="@item.Id">

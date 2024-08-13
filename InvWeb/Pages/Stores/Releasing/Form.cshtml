@@ -16,9 +16,14 @@
        
         @if (trxStatus == "APPROVED")
         {
-            <a asp-page="../Printables/RequestForm" id="PrintVoucher-btn" asp-route-id="@Model.ReleasingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReleasingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Voucher</a>
+            <a asp-page="../Printables/FinalRequestForm" id="PrintVoucher-btn" asp-route-id="@Model.ReleasingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReleasingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Final Release Form</a>
         }
-       
+        @if (trxStatus == "REQUEST")
+        {
+            <a asp-page="../Printables/RequestForm" id="PrintVoucher-btn" asp-route-id="@Model.ReleasingDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.ReleasingDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Release Form</a>
+        }
+
+
     </div>
     <div>
         @if (trxStatus == "REQUEST")
@@ -33,6 +38,7 @@
             }
             
         }
+
     </div>
 </div>
 
@@ -345,7 +351,11 @@
         </div>
 
     }
-
+    
+    @if (trxStatus == "APPROVED" && Model.CheckIfUserIsAdmin())
+    {
+        <button class="btn btn-primary" id="CloseTrxHeaderBtn" onclick="TransactionStatus_Close(@Model.ReleasingDetailsModel.InvTrxHdr.Id)"> ALL ITEMS RELEASED and CLOSE </button>
+    }
 </div>
 
 @await Component.InvokeAsync("Dialog", new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
@@ -389,7 +399,7 @@
                 $("#progressbar-status").css('width','10%');
             }
 
-            if ("@trxStatus" == "CLOSED") {
+            if ("@trxStatus" == "CLOSED" || "@trxStatus" == "CANCELLED") {
                 $("#progressbar-status").css('width', '100%');
                 $("#AddItem-btn-td").hide();
                 $(".trx-items-actions").hide();
