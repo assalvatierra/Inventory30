@@ -12,7 +12,7 @@ namespace CoreLib.DTO.Releasing
         public int invId { get; set; }
         public int qty { get; set; }
         public int uomId { get; set; }
-        public int lotNo { get; set; }
+        public string lotNo { get; set; }
         public string batchNo { get; set; }
     }
 }

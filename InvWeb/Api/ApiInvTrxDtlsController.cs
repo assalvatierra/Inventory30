@@ -171,12 +171,6 @@ namespace InvWeb.Api
                     return "Unable to find item details";
                 }
 
-                InvItemMaster invItemMaster = _context.InvItemMasters.Where(i => i.LotNo == invTrxDtl.LotNo.ToString())
-                 .Include(c => c.InvItemBrand)
-                 .Include(i => i.InvItemOrigin)
-                 .Include(i => i.InvStoreArea)
-                 .FirstOrDefault();
-
                 string Brand = "";
                 string Origin = "";
                 int OriginId = 0;
@@ -184,15 +178,27 @@ namespace InvWeb.Api
                 string Area = "";
                 int AreaId = 0;
 
-                if (invItemMaster != null)
+                if (!String.IsNullOrEmpty(invTrxDtl.LotNo))
                 {
-                    Brand = invItemMaster.InvItemBrand.Name;
-                    BrandId = invItemMaster.InvItemBrandId;
-                    Origin = invItemMaster.InvItemOrigin.Name;
-                    OriginId = invItemMaster.InvItemOriginId;
-                    Area = invItemMaster.InvStoreArea.Name;
-                    AreaId = invItemMaster.InvStoreAreaId;
+
+                    InvItemMaster invItemMaster = _context.InvItemMasters.Where(i => i.LotNo == invTrxDtl.LotNo)
+                     .Include(c => c.InvItemBrand)
+                     .Include(i => i.InvItemOrigin)
+                     .Include(i => i.InvStoreArea)
+                     .FirstOrDefault();
+
+
+                    if (invItemMaster != null)
+                    {
+                        Brand = invItemMaster.InvItemBrand.Name;
+                        BrandId = invItemMaster.InvItemBrandId;
+                        Origin = invItemMaster.InvItemOrigin.Name;
+                        OriginId = invItemMaster.InvItemOriginId;
+                        Area = invItemMaster.InvStoreArea.Name;
+                        AreaId = invItemMaster.InvStoreAreaId;
+                    }
                 }
+
 
                 return JsonConvert.SerializeObject(new
                 {
@@ -216,7 +222,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
-                return "Add not Successfull";
+                return "Unable to get Item Details";
             }
         }
 
@@ -513,7 +519,7 @@ namespace InvWeb.Api
 
         [ActionName("EditReleaseTrxDtlItem")]
         [HttpPost]
-        public ObjectResult EditReleaseTrxDtlItem(int invDtlsId, int invId, int qty, int uomId, int lotNo, string batchNo)
+        public ObjectResult EditReleaseTrxDtlItem(int invDtlsId, int invId, int qty, int uomId, string lotNo, string batchNo)
         {
             try
             {
@@ -589,6 +595,17 @@ namespace InvWeb.Api
             {
                 return StatusCode(500, "Post Error. Header Details not found.");
             }
+            InvTrxDtl invTrxDtl = _context.InvTrxDtls.Find(item.Id);
+
+            if (invTrxDtl == null)
+            {
+                return StatusCode(500, "Post Error. Header Details not found.");
+            }
+
+            //update invTrxDtls
+            invTrxDtl.LotNo = item.LotNo;
+            invTrxDtl.BatchNo = item.BatchNo;
+
 
             //create itemMasters
             InvItemMaster invItemMaster = new InvItemMaster();
@@ -597,14 +614,18 @@ namespace InvWeb.Api
             invItemMaster.InvItemBrandId = item.BrandId;
             invItemMaster.LotNo = item.LotNo;
             invItemMaster.BatchNo = item.BatchNo;
-            invItemMaster.ItemQty = item.Qty * (-1); // For Release, negative number
+            invItemMaster.ItemQty = item.Qty; // For Release, negative number
             invItemMaster.InvUomId = item.UomId;
             invItemMaster.InvStoreAreaId = item.AreaId;
             //invItemMaster.Remarks = item.Remarks;
 
+
             //save changes
             try
             {
+                itemDtlsServices.EditInvDtls(invTrxDtl);
+
+
                 await invItemMasterServices.CreateInvItemMaster(invItemMaster);
                 await invItemMasterServices.SaveChangesAsync();
             }
@@ -747,7 +768,7 @@ namespace InvWeb.Api
             invItemMaster.InvItemBrandId = item.BrandId;
             invItemMaster.LotNo = item.LotNo;
             invItemMaster.BatchNo = item.BatchNo;
-            invItemMaster.ItemQty = item.Qty * (-1);
+            invItemMaster.ItemQty = item.Qty;
             invItemMaster.InvUomId = item.UomId;
             invItemMaster.InvStoreAreaId = item.AreaId;
             invItemMaster.Remarks = item.Remarks;
