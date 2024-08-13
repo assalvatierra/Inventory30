@@ -11,7 +11,7 @@ using CoreLib.Models.Inventory;
 
 namespace InvWeb.Pages.Stores
 {
-    [Authorize(Roles = "Admin,Store")]
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;

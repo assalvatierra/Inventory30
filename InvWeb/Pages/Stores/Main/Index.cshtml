@@ -51,12 +51,13 @@
                         <span> 
                             @if (pendingReceiving != null)
                             { <span id="ReceivingText" class="badge badge-primary">@pendingReceiving</span> }
-                            For Approval 
+
+                            Request
                    
                         </span> 
                     </a> 
-                    <a asp-page="../Receiving/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL" class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
-                             Recent List 
+                    <a asp-page="../Receiving/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="APPROVED" class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
+                            Approved
                     </a>
                     <a asp-page="../Receiving/Create" asp-route-storeId="@ViewBag.StoreId" class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12"> 
                              + Add Trx
@@ -77,11 +78,12 @@
                             {
                                 <span id="ReleasingText" class="badge badge-primary">@pendingReleasing</span>
                             }
-                            For Approval
+
+                            Request
                         </a> 
 
-                         <a asp-page="../Releasing/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="ALL" class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
-                             Recent List
+                         <a asp-page="../Releasing/Index" asp-route-storeId="@ViewBag.StoreId" asp-route-status="RELEASED" class="btn btn-light store-main-actions-btn col-12 col-sm-6 col-md-12 col-lg-12">
+                             Approved
                          </a>
                    
                    
