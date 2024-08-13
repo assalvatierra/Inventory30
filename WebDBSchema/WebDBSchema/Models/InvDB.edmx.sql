@@ -573,8 +573,9 @@ CREATE TABLE [dbo].[InvTrxDtls] (
     [ItemQty] int  NOT NULL,
     [InvItemId] int  NOT NULL,
     [InvTrxDtlOperatorId] int  NOT NULL,
-    [LotNo] int  NULL,
-    [BatchNo] nvarchar(20)  NULL
+    [LotNo] nvarchar(20)  NULL,
+    [BatchNo] nvarchar(20)  NULL,
+    [Remarks] nvarchar(80)  NULL
 );
 GO
 

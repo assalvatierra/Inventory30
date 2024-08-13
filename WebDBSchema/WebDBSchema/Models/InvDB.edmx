@@ -517,8 +517,9 @@
     <Property Name="ItemQty" Type="int" Nullable="false" />
     <Property Name="InvItemId" Type="int" Nullable="false" />
     <Property Name="InvTrxDtlOperatorId" Type="int" Nullable="false" />
-    <Property Name="LotNo" Type="int" Nullable="true" />
+    <Property Name="LotNo" Type="nvarchar" Nullable="true" MaxLength="20" />
     <Property Name="BatchNo" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="80" />
   </EntityType>
   <EntityType Name="InvTrxTypes">
     <Key>
@@ -2627,9 +2628,10 @@
           <Property Name="InvItemId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="InvTrxDtlOperator" Relationship="InvDB.InvTrxDtlOperatorInvTrxDtl" FromRole="InvTrxDtl" ToRole="InvTrxDtlOperator" />
           <Property Name="InvTrxDtlOperatorId" Type="Int32" Nullable="false" />
-          <Property Name="LotNo" Type="Int32" Nullable="true" />
+          <Property Name="LotNo" Type="String" Nullable="true" MaxLength="20" />
           <Property Name="BatchNo" Type="String" Nullable="true" MaxLength="20" />
           <NavigationProperty Name="InvTrxDtlxItemMasters" Relationship="InvDB.InvTrxDtlInvTrxDtlxItemMaster" FromRole="InvTrxDtl" ToRole="InvTrxDtlxItemMaster" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="80" />
         </EntityType>
         <Association Name="InvTrxHdrInvTrxDtl">
           <End Type="InvDB.InvTrxHdr" Role="InvTrxHdr" Multiplicity="1" />
@@ -3809,6 +3811,7 @@
           <ScalarProperty Name="InvTrxDtlOperatorId" ColumnName="InvTrxDtlOperatorId" />
           <ScalarProperty Name="LotNo" ColumnName="LotNo" />
           <ScalarProperty Name="BatchNo" ColumnName="BatchNo" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
