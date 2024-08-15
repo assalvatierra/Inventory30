@@ -147,6 +147,7 @@ async function RetrieveItemDetails(id) {
     $("#itemEditDropdown").val(result["InvItemId"]);
     $("#itemEditQty").val(result["ItemQty"]);
     $("#UomEditDropdown").val(result["InvUomId"]);
+    $("#UomEditDropdown-edit").text(result["uom"]);
 }
 
 function EditItemDetailsSaveChanges() {
@@ -560,4 +561,17 @@ $("#ReceiveItemEdit-ActualQty").on("change", () => {
     $("#Received-Edit-Form-Feedback-Qty").hide();
 });
 
+//update item UomId after select
+$("#itemEditDropdown :selected").on('change', () => {
+    var itemId = $("#itemEditDropdown").val();
+    console.log("on change: itemEditDropdown: " + itemId);
+    return $.get('/api/ApiInvTrxDtls/GetItemUom?id=' + itemId, function (result, status) {
+        var obj = JSON.parse(result);
+
+       // $("#ReceiveItem-UomId").val(obj["InvUomId"]);
+        $("#UomEditDropdown").val(obj["InvUomId"]);
+
+    })
+
+});
 
