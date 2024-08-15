@@ -5,6 +5,7 @@ using CoreLib.Inventory.Interfaces;
 using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
 using Inventory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,6 +19,7 @@ using System.Threading.Tasks;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
+    [Authorize]
     public class FormModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -72,8 +74,7 @@ namespace InvWeb.Pages.Stores.Releasing
                     .ThenInclude(t => t.InvItemBrand)
                     .ToList();
             }
-            //ReceivingDetailsModel.InvTrxApproval = invApprovalServices.GetExistingApproval((int)id);
-
+            
             var storeAreas = _context.InvStoreAreas.Where(a => a.InvStoreId == ReleasingDetailsModel.InvTrxHdr.InvStoreId).ToList();
 
             ViewData["InvItems"] = new SelectList(_itemServices.GetInvItemsSelectList().Include(i => i.InvCategory)
@@ -83,6 +84,7 @@ namespace InvWeb.Pages.Stores.Releasing
                                         x.Code, x.InvCategory.Description, x.Description),
                                         Value = x.Id
                                     }), "Value", "Name", id);
+
             ViewData["HdrId"] = ReleasingDetailsModel.InvTrxHdr.Id;
             ViewData["UomsList"] = new SelectList(uomServices.GetUomSelectList(), "Id", "uom");
             ViewData["DialogItems"] = ConvertItemsToDialogItems((List<InvItem>)_itemServices.GetInvItemsWithSteelSpecs());

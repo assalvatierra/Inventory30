@@ -11,9 +11,11 @@ using CoreLib.Inventory.Interfaces;
 using Modules.Inventory;
 using Microsoft.Extensions.Logging;
 using CoreLib.DTO.Releasing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InvWeb.Pages.Stores.Releasing
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;

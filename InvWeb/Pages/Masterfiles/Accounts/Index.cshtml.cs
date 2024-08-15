@@ -26,8 +26,9 @@ namespace InvWeb.Pages.Masterfiles.Accounts
 
         public async Task OnGetAsync()
         {
-
+          
              await _context.Users.ToListAsync();
+
         }
 
         //public void OnGet()

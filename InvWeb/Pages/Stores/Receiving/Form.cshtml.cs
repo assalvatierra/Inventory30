@@ -16,9 +16,11 @@ using CoreLib.DTO.Common.Dialog;
 using System.Linq;
 using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
+    [Authorize]
     public class FormModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -41,6 +43,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             ReceivingDetailsModel = new ReceivingDetailsModel();
         }
+
         //public InvTrxHdr InvTrxHdr { get; set; }
         public ReceivingDetailsModel ReceivingDetailsModel { get; set; }
         public ReceivingItemDtlsCreateEditModel ItemDtlsCreateModel { get; set; }

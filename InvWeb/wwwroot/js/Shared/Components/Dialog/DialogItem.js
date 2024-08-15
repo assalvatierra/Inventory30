@@ -127,4 +127,10 @@ function SelectEditItemFromDialog(selector, id) {
     $("#" + selector).val(id).change();
 
     $("#itemEditSearchModal").modal("hide");
+    return $.get('/api/ApiInvTrxDtls/GetItemUom?id=' + id, function (result, status) {
+        var obj = JSON.parse(result);
+
+        $("#UomEditDropdown").val(obj["InvUomId"]);
+        $("#UomEditDropdown-edit").text(obj["uom"]);
+    })
 }

@@ -139,7 +139,7 @@
 
                             if (Model.IsTransactionHaveApprovedRecord(item.Id, "Accounting"))
                             {
-                                <button class="btn btn-primary"  disabled> Accounting Approved </button>
+                                <button class="btn btn-success"  disabled> Accounting Approved </button>
                             }
                             else if(IsAccounting)
                             {
@@ -152,7 +152,7 @@
 
                             if (Model.IsTransactionHaveApprovedRecord(item.Id, "Approved"))
                             {
-                                <button class="btn btn-primary"  disabled> Mgt Approved </button>
+                                <button class="btn btn-success"  disabled> Mgt Approved </button>
                             }
                             else if (IsAdmin)
                             {
@@ -165,7 +165,7 @@
 
                             if (Model.IsTransactionHaveApprovedRecord(item.Id, "Verified"))
                             {
-                                <button class="btn btn-primary"  disabled> Procurement Verified </button>
+                                <button class="btn btn-success"  disabled> Procurement Verified </button>
                             }
                             else if (IsProcurementHead)
                             {
@@ -174,7 +174,6 @@
                             else
                             {
                                 <button class="btn btn-primary" disabled> For Procurement Verify </button>
-                                
                             }
                         }
 

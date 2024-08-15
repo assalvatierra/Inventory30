@@ -15,9 +15,11 @@ using CoreLib.DTO.Receiving;
 using CoreLib.Interfaces;
 using Inventory;
 using Microsoft.CodeAnalysis;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
