@@ -176,14 +176,6 @@ function GetItemDetails(id) {
     });
 }
 
-//$("#itemEditLotNo").change(() => {
-//    console.log("change on itemEditLotNo");
-//    var lotno = $("#itemEditLotNo").val();
-//    if (lotno != "") {
-//        GetItemBatchOriginFromLotNo(lotno);
-//    }
-
-//})
 
 function SelectThisLotNoEdit(lotNo, batchNo) {
     $("#itemEditLotNo").val(lotNo);
@@ -372,7 +364,7 @@ function UpdateHeaderRemarks() {
 }
 
 
-// ------- Receive Item --------- //
+// ------- Releasing Item --------- //
 function ShowReceivingModal() {
     $("#ItemReleaseModal").modal('show');
 }
@@ -782,10 +774,13 @@ function TransactionStatus_Close(id) {
 //GetInvItemReceivedTrx
 //param invItemId
 function GetInvItemReleasedTrx() {
-
+    //clear table
+    $("#SearchLotNo-list tr").remove();
+    $("#SearchLotNo-list-Edit tr").remove();
     $("#newItem-Lotno-Warning").text("");
 
     var invItemId = $("#itemDropdown").val();
+    $("#item-Searchheader").text($("#itemDropdown :selected").text())
 
     var data = {
         Id: invItemId,
@@ -796,10 +791,14 @@ function GetInvItemReleasedTrx() {
 
     $.ajax({
         type: 'GET',
-        url: '/api/ApiInvTrxDtls/GetInvItemReceivedTrx?id=' + invItemId,
+        url: '/api/ApiInvTrxDtls/GetInvItemReleasingLotNo?id=' + invItemId,
         data: JSON.stringify(data),
         error: function (result) {
             console.log(result);
+            if (result.responseText == "List is Empty. no items founds.") {
+                var NewItemRow = "<tr> <td colspan='6'> No Items Found </td> </tr> ";
+                $("#SearchLotNo-list").append(NewItemRow);
+            }
         },
         success: function (res) {
             console.log("success getting released lotno list");
@@ -820,9 +819,12 @@ function GetInvItemReleasedTrx() {
 //param invItemId
 function GetInvItemReleasedTrxForEdit() {
 
+    $("#SearchLotNo-list tr").remove();
+    $("#SearchLotNo-list-Edit tr").remove();
     $("#newItem-Lotno-Warning").text("");
 
     var invItemId = $("#itemEditDropdown").val();
+    $("#item-Searchheader-Edit").text($("#itemEditDropdown :selected").text())
 
     var data = {
         Id: invItemId,
@@ -837,6 +839,10 @@ function GetInvItemReleasedTrxForEdit() {
         data: JSON.stringify(data),
         error: function (result) {
             console.log(result);
+            if (result.responseText == "List is Empty. no items founds.") {
+                var NewItemRow = "<tr> <td colspan='6'> No Items Found </td> </tr> ";
+                $("#SearchLotNo-list-Edit").append(NewItemRow);
+            }
         },
         success: function (res) {
             console.log("success getting released lotno list");
@@ -859,25 +865,33 @@ function CreateTableForItemsLotNos(res) {
     $("#SearchLotNo-list tr").remove();
     $("#SearchLotNo-list-Edit tr").remove();
 
+    console.log(res);
+    console.log(res.length);
     for (i = 0; i < res.length; i++) {
         // console.log(res[i]["Id"]);
-
+        var itemQty = res[i]['OnStockQty'];
+        var Lotno = res[i]['LotNo'];
         var NewItemRow = "";
         NewItemRow += "<tr>";
-        if (res[i]['LotNo'] != "") {
+        if (Lotno != "" && itemQty > 0 ) {
             NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNo(\"" + res[i]['LotNo'].toString() + "\",\"" + res[i]['BatchNo'].toString() + "\")'> Select</button> </td>";
         } else {
             NewItemRow += "<td>  </td>";
         }
 
-
         NewItemRow += "<td>" + res[i]['LotNo'] + " / " + res[i]['BatchNo'] + "</td>";
         NewItemRow += "<td>" + res[i]['Description'] + " <br> " + res[i]['Brand'] + " " + res[i]['Origin'] + "</td>";
         NewItemRow += "<td>" + res[i]['Date'] + "</td>";
-        NewItemRow += "<td>" + res[i]['Qty'] + "</td>";
+        NewItemRow += "<td>" + res[i]['OnStockQty'] + " of " + res[i]['Qty'] +"</td>";
         NewItemRow += "<td>" + res[i]['Uom'] + "</td>";
         NewItemRow += "<td> " + res[i]['Status'] + " </td>";
 
+        $("#SearchLotNo-list").append(NewItemRow);
+        $("#SearchLotNo-list-Edit").append(NewItemRow);
+    }
+
+    if (res.length == 0) {
+       var NewItemRow = "<tr> <td colspan='6'> No Items Found </td> </tr> ";
         $("#SearchLotNo-list").append(NewItemRow);
         $("#SearchLotNo-list-Edit").append(NewItemRow);
     }

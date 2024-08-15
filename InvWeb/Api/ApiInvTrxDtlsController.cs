@@ -32,6 +32,16 @@ namespace InvWeb.Api
         private readonly IInvItemMasterServices invItemMasterServices;
         private readonly DateServices dateServices;
 
+        private enum HdrStatus : int
+        {
+            REQUEST = 1,
+            APPROVED = 2,
+            CLOSED = 3,
+            CANCELLED = 4,
+            VERIFIED = 5,
+            ACCEPTED =6
+        }
+
         public ApiInvTrxDtlsController(ApplicationDbContext context, ILogger<Controller> logger)
         {
             _context = context;
@@ -302,11 +312,14 @@ namespace InvWeb.Api
 
         [ActionName("GetInvItemReceivedTrx")]
         [HttpGet]
-        public string GetInvItemOnReceivedTrx(int id)
+        public async Task<string> GetInvItemReceivedTrx(int id)
         {
             try
             {
-                var TrxDetailsLists = _context.InvTrxDtls.Where(c => c.InvItemId == id && c.InvTrxHdr.InvTrxHdrStatusId > 1)
+                var TrxDetailsLists = await _context.InvTrxDtls
+                    .Where(c => c.InvItemId == id &&
+                          (c.InvTrxHdr.InvTrxHdrStatusId > (int)HdrStatus.REQUEST &&
+                           c.InvTrxHdr.InvTrxHdrStatusId != (int)HdrStatus.CANCELLED))
                     .Include(c => c.InvTrxHdr)
                     .Include(c=>c.InvUom)
                     .Include(c=>c.InvItem)
@@ -319,7 +332,15 @@ namespace InvWeb.Api
                     .ThenInclude(c => c.InvItemMaster.InvItemOrigin)
                     .Include(c => c.InvTrxDtlxItemMasters)
                     .ThenInclude(c => c.InvItemMaster.InvItemBrand)
-                    .ToList();
+                    .ToListAsync();
+
+                var invItemTrxList_ByItem = await _context.InvTrxDtls.Where(c =>
+                     c.InvItemId == id &&
+                    (c.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.APPROVED ||
+                     c.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.CLOSED))
+                    .Include(c => c.InvTrxHdr)
+                    .Include(c => c.InvTrxHdr)
+                    .ThenInclude(c => c.InvTrxHdrStatu).ToListAsync();
 
 
                 if (TrxDetailsLists.Count() == 0)
@@ -355,6 +376,7 @@ namespace InvWeb.Api
                     trxDetails.Date = item.InvTrxHdr.DtTrx.ToShortDateString();
                     trxDetails.Origin = Origin;
                     trxDetails.Qty = item.ItemQty;
+                    trxDetails.OnStockQty = GetTotalBalanceOfItemFromLotNo(item.InvItemId, LotNo, invItemTrxList_ByItem);
                     trxDetails.Uom = item.InvUom.uom;
                     trxDetails.Status = item.InvTrxHdr.InvTrxHdrStatu.Status;
                     
@@ -375,6 +397,127 @@ namespace InvWeb.Api
             {
                 return "Err: unable to find HeatLotNo and batchNo.";
             }
+        }
+
+
+        [ActionName("GetInvItemReleasingLotNo")]
+        [HttpGet]
+        public async Task<string> GetInvItemReleasingLotNo(int id)
+        {
+            try
+            {
+                var TrxDetailsLists_Received = await _context.InvTrxDtls
+                    .Where(c => c.InvItemId == id && 
+                          (c.InvTrxHdr.InvTrxHdrStatusId > (int)HdrStatus.REQUEST && 
+                           c.InvTrxHdr.InvTrxHdrStatusId != (int)HdrStatus.CANCELLED) &&
+                           c.InvTrxHdr.InvTrxTypeId == 1
+                           )
+                    .Include(c => c.InvTrxHdr)
+                    .Include(c => c.InvUom)
+                    .Include(c => c.InvItem)
+                    .ThenInclude(c => c.InvCategory)
+                    .Include(c => c.InvTrxHdr)
+                    .ThenInclude(c => c.InvTrxHdrStatu)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                    .ThenInclude(c => c.InvItemMaster)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                    .ThenInclude(c => c.InvItemMaster.InvItemOrigin)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                    .ThenInclude(c => c.InvItemMaster.InvItemBrand)
+                    .ToListAsync();
+
+
+                var invItemTrxList_ByItem = await _context.InvTrxDtls.Where(c =>
+                     c.InvItemId == id &&
+                    (c.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.APPROVED ||
+                     c.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.CLOSED))
+                    .Include(c => c.InvTrxHdr)
+                    .Include(c => c.InvTrxHdr)
+                    .ThenInclude(c => c.InvTrxHdrStatu).ToListAsync();
+
+
+                if (TrxDetailsLists_Received.Count() == 0)
+                {
+
+                    return "List is Empty. no items founds.";
+                }
+
+                List<ReceivingTempTrxDetails> invTrxDtls = new List<ReceivingTempTrxDetails>();
+
+                foreach (var item in TrxDetailsLists_Received)
+                {
+                    ReceivingTempTrxDetails trxDetails = new ReceivingTempTrxDetails();
+                    var BatchNo = "";
+                    var LotNo = "";
+                    var Origin = "";
+                    var Brand = "";
+
+                    if (item.InvTrxDtlxItemMasters.Count() > 0)
+                    {
+                        BatchNo = item.InvTrxDtlxItemMasters.First().InvItemMaster.BatchNo;
+                        LotNo = item.InvTrxDtlxItemMasters.First().InvItemMaster.LotNo;
+                        Origin = item.InvTrxDtlxItemMasters.First().InvItemMaster.InvItemBrand.Name;
+                        Brand = item.InvTrxDtlxItemMasters.First().InvItemMaster.InvItemOrigin.Name;
+
+                        //use itemMasterLotno
+                        item.LotNo = item.InvTrxDtlxItemMasters.First().InvItemMaster.LotNo;
+                    }
+
+                    trxDetails.Id = item.Id;
+                    trxDetails.Description = item.InvItem.InvCategory.Description + " - " + item.InvItem.Description;
+                    trxDetails.Brand = Brand;
+                    trxDetails.BatchNo = BatchNo;
+                    trxDetails.LotNo = LotNo;
+                    trxDetails.Code = item.InvItem.Code;
+                    trxDetails.Date = item.InvTrxHdr.DtTrx.ToShortDateString();
+                    trxDetails.Origin = Origin;
+                    trxDetails.Qty = item.ItemQty;
+                    trxDetails.OnStockQty = GetTotalBalanceOfItemFromLotNo(item.InvItemId, LotNo, invItemTrxList_ByItem);
+                    trxDetails.Uom = item.InvUom.uom;
+                    trxDetails.Status = item.InvTrxHdr.InvTrxHdrStatu.Status;
+
+                    if (!String.IsNullOrEmpty(LotNo))
+                    {
+                        invTrxDtls.Add(trxDetails);
+                    }
+                }
+
+                if (invTrxDtls == null)
+                {
+                    return "Unable to find item details";
+                }
+
+                return JsonConvert.SerializeObject(invTrxDtls);
+
+
+            }
+            catch (Exception ex)
+            {
+                return "Err: unable to find HeatLotNo and batchNo.";
+            }
+        }
+
+        private int GetTotalBalanceOfItemFromLotNo(int invItemId, string Lotno, List<InvTrxDtl> invTrxDtlsList)
+        {
+            if (string.IsNullOrEmpty(Lotno) || Lotno == "")
+            {
+                return 0;
+            }
+
+            int ADD = 1;
+            int SUBTRACT = 2;
+
+            var invItemTrxList_Received = invTrxDtlsList.Where(c => 
+                 c.LotNo == Lotno && 
+                 c.InvTrxDtlOperatorId == ADD)
+                .Select(c => c.ItemQty).Sum();
+
+            var invItemTrxList_Released = invTrxDtlsList.Where(c => 
+                 c.LotNo == Lotno && 
+                 c.InvTrxDtlOperatorId == SUBTRACT)
+                .Select(c => c.ItemQty).Sum();
+
+            return invItemTrxList_Received - invItemTrxList_Released;
         }
 
 
@@ -804,6 +947,7 @@ namespace InvWeb.Api
             public string LotNo { get; set; }
             public string BatchNo { get; set; }
             public decimal Qty { get; set; }
+            public decimal OnStockQty { get; set; }
             public string Uom { get; set; }
             public string Status { get; set; }
         }

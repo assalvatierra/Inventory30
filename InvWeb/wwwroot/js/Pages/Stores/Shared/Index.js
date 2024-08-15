@@ -32,6 +32,8 @@ function ApprovedTrxHdr(e, id) {
     }).done(() => {
         $(e).text('Mgt Approved');
         $(e).attr('disabled', 'disabled');
+        $(e).removeClass('btn-primary');
+        $(e).addClass('btn-success');
     }).fail(() => {
         alert("Unable to approve transaction");
     });
@@ -45,6 +47,8 @@ function VerifiedTrxHdr(e, id) {
     }).done(() => {
         $(e).text('Procurement Verified');
         $(e).attr('disabled', 'disabled');
+        $(e).removeClass('btn-primary');
+        $(e).addClass('btn-success');
     }).fail(() => {
         alert("Unable to verify transaction");
     });
@@ -59,6 +63,8 @@ function ApprovedbyAccountingTrxHdr(e, id) {
     }).done(() => {
         $(e).text('Accounting Approved');
         $(e).attr('disabled', 'disabled');
+        $(e).removeClass('btn-primary');
+        $(e).addClass('btn-success');
     }).fail(() => {
         alert("Unable to approve transaction");
     });
