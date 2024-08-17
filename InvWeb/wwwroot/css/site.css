@@ -154,6 +154,19 @@ body {
     display: none;
 }
 
+.item-details-edit {
+    color: gray;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+
+    .item-details-edit:hover {
+        color: blue;
+        cursor: pointer;
+        transition: ease-in-out 0.4s;
+    }
+
 @media (min-width: 480px) {
     .mobile-only {
         display: none;

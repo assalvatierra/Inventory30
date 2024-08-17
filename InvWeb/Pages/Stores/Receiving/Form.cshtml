@@ -169,9 +169,10 @@
                     @if(item.InvTrxDtlxItemMasters != null){
                             foreach (var itemMaster in item.InvTrxDtlxItemMasters)
                             {
-                                if(ItemCountExpectedBalance != 0){
+                                    if (ItemCountExpectedBalance != 0 || trxStatus == "APPROVED")
+                                    {
                                     <br>
-                                    <span style="color:gray;margin-left:15px;cursor:pointer;" onclick="ReceiveItemEditRow(@itemMaster.Id, @itemMaster.InvItemMasterId, @ItemCountExpectedBalance)">
+                                        <span class="item-details-edit" onclick="ReceiveItemEditRow(@itemMaster.Id, @itemMaster.InvItemMasterId, @item.ItemQty)" data-toggle="tooltip" data-placement="top" title="Edit LotNo/Batch">
                                             Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name
                                             &#x2192;
                                             Area: @itemMaster.InvItemMaster.InvStoreArea.Name
@@ -230,6 +231,7 @@
                                         <button class="btn btn-outline-primary btn-sm" onclick="ReceiveItemRow( @item.Id, @ItemCountExpectedBalance)"> Receive Item </button>
                                     </div>
                                 }
+
                             }
 
                             @if (trxStatus == "REQUEST")
@@ -347,6 +349,8 @@
     <script>
 
         $(document).ready(function () {
+            //initialize tooltip
+            $('[data-toggle="tooltip"]').tooltip()
 
             $("#itemDropdown").val($("#itemDropdown option:first").val());
             //SearchItem(@ViewBag.SelectedItemId); 
