@@ -187,9 +187,10 @@
                     @if(item.InvTrxDtlxItemMasters != null){
                             foreach (var itemMaster in item.InvTrxDtlxItemMasters)
                             {
-                                if(ItemCountExpectedBalance != 0){
+                                    if (ItemCountExpectedBalance != 0 || trxStatus == "APPROVED")
+                                    {
                                     <br>
-                                    <span style="color:gray;margin-left:15px;cursor:pointer;" onclick="ReceiveItemEditRow(@itemMaster.Id, @itemMaster.InvItemMasterId, @ItemCountExpectedBalance)">
+                                        <span class="item-details-edit" onclick="ReleasingItemEditRow(@itemMaster.InvTrxDtlId, @itemMaster.InvItemMasterId, @item.ItemQty)" data-placement="top" title="Edit LotNo/Batch">
                                             Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name
                                             &#x2192;
                                            
@@ -248,6 +249,7 @@
 
                                     <div style="width:7rem;">
                                         <button class="btn btn-outline-primary btn-sm" onclick="ReleaseItemRow( @item.Id, @ItemCountExpectedBalance)"> Release Item </button>
+                                        @* <button class="btn btn-outline-primary btn-sm" onclick="EditExisitingItemRow(this, @item.Id)" style="padding:3px 12px;margin-right:5px"> Edit </button> *@
                                     </div>
                                 }
                             }
@@ -380,6 +382,9 @@
     <script>
 
         $(document).ready(function () {
+            
+            //initialize tooltip
+            $('[data-toggle="tooltip"]').tooltip()
 
             $("#itemDropdown").val($("#itemDropdown option:first").val());
             //SearchItem(@ViewBag.SelectedItemId); 

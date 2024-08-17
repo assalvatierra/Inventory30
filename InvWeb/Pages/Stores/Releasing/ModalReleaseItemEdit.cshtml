@@ -7,7 +7,7 @@
 @model InvWeb.Pages.Stores.Releasing.FormModel
 
 <!-- Modal Edit -->
-<div class="modal fade" id="ItemReleaseEditModal" tabindex="-1" role="dialog" aria-labelledby="itemEditModal" aria-hidden="true">
+@* <div class="modal fade" id="ItemReleaseEditModal" tabindex="-1" role="dialog" aria-labelledby="itemEditModal" aria-hidden="true">
     <div class="modal-dialog" role="document" style="width:50rem">
         <div class="modal-content">
             <div class="modal-header">
@@ -84,6 +84,112 @@
             </div>
             <div class="modal-footer">
                 <input type="submit" value="Update" class="btn btn-primary" onclick="SubmitReleaseEditForm()" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ *@
+
+<!-- Modal Edit -->
+<div class="modal fade" id="ItemReleaseEditModal" tabindex="-1" role="dialog" aria-labelledby="itemEditModal" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width:50rem">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Release Item Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding:20px;">
+                <div>
+                    <div hidden>
+
+                        <span> TrxId</span>
+                        <input class="form-control" type="text" id="ReleaseItemEdit-TrxId">
+                        <span> ItemId</span>
+                        <input class="form-control" type="text" id="ReleaseItemEdit-ItemId">
+                        <span> ItemMasterId</span>
+                        <input class="form-control" type="text" id="ReleaseItemEdit-ItemMasterId">
+                        <span> UomId</span>
+                        <input class="form-control" type="text" id="ReleaseItemEdit-UomId">
+                        <span>ExpectedQty-Input</span>
+                        <input class="form-control" type="text" id="ReleaseItemEdit-ExpectedQty-Input" >
+
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <label class="control-label"> Item </label><br />
+                            <span style="font-weight:bold;font-size:15px;margin-left:12px;" id="ReleaseItemEdit-ItemName"> </span>
+                        </div>
+                        <div class="col-4">
+                            <label class="control-label" style="white-space:nowrap"> Expected Qty </label><br />
+                            <span style="font-weight:bold;font-size:15px;margin-left:12px;" id="ReleaseItemEdit-ExpectedQty"> </span>
+                            <span style="font-weight:bold;font-size:15px;" id="ReleaseItemEdit-Uom"> </span>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="control-label" style="white-space:nowrap"> Heat/LotNo </label>
+                            <input class="form-control" type="text" id="ReleaseItemEdit-LotNo">
+                        </div>
+
+                        <div class="col-4" hidden>
+                            <label class="control-label"> Brand </label>
+                            <select class="form-control" asp-items="ViewBag.Brands" id="ReleaseItemEdit-BrandId"></select>
+                        </div>
+
+                        <div class="col-4" hidden>
+                            <label class="control-label"> Origin </label>
+                            <select class="form-control" asp-items="ViewBag.Origins" id="ReleaseItemEdit-OriginId"></select>
+                        </div>
+
+                        <div class="col-3">
+                            <label class="control-label" style="white-space:nowrap"> Batch </label>
+                            <input class="form-control" type="text" id="ReleaseItemEdit-BatchNo">
+                        </div>
+
+                        <div class="col-4">
+                            <label class="control-label" style="white-space:nowrap"> Release&nbsp;Qty </label>
+                            <div style="display:flex;">
+                                <input id="ReleaseItemEdit-ActualQty" type="number" class="form-control" value="0" min="0" />
+                                <span id="ReleaseItemEdit-ActualUom" style="margin-top:5px;margin-left:10px;">  QTY </span>
+                            </div>
+                            <div id="Release-Form-Feedback-Qty" class="invalid-feedback">
+                            </div>
+                        </div>
+
+                        <div class="col-4" style="margin-top:10px;">
+                            <label class="control-label" style="white-space:nowrap"> Origin </label>
+                            <select class="form-control" asp-items="ViewBag.Origins" id="ReleaseItemEdit-Origin"></select>
+                            @* <input class="form-control" type="text" id="ReleaseItem-Origin" readonly> *@
+                        </div>
+                        <div class="col-4" style="margin-top:10px;">
+                            <label class="control-label" style="white-space:nowrap"> Brand </label>
+                            <select class="form-control" asp-items="ViewBag.Brands" id="ReleaseItemEdit-Brand"></select>
+                            @* <input class="form-control" type="text" id="ReleaseItem-Brand" readonly> *@
+                        </div>
+                        <div class="col-4" style="margin-top:10px;">
+                            <label class="control-label" style="white-space:nowrap"> Area From </label>
+                            <select class="form-control" asp-items="ViewBag.StoreAreas" id="ReleaseItemEdit-Area"></select>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-12">
+                            <label class="control-label"> Remarks </label>
+                            <input class="form-control" type="text" id="ReleaseItemEdit-Remarks">
+                        </div>
+
+                        <p id="ReleaseItemEdit-warning-text" class="text-danger">  </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="Release" class="btn btn-primary" onclick="SubmitReleaseEditForm()" id="ItemReleaseEditModalBtn" />
             </div>
         </div>
     </div>

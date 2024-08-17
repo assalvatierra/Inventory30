@@ -237,6 +237,79 @@ namespace InvWeb.Api
         }
 
 
+        [ActionName("GetTrxDtlItemReleasing")]
+        [HttpGet]
+        public string GetTrxDtlItemReleasing(int id)
+        {
+            try
+            {
+
+                InvTrxDtl invTrxDtl = itemDtlsServices.GetInvDtlsById(id)
+                    .Include(i => i.InvItem)
+                    .Include(i => i.InvUom)
+                    .First();
+
+                if (invTrxDtl == null)
+                {
+                    return "Unable to find item details";
+                }
+
+                string Brand = "";
+                string Origin = "";
+                int OriginId = 0;
+                int BrandId = 0;
+                string Area = "";
+                int AreaId = 0;
+
+                if (!String.IsNullOrEmpty(invTrxDtl.LotNo))
+                {
+
+                    InvItemMaster invItemMaster = _context.InvItemMasters.Where(i => i.LotNo == invTrxDtl.LotNo)
+                     .Include(c => c.InvItemBrand)
+                     .Include(i => i.InvItemOrigin)
+                     .Include(i => i.InvStoreArea)
+                     .FirstOrDefault();
+
+
+                    if (invItemMaster != null)
+                    {
+                        Brand = invItemMaster.InvItemBrand.Name;
+                        BrandId = invItemMaster.InvItemBrandId;
+                        Origin = invItemMaster.InvItemOrigin.Name;
+                        OriginId = invItemMaster.InvItemOriginId;
+                        Area = invItemMaster.InvStoreArea.Name;
+                        AreaId = invItemMaster.InvStoreAreaId;
+                    }
+                }
+
+
+                return JsonConvert.SerializeObject(new
+                {
+                    invTrxDtl.Id,
+                    invTrxDtl.InvItemId,
+                    invTrxDtl.InvUomId,
+                    invTrxDtl.ItemQty,
+                    invTrxDtl.InvItem.Description,
+                    invTrxDtl.InvUom.uom,
+                    invTrxDtl.LotNo,
+                    invTrxDtl.BatchNo,
+                    Brand,
+                    BrandId,
+                    Origin,
+                    OriginId,
+                    Area,
+                    AreaId
+
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return "Unable to get Item Details";
+            }
+        }
+
+
         [ActionName("GetInvItemLotHeatNo")]
         [HttpGet]
         public string GetInvItemLotHeatNo(int id)
@@ -801,6 +874,10 @@ namespace InvWeb.Api
                 return StatusCode(500, "Post Error. Header Details not found.");
             }
 
+            InvTrxDtl invTrxDtl = _context.InvTrxDtls.Find(item.Id);
+            invTrxDtl.LotNo = item.LotNo;
+            invTrxDtl.BatchNo = item.BatchNo;
+
             //create itemMasters
             InvItemMaster invItemMaster = new InvItemMaster();
             invItemMaster.InvItemId = item.ItemId;
@@ -816,6 +893,7 @@ namespace InvWeb.Api
             //save changes
             try
             {
+
                 await invItemMasterServices.CreateInvItemMaster(invItemMaster);
                 await invItemMasterServices.SaveChangesAsync();
             }
@@ -833,6 +911,16 @@ namespace InvWeb.Api
             catch (Exception ex)
             {
                 return StatusCode(500, "APIInvTrxDtls/PostReleasingItem: Post Error. Unable to Create ItemMaster and InvDtls Link.");
+            }
+
+            try
+            {
+                _context.Attach(invTrxDtl).State = EntityState.Modified;
+                await invItemMasterServices.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "APIInvTrxDtls/PostReleasingItem: Post Error. Save change on invTrxDtl item.");
             }
 
             return StatusCode(201, "Update Successfull");
@@ -889,12 +977,22 @@ namespace InvWeb.Api
 
         [ActionName("PostReceivingItemEdit")]
         [HttpPost]
-        public async Task<ObjectResult> PostReceivingItemEdit(ReceivingTrxItemApiModel item)
+        public async Task<ObjectResult> PostReceivingItemEdit(ReleasingTrxItemApiModel item)
         {
             if (item == null)
             {
                 return StatusCode(500, "Post Error. Header Details not found.");
             }
+
+            InvTrxDtl invTrxDtl = _context.InvTrxDtls.Find(item.TrxId);
+            if (invTrxDtl == null)
+            {
+                return StatusCode(500, "Post Error. invTrxDtl Details not found.");
+
+            }
+
+            invTrxDtl.LotNo = item.LotNo;
+            invTrxDtl.BatchNo = item.BatchNo;
 
 
             //create itemMasters
@@ -915,6 +1013,8 @@ namespace InvWeb.Api
             invItemMaster.InvUomId = item.UomId;
             invItemMaster.InvStoreAreaId = item.AreaId;
             invItemMaster.Remarks = item.Remarks;
+            invItemMaster.InvItemOriginId = item.OriginId;
+            invItemMaster.InvItemBrandId = item.BrandId;
 
             //save changes
             try
@@ -931,6 +1031,16 @@ namespace InvWeb.Api
                 return StatusCode(500, "PostReceivingItemEdit: Post Error. Unable to Edit invItem Masters.");
             }
 
+
+            try
+            {
+                _context.Attach(invTrxDtl).State = EntityState.Modified;
+                await invItemMasterServices.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "APIInvTrxDtls/PostReceivingItemEdit: Post Error. Save change on invTrxDtl item.");
+            }
 
             return StatusCode(201, "Update Successfull");
         }

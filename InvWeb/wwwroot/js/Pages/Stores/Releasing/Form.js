@@ -397,7 +397,6 @@ function GetTrxDetails(id) {
         var obj = JSON.parse(result);
         console.log(obj)
         
-
         //display item details to form
         $("#ReleaseItem-RcvdItemId").val(obj["InvItemId"]);
         $("#ReleaseItem-UomId").val(obj["InvItemId"]);
@@ -410,11 +409,35 @@ function GetTrxDetails(id) {
         $("#ReleaseItem-LotNo").val(obj["LotNo"]);
         $("#ReleaseItem-BatchNo").val(obj["BatchNo"]);
 
-        $("#ReleaseItem-Origin").val(obj["Origin"]);
-        $("#ReleaseItem-OriginId").val(obj["OriginId"]);
-        $("#ReleaseItem-Brand").val(obj["Brand"]);
-        $("#ReleaseItem-BrandId").val(obj["BrandId"]);
+        //$("#ReleaseItem-Origin").val(obj["Origin"]);
+        $("#ReleaseItem-Origin").val(obj["OriginId"]);
+        //$("#ReleaseItem-Brand").val(obj["Brand"]);
+        $("#ReleaseItem-Brand").val(obj["BrandId"]);
         $("#ReleaseItem-Area").val(obj["AreaId"]);
+
+        if (obj["OriginId"] == 0) {
+            console.log(obj["OriginId"])
+            $("#ReleaseItem-Origin").val(1);
+            $("#ReleaseItem-Origin").removeAttr("readonly");
+        }
+
+        if (obj["BrandId"] == 0) {
+            console.log(obj["BrandId"])
+            $("#ReleaseItem-Brand").val(1);
+            $("#ReleaseItem-Brand").removeAttr("readonly");
+        }
+        if (obj["AreaId"] == 0) {
+            console.log(obj["AreaId"])
+            $("#ReleaseItem-Area").val(1);
+            $("#ReleaseItem-Area").removeAttr("readonly");
+        }
+
+        if (obj["LotNo"] == "") {
+            $("#ReleaseItem-LotNo").removeAttr("readonly");
+        }
+        if (obj["BatchNo"] == "") {
+            $("#ReleaseItem-BatchNo").removeAttr("readonly");
+        }
         //GetInvItemLotHeatNo(id);
     })
 }
@@ -449,8 +472,8 @@ function SubmitReleasingForm() {
     var ItemId = $("#ReleaseItem-RcvdItemId").val();
     var LotNo = $("#ReleaseItem-LotNo").val();
     var BatchNo = $("#ReleaseItem-BatchNo").val();
-    var BrandId = $("#ReleaseItem-BrandId option:selected").val();
-    var OriginId = $("#ReleaseItem-OriginId option:selected").val();
+    var BrandId = $("#ReleaseItem-Brand option:selected").val();
+    var OriginId = $("#ReleaseItem-Origin option:selected").val();
     var ActualQty = $("#ReleaseItem-ActualQty").val();
     var AreaId = $("#ReleaseItem-Area option:selected").val();
     var Remarks = $("#ReleaseItem-Remarks").val();
@@ -520,21 +543,23 @@ function Cancel_AddNewItemOnTableRow() {
 
 
 // ------- Receive Item Edit --------- //
-function ShowReceivingEditModal() {
-    $("#ItemReceiveEditModal").modal('show');
+function ShowReleasingEditModal() {
+    $("#ItemReleaseEditModal").modal('show');
 }
 
 
-function ReceiveItemEditRow(rowId, itemMasterId, expectedQty) {
+function ReleasingItemEditRow(rowId, itemMasterId, expectedQty) {
  
-        ShowReceivingEditModal();
+    ShowReleasingEditModal();
 
-        $("#ReceiveItemEdit-TrxId").val(itemMasterId);
-        $("#ReceiveItemEdit-ExpectedQty").text(expectedQty);
-        $("#ReceiveItemEdit-ExpectedQty-Input").text(expectedQty);
+    $("#ReleaseItemEdit-TrxId").val(rowId);
+    $("#ReleaseItemEdit-ExpectedQty").text(expectedQty);
+    $("#ReleaseItemEdit-ExpectedQty-Input").val(expectedQty);
+    $("#ReleaseItemEdit-ItemMasterId").val(itemMasterId);
 
-        //get item details
-        GetTrxItemMasterDetails(itemMasterId);
+    //
+    //get item details
+    GetTrxItemMasterDetails(itemMasterId);
 }
 
 
@@ -543,45 +568,54 @@ function GetTrxItemMasterDetails(id) {
     console.log("Get ItemMaster Details");
 
     return $.get('/api/ApiInvTrxDtls/GetItemMaster?id=' + id, function (result, status) {
-        console.log(result);
+      
 
         var obj = JSON.parse(result);
-
+        console.log(obj);
         console.log(obj['Description']);
         console.log(obj['InvItemId']);
 
         //display item details to form
-        $("#ReceiveItemEdit-ItemMasterId").val(obj["InvItemId"]); // InvItemId
-        $("#ReceiveItemEdit-UomId").val(obj["InvUomId"]);
-        $("#ReceiveItemEdit-Uom").text(obj["uom"]);
+        $("#ReleaseItemEdit-UomId").val(obj["InvUomId"]);
+        $("#ReleaseItemEdit-Uom").text(obj["uom"]);
 
-        $("#ReceiveItemEdit-ItemName").text(obj["Description"]);
-        $("#ReceiveItemEdit-LotNo").val(obj["LotNo"]);
-        $("#ReceiveItemEdit-BatchNo").val(obj["BatchNo"]);
-        $("#ReceiveItemEdit-Brand").val(obj["InvItemBrandId"]);
-        $("#ReceiveItemEdit-Origin").val(obj["InvItemOriginId"]);
-        $("#ReceiveItemEdit-InvStoreAreaId").val(obj["InvStoreAreaId"]);
+        $("#ReleaseItemEdit-ItemName").text(obj["Description"]);
+        $("#ReleaseItemEdit-LotNo").val(obj["LotNo"]);
+        $("#ReleaseItemEdit-BatchNo").val(obj["BatchNo"]);
+        $("#ReleaseItemEdit-Brand").val(obj["InvItemBrandId"]);
+        $("#ReleaseItemEdit-Origin").val(obj["InvItemOriginId"]);
+        $("#ReleaseItemEdit-Area").val(obj["InvStoreAreaId"]);
 
-        $("#ReceiveItemEdit-ActualQty").val(obj["ItemQty"]);
-        $("#ReceiveItemEdit-ActualUom").text(obj["uom"]);
-        $("#ReceiveItemEdit-Remarks").val(obj["Remarks"]);
+        $("#ReleaseItemEdit-ActualQty").val(obj["ItemQty"]);
+        $("#ReleaseItemEdit-ActualUom").text(obj["uom"]);
+        $("#ReleaseItemEdit-Remarks").val(obj["Remarks"]);
+
+        $("#ReleaseItemEdit-ItemMasterId").val(obj["Id"]);
+        $("#ReleaseItemEdit-ItemId").val(obj["InvItemId"]);
     })
 }
 
 
 
-function SubmitReceivingEditForm() {
+function SubmitReleaseEditForm() {
 
-    var Id = $("#ReceiveItemEdit-TrxId").val();
-    var ItemId = $("#ReceiveItemEdit-ItemMasterId").val();
-    var LotNo =  $("#ReceiveItemEdit-LotNo").val();
-    var BatchNo = $("#ReceiveItemEdit-BatchNo").val();
-    var BrandId = $("#ReceiveItemEdit-Brand option:selected").val();
-    var OriginId = $("#ReceiveItemEdit-Origin option:selected").val();
-    var ActualQty = $("#ReceiveItemEdit-ActualQty").val();
-    var AreaId = $("#ReceiveItemEdit-Area option:selected").val();
-    var Remarks = $("#ReceiveItemEdit-Remarks").val();
-    var UomId = $("#ReceiveItemEdit-UomId").val();
+    $("#ItemReleaseEditModalBtn").addClass("disabled");
+
+
+    var Id = $("#ReleaseItemEdit-ItemMasterId").val();
+    var ItemId = $("#ReleaseItemEdit-ItemId").val();
+    var LotNo = $("#ReleaseItemEdit-LotNo").val();
+    var BatchNo = $("#ReleaseItemEdit-BatchNo").val();
+    var BrandId = $("#ReleaseItemEdit-Brand option:selected").val();
+    var OriginId = $("#ReleaseItemEdit-Origin option:selected").val();
+    var ActualQty = $("#ReleaseItemEdit-ActualQty").val();
+    var AreaId = $("#ReleaseItemEdit-Area option:selected").val();
+    var Remarks = $("#ReleaseItemEdit-Remarks").val();
+    var UomId = $("#ReleaseItemEdit-UomId").val();
+    var TrxId = $("#ReleaseItemEdit-TrxId").val();
+
+    console.log("BrandId: " + BrandId);
+    console.log("OriginId: " + OriginId); 
 
     var data = {
         Id: Id,
@@ -593,14 +627,13 @@ function SubmitReceivingEditForm() {
         Qty: ActualQty,
         UomId: UomId,
         AreaId: AreaId,
-        Remarks: Remarks
+        Remarks: Remarks,
+        TrxId: TrxId
 
     }
 
     console.log("Submit receiving data");
     console.log(data);
-
-    if (CheckRecievingEdit_QtyInput()) {
 
         $.ajax({
             type: 'POST',
@@ -627,7 +660,7 @@ function SubmitReceivingEditForm() {
             dataType: "json",
             contentType: "application/json"
         });
-    }
+    
 
 }
 
