@@ -134,7 +134,7 @@
                     <div class="row">
                         <div class="col-4">
                             <label class="control-label" style="white-space:nowrap"> Heat/LotNo </label>
-                            <input class="form-control" type="text" id="ReleaseItemEdit-LotNo">
+                            <input class="form-control" type="text" id="ReleaseItemEdit-LotNo" readonly>
                         </div>
 
                         <div class="col-4" hidden>
@@ -149,7 +149,7 @@
 
                         <div class="col-3">
                             <label class="control-label" style="white-space:nowrap"> Batch </label>
-                            <input class="form-control" type="text" id="ReleaseItemEdit-BatchNo">
+                            <input class="form-control" type="text" id="ReleaseItemEdit-BatchNo" readonly>
                         </div>
 
                         <div class="col-4">
@@ -164,12 +164,12 @@
 
                         <div class="col-4" style="margin-top:10px;">
                             <label class="control-label" style="white-space:nowrap"> Origin </label>
-                            <select class="form-control" asp-items="ViewBag.Origins" id="ReleaseItemEdit-Origin"></select>
+                            <select class="form-control" asp-items="ViewBag.Origins" id="ReleaseItemEdit-Origin" readonly disabled></select>
                             @* <input class="form-control" type="text" id="ReleaseItem-Origin" readonly> *@
                         </div>
                         <div class="col-4" style="margin-top:10px;">
                             <label class="control-label" style="white-space:nowrap"> Brand </label>
-                            <select class="form-control" asp-items="ViewBag.Brands" id="ReleaseItemEdit-Brand"></select>
+                            <select class="form-control" asp-items="ViewBag.Brands" id="ReleaseItemEdit-Brand" readonly disabled></select>
                             @* <input class="form-control" type="text" id="ReleaseItem-Brand" readonly> *@
                         </div>
                         <div class="col-4" style="margin-top:10px;">

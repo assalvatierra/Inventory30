@@ -21,6 +21,8 @@ function UpdateItemInputText(itemdesc) {
 }
 
 function AddNewItemOnTableRow() {
+    $("#newItem-Qty-Warning").text("");
+    $("#newItem-Lotno-Warning").text("");
 
     var invHdrId = $('#textinput-RefNo').val();
     var itemDesc = $('#itemDropdown option:selected').text();
@@ -32,13 +34,29 @@ function AddNewItemOnTableRow() {
     var batchNo = $('#newItem-BatchNo').val();
     var itemRemarks = "";
 
+    var expectedQty = $("#newItem-Lot-ExpectedQty").val();
+
     if (lotNo == "") {
         $("#newItem-Lotno-Warning").text("Please select a LotNo.");
-    } else {
+    }
+    else if (!$.isNumeric($('#textinput-Qty').val())) {
+        $("#newItem-Qty-Warning").text("Invalid Qty");
+    }
+    else if (itemQty > expectedQty) {
+        $("#newItem-Qty-Warning").text("Qty exceeds the on-stock quantity");
+    }
+    else {
         PostRelease_addInvItem(invHdrId, itemId, itemQty, itemUomId, lotNo, batchNo);
+
+        //reset after add
+        $("#newItem-Lot-ExpectedQty").val(0)
     }
 
 }
+
+$("#textinput-Qty").on("input", function () {
+    $("#newItem-Qty-Warning").text("");
+});
 
 function PostRelease_addInvItem(invHdrId, itemId, itemQty, itemUomId, lotNo, batchNo) {
 
@@ -907,7 +925,7 @@ function CreateTableForItemsLotNos(res) {
         var NewItemRow = "";
         NewItemRow += "<tr>";
         if (Lotno != "" && itemQty > 0 ) {
-            NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNo(\"" + res[i]['LotNo'].toString() + "\",\"" + res[i]['BatchNo'].toString() + "\")'> Select</button> </td>";
+            NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNo(\"" + res[i]['LotNo'].toString() + "\",\"" + res[i]['BatchNo'] + "\",\"" + itemQty + "\")'> Select</button> </td>";
         } else {
             NewItemRow += "<td>  </td>";
         }
@@ -930,10 +948,13 @@ function CreateTableForItemsLotNos(res) {
     }
 }
 
-function SelectThisLotNo(lotNo, batchNo) {
+function SelectThisLotNo(lotNo, batchNo, expectedQty) {
     $("#newItem-LotNo").val(lotNo);
     $("#newItem-BatchNo").val(batchNo);
     $("#SearchLotNoModal").modal('hide');
+    console.log("Selecting lot no...");
+
+    $("#newItem-Lot-ExpectedQty").val(expectedQty);
 }
 
 
@@ -949,7 +970,7 @@ function CreateTableForItemsLotNosEdit(res) {
         NewItemRow += "<tr>";
 
         if (res[i]['LotNo'] != "") {
-            NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNoEdit(\"" + res[i]['LotNo'].toString() + "\",\"" + res[i]['BatchNo'].toString() + "\")'> Select</button> </td>";
+            NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNoEdit(\"" + res[i]['LotNo'].toString() + "\")'> Select</button> </td>";
         } else {
             NewItemRow += "<td>  </td>";
         }
