@@ -56,9 +56,9 @@ namespace InvWeb.Controllers
 
         public async Task<IActionResult> Viewer(
             [FromServices] IWebDocumentViewerClientSideModelGenerator clientSideModelGenerator,
-            [FromQuery] string reportName)
+            [FromQuery] string reportName, [FromQuery] string page)
         {
-
+            var p = page; //report set parameter
             var reportToOpen = string.IsNullOrEmpty(reportName) ? "TestReport" : reportName;
             //var reportToOpen = "ItemList";
 
