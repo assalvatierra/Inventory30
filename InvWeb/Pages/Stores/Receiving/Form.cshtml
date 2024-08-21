@@ -169,7 +169,7 @@
                     @if(item.InvTrxDtlxItemMasters != null){
                             foreach (var itemMaster in item.InvTrxDtlxItemMasters)
                             {
-                                    if (ItemCountExpectedBalance != 0 || trxStatus == "APPROVED")
+                                    if (ItemCountExpectedBalance != 0 || (trxStatus == "APPROVED" && Model.CheckIfUserIsAdmin()))
                                     {
                                     <br>
                                         <span class="item-details-edit" onclick="ReceiveItemEditRow(@itemMaster.Id, @itemMaster.InvItemMasterId, @item.ItemQty)" data-toggle="tooltip" data-placement="top" title="Edit LotNo/Batch">
@@ -320,10 +320,6 @@
 
         </div>
 
-    }
-    else if(trxStatus == "APPROVED" && Model.CheckIfUserIsAdmin())
-    {
-        <button class="btn btn-primary" id="CloseTrxHeaderBtn" onclick="TransactionStatus_Close(@Model.ReceivingDetailsModel.InvTrxHdr.Id)"> CLOSE TRANSACTION </button>
     }
 </div>
 
