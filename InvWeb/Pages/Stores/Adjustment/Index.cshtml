@@ -5,6 +5,7 @@
     ViewData["Title"] = "Adjustments";
     
     int STATUS_PENDING = 1;
+    int STATUS_APPROVED = 2;
     bool IsAdmin = (bool)ViewData["IsAdmin"];
     bool IsProcurementHead = (bool)ViewData["IsProcurementHead"];
     int STOREID = (int)ViewData["StoreId"];
@@ -12,7 +13,7 @@
 
 <h1>
     Adjustments
-    @if (Model.AdjustmentIndexModel.Status == "ACCEPTED")
+    @if (Model.AdjustmentIndexModel.Status == "APPROVED")
     {
         <span style="font-size:1rem;">(Approved)</span>
     }
@@ -116,28 +117,23 @@
                             <a asp-page="./Edit" asp-route-id="@item.Id">
                                 <img src="~/img/icons/icons-edit-blue.png" class="action-icons" width="20" height="20" alt="Edit" data-toggle="tooltip" data-placement="top" title="Edit">
                             </a>
-
-                            <a asp-page="./Details" asp-route-id="@item.Id">
-                                <img src="~/img/icons/icons-details-blue.png" class="action-icons" width="20" height="20" alt="Details" data-toggle="tooltip" data-placement="top" title="Details">
-                            </a>
-                        }
-
-                        @if (item.InvTrxHdrStatusId == STATUS_PENDING)
-                        {
+                        
                             <a asp-page="../Printables/RequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">
                                 <img src="~/img/icons/icons-print.png" class="action-icons" width="20" height="20" alt="Print" data-toggle="tooltip" data-placement="top" title="Details">
                             </a>
                         }
 
-                        @if (item.InvTrxHdrStatusId == STATUS_PENDING)
+
+                        @if (item.InvTrxHdrStatusId == STATUS_APPROVED)
                         {
-                            @*<a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*@
+                            <a asp-page="../Printables/FinalRequestForm" asp-route-id="@item.Id" asp-route-type="@item.InvTrxTypeId" target="_blank">
+                                <img src="~/img/icons/icons-print.png" class="action-icons" width="20" height="20" alt="Print" data-toggle="tooltip" data-placement="top" title="Print">
+                            </a>
                         }
 
                         <a asp-page="./Form" asp-route-id="@item.Id">
                             <img src="~/img/icons/icons-details-blue.png" class="action-icons" width="20" height="20" alt="Details" data-toggle="tooltip" data-placement="top" title="Details">
-                        </a> 
-
+                        </a>
 
                     </td>
                     <td class="td-actions">
@@ -232,7 +228,7 @@
         $(() => {
             //on init status
             StatusFilter("@Model.AdjustmentIndexModel.Status");
-            OrderFilter("@Model.AdjustmentIndexModel.Order");
+            // OrderFilter("@Model.AdjustmentIndexModel.Order");
         });
 
 
@@ -268,6 +264,40 @@
             });
         }
 
+
+        function UpdatePagefilter(storeId, filter) {
+            console.log("UpdatePagefilter");
+            window.location.href = "?storeId=" + storeId + "&status=" + filter;
+        }
+
+        function StatusFilter(status) {
+            switch (status) {
+                case "PENDING":
+                    $("#status-pending").addClass("active");
+                    break;
+                case "APPROVED":
+                    $("#status-approved").addClass("active");
+                    break;
+                case "VERIFIED":
+                    $("#status-verified").addClass("active");
+                    break;
+                case "ACCEPTED":
+                    $("#status-accepted").addClass("active");
+                    break;
+                case "CLOSED":
+                    $("#status-closed").addClass("active");
+                    break;
+                case "CANCELLED":
+                    $("#status-cancelled").addClass("active");
+                    break;
+                case "ALL":
+                    $("#status-all").addClass("active");
+                    break;
+                default:
+                    $("#status-pending").addClass("active");
+                    break;
+            }
+        }
 
     </script>
 } 

@@ -70,6 +70,15 @@ namespace InvWeb.Pages.Stores.Adjustment
             AdjustmentIndexModel.IsAdmin = IsUserAdmin();
 
 
+            var trxCount = await _context.InvTrxHdrs
+                .Where(i => i.InvTrxTypeId == TYPE_ADJUSTMENT && i.InvStoreId == storeId)
+                .ToListAsync();
+
+            ViewData["StatusCountRequest"] = itemTrxServices.FilterByStatus(trxCount, "PENDING").Count();
+            ViewData["StatusCountApproved"] = itemTrxServices.FilterByStatus(trxCount, "APPROVED").Count();
+            ViewData["StatusCountClosed"] = itemTrxServices.FilterByStatus(trxCount, "CLOSED").Count();
+
+
             ViewData["StoreId"] = storeId;
             ViewData["IsProcurementHead"] = IsUserProcHead();
             ViewData["IsAdmin"] = IsUserAdmin();
@@ -84,6 +93,11 @@ namespace InvWeb.Pages.Stores.Adjustment
                 return NotFound();
             }
 
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "PENDING";
+            }
+
             AdjustmentIndexModel = new TrxHeaderIndexModel();
 
             InvTrxHdrs = await dBMaster.InvTrxHdrDb.GetInvTrxHdrsByTypeIdAndStoreId(TYPE_ADJUSTMENT, (int)storeId);
@@ -94,6 +108,14 @@ namespace InvWeb.Pages.Stores.Adjustment
             AdjustmentIndexModel.StoreId = (int)storeId;
             AdjustmentIndexModel.Status = status;
             AdjustmentIndexModel.IsAdmin = IsUserAdmin();
+
+            var trxCount = await _context.InvTrxHdrs
+                .Where(i => i.InvTrxTypeId == TYPE_ADJUSTMENT && i.InvStoreId == storeId)
+                .ToListAsync();
+
+            ViewData["StatusCountRequest"] = itemTrxServices.FilterByStatus(trxCount, "PENDING").Count();
+            ViewData["StatusCountApproved"] = itemTrxServices.FilterByStatus(trxCount, "APPROVED").Count();
+            ViewData["StatusCountClosed"] = itemTrxServices.FilterByStatus(trxCount, "CLOSED").Count();
 
             ViewData["StoreId"] = storeId;
             ViewData["IsAdmin"] = IsUserAdmin();

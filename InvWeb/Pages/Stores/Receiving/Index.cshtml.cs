@@ -52,7 +52,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             if (string.IsNullOrEmpty(status))
             {
-                status = "ALL";
+                status = "PENDING";
             }
 
             //ReceivingIndexModel = await itemTrxServices.GetReceivingIndexModel_OnIndexOnGetAsync(InvTrxHdr, (int)storeId, TYPE_RECEIVING, status, IsUserRoleAdmin());
