@@ -84,7 +84,7 @@ namespace InvWeb.Pages.Stores.Adjustment
                 }
             }
 
-            return RedirectToPage("./Index", new { storeId = AdjustmentCreateModel.InvTrxHdr.InvStoreId });
+            return RedirectToPage("./Index", new { storeId = AdjustmentCreateModel.InvTrxHdr.InvStoreId, Status = "PENDING" });
         }
 
         private bool InvTrxHdrExists(int id)

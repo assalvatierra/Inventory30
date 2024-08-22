@@ -48,7 +48,7 @@ function AddNewItemOnTableRow() {
     else {
         PostRelease_addInvItem(invHdrId, itemId, itemQty, itemUomId, lotNo, batchNo);
 
-        //reset after add
+        //re
         $("#newItem-Lot-ExpectedQty").val(0)
     }
 

@@ -1,0 +1,366 @@
+﻿@page
+@model InvWeb.Pages.Stores.Adjustment.FormModel
+@{
+    string trxStatus = Model.AdjustmentDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status.ToUpper();
+    int count = 0;
+    int ActualInvCount = 0;
+    int ExpectedCount = 0;
+    int InvBalanceCount = 0;
+}
+
+<p>
+    <a asp-page="./Index" asp-route-storeId="@Model.AdjustmentDetailsModel.InvTrxHdr.InvStoreId" asp-route-status="@trxStatus" style="margin-right:15px;">  Back to Transaction List</a>
+
+
+    @if (trxStatus == "REQUEST")
+    {
+        <a asp-page="../Printables/RequestForm" id="PrintVoucher-btn" asp-route-id="@Model.AdjustmentDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.AdjustmentDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Form</a>
+    }
+
+    @if (trxStatus == "APPROVED")
+    {
+        <a asp-page="../Printables/FinalRequestForm" id="PrintVoucher-btn" asp-route-id="@Model.AdjustmentDetailsModel.InvTrxHdr.Id" asp-route-type="@Model.AdjustmentDetailsModel.InvTrxHdr.InvTrxTypeId" target="_blank" class="btn btn-primary">Print Final Form</a>
+    }
+</p>
+<div class="card card-full-width">
+    <div class="Receiving-Form-H4">
+        <h4> Company - Warehouse - Mecuayan </h4>
+    </div>
+    <div class="Receiving-Form-H5">
+        <h5> Adjustment Form </h5>
+    </div>
+
+    <div class="Receiving-Form-Header-Fields">
+
+        <div class="Receiving-Form-Header-Fields-Container">
+
+            <input id="textinput-hdrId" type="text" class="form-control" style="width:40rem;" value="@ViewBag.HdrId" hidden />
+
+            <table class="table" style="margin-bottom:0px;">
+                <tr>
+                    <td style="padding-left:0px;border:none;">
+                        <b>  Status : @Model.AdjustmentDetailsModel.InvTrxHdr.InvTrxHdrStatu.Status </b>
+                    </td>
+                    <td style="padding-left:0px;border:none;">
+                        Requested by: @Model.AdjustmentDetailsModel.InvTrxHdr.UserId
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:0px;border:none;">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"> Party: </label>
+
+                            <input id="textinput-Party" type="text" class="form-control" style="width:40rem;" value="@Model.AdjustmentDetailsModel.InvTrxHdr.Party" disabled />
+                        </div>
+                    </td>
+                    <td style="padding:0px;border:none;">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">  RefNo </label>
+                            <input id="textinput-RefNo" type="text" class="form-control" style="width:10rem;" value="@Model.AdjustmentDetailsModel.InvTrxHdr.Id" readonly />
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:0px;border:none;">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"> Remarks </label>
+                            <input id="textinput-HdrRemarks" type="text" class="form-control" style="width:40rem;" value="@Model.AdjustmentDetailsModel.InvTrxHdr.Remarks" disabled />
+                        </div>
+                    </td>
+                    <td style="padding:0px;border:none;">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">  Date: </label>
+
+                            <input id="textinput-Date" type="date" class="form-control" style="width:10rem;" disabled />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+
+            @if (trxStatus == "REQUEST")
+            {
+                <button id="Edit-header-btn" class="btn btn-primary" onclick="ShowEditHeader()"> <i class="bi bi-pen"> </i> Edit </button>
+                <button id="Save-header-btn" class="btn btn-success" onclick="SaveHeaderDetails_Changes()" style="display:none;"> <i class="bi bi-check-lg"> </i> Save </button>
+            }
+          
+        </div>
+
+    </div>
+
+    <div class="Form-Display-Items-Table">
+        <div style="margin:15px;">
+
+            <table class="table" style="border:1px solid lightgray;" id="ItemsTable">
+
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            PARTICULARS
+                        </th>
+                        <th class="td-bordered" style="width:8rem;">
+                            HeatNo
+                        </th>
+                        <th class="td-bordered" style="width:8rem;">
+                            Batch
+                        </th>
+                        <th class="td-bordered" style="width:5rem;">
+                            QTY
+                        </th>
+                        <th class="td-bordered" style="width:8rem;">
+                            UOM
+                        </th>
+                        <th class="td-bordered" style="width:5rem;">
+                            Operation
+                        </th>
+                        <th class="td-bordered">
+                            REMARKS
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+
+                <!-- ITEMS -->
+                @foreach (var item in Model.AdjustmentDetailsModel.InvTrxDtls)
+                {
+                    int ItemCountExpectedBalance = 0;
+                    {
+                        count += 1;
+                        int totalReceivedItemCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
+
+                        ItemCountExpectedBalance = item.ItemQty - totalReceivedItemCount;
+
+                        //Overall count
+                        ExpectedCount += item.ItemQty;
+                        ActualInvCount += totalReceivedItemCount;
+                    }
+                    <tr id="itemDetails-@item.Id" cite="">
+                        <td id="itemDescEdit-@item.Id">
+                            @count )
+                            ( @item.InvItem.Code )
+
+                            @item.InvItem.InvCategory.Description -
+                            @item.InvItem.Description
+
+                            @if (item.InvTrxDtlxItemMasters != null)
+                            {
+                                foreach (var itemMaster in item.InvTrxDtlxItemMasters)
+                                {
+                                    <br>
+                                    <span style="color:gray;margin-left:15px;">
+                                        @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name
+                                        &#x2192;
+                                        Area: @itemMaster.InvItemMaster.InvStoreArea.Name
+                                        &nbsp;
+                                        Qty: @itemMaster.InvItemMaster.ItemQty
+
+                                        @if (!string.IsNullOrEmpty(@itemMaster.InvItemMaster.Remarks))
+                                        {
+                                            <br /> <span style="margin-left:15px;"> Remarks: @itemMaster.InvItemMaster.Remarks</span>
+                                        }
+                                    </span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @item.LotNo
+                        </td>
+                        <td>
+                            @item.BatchNo
+                        </td>
+                        <td id="itemDetails-Qty-@item.Id">
+                            @item.ItemQty
+
+                            @if (item.InvTrxDtlxItemMasters.Count() > 0)
+                            {
+                                int totalReceivedCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
+
+                                <span style="color:green;">
+                                    / @totalReceivedCount
+                                </span>
+                            }
+
+                        </td>
+                        <td>
+                            @item.InvUom.uom
+                        </td>
+                        <td>
+                            ( @item.InvTrxDtlOperator.Operator )
+                            @item.InvTrxDtlOperator.Description
+                        </td>
+                        <td>
+                            @item.Remarks
+                        </td>
+                        <td>
+                            @if (trxStatus == "APPROVED")
+                            {
+                                <div style="width:7rem;">
+                                     <button class="btn btn-outline-primary btn-sm" onclick="ApproveItemRow( @item.Id )"> Approve </button>
+                                </div>
+                                
+                            }
+
+                            @if (trxStatus == "REQUEST")
+                            {
+                                <div class="trx-items-actions" style="min-width:5rem;display:flex;">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="EditExisitingItemRow(this, @item.Id)" style="padding:3px 12px;margin-right:5px"> Edit </button>
+                                    <button class="btn btn-outline-danger btn-sm" onclick="RemoveItemFromTable(this, @item.Id)" style="padding:3px 10px;"> X </button>
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                }
+
+                <tr>
+                    <td colspan="8" id="AddItem-btn-td">
+                        <button id="AddItem-btn" class="btn btn-outline-primary btn-sm" onclick="ShowAddItem()" style="padding:10px;">
+                            Add Item
+                        </button>
+                    </td>
+                </tr>
+
+
+                <tr id="AddItemsField" class="Receiving-Form-Add-Item">
+                    <td>
+                        Add New Item
+                        <div style="display:flex;">
+                            <select id="itemDropdown" class="form-control" asp-items="ViewBag.InvItems"></select>
+                            <img id="ItemTextfieldBtn" src="~/img/icons/icons-search.png" width="32" alt="search" class="item-search-icon">
+                        </div>
+                    </td>
+                    <td>
+
+                        HeatNo
+                        <input id="AddItem-LotNo" type="text" class="form-control" value="" />
+                        <br />
+                        Origin
+                        <select id="AddItem-Origin" class="form-control" asp-items="ViewBag.Origins"></select>
+
+                    </td>
+                    <td>
+
+                        BatchNo
+                        <input id="AddItem-BatchNo" type="text" class="form-control" value="" />
+                        <br />
+                        Brand
+                        <select id="AddItem-Brand" class="form-control" asp-items="ViewBag.Brands"></select>
+
+                    </td>
+                    <td>
+                        Qty
+                        <input id="AddItem-Qty" type="text" class="form-control" value="1" />
+
+                    </td>
+                    <td>
+                        Uom
+                        <select id="UomDropdown" class="form-control" asp-items="ViewBag.UomsList" disabled></select> <br />
+                        Area
+                        <select id="AddItem-Area" class="form-control" asp-items="ViewBag.StoreAreas"></select>
+                    </td>
+                    <td>
+                        Operator
+                        <select id="AddItem-OperatorId" class="form-control" asp-items="ViewBag.Operator"></select>
+                    </td>
+                    <td>
+                        Remarks
+                        <input id="AddItem-Remarks" type="text" class="form-control" />
+                       
+                    </td>
+                    <td>
+                        <div class="row" style="width:10rem;margin-left: 1px;margin-top:5px;">
+                            <button class="btn btn-outline-success btn-sm" onclick="AddNewItemOnTableRow()" style="padding:5px;margin-right:5px;"> <i class="bi bi-check-lg" style="font-size:1rem; color:green;"> </i> Save </button>
+                            <button class="btn btn-outline-danger btn-sm" onclick="Cancel_AddNewItemOnTableRow()" style="padding:5px;"> <i class="bi bi-x-lg" style="font-size:1rem; color:red;"> </i> Cancel </button>
+                        </div>
+
+                    </td>
+                </tr>
+
+                @*   <tr>
+                <td colspan="5">
+                TOTAL
+                </td>
+                </tr> *@
+
+            </table>
+        </div>
+    </div>
+
+
+
+
+    @await Component.InvokeAsync("Dialog", new { items = ViewData["DialogItems"], selector = "itemDropdown" })
+    @await Component.InvokeAsync("SearchItemEdit", new { items = ViewData["DialogItems"], selector = "itemEditDropdown" })
+
+    @{
+        Html.RenderPartial("ModalAddItem");
+    }
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+
+        <script src="~/js/Pages/Stores/Shared/ItemDetails/ItemUomDropdown.js"></script>
+        <script src="~/js/Shared/Components/Dialog/DialogItem.js"></script>
+        <script src="~/js/Pages/Stores/Adjustment/Form.js"></script>
+
+        <script>
+
+            $(document).ready(function () {
+
+                $("#itemDropdown").val($("#itemDropdown option:first").val());
+                //SearchItem(@ViewBag.SelectedItemId);
+
+                var defaultItem = $("#itemDropdown option:first").val();
+                GetItemOumsWithId(defaultItem);
+
+                if ("@trxStatus" == "APPROVED") {
+                    $("#AddItemsField").hide();
+                    $(".trx-items-actions").hide();
+                    $("#progressbar-status").css('width', '35%');
+
+                    DisableEditOnApproved();
+                }
+
+                if ("@trxStatus" == "REQUEST") {
+                    $("#progressbar-status").css('width', '10%');
+                }
+
+                if ("@trxStatus" == "CLOSED") {
+                    $("#progressbar-status").css('width', '100%');
+                    $("#AddItem-btn-td").hide();
+                    $(".trx-items-actions").hide();
+                    $("#CancelTrx-btn").hide();
+                    $("#PrintVoucher-btn").hide();
+                }
+
+                if ("@trxStatus" == "CANCELLED") {
+                    $("#progressbar-status").css('width', '100%');
+                    $("#AddItem-btn-td").hide();
+                    $(".trx-items-actions").hide();
+                    $("#CancelTrx-btn").hide();
+                    $("#PrintVoucher-btn").hide();
+                }
+
+                $("#textinput-Date").val('@ViewBag.DateToday');
+                //$("#DateTransaction").datepicker("setDate", '@ViewBag.DateToday');
+            });
+
+
+
+            // function SelectItemFromDialog(lotNo, batchNo, expectedQty) {
+            //     $("#newItem-LotNo").val(lotNo);
+            //     $("#newItem-BatchNo").val(batchNo);
+            //     $("#SearchLotNoModal").modal('hide');
+            //     console.log("Selecting lot no...");
+
+            //     //$("#newItem-Lot-ExpectedQty").val(expectedQty);
+            // }
+
+
+        </script>
+    }

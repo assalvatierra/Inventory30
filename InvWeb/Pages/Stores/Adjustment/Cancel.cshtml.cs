@@ -14,22 +14,23 @@ using CoreLib.DTO.Common.TrxHeader;
 
 namespace InvWeb.Pages.Stores.Adjustment
 {
-    public class DetailsModel : PageModel
+    public class CancelModel : PageModel
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<DeleteModel> _logger;
         private readonly IItemTrxServices itemTrxServices;
 
-        public DetailsModel(ApplicationDbContext context, ILogger<DeleteModel> logger)
+
+        public CancelModel(ILogger<DeleteModel> logger, ApplicationDbContext context)
         {
-            _context = context;
             _logger = logger;
             _context = context;
             itemTrxServices = new ItemTrxServices(_context, _logger);
         }
 
+
         [BindProperty]
-        public TrxHeaderDetailsModel HeaderDetailsModel { get; set; }
+        public InvTrxHdr InvTrxHdr { get; set; }
 
         //public InvTrxHdr InvTrxHdr { get; set; }
 
@@ -40,19 +41,38 @@ namespace InvWeb.Pages.Stores.Adjustment
                 return NotFound();
             }
 
-            HeaderDetailsModel =  await itemTrxServices.GetTrxHeaderDetailsModel_OnDetailsOnGet((int)id);
+            InvTrxHdr = await _context.InvTrxHdrs
+                .Include(i => i.InvStore)
+                .Include(i => i.InvTrxHdrStatu)
+                .Include(i => i.InvTrxType).FirstOrDefaultAsync(m => m.Id == id);
 
-            TrxHeaderDetailsModel trxHeaderDetails = new TrxHeaderDetailsModel();
-            trxHeaderDetails.InvTrxHdr = await itemTrxServices.GetInvTrxHdrsByIdAsync((int)id);
-            trxHeaderDetails.InvTrxDtls = itemTrxServices.GetInvTrxDtlsById((int)id);
-            trxHeaderDetails.StoreId = trxHeaderDetails.InvTrxHdr.InvStoreId;
-
-
-            if (HeaderDetailsModel.InvTrxHdr == null)
+            if (InvTrxHdr == null)
             {
                 return NotFound();
             }
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            InvTrxHdr = await _context.InvTrxHdrs.FindAsync(id);
+
+            if (InvTrxHdr != null)
+            {
+                //remove transactions detail items
+                InvTrxHdr.InvTrxHdrStatusId = 4;
+
+                itemTrxServices.EditInvTrxHdrs(InvTrxHdr);
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("./Index", new { storeId = InvTrxHdr.InvStoreId, Status="PENDING" });
         }
     }
 }

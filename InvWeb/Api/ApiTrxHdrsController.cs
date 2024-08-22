@@ -299,6 +299,10 @@ namespace InvWeb.Api
                     }
                 }
             }
+            else
+            {
+                return StatusCode(400, "Unable to update status");
+            }
 
             return StatusCode(200, "Status Update Successfull");
         }

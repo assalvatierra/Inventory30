@@ -1,4 +1,5 @@
-﻿using CoreLib.DTO.Receiving;
+﻿using CoreLib.DTO.Adjustment;
+using CoreLib.DTO.Receiving;
 using CoreLib.DTO.Releasing;
 using CoreLib.Interfaces;
 using CoreLib.Inventory.Interfaces;
@@ -110,6 +111,77 @@ namespace InvWeb.Api
         }
 
 
+        [ActionName("AddTrxDtlItemAdjustment")]
+        [HttpPost]
+        public ObjectResult AddTrxDtlItemAdjustment(AddItemReleasingDTO addItemReleasingDTO)
+        {
+            try
+            {
+                InvTrxDtl invTrxDtl = new InvTrxDtl();
+                invTrxDtl.InvTrxHdrId = addItemReleasingDTO.HdrId;
+                invTrxDtl.InvItemId = addItemReleasingDTO.InvItemId;
+                invTrxDtl.InvUomId = addItemReleasingDTO.UomId;
+                invTrxDtl.ItemQty = addItemReleasingDTO.Qty;
+                invTrxDtl.LotNo = addItemReleasingDTO.LotNo;
+                invTrxDtl.BatchNo = addItemReleasingDTO.BatchNo;
+                invTrxDtl.Remarks = addItemReleasingDTO.Remarks;
+                invTrxDtl.InvTrxDtlOperatorId = addItemReleasingDTO.OperatorId;
+
+                _context.InvTrxDtls.Add(invTrxDtl);
+                _context.SaveChanges();
+
+                CreateInvItemMasterWithLink(addItemReleasingDTO, invTrxDtl.Id);
+
+                return StatusCode(201, "Add Successfull");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Add not Successfull");
+            }
+
+        }
+
+        private bool CreateInvItemMasterWithLink(AddItemReleasingDTO addItemReleasingDTO, int trxDtlId)
+        {
+            try
+            {
+
+                InvItemMaster invItemMaster = new InvItemMaster();
+                invItemMaster.InvItemId = addItemReleasingDTO.InvItemId;
+                invItemMaster.InvItemOriginId = addItemReleasingDTO.OriginId;
+                invItemMaster.InvItemBrandId = addItemReleasingDTO.BrandId;
+                invItemMaster.InvStoreAreaId = addItemReleasingDTO.AreaId;
+                invItemMaster.InvUomId = addItemReleasingDTO.UomId;
+                invItemMaster.Remarks = addItemReleasingDTO.Remarks;
+                invItemMaster.ItemQty = addItemReleasingDTO.Qty;
+                invItemMaster.BatchNo = addItemReleasingDTO.BatchNo;
+                invItemMaster.LotNo = addItemReleasingDTO.LotNo;
+
+
+                invItemMasterServices.CreateInvItemMaster(invItemMaster);
+                _context.SaveChanges();
+
+                //Create link
+                InvTrxDtlxItemMaster invTrxDtlxItemLink = new InvTrxDtlxItemMaster();
+
+                invTrxDtlxItemLink.InvItemMasterId = invItemMaster.Id;
+                invTrxDtlxItemLink.InvTrxDtlId = trxDtlId;
+
+                _context.InvTrxDtlxItemMasters.Add(invTrxDtlxItemLink);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                
+                return false;
+            }
+        }
+
+       
+
+
         [ActionName("AddReleaseTrxDtlItem")]
         [HttpPost]
         public ObjectResult AddReleaseTrxDtlItem(AddReleaseTrxDtlsDTO trxDtls)
@@ -140,7 +212,7 @@ namespace InvWeb.Api
 
         [ActionName("DeleteTrxDtlItem")]
         [HttpDelete]
-        public ObjectResult DeleteTrxDtlItem(int id)
+        public async Task<ObjectResult> DeleteTrxDtlItem(int id)
         {
             try
             {
@@ -152,6 +224,24 @@ namespace InvWeb.Api
                     return StatusCode(500, "Unable to find item details");
                 }
 
+                if (invTrxDtl.InvTrxDtlxItemMasters.Count() > 1)
+                {
+                    var invTrxInvItemMaster = invTrxDtl.InvTrxDtlxItemMasters.Last();
+                    var invItemMasterLinkId = invTrxInvItemMaster.Id;
+                    var invItemMasterId = invTrxInvItemMaster.InvItemMasterId;
+
+                    if (invTrxInvItemMaster != null)
+                    {
+                        //remove link to itemMaster
+                        await invItemMasterServices.DeleteInvItemMasterLink(invItemMasterLinkId);
+
+                        //remove link to itemMaster
+                        await invItemMasterServices.DeleteInvItemMaster(invItemMasterId);
+
+                    }
+
+                }
+
                 _context.InvTrxDtls.Remove(invTrxDtl);
                 _context.SaveChanges();
 
@@ -159,7 +249,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Add not Successfull");
+                return StatusCode(500, "Remove not Successfull");
             }
         }
 
@@ -616,7 +706,9 @@ namespace InvWeb.Api
                     invTrxDtl.InvUom.uom,
                     invTrxDtl.LotNo,
                     invTrxDtl.BatchNo,
-                    invTrxDtl.InvItem.Description
+                    invTrxDtl.InvItem.Description,
+                    invTrxDtl.Remarks,
+                    invTrxDtl.InvTrxDtlOperatorId
                 });
 
             }
@@ -697,30 +789,93 @@ namespace InvWeb.Api
         }
 
 
-
-
-        [ActionName("EditTrxDtlItem")]
-        [HttpPost]
-        public ObjectResult EditTrxDtlItem(int invDtlsId, int invId, int qty, int uomId)
+        [ActionName("GetItemMasterDetails")]
+        [HttpGet]
+        public string GetItemMasterDetails(int Id)
         {
             try
             {
 
-                InvTrxDtl invTrxDtl = itemDtlsServices.GetInvDtlsById(invDtlsId).FirstOrDefault();
+                InvTrxDtl invTrxDtl = _context.InvTrxDtls.Where(c=>c.Id == Id)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                        .ThenInclude(c => c.InvItemMaster)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                        .ThenInclude(c=>c.InvItemMaster)
+                            .ThenInclude(c => c.InvItemBrand)
+                    .Include(c=>c.InvTrxDtlxItemMasters)
+                        .ThenInclude(c => c.InvItemMaster)
+                            .ThenInclude(c => c.InvItemOrigin)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                        .ThenInclude(c => c.InvItemMaster)
+                            .ThenInclude(c => c.InvStoreArea)
+                    .FirstOrDefault();
+
+                if (invTrxDtl == null)
+                {
+                    return "Unable to find invTrxDtl";
+                }
+
+
+                InvItemMaster invItemMaster = invTrxDtl.InvTrxDtlxItemMasters.FirstOrDefault().InvItemMaster;
+
+                return JsonConvert.SerializeObject(new
+                {
+                    invItemMaster.InvItemBrandId,
+                    invItemMaster.InvItemOriginId,
+                    invItemMaster.InvStoreAreaId
+                });
+            }
+            catch (Exception ex)
+            {
+                return "Unable to GetOriginBrandFromLotNo";
+            }
+
+
+        }
+
+
+
+        [ActionName("EditTrxDtlItem")]
+        [HttpPost]
+        public ObjectResult EditTrxDtlItem(EditItemReleasingDTO editItem)
+        {
+            try
+            {
+
+                InvTrxDtl invTrxDtl = itemDtlsServices.GetInvDtlsById(editItem.InvTrxDetailsId).Include(c=>c.InvTrxDtlxItemMasters).FirstOrDefault();
 
                 if (invTrxDtl == null)
                 {
                     return StatusCode(500, "Edit not Successfull. Item not found.");
                 }
 
-                invTrxDtl.InvItemId = invId;
-                invTrxDtl.InvUomId = uomId;
-                invTrxDtl.ItemQty = qty;
+                invTrxDtl.InvItemId = editItem.InvItemId;
+                invTrxDtl.InvUomId = editItem.UomId;
+                invTrxDtl.ItemQty = editItem.Qty;
+                invTrxDtl.LotNo = editItem.LotNo;
+                invTrxDtl.BatchNo = editItem.BatchNo;
+                invTrxDtl.Remarks = editItem.Remarks;
 
-                //itemDtlsServices.EditInvDtls(invTrxDtl);
-                //itemDtlsServices.SaveChangesAsync();
+                InvItemMaster invItemMaster = invTrxDtl.InvTrxDtlxItemMasters.FirstOrDefault().InvItemMaster;
+                
+                if (invItemMaster == null)
+                {
+                    return StatusCode(500, "Edit not Successfull. invItemMaster not found.");
+                }
+
+
+                invItemMaster.InvStoreAreaId = editItem.AreaId;
+                invItemMaster.InvItemBrandId = editItem.BrandId;
+                invItemMaster.InvItemOriginId = editItem.OriginId;
+                invItemMaster.ItemQty = editItem.Qty;
+                invItemMaster.LotNo = editItem.LotNo;
+                invItemMaster.BatchNo = editItem.BatchNo;
+                invItemMaster.Remarks = editItem.Remarks;
 
                 _context.Attach(invTrxDtl).State = EntityState.Modified;
+
+                _context.Attach(invItemMaster).State = EntityState.Modified;
+
 
                 _context.SaveChanges();
 

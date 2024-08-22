@@ -85,6 +85,29 @@ namespace Inventory
         }
 
 
+
+        public async Task DeleteInvItemMasterLink(int id)
+        {
+            try
+            {
+
+                var InvItemMasterLink = _context.InvTrxDtlxItemMasters.Find(id);
+
+                if (InvItemMasterLink != null)
+                {
+                    _context.InvTrxDtlxItemMasters.Remove(InvItemMasterLink);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("InvPOHdrServices: Unable to DeleteInvItemMasterLink :" + ex.Message);
+                throw new Exception("InvPOHdrServices: Unable to DeleteInvItemMasterLink :" + ex.Message);
+
+            }
+        }
+
+
         public void EditInvItemMaster(InvItemMaster InvItemMaster)
         {
             try

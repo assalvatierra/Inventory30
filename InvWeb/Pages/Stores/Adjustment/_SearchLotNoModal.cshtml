@@ -1,0 +1,156 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@* @model InvWeb.Pages.Stores.Releasing.ItemDetails.CreateModel *@
+
+@{
+    // var LotNotItems = Model.ItemDtlsCreateEditModel.LotNoItems as List<CoreLib.Inventory.Models.Items.ItemLotNoSelect>;
+    // var SelectedItem = Model.ItemDtlsCreateEditModel.SelectedItem as string;
+    // var totalQty = 0;
+}
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="SearchLotNoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Search LotNo Items </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4 id="item-Searchheader">  </h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Select
+                            </th>
+                            <th>
+                                LotNo / BatchNo
+                            </th>
+                            <th>
+                                Item
+                            </th>
+                            <th>
+                                Request Date
+                            </th>
+                            <th>
+                                Qty
+                            </th>
+                            <th>
+                                Uom
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="SearchLotNo-list">
+                        @* @if (LotNotItems != null)
+                        {
+
+                            @foreach (var items in LotNotItems)
+                            {
+                                totalQty += items.Qty; 
+                                <tr>
+                                    <td>
+                                        <span class="btn btn-primary" onclick="SelectLotNo(@items.LotNo)"> Select </span>
+                                    </td>
+                                    <td class="Item-LotNo">
+                                        @items.LotNo / @items.BatchNo 
+                                    </td>
+                                    <td>
+                                        @items.Date
+                                    </td>
+                                    <td>
+                                        @items.Qty 
+                                    </td>
+                                    <td>
+                                        @items.Uom
+                                    </td>
+                                    <td>
+                                        @items.Status
+                                    </td>
+                                    <td>
+                                        <partial name="_PartialStockWarning" model="items" />
+                                    </td>
+                                </tr>
+                            }
+                        } *@
+                        <tr>
+                          
+                            <td colspan="3">
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Search item-->
+<!-- Modal -->
+<div class="modal fade" id="SearchLotNoModalEdit" tabindex="-1"  aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Search LotNo Items - Edit </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4 id="item-Searchheader-Edit">  </h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Select
+                            </th>
+                            <th>
+                                LotNo / BatchNo
+                            </th>
+                            <th>
+                                Item
+                            </th>
+                            <th>
+                                Request Date
+                            </th>
+                            <th>
+                                Qty
+                            </th>
+                            <th>
+                                Uom
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="SearchLotNo-list-Edit">
+                       
+                        <tr>
+                            <td colspan="3">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

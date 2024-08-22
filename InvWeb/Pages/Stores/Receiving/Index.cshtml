@@ -118,7 +118,7 @@
                         @if (item.InvTrxHdrStatusId == STATUS_PENDING)
                         {
 
-                         @*<a asp-page="./Edit" asp-route-id="@item.Id">
+                            @*<a asp-page="./Edit" asp-route-id="@item.Id">
                                 <img src="~/img/icons/icons-edit-blue.png" class="action-icons" width="20" height="20" alt="Edit" data-toggle="tooltip" data-placement="top" title="Edit">
                             </a>*@
 
@@ -170,7 +170,7 @@
 
                             if (Model.IsTransactionHaveApprovedRecord(item.Id, "Verified"))
                             {
-                                            <button class="btn btn-success" disabled> Procurement Verified </button>
+                                <button class="btn btn-success" disabled> Procurement Verified </button>
                             }
                             else if (IsProcurementHead)
                             {

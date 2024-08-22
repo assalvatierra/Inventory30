@@ -197,7 +197,7 @@ namespace Inventory
 
                     if (trxHeader.InvTrxType.Type == "Adjust")
                     {
-                        if (!string.IsNullOrEmpty(trxApproval.ApprovedBy))
+                        if (!string.IsNullOrEmpty(trxApproval.ApprovedBy) && !string.IsNullOrEmpty(trxApproval.VerifiedBy))
                         {
                             return true;
                         }

@@ -12,23 +12,28 @@ using Modules.Inventory;
 using CoreLib.Inventory.Interfaces;
 using CoreLib.DTO.Receiving;
 using CoreLib.DTO.Common.TrxHeader;
+using Microsoft.AspNetCore.Authorization;
+using Inventory.DBAccess;
 
 namespace InvWeb.Pages.Stores.Adjustment
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
         private readonly IItemTrxServices itemTrxServices;
         private readonly ILogger<IndexModel> _logger;
+        private readonly DBMasterService dBMaster;
 
         public IndexModel(ApplicationDbContext context, ILogger<IndexModel> logger)
         {
             _logger = logger;
             _context = context;
             itemTrxServices = new ItemTrxServices(_context, _logger);
+            dBMaster = new DBMasterService(_context, _logger);
         }
 
-        public IList<InvTrxHdr> InvTrxHdr { get;set; }
+        public IList<InvTrxHdr> InvTrxHdrs { get;set; }
         public TrxHeaderIndexModel AdjustmentIndexModel { get; set; }
 
         [BindProperty]
@@ -41,7 +46,7 @@ namespace InvWeb.Pages.Stores.Adjustment
         public async Task<ActionResult> OnGetAsync(int? storeId, string status)
         {
 
-            if (storeId == null)
+            if (storeId == null || storeId == 0)
             {
                 return NotFound();
             }
@@ -51,30 +56,84 @@ namespace InvWeb.Pages.Stores.Adjustment
                 status = "PENDING";
             }
 
-            AdjustmentIndexModel = await itemTrxServices.GetTrxHeaderIndexModel_OnGetAsync(InvTrxHdr, (int)storeId, TYPE_ADJUSTMENT, status, IsUserAdmin());
+            //AdjustmentIndexModel = await itemTrxServices.GetTrxHeaderIndexModel_OnGetAsync(InvTrxHdr, (int)storeId, TYPE_ADJUSTMENT, status, IsUserAdmin());
+
+            AdjustmentIndexModel = new TrxHeaderIndexModel();
+
+            InvTrxHdrs = await dBMaster.InvTrxHdrDb.GetInvTrxHdrsByTypeIdAndStoreId(TYPE_ADJUSTMENT, (int)storeId);
+
+            InvTrxHdrs = itemTrxServices.FilterByStatus(InvTrxHdrs, status);
+
+            AdjustmentIndexModel.InvTrxHdrs = InvTrxHdrs;
+            AdjustmentIndexModel.StoreId = (int)storeId;
+            AdjustmentIndexModel.Status = status;
+            AdjustmentIndexModel.IsAdmin = IsUserAdmin();
+
 
             ViewData["StoreId"] = storeId;
+            ViewData["IsProcurementHead"] = IsUserProcHead();
+            ViewData["IsAdmin"] = IsUserAdmin();
             return Page();
         }
 
 
-        public async Task<IActionResult> OnPostAsync(int? storeId)
+        public async Task<IActionResult> OnPostAsync(int? storeId, string status)
         {
             if (storeId == null)
             {
                 return NotFound();
             }
 
-            AdjustmentIndexModel = await itemTrxServices.GetTrxHeaderIndexModel_OnPostAsync(InvTrxHdr, (int)storeId, TYPE_ADJUSTMENT, Status, Orderby,IsUserAdmin());
+            AdjustmentIndexModel = new TrxHeaderIndexModel();
 
+            InvTrxHdrs = await dBMaster.InvTrxHdrDb.GetInvTrxHdrsByTypeIdAndStoreId(TYPE_ADJUSTMENT, (int)storeId);
+
+            InvTrxHdrs = itemTrxServices.FilterByStatus(InvTrxHdrs, status);
+
+            AdjustmentIndexModel.InvTrxHdrs = InvTrxHdrs;
+            AdjustmentIndexModel.StoreId = (int)storeId;
+            AdjustmentIndexModel.Status = status;
+            AdjustmentIndexModel.IsAdmin = IsUserAdmin();
 
             ViewData["StoreId"] = storeId;
+            ViewData["IsAdmin"] = IsUserAdmin();
+            ViewData["IsProcurementHead"] = IsUserProcHead();
             return Page();
         }
 
         private bool IsUserAdmin()
         {
             return User.IsInRole("Admin");
+        }
+        private bool IsUserProcHead()
+        {
+            return User.IsInRole("Procurement-head");
+        }
+
+        public bool IsTransactionHaveApprovedRecord(int trxHdrId, string recordType)
+        {
+            if (_context.InvTrxApprovals.Where(t => t.InvTrxHdrId == trxHdrId).Count() > 0)
+            {
+                var trxApprovalRecord = _context.InvTrxApprovals.Where(t => t.InvTrxHdrId == trxHdrId).First();
+
+                if (recordType == "Approved")
+                {
+                    if (!String.IsNullOrEmpty(trxApprovalRecord.ApprovedBy))
+                    {
+                        return true;
+                    }
+                }
+
+                if (recordType == "Verified")
+                {
+                    if (!String.IsNullOrEmpty(trxApprovalRecord.VerifiedBy))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

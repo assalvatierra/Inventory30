@@ -15,6 +15,7 @@ namespace CoreLib.Interfaces
         public Task CreateInvItemMaster(InvItemMaster invItemMaster);
         public void EditInvItemMaster(InvItemMaster invItemMaster);
         public Task DeleteInvItemMaster(int id);
+        public Task DeleteInvItemMasterLink(int id);
         public Task SaveChangesAsync();
         public bool InvItemMasterExists(int id);
 

@@ -92,6 +92,9 @@ namespace Modules.Inventory
                  .Include(i => i.InvItem)
                  .Include(i => i.InvTrxHdr)
                  .Include(i => i.InvUom)
+                 .Include(i => i.InvTrxDtlxItemMasters)
+                 .Include(i => i.InvTrxDtlxItemMasters)
+                 .ThenInclude(i => i.InvItemMaster)
                  .Where(i => i.Id == Id);
             }
             catch (Exception ex)
