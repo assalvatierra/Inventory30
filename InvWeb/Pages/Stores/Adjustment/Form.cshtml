@@ -198,9 +198,9 @@
                         <td>
                             @if (trxStatus == "APPROVED")
                             {
-                                <div style="width:7rem;">
+                             @*    <div style="width:7rem;">
                                      <button class="btn btn-outline-primary btn-sm" onclick="ApproveItemRow( @item.Id )"> Approve </button>
-                                </div>
+                                </div> *@
                                 
                             }
 
@@ -288,8 +288,23 @@
             </table>
         </div>
     </div>
+ </div>
+    <div class="col-lg-4" style="margin-top:30px;">
 
+        @if (trxStatus == "APPROVED" )
+        {
+        @* <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@Model.ReceivingDetailsModel.StoreId" asp-route-Status="CLOSED">ALL ITEMS RECEIVED and CLOSE </a> *@
 
+        <button class="btn btn-primary" id="CloseTrxHeaderBtn" onclick="TransactionStatus_Close(@Model.AdjustmentDetailsModel.InvTrxHdr.Id)"> ALL ITEMS RECEIVED and CLOSE </button>
+
+        <div id="AfterClosedDivLinks">
+            <br />
+            <a asp-page="./Index" class="btn btn-primary" asp-route-storeId="@ViewData["StoreId"]" asp-route-Status="PENDING">Go to Request</a>
+
+        </div>
+
+        }
+    </div>
 
 
     @await Component.InvokeAsync("Dialog", new { items = ViewData["DialogItems"], selector = "itemDropdown" })

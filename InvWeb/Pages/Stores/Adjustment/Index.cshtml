@@ -103,6 +103,7 @@
 
             </th>
              <th> Date</th>
+             <th></th>
         </tr>
     </thead>
     <tbody>
@@ -214,6 +215,35 @@
                     </td>
                     <td class="td-bold" style="padding-top:18px;">
                         @item.DtTrx.ToString("MMM dd yyyy")
+                    </td>
+                    <td>
+                        @if (item.InvTrxHdrStatu.Status == "Approved")
+                        {
+                            <span class="badge badge-success" style="padding:8px;">
+                                @item.InvTrxHdrStatu.Status
+                            </span>
+                        }
+
+                        @if (item.InvTrxHdrStatu.Status == "Request")
+                        {
+                            <span class="badge badge-info" style="padding:8px;">
+                                @item.InvTrxHdrStatu.Status
+                            </span>
+                        }
+
+                        @if (item.InvTrxHdrStatu.Status == "Closed")
+                        {
+                            <span class="badge badge-warning" style="padding:8px;">
+                                @item.InvTrxHdrStatu.Status
+                            </span>
+                        }
+
+                        @if (item.InvTrxHdrStatu.Status == "Cancelled")
+                        {
+                            <span class="badge badge-warning" style="padding:8px;">
+                                @item.InvTrxHdrStatu.Status
+                            </span>
+                        }
                     </td>
 
                 </tr>
