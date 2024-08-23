@@ -126,6 +126,11 @@ namespace InvWeb.Pages.Stores.Printables
                 .Include(i => i.InvTrxType)
                 .Include(i => i.InvTrxDtls).ThenInclude(i => i.InvTrxDtlOperator)
                 .Include(i => i.InvTrxDtls).ThenInclude(i => i.InvUom)
+                .Include(i => i.InvTrxDtls).ThenInclude(i => i.InvTrxDtlxItemMasters)
+                .Include(i => i.InvTrxDtls).ThenInclude(i => i.InvTrxDtlxItemMasters).ThenInclude(i => i.InvItemMaster)
+                .Include(i => i.InvTrxDtls).ThenInclude(i => i.InvTrxDtlxItemMasters).ThenInclude(i => i.InvItemMaster).ThenInclude(i => i.InvItemBrand)
+                .Include(i => i.InvTrxDtls).ThenInclude(i => i.InvTrxDtlxItemMasters).ThenInclude(i => i.InvItemMaster).ThenInclude(i => i.InvItemOrigin)
+                .Include(i => i.InvTrxDtls).ThenInclude(i => i.InvTrxDtlxItemMasters).ThenInclude(i => i.InvItemMaster).ThenInclude(i => i.InvStoreArea)
                 .Include(i => i.InvStore)
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
@@ -193,6 +198,24 @@ namespace InvWeb.Pages.Stores.Printables
             {
                 ItemCount += 1;
 
+                List<TrxDetail_SubItems> subItemsList = new List<TrxDetail_SubItems>();
+                if (item.InvTrxDtlxItemMasters.Count > 0)
+                {
+                    foreach (var subitem  in item.InvTrxDtlxItemMasters)
+                    {
+                        TrxDetail_SubItems subItemDetails = new TrxDetail_SubItems();
+                        var itemMaster = subitem.InvItemMaster;
+                        subItemDetails.Id = subitem.InvItemMasterId;
+                        subItemDetails.Qty = itemMaster.ItemQty;
+                        subItemDetails.Area = itemMaster.InvStoreArea.Name;
+                        subItemDetails.Brand = itemMaster.InvItemBrand.Name;
+                        subItemDetails.Origin = itemMaster.InvItemOrigin.Name;
+                        subItemDetails.Remarks = itemMaster.Remarks;
+
+                        subItemsList.Add(subItemDetails);
+                    }
+                }
+
                 var trxDetails = new TrxDetail
                 {
                     Id = item.InvItemId,
@@ -203,8 +226,9 @@ namespace InvWeb.Pages.Stores.Printables
                     Uom = item.InvUom.uom,
                     Count = ItemCount,
                     Operation = item.InvTrxDtlOperator.Description,
-                    LotNo = item.LotNo
-                   
+                    LotNo = item.LotNo,
+                    subItems = subItemsList
+
                 };
 
                 if (requestHdr.InvTrxTypeId == 3)

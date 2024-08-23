@@ -118,6 +118,16 @@
                         <td colspan="8" class="no-border">
                             @item.Description
                             <br /> 
+                            @foreach(var subItems in item.subItems){
+                               <span>
+                                @subItems.Brand - subItems.Origin
+                                         &nbsp; - &nbsp;  Qty: @subItems.Qty  -> Area : @subItems.Area
+                               </span>
+                               @if(subItems.Remarks != "" ){
+                                   <br />
+                                   @subItems.Remarks
+                               }
+                            }
                         </td>
                         <td class="border-left text-center no-border">
                             @item.LotNo
@@ -292,6 +302,18 @@
                         </td>
                         <td colspan="8" class="no-border">
                             @item.Description
+
+                            <br /> 
+                            @foreach(var subItems in item.subItems){
+                               <span>
+                                @subItems.Brand - subItems.Origin
+                                        &nbsp; - &nbsp;   Qty: @subItems.Qty  -> Area : @subItems.Area
+                               </span>
+                               @if(subItems.Remarks != "" ){
+                                   <br />
+                                   @subItems.Remarks
+                               }
+                            }
                         </td>
                         <td class="border-left text-center no-border">
                             @item.LotNo
