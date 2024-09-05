@@ -876,7 +876,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
-    <Property Name="Remarks" Type="nvarchar" Nullable="false" MaxLength="40" />
+    <Property Name="Remarks" Type="nvarchar" Nullable="true" MaxLength="40" />
     <Property Name="InvStoreId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="RptUserLevels">
@@ -3582,7 +3582,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="20" />
-          <Property Name="Remarks" Type="String" Nullable="false" MaxLength="40" />
+          <Property Name="Remarks" Type="String" Nullable="true" MaxLength="40" />
           <NavigationProperty Name="InvItemMasters" Relationship="InvDB.InvStoreAreaInvItemMaster" FromRole="InvStoreArea" ToRole="InvItemMaster" />
           <NavigationProperty Name="InvStore" Relationship="InvDB.InvStoreInvStoreArea" FromRole="InvStoreArea" ToRole="InvStore" />
           <Property Name="InvStoreId" Type="Int32" Nullable="false" />

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/12/2024 20:57:04
+-- Date Created: 09/05/2024 09:32:01
 -- Generated from EDMX file: C:\DATA\GitHub\Inventory30\WebDBSchema\WebDBSchema\Models\InvDB.edmx
 -- --------------------------------------------------
 
@@ -400,6 +400,9 @@ IF OBJECT_ID(N'[dbo].[InvItemOrigins]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[InvStoreAreas]', 'U') IS NOT NULL
     DROP TABLE [dbo].[InvStoreAreas];
+GO
+IF OBJECT_ID(N'[dbo].[RptUserLevels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RptUserLevels];
 GO
 
 -- --------------------------------------------------
@@ -932,7 +935,7 @@ GO
 CREATE TABLE [dbo].[InvStoreAreas] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(20)  NOT NULL,
-    [Remarks] nvarchar(40)  NOT NULL,
+    [Remarks] nvarchar(40)  NULL,
     [InvStoreId] int  NOT NULL
 );
 GO
