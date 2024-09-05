@@ -66,7 +66,23 @@ namespace InvWeb.Pages.Masterfiles.ItemSpecSteel.SteelOrigins
                 }
             }
 
+            await EditInvItemOriginAsync();
+
             return RedirectToPage("./Index");
+        }
+
+
+
+        public async Task EditInvItemOriginAsync()
+        {
+
+
+            InvItemOrigin invItemOrigin = await _context.InvItemOrigins.FirstOrDefaultAsync(m => m.Name == SteelOrigin.Name && m.Code == SteelOrigin.Code);
+            invItemOrigin.Name = SteelOrigin.Name;
+            invItemOrigin.Code = SteelOrigin.Code;
+
+            _context.Attach(invItemOrigin).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
         private bool SteelOriginExists(int id)

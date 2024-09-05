@@ -38,7 +38,20 @@ namespace InvWeb.Pages.Masterfiles.ItemSpecSteel.SteelBrands {
             _context.SteelBrands.Add(SteelBrand);
             await _context.SaveChangesAsync();
 
+            await CreateInvItemBrandAsync();
+
             return RedirectToPage("./Index");
+        }
+
+        public async Task CreateInvItemBrandAsync()
+        {
+
+            InvItemBrand invItemBrand = new InvItemBrand();
+            invItemBrand.Name = SteelBrand.Name;
+            invItemBrand.Code = SteelBrand.Code;
+
+            _context.InvItemBrands.Add(invItemBrand);
+            await _context.SaveChangesAsync();
         }
     }
 }

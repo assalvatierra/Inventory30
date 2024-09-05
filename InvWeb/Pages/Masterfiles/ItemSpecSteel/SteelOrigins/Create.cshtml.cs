@@ -39,7 +39,20 @@ namespace InvWeb.Pages.Masterfiles.ItemSpecSteel.SteelOrigins
             _context.SteelOrigins.Add(SteelOrigin);
             await _context.SaveChangesAsync();
 
+            await CreateInvItemOriginAsync();
+
             return RedirectToPage("./Index");
+        }
+
+        public async Task CreateInvItemOriginAsync()
+        {
+
+            InvItemOrigin invItemOrigin = new InvItemOrigin();
+            invItemOrigin.Name = SteelOrigin.Name;
+            invItemOrigin.Code = SteelOrigin.Code;
+
+            _context.InvItemOrigins.Add(invItemOrigin);
+            await _context.SaveChangesAsync();
         }
     }
 }

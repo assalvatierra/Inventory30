@@ -66,7 +66,20 @@ namespace InvWeb.Pages.Masterfiles.ItemSpecSteel.SteelBrands
                 }
             }
 
+            await EditInvItemBrandsAsync();
+
             return RedirectToPage("./Index");
+        }
+
+
+        public async Task EditInvItemBrandsAsync()
+        {
+            InvItemBrand invItemBrand = await _context.InvItemBrands.FirstOrDefaultAsync(m => m.Name == SteelBrand.Name && m.Code == SteelBrand.Code);
+            invItemBrand.Name = SteelBrand.Name;
+            invItemBrand.Code = SteelBrand.Code;
+
+            _context.Attach(invItemBrand).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
         private bool SteelBrandExists(int id)
