@@ -32,6 +32,7 @@ namespace InvWeb.Api
         private readonly IItemDtlsServices itemDtlsServices;
         private readonly IInvItemMasterServices invItemMasterServices;
         private readonly DateServices dateServices;
+        private readonly ILogger _logger;
 
         private enum HdrStatus : int
         {
@@ -45,6 +46,7 @@ namespace InvWeb.Api
 
         public ApiInvTrxDtlsController(ApplicationDbContext context, ILogger<Controller> logger)
         {
+            _logger = logger;
             _context = context;
             dateServices = new DateServices();
             invApprovalServices = new InvApprovalServices(context, logger);
@@ -106,6 +108,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "Add not Successfull");
             }
         }
@@ -136,6 +139,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "Add not Successfull");
             }
 
@@ -174,7 +178,8 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
-                
+
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return false;
             }
         }
@@ -205,6 +210,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "Add not Successfull");
             }
         }
@@ -249,6 +255,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "Remove not Successfull");
             }
         }
@@ -322,6 +329,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return "Unable to get Item Details";
             }
         }
@@ -395,6 +403,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return "Unable to get Item Details";
             }
         }
@@ -468,6 +477,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return "Err: unable to find HeatLotNo and batchNo.";
             }
         }
@@ -558,6 +568,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return "Err: unable to find HeatLotNo and batchNo.";
             }
         }
@@ -656,6 +667,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return "Err: unable to find HeatLotNo and batchNo.";
             }
         }
@@ -714,6 +726,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return "Add not GetItemDetails";
             }
         }
@@ -748,6 +761,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return "Add not GetItemDetails";
             }
         }
@@ -782,6 +796,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return "Unable to GetOriginBrandFromLotNo";
             }
 
@@ -827,6 +842,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return "Unable to GetOriginBrandFromLotNo";
             }
 
@@ -883,6 +899,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "Edit not Successfull");
             }
         }
@@ -920,6 +937,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "Edit not Successfull");
             }
         }
@@ -953,6 +971,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "Edit not Successfull");
             }
         }
@@ -1002,6 +1021,7 @@ namespace InvWeb.Api
             }
             catch(Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "APIInvTrxDtls: Post Error. Unable to Create invItem Masters.");
             }
 
@@ -1013,6 +1033,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "APIInvTrxDtls: Post Error. Unable to Create ItemMaster and InvDtls Link.");
             }
 
@@ -1054,6 +1075,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "APIInvTrxDtls/PostReleasingItem: Post Error. Unable to Create invItem Masters.");
             }
 
@@ -1065,6 +1087,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "APIInvTrxDtls/PostReleasingItem: Post Error. Unable to Create ItemMaster and InvDtls Link.");
             }
 
@@ -1075,6 +1098,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "APIInvTrxDtls/PostReleasingItem: Post Error. Save change on invTrxDtl item.");
             }
 
@@ -1124,6 +1148,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return "Get Item Details not Successfull";
             }
         }
@@ -1183,6 +1208,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "PostReceivingItemEdit: Post Error. Unable to Edit invItem Masters.");
             }
 
@@ -1194,6 +1220,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
                 return StatusCode(500, "APIInvTrxDtls/PostReceivingItemEdit: Post Error. Save change on invTrxDtl item.");
             }
 

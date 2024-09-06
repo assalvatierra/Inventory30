@@ -26,9 +26,11 @@ namespace InvWeb.Api
         private IInvApprovalServices invApprovalServices;
 
         private readonly DateServices dateServices;
+        private readonly ILogger _logger;
 
         public ApiTrxHdrsController(ApplicationDbContext context, ILogger<Controller> logger)
         {
+            _logger = logger;
             _context = context;
             invApprovalServices = new InvApprovalServices(context, logger);
             dateServices = new DateServices();
@@ -486,6 +488,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiTrxHdrsController: " + ex.Message);
                 return StatusCode(500, "UpdateTrxHeaderDetails: Post Error. Unable to update invItem Header Details.");
             }
 
@@ -524,6 +527,7 @@ namespace InvWeb.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError("ApiTrxHdrsController: " + ex.Message);
                 return StatusCode(500, "UpdateTrxHeaderDetails: Post Error. Unable to update invItem Header statuse to CLOSED.");
             }
 
