@@ -85,6 +85,7 @@ namespace InvWeb.Pages.Stores.Receiving
             ViewData["Origins"]  = new SelectList(_context.InvItemOrigins, "Id", "Name");
             ViewData["StoreAreas"] = new SelectList(storeAreas, "Id", "Name");
             ViewData["StoreId"] = ReceivingDetailsModel.InvTrxHdr.InvStoreId;
+            ViewData["Store"] = GetStoreName(ReceivingDetailsModel.InvTrxHdr.InvStoreId);
 
             return Page();
         }
@@ -125,6 +126,11 @@ namespace InvWeb.Pages.Stores.Receiving
         public bool CheckIfUserIsAdmin()
         {
             return User.IsInRole("Admin");
+        }
+
+        public string GetStoreName(int storeId)
+        {
+            return _context.InvStores.Find(storeId).StoreName;
         }
     }
 }

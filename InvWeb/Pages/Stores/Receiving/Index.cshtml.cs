@@ -56,8 +56,6 @@ namespace InvWeb.Pages.Stores.Receiving
                 status = "PENDING";
             }
 
-            //ReceivingIndexModel = await itemTrxServices.GetReceivingIndexModel_OnIndexOnGetAsync(InvTrxHdr, (int)storeId, TYPE_RECEIVING, status, IsUserRoleAdmin());
-
             ReceivingIndexModel receivingIndexModel = new ReceivingIndexModel();
 
             InvTrxHdr = await GetReceivingTransactions((int)storeId, status);
@@ -72,7 +70,7 @@ namespace InvWeb.Pages.Stores.Receiving
             ReceivingIndexModel = receivingIndexModel;
 
             var trxCount = await _context.InvTrxHdrs
-                .Where(i => i.InvTrxTypeId == TYPE_RECEIVING && i.InvStoreId == storeId)
+                .Where(i => i.InvTrxTypeId == TYPE_RECEIVING && i.InvStoreId == (int)storeId)
                 .ToListAsync();
 
             ViewData["StatusCountRequest"] = itemTrxServices.FilterByStatus(trxCount, "PENDING").Count();
@@ -81,6 +79,8 @@ namespace InvWeb.Pages.Stores.Receiving
 
             ViewData["IsProcurementHead"] = User.IsInRole("Procurement-head");
             ViewData["IsAccounting"] = User.IsInRole("Accounting");
+
+            ViewData["StoreId"] = (int)storeId;
             return Page();
         }
 
@@ -108,8 +108,6 @@ namespace InvWeb.Pages.Stores.Receiving
                 status = "ALL";
             }
 
-            //ReceivingIndexModel = await itemTrxServices.GetReceivingIndexModel_OnIndexOnGetAsync(InvTrxHdr, (int)storeId, TYPE_RECEIVING, status, IsUserRoleAdmin());
-
             ReceivingIndexModel receivingIndexModel = new ReceivingIndexModel();
 
             InvTrxHdr = await GetReceivingTransactions((int)storeId, status);
@@ -133,6 +131,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             ViewData["IsProcurementHead"] = User.IsInRole("Procurement-head");
             ViewData["IsAccounting"] = User.IsInRole("Accounting");
+            ViewData["StoreId"] = (int)storeId;
 
             return Page();
         }
@@ -145,9 +144,6 @@ namespace InvWeb.Pages.Stores.Receiving
         public async Task<List<InvTrxHdr>> GetReceivingTransactions(int storedID, string status)
         {
             return await _context.InvTrxHdrs
-           .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
-                         i.InvStoreId == storedID &&
-                         i.InvTrxHdrStatu.Status == status)
            .Include(i => i.InvStore)
            .Include(i => i.InvTrxHdrStatu)
            .Include(i => i.InvTrxType)
@@ -163,6 +159,8 @@ namespace InvWeb.Pages.Stores.Receiving
                .ThenInclude(i => i.InvItemSpec_Steel)
                .ThenInclude(i => i.SteelMaterialGrade)
            .OrderByDescending(i => i.DtTrx)
+           .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
+                         i.InvStoreId == storedID )
            .ToListAsync();
         }
 

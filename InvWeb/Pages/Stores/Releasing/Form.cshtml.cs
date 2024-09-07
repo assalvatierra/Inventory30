@@ -1,4 +1,5 @@
 using CoreLib.DTO.Common.Dialog;
+using CoreLib.DTO.Receiving;
 using CoreLib.DTO.Releasing;
 using CoreLib.Interfaces;
 using CoreLib.Inventory.Interfaces;
@@ -93,7 +94,7 @@ namespace InvWeb.Pages.Stores.Releasing
             ViewData["Origins"]  = new SelectList(_context.InvItemOrigins, "Id", "Name");
             ViewData["StoreAreas"] = new SelectList(storeAreas, "Id", "Name");
             ViewData["StoreId"] = ReleasingDetailsModel.InvTrxHdr.InvStoreId;
-
+            ViewData["Store"] = GetStoreName(ReleasingDetailsModel.InvTrxHdr.InvStoreId);
             ViewData["IsUserAdmin"] = User.IsInRole("Admin");
 
             return Page();
@@ -134,6 +135,10 @@ namespace InvWeb.Pages.Stores.Releasing
         public bool CheckIfUserIsAdmin()
         {
             return User.IsInRole("Admin");
+        }
+        public string GetStoreName(int storeId)
+        {
+            return _context.InvStores.Find(storeId).StoreName;
         }
     }
 }
