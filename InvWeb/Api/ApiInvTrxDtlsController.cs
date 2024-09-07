@@ -7,6 +7,7 @@ using CoreLib.Inventory.Models;
 using CoreLib.Models.Inventory;
 using DevExpress.CodeParser;
 using Inventory;
+using Inventory.DBAccess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -42,6 +43,18 @@ namespace InvWeb.Api
             CANCELLED = 4,
             VERIFIED = 5,
             ACCEPTED =6
+        }
+        private enum TRANSACTION_TYPE : int
+        {
+            RECEIVING = 1,
+            RELEASING = 2,
+            ADJUSTMENT = 3
+        }
+
+        private enum OPERATION : int
+        {
+            ADD = 1,
+            SUBTRACT = 2
         }
 
         public ApiInvTrxDtlsController(ApplicationDbContext context, ILogger<Controller> logger)
@@ -189,7 +202,7 @@ namespace InvWeb.Api
 
         [ActionName("AddReleaseTrxDtlItem")]
         [HttpPost]
-        public ObjectResult AddReleaseTrxDtlItem(AddReleaseTrxDtlsDTO trxDtls)
+        public async Task<ObjectResult> AddReleaseTrxDtlItem(AddReleaseTrxDtlsDTO trxDtls)
         {
             try
             {
@@ -201,10 +214,17 @@ namespace InvWeb.Api
                 invTrxDtl.ItemQty = trxDtls.qty;
                 invTrxDtl.LotNo = trxDtls.lotNo;
                 invTrxDtl.BatchNo = trxDtls.batchNo;
-                invTrxDtl.InvTrxDtlOperatorId = 2;
+                invTrxDtl.InvTrxDtlOperatorId = (int)TRANSACTION_TYPE.RELEASING;
 
                 _context.InvTrxDtls.Add(invTrxDtl);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+
+                if (trxDtls.itemMasterId != 0 || invTrxDtl.Id != 0)
+                {
+                    //Bind to Transaction Masters
+                    await invItemMasterServices.CreateItemMasterInvDtlsLink(trxDtls.itemMasterId ,invTrxDtl.Id);
+
+                }
 
                 return StatusCode(201, "Add Successfull");
             }
@@ -238,11 +258,21 @@ namespace InvWeb.Api
 
                     if (invTrxInvItemMaster != null)
                     {
-                        //remove link to itemMaster
-                        await invItemMasterServices.DeleteInvItemMasterLink(invItemMasterLinkId);
+                        if (invTrxDtl.InvTrxHdr.InvTrxTypeId == (int)TRANSACTION_TYPE.RELEASING)
+                        {
+                            //remove link to itemMaster only
+                            await invItemMasterServices.DeleteInvItemMasterLink(invItemMasterLinkId);
 
-                        //remove link to itemMaster
-                        await invItemMasterServices.DeleteInvItemMaster(invItemMasterId);
+                        }
+                        else
+                        {
+                            //remove link to itemMaster
+                            await invItemMasterServices.DeleteInvItemMasterLink(invItemMasterLinkId);
+
+                            //remove itemMaster 
+                            await invItemMasterServices.DeleteInvItemMaster(invItemMasterId);
+                        }
+
 
                     }
 
@@ -541,6 +571,7 @@ namespace InvWeb.Api
                     }
 
                     trxDetails.Id = item.Id;
+                    trxDetails.ItemId = item.InvItemId;
                     trxDetails.Description = item.InvItem.InvCategory.Description + " - " + item.InvItem.Description;
                     trxDetails.Brand = Brand;
                     trxDetails.BatchNo = BatchNo;
@@ -580,37 +611,30 @@ namespace InvWeb.Api
         {
             try
             {
-                var TrxDetailsLists_Received = await _context.InvTrxDtls
-                    .Where(c => c.InvItemId == id && 
-                          (c.InvTrxHdr.InvTrxHdrStatusId > (int)HdrStatus.REQUEST && 
-                           c.InvTrxHdr.InvTrxHdrStatusId != (int)HdrStatus.CANCELLED) &&
-                           c.InvTrxHdr.InvTrxTypeId == 1
-                           )
-                    .Include(c => c.InvTrxHdr)
-                    .Include(c => c.InvUom)
+                var invItemMasterListByItem_Received =  await _context.InvItemMasters
+                        .Where(c => c.InvItemId == id && c.InvTrxDtlxItemMasters.Count > 0 
+                        && c.InvTrxDtlxItemMasters.FirstOrDefault().InvTrxDtl.InvTrxHdr.InvTrxTypeId == (int)TRANSACTION_TYPE.RECEIVING
+                        && (c.InvTrxDtlxItemMasters.FirstOrDefault().InvTrxDtl.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.APPROVED
+                        || c.InvTrxDtlxItemMasters.FirstOrDefault().InvTrxDtl.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.CLOSED))
+                    .Include(c=>c.InvItemBrand)
+                    .Include(c => c.InvItemOrigin)
+                    .Include(c => c.InvStoreArea)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                        .ThenInclude(c => c.InvTrxDtl)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                        .ThenInclude(c => c.InvTrxDtl)
+                        .ThenInclude(c => c.InvTrxDtlOperator)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                        .ThenInclude(c => c.InvTrxDtl)
+                        .ThenInclude(c => c.InvTrxHdr.InvTrxHdrStatu)
                     .Include(c => c.InvItem)
-                    .ThenInclude(c => c.InvCategory)
-                    .Include(c => c.InvTrxHdr)
-                    .ThenInclude(c => c.InvTrxHdrStatu)
-                    .Include(c => c.InvTrxDtlxItemMasters)
-                    .ThenInclude(c => c.InvItemMaster)
-                    .Include(c => c.InvTrxDtlxItemMasters)
-                    .ThenInclude(c => c.InvItemMaster.InvItemOrigin)
-                    .Include(c => c.InvTrxDtlxItemMasters)
-                    .ThenInclude(c => c.InvItemMaster.InvItemBrand)
+                    .Include(c => c.InvItem)
+                        .ThenInclude(c=>c.InvCategory)
+                    .Include(c => c.InvItem)
+                        .ThenInclude(c => c.InvUom)
                     .ToListAsync();
 
-
-                var invItemTrxList_ByItem = await _context.InvTrxDtls.Where(c =>
-                     c.InvItemId == id &&
-                    (c.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.APPROVED ||
-                     c.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.CLOSED))
-                    .Include(c => c.InvTrxHdr)
-                    .Include(c => c.InvTrxHdr)
-                    .ThenInclude(c => c.InvTrxHdrStatu).ToListAsync();
-
-
-                if (TrxDetailsLists_Received.Count() == 0)
+                if (invItemMasterListByItem_Received.Count() == 0)
                 {
 
                     return "List is Empty. no items founds.";
@@ -618,7 +642,7 @@ namespace InvWeb.Api
 
                 List<ReceivingTempTrxDetails> invTrxDtls = new List<ReceivingTempTrxDetails>();
 
-                foreach (var item in TrxDetailsLists_Received)
+                foreach (var item in invItemMasterListByItem_Received)
                 {
                     ReceivingTempTrxDetails trxDetails = new ReceivingTempTrxDetails();
                     var BatchNo = "";
@@ -635,20 +659,24 @@ namespace InvWeb.Api
 
                         //use itemMasterLotno
                         item.LotNo = item.InvTrxDtlxItemMasters.First().InvItemMaster.LotNo;
+
+                        trxDetails.Date = item.InvTrxDtlxItemMasters.First().InvTrxDtl.InvTrxHdr.DtTrx.ToShortDateString();
+                        trxDetails.Status = item.InvTrxDtlxItemMasters.First().InvTrxDtl.InvTrxHdr.InvTrxHdrStatu.Status;
                     }
 
                     trxDetails.Id = item.Id;
+                    trxDetails.ItemId = item.InvItemId;
+                    trxDetails.InvItemMasterId = item.Id;
                     trxDetails.Description = item.InvItem.InvCategory.Description + " - " + item.InvItem.Description;
                     trxDetails.Brand = Brand;
                     trxDetails.BatchNo = BatchNo;
                     trxDetails.LotNo = LotNo;
-                    trxDetails.Code = item.InvItem.Code;
-                    trxDetails.Date = item.InvTrxHdr.DtTrx.ToShortDateString();
                     trxDetails.Origin = Origin;
+                    trxDetails.Code = item.InvItem.Code;
                     trxDetails.Qty = item.ItemQty;
-                    trxDetails.OnStockQty = GetTotalBalanceOfItemFromLotNo(item.InvItemId, LotNo, invItemTrxList_ByItem);
                     trxDetails.Uom = item.InvUom.uom;
-                    trxDetails.Status = item.InvTrxHdr.InvTrxHdrStatu.Status;
+
+                    trxDetails.OnStockQty = GetTotalItemStockFromItemMaster(item.Id);
 
                     if (!String.IsNullOrEmpty(LotNo))
                     {
@@ -683,16 +711,44 @@ namespace InvWeb.Api
             int SUBTRACT = 2;
 
             var invItemTrxList_Received = invTrxDtlsList.Where(c => 
-                 c.LotNo == Lotno && 
+                 c.LotNo == Lotno && c.InvItemId == invItemId &&
                  c.InvTrxDtlOperatorId == ADD)
                 .Select(c => c.ItemQty).Sum();
 
             var invItemTrxList_Released = invTrxDtlsList.Where(c => 
-                 c.LotNo == Lotno && 
+                 c.LotNo == Lotno && c.InvItemId == invItemId &&
                  c.InvTrxDtlOperatorId == SUBTRACT)
                 .Select(c => c.ItemQty).Sum();
 
             return invItemTrxList_Received - invItemTrxList_Released;
+        }
+
+
+        private int GetTotalItemStockFromItemMaster(int itemMasterId)
+        {
+
+            var InvTrxDtlxItemMasters = invItemMasterServices.GetInvTrxDtlxItemMaster_byId(itemMasterId);
+
+            //int invItem_Received = InvTrxDtlxItemMasters.Where( i => i.InvTrxDtl.InvTrxDtlOperatorId == (int)OPERATION.ADD )
+            //                                            .Sum( i => i.InvItemMaster.ItemQty);
+            //int invItem_Released = InvTrxDtlxItemMasters.Where(i => i.InvTrxDtl.InvTrxDtlOperatorId == (int)OPERATION.SUBTRACT )
+            //                                            .Sum(i => i.InvTrxDtl.ItemQty);
+            int invItem_Received = 0;
+            int invItem_Released = 0;
+
+            foreach (var item in InvTrxDtlxItemMasters)
+            {
+                if (item.InvTrxDtl.InvTrxDtlOperatorId == (int)OPERATION.ADD)
+                {
+                    invItem_Received += item.InvItemMaster.ItemQty;
+                }
+
+                if (item.InvTrxDtl.InvTrxDtlOperatorId == (int)OPERATION.SUBTRACT)
+                {
+                    invItem_Released += item.InvTrxDtl.ItemQty;
+                }
+            }
+            return invItem_Received - invItem_Released;
         }
 
 
@@ -1054,35 +1110,17 @@ namespace InvWeb.Api
             invTrxDtl.LotNo = item.LotNo;
             invTrxDtl.BatchNo = item.BatchNo;
 
-            //create itemMasters
-            InvItemMaster invItemMaster = new InvItemMaster();
-            invItemMaster.InvItemId = item.ItemId;
-            invItemMaster.InvItemOriginId = item.OriginId;
-            invItemMaster.InvItemBrandId = item.BrandId;
-            invItemMaster.LotNo = item.LotNo;
-            invItemMaster.BatchNo = item.BatchNo;
-            invItemMaster.ItemQty = item.Qty;
-            invItemMaster.InvUomId = item.UomId;
-            invItemMaster.Remarks = item.Remarks;
-            invItemMaster.InvStoreAreaId = item.AreaId;
+            var invitemMasterId = 0; // TODO: set invItemMasterId
 
-            //save changes
-            try
+            if (_context.InvItemMasters.Where(c=>c.Id == invitemMasterId).FirstOrDefault() == null)
             {
-
-                await invItemMasterServices.CreateInvItemMaster(invItemMaster);
-                await invItemMasterServices.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("ApiInvTrxDtlsController: " + ex.Message);
-                return StatusCode(500, "APIInvTrxDtls/PostReleasingItem: Post Error. Unable to Create invItem Masters.");
+                return StatusCode(500, "Post Error. Header Details not found.");
             }
 
             //link to trxDtls and itemMasters
             try
             {
-                await invItemMasterServices.CreateItemMasterInvDtlsLink(invItemMaster.Id, item.Id);
+                await invItemMasterServices.CreateItemMasterInvDtlsLink(invitemMasterId, item.Id);
                 await invItemMasterServices.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -1104,6 +1142,8 @@ namespace InvWeb.Api
 
             return StatusCode(201, "Update Successfull");
         }
+
+
 
 
 
@@ -1231,6 +1271,8 @@ namespace InvWeb.Api
         private class ReceivingTempTrxDetails
         {
             public int Id { get; set; }
+            public int ItemId { get; set; }
+            public int InvItemMasterId { get; set; }
             public string Description { get; set; }
             public string Code { get; set; }
             public string Origin { get; set; }

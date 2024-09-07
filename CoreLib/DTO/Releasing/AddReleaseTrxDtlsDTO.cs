@@ -14,5 +14,6 @@ namespace CoreLib.DTO.Releasing
         public int uomId { get; set; }
         public string lotNo { get; set; }
         public string batchNo { get; set; }
+        public int itemMasterId { get; set; }
     }
 }

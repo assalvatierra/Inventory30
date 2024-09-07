@@ -23,5 +23,8 @@ namespace CoreLib.Interfaces
 
         public Task CreateItemMasterInvDtlsLink(int invItemMasterId, int invDtlsId);
 
+        public Task<List<InvItemMaster>> GetInvItemMasters_Received_ById(int invItemId);
+        public List<InvTrxDtlxItemMaster> GetInvTrxDtlxItemMaster_byId(int InvItemMasterId);
+
     }
 }

@@ -36,6 +36,7 @@ namespace CoreLib.DTO.Receiving
         public int AreaId { get; set; }
         public string Remarks { get; set; }
         public int TrxId { get; set; }
+        public int ItemMasterId { get; set; }
 
 
     }

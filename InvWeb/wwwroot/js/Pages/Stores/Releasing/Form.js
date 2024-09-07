@@ -27,14 +27,19 @@ function AddNewItemOnTableRow() {
     var invHdrId = $('#textinput-RefNo').val();
     var itemDesc = $('#itemDropdown option:selected').text();
     var itemId = $('#itemDropdown').val();
-    var itemQty = $('#textinput-Qty').val();
+    var itemQty = parseInt($('#textinput-Qty').val());
     var itemUom = $('#UomDropdown option:selected').text();
     var itemUomId = $('#UomDropdown').val();
     var lotNo = $('#newItem-LotNo').val();
     var batchNo = $('#newItem-BatchNo').val();
+    var itemMasterId = $('#newItem-itemMasterId').val();
     var itemRemarks = "";
 
-    var expectedQty = $("#newItem-Lot-ExpectedQty").val();
+    var expectedQty = parseInt($("#newItem-Lot-ExpectedQty").val());
+    console.log("Expected Qty: " + expectedQty);
+    console.log("Release Qty: " + itemQty);
+    var condResult = itemQty > expectedQty;
+    console.log(condResult);
 
     if (lotNo == "") {
         $("#newItem-Lotno-Warning").text("Please select a LotNo.");
@@ -43,10 +48,10 @@ function AddNewItemOnTableRow() {
         $("#newItem-Qty-Warning").text("Invalid Qty");
     }
     else if (itemQty > expectedQty) {
-        $("#newItem-Qty-Warning").text("Qty exceeds the on-stock quantity");
+        $("#newItem-Qty-Warning").text("Qty exceeds the on-stock quantity : " + expectedQty);
     }
     else {
-        PostRelease_addInvItem(invHdrId, itemId, itemQty, itemUomId, lotNo, batchNo);
+        PostRelease_addInvItem(invHdrId, itemId, itemQty, itemUomId, lotNo, batchNo, itemMasterId);
 
         //re
         $("#newItem-Lot-ExpectedQty").val(0)
@@ -58,7 +63,7 @@ $("#textinput-Qty").on("input", function () {
     $("#newItem-Qty-Warning").text("");
 });
 
-function PostRelease_addInvItem(invHdrId, itemId, itemQty, itemUomId, lotNo, batchNo) {
+function PostRelease_addInvItem(invHdrId, itemId, itemQty, itemUomId, lotNo, batchNo, itemMasterId) {
 
     var data = {
         hdrId: invHdrId,
@@ -66,7 +71,8 @@ function PostRelease_addInvItem(invHdrId, itemId, itemQty, itemUomId, lotNo, bat
         qty: itemQty,
         uomId: itemUomId,
         lotNo: lotNo,
-        batchNo: batchNo
+        batchNo: batchNo,
+        itemMasterId: itemMasterId
     };
 
     $.ajax({
@@ -496,6 +502,7 @@ function SubmitReleasingForm() {
     var AreaId = $("#ReleaseItem-Area option:selected").val();
     var Remarks = $("#ReleaseItem-Remarks").val();
     var UomId = $("#ReleaseItem-UomId").val();
+    var itemMasterId = $("#ReleaseItem-itemMasterId").val();;
 
     var data = {
         Id: Id,
@@ -507,7 +514,8 @@ function SubmitReleasingForm() {
         Qty: ActualQty,
         UomId: UomId,
         AreaId: AreaId,
-        Remarks: Remarks
+        Remarks: Remarks,
+        ItemMasterId: itemMasterId
 
     }
     //console.log("Submit receiving data");
@@ -881,12 +889,13 @@ function GetInvItemReleasedTrxForEdit() {
         Id: invItemId,
     }
 
-    //console.log("Get Transactions based on item ID");
+    // console.log("Get Transactions based on item ID");
     // console.log(data);
 
     $.ajax({
         type: 'GET',
-        url: '/api/ApiInvTrxDtls/GetInvItemReceivedTrx?id=' + invItemId,
+        // url: '/api/ApiInvTrxDtls/GetInvItemReceivedTrx?id=' + invItemId,
+        url: '/api/ApiInvTrxDtls/GetInvItemReleasingLotNo?id=' + invItemId,
         data: JSON.stringify(data),
         error: function (result) {
             console.log(result);
@@ -925,7 +934,7 @@ function CreateTableForItemsLotNos(res) {
         var NewItemRow = "";
         NewItemRow += "<tr>";
         if (Lotno != "" && itemQty > 0 ) {
-            NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNo(\"" + res[i]['LotNo'].toString() + "\",\"" + res[i]['BatchNo'] + "\",\"" + itemQty + "\")'> Select</button> </td>";
+            NewItemRow += "<td> <button class='btn btn-primary' onclick='SelectThisLotNo(\"" + res[i]['InvItemMasterId'].toString() + "\",\"" + res[i]['LotNo'].toString() + "\",\"" + res[i]['BatchNo'] + "\",\"" + itemQty + "\")'> Select</button> </td>";
         } else {
             NewItemRow += "<td>  </td>";
         }
@@ -936,6 +945,7 @@ function CreateTableForItemsLotNos(res) {
         NewItemRow += "<td>" + res[i]['OnStockQty'] + " of " + res[i]['Qty'] +"</td>";
         NewItemRow += "<td>" + res[i]['Uom'] + "</td>";
         NewItemRow += "<td> " + res[i]['Status'] + " </td>";
+        NewItemRow += "<td> " + res[i]['InvItemMasterId'] + " </td>";
 
         $("#SearchLotNo-list").append(NewItemRow);
         $("#SearchLotNo-list-Edit").append(NewItemRow);
@@ -948,9 +958,11 @@ function CreateTableForItemsLotNos(res) {
     }
 }
 
-function SelectThisLotNo(lotNo, batchNo, expectedQty) {
+function SelectThisLotNo(invitemId, lotNo, batchNo, expectedQty) {
     $("#newItem-LotNo").val(lotNo);
     $("#newItem-BatchNo").val(batchNo);
+    $("#newItem-itemMasterId").val(invitemId);
+
     $("#SearchLotNoModal").modal('hide');
     console.log("Selecting lot no...");
 
