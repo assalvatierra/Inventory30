@@ -5,7 +5,7 @@
     int count = 0;
     int ActualInvCount = 0;
     int ExpectedCount = 0;
-    int InvBalanceCount = 0;
+    // int InvBalanceCount = 0;
 }
 
 <div style="margin:5px;margin-bottom:10px;display:flex;justify-content:space-between;">
@@ -326,11 +326,9 @@
 @await Component.InvokeAsync("Dialog", new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
 @await Component.InvokeAsync("SearchItemEdit", new { items =  ViewData["DialogItems"] , selector = "itemEditDropdown"  })
 
-@{
-    Html.RenderPartial("ModalAddItem");
-    Html.RenderPartial("ModalReceiveItem");
-    Html.RenderPartial("ModalReceiveItemEdit");
-}
+<partial name="ModalAddItem" />
+<partial name="ModalReceiveItem" />
+<partial name="ModalReceiveItemEdit" />
 
 @section Scripts {
     @{

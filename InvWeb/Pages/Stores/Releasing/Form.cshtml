@@ -5,7 +5,7 @@
     int count = 0;
     int ActualInvCount = 0;
     int ExpectedCount = 0;
-    int InvBalanceCount = 0;
+    // int InvBalanceCount = 0;
 
     bool isUserAdmin = (bool)ViewData["IsUserAdmin"];
 }
@@ -192,10 +192,10 @@
                                     <br>
                                         <span class="item-details-edit" onclick="ReleasingItemEditRow(@itemMaster.InvTrxDtlId, @itemMaster.InvItemMasterId, @item.ItemQty)" data-placement="top" title="Edit LotNo/Batch">
                                             Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name
-                                            &#x2192;
+                                           
                                            
                                             &nbsp;
-                                            Qty: @itemMaster.InvItemMaster.ItemQty
+                                            @* Qty: @itemMaster.InvItemMaster.ItemQty *@
 
                                             @if (!string.IsNullOrEmpty(@itemMaster.InvItemMaster.Remarks))
                                             {
@@ -206,10 +206,9 @@
                                        <br>
                                         <span style="color:gray;margin-left:15px;">
                                             Lot: @itemMaster.InvItemMaster.LotNo - Batch: @itemMaster.InvItemMaster.BatchNo  /  @itemMaster.InvItemMaster.InvItemBrand.Name - @itemMaster.InvItemMaster.InvItemOrigin.Name
-                                            &#x2192;
                                            
                                             &nbsp;
-                                            Qty: @itemMaster.InvItemMaster.ItemQty
+                                            @* Qty: @itemMaster.InvItemMaster.ItemQty *@
 
                                             @if (!string.IsNullOrEmpty(@itemMaster.InvItemMaster.Remarks))
                                             {
@@ -228,13 +227,13 @@
                 <td id="itemDetails-Qty-@item.Id">
                     @item.ItemQty
 
-                    @if( item.InvTrxDtlxItemMasters.Count() > 0 ){
+                    @* @if( item.InvTrxDtlxItemMasters.Count() > 0 ){
                            int totalReleasedCount = item.InvTrxDtlxItemMasters.Sum(c => c.InvItemMaster.ItemQty);
 
                            <span style="color:green;">
                                     / @totalReleasedCount
                            </span>
-                     }
+                     } *@
                 </td>
                 <td >
                     @item.InvUom.uom
@@ -248,7 +247,7 @@
                                 @if(ItemCountExpectedBalance > 0){
 
                                     <div style="width:7rem;">
-                                        <button class="btn btn-outline-primary btn-sm" onclick="ReleaseItemRow( @item.Id, @ItemCountExpectedBalance)"> Release Item </button>
+                                        @* <button class="btn btn-outline-primary btn-sm" onclick="ReleaseItemRow( @item.Id, @ItemCountExpectedBalance)"> Release Item </button> *@
                                         @* <button class="btn btn-outline-primary btn-sm" onclick="EditExisitingItemRow(this, @item.Id)" style="padding:3px 12px;margin-right:5px"> Edit </button> *@
                                     </div>
                                 }
@@ -284,12 +283,19 @@
                 </td>
                     <td style="width:150px;">
                     <div style="display:flex;padding-top:20px;">
+                      
                         <input id="newItem-LotNo" type="text" class="form-control" style="width:80px" disabled />
                         <input id="newItem-BatchNo" type="text" class="form-control" style="width:70px" disabled />
-                        <input id="newItem-Lot-ExpectedQty" type="text" class="form-control" hidden/>
                         <span class="btn btn-primary" data-toggle="modal" data-target="#SearchLotNoModal" onclick="GetInvItemReleasedTrx()"> <i class="bi bi-search"></i> </span>
+                        
                     </div>
-                      
+                    <div style="display:flex;padding-top:20px;" hidden>
+                        <span>
+                           <br />
+                           <input id="newItem-itemMasterId" type="text" class="form-control" style="width:60px" />
+                           <input id="newItem-Lot-ExpectedQty" type="text" class="form-control" style="width:60px" />
+                        </span>
+                     </div>
                     
                      <span style="display:flex;">
                          <p class="text-danger" id="newItem-Lotno-Warning">  </p>
@@ -297,7 +303,7 @@
                 </td>
                 <td>
                     Qty
-                    <input id="textinput-Qty" type="number" class="form-control" value="1" />
+                        <input id="textinput-Qty" type="text" class="form-control" value="1" />
 
                 </td>
                 <td>
@@ -345,7 +351,7 @@
         }
     }
 
-    @if (trxStatus == "APPROVED" && ( ActualInvCount >=  ExpectedCount))
+    @if (trxStatus == "APPROVED")
     {
 
         <button class="btn btn-primary" id="CloseTrxHeaderBtn" onclick="TransactionStatus_Close(@Model.ReleasingDetailsModel.InvTrxHdr.Id)"> ALL ITEMS RELEASED and CLOSE </button>
@@ -365,12 +371,10 @@
 @await Component.InvokeAsync("Dialog", new { items =  ViewData["DialogItems"] , selector = "itemDropdown"  })
 @await Component.InvokeAsync("SearchItemEdit", new { items =  ViewData["DialogItems"] , selector = "itemEditDropdown"  })
 
-@{
-    Html.RenderPartial("ModalAddItem");
-    Html.RenderPartial("ModalReleaseItem");
-    Html.RenderPartial("ModalReleaseItemEdit");
-    Html.RenderPartial("_SearchLotNoModal");
-}
+<partial name="ModalAddItem" />
+<partial name="ModalReleaseItem" />
+<partial name="ModalReleaseItemEdit" />
+<partial name="_SearchLotNoModal" />
 
 @section Scripts {
     @{

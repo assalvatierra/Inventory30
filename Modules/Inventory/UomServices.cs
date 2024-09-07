@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Interfaces;
 using Microsoft.Extensions.Logging;
-using CoreLib.Inventory.Interfaces;
 using CoreLib.Models.API;
 using CoreLib.Models.Inventory;
 

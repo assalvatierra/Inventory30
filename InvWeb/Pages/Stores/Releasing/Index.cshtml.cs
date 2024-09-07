@@ -148,7 +148,7 @@ namespace InvWeb.Pages.Stores.Releasing
             return false;
         }
 
-
+          
         public async Task<List<InvTrxHdr>> GetReleasingStatusCount()
         {
             return await _context.InvTrxHdrs

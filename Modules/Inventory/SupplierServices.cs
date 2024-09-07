@@ -38,6 +38,7 @@ namespace Inventory
             catch (Exception ex)
             {
 
+                _logger.LogError("SupplierServices:" + ex.Message);
             }
         }
 
@@ -49,7 +50,7 @@ namespace Inventory
             }
             catch (Exception ex)
             {
-
+                _logger.LogError("SupplierServices:" + ex.Message);
             }
         }
 
@@ -67,7 +68,7 @@ namespace Inventory
             }
             catch (Exception ex)
             {
-
+                _logger.LogError("SupplierServices:" + ex.Message);
             }
         }
 
@@ -112,6 +113,7 @@ namespace Inventory
             }
             catch (Exception ex )
             {
+                _logger.LogError("SupplierServices:" + ex.Message);
                 return null;
             }
         }

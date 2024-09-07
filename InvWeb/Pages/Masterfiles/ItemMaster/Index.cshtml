@@ -97,13 +97,15 @@
                     </tr>
 
 
-                    @Html.Partial("_PartialitemsGroup", itemGroup)
+                    @* @await Html.RenderPartial("_PartialitemsGroup", itemGroup) *@
+                    <partial name="_PartialitemsGroup" model="@itemGroup"></partial>
                 }
             }
             else
             {
                 <!-- Default Table -->
-                @Html.Partial("_Partialitems", Model.InvItemIndex)
+                @* @await Html.RenderPartial("_Partialitems", Model.InvItemIndex) *@
+                <partial name="_Partialitems" model="@Model.InvItemIndex"></partial>
             }
 
     </tbody>

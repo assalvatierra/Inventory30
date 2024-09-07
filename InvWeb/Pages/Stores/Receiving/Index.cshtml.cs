@@ -16,6 +16,7 @@ using CoreLib.Interfaces;
 using Inventory;
 using Microsoft.CodeAnalysis;
 using Microsoft.AspNetCore.Authorization;
+using DevExpress.Printing.Utils.DocumentStoring;
 
 namespace InvWeb.Pages.Stores.Receiving
 {
@@ -59,7 +60,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             ReceivingIndexModel receivingIndexModel = new ReceivingIndexModel();
 
-            InvTrxHdr = await GetReceivingTransactions();
+            InvTrxHdr = await GetReceivingTransactions((int)storeId, status);
 
             InvTrxHdr = itemTrxServices.FilterByStatus(InvTrxHdr, status);
 
@@ -111,7 +112,7 @@ namespace InvWeb.Pages.Stores.Receiving
 
             ReceivingIndexModel receivingIndexModel = new ReceivingIndexModel();
 
-            InvTrxHdr = await GetReceivingTransactions();
+            InvTrxHdr = await GetReceivingTransactions((int)storeId, status);
 
             InvTrxHdr = itemTrxServices.FilterByStatus(InvTrxHdr, status);
 
@@ -141,9 +142,12 @@ namespace InvWeb.Pages.Stores.Receiving
             return User.IsInRole("Admin");
         }
 
-        public async Task<List<InvTrxHdr>> GetReceivingTransactions()
+        public async Task<List<InvTrxHdr>> GetReceivingTransactions(int storedID, string status)
         {
             return await _context.InvTrxHdrs
+           .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
+                         i.InvStoreId == storedID &&
+                         i.InvTrxHdrStatu.Status == status)
            .Include(i => i.InvStore)
            .Include(i => i.InvTrxHdrStatu)
            .Include(i => i.InvTrxType)
@@ -158,8 +162,6 @@ namespace InvWeb.Pages.Stores.Receiving
                .ThenInclude(i => i.InvItem)
                .ThenInclude(i => i.InvItemSpec_Steel)
                .ThenInclude(i => i.SteelMaterialGrade)
-           .Where(i => i.InvTrxTypeId == TYPE_RECEIVING &&
-                         i.InvStoreId == STOREID)
            .OrderByDescending(i => i.DtTrx)
            .ToListAsync();
         }
