@@ -729,10 +729,6 @@ namespace InvWeb.Api
 
             var InvTrxDtlxItemMasters = invItemMasterServices.GetInvTrxDtlxItemMaster_byId(itemMasterId);
 
-            //int invItem_Received = InvTrxDtlxItemMasters.Where( i => i.InvTrxDtl.InvTrxDtlOperatorId == (int)OPERATION.ADD )
-            //                                            .Sum( i => i.InvItemMaster.ItemQty);
-            //int invItem_Released = InvTrxDtlxItemMasters.Where(i => i.InvTrxDtl.InvTrxDtlOperatorId == (int)OPERATION.SUBTRACT )
-            //                                            .Sum(i => i.InvTrxDtl.ItemQty);
             int invItem_Received = 0;
             int invItem_Released = 0;
 
