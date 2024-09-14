@@ -12,6 +12,7 @@ invitem.Id
 --,trxhdrs.Id
 
 ,invitem.Code
+,CASE WHEN (trxdtlop.Operator='+' AND trxstat.Status='Closed') then item.ItemQty else 0 end as ItemQty
 ,CASE WHEN (trxdtlop.Operator='+' AND trxstat.Status='Approved') then trxdtls.ItemQty else 0 end as QtyAdded
 ,CASE WHEN (trxdtlop.Operator='+' AND trxstat.Status='Request') then trxdtls.ItemQty else 0 end as QtyIncoming
 ,CASE WHEN (trxdtlop.Operator='-' AND trxstat.Status='Approved') then trxdtls.ItemQty else 0 end as QtyReleased
@@ -36,6 +37,9 @@ invitem.Id
 ,store.StoreName
 ,area.Name as 'Location'
 --,charindex(@itemdesc,invitem.Description) as 'charIndex'
+
+,trxdtls.InvTrxHdrId as 'TrxRefNo'
+,trxdtls.InvTrxHdrId as 'TrxDtlNo'
 
 from dbo.InvItems invitem
 
@@ -65,7 +69,7 @@ AND ( @brand is null or RTRIM(@brand)='' or charindex(@brand, brand.Name)>0 )
 --AND ( @grade is null or RTRIM(@grade)='' or charindex(grade.Name, @grade)>0 )
 --AND ( @material is null or RTRIM(@material)='' or charindex(material.Name, @material)>0 )
 
-order by invitem.Id
+order by item.BatchNo, invitem.Id
 ;
 
 
