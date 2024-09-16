@@ -187,15 +187,7 @@
 
                    @if (item.InvTrxHdrStatusId == STATUS_APPROVED && IsAdmin)
                    {
-                            @* @if ()
-                            {
-                                <button class="btn btn-primary" onclick="CloseTrxHdr(this, '@item.Id')"> Close this Transaction </button>
-                            }
-                            else
-                            { 
-                                <button class="btn btn-primary" onclick="CloseTrxHdr(this, '@item.Id')" disabled> Close this Transaction </button>
-                            } *@
-
+                         <button class="btn btn-primary" onclick="CloseTrxHdr(this, '@item.Id')" id="CloseTrxHeaderBtn"> Close this Transaction </button>
                    }
 
                 </td>
@@ -321,8 +313,48 @@
         });
 
 
-        function CloseTrxHdr(){
-            alert("This feature not yet implemented.");
+        function CloseTrxHdr(e, id){
+
+
+            $("#CloseTrxHeaderBtn").text("CLOSING TRANSACTION...");
+
+            var data = {
+                Id: id,
+            }
+
+            console.log("Closing Transaction");
+            console.log(data);
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/ApiTrxHdrs/CloseTrxHeader',
+                data: JSON.stringify(data),
+                error: function (response) {
+                    console.log(response);
+
+                    if (response.status == 201) {
+                        console.log("success : Closing Transaction ");
+                        $(e).text("TRANSACTION IS CLOSED");
+                        $(e).removeClass("btn-primary");
+                        $(e).addClass("btn-success");
+                        $(e).prop('disabled', true);
+                        $(e).show();
+                    } else {
+                        console.log("Error: Closing Transaction .")
+                        $(e).text("TRANSACTION IS NOT CLOSED.");
+                        $(e).removeClass("btn-primary");
+                        $(e).addClass("btn-error");
+                    }
+                },
+                success: function (res) {
+                    console.log("success");
+                    console.log(res);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
+
+
         }
 
         function ToggleItemList(itemId) {

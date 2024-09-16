@@ -23,8 +23,9 @@
     }
     else
     {
-        <span style="font-size:1rem;">(Pending)</span>
+        <span style="font-size:1rem;">(@Model.ReleasingIndexModel.Status)</span>
     }
+    
 </h1>
 
 <p>
@@ -176,13 +177,18 @@
                                 <button class="btn btn-primary" disabled> For Procurement Verify </button>
                             }
                         }
-
+                          
+                        @if (item.InvTrxHdrStatusId == STATUS_APPROVED && IsAdmin)
+                       {
+                            <button class="btn btn-primary" onclick="CloseTrxHdr(this, '@item.Id')"> Close this Transaction </button>
+                       }
                     </td>
                 <td class="td-bold"  style="padding-top:18px;">
                         @item.Id - 
                         @Html.DisplayFor(modelItem => item.Remarks)
                 </td>
                 <td>
+
                         <table class="table table-borderless">
                             <tr>
                                 <th> Items</th>
@@ -192,39 +198,71 @@
                             @foreach (var dlts in item.InvTrxDtls)
                             {
 
-                                <tr>
-                                    <td style="width:25rem;">
-                                        ( @dlts.InvItem.Code )
-                                        @dlts.InvItem.Description
-                                        @dlts.InvItem.Remarks
-                                         -
-                                        @if (dlts.InvItem.InvItemSpec_Steel.Count() != 0)
-                                        {
-                                            <span>
-                                            (@dlts.InvItem.InvItemSpec_Steel.First().SteelBrand.Name)
-
-                                            @dlts.InvItem.InvItemSpec_Steel.First().SteelMaterial.Name
-
-                                            @dlts.InvItem.InvItemSpec_Steel.First().SteelMaterialGrade.Name -
-
-                                            @dlts.InvItem.InvItemSpec_Steel.First().SteelOrigin.Name
-                                            </span>
-                                        }
-                                    </td>
-                                    <td style="width:5rem;">
-                                         @dlts.BatchNo
-                                    </td>
-                                    <td style="width:5rem;">
-                                        @dlts.ItemQty
-
-                                        @if (dlts.InvUom != null)
-                                        {
-                                            @dlts.InvUom.uom
-                                        }
-                                    </td>
-                                </tr>
+                               
                             }
                         </table>
+
+
+                        <div class="td-bold" style="padding-left:10px;">
+                            <span> Id:   @item.Id </span> <br>
+                            @Html.DisplayFor(modelItem => item.Remarks)
+                            <br />
+                            <span id="showtext-button-@item.Id" style="color:blue;cursor:pointer;margin-left:10px;" onclick="ToggleItemList(@item.Id)">
+                            Show Items
+                            </span>
+                            <span class="">
+                                @(item.InvTrxDtls.Count())
+                            </span>
+                        </div>
+
+                        <div id="card-hidden-@item.Id" class="card-hidden" style="display:none">
+
+
+                            <a href="./Receiving/Form?id=@item.Id">
+                                <table class="table table-borderless table-receiving-items" style="margin-top: 7px">
+                                    <tr>
+                                        <th class="no-padding" style="padding-top:0px;"> Items </th>
+                                        <th class="no-padding" style="padding-top:0px;"> Heat No</th>
+                                        <th class="no-padding" style="padding-top:0px;"> Qty </th>
+                                    </tr>
+                                    @foreach (var dlts in item.InvTrxDtls)
+                                    {
+                                        <tr>
+                                            <td style="width:25rem;">
+                                                ( @dlts.InvItem.Code )
+                                                @dlts.InvItem.Description
+                                                @dlts.InvItem.Remarks
+                                                -
+                                                @if (dlts.InvItem.InvItemSpec_Steel.Count() != 0)
+                                                {
+                                                    <span>
+                                                        (@dlts.InvItem.InvItemSpec_Steel.First().SteelBrand.Name)
+
+                                                        @dlts.InvItem.InvItemSpec_Steel.First().SteelMaterial.Name
+
+                                                        @dlts.InvItem.InvItemSpec_Steel.First().SteelMaterialGrade.Name -
+
+                                                        @dlts.InvItem.InvItemSpec_Steel.First().SteelOrigin.Name
+                                                    </span>
+                                                }
+                                            </td>
+                                            <td style="width:5rem;">
+                                                @dlts.BatchNo
+                                            </td>
+                                            <td style="width:5rem;">
+                                                @dlts.ItemQty
+
+                                                @if (dlts.InvUom != null)
+                                                {
+                                                    @dlts.InvUom.uom
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </a>
+                        </div>
                 </td>
                 <td class="td-bold" style="padding-top:18px;">
                     @item.DtTrx.ToString("MMM dd yyyy")
@@ -263,6 +301,51 @@
             if (textval == "Hide Items") {
                 $("#showtext-button-" + itemId).text("Show Items");
             }
+        }
+
+
+        function CloseTrxHdr(e, id) {
+
+
+            $("#CloseTrxHeaderBtn").text("CLOSING TRANSACTION...");
+
+            var data = {
+                Id: id,
+            }
+
+            console.log("Closing Transaction");
+            console.log(data);
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/ApiTrxHdrs/CloseTrxHeader',
+                data: JSON.stringify(data),
+                error: function (response) {
+                    console.log(response);
+
+                    if (response.status == 201) {
+                        console.log("success : Closing Transaction ");
+                        $(e).text("TRANSACTION IS CLOSED");
+                        $(e).removeClass("btn-primary");
+                        $(e).addClass("btn-success");
+                        $(e).prop('disabled', true);
+                        $(e).show();
+                    } else {
+                        console.log("Error: Closing Transaction .")
+                        $(e).text("TRANSACTION IS NOT CLOSED.");
+                        $(e).removeClass("btn-primary");
+                        $(e).addClass("btn-error");
+                    }
+                },
+                success: function (res) {
+                    console.log("success");
+                    console.log(res);
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
+
+
         }
 
     </script>

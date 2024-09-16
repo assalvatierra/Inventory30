@@ -183,7 +183,7 @@ namespace InvWeb.Pages.Stores.Receiving
                     if (!String.IsNullOrEmpty(trxApprovalRecord.VerifiedBy))
                     {
                         //Link TrxDtls and InvItemMasters
-                        LinkItemMasterInvDtlsByHeaderId(trxHdrId);
+                        //LinkItemMasterInvDtlsByHeaderId(trxHdrId);
                         return true;
                     }
                 }
@@ -205,6 +205,7 @@ namespace InvWeb.Pages.Stores.Receiving
                     if (invItemMaster != null)
                     {
                         invItemMasterServices.CreateItemMasterInvDtlsLink(invItemMaster.Id, dtls.InvItemId);
+
                     }
                 }
 
@@ -213,7 +214,8 @@ namespace InvWeb.Pages.Stores.Receiving
 
         public InvItemMaster GetInvItemMasterByInvItemId(int id)
         {
-            if (_context.InvItemMasters.Where(i => i.InvItemId == id).Count() > 0)
+            var countItemsMaster = _context.InvItemMasters.Where(i => i.InvItemId == id).ToList(); //error on runtime
+            if (countItemsMaster.Count() > 0)
             {
                 return _context.InvItemMasters.Where(i => i.InvItemId == id).FirstOrDefault();
             }

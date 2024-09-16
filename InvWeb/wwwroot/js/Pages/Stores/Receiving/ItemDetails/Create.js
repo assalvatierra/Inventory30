@@ -6,9 +6,9 @@
  */
 
 
-function SearchItem(selectedId) {
+function SelectSearchItemUom(selectedId) {
     if (selectedId != 0) {
-        $('#itemDropdown').val(selectedId).change();
+        $('#itemDropdown').val(selectedId);
         GetItemOumsWithId(selectedId);
     }
 }

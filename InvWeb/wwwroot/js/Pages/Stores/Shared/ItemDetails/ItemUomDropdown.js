@@ -10,7 +10,7 @@ function GetItemOums() {
 
     var itemId = $('#itemDropdown').val();
 
-    $.get('/api/uoms/GetUom/' + itemId, null,
+    $.get('//' + itemId, null,
         (data, status, xhr) => {
             Empty_UomDropdown();
             Update_UomDropdown(data);
@@ -21,14 +21,16 @@ function GetItemOums() {
 
 
 function GetItemOumsWithId(itemId) {
+    if (itemId != null) {
 
-    $.get('/api/uoms/GetUom/' + itemId, null,
-        (data, status, xhr) => {
-            Empty_UomDropdown();
-            Update_UomDropdown(data);
-            GetDefaultUom(itemId);
-        }
-    )
+        $.get('/api/uoms/GetUom/' + itemId, null,
+            (data, status, xhr) => {
+                Empty_UomDropdown();
+                Update_UomDropdown(data);
+                GetDefaultUom(itemId);
+            }
+        )
+    }
 }
 
 function Update_UomDropdown(data) {

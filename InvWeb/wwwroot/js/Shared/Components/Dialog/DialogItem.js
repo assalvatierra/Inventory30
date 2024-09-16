@@ -44,7 +44,7 @@ function SelectItemFromDialog(selector, id) {
 function SearchItem() {
     var input, filter, ul, li, a, i;
     input = $("#SearchBar").val();
-    filter = input;
+    filter = input.toLowerCase();
     ul = document.getElementById("SearchList");
     tr = ul.getElementsByTagName("tr");
 
