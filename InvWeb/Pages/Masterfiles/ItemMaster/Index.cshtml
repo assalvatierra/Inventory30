@@ -10,23 +10,14 @@
 <p>
     <a asp-page="Create" class="btn btn-primary">Create New</a>
 </p>
-<div class="row">
-    <div class="btn-group">
-        <button id="Group-Code" type="button" class="btn btn-secondary" onclick="UpdateGroupFilter('Code')"> Group by Code </button>
-        <button id="Group-SubCategory" type="button" class="btn btn-secondary" onclick="UpdateGroupFilter('SubCategory')"> Group by SubCategory </button>
-        <button id="Group-SubCategory" type="button" class="btn btn-secondary" onclick="ClearGroupFilter('')"> Clear </button>
 
-    </div>
-
-    <div style="margin-left:20px;">
-        <form method="get" style="display:flex;">
-            <input type="text" asp-for="SearchItem" class="form-control" />
-
-            <input type="submit" value="Search" class="btn btn-primary" />
-        </form>
-    </div>
+<div class="btn-group">
+    <button id="Group-Code" type="button" class="btn btn-secondary" onclick="UpdateGroupFilter('Code')"> Group by Code </button>
+    <button id="Group-SubCategory" type="button" class="btn btn-secondary" onclick="UpdateGroupFilter('SubCategory')"> Group by SubCategory </button>
+    <button id="Group-SubCategory" type="button" class="btn btn-secondary" onclick="ClearGroupFilter('')"> Clear </button>
 </div>
-<div class="table-responsive card rounded-3 card-round-border">
+
+<div class="table-responsive card rounded-3 card-round-border" style="width:fit-content;">
 
 <table class="table custom-table-list rounded-3 overflow-hidden sortable-theme-bootstrap" data-sortable>
     <thead>
@@ -52,6 +43,12 @@
             </th>
             <th>
                 Sub Category
+            </th>
+            <th>
+                Brand
+            </th>
+            <th>
+                Origin
             </th>
             <th>
                 Material

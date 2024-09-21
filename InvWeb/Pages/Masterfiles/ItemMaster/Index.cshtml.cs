@@ -26,9 +26,6 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
 
         public IList<InvItemIndexModel> InvItemIndex { get;set; }
 
-        [BindProperty(SupportsGet = true)]
-        public string SearchItem { get; set; }
-
         public async Task OnGetAsync(string groupBy)
         {
             InvItemIndex = new List<InvItemIndexModel>();
@@ -59,7 +56,6 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                     .ThenBy(s2=>s2.Description)
                 .ToListAsync();
 
-
             foreach (var item in InvItem)
             {
                 var invItemClassGroup = item.InvItemClasses.ToList();
@@ -76,35 +72,14 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 InvItemIndex.Add(invItemClass);
             }
 
-
-            //apply search by input string of the existing list
-            if (!String.IsNullOrEmpty(SearchItem))
-            {
-                var srchString = SearchItem.ToLower();
-                InvItemIndex = InvItemIndex.Where(
-                    c => c.InvItem.Description.ToLower().Contains(srchString) || c.InvItem.Code.ToLower().Contains(srchString) ||
-                         (!String.IsNullOrEmpty(c.InvItem.Remarks) && c.InvItem.Remarks.ToLower().Contains(srchString)) ||
-                         (c.InvItemSpec_Steel != null && (c.InvItemSpec_Steel.SteelOrigin.Name.Contains(srchString) ||
-                         c.InvItemSpec_Steel.SteelBrand.Name.Contains(srchString) ||
-                         c.InvItemSpec_Steel.SteelMainCat.Name.Contains(srchString) ||
-                         c.InvItemSpec_Steel.SteelSubCat.Name.Contains(srchString)))
-
-                    ).ToList();
-            }
-
-
             ViewData["groupBy"] = groupBy;
         }
     }
 
-
-
-}
-
-public class InvItemIndexModel
+    public class InvItemIndexModel
     {
         public InvItem InvItem { get; set; }
         public InvItemSpec_Steel InvItemSpec_Steel { get; set; }
         public IEnumerable<InvItemClass> InvItemClasses { get;set; }
     }
-
+}

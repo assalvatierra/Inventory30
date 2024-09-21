@@ -54,6 +54,18 @@
         <td>
             @if (item.InvItemSpec_Steel != null)
             {
+                @item.InvItemSpec_Steel.SteelBrand.Name
+            }
+        </td>
+        <td>
+            @if (item.InvItemSpec_Steel != null)
+            {
+                @item.InvItemSpec_Steel.SteelOrigin.Name
+            }
+        </td>
+        <td>
+            @if (item.InvItemSpec_Steel != null)
+            {
                 @item.InvItemSpec_Steel.SteelMaterial.Name
             }
         </td>
