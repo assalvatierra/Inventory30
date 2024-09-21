@@ -144,7 +144,8 @@ namespace InvWeb.Pages.Masterfiles.ItemMaster
                 await AddInvItemSteel();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Details", new { id = InvItem.Id });
+
         }
 
         private bool InvItemExists(int id)

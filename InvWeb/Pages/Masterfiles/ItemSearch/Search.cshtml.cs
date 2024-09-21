@@ -88,8 +88,12 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
             {
                 var srchString = SearchStr.ToLower();
                 ItemSearchResults = ItemSearchResults.Where(
-                    c => c.Item.ToLower().Contains(srchString) ||
-                         ( !String.IsNullOrEmpty(c.ItemRemarks) && c.ItemRemarks.ToLower().Contains(srchString) )
+                    c => c.Item.ToLower().Contains(srchString) || c.Code.ToLower().Contains(srchString) ||
+                         ( !String.IsNullOrEmpty(c.ItemRemarks) && c.ItemRemarks.ToLower().Contains(srchString)) ||
+                         c.InvItemSpec_Steel.SteelOrigin.Name.Contains(srchString) ||
+                         c.InvItemSpec_Steel.SteelBrand.Name.Contains(srchString) ||
+                         c.InvItemSpec_Steel.SteelMainCat.Name.Contains(srchString) ||
+                         c.InvItemSpec_Steel.SteelSubCat.Name.Contains(srchString)
                     ).ToList();
             }
 
