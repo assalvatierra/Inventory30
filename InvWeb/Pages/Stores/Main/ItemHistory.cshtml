@@ -1,0 +1,197 @@
+﻿@page
+@model InvWeb.Pages.Stores.Main.ItemHistoryModel
+@{
+    int totalCountQty = 0;
+}
+
+@{
+    ViewData["Title"] = "Items History";
+}
+
+<a asp-page="./Index" asp-route-id="@ViewBag.StoreId"  class="btn btn-primary">
+    Back to Warehouse
+</a>
+
+<hr />
+<h2>Item Transactions</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Header Id
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Transactions[0].Id)
+            </th>
+
+            <th>
+                Description
+            </th>
+
+            <th>
+                LotNo
+            </th>
+
+            <th>
+                Qty
+            </th>
+            <th>
+                Uom
+            </th>
+            <th>
+                Operation
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Status
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Transactions.Where(c=>c.InvTrxHdr.InvTrxHdrStatusId != 4))
+        {
+
+            if (item.InvTrxDtlOperatorId == 1)
+            {
+                totalCountQty += item.ItemQty;
+            }
+
+            if (item.InvTrxDtlOperatorId == 2)
+            {
+                totalCountQty -= item.ItemQty;
+            }
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvTrxHdrId) 
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvItem.Code) - 
+                @Html.DisplayFor(modelItem => item.InvItem.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LotNo) /
+                @Html.DisplayFor(modelItem => item.BatchNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvUom.uom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvTrxDtlOperator.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvTrxHdr.InvTrxType.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvTrxHdr.InvTrxHdrStatu.Status)
+            </td>
+            <td>
+             
+            </td>
+        </tr>
+}
+<tr>
+    <td colspan="3">
+       
+    </td>
+    <td>
+        Total:
+    </td>
+    <Td>
+        @totalCountQty 
+    </Td>
+    <td colspan="4">
+    </td>
+</tr>
+    </tbody>
+</table>
+
+<hr />
+
+<h3>Item Transactions - Cancelled</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Header Id
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Transactions[0].Id)
+            </th>
+
+            <th>
+                Description
+            </th>
+
+            <th>
+                LotNo
+            </th>
+
+            <th>
+                Qty
+            </th>
+            <th>
+                Uom
+            </th>
+            <th>
+                Operation
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Status
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Transactions.Where(c => c.InvTrxHdr.InvTrxHdrStatusId == 4))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvTrxHdrId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvItem.Code) -
+                    @Html.DisplayFor(modelItem => item.InvItem.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LotNo) /
+                    @Html.DisplayFor(modelItem => item.BatchNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemQty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvUom.uom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvTrxDtlOperator.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvTrxHdr.InvTrxType.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvTrxHdr.InvTrxHdrStatu.Status)
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
