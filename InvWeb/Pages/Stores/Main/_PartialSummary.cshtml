@@ -136,6 +136,11 @@
                 <td>
                     <partial name="_PartialStockWarning" model="item" />
                 </td>
+                <td>
+                     <a asp-page="./ItemHistory" asp-route-storeId="@ViewBag.StoreId" asp-route-id="@item.Id" class="btn btn-light col-12">
+                            Transactions
+                    </a>
+                </td>
             </tr>
             }
         </tbody>
