@@ -40,10 +40,10 @@
                 Material Grade
             </th>
             <th>
-                Kgm
+                Kg/pc
             </th>
             <th>
-                Kgpc
+                Kg/m
             </th>
 
             <th>
@@ -91,15 +91,15 @@
                     }
                 </td>
                 <td>
-                    @if (item.InvItemSpec_Steel != null)
+                    @if (item.ItemMaster != null)
                     {
-                        @item.InvItemSpec_Steel.SteelBrand.Name
+                        @item.ItemMaster.InvItemBrand.Name
                     }
                 </td>
                 <td>
-                    @if (item.InvItemSpec_Steel != null)
+                    @if (item.ItemMaster != null)
                     {
-                        @item.InvItemSpec_Steel.SteelOrigin.Name
+                        @item.ItemMaster.InvItemOrigin.Name
                     }
                 </td>
                 <td>
@@ -133,9 +133,10 @@
                     @Html.DisplayFor(modelItem => item.Uom)
                 </td>
                 <td>
-                    <a asp-page="./ItemPrices" asp-route-id="@item.Id">Supplier Prices</a> |
 
-                    <a asp-page="./StoreStocks" asp-route-id="@item.Id">Store Stocks</a>
+                  @*   <a asp-page="./ItemPrices" asp-route-id="@item.Id">Supplier Prices</a> | *@
+
+                    <a asp-page="./StoreStocks" asp-route-id="@item.Id" class="btn btn-primary">Store Stocks</a>
                 </td>
             </tr>
          } 

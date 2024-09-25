@@ -7,6 +7,7 @@ using CoreLib.Inventory.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using RealSys.CoreLib.Models.Reports;
+using CoreLib.DTO.InvItems;
 
 namespace CoreLib.Models.Inventory
 {
@@ -75,6 +76,10 @@ namespace CoreLib.Models.Inventory
         public virtual DbSet<InvItemBrand>? InvItemBrands { get; set; }
         public virtual DbSet<InvItemOrigin>? InvItemOrigins { get; set; }
         public virtual DbSet<InvStoreArea>? InvStoreAreas { get; set; }
+
+
+
+        public virtual DbSet<InvItemSearch> InvItemSearchs { get; set; }
 
     }
 }

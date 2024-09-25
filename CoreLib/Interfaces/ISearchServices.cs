@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreLib.DTO.InvItems;
 using CoreLib.Inventory.Models;
 using CoreLib.Inventory.Models.Stores;
+using CoreLib.Models.Inventory;
 
 namespace CoreLib.Inventory.Interfaces
 {
@@ -13,5 +15,7 @@ namespace CoreLib.Inventory.Interfaces
         public int GetAvailableCountByItem(int id);
         public Task<IEnumerable<InvTrxDtl>> GetInvDetailsByIdAsync(int id);
         public Task<IEnumerable<InvTrxDtl>> GetApprovedInvDetailsAsync();
+
+        public  Task<List<InvItemSearch>> GetItemsOnStock();
     }
 }

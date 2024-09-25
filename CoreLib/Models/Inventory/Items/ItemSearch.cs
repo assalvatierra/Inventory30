@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoreLib.Models.Inventory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,6 +18,8 @@ namespace CoreLib.Inventory.Models.Items
         public string InvStore { get; set; }
         
         public string ItemSpec { get; set; }
+
+        public InvItemMaster ItemMaster { get; set; }
 
         public InvItemSpec_Steel? InvItemSpec_Steel { get; set; }
     }

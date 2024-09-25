@@ -23,6 +23,14 @@ namespace Modules.Inventory
         private readonly int TYPE_RELEASED = 2;
         private readonly int TYPE_ADJUSTMENT = 3;
 
+
+        private readonly int STATUS_REQUEST = 1;
+        private readonly int STATUS_APPROVED = 2;
+        private readonly int STATUS_CLOSED = 3;
+        private readonly int STATUS_CANCELLED = 4;
+        private readonly int STATUS_VERIFIED = 5;
+        private readonly int STATUS_ACCEPTED = 6;
+
         public StoreServices(ApplicationDbContext context)
         {
             _context = context;
@@ -87,8 +95,6 @@ namespace Modules.Inventory
                 foreach (var item in invItems)
                 {
                     var itemDetails = invItems.Where(i => i.Id == item.Id).FirstOrDefault();
-
-
 
                     decimal itemReceived = ConvertItemsListUoms(Received.Where(h => h.InvItemId == item.Id).ToList());
                     decimal itemReleased = ConvertItemsListUoms(Released.Where(h => h.InvItemId == item.Id).ToList());
@@ -263,7 +269,7 @@ namespace Modules.Inventory
 
         public virtual decimal GetPendingItemsCount(List<InvTrxDtl> receivedItems, int itemId)
         {
-            var pendingList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
+            var pendingList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == STATUS_REQUEST && h.InvTrxHdr.InvTrxHdrStatusId != STATUS_CANCELLED &&
                                             h.InvItemId == itemId).ToList();
 
             return ConvertItemsListUoms(pendingList);
@@ -272,21 +278,21 @@ namespace Modules.Inventory
 
         public virtual decimal GetAcceptedItemsCount(List<InvTrxDtl> receivedItems, int itemId)
         {
-            var acceptedList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
+            var acceptedList = receivedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > STATUS_REQUEST && h.InvTrxHdr.InvTrxHdrStatusId != STATUS_CANCELLED &&
                                             h.InvItemId == itemId).ToList();
             return ConvertItemsListUoms(acceptedList);
         }
 
         public virtual decimal GetRequestedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
         {
-            var requestedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == 1 && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
+            var requestedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId == STATUS_REQUEST && h.InvTrxHdr.InvTrxHdrStatusId != STATUS_CANCELLED &&
                                             h.InvItemId == itemId).ToList();
             return ConvertItemsListUoms(requestedList);
         }
 
         public virtual decimal GetReleasedItemsCount(List<InvTrxDtl> releasedItems, int itemId)
         {
-            var releasedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > 1 && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
+            var releasedList = releasedItems.Where(h => h.InvTrxHdr.InvTrxHdrStatusId > STATUS_REQUEST && h.InvTrxHdr.InvTrxHdrStatusId != STATUS_CANCELLED &&
                                             h.InvItemId == itemId).ToList();
             return ConvertItemsListUoms(releasedList);
         }
@@ -297,7 +303,7 @@ namespace Modules.Inventory
             try
             {
                 var storePendingReceiving = await _context.InvTrxHdrs
-                    .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 1 && t.InvTrxHdrStatusId == 1)
+                    .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == STATUS_REQUEST && t.InvTrxHdrStatusId == STATUS_REQUEST)
                     .ToListAsync();
                 return storePendingReceiving.Count();
             }
@@ -311,7 +317,7 @@ namespace Modules.Inventory
         {
             try {
                 var storePendingReceiving = await _context.InvTrxHdrs
-                    .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 2 && t.InvTrxHdrStatusId == 1)
+                    .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == TYPE_RELEASED && t.InvTrxHdrStatusId == STATUS_REQUEST)
                     .ToListAsync();
                 return storePendingReceiving.Count();
             }
@@ -325,7 +331,7 @@ namespace Modules.Inventory
         {
             try {
                 var storePendingReceiving = await _context.InvTrxHdrs
-                    .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == 3 && t.InvTrxHdrStatusId == 1)
+                    .Where(t => t.InvStoreId == storeId && t.InvTrxTypeId == TYPE_ADJUSTMENT && t.InvTrxHdrStatusId == STATUS_REQUEST)
                     .ToListAsync();
                 return storePendingReceiving.Count();
             }
@@ -340,7 +346,7 @@ namespace Modules.Inventory
             try
             {
                 var storePendingReceiving = await _context.InvPoHdrs
-                    .Where(t => t.InvStoreId == storeId && t.InvPoHdrStatusId == 1)
+                    .Where(t => t.InvStoreId == storeId && t.InvPoHdrStatusId == STATUS_REQUEST)
                     .ToListAsync();
                 return storePendingReceiving.Count();
 
@@ -398,7 +404,7 @@ namespace Modules.Inventory
             try
             {
                 return await _context.InvTrxDtls
-                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
+                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED && h.InvTrxHdr.InvTrxHdrStatusId != STATUS_CANCELLED &&
                      h.InvTrxHdr.InvStoreId == storeId)
                     .Include(h => h.InvTrxHdr)
                     .ToListAsync();
@@ -417,7 +423,7 @@ namespace Modules.Inventory
             {
 
                 return await _context.InvTrxDtls
-                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
+                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED && h.InvTrxHdr.InvTrxHdrStatusId != STATUS_CANCELLED &&
                      h.InvTrxHdr.InvStoreId == storeId)
                     .Include(h => h.InvTrxHdr)
                     .ToListAsync();
@@ -435,7 +441,7 @@ namespace Modules.Inventory
             try
             {
                 return await _context.InvTrxDtls
-                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
+                    .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT && h.InvTrxHdr.InvTrxHdrStatusId != STATUS_CANCELLED &&
                      h.InvTrxHdr.InvStoreId == storeId)
                     .Include(h => h.InvTrxHdr)
                     .ToListAsync();
@@ -449,7 +455,7 @@ namespace Modules.Inventory
         public virtual async Task<List<InvTrxDtl>> GetReceivedItemsByCatAsync(int storeId, int categoryId)
         {
             return await _context.InvTrxDtls
-               .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
+               .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RECEIVED && h.InvTrxHdr.InvTrxHdrStatusId != STATUS_CANCELLED &&
                 h.InvTrxHdr.InvStoreId == storeId && h.InvItem.InvCategoryId == categoryId)
                .Include(h => h.InvTrxHdr)
                 .Include(h => h.InvItem)
@@ -458,7 +464,7 @@ namespace Modules.Inventory
         public virtual async Task<List<InvTrxDtl>> GetReleasedItemsByCatAsync(int storeId, int categoryId)
         {
             return await _context.InvTrxDtls
-                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
+                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_RELEASED && h.InvTrxHdr.InvTrxHdrStatusId != STATUS_CANCELLED &&
                  h.InvTrxHdr.InvStoreId == storeId && h.InvItem.InvCategoryId == categoryId)
                 .Include(h => h.InvTrxHdr)
                 .Include(h => h.InvItem)
@@ -468,7 +474,7 @@ namespace Modules.Inventory
         public virtual async Task<List<InvTrxDtl>> GetAdjustmentItemsByCatAsync(int storeId, int categoryId)
         {
             return await _context.InvTrxDtls
-                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT && h.InvTrxHdr.InvTrxHdrStatusId != 4 &&
+                .Where(h => h.InvTrxHdr.InvTrxTypeId == TYPE_ADJUSTMENT && h.InvTrxHdr.InvTrxHdrStatusId != STATUS_CANCELLED &&
                  h.InvTrxHdr.InvStoreId == storeId && h.InvItem.InvCategoryId == categoryId)
                 .Include(h => h.InvTrxHdr)
                 .Include(h => h.InvItem)

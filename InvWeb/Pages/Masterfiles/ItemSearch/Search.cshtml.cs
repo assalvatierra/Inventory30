@@ -51,12 +51,12 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
                         .ThenInclude(i => i.SteelOrigin)
                     .Include(i => i.InvItemSpec_Steel)
                         .ThenInclude(i => i.SteelBrand)
-                    .Include(i=>i.InvItemCustomSpecs)
-                        .ThenInclude(i=>i.InvCustomSpec)
+                    .Include(i => i.InvItemCustomSpecs)
+                        .ThenInclude(i => i.InvCustomSpec)
                     .ToListAsync();
 
             foreach (var item in AllItemsList)
-            { 
+            {
                 //get item Details
                 //var itemDetails = 
                 //    .FirstOrDefaultAsync(m => m.Id == item.Id);
@@ -75,8 +75,8 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
                     newItemResult.Code = item.Code;
                     newItemResult.ItemRemarks = item.Remarks;
                     newItemResult.Uom = item.InvUom.uom;
-                    newItemResult.ItemSpec = GetItemCustomSpec(item.InvItemCustomSpecs);
                     newItemResult.InvItemSpec_Steel = item.InvItemSpec_Steel.FirstOrDefault();
+                    newItemResult.ItemMaster = GetItemMaster(item);
 
                     ItemSearchResults.Add(newItemResult);
                 }
@@ -89,10 +89,16 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
                 var srchString = SearchStr.ToLower();
                 ItemSearchResults = ItemSearchResults.Where(
                     c => c.Item.ToLower().Contains(srchString) ||
-                         ( !String.IsNullOrEmpty(c.ItemRemarks) && c.ItemRemarks.ToLower().Contains(srchString) )
+                         (!String.IsNullOrEmpty(c.ItemRemarks) && c.ItemRemarks.ToLower().Contains(srchString))
                     ).ToList();
             }
 
+
+
+            // Get Items from SQL
+            //var itemsOnStock = await services.GetItemsOnStock();
+
+            //var checkItemOnStock = 0;
         }
 
         private string GetItemCustomSpec(ICollection<InvItemCustomSpec> invItemCustomSpec)
@@ -126,6 +132,21 @@ namespace InvWeb.Pages.Masterfiles.ItemSearch
             }
         }
 
+
+        private InvItemMaster GetItemMaster(InvItem item)
+        {
+            if (item != null)
+            {
+                return _context.InvItemMasters
+                    .Include(c => c.InvItemBrand)
+                    .Include(c => c.InvItemOrigin)
+                    .Where(i=>i.InvItemId == item.Id).FirstOrDefault();
+            }
+            else
+            {
+                return null;
+            }
+        }
 
 
     }
