@@ -58,14 +58,18 @@ namespace InvWeb.Controllers
             [FromServices] IWebDocumentViewerClientSideModelGenerator clientSideModelGenerator,
             [FromQuery] string reportName, [FromQuery] string page)
         {
-            var p = page; //report set parameter
+            var p = page; //report set parameter : url sample: https://localhost:44359/Home/Viewer?reportName=Item-Search&page=123
             var reportToOpen = string.IsNullOrEmpty(reportName) ? "TestReport" : reportName;
             //var reportToOpen = "ItemList";
 
+            ViewBag.para01 = "321";
             var model = new Models.ViewerModel
             {
                 ViewerModelToBind = await clientSideModelGenerator.GetModelAsync(reportToOpen, WebDocumentViewerController.DefaultUri)
-            };
+            }; 
+            
+            model.ViewerModelToBind.ReportInfo.ParametersInfo.Parameters[1].Value = 333;
+            model.ViewerModelToBind.ReportInfo.ParametersInfo.Parameters[1].ValueInfo = 333;
             return View(model);
         }
 

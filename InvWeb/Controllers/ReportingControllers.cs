@@ -8,6 +8,8 @@ using DevExpress.AspNetCore.Reporting.WebDocumentViewer.Native.Services;
 namespace InvWeb.Controllers {
     public class CustomWebDocumentViewerController : WebDocumentViewerController {
         public CustomWebDocumentViewerController(IWebDocumentViewerMvcControllerService controllerService) : base(controllerService) {
+            string sdata = ViewBag.para01;
+            int i = 0;
         }
     }
 
@@ -18,6 +20,7 @@ namespace InvWeb.Controllers {
 
     public class CustomQueryBuilderController : QueryBuilderController {
         public CustomQueryBuilderController(IQueryBuilderMvcControllerService controllerService) : base(controllerService) {
+            int t = 0;
         }
     }
 }

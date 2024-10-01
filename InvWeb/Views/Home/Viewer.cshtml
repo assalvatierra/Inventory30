@@ -4,6 +4,8 @@
 
 
 @{
+    var varparam = ViewBag.para01;
+
     var viewerRender = Html.DevExpress().WebDocumentViewer("DocumentViewer")
         .Height("1080px")
         .Bind(Model.ViewerModelToBind);
