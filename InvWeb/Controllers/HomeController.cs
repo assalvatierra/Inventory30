@@ -10,6 +10,7 @@ using DevExpress.DataAccess.Sql;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.Web.ReportDesigner;
 using System.Collections.Generic;
+using System.Security.Policy;
 
 namespace InvWeb.Controllers
 {
@@ -56,20 +57,49 @@ namespace InvWeb.Controllers
 
         public async Task<IActionResult> Viewer(
             [FromServices] IWebDocumentViewerClientSideModelGenerator clientSideModelGenerator,
-            [FromQuery] string reportName, [FromQuery] string page)
+            [FromQuery] string reportName, [FromQuery] string param)
         {
-            var p = page; //report set parameter : url sample: https://localhost:44359/Home/Viewer?reportName=Item-Search&page=123
             var reportToOpen = string.IsNullOrEmpty(reportName) ? "TestReport" : reportName;
-            //var reportToOpen = "ItemList";
 
-            ViewBag.para01 = "321";
             var model = new Models.ViewerModel
             {
                 ViewerModelToBind = await clientSideModelGenerator.GetModelAsync(reportToOpen, WebDocumentViewerController.DefaultUri)
             }; 
-            
-            model.ViewerModelToBind.ReportInfo.ParametersInfo.Parameters[1].Value = 333;
-            model.ViewerModelToBind.ReportInfo.ParametersInfo.Parameters[1].ValueInfo = 333;
+
+            if(!string.IsNullOrEmpty(param))
+            {
+                ////url sample: https://localhost:44359/Home/Viewer?reportName=Item-Search&param=Id:123;Type:REL
+                string[] paramvalues = param.Split(";");
+                foreach(string paramvalue in paramvalues)
+                {
+                    if(paramvalue.Split(':').Length>1)
+                    {
+                        string pName = paramvalue.Split(':')[0];
+                        string pValue = paramvalue.Split(":")[1];
+
+                        if(model.ViewerModelToBind.ReportInfo.ParametersInfo.Parameters.Length>0)
+                        {
+                            for(int i = 0; i < model.ViewerModelToBind.ReportInfo.ParametersInfo.Parameters.Length; i++)
+                            {
+                                if (model.ViewerModelToBind.ReportInfo.ParametersInfo.Parameters[i].Name.ToLower()==pName.ToLower())
+                                {
+                                    model.ViewerModelToBind.ReportInfo.ParametersInfo.Parameters[i].Value = pValue;
+                                    model.ViewerModelToBind.ReportInfo.ParametersInfo.Parameters[i].ValueInfo = pValue;
+                                }
+
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        string errMsg = "Parameter format incorrect";
+                    }
+                }
+
+
+            }
+
             return View(model);
         }
 
