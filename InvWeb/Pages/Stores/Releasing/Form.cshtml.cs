@@ -56,6 +56,7 @@ namespace InvWeb.Pages.Stores.Releasing
 
 
             ReleasingDetailsModel.InvTrxHdr = await itemTrxServices.GetInvTrxHdrsById((int)id)
+                                         .Include(c=>c.InvStore)
                                          .FirstOrDefaultAsync();
 
             if (ReleasingDetailsModel.InvTrxHdr == null)

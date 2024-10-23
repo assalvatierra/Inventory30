@@ -49,6 +49,12 @@
             <th>
                 Status
             </th>
+            <th>
+                Store
+            </th>
+            <td>
+
+            </td>
         </tr>
     </thead>
     <tbody>
@@ -96,7 +102,10 @@
                 @Html.DisplayFor(modelItem => item.InvTrxHdr.InvTrxHdrStatu.Status)
             </td>
             <td>
-             
+                @Html.DisplayFor(modelItem => item.InvTrxHdr.InvStore.StoreName)
+            </td>
+            <td>
+
             </td>
         </tr>
 }

@@ -8,7 +8,12 @@
     // int InvBalanceCount = 0;
 
     bool isUserAdmin = (bool)ViewData["IsUserAdmin"];
+    int storeId = ViewBag.StoreId;
 }
+<div >
+    <h4> @Model.ReleasingDetailsModel.InvTrxHdr.InvStore.StoreName </h4>
+    <input id="storeId" value="@Model.ReleasingDetailsModel.InvTrxHdr.InvStoreId" hidden >  
+</div>
 
 <div style="margin:5px;margin-bottom:10px;display:flex;justify-content:space-between;">
     <div>

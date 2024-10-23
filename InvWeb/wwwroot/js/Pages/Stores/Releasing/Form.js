@@ -839,10 +839,15 @@ function GetInvItemReleasedTrx() {
     $("#newItem-Lotno-Warning").text("");
 
     var invItemId = $("#itemDropdown").val();
+    var storeId = $("#storeId").val();
+
+    console.log("StoreId: " + storeId);
+
     $("#item-Searchheader").text($("#itemDropdown :selected").text())
 
     var data = {
         Id: invItemId,
+        storeId: storeId
     }
 
     //console.log("Get Transactions based on item ID");
@@ -850,7 +855,7 @@ function GetInvItemReleasedTrx() {
 
     $.ajax({
         type: 'GET',
-        url: '/api/ApiInvTrxDtls/GetInvItemReleasingLotNo?id=' + invItemId,
+        url: '/api/ApiInvTrxDtls/GetInvItemReleasingLotNo?id=' + invItemId + '&storeId=' + storeId,
         data: JSON.stringify(data),
         error: function (result) {
             console.log(result);
@@ -895,7 +900,7 @@ function GetInvItemReleasedTrxForEdit() {
     $.ajax({
         type: 'GET',
         // url: '/api/ApiInvTrxDtls/GetInvItemReceivedTrx?id=' + invItemId,
-        url: '/api/ApiInvTrxDtls/GetInvItemReleasingLotNo?id=' + invItemId,
+        url: '/api/ApiInvTrxDtls/GetInvItemReleasingLotNo?id=' + invItemId + '&storeId=' + storeId,
         data: JSON.stringify(data),
         error: function (result) {
             console.log(result);
@@ -939,13 +944,20 @@ function CreateTableForItemsLotNos(res) {
             NewItemRow += "<td>  </td>";
         }
 
+        var nostock = "";
+        if (res[i]['OnStockQty'] == 0) {
+
+            nostock = " <br> <span class='badge rounded-pill text-bg-danger'> No stock </span>"
+        }
+
         NewItemRow += "<td>" + res[i]['LotNo'] + " / " + res[i]['BatchNo'] + "</td>";
         NewItemRow += "<td>" + res[i]['Description'] + " <br> " + res[i]['Brand'] + " " + res[i]['Origin'] + "</td>";
         NewItemRow += "<td>" + res[i]['Date'] + "</td>";
-        NewItemRow += "<td>" + res[i]['OnStockQty'] + " of " + res[i]['Qty'] +"</td>";
+        NewItemRow += "<td width='75px'>" + res[i]['OnStockQty'] + " of " + res[i]['Qty'] + nostock +"</td>";
         NewItemRow += "<td>" + res[i]['Uom'] + "</td>";
         NewItemRow += "<td> " + res[i]['Status'] + " </td>";
         NewItemRow += "<td> " + res[i]['InvItemMasterId'] + " </td>";
+        NewItemRow += "<td> " + res[i]['Store'] + " </td>";
 
         $("#SearchLotNo-list").append(NewItemRow);
         $("#SearchLotNo-list-Edit").append(NewItemRow);
@@ -993,6 +1005,7 @@ function CreateTableForItemsLotNosEdit(res) {
         NewItemRow += "<td>" + res[i]['Qty'] + "</td>";
         NewItemRow += "<td>" + res[i]['Uom'] + "</td>";
         NewItemRow += "<td> " + res[i]['Status'] + " </td>";
+        NewItemRow += "<td> " + res[i]['Store'] + " </td>";
 
         $("#SearchLotNo-list-Edit").append(NewItemRow);
     }

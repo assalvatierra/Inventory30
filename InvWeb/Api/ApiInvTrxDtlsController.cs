@@ -607,7 +607,7 @@ namespace InvWeb.Api
 
         [ActionName("GetInvItemReleasingLotNo")]
         [HttpGet]
-        public async Task<string> GetInvItemReleasingLotNo(int id)
+        public async Task<string> GetInvItemReleasingLotNo(int id, int storeId)
         {
             try
             {
@@ -615,7 +615,8 @@ namespace InvWeb.Api
                         .Where(c => c.InvItemId == id && c.InvTrxDtlxItemMasters.Count > 0 
                         && c.InvTrxDtlxItemMasters.FirstOrDefault().InvTrxDtl.InvTrxHdr.InvTrxTypeId == (int)TRANSACTION_TYPE.RECEIVING
                         && (c.InvTrxDtlxItemMasters.FirstOrDefault().InvTrxDtl.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.APPROVED
-                        || c.InvTrxDtlxItemMasters.FirstOrDefault().InvTrxDtl.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.CLOSED))
+                        || c.InvTrxDtlxItemMasters.FirstOrDefault().InvTrxDtl.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.CLOSED)
+                        && c.InvTrxDtlxItemMasters.FirstOrDefault().InvTrxDtl.InvTrxHdr.InvStoreId == storeId)
                     .Include(c=>c.InvItemBrand)
                     .Include(c => c.InvItemOrigin)
                     .Include(c => c.InvStoreArea)
@@ -632,6 +633,10 @@ namespace InvWeb.Api
                         .ThenInclude(c=>c.InvCategory)
                     .Include(c => c.InvItem)
                         .ThenInclude(c => c.InvUom)
+                    .Include(c => c.InvTrxDtlxItemMasters)
+                        .ThenInclude(c => c.InvTrxDtl)
+                        .ThenInclude(c => c.InvTrxHdr)
+                        .ThenInclude(c => c.InvStore)
                     .ToListAsync();
 
                 if (invItemMasterListByItem_Received.Count() == 0)
@@ -662,6 +667,8 @@ namespace InvWeb.Api
 
                         trxDetails.Date = item.InvTrxDtlxItemMasters.First().InvTrxDtl.InvTrxHdr.DtTrx.ToShortDateString();
                         trxDetails.Status = item.InvTrxDtlxItemMasters.First().InvTrxDtl.InvTrxHdr.InvTrxHdrStatu.Status;
+
+                        trxDetails.Store = item.InvTrxDtlxItemMasters.First().InvTrxDtl.InvTrxHdr.InvStore.StoreName;
                     }
 
                     trxDetails.Id = item.Id;
@@ -676,7 +683,8 @@ namespace InvWeb.Api
                     trxDetails.Qty = item.ItemQty;
                     trxDetails.Uom = item.InvUom.uom;
 
-                    trxDetails.OnStockQty = GetTotalItemStockFromItemMaster(item.Id);
+                    // trxDetails.OnStockQty = GetTotalItemStockFromItemMaster(item.Id);
+                    trxDetails.OnStockQty = GetItemOnStockByItemIdAndLotNo(item.InvItemId, LotNo);
 
                     if (!String.IsNullOrEmpty(LotNo))
                     {
@@ -742,6 +750,35 @@ namespace InvWeb.Api
                 if (item.InvTrxDtl.InvTrxDtlOperatorId == (int)OPERATION.SUBTRACT)
                 {
                     invItem_Released += item.InvTrxDtl.ItemQty;
+                }
+            }
+            return invItem_Received - invItem_Released;
+        }
+
+
+        private int GetItemOnStockByItemIdAndLotNo(int itemId, string lotno)
+        {
+
+            var invTrxDtls = _context.InvTrxDtls.Where(c=>c.InvItem.Id == itemId && 
+                        (c.LotNo == lotno || c.BatchNo == lotno) && 
+                        (c.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.APPROVED ||
+                         c.InvTrxHdr.InvTrxHdrStatusId == (int)HdrStatus.CLOSED))
+                        .Include(c=>c.InvTrxHdr)
+                        .ToList();
+
+            int invItem_Received = 0;
+            int invItem_Released = 0;
+
+            foreach (var item in invTrxDtls)
+            {
+                if (item.InvTrxDtlOperatorId == (int)OPERATION.ADD)
+                {
+                    invItem_Received += item.ItemQty;
+                }
+
+                if (item.InvTrxDtlOperatorId == (int)OPERATION.SUBTRACT)
+                {
+                    invItem_Released += item.ItemQty;
                 }
             }
             return invItem_Received - invItem_Released;
@@ -1280,6 +1317,7 @@ namespace InvWeb.Api
             public decimal OnStockQty { get; set; }
             public string Uom { get; set; }
             public string Status { get; set; }
+            public string Store { get; set; }
         }
 
 

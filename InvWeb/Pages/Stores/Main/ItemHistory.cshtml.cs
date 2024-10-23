@@ -44,6 +44,8 @@ namespace InvWeb.Pages.Stores.Main
                 .ThenInclude(c => c.InvTrxType)
                 .Include(i=>i.InvTrxDtlOperator)
                 .Include(i=>i.InvUom)
+                .Include(i=>i.InvTrxHdr)
+                .ThenInclude(i=>i.InvStore)
                 .ToList();
 
             ViewData["StoreId"] = storeId;
