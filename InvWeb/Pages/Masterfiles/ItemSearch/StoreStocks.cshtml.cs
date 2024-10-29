@@ -10,6 +10,7 @@ using InvWeb.Data.Services;
 using CoreLib.Models.Inventory;
 using Modules.Inventory;
 using CoreLib.Inventory.Interfaces;
+using CoreLib.DTO.InvItems;
 
 namespace InvWeb.Pages.Masterfiles.StoreStock
 {
@@ -24,11 +25,11 @@ namespace InvWeb.Pages.Masterfiles.StoreStock
             services = new SearchServices(_context);
         }
 
-        public IList<InvTrxDtl> InvTrxDtls { get;set; }
+        public IList<InvItemStoreStocks> invItemStoreStocks { get;set; }
 
         public async Task OnGetAsync(int id)
         {
-            InvTrxDtls = new List<InvTrxDtl>();
+            invItemStoreStocks = new List<InvItemStoreStocks>();
 
             //get list of approved item details 
             var ApprovedItemDetails = await services.GetInvDetailsByIdAsync(id);
@@ -42,20 +43,21 @@ namespace InvWeb.Pages.Masterfiles.StoreStock
                 var itemDetails = _context.InvItems.Find(itemdtl.InvItemId);
 
                 //check if item is not in the list
-                var invDetailsCount = InvTrxDtls.Where(c => c.Id == id 
+                var invDetailsCount = invItemStoreStocks.Where(c => c.Id == id 
                                              && c.InvTrxHdr.InvStoreId == storeId)
                                             .Count();
 
                 //if not on the list, add to existing list
                 if (invDetailsCount == 0)
                 {
-                    InvTrxDtls.Add(new InvTrxDtl
+                    invItemStoreStocks.Add(new InvItemStoreStocks
                     {
                         Id = itemdtl.InvItemId,
-                        InvItem = itemDetails,
-                        ItemQty = services.GetAvailableCountByItem(id, itemdtl.InvTrxHdr.InvStoreId),
+                        InvItem_Code = itemDetails.Code,
+                        InvItem_Description = itemDetails.Description,
+                        Qty_Stock = services.GetAvailableCountByItem(id, itemdtl.InvTrxHdr.InvStoreId),
                         InvTrxHdr = itemdtl.InvTrxHdr,
-                        InvUom = itemdtl.InvUom,
+                        InvUom = itemdtl.InvUom.uom
                         
                     });
                 }
@@ -65,4 +67,5 @@ namespace InvWeb.Pages.Masterfiles.StoreStock
         }
 
     }
+
 }

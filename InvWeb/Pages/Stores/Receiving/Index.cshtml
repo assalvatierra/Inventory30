@@ -9,6 +9,7 @@
     int STATUS_PENDING = 1;
     int STATUS_APPROVED = 2;
     int STOREID = (int)ViewData["StoreId"];
+    string STORE = (string)ViewData["Store"];
 
     bool IsAccounting = (bool)ViewData["IsAccounting"];
     bool IsProcurementHead = (bool)ViewData["IsProcurementHead"];
@@ -30,10 +31,11 @@
     {
         <span style="font-size:1rem;">(All)</span>
     }
-        <span>
-        StoreId : @STOREID 
-        </span>
+     
 </h1>
+<h3>
+    @STORE
+</h3>
 
 <div class="action-btns-group">
     <a asp-page="../Main/Index" asp-route-id="@Model.ReceivingIndexModel.StoreId">Go back to MyStore</a> |

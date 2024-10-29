@@ -47,7 +47,18 @@
             </th>
 
             <th>
-                Qty
+                Onhand
+            </th>
+            <th>
+               Releasing
+               Requested
+            </th>
+            <th>
+               Releasing
+               Approved
+            </th>
+            <th>
+               Available
             </th>
             <th>
                 InvUom
@@ -130,13 +141,24 @@
                     @Html.DisplayFor(modelItem => item.Qty)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Qty_Requested)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qty_Approved)
+                </td>
+                <td style="background-color:#f0f0f0;">
+                    <b>@Html.DisplayFor(modelItem => item.Qty_Available)</b>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Uom)
                 </td>
                 <td>
 
                   @*   <a asp-page="./ItemPrices" asp-route-id="@item.Id">Supplier Prices</a> | *@
 
-                    <a asp-page="./StoreStocks" asp-route-id="@item.Id" class="btn btn-light">Store Stocks</a>
+                    @* <a asp-page="./StoreStocks" asp-route-id="@item.Id" class="btn btn-light">Store Stocks</a> *@
+
+                    @item.InvStore
                 </td>
             </tr>
          } 

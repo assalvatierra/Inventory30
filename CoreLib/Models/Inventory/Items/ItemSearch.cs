@@ -14,6 +14,9 @@ namespace CoreLib.Inventory.Models.Items
         public string Item { get; set; }
         public string ItemRemarks { get; set; }
         public int Qty { get; set; }
+        public int Qty_Requested { get; set; }
+        public int Qty_Approved { get; set; }
+        public int Qty_Available { get; set; }
         public string Uom { get; set; }
         public string InvStore { get; set; }
         

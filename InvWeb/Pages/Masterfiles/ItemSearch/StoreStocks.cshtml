@@ -17,40 +17,60 @@
                 Code
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvTrxDtls[0].InvItem.Description)
+               Description
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvTrxDtls[0].ItemQty)
+                OnStock
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvTrxDtls[0].InvTrxHdr.InvStore.StoreName)
+                Releasing
+                Requested
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvTrxDtls[0].InvUom.uom)
+                Releasing
+                Approved
+            </th>
+            <th>
+                Available
+            </th>
+            <th>
+                StoreName
+            </th>
+            <th>
+                Unit
             </th>
             <th> </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.InvTrxDtls)
+        @foreach (var item in Model.invItemStoreStocks)
         {
             <tr>
                 
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Code)
+                    @Html.DisplayFor(modelItem => item.InvItem_Code)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvItem.Description)
-                    @Html.DisplayFor(modelItem => item.InvItem.Remarks)
+                    @Html.DisplayFor(modelItem => item.InvItem_Description)
+                    @* @Html.DisplayFor(modelItem => item.Remarks) *@
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ItemQty)
+                    @Html.DisplayFor(modelItem => item.Qty_Stock)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvTrxHdr.InvStore.StoreName)
+                    @Html.DisplayFor(modelItem => item.Qty_Released)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InvUom.uom)
+                    @Html.DisplayFor(modelItem => item.Qty_Approved)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qty_Available)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.store)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvUom)
                 </td>
                 <td>
                     <partial name="_PartialStockWarning" model="item" />

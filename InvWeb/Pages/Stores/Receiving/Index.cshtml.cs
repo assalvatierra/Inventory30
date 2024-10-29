@@ -81,6 +81,7 @@ namespace InvWeb.Pages.Stores.Receiving
             ViewData["IsAccounting"] = User.IsInRole("Accounting");
 
             ViewData["StoreId"] = (int)storeId;
+            ViewData["Store"] = _context.InvStores.Find(storeId).StoreName;
             return Page();
         }
 

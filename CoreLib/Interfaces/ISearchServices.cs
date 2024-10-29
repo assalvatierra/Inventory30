@@ -13,6 +13,10 @@ namespace CoreLib.Inventory.Interfaces
     {
         public int GetAvailableCountByItem(int id, int? storeId);
         public int GetAvailableCountByItem(int id);
+        public int GetOnRequestCountByItem(int id, int? storeId);
+        public int GetOnRequestCountByItem(int id);
+        public int GetOnApprovedCountByItem(int id, int? storeId);
+        public int GetOnApprovedCountByItem(int id);
         public Task<IEnumerable<InvTrxDtl>> GetInvDetailsByIdAsync(int id);
         public Task<IEnumerable<InvTrxDtl>> GetApprovedInvDetailsAsync();
 
