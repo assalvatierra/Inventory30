@@ -1,0 +1,145 @@
+﻿@page
+@model InvWeb.Pages.xTestPages.Search.IndexModel
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h1>Search</h1>
+<form method="get">
+    @* <input type="text" asp-for="SearchStr"  /> *@
+
+    @* <input type="submit" value="Submit" class="btn btn-primary" /> *@
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Code
+            </th>
+            <th>
+                Description
+            </th>
+
+            <th>
+                Category
+            </th>
+            <th>
+                Sub-Category
+            </th>
+            <th>
+                Brand
+            </th>
+            <th>
+                Origin
+            </th>
+            <th>
+                Material
+            </th>
+            <th>
+                Material Grade
+            </th>
+            <th>
+                Kg/pc
+            </th>
+            <th>
+                Kg/m
+            </th>
+
+            <th>
+                Onhand
+            </th>
+            <th>
+               Releasing
+               Requested
+            </th>
+            <th>
+               Releasing
+               Approved
+            </th>
+            <th>
+               Available
+            </th>
+            <th>
+                InvUom
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ItemSearchResults) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+                <td>
+                   @*  @if (item.InvItemSpec_Steel != null)
+                    {
+                        @item.InvItemSpec_Steel.SteelMainCat.Name
+                    } *@
+                </td>
+                <td>
+                    @* @if (item.InvItemSpec_Steel != null)
+                    {
+                        @item.InvItemSpec_Steel.SteelSubCat.Name
+                    } *@
+                </td>
+                <td>
+                   @*  @if (item.ItemMaster != null)
+                    {
+                        @item.ItemMaster.InvItemBrand.Name
+                    } *@
+                </td>
+                <td>
+                   @*  @if (item.ItemMaster != null)
+                    {
+                        @item.ItemMaster.InvItemOrigin.Name
+                    } *@
+                </td>
+                <td>
+                   @*  @if (item.InvItemSpec_Steel != null)
+                    {
+                        @item.InvItemSpec_Steel.SteelMaterial.Name
+                    } *@
+                </td>
+                <td>
+                    @* @if (item.InvItemSpec_Steel != null)
+                    {
+                        @item.InvItemSpec_Steel.SteelMaterialGrade.Name
+                    } *@
+                </td>
+                <td>
+                    @* @if (item.InvItemSpec_Steel != null)
+                    {
+                        @item.InvItemSpec_Steel.WtKgpc
+                    } *@
+                </td>
+                <td>
+                  @*   @if (item.InvItemSpec_Steel != null)
+                    {
+                        @item.InvItemSpec_Steel.WtKgm
+                    } *@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemQty)
+                </td>
+                <td>
+                    @* @Html.DisplayFor(modelItem => item.Qty_Requested) *@
+                </td>
+                <td>
+                    @* @Html.DisplayFor(modelItem => item.Qty_Approved) *@
+                </td>
+                <td >
+                    <b>@Html.DisplayFor(modelItem => item.AvailableQty)</b>
+                </td>
+                <td>
+                    @item.StoreName
+                </td>
+            </tr>
+         } 
+    </tbody>
+</table>
