@@ -5,7 +5,8 @@ namespace CoreLib.Models.Inventory
 
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class InvItemMaster
     {
         public InvItemMaster()
@@ -15,7 +16,9 @@ namespace CoreLib.Models.Inventory
 
         public int Id { get; set; }
         public int InvItemId { get; set; }
+        [Required]
         public string? LotNo { get; set; }
+        [Required]
         public string? BatchNo { get; set; }
         public int ItemQty { get; set; }
         public int InvUomId { get; set; }
