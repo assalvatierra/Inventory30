@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>InvItem Masters</h1>
+<h1>Item Masters</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -32,19 +32,49 @@
                 @Html.DisplayNameFor(model => model.InvItemMaster[0].InvUom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemMaster[0].InvItemBrand)
+                Brand
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.InvItemMaster[0].InvItemOrigin)
+                Origin
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.InvItemMaster) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvItem.Description)
+        @foreach (var item in Model.InvItemMaster) {
+            <tr>
+                <td>
+                    @* @Html.DisplayFor(modelItem => item.InvItem.Description) <br /> *@
+
+                    @{
+                        if (@item.InvItem.InvItemSpec_Steel.Count() > 0)
+                        {
+
+                            var Spec_steel = @item.InvItem.InvItemSpec_Steel.First();
+
+
+                            if (Spec_steel != null)
+                            {
+                                <span>
+                                    <!-- Main Category -->
+                                    @Spec_steel.SteelMainCat.Name
+                                    <!-- Sub Category -->
+                                    @Spec_steel.SteelSubCat.Name
+                                    <!-- Sizes -->
+                                    @Spec_steel.SteelSize.Name
+                                    <!-- Brand -->
+                                    @Spec_steel.SteelBrand.Name
+                                    <!-- Material Grade-->
+                                    @Spec_steel.SteelMaterialGrade.Name 
+                                    <!--  Steel Material-->
+                                    @Spec_steel.SteelMaterial.Name
+                                </span>
+                            }
+                        }
+                    }
+                 
+
+                   
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Remarks)
@@ -69,8 +99,8 @@
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> 
+                <!-- <a asp-page="./Delete" asp-route-id="item.Id">Delete</a> -->
             </td>
         </tr>
 }

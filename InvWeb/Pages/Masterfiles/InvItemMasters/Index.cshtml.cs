@@ -28,7 +28,26 @@ namespace InvWeb.Pages.Masterfiles.InvItemMasters
                 .Include(i => i.InvItem)
                 .Include(i => i.InvItemBrand)
                 .Include(i => i.InvItemOrigin)
-                .Include(i => i.InvUom).ToListAsync();
+                .Include(i => i.InvUom)
+                .Include(i => i.InvItem)
+                .ThenInclude(i => i.InvItemSpec_Steel)
+                .ThenInclude(i => i.SteelMainCat)
+                .Include(i => i.InvItem)
+                .ThenInclude(i => i.InvItemSpec_Steel)
+                .ThenInclude(i => i.SteelSubCat)
+                .Include(i => i.InvItem)
+                .ThenInclude(i => i.InvItemSpec_Steel)
+                .ThenInclude(i => i.SteelSize)
+                .Include(i => i.InvItem)
+                .ThenInclude(i => i.InvItemSpec_Steel)
+                .ThenInclude(i => i.SteelBrand)
+                .Include(i => i.InvItem)
+                .ThenInclude(i => i.InvItemSpec_Steel)
+                .ThenInclude(i => i.SteelMaterial)
+                .Include(i => i.InvItem)
+                .ThenInclude(i => i.InvItemSpec_Steel)
+                .ThenInclude(i => i.SteelMaterialGrade)
+                .ToListAsync();
             }
         }
     }

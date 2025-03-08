@@ -37,11 +37,25 @@ namespace InvWeb.Pages.Masterfiles.InvItemMasters
             }
 
             InvItemMaster = invitemmaster;
+            //ViewData["InvItemId"] = new SelectList(
+            //                   _context.InvItems.Select(x => new {
+            //                       Name = String.Format("{0} - {1} {2}", x.Code, x.Description, x.Remarks),
+            //                       Id = x.Id
+            //                   }), "Id", "Name", invitemmaster.InvItemId);
 
-           ViewData["InvItemId"] = new SelectList(_context.Set<InvItem>(), "Id", "Description");
-           ViewData["InvItemBrandId"] = new SelectList(_context.Set<InvItemBrand>(), "Id", "Name");
-           ViewData["InvItemOriginId"] = new SelectList(_context.Set<InvItemOrigin>(), "Id", "Name");
-           ViewData["InvUomId"] = new SelectList(_context.Set<InvUom>(), "Id", "uom");
+            ViewData["InvItemId"] = new SelectList(
+                   _context.InvItems.Where(c => c.Code != null).Select(x => new
+                   {
+                       Name = String.Format("{0} {1} {2} {3} {4} {5}", x.InvItemSpec_Steel.First().SteelMainCat.Name, x.InvItemSpec_Steel.First().SteelMainCat.Name,
+                       x.InvItemSpec_Steel.First().SteelSize.Name, x.InvItemSpec_Steel.First().SteelBrand.Name,
+                       x.InvItemSpec_Steel.First().SteelMaterialGrade.Name, x.InvItemSpec_Steel.First().SteelMaterial.Name),
+                       Id = x.Id
+                   }), "Id", "Name");
+
+
+            ViewData["InvItemBrandId"] = new SelectList(_context.InvItemBrands.OrderBy(s => s.Name), "Id", "Name", invitemmaster.InvItemBrandId);
+            ViewData["InvItemOriginId"] = new SelectList(_context.InvItemOrigins.OrderBy(s => s.Name), "Id", "Name", invitemmaster.InvItemOriginId);
+            ViewData["InvUomId"] = new SelectList(_context.InvUoms.OrderBy(s => s.uom), "Id", "uom", invitemmaster.InvUomId);
             return Page();
         }
 
